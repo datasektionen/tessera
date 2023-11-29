@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import { ROUTES } from "./def";
-import WelcomePage from "../Pages/Welcome";
+import WelcomePage from "../pages/welcome";
 
 function AppRoutes() {
   return (
