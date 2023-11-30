@@ -5,8 +5,14 @@ export interface LoginCredentials {
 
 export interface AuthState {
   isLoggedIn: boolean;
+  loading: boolean;
   token: string | null;
-  userRole: string | null;
+  error: string | null;
+}
+
+export interface UserState {
+  user: User | null;
+  loading: boolean;
   error: string | null;
 }
 
@@ -23,6 +29,20 @@ export interface LoginSuccessAction {
 export interface LoginFailureAction {
   type: "LOGIN_FAILURE";
   payload: string;
+}
+
+export interface Role {
+  id: number;
+  name: string;
+}
+export interface User {
+  // Define user properties based on your backend response
+  ug_kth_id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: Role;
 }
 
 export type AuthAction =

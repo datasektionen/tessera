@@ -1,9 +1,37 @@
 import { AspectRatio, Button, Divider, Typography } from "@mui/joy";
-import React from "react";
+import React, { useEffect } from "react";
 import PALLETTE from "../../theme/pallette";
+import LoginButton from "../../components/login/LoginButton";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 
 const WelcomePage = () => {
-  return (
+  // Get auth
+  const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
+  const dispatch: AppDispatch = useDispatch();
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Typography level="h1">Loading...</Typography>
+      </div>
+    );
+  }
+
+  return isLoggedIn ? (
+    <div>
+      <Typography level="h1">Welcome</Typography>
+      <Divider />
+      <Typography level="h2">You are logged in</Typography>
+    </div>
+  ) : (
     <div
       style={{
         width: "100vw",
@@ -22,17 +50,8 @@ const WelcomePage = () => {
         Ticket releases should not be a pain.
       </Typography>
 
-
-      <Typography level="h4" color="neutral" fontSize={14} mt={3}> 
-      <Button
-        color="neutral"
-        disabled={false}
-        size="md"
-        variant="soft"
-        style={{ background: PALLETTE.cerise, marginRight: 10  }}
-      >
-        Login
-      </Button> To secure your spot.
+      <Typography level="h4" color="neutral" fontSize={14} mt={3}>
+        <LoginButton /> To secure your spot.
       </Typography>
     </div>
   );

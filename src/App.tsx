@@ -4,12 +4,17 @@ import "./App.css";
 import AppRoutes from "./routes";
 import { CssVarsProvider } from "@mui/joy";
 import theme from "./theme";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import dotenv from "dotenv";
 
 function App() {
   return (
-    <CssVarsProvider theme={theme}>
-      <AppRoutes />
-    </CssVarsProvider>
+    <Provider store={store}>
+      <CssVarsProvider theme={theme}>
+        <AppRoutes />
+      </CssVarsProvider>
+    </Provider>
   )
 }
 
