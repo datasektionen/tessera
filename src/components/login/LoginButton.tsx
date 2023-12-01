@@ -14,14 +14,16 @@ const LoginButton: React.FC = () => {
   // Get query params from URL
   const queryParams = new URLSearchParams(window.location.search);
 
-  useEffect(() => {
-    dispatch(currentUserRequest());
-  }, [dispatch]);
+
 
   const handleLogin = () => {
     console.log("login");
     dispatch(loginRequest());
   };
+
+  if (loading || error) {
+    return null;
+  }
 
   return (
     <Button

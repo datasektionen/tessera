@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User, UserState } from "../../types";
+import { IUser, UserState } from "../../types";
 
 const initialState: UserState = {
   user: null,
@@ -14,7 +14,7 @@ const userSlice = createSlice({
     currentUserRequest: (state) => {
       state.loading = true;
     },
-    currentUserSuccess: (state, action: PayloadAction<User>) => {
+    currentUserSuccess: (state, action: PayloadAction<IUser>) => {
       state.loading = false;
       state.user = action.payload;
     },

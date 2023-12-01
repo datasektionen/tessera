@@ -7,13 +7,15 @@ import {
   loginFailure,
 } from "../features/authSlice";
 import { LoginCredentials } from "../../types";
-import { currentUserRequest } from "../features/userSlice";
+import {
+  currentUserFailure,
+  currentUserRequest,
+  currentUserSuccess,
+} from "../features/userSlice";
 import Cookies from "js-cookie";
 
 function* userSaga(): Generator<any, void, any> {
   try {
-    console.log(Cookies.get("auth_token"));
-
     const response = yield call(
       axios.get,
       `${process.env.REACT_APP_BACKEND_URL}/current-user`,
@@ -22,13 +24,13 @@ function* userSaga(): Generator<any, void, any> {
       }
     );
 
-    console.log("response", response);
+    const user = response.data.user;
 
-    const user = response.data;
-
-    yield put(loginSuccess(user));
+    // Yield both currentUserSuccess and loginSuccess
+    yield put(currentUserSuccess(user));
+    yield put(loginSuccess({ token: Cookies.get("auth_token") as string }));
   } catch (error: any) {
-    yield put(loginFailure(error.message));
+    yield put(currentUserFailure(error.message));
   }
 }
 

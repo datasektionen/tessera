@@ -4,33 +4,32 @@ import PALLETTE from "../../theme/pallette";
 import LoginButton from "../../components/login/LoginButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
+import { currentUserRequest } from "../../redux/features/userSlice";
+import MainPage from "../main";
+import LoadingOverlay from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   // Get auth
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
+  const { loading: userLoading } = useSelector(
+    (state: RootState) => state.user
+  );
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-        }}
-      >
-        <Typography level="h1">Loading...</Typography>
-      </div>
-    );
+  useEffect(() => {
+    dispatch(currentUserRequest());
+  }, [dispatch]);
+
+  if (isLoggedIn) {
+    navigate("/");
   }
 
+  const orLoading = loading || userLoading;
+
   return isLoggedIn ? (
-    <div>
-      <Typography level="h1">Welcome</Typography>
-      <Divider />
-      <Typography level="h2">You are logged in</Typography>
-    </div>
+    <MainPage />
   ) : (
     <div
       style={{
@@ -43,6 +42,7 @@ const WelcomePage = () => {
         backgroundColor: PALLETTE.offWhite,
       }}
     >
+      {orLoading ? <LoadingOverlay /> : null}
       <Typography level="h1" color="primary" fontSize={72}>
         Tessera
       </Typography>
