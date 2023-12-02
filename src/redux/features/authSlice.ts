@@ -3,7 +3,7 @@ import { AuthState, LoginCredentials, IUser } from "../../types";
 
 const initialState: AuthState = {
   token: null,
-  loading: false,
+  loading: true,
   error: null,
   isLoggedIn: false,
 };
@@ -29,3 +29,4 @@ const authSlice = createSlice({
 
 export const { loginRequest, loginSuccess, loginFailure } = authSlice.actions;
 export default authSlice.reducer;
+  

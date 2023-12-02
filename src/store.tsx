@@ -3,7 +3,8 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./redux/sagas/index";
 import authReducer from "./redux/features/authSlice";
 import userReducer from "./redux/features/userSlice";
-import eventsReducer from "./redux/features/eventsSlice";
+import listEventsReducer from "./redux/features/listEventsSlice";
+import eventReducer from "./redux/features/eventSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,7 +12,8 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
-    events: eventsReducer,
+    events: listEventsReducer,
+    eventDetail: eventReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

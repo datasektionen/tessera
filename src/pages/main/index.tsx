@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/joy";
 import Navigation from "../../components/navigation";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { getEventsRequest } from "../../redux/features/eventsSlice";
+import { getEventsRequest } from "../../redux/features/listEventsSlice";
 import EventList from "../../components/events/list";
 
 const MainPage: React.FC = () => {

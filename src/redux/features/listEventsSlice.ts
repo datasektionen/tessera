@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EventState, IEvent } from "../../types";
+import { IEvent, ListEventState } from "../../types";
 
-const initialState: EventState = {
+const initialState: ListEventState = {
   events: [],
   loading: false,
   error: null,
 };
 
-const eventSlice = createSlice({
-  name: "event",
+const listEventSlice = createSlice({
+  name: "listEvents",
   initialState,
   reducers: {
     getEventsRequest: (state) => {
@@ -27,6 +27,6 @@ const eventSlice = createSlice({
 });
 
 export const { getEventsRequest, getEventsSuccess, getEventsFailure } =
-  eventSlice.actions;
+  listEventSlice.actions;
 
-export default eventSlice.reducer;
+export default listEventSlice.reducer;

@@ -15,8 +15,6 @@ interface EventListProps {
 }
 
 const EventList: React.FC<EventListProps> = ({ events }) => {
-  console.log(events[0]);
-
   return (
     <Grid container spacing={2}>
       {events.map((event, index) => (

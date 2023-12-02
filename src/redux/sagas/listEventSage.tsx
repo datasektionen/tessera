@@ -11,11 +11,11 @@ import {
   getEventsFailure,
   getEventsRequest,
   getEventsSuccess,
-} from "../features/eventsSlice";
+} from "../features/listEventsSlice";
 
-function* eventSaga(): Generator<any, void, any> {
+function* listEventSaga(): Generator<any, void, any> {
   try {
-    console.log("eventSaga");
+    console.log("listEventSaga");
     const response = yield call(axios.get, "http://localhost:8080/events", {
       withCredentials: true, // This ensures cookies are sent with the request
     });
@@ -37,8 +37,8 @@ function* eventSaga(): Generator<any, void, any> {
   }
 }
 
-function* watchEventSaga() {
-  yield takeLatest(getEventsRequest.type, eventSaga);
+function* watchListEventSaga() {
+  yield takeLatest(getEventsRequest.type, listEventSaga);
 }
 
-export default watchEventSaga;
+export default watchListEventSaga;

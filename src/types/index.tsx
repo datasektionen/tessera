@@ -16,8 +16,14 @@ export interface UserState {
   error: string | null;
 }
 
-export interface EventState {
+export interface ListEventState {
   events: IEvent[];
+  loading: boolean;
+  error: string | null;
+}
+
+export interface EventState {
+  event: IEvent | null;
   loading: boolean;
   error: string | null;
 }

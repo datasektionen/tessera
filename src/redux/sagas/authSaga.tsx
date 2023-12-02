@@ -8,9 +8,7 @@ import {
 } from "../features/authSlice";
 import { LoginCredentials } from "../../types";
 
-function* loginSaga(
-  action: PayloadAction<LoginCredentials>
-): Generator<any, void, any> {
+function* loginSaga(): Generator<any, void, any> {
   try {
     const response = yield call(
       axios.get,

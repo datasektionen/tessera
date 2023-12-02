@@ -16,11 +16,6 @@ const WelcomePage = () => {
     (state: RootState) => state.user
   );
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(currentUserRequest());
-  }, [dispatch]);
 
   if (isLoggedIn) {
     navigate("/");
