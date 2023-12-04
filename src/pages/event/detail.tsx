@@ -11,6 +11,7 @@ import {
   Divider,
   Grid,
   Sheet,
+  Stack,
   Typography,
   styled,
 } from "@mui/joy";
@@ -21,6 +22,7 @@ import { validateAndConvertEventID } from "../../utils/id_validation";
 import PALLETTE from "../../theme/pallette";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import TicketRelease from "../../components/events/ticket_release";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -57,13 +59,25 @@ const EventDetail: React.FC = () => {
   }
 
   if (!event) {
+    // TODO: 404 page
     console.error("No event found");
     return null;
   }
 
+  console.log("event", event);
+
   return (
     <TesseraWrapper>
-      <Grid container spacing={2} columns={16} sx={{ flexGrow: 1 }}>
+      <Grid
+        container
+        spacing={2}
+        columns={16}
+        sx={{ flexGrow: 1 }}
+        style={{
+          marginLeft: "5%",
+          marginRight: "5%",
+        }}
+      >
         <Grid xs={8}>
           <Item>
             <Typography
@@ -126,7 +140,28 @@ const EventDetail: React.FC = () => {
           </Item>
         </Grid>
         <Grid xs={8}>
-          <Item></Item>
+          <Item>
+            <Typography
+              level="h2"
+              fontFamily={"Josefin sans"}
+              fontSize={34}
+              fontWeight={700}
+              style={{
+                color: PALLETTE.cerise,
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+              }}
+            >
+              Tickets
+            </Typography>
+            <div>
+              <Stack spacing={2} sx={{ p: 0 }}>
+                {event.ticketReleases?.map((ticketRelease) => {
+                  return <TicketRelease ticketRelease={ticketRelease} />;
+                })}
+              </Stack>
+            </div>
+          </Item>
         </Grid>
       </Grid>
     </TesseraWrapper>

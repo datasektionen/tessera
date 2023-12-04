@@ -60,14 +60,6 @@ export interface IUser {
 export interface IOrganization {
   name: string;
 }
-
-export interface ITicketRelease {
-  eventId: number;
-  open: number;
-  close: number;
-  ticketReleaseMethodDetailId: number;
-}
-
 export interface IEvent {
   createdAt: Date;
   name: string;
@@ -75,6 +67,50 @@ export interface IEvent {
   date: Date;
   location: string;
   organizationId: number;
+  ticketReleases?: ITicketRelease[];
+}
+
+export interface ITicketReleaseMethod {
+  id: number;
+  methodName: string;
+  description: string;
+}
+
+export interface ITicketReleaseMethodDetail {
+  id: number;
+  name: string;
+  maxTicketsPerUser: number;
+  cancellationPolicy: string;
+
+  openWindowDays: number | null;
+
+  ticketReleaseMethod?: ITicketReleaseMethod;
+}
+
+export interface ITicketType {
+  id?: number;
+  ticketReleaseId?: number;
+  name: string;
+  description: string;
+  price: number;
+  quantityTotal: number;
+  isReserved: boolean;
+}
+
+export interface ITicketRelease {
+  eventId: number;
+  name: string;
+  description: string;
+  open: Date;
+  close: Date;
+  ticketTypes?: ITicketType[];
+  ticketReleaseMethodDetail?: ITicketReleaseMethodDetail;
+}
+
+export interface ITicketReleaseAdmin extends ITicketRelease {
+  id: number;
+  ticketReleaseMethodDetailId: number;
+  hasAllocatedTickets: boolean;
 }
 
 export type AuthAction =

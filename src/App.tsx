@@ -5,17 +5,20 @@ import AppRoutes from "./routes";
 import { CssVarsProvider } from "@mui/joy";
 import theme from "./theme";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { persistor, store } from "./store";
 import dotenv from "dotenv";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
   return (
     <Provider store={store}>
       <CssVarsProvider theme={theme}>
-        <AppRoutes />
+        <PersistGate loading={null} persistor={persistor}>
+          <AppRoutes />
+        </PersistGate>
       </CssVarsProvider>
     </Provider>
-  )
+  );
 }
 
 export default App;

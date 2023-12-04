@@ -15,7 +15,7 @@ function AppRoutes() {
 
   useEffect(() => {
     dispatch(currentUserRequest());
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter basename="/">

@@ -21,7 +21,7 @@ const WelcomePage = () => {
     navigate("/");
   }
 
-  const orLoading = loading || userLoading;
+  const orLoading = userLoading;
 
   return isLoggedIn ? (
     <MainPage />

@@ -22,6 +22,8 @@ function NavigationBar() {
         level="h4"
         component="a"
         href="/" // Link to the main page
+        fontFamily={"Josefin sans"}
+        fontSize={24}
         sx={{ textDecoration: "none", color: PALLETTE.offWhite }}
       >
         tessera

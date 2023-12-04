@@ -14,9 +14,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     (state: RootState) => state.auth
   );
 
-  console.log("authLoading", authLoading);
+  const { loading: userLoading } = useSelector(
+    (state: RootState) => state.user
+  );
 
-  if (authLoading) {
+  console.log("authLoading", authLoading, "userLoading", userLoading);
+
+  if (userLoading) {
     return null;
   }
 

@@ -10,18 +10,15 @@ import { currentUserRequest } from "../../redux/features/userSlice";
 
 const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.auth);
   // Get query params from URL
   const queryParams = new URLSearchParams(window.location.search);
 
-
-
   const handleLogin = () => {
-    console.log("login");
     dispatch(loginRequest());
   };
 
-  if (loading || error) {
+  if (loading) {
     return null;
   }
 
