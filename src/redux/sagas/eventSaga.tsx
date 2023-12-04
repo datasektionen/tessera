@@ -41,13 +41,15 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           eventId: ticketRelease.event_id!,
           name: ticketRelease.name!,
           description: ticketRelease.description!,
-          open: new Date(ticketRelease.open!),
-          close: new Date(ticketRelease.close!),
+          // Open and close are timestamps, convert to Date by multiplying by 1000
+          open: new Date(ticketRelease.open! * 1000),
+          close: new Date(ticketRelease.close! * 1000),
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           ticketTypes: ticketRelease.ticket_types!.map((ticketType: any) => {
             return {
               ticketTypeId: ticketType.ticket_type_id!,
+              ticketReleaseId: ticketType.ticket_release_id!,
               name: ticketType.name!,
               description: ticketType.description!,
               price: ticketType.price!,

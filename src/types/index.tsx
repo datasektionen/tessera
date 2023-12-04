@@ -89,7 +89,7 @@ export interface ITicketReleaseMethodDetail {
 
 export interface ITicketType {
   id?: number;
-  ticketReleaseId?: number;
+  ticketReleaseId: number;
   name: string;
   description: string;
   price: number;

@@ -19,7 +19,8 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
       orientation="horizontal"
       variant="outlined"
       style={{
-        backgroundColor: PALLETTE.charcoal,
+        backgroundColor: "transparent",
+        borderColor: PALLETTE.cerise,
         maxHeight: "150px",
         minWidth: "fit-content",
         width: "90%",
@@ -53,7 +54,7 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
                 level="body-sm"
                 fontSize={12}
                 fontFamily={"Josefin sans"}
-                textColor={PALLETTE.offWhite}
+                textColor={PALLETTE.charcoal}
                 style={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
@@ -88,9 +89,9 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
 
           <div style={{ display: "flex", alignItems: "center" }}>
             <Button
-              color="primary"
               size="sm"
-              variant="outlined"
+              variant="solid"
+              style={{ backgroundColor: PALLETTE.charcoal }}
               sx={{ px: 0.2, width: "40px", height: "20px" }}
             >
               -
@@ -106,9 +107,9 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
               1
             </Typography>
             <Button
-              variant="outlined"
+              variant="solid"
               size="sm"
-              color="primary"
+              style={{ backgroundColor: PALLETTE.charcoal }}
               sx={{ px: 0.2, width: "40px", height: "20px" }}
             >
               +
@@ -129,6 +130,7 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
           textTransform: "uppercase",
           borderLeft: "1px solid",
           borderColor: "divider",
+          backgroundColor: PALLETTE.cerise,
         }}
       >
         Ticket
