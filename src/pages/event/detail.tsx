@@ -156,8 +156,11 @@ const EventDetail: React.FC = () => {
             </Typography>
             <div>
               <Stack spacing={2} sx={{ p: 0 }}>
-                {event.ticketReleases?.map((ticketRelease) => {
-                  return <TicketRelease ticketRelease={ticketRelease} />;
+                {event.ticketReleases?.map((ticketRelease, i) => {
+                  const key = `${event.name}-${i}`;
+                  return (
+                    <TicketRelease ticketRelease={ticketRelease} key={key} />
+                  );
                 })}
               </Stack>
             </div>

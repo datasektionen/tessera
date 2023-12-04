@@ -34,8 +34,9 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
 
       <Stack spacing={2} sx={{ p: 0 }} mt={2}>
         {ticketRelease.ticketTypes!.length > 0 ? (
-          ticketRelease.ticketTypes!.map((ticketType) => {
-            return <TicketType ticketType={ticketType} />;
+          ticketRelease.ticketTypes!.map((ticketType, i) => {
+            const key = `${ticketRelease.name}-${i}`;
+            return <TicketType ticketType={ticketType} key={key} />;
           })
         ) : (
           <Typography level="body-sm" fontFamily={"Josefin sans"}>
