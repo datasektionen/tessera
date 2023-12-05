@@ -7,6 +7,7 @@ import listEventsReducer from "./redux/features/listEventsSlice";
 import eventReducer from "./redux/features/eventSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import ticketRequestReducer from "./redux/features/ticketRequestSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   events: listEventsReducer,
   eventDetail: eventReducer,
+  ticketRequest: ticketRequestReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

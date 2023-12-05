@@ -88,7 +88,7 @@ export interface ITicketReleaseMethodDetail {
 }
 
 export interface ITicketType {
-  id?: number;
+  id: number;
   ticketReleaseId: number;
   name: string;
   description: string;
@@ -98,13 +98,14 @@ export interface ITicketType {
 }
 
 export interface ITicketRelease {
+  id: number;
   eventId: number;
   name: string;
   description: string;
   open: Date;
   close: Date;
   ticketTypes?: ITicketType[];
-  ticketReleaseMethodDetail?: ITicketReleaseMethodDetail;
+  ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
 }
 
 export interface ITicketReleaseAdmin extends ITicketRelease {

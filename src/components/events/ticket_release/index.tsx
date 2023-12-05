@@ -1,20 +1,38 @@
-import { Sheet, Stack, Typography } from "@mui/joy";
+import { Link, List, ListItem, Sheet, Stack, Typography } from "@mui/joy";
 import { ITicketRelease } from "../../../types";
 import PALLETTE from "../../../theme/pallette";
 import TicketType from "../ticket_types";
-import {
-  TicketReleaseHasClosed,
-  TicketReleaseHasNotOpened,
-  TicketReleaseHasOpened,
-} from "../../../utils/event_open_close";
+
 import TicketReleaseCountdown from "./tr_countdown";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { ShoppingCartItem } from "../../../redux/features/ticketRequestSlice";
+import React, { useEffect } from "react";
+import { ListItemText } from "@mui/material";
+import {
+  ticketReleaseHasClosed,
+  ticketReleaseHasNotOpened,
+  ticketReleaseHasOpened,
+} from "../../../utils/event_open_close";
+import TicketReleasHasOpened from "./ticket_release_has_opened";
+import TicketReleaseHasClosed from "./ticket_release_has_closed";
+import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
 }
 
+const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
+  if (ticketReleaseHasNotOpened(ticketRelease)) {
+    return <TicketReleasHasNotOpened ticketRelease={ticketRelease} />;
+  } else if (ticketReleaseHasClosed(ticketRelease)) {
+    return <TicketReleaseHasClosed ticketRelease={ticketRelease} />;
+  } else if (ticketReleaseHasOpened(ticketRelease)) {
+    return <TicketReleasHasOpened ticketRelease={ticketRelease} />;
+  }
+};
+
 const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
-  console.log("ticketRelease", ticketRelease);
   return (
     <Sheet
       variant="outlined"
@@ -36,79 +54,22 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         {ticketRelease.name}
       </Typography>
       <Typography level="body-sm" fontFamily={"Josefin sans"}>
-        {ticketRelease.description}
+        {ticketRelease.description} - This release uses{" "}
+        <Link
+          href={
+            "/ticket-release-method/" +
+            ticketRelease.ticketReleaseMethodDetail?.id
+          }
+          target="_blank"
+        >
+          {
+            ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+              ?.methodName
+          }
+        </Link>
       </Typography>
 
-      {TicketReleaseHasNotOpened(ticketRelease) ? (
-        <>
-          <Typography
-            level="body-lg"
-            fontFamily={"Josefin sans"}
-            fontWeight={700}
-            style={{
-              color: PALLETTE.charcoal,
-            }}
-          >
-            Tickets availability in:
-          </Typography>
-          <TicketReleaseCountdown
-            ticketRelease={ticketRelease}
-            fw={500}
-            fs={24}
-            useOpen={true}
-          />
-        </>
-      ) : TicketReleaseHasClosed(ticketRelease) ? (
-        <Typography
-          level="body-sm"
-          fontFamily={"Josefin sans"}
-          style={{
-            color: PALLETTE.charcoal,
-          }}
-        >
-          Ticket release has closed
-        </Typography>
-      ) : (
-        TicketReleaseHasOpened(ticketRelease) && (
-          <>
-            <Stack spacing={2} sx={{ p: 0 }} mt={2}>
-              {ticketRelease.ticketTypes!.length > 0 ? (
-                ticketRelease.ticketTypes!.map((ticketType, i) => {
-                  const key = `${ticketRelease.name}-${i}`;
-                  return <TicketType ticketType={ticketType} key={key} />;
-                })
-              ) : (
-                <Typography level="body-sm" fontFamily={"Josefin sans"}>
-                  No tickets available
-                </Typography>
-              )}
-            </Stack>
-            <div
-              style={{
-                marginTop: "1rem",
-              }}
-            >
-              <Typography
-                level="body-md"
-                fontFamily={"Josefin sans"}
-                fontWeight={500}
-                style={{
-                  color: PALLETTE.charcoal,
-                  // ALign right
-                }}
-              >
-                Tickets available for:
-              </Typography>
-              <TicketReleaseCountdown
-                ticketRelease={ticketRelease}
-                fw={500}
-                fs={14}
-                useOpen={false}
-              />
-            </div>
-          </>
-        )
-      )}
+      {renderTicketReleaseStatus(ticketRelease)}
     </Sheet>
   );
 };

@@ -55,6 +55,7 @@ const EventDetail: React.FC = () => {
   }, []);
 
   if (loading || error) {
+    console.error(error);
     return <LoadingOverlay />;
   }
 
@@ -63,8 +64,6 @@ const EventDetail: React.FC = () => {
     console.error("No event found");
     return null;
   }
-
-  console.log("event", event);
 
   return (
     <TesseraWrapper>

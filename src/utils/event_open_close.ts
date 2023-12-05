@@ -1,6 +1,6 @@
 import { ITicketRelease } from "../types";
 
-export const TicketReleaseHasClosed = (
+export const ticketReleaseHasClosed = (
   ticketRelease: ITicketRelease
 ): boolean => {
   const { open, close } = ticketRelease;
@@ -8,7 +8,7 @@ export const TicketReleaseHasClosed = (
   return now > close;
 };
 
-export const TicketReleaseHasOpened = (
+export const ticketReleaseHasOpened = (
   ticketRelease: ITicketRelease
 ): boolean => {
   const { open, close } = ticketRelease;
@@ -16,11 +16,11 @@ export const TicketReleaseHasOpened = (
   return now > open && now < close;
 };
 
-export const TicketReleaseHasNotOpened = (
+export const ticketReleaseHasNotOpened = (
   ticketRelease: ITicketRelease
 ): boolean => {
   return (
-    !TicketReleaseHasOpened(ticketRelease) &&
-    !TicketReleaseHasClosed(ticketRelease)
+    !ticketReleaseHasOpened(ticketRelease) &&
+    !ticketReleaseHasClosed(ticketRelease)
   );
 };

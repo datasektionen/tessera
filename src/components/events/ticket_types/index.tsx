@@ -4,16 +4,63 @@ import {
   Card,
   CardContent,
   CardOverflow,
+  Grid,
   Typography,
 } from "@mui/joy";
 import { ITicketType } from "../../../types";
 import PALLETTE from "../../../theme/pallette";
+import {
+  ShoppingCartItem,
+  addTicket,
+  removeTicket,
+} from "../../../redux/features/ticketRequestSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import {
+  numberOfTicketRequestInBasket,
+  numberOfTotalTicketRequestInBasket,
+} from "../../../utils/ticket_types";
 
 interface TicketTypeProps {
   ticketType: ITicketType;
+  maxTicketsPerUser: number;
 }
 
-const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
+const TicketType: React.FC<TicketTypeProps> = ({
+  ticketType,
+  maxTicketsPerUser,
+}) => {
+  const { items } = useSelector((state: RootState) => state.ticketRequest) as {
+    items: ShoppingCartItem[];
+  };
+  const dispatch: AppDispatch = useDispatch();
+  const handleAddTicket = (ticket: ITicketType) => {
+    if (numberOfTotalTicketRequestInBasket(items) >= maxTicketsPerUser) {
+      toast.error(
+        `You can only purchase a maximum of ${maxTicketsPerUser} tickets`
+      );
+      return;
+    }
+    dispatch(addTicket(ticket));
+  };
+
+  const handleRemoveTicket = (ticket: ITicketType) => {
+    dispatch(removeTicket(ticket));
+  };
+
+  const [ticketTypeCount, setTicketTypeCount] = React.useState<{
+    [id: number]: number;
+  }>({});
+
+  useEffect(() => {
+    // Get counts of ticket types from items
+    const counts: { [n: number]: number } =
+      numberOfTicketRequestInBasket(items);
+    setTicketTypeCount(counts);
+  }, [items]);
+
   return (
     <Card
       orientation="horizontal"
@@ -69,7 +116,7 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
               level="body-sm"
               textColor={PALLETTE.cerise}
               style={{
-                width: "150px",
+                width: "100px",
                 whiteSpace: "nowrap",
               }}
             >
@@ -87,12 +134,13 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
             </Typography>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <Grid container spacing={1} alignItems="center">
             <Button
               size="sm"
               variant="solid"
               style={{ backgroundColor: PALLETTE.charcoal }}
               sx={{ px: 0.2, width: "40px", height: "20px" }}
+              onClick={() => handleRemoveTicket(ticketType)}
             >
               -
             </Button>
@@ -104,17 +152,18 @@ const TicketType: React.FC<TicketTypeProps> = ({ ticketType }) => {
               textColor={PALLETTE.cerise}
               mx={1}
             >
-              1
+              {ticketTypeCount[ticketType.id!] || 0}
             </Typography>
             <Button
               variant="solid"
               size="sm"
+              onClick={() => handleAddTicket(ticketType)}
               style={{ backgroundColor: PALLETTE.charcoal }}
               sx={{ px: 0.2, width: "40px", height: "20px" }}
             >
               +
             </Button>
-          </div>
+          </Grid>
         </div>
       </CardContent>
       <CardOverflow

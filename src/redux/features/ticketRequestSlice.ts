@@ -4,7 +4,7 @@ import { ITicketType } from "../../types";
 
 // Define the ShoppingCartItem interface
 export interface ShoppingCartItem {
-  ticketType: ITicketType;
+  ticketTypeId: number;
   quantity: number;
 }
 
@@ -30,7 +30,7 @@ export const ticketRequestSlice = createSlice({
     addTicket: (state, action: PayloadAction<ITicketType>) => {
       // Check if the item is already in the cart
       const existingItem = state.items.find(
-        (item) => item.ticketType.id === action.payload.id
+        (item: ShoppingCartItem) => item.ticketTypeId === action.payload.id
       );
 
       if (existingItem) {
@@ -38,14 +38,32 @@ export const ticketRequestSlice = createSlice({
         existingItem.quantity += 1;
       } else {
         // If not, add the new item to the cart
-        state.items.push({ ticketType: action.payload, quantity: 1 });
+        state.items.push({ ticketTypeId: action.payload.id, quantity: 1 });
+      }
+    },
+    removeTicket: (state, action: PayloadAction<ITicketType>) => {
+      // Check if the item is already in the cart
+      const existingItem = state.items.find(
+        (item: ShoppingCartItem) => item.ticketTypeId === action.payload.id
+      );
+
+      if (existingItem) {
+        // If the quantity is 1, remove the item
+        if (existingItem.quantity === 1) {
+          state.items = state.items.filter(
+            (item: ShoppingCartItem) => item.ticketTypeId !== action.payload.id
+          );
+        } else {
+          // If the quantity is more than 1, decrease the quantity
+          existingItem.quantity -= 1;
+        }
       }
     },
   },
 });
 
 // Export the actions
-export const { addTicket } = ticketRequestSlice.actions;
+export const { addTicket, removeTicket } = ticketRequestSlice.actions;
 
 // Export the reducer
 export default ticketRequestSlice.reducer;
