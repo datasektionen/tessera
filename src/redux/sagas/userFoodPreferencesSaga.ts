@@ -15,7 +15,6 @@ import { mapUserFoodPreferences } from "../../utils/food_preferences_conversions
 
 function* fetchUserFoodPreferences(): Generator<any, void, any> {
   try {
-    console.log("fetchUserFoodPreferences");
     const response = yield call(
       axios.get,
       `${process.env.REACT_APP_BACKEND_URL}/user-food-preferences`,
@@ -58,8 +57,6 @@ function* updateUserFoodPreferences(
 
     userFoodPreferences.additional_info = additionalNotes;
 
-    console.log(userFoodPreferences);
-
     const response = yield call(
       axios.put,
       `${process.env.REACT_APP_BACKEND_URL}/user-food-preferences`,
@@ -73,7 +70,6 @@ function* updateUserFoodPreferences(
         userFoodPreferences
       );
 
-      console.log(newUserFoodPreferences);
       yield put(
         updateUserFoodPreferencesSuccess({
           userFoodPreferences: newUserFoodPreferences,
@@ -82,6 +78,7 @@ function* updateUserFoodPreferences(
       );
       toast.success("Food preferences updated successfully");
     } else {
+      toast.error(response.data.error);
       yield put(updateUserFoodPreferencesFailure(response.data.error));
     }
   } catch (error: any) {
