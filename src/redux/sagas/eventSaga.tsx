@@ -27,24 +27,24 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
     );
 
     const eventData = response.data.event;
-    console.log(response.data);
 
     const event: IEvent = {
-      createdAt: new Date(eventData.CreatedAt!),
+      // Convert from ISO 8601 to Unix timestamp
+      createdAt: new Date(eventData.CreatedAt!).getTime(),
       name: eventData.name!,
       description: eventData.description!,
       location: eventData.location!,
-      date: new Date(eventData.date!),
+      date: new Date(eventData.date!).getTime(),
       organizationId: eventData.organization_id!,
       ticketReleases: eventData.ticket_releases!.map((ticketRelease: any) => {
         return {
-          id: ticketRelease.id!,
+          id: ticketRelease.ID!,
           eventId: ticketRelease.event_id!,
           name: ticketRelease.name!,
           description: ticketRelease.description!,
           // Open and close are timestamps, convert to Date by multiplying by 1000
-          open: new Date(ticketRelease.open! * 1000),
-          close: new Date(ticketRelease.close! * 1000),
+          open: new Date(ticketRelease.open! * 1000).getTime(),
+          close: new Date(ticketRelease.close! * 1000).getTime(),
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           ticketTypes: ticketRelease.ticket_types!.map((ticketType: any) => {

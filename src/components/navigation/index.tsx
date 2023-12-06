@@ -12,7 +12,7 @@ function NavigationBar() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "8px 16px",
+        padding: "16px 16px",
         backgroundColor: PALLETTE.cerise,
         color: "white",
       }}

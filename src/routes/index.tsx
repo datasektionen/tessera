@@ -9,6 +9,7 @@ import ProtectedRoute from "../components/login/PrivateRoute";
 import EventDetail from "../pages/event/detail";
 import { AppDispatch } from "../store";
 import { currentUserRequest } from "../redux/features/userSlice";
+import ProfilePage from "../pages/profile";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -24,6 +25,7 @@ function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
+          <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

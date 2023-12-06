@@ -5,11 +5,7 @@ export const numberOfTicketRequestInBasket = (
 ): { [key: number]: number } => {
   let counts: { [key: number]: number } = {};
   items.forEach((item) => {
-    if (counts[item.ticketTypeId]) {
-      counts[item.ticketTypeId] += item.quantity;
-    } else {
-      counts[item.ticketTypeId] = item.quantity;
-    }
+    counts[item.ticket.id] = item.quantity;
   });
 
   return counts;

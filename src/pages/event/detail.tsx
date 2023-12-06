@@ -132,7 +132,8 @@ const EventDetail: React.FC = () => {
                     color: PALLETTE.charcoal,
                   }}
                 >
-                  {new Date(event.date).toDateString()}
+                  {/* Convert from timestamp to string */}
+                  {new Date(event.date).toLocaleString()}
                 </Typography>
               </Grid>
             </Grid>

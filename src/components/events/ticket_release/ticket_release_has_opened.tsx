@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ITicketRelease } from "../../../types";
+import { ITicketRelease, ITicketType } from "../../../types";
 import {
   Box,
   Button,
@@ -18,22 +18,29 @@ import PALLETTE from "../../../theme/pallette";
 
 import TicketReleaseCountdown from "./tr_countdown";
 import TicketType from "../ticket_types";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { ShoppingCartItem } from "../../../redux/features/ticketRequestSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
+import {
+  ShoppingCartItem,
+  postTicketRequest,
+} from "../../../redux/features/ticketRequestSlice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
+import WhaIsTicketRequestModal from "./what_is_ticket_request";
+import LoadingOverlay from "../../Loading";
+import { TicketRequestData } from "../../../redux/sagas/ticketRequestSaga";
 
 const TicketReleasHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
-  const { items: ticketRequestItems } = useSelector(
+  const { items: ticketRequestItems, loading: makingRequest } = useSelector(
     (state: RootState) => state.ticketRequest
   ) as {
     items: ShoppingCartItem[];
+    loading: boolean;
   };
 
   const [basket, setBasketItems] = React.useState<
@@ -45,6 +52,7 @@ const TicketReleasHasOpened: React.FC<{
   >();
 
   const [whatIsRequestOpen, setWhatIsRequestOpen] = React.useState(false);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     // Create a summary of the ticket request items
@@ -59,7 +67,7 @@ const TicketReleasHasOpened: React.FC<{
 
     ticketRequestItems.forEach((item) => {
       const ticketType = ticketRelease.ticketTypes?.find(
-        (tt) => tt.id === item.ticketTypeId
+        (tt) => tt.id === item.ticket.id
       );
       if (ticketType) {
         summary += `${item.quantity} x ${ticketType.name}, `;
@@ -73,8 +81,41 @@ const TicketReleasHasOpened: React.FC<{
 
     setBasketItems(basketItems);
   }, [ticketRequestItems, ticketRelease.ticketTypes]);
+
+  const handleMakeRequest = () => {
+    // Make request
+    // Get the tickets that are also in the basket
+    // If there are 3 tickets in the basket, then there should be 3 tickets in the request
+    let tickets: TicketRequestData[] = [];
+    ticketRequestItems.forEach((item) => {
+      const ticketType = ticketRelease.ticketTypes?.find(
+        (tt) => tt.id === item.ticket.id
+      );
+      if (ticketType) {
+        // Add a ticket_amount property
+        const ticket: TicketRequestData = {
+          ticket_type_id: ticketType.id,
+          ticket_amount: item.quantity,
+        };
+
+        tickets.push(ticket);
+      }
+    });
+
+    dispatch(
+      postTicketRequest({
+        tickets,
+        eventId: ticketRelease.eventId,
+        ticketReleaseId: ticketRelease.id,
+      })
+    );
+  };
+
+  console.log(makingRequest);
+
   return (
     <>
+      {/* {makingRequest && <LoadingOverlay />} */}
       <Stack spacing={2} sx={{ p: 0 }} mt={2}>
         {ticketRelease.ticketTypes!.length > 0 ? (
           ticketRelease.ticketTypes!.map((ticketType, i) => {
@@ -105,7 +146,7 @@ const TicketReleasHasOpened: React.FC<{
               color: PALLETTE.charcoal,
             }}
           >
-            Basket
+            Overview
           </Typography>
           {basket?.map((item, index) => (
             <>
@@ -169,6 +210,7 @@ const TicketReleasHasOpened: React.FC<{
             <Button
               variant="outlined"
               size="md"
+              onClick={handleMakeRequest}
               style={{
                 borderColor: PALLETTE.cerise,
                 color: PALLETTE.cerise,
@@ -191,18 +233,12 @@ const TicketReleasHasOpened: React.FC<{
               </Link>
             </Typography>
           </Grid>
-          <Modal open={whatIsRequestOpen}>
-            <ModalDialog color="primary" size="sm" variant="outlined">
-              <ModalClose onClick={() => setWhatIsRequestOpen(false)} />
-              <DialogTitle>What is a ticket request?</DialogTitle>
-              <DialogContent>
-                When making a request, you are not guaranteed to get the tickets
-                you want. The allocation of the tickets are done according to
-                the Ticket Release Method, which is described in the release
-                description.
-              </DialogContent>
-            </ModalDialog>
-          </Modal>
+          <WhaIsTicketRequestModal
+            isOpen={whatIsRequestOpen}
+            onClose={() => {
+              setWhatIsRequestOpen(false);
+            }}
+          />
         </>
       )}
       <div

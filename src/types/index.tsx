@@ -61,10 +61,10 @@ export interface IOrganization {
   name: string;
 }
 export interface IEvent {
-  createdAt: Date;
+  createdAt: number;
   name: string;
   description: string;
-  date: Date;
+  date: number;
   location: string;
   organizationId: number;
   ticketReleases?: ITicketRelease[];
@@ -102,8 +102,8 @@ export interface ITicketRelease {
   eventId: number;
   name: string;
   description: string;
-  open: Date;
-  close: Date;
+  open: number;
+  close: number;
   ticketTypes?: ITicketType[];
   ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
 }
@@ -112,6 +112,11 @@ export interface ITicketReleaseAdmin extends ITicketRelease {
   id: number;
   ticketReleaseMethodDetailId: number;
   hasAllocatedTickets: boolean;
+}
+
+export interface TicketRequestPostReq {
+  ticket_type_id: number;
+  ticket_release_id: number;
 }
 
 export type AuthAction =

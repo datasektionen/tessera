@@ -23,7 +23,7 @@ const TicketReleaseCountdown: React.FC<{
 
   useEffect(() => {
     // Check if current date is past the target date
-    if (new Date() >= targetDate) {
+    if (new Date().getTime() >= targetDate) {
       clearInterval(1);
       return;
     }

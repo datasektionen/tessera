@@ -1,10 +1,12 @@
 // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITicketType } from "../../types";
+import { act } from "react-dom/test-utils";
+import { TicketRequestData } from "../sagas/ticketRequestSaga";
 
 // Define the ShoppingCartItem interface
 export interface ShoppingCartItem {
-  ticketTypeId: number;
+  ticket: ITicketType;
   quantity: number;
 }
 
@@ -30,7 +32,7 @@ export const ticketRequestSlice = createSlice({
     addTicket: (state, action: PayloadAction<ITicketType>) => {
       // Check if the item is already in the cart
       const existingItem = state.items.find(
-        (item: ShoppingCartItem) => item.ticketTypeId === action.payload.id
+        (item: ShoppingCartItem) => item.ticket.id === action.payload.id
       );
 
       if (existingItem) {
@@ -38,20 +40,20 @@ export const ticketRequestSlice = createSlice({
         existingItem.quantity += 1;
       } else {
         // If not, add the new item to the cart
-        state.items.push({ ticketTypeId: action.payload.id, quantity: 1 });
+        state.items.push({ ticket: action.payload, quantity: 1 });
       }
     },
     removeTicket: (state, action: PayloadAction<ITicketType>) => {
       // Check if the item is already in the cart
       const existingItem = state.items.find(
-        (item: ShoppingCartItem) => item.ticketTypeId === action.payload.id
+        (item: ShoppingCartItem) => item.ticket.id === action.payload.id
       );
 
       if (existingItem) {
         // If the quantity is 1, remove the item
         if (existingItem.quantity === 1) {
           state.items = state.items.filter(
-            (item: ShoppingCartItem) => item.ticketTypeId !== action.payload.id
+            (item: ShoppingCartItem) => item.ticket.id !== action.payload.id
           );
         } else {
           // If the quantity is more than 1, decrease the quantity
@@ -59,11 +61,36 @@ export const ticketRequestSlice = createSlice({
         }
       }
     },
+    postTicketRequest: (
+      state,
+      action: PayloadAction<{
+        tickets: TicketRequestData[];
+        eventId: number;
+        ticketReleaseId: number;
+      }>
+    ) => {
+      state.loading = true;
+    },
+    postTicketRequestSuccess: (state) => {
+      state.loading = false;
+      state.items = [];
+      state.error = null;
+    },
+    postTicketRequestFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 // Export the actions
-export const { addTicket, removeTicket } = ticketRequestSlice.actions;
+export const {
+  addTicket,
+  removeTicket,
+  postTicketRequest,
+  postTicketRequestFailure,
+  postTicketRequestSuccess,
+} = ticketRequestSlice.actions;
 
 // Export the reducer
 export default ticketRequestSlice.reducer;
