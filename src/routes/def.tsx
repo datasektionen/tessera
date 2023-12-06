@@ -16,6 +16,7 @@ export const ROUTES = {
   ORGANIZATIONS: "/organizations",
   ORGANIZATION_DETAIL: "/organizations/:organizationID",
   ORGANIZATION_USERS: "/organizations/:organizationID/users",
+  CREATE_ORGANIZATION: "/organizations/create",
   TICKET_RELEASE_METHODS: "/ticket-release-methods",
   TICKET_TYPES: "/ticket-types",
   USER_FOOD_PREFERENCES: "/user-food-preferences",

@@ -3,10 +3,17 @@ import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { Grid, Typography } from "@mui/joy";
 import Title from "../../components/text/title";
 import FoodPreferences from "../../components/food_preferences";
+import UserInfo from "../../components/user/user_info";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import LoadingOverlay from "../../components/Loading";
 
 const ProfilePage: React.FC = () => {
+  const { user, loading } = useSelector((state: RootState) => state.user);
+
   return (
     <TesseraWrapper>
+      {loading && <LoadingOverlay />}
       <Typography level="h1" fontFamily="Josefin Sans">
         <Grid
           container
@@ -20,6 +27,7 @@ const ProfilePage: React.FC = () => {
         >
           <Grid xs={8}>
             <Title>Profile</Title>
+            <UserInfo user={user!} />
           </Grid>
           <Grid xs={8}>
             <FoodPreferences />

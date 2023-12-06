@@ -55,12 +55,14 @@ export interface IUser {
   last_name: string;
   email: string;
   role: IRole;
+  organizations: IOrganization[];
 }
 
 export interface IOrganization {
   name: string;
 }
 export interface IEvent {
+  id: number;
   createdAt: number;
   name: string;
   description: string;

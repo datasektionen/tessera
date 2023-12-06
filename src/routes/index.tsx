@@ -10,6 +10,7 @@ import EventDetail from "../pages/event/detail";
 import { AppDispatch } from "../store";
 import { currentUserRequest } from "../redux/features/userSlice";
 import ProfilePage from "../pages/profile";
+import CreateOrganizationPage from "../pages/organization/create";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -26,6 +27,10 @@ function AppRoutes() {
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+          <Route
+            path={ROUTES.CREATE_ORGANIZATION}
+            element={<CreateOrganizationPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

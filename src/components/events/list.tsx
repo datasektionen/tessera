@@ -9,43 +9,80 @@ import InfoIcon from "@mui/icons-material/Info";
 import { IEvent } from "../../types";
 import PALLETTE from "../../theme/pallette";
 import { Button } from "@mui/joy";
+import StyledText from "../text/styled_text";
+import StyledButton from "../buttons/styled_button";
+import { useNavigate } from "react-router-dom";
 
 interface EventListProps {
   events: IEvent[];
 }
 
 const EventList: React.FC<EventListProps> = ({ events }) => {
+  const navigate = useNavigate();
+
   return (
     <Grid container spacing={2}>
-      {events.map((event, index) => (
+      {events.map((event: IEvent, index) => (
         <Grid xs={12} sm={6} md={4} key={index} component={"div"}>
-          <Card variant="plain">
+          <Card
+            variant="outlined"
+            style={{
+              backgroundColor: PALLETTE.offWhite,
+              borderRadius: 0,
+              borderColor: PALLETTE.cerise,
+              borderWidth: 2,
+            }}
+          >
             <div>
-              <Typography level="title-lg">{event.name}</Typography>
-              <Typography level="body-sm">
-                {new Date(event.date).toDateString()}
-              </Typography>
-              <Typography level="body-sm" startDecorator={<LocationOnIcon />}>
-                {event.location}
-              </Typography>
-              <Typography
+              <StyledText
+                level="h4"
+                fontWeight={600}
+                color={PALLETTE.cerise}
+                fontSize={24}
+              >
+                {event.name}
+              </StyledText>
+              <StyledText
                 level="body-sm"
+                color={PALLETTE.charcoal}
+                fontSize={14}
+                startDecorator={<CalendarTodayIcon />}
+              >
+                {new Date(event.date).toDateString()}
+              </StyledText>
+              <StyledText
+                level="body-sm"
+                fontSize={14}
+                color={PALLETTE.charcoal}
+                startDecorator={<LocationOnIcon />}
+              >
+                {event.location}
+              </StyledText>
+              <StyledText
+                level="body-sm"
+                fontSize={16}
                 startDecorator={<InfoIcon />}
-                sx={{ mt: 1 }}
+                color={PALLETTE.charcoal}
+                style={{ marginTop: 10 }}
               >
                 {event.description}
-              </Typography>
+              </StyledText>
             </div>
             <CardContent>
-              <Button
-                variant="solid"
+              <StyledButton
                 size="md"
                 color="primary"
                 aria-label="Explore Bahamas Islands"
-                sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+                onClick={() => {
+                  navigate(`/events/${event.id}`);
+                }}
+                style={{
+                  marginTop: 10,
+                  width: "100px",
+                }}
               >
-                Tickets
-              </Button>
+                Details
+              </StyledButton>
             </CardContent>
           </Card>
         </Grid>

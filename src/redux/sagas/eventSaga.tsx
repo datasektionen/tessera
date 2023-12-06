@@ -17,7 +17,6 @@ import {
 
 function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
   try {
-    console.log("eventSaga");
     const response = yield call(
       axios.get,
       "http://localhost:8080/events/" + action.payload,
@@ -28,8 +27,11 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
 
     const eventData = response.data.event;
 
+    console.log(eventData);
+
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
+      id: eventData.ID!,
       createdAt: new Date(eventData.CreatedAt!).getTime(),
       name: eventData.name!,
       description: eventData.description!,

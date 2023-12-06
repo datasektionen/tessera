@@ -14,7 +14,6 @@ const MainPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    console.log("get events");
     dispatch(getEventsRequest());
   }, []);
 

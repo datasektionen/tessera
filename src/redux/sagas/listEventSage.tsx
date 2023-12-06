@@ -20,16 +20,21 @@ function* listEventSaga(): Generator<any, void, any> {
       withCredentials: true, // This ensures cookies are sent with the request
     });
 
-    const events: IEvent[] = response.data.map((event: any) => {
-      return {
-        createdAt: event.CreatedAt!,
-        name: event.name!,
-        description: event.description!,
-        location: event.location!,
-        date: event.date!,
-        organizationId: event.organization_id!,
-      };
-    });
+    const events: IEvent[] = response.data
+      .map((event: any) => {
+        return {
+          id: event.ID!,
+          createdAt: event.CreatedAt!,
+          name: event.name!,
+          description: event.description!,
+          location: event.location!,
+          date: event.date!,
+          organizationId: event.organization_id!,
+        };
+      })
+      .sort((a: IEvent, b: IEvent) => {
+        return a.date - b.date;
+      });
 
     yield put(getEventsSuccess(events));
   } catch (error: any) {

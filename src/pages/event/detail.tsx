@@ -23,6 +23,7 @@ import PALLETTE from "../../theme/pallette";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import TicketRelease from "../../components/events/ticket_release";
+import StandardGrid from "../../components/wrappers/standard_grid";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -67,16 +68,7 @@ const EventDetail: React.FC = () => {
 
   return (
     <TesseraWrapper>
-      <Grid
-        container
-        spacing={2}
-        columns={16}
-        sx={{ flexGrow: 1 }}
-        style={{
-          marginLeft: "5%",
-          marginRight: "5%",
-        }}
-      >
+      <StandardGrid>
         <Grid xs={8}>
           <Item>
             <Typography
@@ -166,7 +158,7 @@ const EventDetail: React.FC = () => {
             </div>
           </Item>
         </Grid>
-      </Grid>
+      </StandardGrid>
     </TesseraWrapper>
   );
 };
