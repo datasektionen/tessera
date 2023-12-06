@@ -5,13 +5,20 @@ import { IFoodPreference } from "../../types";
 interface FoodUserFoodPreferencesState {
   foodPreferences: string[];
   userFoodPreferences: IFoodPreference[];
+  additionalNotes: string;
   loading: boolean;
   error: string | null;
+}
+
+interface UpdateUserFoodPreferencesPayload {
+  userFoodPreferences: IFoodPreference[];
+  additionalNotes: string;
 }
 
 const initialState: FoodUserFoodPreferencesState = {
   foodPreferences: [],
   userFoodPreferences: [],
+  additionalNotes: "",
   loading: false,
   error: null,
 };
@@ -26,9 +33,10 @@ export const foodUserFoodPreferencesSlice = createSlice({
     },
     fetchUserFoodPreferencesSuccess: (
       state,
-      action: PayloadAction<IFoodPreference[]>
+      action: PayloadAction<UpdateUserFoodPreferencesPayload>
     ) => {
-      state.userFoodPreferences = action.payload;
+      state.userFoodPreferences = action.payload.userFoodPreferences;
+      state.additionalNotes = action.payload.additionalNotes;
       state.loading = false;
     },
     fetchUserFoodPreferencesFailure: (state, action: PayloadAction<string>) => {
@@ -37,16 +45,20 @@ export const foodUserFoodPreferencesSlice = createSlice({
     },
     updateUserFoodPreferencesStart: (
       state,
-      action: PayloadAction<string[]>
+      action: PayloadAction<{
+        foodPreferences: string[];
+        additionalNotes: string;
+      }>
     ) => {
       state.loading = true;
       state.error = null;
     },
     updateUserFoodPreferencesSuccess: (
       state,
-      action: PayloadAction<IFoodPreference[]>
+      action: PayloadAction<UpdateUserFoodPreferencesPayload>
     ) => {
-      state.userFoodPreferences = action.payload;
+      state.userFoodPreferences = action.payload.userFoodPreferences;
+      state.additionalNotes = action.payload.additionalNotes;
       state.loading = false;
     },
     updateUserFoodPreferencesFailure: (

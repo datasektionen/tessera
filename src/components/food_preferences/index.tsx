@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Box,
+  Button,
   Checkbox,
   Chip,
   Divider,
@@ -19,24 +20,41 @@ import { useEffect, useState } from "react";
 import PALLETTE from "../../theme/pallette";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { fetchUserFoodPreferencesStart } from "../../redux/features/userFoodPreferences";
+import {
+  fetchUserFoodPreferencesStart,
+  updateUserFoodPreferencesStart,
+} from "../../redux/features/userFoodPreferences";
 import LoadingOverlay from "../Loading";
+import SaveButton from "../buttons/save_button";
 
 interface FoodPreferencesProps {}
 
 // Create a constant of all food preferences
 
 const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
-  const { userFoodPreferences, loading: loadingFoodPref } = useSelector(
-    (state: RootState) => state.foodPreferences
-  );
+  const {
+    userFoodPreferences,
+    additionalNotes,
+    loading: loadingFoodPref,
+  } = useSelector((state: RootState) => state.foodPreferences);
 
   const dispatch: AppDispatch = useDispatch();
 
   const [value, setValue] = useState<string[]>([]);
+  const [additonalNotes, setAdditionalNotes] = useState<string>("");
 
   const handleChange = (event: any, newValue: string[]) => {
     setValue(newValue);
+  };
+
+  const handleSave = () => {
+    // Save the food preferences
+    dispatch(
+      updateUserFoodPreferencesStart({
+        foodPreferences: value,
+        additionalNotes: additonalNotes,
+      })
+    );
   };
 
   useEffect(() => {
@@ -49,9 +67,9 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
     const checkedFoodPrefs = userFoodPreferences.filter((pref) => pref.checked);
     const checkedFoodPrefIds = checkedFoodPrefs.map((pref) => pref.id);
     setValue(checkedFoodPrefIds);
-  }, [userFoodPreferences]);
 
-  console.log(value);
+    if (additionalNotes) setAdditionalNotes(additionalNotes);
+  }, [userFoodPreferences, additionalNotes]);
 
   return (
     <>
@@ -125,12 +143,18 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
               Additonal Notes
             </Typography>
           </FormLabel>
-          <Textarea placeholder="" minRows={2} />
+          <Textarea
+            placeholder=""
+            minRows={2}
+            onChange={(e) => setAdditionalNotes(e.target.value)}
+            value={additonalNotes}
+          />
           <FormHelperText>
             Provide any additional notes here regarding your food preferences.
             Leave blank if you have none.
           </FormHelperText>
         </FormControl>
+        <SaveButton onClick={handleSave} />
       </Box>
     </>
   );

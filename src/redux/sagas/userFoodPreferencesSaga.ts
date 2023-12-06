@@ -10,6 +10,8 @@ import {
 } from "../features/userFoodPreferences";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { FoodPreferences, IFoodPreference } from "../../types";
+import { toast } from "react-toastify";
+import { mapUserFoodPreferences } from "../../utils/food_preferences_conversions";
 
 function* fetchUserFoodPreferences(): Generator<any, void, any> {
   try {
@@ -22,34 +24,69 @@ function* fetchUserFoodPreferences(): Generator<any, void, any> {
 
     const data = response.data.user_food_preference;
 
-    const userFoodPreferences: IFoodPreference[] = FoodPreferences.map(
-      (foodPreference) => {
-        return {
-          ...foodPreference,
-          checked: data[foodPreference.id],
-        };
-      }
+    const userFoodPreferences: IFoodPreference[] = mapUserFoodPreferences(
+      FoodPreferences,
+      data
     );
 
-    yield put(fetchUserFoodPreferencesSuccess(userFoodPreferences));
+    yield put(
+      fetchUserFoodPreferencesSuccess({
+        userFoodPreferences,
+        additionalNotes: data.additional_info,
+      })
+    );
   } catch (error: any) {
-    console.log(error.message);
     yield put(fetchUserFoodPreferencesFailure(error.message));
   }
 }
 
 function* updateUserFoodPreferences(
-  action: PayloadAction<string[]>
+  action: PayloadAction<{ foodPreferences: string[]; additionalNotes: string }>
 ): Generator<any, void, any> {
   try {
+    const { foodPreferences, additionalNotes } = action.payload;
+    // Each of the values in the array should be true in  the new object
+    let userFoodPreferences: { [key: string]: boolean | string } =
+      FoodPreferences.reduce(
+        (acc: { [key: string]: boolean }, foodPreference) => {
+          acc[foodPreference.id] = foodPreferences.includes(foodPreference.id);
+
+          return acc;
+        },
+        {}
+      );
+
+    userFoodPreferences.additional_info = additionalNotes;
+
+    console.log(userFoodPreferences);
+
     const response = yield call(
       axios.put,
       `${process.env.REACT_APP_BACKEND_URL}/user-food-preferences`,
-      action.payload,
+      userFoodPreferences,
       { withCredentials: true }
     );
-    yield put(updateUserFoodPreferencesSuccess(response.data));
+
+    if (response.status === 200) {
+      const newUserFoodPreferences: IFoodPreference[] = mapUserFoodPreferences(
+        FoodPreferences,
+        userFoodPreferences
+      );
+
+      console.log(newUserFoodPreferences);
+      yield put(
+        updateUserFoodPreferencesSuccess({
+          userFoodPreferences: newUserFoodPreferences,
+          additionalNotes: userFoodPreferences.additional_info,
+        })
+      );
+      toast.success("Food preferences updated successfully");
+    } else {
+      yield put(updateUserFoodPreferencesFailure(response.data.error));
+    }
   } catch (error: any) {
+    const errorMessage: string = error.response.data.error || error.message;
+    toast.error(errorMessage);
     yield put(updateUserFoodPreferencesFailure(error.message));
   }
 }
