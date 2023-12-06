@@ -4,6 +4,7 @@ import watchUserSagas from "./userSaga";
 import watchListEventSaga from "./listEventSage";
 import watchEventSaga from "./eventSaga";
 import watchTicdketRequestSaga from "./ticketRequestSaga";
+import { watchFoodPreferences } from "./userFoodPreferencesSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     watchListEventSaga(),
     watchEventSaga(),
     watchTicdketRequestSaga(),
+    watchFoodPreferences(),
     // add other sagas here
   ]);
 }

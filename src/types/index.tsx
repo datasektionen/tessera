@@ -119,6 +119,39 @@ export interface TicketRequestPostReq {
   ticket_release_id: number;
 }
 
+export interface IFoodPreference {
+  id: string;
+  label: string;
+  checked?: boolean;
+}
+
+export const FoodPreferences: IFoodPreference[] = [
+  {
+    id: "gluten_intolerant",
+    label: "Gluten Intolerant",
+  },
+  {
+    id: "lactose_intolerant",
+    label: "Lactose Intolerant",
+  },
+  {
+    id: "vegetarian",
+    label: "Vegetarian",
+  },
+  {
+    id: "vegan",
+    label: "Vegan",
+  },
+  {
+    id: "nut_allergy",
+    label: "Nut Allergy",
+  },
+  {
+    id: "shellfish_allergy",
+    label: "Shellfish Allergy",
+  },
+];
+
 export type AuthAction =
   | LoginRequestAction
   | LoginSuccessAction
