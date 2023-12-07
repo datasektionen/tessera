@@ -3,7 +3,9 @@ import Box from "@mui/joy/Box";
 import Typography from "@mui/joy/Typography";
 import IconButton from "@mui/joy/IconButton";
 import PersonIcon from "@mui/icons-material/Person";
+import LogoutIcon from "@mui/icons-material/Logout";
 import PALLETTE from "../../theme/pallette";
+import { Stack } from "@mui/joy";
 
 function NavigationBar() {
   return (
@@ -30,16 +32,28 @@ function NavigationBar() {
       </Typography>
 
       {/* Right-aligned profile icon */}
-      <IconButton
-        component="a"
-        href="/profile" // Link to the profile page
-      >
-        <PersonIcon
-          style={{
-            color: PALLETTE.offWhite,
-          }}
-        />
-      </IconButton>
+      <Stack direction="row" spacing={2} alignItems="center">
+        <IconButton
+          component="a"
+          href="/profile" // Link to the profile page
+        >
+          <PersonIcon
+            style={{
+              color: PALLETTE.offWhite,
+            }}
+          />
+        </IconButton>
+        <IconButton
+          component="a"
+          href="/logout" // Link to the logout page
+        >
+          <LogoutIcon
+            style={{
+              color: PALLETTE.offWhite,
+            }}
+          />
+        </IconButton>
+      </Stack>
     </Box>
   );
 }

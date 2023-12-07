@@ -22,4 +22,5 @@ export const ROUTES = {
   USER_FOOD_PREFERENCES: "/user-food-preferences",
   TICKET_RELEASE_CONSTANTS: "/ticket-release/constants",
   PROFILE: "/profile",
+  PROFILE_ORGANIZATIONS: "/profile/organizations",
 };

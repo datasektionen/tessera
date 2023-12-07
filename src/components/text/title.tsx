@@ -7,6 +7,7 @@ interface TitleProps {
   fontSize?: number;
   fontWeight?: number;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 const Title: React.FC<TitleProps> = ({
@@ -14,6 +15,7 @@ const Title: React.FC<TitleProps> = ({
   fontSize = 48,
   fontWeight = 700,
   children,
+  style,
 }) => {
   return (
     <Typography
@@ -22,6 +24,7 @@ const Title: React.FC<TitleProps> = ({
       fontSize={fontSize}
       fontWeight={fontWeight}
       style={{
+        ...style,
         color: color,
         textOverflow: "ellipsis",
         overflow: "hidden",

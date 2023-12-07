@@ -33,7 +33,8 @@ const StyledButton: React.FC<StyledButtonProps> = ({
       style={{
         ...style,
         color: color,
-        backgroundColor: PALLETTE.charcoal,
+        borderColor: PALLETTE.cerise,
+        backgroundColor: PALLETTE.offWhite,
       }}
     >
       <StyledText level="body-md" color={PALLETTE.cerise}>

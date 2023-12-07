@@ -9,6 +9,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import ticketRequestReducer from "./redux/features/ticketRequestSlice";
 import foodPreferenceReducer from "./redux/features/userFoodPreferences";
+import organizationReducer from "./redux/features/organizationSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   eventDetail: eventReducer,
   ticketRequest: ticketRequestReducer,
   foodPreferences: foodPreferenceReducer,
+  organization: organizationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

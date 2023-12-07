@@ -11,6 +11,8 @@ import { AppDispatch } from "../store";
 import { currentUserRequest } from "../redux/features/userSlice";
 import ProfilePage from "../pages/profile";
 import CreateOrganizationPage from "../pages/organization/create";
+import ProfileOrgnizationsPage from "../pages/profile/profile_organizations";
+import Logout from "../components/user/logout";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -24,9 +26,14 @@ function AppRoutes() {
       <Routes>
         <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
         <Route element={<ProtectedRoute />}>
+          <Route path={ROUTES.LOGOUT} element={<Logout />} />
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+          <Route
+            path={ROUTES.PROFILE_ORGANIZATIONS}
+            element={<ProfileOrgnizationsPage />}
+          />
           <Route
             path={ROUTES.CREATE_ORGANIZATION}
             element={<CreateOrganizationPage />}

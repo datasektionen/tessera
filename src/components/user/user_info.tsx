@@ -39,6 +39,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
               <Link href="/profile/tickets">
                 <UserInfoText label="Your tickets" value="" />
               </Link>
+              <Link href="/profile/organizations">
+                <UserInfoText label="Your organizations" value="" />
+              </Link>
             </Stack>
           </Box>
         </Grid>

@@ -58,8 +58,15 @@ export interface IUser {
   organizations: IOrganization[];
 }
 
+export interface IOrganizationUser extends IUser {
+  organization_role: string;
+  added_at: number;
+}
+
 export interface IOrganization {
+  id: number;
   name: string;
+  created_at?: number;
 }
 export interface IEvent {
   id: number;

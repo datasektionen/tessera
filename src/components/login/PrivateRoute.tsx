@@ -18,13 +18,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     (state: RootState) => state.user
   );
 
-  console.log("authLoading", authLoading, "userLoading", userLoading);
-
   if (userLoading) {
     return null;
   }
-
-  console.log("isLoggedIn", isLoggedIn);
 
   if (!isLoggedIn) {
     return <Navigate to={redirectPath} replace />;
