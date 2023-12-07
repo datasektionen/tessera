@@ -30,8 +30,8 @@ const EventsPage: React.FC = () => {
           <Title>Events</Title>
         </Box>
 
-        <Box>
-          <EventList events={events} />
+        <Box sx={{ padding: "16px 32px" }}>
+          <EventList events={events} />{" "}
         </Box>
       </TesseraWrapper>
     </>

@@ -6,6 +6,7 @@ export const ROUTES = {
   EVENTS: "/events",
   EVENT_DETAIL: "/events/:eventID",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
+  CREATE_EVENT: "/create-event",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",
   ALLOCATE_TICKETS:

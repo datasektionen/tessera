@@ -86,9 +86,7 @@ const MainPage: React.FC = () => {
             </MainPageButton>
           </Grid>
         </Grid>
-        <Box sx={{ padding: "16px 32px" }}>
-          <EventList events={events} />{" "}
-        </Box>
+
       </Box>
     </>
   );
