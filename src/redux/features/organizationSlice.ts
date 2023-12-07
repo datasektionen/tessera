@@ -1,6 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
-import { IOrganization, IOrganizationUser, IUser } from "../../types";
+import {
+  IOrganization,
+  IOrganizationUser,
+  OrganizationUserRole,
+} from "../../types";
+
+export interface ChangeUserRolePayload {
+  organizationId: number;
+  username: string;
+  newRole: OrganizationUserRole;
+}
 
 interface OrganizationState {
   loading: boolean;

@@ -134,6 +134,11 @@ export interface IFoodPreference {
   checked?: boolean;
 }
 
+export enum OrganizationUserRole {
+  OWNER = "owner",
+  MEMBER = "member",
+}
+
 export const FoodPreferences: IFoodPreference[] = [
   {
     id: "gluten_intolerant",

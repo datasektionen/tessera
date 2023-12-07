@@ -9,7 +9,7 @@ import { getOrganizationsRequest } from "../../redux/features/organizationSlice"
 import LoadingOverlay from "../../components/Loading";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
-import { Link } from "react-router-dom";
+import { Link, unstable_HistoryRouter } from "react-router-dom";
 import StyledButton from "../../components/buttons/styled_button";
 import { ROUTES } from "../../routes/def";
 import ViewOrganization from "../../components/organizations/view";
@@ -57,7 +57,13 @@ const ProfileOrgnizationsPage = () => {
                       }}
                       color={PALLETTE.cerise}
                       size="md"
-                      style={{ width: "200px" }}
+                      style={{
+                        width: "200px",
+                        backgroundColor:
+                          selected === org.id
+                            ? PALLETTE.cerise
+                            : PALLETTE.offWhite,
+                      }}
                     >
                       <StyledText
                         level="body-md"

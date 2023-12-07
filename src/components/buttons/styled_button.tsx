@@ -4,13 +4,14 @@ import PALLETTE from "../../theme/pallette";
 
 interface StyledButtonProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   color: string;
   bgColor?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
   size: "sm" | "md" | "lg";
   startDecorator?: React.ReactNode;
+  type?: "button" | "submit" | "reset";
 }
 
 const StyledButton: React.FC<StyledButtonProps> = ({
@@ -20,6 +21,7 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   bgColor,
   size,
   style,
+  type = "button",
   disabled = false,
   startDecorator,
 }) => {
@@ -27,14 +29,15 @@ const StyledButton: React.FC<StyledButtonProps> = ({
     <Button
       variant={"outlined"}
       onClick={onClick}
+      type={type}
       disabled={disabled}
       size={size}
       startDecorator={startDecorator}
       style={{
-        ...style,
+        backgroundColor: PALLETTE.offWhite,
         color: color,
         borderColor: PALLETTE.cerise,
-        backgroundColor: PALLETTE.offWhite,
+        ...style,
       }}
     >
       <StyledText level="body-md" color={PALLETTE.cerise}>

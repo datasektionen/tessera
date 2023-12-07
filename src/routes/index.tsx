@@ -13,6 +13,7 @@ import ProfilePage from "../pages/profile";
 import CreateOrganizationPage from "../pages/organization/create";
 import ProfileOrgnizationsPage from "../pages/profile/profile_organizations";
 import Logout from "../components/user/logout";
+import EventsPage from "../pages/event";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -30,6 +31,7 @@ function AppRoutes() {
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+          <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           <Route
             path={ROUTES.PROFILE_ORGANIZATIONS}
             element={<ProfileOrgnizationsPage />}

@@ -19,7 +19,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                 value={`${user.first_name} ${user.last_name}`}
               />
               <UserInfoText label="Email" value={user.email} />
-              <UserInfoText label="KTH ID" value={user.username} />
+              <UserInfoText label="Username" value={user.username} />
 
               <UserInfoText label="Role" value={user.role.name} />
 

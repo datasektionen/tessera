@@ -4,6 +4,7 @@ interface IPallette {
 
 const PALLETTE: IPallette = {
   primary: "#011638",
+  red: "red",
   charcoal: "#364156",
   offWhite: "#CDCDCD",
   cerise: "#E83D84",
