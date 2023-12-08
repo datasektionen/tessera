@@ -11,6 +11,7 @@ interface StyledButtonProps {
   disabled?: boolean;
   size: "sm" | "md" | "lg";
   startDecorator?: React.ReactNode;
+  textColor?: string;
   type?: "button" | "submit" | "reset";
 }
 
@@ -18,10 +19,11 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   children,
   onClick,
   color,
-  bgColor,
+  bgColor = PALLETTE.offWhite,
   size,
   style,
   type = "button",
+  textColor,
   disabled = false,
   startDecorator,
 }) => {
@@ -34,13 +36,12 @@ const StyledButton: React.FC<StyledButtonProps> = ({
       size={size}
       startDecorator={startDecorator}
       style={{
-        backgroundColor: PALLETTE.offWhite,
-        color: color,
+        backgroundColor: disabled ? PALLETTE.charcoal : bgColor,
         borderColor: PALLETTE.cerise,
         ...style,
       }}
     >
-      <StyledText level="body-md" color={PALLETTE.cerise}>
+      <StyledText level="body-md" color={disabled ? PALLETTE.offWhite : color}>
         {children}
       </StyledText>
     </Button>

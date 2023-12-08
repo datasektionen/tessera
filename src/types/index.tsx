@@ -1,3 +1,15 @@
+import { formatDateToDateTimeLocal } from "../utils/date_conversions";
+
+enum NoticicationMethod {
+  EMAIL = "email",
+  SMS = "sms",
+}
+
+enum CacellationPolicy {
+  FULL_REFUND = "full_refund",
+  NO_REFUND = "no_refund",
+}
+
 export interface LoginCredentials {
   username: string;
   password: string;
@@ -76,14 +88,57 @@ export interface IEvent {
   date: number;
   location: string;
   organizationId: number;
+  is_private: boolean;
   ticketReleases?: ITicketRelease[];
 }
 
+export interface IEventForm {
+  name: string;
+  description: string;
+  date: string;
+  location: string;
+  organization_id: number;
+  is_private: boolean;
+}
+
+export const EventFormInitialValues: IEventForm = {
+  name: "",
+  description: "",
+  date: "",
+  location: "",
+  organization_id: 0,
+  is_private: false,
+};
+
 export interface ITicketReleaseMethod {
   id: number;
-  methodName: string;
+  name: string;
   description: string;
 }
+
+export interface ITicketReleaseForm {
+  name: string;
+  description: string;
+  open: string;
+  close: string;
+  ticket_release_method_id: number;
+  open_window_duration?: number;
+  max_tickets_per_user: number;
+  notification_method: string;
+  cancellation_policy: string;
+}
+
+export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
+  name: "",
+  description: "",
+  open: formatDateToDateTimeLocal(new Date()),
+  close: formatDateToDateTimeLocal(new Date()),
+  ticket_release_method_id: 0,
+  open_window_duration: 0,
+  max_tickets_per_user: 0,
+  notification_method: "email",
+  cancellation_policy: "no_refund",
+};
 
 export interface ITicketReleaseMethodDetail {
   id: number;

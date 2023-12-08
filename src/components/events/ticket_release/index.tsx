@@ -62,10 +62,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           }
           target="_blank"
         >
-          {
-            ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
-              ?.methodName
-          }
+          {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name}
         </Link>
       </Typography>
 

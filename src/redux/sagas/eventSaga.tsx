@@ -32,6 +32,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
       id: eventData.ID!,
+      is_private: eventData.is_private!,
       createdAt: new Date(eventData.CreatedAt!).getTime(),
       name: eventData.name!,
       description: eventData.description!,
@@ -71,9 +72,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
               ticketRelease.ticket_release_method_detail.open_window_days!,
             ticketReleaseMethod: {
               id: ticketRelease.ticket_release_method_id!,
-              methodName:
-                ticketRelease.ticket_release_method_detail!
-                  .ticket_release_method!.method_name!,
+              name: ticketRelease.ticket_release_method_detail!
+                .ticket_release_method!.method_name!,
               description:
                 ticketRelease.ticket_release_method_detail!
                   .ticket_release_method!.description!,

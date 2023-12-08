@@ -17,6 +17,7 @@ function NavigationBar() {
         padding: "16px 16px",
         backgroundColor: PALLETTE.cerise,
         color: "white",
+        width: "100vw",
       }}
     >
       {/* Left-aligned "tessera" text */}
@@ -30,7 +31,6 @@ function NavigationBar() {
       >
         tessera
       </Typography>
-
       {/* Right-aligned profile icon */}
       <Stack direction="row" spacing={2} alignItems="center">
         <IconButton

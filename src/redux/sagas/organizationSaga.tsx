@@ -41,7 +41,7 @@ function* createOrganizationSaga(
   }
 }
 
-function* getOrganizationsSaga(): Generator<any, void, any> {
+function* getMyOrganizationsSaga(): Generator<any, void, any> {
   try {
     const response = yield call(
       axios.get,
@@ -159,7 +159,7 @@ function* removeUserSaga(
 
 export function* watchCreateOrganization() {
   yield takeEvery(createOrganizationRequest.type, createOrganizationSaga);
-  yield takeEvery(getOrganizationsRequest.type, getOrganizationsSaga);
+  yield takeEvery(getOrganizationsRequest.type, getMyOrganizationsSaga);
   yield takeEvery(getOrganizationUsersRequest.type, getOrganizationUsersSaga);
   yield takeEvery(REMOVE_USER_REQUEST, removeUserSaga);
 }

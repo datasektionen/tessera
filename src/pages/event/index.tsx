@@ -20,7 +20,7 @@ const EventsPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(getEventsRequest());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

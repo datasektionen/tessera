@@ -10,11 +10,13 @@ import { persistReducer, persistStore } from "redux-persist";
 import ticketRequestReducer from "./redux/features/ticketRequestSlice";
 import foodPreferenceReducer from "./redux/features/userFoodPreferences";
 import organizationReducer from "./redux/features/organizationSlice";
+import eventCreationSlice from "./redux/features/eventCreationSlice";
+import ticketReleaseMethodReducer from "./redux/features/ticketReleaseMethodsSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
-  whitelist: ["user", "auth"],
+  whitelist: ["user", "auth", "eventCreation"],
   key: "root",
   storage,
 };
@@ -27,6 +29,8 @@ const rootReducer = combineReducers({
   ticketRequest: ticketRequestReducer,
   foodPreferences: foodPreferenceReducer,
   organization: organizationReducer,
+  eventCreation: eventCreationSlice,
+  ticketReleaseMethods: ticketReleaseMethodReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
