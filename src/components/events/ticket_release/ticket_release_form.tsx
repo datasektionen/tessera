@@ -1,4 +1,4 @@
-import { Formik, Form, Field, useFormikContext } from "formik";
+import { Formik, Form, Field, useFormikContext, FormikHelpers } from "formik";
 import {
   Button,
   FormControl,
@@ -15,27 +15,34 @@ import {
 import {
   TicketReleaseFormInitialValues,
   ITicketReleaseForm,
-} from "../../types";
-import { StyledErrorMessage } from "../forms/messages";
-import { FormInput, FormTextarea } from "../forms/input_types";
+} from "../../../types";
+import { StyledErrorMessage } from "../../forms/messages";
+import {
+  DefaultInputStyle,
+  FormInput,
+  FormTextarea,
+} from "../../forms/input_types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
-} from "../forms/form_labels";
+} from "../../forms/form_labels";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
+import { AppDispatch, RootState } from "../../../store";
 import { useEffect } from "react";
-import { getTicketReleaseMethodsRequest } from "../../redux/features/ticketReleaseMethodsSlice";
-import PALLETTE from "../../theme/pallette";
+import { getTicketReleaseMethodsRequest } from "../../../redux/features/ticketReleaseMethodsSlice";
+import PALLETTE from "../../../theme/pallette";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import StyledText from "../text/styled_text";
-import StyledButton from "../buttons/styled_button";
+import StyledText from "../../text/styled_text";
+import StyledButton from "../../buttons/styled_button";
 import {
   clearEventForm,
   clearTicketReleaseForm,
   setTicketReleaseForm,
-} from "../../redux/features/eventCreationSlice";
-import CreateTicketReleaseFormSchema from "../../validation/create_ticket_release_form";
+} from "../../../redux/features/eventCreationSlice";
+import CreateTicketReleaseFormSchema from "../../../validation/create_ticket_release_form";
+import { format } from "date-fns";
+import { toast } from "react-toastify";
+import LoadingOverlay from "../../Loading";
 
 const CreateTicketReleaseForm: React.FC = () => {
   const { ticketReleaseMethods } = useSelector(
@@ -54,10 +61,23 @@ const CreateTicketReleaseForm: React.FC = () => {
     dispatch(getTicketReleaseMethodsRequest());
   }, [dispatch]);
 
-  const handleSubmission = (values: ITicketReleaseForm) => {
-    // Handle form submission
-    dispatch(setTicketReleaseForm(values));
+  const handleSubmission = async (
+    values: ITicketReleaseForm,
+    { validateForm }: FormikHelpers<ITicketReleaseForm>
+  ) => {
+    const errors = await validateForm(values);
+    if (Object.keys(errors).length === 0) {
+      // The form is valid
+      dispatch(setTicketReleaseForm(values));
+    } else {
+      // The form is invalid
+      toast.error("Please fix the errors in the form.");
+    }
   };
+
+  if (initalLoading) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <Formik
@@ -110,7 +130,7 @@ const CreateTicketReleaseForm: React.FC = () => {
                 type="datetime-local"
                 placeholder="Normal tickets for Party Rangers."
               />
-              <StyledErrorMessage name="name" />
+              <StyledErrorMessage name="open" />
 
               <StyledFormLabelWithHelperText>
                 When do the tickets become available?
@@ -146,9 +166,8 @@ const CreateTicketReleaseForm: React.FC = () => {
                         form.setFieldValue(field.name, newValue as number);
                       }}
                       style={{
+                        ...DefaultInputStyle,
                         width: "350px",
-                        borderColor: PALLETTE.cerise,
-                        backgroundColor: PALLETTE.offWhite,
                       }}
                     >
                       {ticketReleaseMethods?.map((trm) => {
@@ -194,7 +213,7 @@ const CreateTicketReleaseForm: React.FC = () => {
             {/* Open Window Duration */}
             {values && values.ticket_release_method_id === 1 && (
               <FormControl>
-                <StyledFormLabel>Lottery Duration (seconds)*</StyledFormLabel>
+                <StyledFormLabel>Lottery Duration (minutes)*</StyledFormLabel>
                 <FormInput
                   type="number"
                   name="open_window_duration"
@@ -202,15 +221,23 @@ const CreateTicketReleaseForm: React.FC = () => {
                   placeholder=""
                 />
                 <StyledErrorMessage name="open_window_duration" />
-                {errors.open && (
-                  <StyledText
-                    level="body-sm"
-                    color={PALLETTE.red}
-                    fontSize={12}
-                  >
-                    {errors.open}
+
+                {values && values.open_window_duration ? (
+                  <StyledText level="body-sm" color={PALLETTE.charcoal}>
+                    The lottery window will be open from{" "}
+                    <b>
+                      {format(new Date(values.open), "dd/MM/yyyy HH:mm:ss")}
+                    </b>{" "}
+                    to{" "}
+                    <b>
+                      {format(
+                        new Date(values.open).getTime() +
+                          values.open_window_duration * 60 * 1000,
+                        "dd/MM/yyyy HH:mm:ss"
+                      )}
+                    </b>
                   </StyledText>
-                )}
+                ) : null}
 
                 <StyledFormLabelWithHelperText>
                   For First Come First Serve, the lottery duration defines
@@ -252,16 +279,12 @@ const CreateTicketReleaseForm: React.FC = () => {
                       onChange={(_, newValue) => {
                         form.setFieldValue(field.name, newValue as string);
                       }}
-                      style={{
-                        width: "200px",
-                        borderColor: PALLETTE.cerise,
-                        backgroundColor: PALLETTE.offWhite,
-                      }}
+                      style={DefaultInputStyle}
                     >
-                      <Option key={1} value={"email"}>
+                      <Option key={1} value={"EMAIL"}>
                         Email
                       </Option>
-                      <Option key={2} value={"sms"}>
+                      <Option key={2} value={"SMS"}>
                         SMS
                       </Option>
                     </Select>
@@ -271,6 +294,34 @@ const CreateTicketReleaseForm: React.FC = () => {
               <StyledErrorMessage name="notification_method" />
               <StyledFormLabelWithHelperText>
                 How would you like to notify users?
+              </StyledFormLabelWithHelperText>
+            </FormControl>
+
+            <FormControl>
+              <StyledFormLabel>Cancelation Policy*</StyledFormLabel>
+              <Field name="cancellation_policy">
+                {({ field, form }: any) => {
+                  return (
+                    <Select
+                      {...field}
+                      onChange={(_, newValue) => {
+                        form.setFieldValue(field.name, newValue as string);
+                      }}
+                      style={DefaultInputStyle}
+                    >
+                      <Option key={1} value={"NO_REFUND"}>
+                        No refund
+                      </Option>
+                      <Option key={2} value={"FULL_REFUND"}>
+                        Full refund
+                      </Option>
+                    </Select>
+                  );
+                }}
+              </Field>
+              <StyledErrorMessage name="cancellation_policy" />
+              <StyledFormLabelWithHelperText>
+                What is your cancelation policy?
               </StyledFormLabelWithHelperText>
             </FormControl>
 

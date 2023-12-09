@@ -4,7 +4,7 @@ import StyledText from "../../text/styled_text";
 import StyledButton from "../../buttons/styled_button";
 import PALLETTE from "../../../theme/pallette";
 import BorderBox from "../../wrappers/border_box";
-import CreateTicketReleaseForm from "../ticket_release_form";
+import CreateTicketReleaseForm from "./ticket_release_form";
 import { useState } from "react";
 import { ITicketReleaseForm } from "../../../types";
 import Title from "../../text/title";

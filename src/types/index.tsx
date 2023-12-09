@@ -101,6 +101,15 @@ export interface IEventForm {
   is_private: boolean;
 }
 
+export interface IEventPostReq {
+  name: string;
+  description: string;
+  date: number;
+  location: string;
+  organization_id: number;
+  is_private: boolean;
+}
+
 export const EventFormInitialValues: IEventForm = {
   name: "",
   description: "",
@@ -128,6 +137,18 @@ export interface ITicketReleaseForm {
   cancellation_policy: string;
 }
 
+export interface ITicketReleasePostReq {
+  name: string;
+  description: string;
+  open: number;
+  close: number;
+  open_window_duration?: number;
+  max_tickets_per_user: number;
+  notification_method: string;
+  cancellation_policy: string;
+  ticket_release_method_id: number;
+}
+
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   name: "",
   description: "",
@@ -140,14 +161,36 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   cancellation_policy: "no_refund",
 };
 
+export interface ITicketTypeForm {
+  name: string;
+  description: string;
+  price: number;
+  quantity_total: number;
+  is_reserved: boolean;
+}
+
+export interface ITicketTypePostReq {
+  name: string;
+  description: string;
+  price: number;
+  quantity_total: number;
+  is_reserved: boolean;
+}
+
+export const TicketTypeFormInitialValues: ITicketTypeForm = {
+  name: "Default",
+  description: "",
+  price: 0,
+  quantity_total: 0,
+  is_reserved: false,
+};
+
 export interface ITicketReleaseMethodDetail {
   id: number;
   name: string;
   maxTicketsPerUser: number;
   cancellationPolicy: string;
-
   openWindowDays: number | null;
-
   ticketReleaseMethod?: ITicketReleaseMethod;
 }
 
@@ -168,6 +211,7 @@ export interface ITicketRelease {
   description: string;
   open: number;
   close: number;
+  ticketReleaseMethodDetailId?: number;
   ticketTypes?: ITicketType[];
   ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
 }
@@ -181,6 +225,12 @@ export interface ITicketReleaseAdmin extends ITicketRelease {
 export interface TicketRequestPostReq {
   ticket_type_id: number;
   ticket_release_id: number;
+}
+
+export interface CompleteEventWorkflowPostReq {
+  event: IEventPostReq;
+  ticket_release: ITicketReleasePostReq;
+  ticket_types: ITicketTypePostReq[];
 }
 
 export interface IFoodPreference {

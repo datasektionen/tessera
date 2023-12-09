@@ -20,6 +20,7 @@ import {
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import StyledButton from "../buttons/styled_button";
 import {
+  DefaultInputStyle,
   FormCheckbox,
   FormGooglePlacesAutocomplete,
   FormInput,
@@ -146,11 +147,7 @@ const CreateEventForm: React.FC = () => {
                       onChange={(_, newValue) => {
                         form.setFieldValue(field.name, newValue as number);
                       }}
-                      style={{
-                        width: "200px",
-                        borderColor: PALLETTE.cerise,
-                        backgroundColor: PALLETTE.offWhite,
-                      }}
+                      style={DefaultInputStyle}
                     >
                       {organizations?.map((org) => {
                         return (

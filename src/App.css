@@ -40,3 +40,40 @@ html {
     transform: rotate(360deg);
   }
 }
+
+
+.icon-container {
+  display: inline-block;
+  position: relative;
+}
+
+.icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
+
+/* Rotate animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Applying the animation */
+.valid {
+  animation: rotate 1s ease-in-out forwards;
+}
+
+.invalid {
+  animation: rotate -1s ease-in-out forwards;
+}

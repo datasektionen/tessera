@@ -27,8 +27,6 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
 
     const eventData = response.data.event;
 
-    console.log(eventData);
-
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
       id: eventData.ID!,

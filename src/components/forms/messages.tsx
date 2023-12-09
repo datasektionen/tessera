@@ -14,7 +14,7 @@ export const StyledErrorMessage: React.FC<StyledErrorMessageProps> = ({
       name={name}
       render={(msg) => {
         return (
-          <StyledText color={PALLETTE.red} fontSize={12} level="body-sm">
+          <StyledText color={PALLETTE.red} fontSize={18} level="body-sm">
             {msg}
           </StyledText>
         );

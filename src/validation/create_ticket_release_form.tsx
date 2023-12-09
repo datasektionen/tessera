@@ -17,8 +17,12 @@ const validateOpenAndClose = (
     return false;
   }
 
+  if (!open || !close || !open_window_duration) {
+    return false;
+  }
+
   const openTimestamp = open.getTime();
-  const windowTimestamp = openTimestamp + open_window_duration * 1000;
+  const windowTimestamp = openTimestamp + open_window_duration * 60 * 1000;
 
   if (windowTimestamp > close.getTime()) {
     return false;
@@ -39,7 +43,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
       .max(500, "Too long"),
     open: Yup.date()
       .required("Open is required")
-      .test("is-future", "Open must be in the future", checkDateInFuture),
+      .test("is-future", "Needs to be in the future", checkDateInFuture),
     close: Yup.date()
       .required("Close is required")
       .min(Yup.ref("open"), "Close must be after open")
@@ -72,9 +76,9 @@ const CreateTicketReleaseFormSchema = Yup.object()
 
       if (!isValid) {
         return new Yup.ValidationError(
-          "This duration is not valid with the current open and close times",
+          "This duration is not valid with the current open and close times, try changing the duration or the open and close times",
           null,
-          "open"
+          "open_window_duration"
         );
       }
 

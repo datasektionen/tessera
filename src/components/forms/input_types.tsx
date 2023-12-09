@@ -10,13 +10,22 @@ interface FormInputProps {
   label: string;
   placeholder: string;
   type?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export const DefaultInputStyle = {
+  width: "200px",
+  borderColor: PALLETTE.charcoal_see_through,
+  backgroundColor: PALLETTE.offWhite,
+  borderWidth: "2px",
+};
 
 export const FormInput: React.FC<FormInputProps> = ({
   name,
   label,
   placeholder,
   type,
+  onChange = undefined,
 }) => (
   <Field name={name}>
     {({ field }: any) => (
@@ -24,23 +33,21 @@ export const FormInput: React.FC<FormInputProps> = ({
         {...field}
         label={label}
         required
+        onChange={onChange ? onChange : field.onChange}
         placeholder={placeholder}
         type={type}
-        style={{
-          width: "200px",
-          borderColor: PALLETTE.cerise,
-          backgroundColor: PALLETTE.offWhite,
-        }}
+        style={DefaultInputStyle}
       />
     )}
   </Field>
 );
 
-interface FormTextareaProps {
+export interface FormTextareaProps {
   name: string;
   label: string;
   placeholder: string;
   minRows?: number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormTextarea: React.FC<FormTextareaProps> = ({
@@ -48,19 +55,20 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   label,
   placeholder,
   minRows = 2,
+  onChange = undefined,
 }) => (
   <Field name={name}>
     {({ field }: any) => (
       <Textarea
         {...field}
         minRows={minRows}
+        onChange={onChange ? onChange : field.onChange}
         label={label}
         required
         placeholder={placeholder}
         style={{
-          width: "400px",
-          borderColor: PALLETTE.cerise,
-          backgroundColor: PALLETTE.offWhite,
+          ...DefaultInputStyle,
+          width: "300px",
         }}
       />
     )}
@@ -70,16 +78,22 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
 interface FormCheckboxProps {
   name: string;
   label: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const FormCheckbox: React.FC<FormCheckboxProps> = ({ name, label }) => (
+export const FormCheckbox: React.FC<FormCheckboxProps> = ({
+  name,
+  label,
+  onChange = undefined,
+}) => (
   <Field name={name} type="checkbox" label={label}>
     {({ field }: any) => (
       <Checkbox
         {...field}
+        onChange={onChange ? onChange : field.onChange}
         style={{
-          borderColor: PALLETTE.cerise,
-          backgroundColor: PALLETTE.offWhite,
+          ...DefaultInputStyle,
+          width: "20px",
         }}
       />
     )}
@@ -111,9 +125,8 @@ export const FormGooglePlacesAutocomplete: React.FC<
               styles: {
                 control: (provided, state) => ({
                   ...provided,
+                  ...DefaultInputStyle,
                   width: "300px",
-                  borderColor: PALLETTE.cerise,
-                  backgroundColor: PALLETTE.offWhite,
                 }),
               },
               placeholder: "Location",

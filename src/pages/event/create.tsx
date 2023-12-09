@@ -9,25 +9,36 @@ import CreateEventForm from "../../components/events/create_event_form";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { resetCurrentStep } from "../../redux/features/eventCreationSlice";
-import CreateTicketReleaseForm from "../../components/events/ticket_release_form";
+import {
+  createEventFullWorkflowRequest,
+  resetCurrentStep,
+  resetSuccess,
+} from "../../redux/features/eventCreationSlice";
+import CreateTicketReleaseForm from "../../components/events/ticket_release/ticket_release_form";
 import StyledButton from "../../components/buttons/styled_button";
 import CreateTicketReleases from "../../components/events/ticket_release/create_ticket_releases";
+import CreateTicketTypes from "../../components/events/ticket_types/create_ticket_types";
+import CreateEventLastStep from "../../components/events/create_event_last_step";
+import { useNavigate } from "react-router-dom";
 
 const CreateEventPage = () => {
-  const { currentStep } = useSelector(
+  const { currentStep, form, success } = useSelector(
     (state: RootState) => state.eventCreation
   );
-
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   // Only run when the component mounts
   useEffect(() => {
-    return () => {
-      // Clear the form when the component unmounts
+    if (success) {
       dispatch(resetCurrentStep());
-    };
-  }, []);
+      navigate(`/events`);
+    }
+    dispatch(resetSuccess());
+  }, [dispatch, success]);
 
-  const dispatch: AppDispatch = useDispatch();
+  const submitEventFullWorkflow = () => {
+    dispatch(createEventFullWorkflowRequest(form));
+  };
 
   return (
     <TesseraWrapper>
@@ -73,6 +84,10 @@ const CreateEventPage = () => {
           </StandardGrid>
         )}
         {currentStep === 2 && <CreateTicketReleases />}
+        {currentStep === 3 && <CreateTicketTypes />}
+        {currentStep === 4 && (
+          <CreateEventLastStep submit={submitEventFullWorkflow} />
+        )}
       </Box>
     </TesseraWrapper>
   );
