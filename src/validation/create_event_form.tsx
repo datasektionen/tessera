@@ -13,13 +13,13 @@ const CreateEventFormSchema = Yup.object().shape({
     .max(50, "Too long"),
   description: Yup.string()
     .required("Description is required")
-    .min(10, "Too short")
+    .min(5, "Too short")
     .max(500, "Too long"),
   date: Yup.string()
     .required("Date is required")
     .test("is-future", "Date must be in the future", checkDateInFuture),
   location: Yup.string().required("Location is required"),
-  organization_id: Yup.number().required("Organization is required"),
+  organization_id: Yup.number().required("Team is required"),
   is_private: Yup.boolean(),
 });
 

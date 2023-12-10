@@ -48,6 +48,9 @@ const ticketTypeCreationSlice = createSlice({
       // Reset the ticket type to its initial values
       state.ticketTypes[action.payload] = initialTicketType;
     },
+    resetTicketTypes: (state) => {
+      state.ticketTypes = [initialTicketType];
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
@@ -66,6 +69,7 @@ export const {
   removeTicketType,
   updateTicketType,
   clearTicketType,
+  resetTicketTypes,
 } = ticketTypeCreationSlice.actions;
 
 export default ticketTypeCreationSlice.reducer;

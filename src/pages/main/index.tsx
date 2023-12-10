@@ -79,14 +79,13 @@ const MainPage: React.FC = () => {
           <Grid>
             <MainPageButton
               onClick={() => {
-                navigate("/profil");
+                navigate("/profile");
               }}
             >
               Profile
             </MainPageButton>
           </Grid>
         </Grid>
-
       </Box>
     </>
   );

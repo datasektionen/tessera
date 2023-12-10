@@ -20,6 +20,10 @@ import CreateTicketReleases from "../../components/events/ticket_release/create_
 import CreateTicketTypes from "../../components/events/ticket_types/create_ticket_types";
 import CreateEventLastStep from "../../components/events/create_event_last_step";
 import { useNavigate } from "react-router-dom";
+import {
+  clearTicketType,
+  resetTicketTypes,
+} from "../../redux/features/ticketTypeCreationSlice";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
@@ -31,6 +35,7 @@ const CreateEventPage = () => {
   useEffect(() => {
     if (success) {
       dispatch(resetCurrentStep());
+      dispatch(resetTicketTypes());
       navigate(`/events`);
     }
     dispatch(resetSuccess());

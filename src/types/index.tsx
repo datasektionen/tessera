@@ -135,6 +135,8 @@ export interface ITicketReleaseForm {
   max_tickets_per_user: number;
   notification_method: string;
   cancellation_policy: string;
+  is_reserved: boolean;
+  promo_code?: string;
 }
 
 export interface ITicketReleasePostReq {
@@ -147,6 +149,8 @@ export interface ITicketReleasePostReq {
   notification_method: string;
   cancellation_policy: string;
   ticket_release_method_id: number;
+  is_reserved: boolean;
+  promo_code?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
@@ -159,6 +163,8 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   max_tickets_per_user: 0,
   notification_method: "email",
   cancellation_policy: "no_refund",
+  is_reserved: false,
+  promo_code: "",
 };
 
 export interface ITicketTypeForm {
@@ -166,7 +172,6 @@ export interface ITicketTypeForm {
   description: string;
   price: number;
   quantity_total: number;
-  is_reserved: boolean;
 }
 
 export interface ITicketTypePostReq {
@@ -174,7 +179,6 @@ export interface ITicketTypePostReq {
   description: string;
   price: number;
   quantity_total: number;
-  is_reserved: boolean;
 }
 
 export const TicketTypeFormInitialValues: ITicketTypeForm = {
@@ -182,7 +186,6 @@ export const TicketTypeFormInitialValues: ITicketTypeForm = {
   description: "",
   price: 0,
   quantity_total: 0,
-  is_reserved: false,
 };
 
 export interface ITicketReleaseMethodDetail {
@@ -214,6 +217,8 @@ export interface ITicketRelease {
   ticketReleaseMethodDetailId?: number;
   ticketTypes?: ITicketType[];
   ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
+  is_reserved?: boolean;
+  promo_code?: string;
 }
 
 export interface ITicketReleaseAdmin extends ITicketRelease {

@@ -39,7 +39,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                 <UserInfoText label="Your tickets" value="" />
               </Link>
               <Link href="/profile/organizations">
-                <UserInfoText label="Your organizations" value="" />
+                <UserInfoText label="Your teams" value="" />
               </Link>
             </Stack>
           </Box>

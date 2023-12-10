@@ -91,9 +91,9 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
         </Stack>
         <FormHelperText>
           <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
-            Enter the username of the user you want to add to this organization.
-            You can change their role later. <br /> Hint: Username is the same
-            as kth-id.
+            Enter the username of the user you want to add to this team. You can
+            change their role later. <br /> Hint: Username is the same as
+            kth-id.
           </StyledText>
         </FormHelperText>
       </FormControl>

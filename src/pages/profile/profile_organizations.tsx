@@ -32,10 +32,10 @@ const ProfileOrgnizationsPage = () => {
       {loading && <LoadingOverlay />}
       <StandardGrid>
         <Grid xs={8}>
-          <Title>Your Organizations</Title>
+          <Title>Your Teams</Title>
           <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
-            Here you can see all the organizations you are a part of. Click on a
-            organization to see more details. You can create a new organization{" "}
+            Here you can see all the teams you are a part of. Click on a team to
+            see more details. You can create a new team{" "}
             <Link to={ROUTES.CREATE_ORGANIZATION}>here</Link>.
           </StyledText>
 
@@ -43,7 +43,7 @@ const ProfileOrgnizationsPage = () => {
 
           {organizations?.length === 0 ? (
             <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
-              You are not a part of any organizations. You can create one{" "}
+              You are not a part of any team. You can create one{" "}
               <Link to={ROUTES.CREATE_ORGANIZATION}>here</Link>.
             </StyledText>
           ) : (

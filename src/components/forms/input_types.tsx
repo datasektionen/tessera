@@ -68,7 +68,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
         placeholder={placeholder}
         style={{
           ...DefaultInputStyle,
-          width: "300px",
+          width: "350px",
         }}
       />
     )}
@@ -110,8 +110,6 @@ export const FormGooglePlacesAutocomplete: React.FC<
   return (
     <Field name={name}>
       {({ field, form }: any) => {
-        console.log(field.value); // Logging to see the value structure
-
         return (
           <GooglePlacesAutocomplete
             apiKey={process.env.REACT_APP_GOOGLE_MAPS_API}
@@ -119,7 +117,6 @@ export const FormGooglePlacesAutocomplete: React.FC<
               //@ts-ignore
               value: field.value ? { label: field.value } : undefined, // Adjusted to match type
               onChange: (option: PlaceOption | null) => {
-                console.log(option); // Logging to see the option structure
                 form.setFieldValue(name, option ? option.label : "");
               },
               styles: {

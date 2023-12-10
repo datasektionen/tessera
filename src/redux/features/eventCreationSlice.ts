@@ -68,16 +68,21 @@ const eventCreationSlice = createSlice({
     resetCurrentStep: (state) => {
       state.currentStep = 1;
       state.loading = false;
+      window.scrollTo(0, 0);
     },
     resetSuccess: (state) => {
       state.success = false;
     },
     nextStep: (state) => {
       state.currentStep += 1;
+      window.scrollTo(0, 0);
     },
     // Reducer to move to the previous step
     previousStep: (state) => {
-      if (state.currentStep > 1) state.currentStep -= 1;
+      if (state.currentStep > 1) {
+        state.currentStep -= 1;
+        window.scrollTo(0, 0);
+      }
     },
     createEventFullWorkflowRequest: (
       state,

@@ -63,6 +63,21 @@ const CreateTicketReleaseFormSchema = Yup.object()
     cancellation_policy: Yup.string().required(
       "Cancellation Policy is required"
     ),
+    is_reserved: Yup.boolean(),
+    promo_code: Yup.string().when("is_reserved", {
+      // @ts-ignore
+      is: true,
+      then: (schema: any) =>
+        schema
+          .required("Promo Code is required")
+          .matches(
+            /^[A-Z0-9]*$/,
+            "Promo Code must only consist of capital letters and numbers"
+          )
+          .min(5, "Promo Code must be at least 5 characters")
+          .max(20, "Promo Code must be at most 20 characters"),
+      otherwise: (schema: any) => schema.notRequired(),
+    }),
   })
   .test(
     "is-valid-open-and-close",

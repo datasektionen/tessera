@@ -19,6 +19,7 @@ import {
 import { StyledErrorMessage } from "../../forms/messages";
 import {
   DefaultInputStyle,
+  FormCheckbox,
   FormInput,
   FormTextarea,
 } from "../../forms/input_types";
@@ -204,7 +205,7 @@ const CreateTicketReleaseForm: React.FC = () => {
                   );
                 }}
               </Field>
-              <StyledErrorMessage name="organization_id" />
+              <StyledErrorMessage name="ticket_release_method_id" />
               <StyledFormLabelWithHelperText>
                 What method are you using to release tickets?
               </StyledFormLabelWithHelperText>
@@ -241,7 +242,7 @@ const CreateTicketReleaseForm: React.FC = () => {
 
                 <StyledFormLabelWithHelperText>
                   For First Come First Serve, the lottery duration defines
-                  within how many seconds, requested tickets will be entered
+                  within how many minutes, requested tickets will be entered
                   into a lottery. If more tickets are requested than available,
                   all participants that request tickets within this timeframe
                   will be entered into a lottery, the rest will be reserves.
@@ -324,6 +325,36 @@ const CreateTicketReleaseForm: React.FC = () => {
                 What is your cancelation policy?
               </StyledFormLabelWithHelperText>
             </FormControl>
+
+            <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
+
+            <FormControl>
+              <StyledFormLabel>Reserved Ticket Release</StyledFormLabel>
+              <FormCheckbox name="is_reserved" label="Is Reserved" />
+              <StyledErrorMessage name="is_reserved" />
+
+              <StyledFormLabelWithHelperText>
+                A reserved ticket release contains tickets that are reserved for
+                specific users. A promo code is required to access this ticket.
+                Remember that you can add more ticket releases later.
+              </StyledFormLabelWithHelperText>
+            </FormControl>
+
+            {values && values.is_reserved && (
+              <FormControl>
+                <StyledFormLabel>Promo Code*</StyledFormLabel>
+                <FormInput
+                  name="promo_code"
+                  label="Promo Code"
+                  placeholder="PARTY2023"
+                />
+                <StyledErrorMessage name="promo_code" />
+
+                <StyledFormLabelWithHelperText>
+                  What is the promo code for this ticket release?
+                </StyledFormLabelWithHelperText>
+              </FormControl>
+            )}
 
             <Stack direction="row" spacing={2}>
               <StyledButton

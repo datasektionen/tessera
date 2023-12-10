@@ -182,26 +182,6 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
 
                 <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 
-                <FormControl>
-                  <StyledFormLabel>Reserved Ticket*</StyledFormLabel>
-                  <FormCheckbox
-                    name="is_reserved"
-                    label="Quantity"
-                    // ...other props
-                    onChange={(e: any) => {
-                      handleChange(e);
-
-                      // Optionally dispatch on change instead of on submit
-                      handleFieldChange("is_reserved", e.target.checked, index);
-                    }}
-                  />
-                  <StyledErrorMessage name="is_reserved" />
-
-                  <StyledFormLabelWithHelperText>
-                    Is this ticket reserved?
-                  </StyledFormLabelWithHelperText>
-                </FormControl>
-
                 <StyledButton
                   size="md"
                   color="primary"

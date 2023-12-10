@@ -57,19 +57,19 @@ const CreateOrganizationForm: React.FC = () => {
                 color: PALLETTE.charcoal,
               }}
             >
-              Organization Name
+              Team Name
             </Typography>
             <Input
               value={organizationName}
-              placeholder="Enter organization name"
+              placeholder="Lit Club"
               onChange={(e) => setOrganizationName(e.target.value)}
               style={{
                 color: PALLETTE.charcoal,
               }}
             />
             <FormHelperText>
-              This will be the name of your organization. You will automatically
-              be the owner of this organization.
+              This will be the name of your team. You will automatically be the
+              owner of this team.
             </FormHelperText>
           </FormLabel>
           <Button
@@ -82,7 +82,7 @@ const CreateOrganizationForm: React.FC = () => {
             }}
             onClick={handleCreateOrganization}
           >
-            Create Organization
+            Create Team
           </Button>
         </FormControl>
       </Box>

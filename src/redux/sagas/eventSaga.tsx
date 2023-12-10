@@ -26,6 +26,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
     );
 
     const eventData = response.data.event;
+    console.log(eventData);
 
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
@@ -46,6 +47,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           // Open and close are timestamps, convert to Date by multiplying by 1000
           open: new Date(ticketRelease.open! * 1000).getTime(),
           close: new Date(ticketRelease.close! * 1000).getTime(),
+          is_reserved: ticketRelease.is_reserved!,
+          promo_code: ticketRelease.promo_code!,
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           ticketTypes: ticketRelease.ticket_types!.map((ticketType: any) => {

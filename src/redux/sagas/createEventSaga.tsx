@@ -16,6 +16,7 @@ import {
   createEventFullWorkflowFailure,
   createEventFullWorkflowRequest,
   createEventFullWorkflowSuccess,
+  resetCurrentStep,
 } from "../features/eventCreationSlice";
 import { postCreateEvent } from "./helpers/createEvent";
 
@@ -29,6 +30,17 @@ function* createEventFullWorkflowSaga(
   try {
     // Start by creating the event.
     const { event, ticketRelease, ticketTypes } = action.payload;
+
+    if (new Date(event.date) < new Date(ticketRelease.close)) {
+      setTimeout(() => {
+        toast.error(
+          "Event date must take place after the ticket release closes."
+        );
+      }, 500);
+      yield put(resetCurrentStep());
+      return;
+    }
+
     const data: CompleteEventWorkflowPostReq = {
       event: {
         name: event.name,
@@ -48,6 +60,8 @@ function* createEventFullWorkflowSaga(
         notification_method: ticketRelease.notification_method.toUpperCase(),
         cancellation_policy: ticketRelease.cancellation_policy.toUpperCase(),
         ticket_release_method_id: ticketRelease.ticket_release_method_id,
+        is_reserved: ticketRelease.is_reserved,
+        promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
       },
       ticket_types: ticketTypes.map((ticketType: ITicketTypeForm) => {
         return {
@@ -55,7 +69,6 @@ function* createEventFullWorkflowSaga(
           description: ticketType.description,
           price: ticketType.price,
           quantity_total: ticketType.quantity_total,
-          is_reserved: ticketType.is_reserved,
         };
       }),
     };

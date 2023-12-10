@@ -6,6 +6,7 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  Link,
   Option,
   Select,
   Stack,
@@ -81,7 +82,6 @@ const CreateEventForm: React.FC = () => {
       }}
     >
       {({ values, isValid }) => {
-        console.log("valid", !isValid);
         return (
           <Form>
             <FormControl>
@@ -138,7 +138,7 @@ const CreateEventForm: React.FC = () => {
 
             <Divider />
             <FormControl>
-              <StyledFormLabel>Organization*</StyledFormLabel>
+              <StyledFormLabel>Team*</StyledFormLabel>
               <Field name="organization_id">
                 {({ field, form }: any) => {
                   return (
@@ -162,7 +162,9 @@ const CreateEventForm: React.FC = () => {
               </Field>
               <StyledErrorMessage name="organization_id" />
               <StyledFormLabelWithHelperText>
-                Which organization is hosting your event?
+                Which team is hosting your event? You need to tie the event to a
+                team. If your not a part of a team, you can create one{" "}
+                <Link href="/organizations/create">here</Link>.
               </StyledFormLabelWithHelperText>
             </FormControl>
 
