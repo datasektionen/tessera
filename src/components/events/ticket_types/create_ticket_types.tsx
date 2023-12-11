@@ -222,7 +222,6 @@ const CreateTicketTypes: React.FC = () => {
             for the previous ticket release.
           </StyledText>
           <CreateTicketTypeForm
-            nextDisabled={someFormsAreInvalid}
             ticketTypes={ticketTypes}
             selectedTicketType={selectedTicketType}
             validateAllForms={validateAllForms}

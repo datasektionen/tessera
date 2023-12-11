@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { Box, Grid, Link, Typography } from "@mui/joy";
 import Title from "../../components/text/title";
 import FoodPreferences from "../../components/food_preferences";
 import UserInfo from "../../components/user/user_info";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 import LoadingOverlay from "../../components/Loading";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
 import { ROUTES } from "../../routes/def";
+import { getMyTicketRequestsRequest } from "../../redux/features/myTicketRequestsSlice";
+import { ITicketRequest } from "../../types";
+import TicketRequestsList from "../../components/ticket_requests/list_ticket_requests";
 
 const ProfileTicketRequestsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
+  const { ticketRequests } = useSelector(
+    (state: RootState) => state.myTicketRequests
+  ) as { ticketRequests: ITicketRequest[] };
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMyTicketRequestsRequest());
+  }, [dispatch]);
 
   return (
     <TesseraWrapper>
@@ -39,6 +50,9 @@ const ProfileTicketRequestsPage: React.FC = () => {
               <Link href={ROUTES.PROFILE_TICKETS}>here</Link>.
             </StyledText>
           </Box>
+          <Grid xs={8}>
+            <TicketRequestsList ticketRequests={ticketRequests} />
+          </Grid>
         </Grid>
         <Grid xs={8}></Grid>
       </Grid>

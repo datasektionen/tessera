@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
+  EventFormInitialTestValues,
   EventFormInitialValues,
   IEvent,
   IEventForm,
@@ -26,10 +27,12 @@ interface EventCreationState {
   success: boolean;
 }
 
+const initEventValues = EventFormInitialValues;
+
 const initialState: EventCreationState = {
   loading: false,
   form: {
-    event: EventFormInitialValues,
+    event: initEventValues,
     ticketRelease: TicketReleaseFormInitialValues,
     ticketTypes: [],
   },
@@ -46,7 +49,7 @@ const eventCreationSlice = createSlice({
       state.currentStep += 1;
     },
     clearEventForm: (state) => {
-      state.form.event = EventFormInitialValues;
+      state.form.event = initEventValues;
     },
     setTicketReleaseForm: (
       state,
@@ -87,7 +90,7 @@ const eventCreationSlice = createSlice({
     resetCompletely: (state) => {
       state.loading = false;
       state.form = {
-        event: EventFormInitialValues,
+        event: initEventValues,
         ticketRelease: TicketReleaseFormInitialValues,
         ticketTypes: [TicketTypeFormInitialValues],
       };

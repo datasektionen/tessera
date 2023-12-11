@@ -116,7 +116,22 @@ export const EventFormInitialValues: IEventForm = {
   description: "",
   date: "",
   location: null,
-  organization_id: 0,
+  organization_id: 1,
+  is_private: false,
+};
+
+export const EventFormInitialTestValues: IEventForm = {
+  name: "Test Event",
+  description: "Test Event Description",
+  date: formatDateToDateTimeLocal(new Date()),
+  location: {
+    label: "Test Location",
+    value: {
+      lat: 59.347,
+      lng: 18.073,
+    },
+  },
+  organization_id: 1,
   is_private: false,
 };
 
@@ -162,8 +177,8 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   ticket_release_method_id: 0,
   open_window_duration: 0,
   max_tickets_per_user: 0,
-  notification_method: "email",
-  cancellation_policy: "no_refund",
+  notification_method: "EMAIL",
+  cancellation_policy: "FULL_REFUND",
   is_reserved: false,
   promo_code: "",
 };
@@ -215,6 +230,7 @@ export interface ITicketRelease {
   description: string;
   open: number;
   close: number;
+  has_allocated_tickets?: boolean;
   ticketReleaseMethodDetailId?: number;
   ticketTypes?: ITicketType[];
   ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
@@ -233,6 +249,19 @@ export interface ITicketReleaseAdmin extends ITicketRelease {
   id: number;
   ticketReleaseMethodDetailId: number;
   hasAllocatedTickets: boolean;
+}
+
+export interface ITicketRequest {
+  id: number;
+  created_at: number;
+  is_handled: boolean;
+  ticket_amount: number;
+
+  ticket_type_id: number;
+  ticket_type?: ITicketType;
+
+  ticket_release_id: number;
+  ticket_release?: ITicketRelease;
 }
 
 export interface TicketRequestPostReq {

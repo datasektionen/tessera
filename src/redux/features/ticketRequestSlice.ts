@@ -1,6 +1,6 @@
 // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ITicketType } from "../../types";
+import { ITicketRequest, ITicketType } from "../../types";
 import { act } from "react-dom/test-utils";
 import { TicketRequestData } from "../sagas/ticketRequestSaga";
 
@@ -13,6 +13,7 @@ export interface ShoppingCartItem {
 // Define the ShoppingCartState interface
 export interface ShoppingCartState {
   items: ShoppingCartItem[];
+  ticketRequests: ITicketRequest[];
   loading: boolean;
   error: string | null;
 }
@@ -20,6 +21,7 @@ export interface ShoppingCartState {
 // Define initial state for the shopping cart
 const initialState: ShoppingCartState = {
   items: [],
+  ticketRequests: [],
   loading: false,
   error: null,
 };

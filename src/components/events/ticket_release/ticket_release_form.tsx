@@ -84,6 +84,9 @@ const CreateTicketReleaseForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={CreateTicketReleaseFormSchema}
+      validateOnBlur={true}
+      validateOnChange={true}
+      validateOnMount={true}
       onSubmit={handleSubmission}
     >
       {({ values, isValid, errors }) => {
@@ -353,37 +356,40 @@ const CreateTicketReleaseForm: React.FC = () => {
               </FormControl>
             )}
 
-            <Stack direction="row" spacing={2}>
-              <StyledButton
-                color={PALLETTE.charcoal}
-                bgColor={PALLETTE.cerise}
-                textColor={PALLETTE.charcoal}
-                size="md"
-                disabled={!isValid}
-                type="submit"
-                style={{
-                  marginTop: "20px",
-                  width: "200px",
-                }}
-              >
-                Next
-              </StyledButton>
-              <StyledButton
-                color={PALLETTE.cerise}
-                textColor={PALLETTE.charcoal}
-                size="md"
-                onClick={() => {
-                  dispatch(clearTicketReleaseForm());
-                  window.location.reload();
-                }}
-                style={{
-                  marginTop: "20px",
-                  width: "100px",
-                }}
-              >
-                Clear
-              </StyledButton>
-            </Stack>
+            <Grid container justifyContent="flex-end" spacing={2}>
+              <Grid>
+                <StyledButton
+                  bgColor={PALLETTE.cerise}
+                  textColor={PALLETTE.cerise}
+                  size="md"
+                  disabled={!isValid}
+                  type="submit"
+                  style={{
+                    marginTop: "20px",
+                    width: "200px",
+                  }}
+                >
+                  Next
+                </StyledButton>
+              </Grid>
+              <Grid>
+                <StyledButton
+                  color={PALLETTE.cerise}
+                  textColor={PALLETTE.charcoal}
+                  size="md"
+                  onClick={() => {
+                    dispatch(clearTicketReleaseForm());
+                    window.location.reload();
+                  }}
+                  style={{
+                    marginTop: "20px",
+                    width: "100px",
+                  }}
+                >
+                  Clear
+                </StyledButton>
+              </Grid>
+            </Grid>
           </Form>
         );
       }}

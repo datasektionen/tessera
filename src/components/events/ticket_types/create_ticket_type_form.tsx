@@ -1,4 +1,4 @@
-import { Box, Divider, FormControl, Stack } from "@mui/joy";
+import { Box, Divider, FormControl, Grid, Stack } from "@mui/joy";
 import { Formik, Form, Field } from "formik";
 
 import {
@@ -24,14 +24,12 @@ interface CreateTicketTypeFormProps {
   ticketTypes: ITicketTypeForm[];
   selectedTicketType: number;
   validateAllForms: () => void;
-  nextDisabled: boolean;
 }
 
 const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
   ticketTypes,
   selectedTicketType,
   validateAllForms,
-  nextDisabled,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const handleSubmission = (values: ITicketTypeForm) => {
@@ -65,6 +63,9 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
             key={index}
             initialValues={ticketType}
             validationSchema={CreateTicketTypeFormSchema}
+            validateOnBlur={true}
+            validateOnChange={true}
+            validateOnMount={true}
             onSubmit={(values) => {
               // Dispatch an action to update the Redux state1
               dispatch(updateTicketType({ index, values }));
@@ -184,25 +185,24 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
 
                 <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 
-                <Stack spacing={2} direction="row">
-                  <StyledButton
-                    size="md"
-                    color={PALLETTE.charcoal}
-                    bgColor={PALLETTE.cerise}
-                    disabled={nextDisabled}
-                  >
-                    Next
-                  </StyledButton>
-                  <StyledButton
-                    size="md"
-                    color="primary"
-                    onClick={() => {
-                      dispatch(clearTicketType(index));
-                    }}
-                  >
-                    Clear
-                  </StyledButton>
-                </Stack>
+                <Grid
+                  container
+                  spacing={2}
+                  flexDirection="row"
+                  justifyContent="flex-end"
+                >
+                  <Grid>
+                    <StyledButton
+                      size="md"
+                      color="primary"
+                      onClick={() => {
+                        dispatch(clearTicketType(index));
+                      }}
+                    >
+                      Clear
+                    </StyledButton>
+                  </Grid>
+                </Grid>
               </Form>
             )}
           </Formik>

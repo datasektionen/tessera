@@ -5,6 +5,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Grid,
   Input,
   Link,
   Option,
@@ -71,6 +72,8 @@ const CreateEventForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={CreateEventFormSchema}
+      validateOnBlur={true}
+      validateOnChange={true}
       onSubmit={(values: IEventForm) => {
         // Convert date to Unix timestamp
         handleSubmission(values);
@@ -174,37 +177,43 @@ const CreateEventForm: React.FC = () => {
                 Is your event private?
               </StyledFormLabelWithHelperText>
             </FormControl>
-            <Stack direction="row" spacing={2}>
-              <StyledButton
-                color={PALLETTE.charcoal}
-                bgColor={PALLETTE.cerise}
-                textColor={PALLETTE.charcoal}
-                size="md"
-                disabled={!isValid}
-                type="submit"
-                style={{
-                  marginTop: "20px",
-                  width: "200px",
-                }}
-              >
-                Next
-              </StyledButton>
-              <StyledButton
-                color={PALLETTE.cerise}
-                textColor={PALLETTE.charcoal}
-                size="md"
-                onClick={() => {
-                  dispatch(clearEventForm());
-                  window.location.reload();
-                }}
-                style={{
-                  marginTop: "20px",
-                  width: "100px",
-                }}
-              >
-                Clear
-              </StyledButton>
-            </Stack>
+            <Grid
+              container
+              flexDirection="row"
+              justifyContent="flex-start"
+              spacing={2}
+              sx={{ mt: 2 }}
+            >
+              <Grid>
+                <StyledButton
+                  color={PALLETTE.charcoal}
+                  bgColor={PALLETTE.cerise}
+                  textColor={PALLETTE.charcoal}
+                  size="md"
+                  disabled={!isValid}
+                  type="submit"
+                  style={{
+                    width: "150px",
+                  }}
+                >
+                  Next
+                </StyledButton>
+              </Grid>
+              <Grid>
+                <StyledButton
+                  color={PALLETTE.cerise}
+                  textColor={PALLETTE.charcoal}
+                  size="md"
+                  onClick={() => {
+                    console.log("clear");
+                    dispatch(clearEventForm());
+                    // window.location.reload();
+                  }}
+                >
+                  Clear
+                </StyledButton>
+              </Grid>
+            </Grid>
           </Form>
         );
       }}
