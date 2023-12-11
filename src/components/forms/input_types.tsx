@@ -2,7 +2,6 @@ import { Checkbox, Input, Textarea } from "@mui/joy";
 import { Field } from "formik";
 import PALLETTE from "../../theme/pallette";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-import { PlaceOption } from "../events/create_event_form";
 import { formatDateToDateTimeLocal } from "../../utils/date_conversions";
 
 interface FormInputProps {
@@ -100,6 +99,11 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
   </Field>
 );
 
+export type PlaceOption = {
+  label: string;
+  value: Object;
+};
+
 interface FormGooglePlacesAutocompleteProps {
   name: string;
 }
@@ -115,9 +119,9 @@ export const FormGooglePlacesAutocomplete: React.FC<
             apiKey={process.env.REACT_APP_GOOGLE_MAPS_API}
             selectProps={{
               //@ts-ignore
-              value: field.value ? { label: field.value } : undefined, // Adjusted to match type
+              value: field.value, // Assuming field.value is a PlaceOption
               onChange: (option: PlaceOption | null) => {
-                form.setFieldValue(name, option ? option.label : "");
+                form.setFieldValue(name, option || undefined);
               },
               styles: {
                 control: (provided, state) => ({

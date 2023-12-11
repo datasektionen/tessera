@@ -23,7 +23,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
               <UserInfoText label="Role" value={user.role.name} />
 
               <UserInfoText
-                label="Organizations"
+                label="Teams"
                 value={user.organizations.map((org) => org.name).join(", ")}
               />
             </Stack>

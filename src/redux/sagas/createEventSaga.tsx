@@ -45,7 +45,7 @@ function* createEventFullWorkflowSaga(
       event: {
         name: event.name,
         description: event.description,
-        location: event.location,
+        location: event.location!.label,
         date: new Date(event.date).getTime() / 1000,
         is_private: event.is_private,
         organization_id: event.organization_id,

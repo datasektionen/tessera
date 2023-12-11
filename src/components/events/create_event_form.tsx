@@ -42,11 +42,6 @@ import {
   setEventForm,
 } from "../../redux/features/eventCreationSlice";
 
-export type PlaceOption = {
-  label: string;
-  value?: any; // Include other properties if needed
-};
-
 const CreateEventForm: React.FC = () => {
   const { organizations, loading } = useSelector(
     (state: RootState) => state.organization
@@ -81,7 +76,7 @@ const CreateEventForm: React.FC = () => {
         handleSubmission(values);
       }}
     >
-      {({ values, isValid }) => {
+      {({ values, isValid, errors }) => {
         return (
           <Form>
             <FormControl>

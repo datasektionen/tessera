@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/joy";
+import { Box, Grid, Stack } from "@mui/joy";
 import StandardGrid from "../../wrappers/standard_grid";
 import StyledText from "../../text/styled_text";
 import StyledButton from "../../buttons/styled_button";
@@ -11,6 +11,7 @@ import Title from "../../text/title";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { previousStep } from "../../../redux/features/eventCreationSlice";
+import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 
 const CreateTicketReleases: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -25,7 +26,7 @@ const CreateTicketReleases: React.FC = () => {
             create more ticket releases later, in the edit event page.
           </StyledText>
         </Box>
-        <Box mt={2}>
+        <Stack mt={2} spacing={2} direction="row">
           <StyledButton
             size="md"
             color="primary"
@@ -35,7 +36,8 @@ const CreateTicketReleases: React.FC = () => {
           >
             Back
           </StyledButton>
-        </Box>
+          <RestartEventCreationButton />
+        </Stack>
       </Grid>
       <Grid xs={8}>
         <BorderBox>

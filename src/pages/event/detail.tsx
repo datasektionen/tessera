@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { getEventsRequest } from "../../redux/features/listEventsSlice";
@@ -10,6 +10,7 @@ import {
   CardContent,
   Divider,
   Grid,
+  Input,
   Sheet,
   Stack,
   Typography,
@@ -24,6 +25,18 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import TicketRelease from "../../components/events/ticket_release";
 import StandardGrid from "../../components/wrappers/standard_grid";
+import {
+  DefaultInputStyle,
+  FormInput,
+} from "../../components/forms/input_types";
+import {
+  StyledFormLabel,
+  StyledFormLabelWithHelperText,
+} from "../../components/forms/form_labels";
+import StyledButton from "../../components/buttons/styled_button";
+import { Form, Formik } from "formik";
+import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
+import { StyledErrorMessage } from "../../components/forms/messages";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -43,6 +56,10 @@ const EventDetail: React.FC = () => {
     (state: RootState) => state.eventDetail
   ) as { loading: boolean; error: string | null; event: IEvent | null };
   const dispatch: AppDispatch = useDispatch();
+
+  const [promoCode, setPromoCode] = useState<string>("");
+
+  const submitPromoCode = () => {};
 
   useEffect(() => {
     if (!eventID) {
@@ -157,6 +174,44 @@ const EventDetail: React.FC = () => {
               </Stack>
             </div>
           </Item>
+          <Divider sx={{ mt: 2, mb: 2 }} />
+          <Box>
+            <Formik
+              initialValues={{
+                promo_code: "",
+              }}
+              onSubmit={(values, actions) => {
+                submitPromoCode();
+              }}
+              validationSchema={PromoCodeValidationSchema}
+            >
+              <Form>
+                <StyledFormLabel>Promo Code</StyledFormLabel>
+
+                <Stack spacing={2} sx={{ p: 0 }} direction="row">
+                  <FormInput
+                    label={"Promo Code"}
+                    name={"promo_code"}
+                    placeholder={"Enter Promo Code"}
+                    type={"text"}
+                  />
+
+                  <StyledButton
+                    type="submit"
+                    size="md"
+                    color={PALLETTE.charcoal}
+                  >
+                    Submit
+                  </StyledButton>
+                </Stack>
+                <StyledErrorMessage name="promo_code" />
+
+                <StyledFormLabelWithHelperText>
+                  Enter a promo code to get access to reserved tickets.
+                </StyledFormLabelWithHelperText>
+              </Form>
+            </Formik>
+          </Box>
         </Grid>
       </StandardGrid>
     </TesseraWrapper>

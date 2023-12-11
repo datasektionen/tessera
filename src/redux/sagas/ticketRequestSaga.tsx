@@ -47,7 +47,7 @@ function* createTicketRequestSaga(
       }
     );
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       yield put(postTicketRequestSuccess());
     } else {
       const errorMessage = response.data.error || "An error occurred";

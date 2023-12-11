@@ -84,6 +84,16 @@ const eventCreationSlice = createSlice({
         window.scrollTo(0, 0);
       }
     },
+    resetCompletely: (state) => {
+      state.loading = false;
+      state.form = {
+        event: EventFormInitialValues,
+        ticketRelease: TicketReleaseFormInitialValues,
+        ticketTypes: [TicketTypeFormInitialValues],
+      };
+      state.currentStep = 1;
+      state.success = false;
+    },
     createEventFullWorkflowRequest: (
       state,
       action: PayloadAction<FullEventCreationPayload>
@@ -120,6 +130,7 @@ export const {
   createEventFullWorkflowRequest,
   createEventFullWorkflowSuccess,
   createEventFullWorkflowFailure,
+  resetCompletely,
 } = eventCreationSlice.actions;
 
 export default eventCreationSlice.reducer;

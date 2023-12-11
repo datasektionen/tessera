@@ -11,6 +11,7 @@ import {
   previousStep,
 } from "../../redux/features/eventCreationSlice";
 import LoadingOverlay from "../Loading";
+import RestartEventCreationButton from "../buttons/restart_event_creation_button";
 
 interface CreateEventLastStepProps {
   submit: () => void;
@@ -54,6 +55,7 @@ const CreateEventLastStep: React.FC<CreateEventLastStepProps> = ({
             >
               Back
             </StyledButton>
+            <RestartEventCreationButton />
           </Stack>
         </Box>
       </Grid>

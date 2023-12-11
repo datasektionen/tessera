@@ -28,8 +28,10 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
       <NavigationBar />
       <Box
         sx={{ width: "100vw", minHeight: "100vh" }}
+        id="tessera-wrapper"
         style={{
           backgroundColor: PALLETTE.offWhite,
+          overflowX: "hidden",
         }}
       >
         {children}

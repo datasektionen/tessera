@@ -1,11 +1,11 @@
-import { Button, Typography } from "@mui/joy";
+import { Button, Typography, styled } from "@mui/joy";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 
 interface StyledButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  color: string;
+  color?: string;
   bgColor?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
@@ -27,24 +27,32 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   disabled = false,
   startDecorator,
 }) => {
+  const ButtonStyled = styled(Button)(({ theme, disabled }) => ({
+    transition: "all 0.2s ease-in-out",
+    backgroundColor: disabled ? PALLETTE.charcoal : bgColor,
+    borderColor: PALLETTE.cerise,
+    "&:hover": {
+      borderColor: PALLETTE.charcoal,
+      backgroundColor: !disabled && PALLETTE.cerise,
+      color: PALLETTE.charcoal + " !important",
+    },
+    ...style,
+    color: textColor ? textColor : PALLETTE.charcoal,
+  }));
+
   return (
-    <Button
+    <ButtonStyled
       variant={"outlined"}
       onClick={onClick}
       type={type}
       disabled={disabled}
       size={size}
       startDecorator={startDecorator}
-      style={{
-        backgroundColor: disabled ? PALLETTE.charcoal : bgColor,
-        borderColor: PALLETTE.cerise,
-        ...style,
-      }}
     >
-      <StyledText level="body-md" color={disabled ? PALLETTE.offWhite : color}>
+      <StyledText level="body-md" color={"inherit"}>
         {children}
       </StyledText>
-    </Button>
+    </ButtonStyled>
   );
 };
 

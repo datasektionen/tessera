@@ -35,12 +35,12 @@ const MainPage: React.FC = () => {
     <>
       <Navigation />
       <Box
-        sx={{ width: "100vw", height: "100vh" }}
+        sx={{ width: "100%", height: "100vh" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
         }}
       >
-        <Box sx={{ padding: "16px 32px" }}>
+        <Box sx={{ margin: "16px 32px" }}>
           <Title fontSize={32}>Welcome, {getUserFullName(currentUser!)}!</Title>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
             Tessera is a platform that makes ticket releases easy. Purchasing
@@ -57,7 +57,7 @@ const MainPage: React.FC = () => {
             <a href="mailto:lucdow7@gmail.com">lucdow7@gmail.com</a>.
           </StyledText>
         </Box>
-        <Grid container spacing={2} sx={{ padding: "16px 32px" }}>
+        <Grid container spacing={2} sx={{ margin: "16px 32px" }}>
           <Grid>
             <MainPageButton
               onClick={() => {

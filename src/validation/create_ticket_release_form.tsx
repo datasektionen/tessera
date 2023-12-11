@@ -31,6 +31,17 @@ const validateOpenAndClose = (
   return true;
 };
 
+export const PromoCodeValidationSchema = Yup.object().shape({
+  promo_code: Yup.string()
+    .required("Enter a promo code")
+    .matches(
+      /^[A-Z0-9]*$/,
+      "Promo Code must only consist of capital letters and numbers"
+    )
+    .min(5, "Promo Code must be at least 5 characters")
+    .max(20, "Promo Code must be at most 20 characters"),
+});
+
 const CreateTicketReleaseFormSchema = Yup.object()
   .shape({
     name: Yup.string()

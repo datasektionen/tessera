@@ -24,6 +24,7 @@ import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_f
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import StatusIcon from "../../icons/status_icon";
+import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -101,7 +102,7 @@ const CreateTicketTypes: React.FC = () => {
             You can also create more ticket types later, in the edit event page.
           </StyledText>
         </Box>
-        <Box mt={2}>
+        <Stack mt={2} spacing={2} direction="row">
           <StyledButton
             size="md"
             color="primary"
@@ -111,7 +112,8 @@ const CreateTicketTypes: React.FC = () => {
           >
             Back
           </StyledButton>
-        </Box>
+          <RestartEventCreationButton />
+        </Stack>
         <Box mt={2}>
           <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
             Ticket Types

@@ -1,3 +1,4 @@
+import { PlaceOption } from "../components/forms/input_types";
 import { formatDateToDateTimeLocal } from "../utils/date_conversions";
 
 enum NoticicationMethod {
@@ -96,7 +97,7 @@ export interface IEventForm {
   name: string;
   description: string;
   date: string;
-  location: string;
+  location: PlaceOption | null;
   organization_id: number;
   is_private: boolean;
 }
@@ -114,7 +115,7 @@ export const EventFormInitialValues: IEventForm = {
   name: "",
   description: "",
   date: "",
-  location: "",
+  location: null,
   organization_id: 0,
   is_private: false,
 };

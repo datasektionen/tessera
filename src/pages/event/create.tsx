@@ -24,6 +24,7 @@ import {
   clearTicketType,
   resetTicketTypes,
 } from "../../redux/features/ticketTypeCreationSlice";
+import RestartEventCreationButton from "../../components/buttons/restart_event_creation_button";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
@@ -34,12 +35,12 @@ const CreateEventPage = () => {
   // Only run when the component mounts
   useEffect(() => {
     if (success) {
-      dispatch(resetCurrentStep());
       dispatch(resetTicketTypes());
+      dispatch(resetCurrentStep());
       navigate(`/events`);
     }
     dispatch(resetSuccess());
-  }, [dispatch, success]);
+  }, [dispatch, navigate, success]);
 
   const submitEventFullWorkflow = () => {
     dispatch(createEventFullWorkflowRequest(form));
@@ -63,6 +64,9 @@ const CreateEventPage = () => {
                   make it as easy as possible. We will walk you through the
                   process step by step.
                 </StyledText>
+              </Box>
+              <Box mt={2}>
+                <RestartEventCreationButton />
               </Box>
             </Grid>
 
@@ -88,6 +92,7 @@ const CreateEventPage = () => {
             </Grid>
           </StandardGrid>
         )}
+
         {currentStep === 2 && <CreateTicketReleases />}
         {currentStep === 3 && <CreateTicketTypes />}
         {currentStep === 4 && (

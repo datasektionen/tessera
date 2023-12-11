@@ -299,7 +299,7 @@ const CreateTicketReleaseForm: React.FC = () => {
             </FormControl>
 
             <FormControl>
-              <StyledFormLabel>Cancelation Policy*</StyledFormLabel>
+              <StyledFormLabel>Cancellation Policy*</StyledFormLabel>
               <Field name="cancellation_policy">
                 {({ field, form }: any) => {
                   return (
@@ -322,7 +322,7 @@ const CreateTicketReleaseForm: React.FC = () => {
               </Field>
               <StyledErrorMessage name="cancellation_policy" />
               <StyledFormLabelWithHelperText>
-                What is your cancelation policy?
+                What is your cancellation policy?
               </StyledFormLabelWithHelperText>
             </FormControl>
 
