@@ -15,6 +15,9 @@ import ProfileOrgnizationsPage from "../pages/profile/profile_organizations";
 import Logout from "../components/user/logout";
 import EventsPage from "../pages/event";
 import CreateEventPage from "../pages/event/create";
+import EditEventPage from "../pages/event/edit";
+import ProfileTicketRequestsPage from "../pages/profile/profile_ticket_requests";
+import ProfileTicketsPage from "../pages/profile/profile_tickets";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -34,6 +37,15 @@ function AppRoutes() {
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
+          <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
+          <Route
+            path={ROUTES.PROFILE_TICKET_REQUESTS}
+            element={<ProfileTicketRequestsPage />}
+          />
+          <Route
+            path={ROUTES.PROFILE_TICKETS}
+            element={<ProfileTicketsPage />}
+          />
           <Route
             path={ROUTES.PROFILE_ORGANIZATIONS}
             element={<ProfileOrgnizationsPage />}

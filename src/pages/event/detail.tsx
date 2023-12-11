@@ -16,7 +16,11 @@ import {
   Typography,
   styled,
 } from "@mui/joy";
-import { IEvent } from "../../types";
+import {
+  IEvent,
+  PromoCodeAccessForm,
+  PromoCodeAccessFormInitialValues,
+} from "../../types";
 import LoadingOverlay from "../../components/Loading";
 import { useParams } from "react-router-dom";
 import { validateAndConvertEventID } from "../../utils/id_validation";
@@ -37,6 +41,7 @@ import StyledButton from "../../components/buttons/styled_button";
 import { Form, Formik } from "formik";
 import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
 import { StyledErrorMessage } from "../../components/forms/messages";
+import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessSlice";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -55,22 +60,38 @@ const EventDetail: React.FC = () => {
   const { loading, error, event } = useSelector(
     (state: RootState) => state.eventDetail
   ) as { loading: boolean; error: string | null; event: IEvent | null };
+
+  const { success: promoCodeSuccess, loading: promoCodeLoading } = useSelector(
+    (state: RootState) => state.promoCodeAccess
+  ) as { success: boolean | null; loading: boolean };
+
   const dispatch: AppDispatch = useDispatch();
 
-  const [promoCode, setPromoCode] = useState<string>("");
-
-  const submitPromoCode = () => {};
+  const submitPromoCode = (values: PromoCodeAccessForm) => {
+    dispatch(
+      getPromoCodeAccessRequest({
+        promo_code: values.promo_code,
+        eventId: event!.id,
+      })
+    );
+  };
 
   useEffect(() => {
     if (!eventID) {
       console.error("No event id found");
       return;
     }
-
     const intid: number = validateAndConvertEventID(eventID);
-    // Get id param :eventID
     dispatch(getEventRequest(intid));
   }, []);
+
+  useEffect(() => {
+    const intid: number = validateAndConvertEventID(eventID!);
+    // Get id param :eventID
+    if (promoCodeSuccess) {
+      dispatch(getEventRequest(intid));
+    }
+  }, [promoCodeSuccess]);
 
   if (loading || error) {
     console.error(error);
@@ -85,6 +106,7 @@ const EventDetail: React.FC = () => {
 
   return (
     <TesseraWrapper>
+      {promoCodeLoading && <LoadingOverlay />}
       <StandardGrid>
         <Grid xs={8}>
           <Item>
@@ -177,11 +199,9 @@ const EventDetail: React.FC = () => {
           <Divider sx={{ mt: 2, mb: 2 }} />
           <Box>
             <Formik
-              initialValues={{
-                promo_code: "",
-              }}
-              onSubmit={(values, actions) => {
-                submitPromoCode();
+              initialValues={PromoCodeAccessFormInitialValues}
+              onSubmit={(values: PromoCodeAccessForm, actions) => {
+                submitPromoCode(values);
               }}
               validationSchema={PromoCodeValidationSchema}
             >

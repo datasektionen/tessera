@@ -285,9 +285,6 @@ const CreateTicketReleaseForm: React.FC = () => {
                       <Option key={1} value={"EMAIL"}>
                         Email
                       </Option>
-                      <Option key={2} value={"SMS"}>
-                        SMS
-                      </Option>
                     </Select>
                   );
                 }}

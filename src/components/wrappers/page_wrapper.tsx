@@ -32,6 +32,7 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
         style={{
           backgroundColor: PALLETTE.offWhite,
           overflowX: "hidden",
+          marginTop: "16px",
         }}
       >
         {children}

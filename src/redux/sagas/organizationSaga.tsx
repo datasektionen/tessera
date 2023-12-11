@@ -10,10 +10,13 @@ import {
   getOrganizationUsersSuccess,
   getOrganizationUsersFailure,
   getOrganizationUsersRequest,
+  getOrganizationEventsRequest,
+  getOrganizationEventsSuccess,
+  getOrganizationEventsFailure,
 } from "./../features/organizationSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { IOrganization, IOrganizationUser } from "../../types";
+import { IEvent, IOrganization, IOrganizationUser } from "../../types";
 
 function* createOrganizationSaga(
   action: PayloadAction<{ name: string }>
@@ -111,6 +114,43 @@ function* getOrganizationUsersSaga(
   }
 }
 
+function* getOrganizationEventsSaga(
+  action: PayloadAction<number>
+): Generator<any, void, any> {
+  try {
+    const response = yield call(
+      axios.get,
+      `${process.env.REACT_APP_BACKEND_URL}/organizations/${action.payload}/events`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const events: IEvent[] = response.data.events.map((event: any) => {
+      return {
+        id: event.ID!,
+        name: event.name!,
+        description: event.description!,
+        location: event.location!,
+        date: new Date(event.date!).getTime(),
+        is_private: event.is_private!,
+        organization_id: event.organization_id!,
+        created_at: new Date(event.CreatedAt!).getTime(),
+      };
+    });
+
+    if (response.status == 200) {
+      yield put(getOrganizationEventsSuccess(events));
+    } else {
+      toast.error("Something went wrong!");
+      yield put(getOrganizationEventsFailure("Something went wrong!"));
+    }
+  } catch (error: any) {
+    toast.error(error.response.data.error);
+    yield put(getOrganizationEventsFailure(error.message));
+  }
+}
+
 const REMOVE_USER_REQUEST = "REMOVE_USER_REQUEST";
 const REMOVE_USER_SUCCESS = "REMOVE_USER_SUCCESS";
 const REMOVE_USER_FAILURE = "REMOVE_USER_FAILURE";
@@ -161,5 +201,6 @@ export function* watchCreateOrganization() {
   yield takeEvery(createOrganizationRequest.type, createOrganizationSaga);
   yield takeEvery(getOrganizationsRequest.type, getMyOrganizationsSaga);
   yield takeEvery(getOrganizationUsersRequest.type, getOrganizationUsersSaga);
+  yield takeEvery(getOrganizationEventsRequest.type, getOrganizationEventsSaga);
   yield takeEvery(REMOVE_USER_REQUEST, removeUserSaga);
 }

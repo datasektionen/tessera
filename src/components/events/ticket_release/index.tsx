@@ -1,4 +1,13 @@
-import { Link, List, ListItem, Sheet, Stack, Typography } from "@mui/joy";
+import {
+  Box,
+  Chip,
+  Link,
+  List,
+  ListItem,
+  Sheet,
+  Stack,
+  Typography,
+} from "@mui/joy";
 import { ITicketRelease } from "../../../types";
 import PALLETTE from "../../../theme/pallette";
 import TicketType from "../ticket_types";
@@ -17,6 +26,7 @@ import {
 import TicketReleasHasOpened from "./ticket_release_has_opened";
 import TicketReleaseHasClosed from "./ticket_release_has_closed";
 import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
+import StyledText from "../../text/styled_text";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -33,6 +43,7 @@ const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
 };
 
 const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
+  console.log(ticketRelease.is_reserved);
   return (
     <Sheet
       variant="outlined"
@@ -44,6 +55,26 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         backgroundColor: "transparent",
       }}
     >
+      {ticketRelease.is_reserved! && (
+        <Box
+          style={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+          }}
+        >
+          <Chip variant="soft" color="primary">
+            <StyledText
+              color={PALLETTE.charcoal}
+              fontSize={12}
+              level="body-sm"
+              fontWeight={600}
+            >
+              RESERVED
+            </StyledText>
+          </Chip>
+        </Box>
+      )}
       <Typography
         level="h4"
         fontFamily={"Josefin sans"}

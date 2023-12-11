@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
 import {
+  IEvent,
   IOrganization,
   IOrganizationUser,
   OrganizationUserRole,
@@ -17,6 +18,7 @@ interface OrganizationState {
   organization: any | null;
   organizations: IOrganization[] | null;
   organizationUsers: IOrganizationUser[] | null;
+  organizationEvents: IEvent[] | null;
   error: string | null;
 }
 
@@ -25,6 +27,7 @@ const initialState: OrganizationState = {
   organization: null,
   organizationUsers: [],
   organizations: [],
+  organizationEvents: [],
   error: null,
 };
 
@@ -74,6 +77,19 @@ const organizationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // Events
+    getOrganizationEventsRequest: (state, action: PayloadAction<number>) => {
+      state.loading = true;
+    },
+    getOrganizationEventsSuccess: (state, action: PayloadAction<IEvent[]>) => {
+      state.loading = false;
+      state.organizationEvents = action.payload;
+      state.error = null;
+    },
+    getOrganizationEventsFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -87,6 +103,9 @@ export const {
   getOrganizationUsersRequest,
   getOrganizationUsersSuccess,
   getOrganizationUsersFailure,
+  getOrganizationEventsRequest,
+  getOrganizationEventsSuccess,
+  getOrganizationEventsFailure,
 } = organizationSlice.actions;
 
 export default organizationSlice.reducer;

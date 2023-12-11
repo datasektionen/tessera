@@ -7,11 +7,13 @@ export const ROUTES = {
   EVENT_DETAIL: "/events/:eventID",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
   CREATE_EVENT: "/create-event",
+  EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",
   ALLOCATE_TICKETS:
     "/events/:eventID/ticket-release/:ticketReleaseID/allocate-tickets",
-  TICKET_REQUESTS: "/events/:eventID/ticket-requests",
+  PROFILE_TICKET_REQUESTS: "/profile/ticket-requests",
+  PROFILE_TICKETS: "/profile/tickets",
   TICKETS: "/events/:eventID/tickets",
   TICKET_DETAIL: "/events/:eventID/tickets/:ticketID",
   ORGANIZATIONS: "/organizations",

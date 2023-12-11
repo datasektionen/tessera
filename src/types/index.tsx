@@ -221,6 +221,13 @@ export interface ITicketRelease {
   is_reserved?: boolean;
   promo_code?: string;
 }
+export interface PromoCodeAccessForm {
+  promo_code: string;
+}
+
+export const PromoCodeAccessFormInitialValues: PromoCodeAccessForm = {
+  promo_code: "",
+};
 
 export interface ITicketReleaseAdmin extends ITicketRelease {
   id: number;

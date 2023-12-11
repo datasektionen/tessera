@@ -61,7 +61,9 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
         backgroundColor: PALLETTE.offWhite,
       }}
     >
-      <Title fontSize={22}>Add User</Title>
+      <Title fontSize={22} color={PALLETTE.charcoal}>
+        Add User
+      </Title>
       <FormControl>
         <Stack direction="row" spacing={2} alignItems="center">
           <Box>

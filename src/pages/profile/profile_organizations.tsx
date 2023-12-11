@@ -25,7 +25,9 @@ const ProfileOrgnizationsPage = () => {
 
   useEffect(() => {
     dispatch(getOrganizationsRequest());
-  }, [dispatch]);
+  }, [dispatch, selected]);
+
+  console.log(organizations);
 
   return (
     <TesseraWrapper>
@@ -47,10 +49,10 @@ const ProfileOrgnizationsPage = () => {
               <Link to={ROUTES.CREATE_ORGANIZATION}>here</Link>.
             </StyledText>
           ) : (
-            <Stack spacing={2}>
+            <Grid container spacing={2} flexDirection="row">
               {organizations!.map((org) => {
                 return (
-                  <>
+                  <Grid>
                     <StyledButton
                       onClick={() => {
                         setSelected(org.id);
@@ -74,10 +76,10 @@ const ProfileOrgnizationsPage = () => {
                         {org.name}
                       </StyledText>
                     </StyledButton>
-                  </>
+                  </Grid>
                 );
               })}
-            </Stack>
+            </Grid>
           )}
         </Grid>
         <Grid xs={8}>

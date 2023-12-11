@@ -85,6 +85,15 @@ const MainPage: React.FC = () => {
               Profile
             </MainPageButton>
           </Grid>
+          <Grid>
+            <MainPageButton
+              onClick={() => {
+                navigate("/profile/organizations");
+              }}
+            >
+              Your Teams
+            </MainPageButton>
+          </Grid>
         </Grid>
       </Box>
     </>

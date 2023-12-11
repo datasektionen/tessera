@@ -13,6 +13,7 @@ import organizationReducer from "./redux/features/organizationSlice";
 import eventCreationSlice from "./redux/features/eventCreationSlice";
 import ticketReleaseMethodReducer from "./redux/features/ticketReleaseMethodsSlice";
 import ticketTypeCreationReducer from "./redux/features/ticketTypeCreationSlice";
+import promoCodeAccessSlice from "./redux/features/promoCodeAccessSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   eventCreation: eventCreationSlice,
   ticketReleaseMethods: ticketReleaseMethodReducer,
   ticketTypeCreation: ticketTypeCreationReducer,
+  promoCodeAccess: promoCodeAccessSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
