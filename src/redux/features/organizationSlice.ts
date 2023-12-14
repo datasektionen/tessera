@@ -35,10 +35,10 @@ const organizationSlice = createSlice({
   name: "organization",
   initialState,
   reducers: {
-    getOrganizationsRequest: (state) => {
+    getMyOrganizationsRequest: (state) => {
       state.loading = true;
     },
-    getOrganizationsSuccess: (
+    getMyOrganizationsSuccess: (
       state,
       action: PayloadAction<IOrganization[]>
     ) => {
@@ -46,7 +46,7 @@ const organizationSlice = createSlice({
       state.organizations = action.payload;
       state.error = null;
     },
-    getOrganizationsFailure: (state, action: PayloadAction<string>) => {
+    getMyOrganizationsFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -94,9 +94,9 @@ const organizationSlice = createSlice({
 });
 
 export const {
-  getOrganizationsRequest,
-  getOrganizationsSuccess,
-  getOrganizationsFailure,
+  getMyOrganizationsRequest,
+  getMyOrganizationsSuccess,
+  getMyOrganizationsFailure,
   createOrganizationRequest,
   createOrganizationSuccess,
   createOrganizationFailure,

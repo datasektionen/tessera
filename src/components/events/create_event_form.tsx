@@ -34,7 +34,7 @@ import { StyledErrorMessage } from "../forms/messages";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrganizationsRequest } from "../../redux/features/organizationSlice";
+import { getMyOrganizationsRequest } from "../../redux/features/organizationSlice";
 import LoadingOverlay from "../Loading";
 import { EventFormInitialValues, IEventForm } from "../../types";
 import {
@@ -56,7 +56,7 @@ const CreateEventForm: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrganizationsRequest());
+    dispatch(getMyOrganizationsRequest());
   }, [dispatch]);
 
   const handleSubmission = (values: IEventForm) => {
@@ -78,6 +78,7 @@ const CreateEventForm: React.FC = () => {
         // Convert date to Unix timestamp
         handleSubmission(values);
       }}
+      enableReinitialize
     >
       {({ values, isValid, errors }) => {
         return (

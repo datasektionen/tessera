@@ -4,93 +4,41 @@ import { PayloadAction } from "@reduxjs/toolkit";
 
 import {
   IEvent,
+  ITicket,
   ITicketRelease,
   ITicketRequest,
   ITicketType,
   TicketRequestPostReq,
 } from "../../types";
-
 import {
-  postTicketRequest,
-  postTicketRequestFailure,
-  postTicketRequestSuccess,
-} from "../features/ticketRequestSlice";
-
-import {
-  cancelTicketRequestFailure,
-  cancelTicketRequestRequest,
-  cancelTicketRequestSuccess,
-} from "../features/myTicketRequestsSlice";
-
+  cancelTicketFailure,
+  cancelTicketSuccess,
+  getMyTicketsFailure,
+  getMyTicketsRequest,
+  getMyTicketsSuccess,
+} from "../features/myTicketsSlice";
 import { toast } from "react-toastify";
-import {
-  getMyTicketRequestsFailure,
-  getMyTicketRequestsRequest,
-  getMyTicketRequestsSuccess,
-} from "../features/myTicketRequestsSlice";
 
-export interface TicketRequestData {
-  ticket_type_id: number;
-  ticket_amount: number;
-}
-
-function* createTicketRequestSaga(
-  action: PayloadAction<{
-    tickets: TicketRequestData[];
-    eventId: number;
-    ticketReleaseId: number;
-  }>
-): Generator<any, void, any> {
-  try {
-    const { tickets, eventId, ticketReleaseId } = action.payload;
-    const body: TicketRequestPostReq[] = tickets.map((ticket) => {
-      return {
-        ticket_amount: ticket.ticket_amount,
-        ticket_type_id: ticket.ticket_type_id,
-        ticket_release_id: ticketReleaseId,
-      };
-    });
-
-    const response = yield call(
-      axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/ticket-requests`,
-      body,
-      {
-        withCredentials: true, // This ensures cookies are sent with the request
-      }
-    );
-
-    if (response.status === 201) {
-      toast.success("Ticket request created!");
-      yield put(postTicketRequestSuccess());
-    } else {
-      const errorMessage = response.data.error || "An error occurred";
-      toast.error(errorMessage);
-      yield put(postTicketRequestFailure(errorMessage));
-    }
-  } catch (error: any) {
-    const errorMessage = error.response.data.error || "An error occurred";
-
-    console.log(errorMessage);
-
-    toast.error(errorMessage);
-    yield put(postTicketRequestFailure(errorMessage));
-  }
-}
-
-function* getMyTicketRequestsSaga(): Generator<any, void, any> {
+function* getMyTicketSaga(): Generator<any, void, any> {
   try {
     const response = yield call(
       axios.get,
-      `${process.env.REACT_APP_BACKEND_URL}/my-ticket-requests`,
+      `${process.env.REACT_APP_BACKEND_URL}/my-tickets`,
       {
         withCredentials: true,
       }
     );
 
-    const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
-      (ticket_request: any) => {
-        return {
+    const tickets: ITicket[] = response.data.tickets.map((ticket: any) => {
+      const ticket_request = ticket.ticket_request;
+      return {
+        id: ticket.ID!,
+        is_paid: ticket.is_paid!,
+        is_reserve: ticket.is_reserve!,
+        refunded: ticket.refunded!,
+        user_id: ticket.user_id!,
+        created_at: new Date(ticket.CreatedAt!).getTime(),
+        ticket_request: {
           id: ticket_request.ID!,
           created_at: new Date(ticket_request.CreatedAt!).getTime(),
           is_handled: ticket_request.is_handled!,
@@ -121,21 +69,23 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
           } as ITicketRelease,
-        } as ITicketRequest;
-      }
-    );
+        } as ITicketRequest,
+      } as ITicket;
+    });
+
+    console.log(tickets);
 
     if (response.status === 200) {
-      yield put(getMyTicketRequestsSuccess(ticket_requests));
+      yield put(getMyTicketsSuccess(tickets));
     } else {
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);
-      yield put(getMyTicketRequestsFailure(errorMessage));
+      yield put(getMyTicketsFailure(errorMessage));
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
     toast.error(errorMessage);
-    yield put(getMyTicketRequestsFailure(errorMessage));
+    yield put(getMyTicketsFailure(errorMessage));
   }
 }
 
@@ -157,23 +107,21 @@ function* cancellTicketRequestSaga(
 
     if (response.status === 200) {
       toast.success("Ticket request cancelled!");
-      yield put(cancelTicketRequestSuccess(ticketRelease.id));
+      yield put(cancelTicketSuccess(ticketRelease.id));
     } else {
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);
-      yield put(cancelTicketRequestFailure(errorMessage));
+      yield put(cancelTicketFailure(errorMessage));
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
     toast.error(errorMessage);
-    yield put(cancelTicketRequestFailure(errorMessage));
+    yield put(cancelTicketFailure(errorMessage));
   }
 }
 
-function* watchTicketRequestSaga() {
-  yield takeLatest(cancelTicketRequestRequest.type, cancellTicketRequestSaga);
-  yield takeLatest(postTicketRequest.type, createTicketRequestSaga);
-  yield takeLatest(getMyTicketRequestsRequest.type, getMyTicketRequestsSaga);
+function* watchTicketsSaga() {
+  yield takeLatest(getMyTicketsRequest.type, getMyTicketSaga);
 }
 
-export default watchTicketRequestSaga;
+export default watchTicketsSaga;

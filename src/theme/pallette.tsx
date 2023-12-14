@@ -4,7 +4,7 @@ interface IPallette {
 
 const PALLETTE: IPallette = {
   primary: "#011638",
-  red: "red",
+  red: "#FF6961",
   charcoal: "#364156",
   charcoal_see_through: "#36415680",
   offWhite: "#CDCDCD",
@@ -13,6 +13,7 @@ const PALLETTE: IPallette = {
   white: "#FFFFFF",
   green: "#73BA9B",
   yellow: "#FDE74C",
+  orange: "#F06449",
 };
 
 export default PALLETTE;

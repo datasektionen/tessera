@@ -4,12 +4,6 @@ import { ITicketRequest, ITicketType } from "../../types";
 import { act } from "react-dom/test-utils";
 import { TicketRequestData } from "../sagas/ticketRequestSaga";
 
-// Define the ShoppingCartItem interface
-export interface ShoppingCartItem {
-  ticket: ITicketType;
-  quantity: number;
-}
-
 // Define the ShoppingCartState interface
 export interface ShoppingCartState {
   ticketRequests: ITicketRequest[];
@@ -43,7 +37,23 @@ export const myTicketRequestSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // ... o
+    cancelTicketRequestRequest: (
+      state,
+      action: PayloadAction<ITicketRequest>
+    ) => {
+      state.loading = true;
+    },
+    cancelTicketRequestSuccess: (state, action: PayloadAction<number>) => {
+      state.loading = false;
+      state.error = null;
+      state.ticketRequests = state.ticketRequests.filter(
+        (ticketRequest) => ticketRequest.id !== action.payload
+      );
+    },
+    cancelTicketRequestFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -52,6 +62,9 @@ export const {
   getMyTicketRequestsRequest,
   getMyTicketRequestsFailure,
   getMyTicketRequestsSuccess,
+  cancelTicketRequestRequest,
+  cancelTicketRequestFailure,
+  cancelTicketRequestSuccess,
 } = myTicketRequestSlice.actions;
 
 // Export the reducer

@@ -3,12 +3,13 @@ import watchLoginSaga from "./authSaga";
 import watchUserSagas from "./userSaga";
 import watchListEventSaga from "./listEventSage";
 import watchEventSaga from "./eventSaga";
-import watchTicdketRequestSaga from "./ticketRequestSaga";
+import watchTicketRequestSaga from "./ticketRequestSaga";
 import { watchFoodPreferences } from "./userFoodPreferencesSaga";
 import { watchCreateOrganization } from "./organizationSaga";
 import { watchFetchTicketReleaseMethods } from "./ticketReleaseMethodSaga";
 import watchCreateEventSaga from "./createEventSaga";
 import watchPromoCodeAccessSaga from "./promoCodeAccessSaga";
+import watchTicketsSaga from "./ticketsSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -16,7 +17,8 @@ export default function* rootSaga() {
     watchUserSagas(),
     watchListEventSaga(),
     watchEventSaga(),
-    watchTicdketRequestSaga(),
+    watchTicketRequestSaga(),
+    watchTicketsSaga(),
     watchFoodPreferences(),
     watchCreateOrganization(),
     watchFetchTicketReleaseMethods(),

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ITicketRequest } from "../../types";
+import { ITicket, ITicketRequest } from "../../types";
 import {
   Accordion,
   AccordionDetails,
@@ -19,54 +19,51 @@ import PALLETTE from "../../theme/pallette";
 import BorderBox from "../wrappers/border_box";
 import { format } from "date-fns";
 import TicketRequestListRowView from "./ticket_request_list_row_view";
+import TicketListRowView from "./ticket_request_list_row_view";
 
-interface TicketRequestsListProps {
-  ticketRequests: ITicketRequest[];
+interface TicketsListProps {
+  tickets: ITicket[];
   selected: number | null;
   setSelected: (index: number | null) => void;
 }
 
-const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
-  ticketRequests,
+const TicketsList: React.FC<TicketsListProps> = ({
+  tickets,
   selected,
   setSelected,
 }) => {
   const [showAll, setShowAll] = useState(false);
 
-  const displayedRequests = showAll
-    ? ticketRequests
-    : ticketRequests.slice(0, 1);
-
-  if (ticketRequests.length === 0) {
+  if (tickets.length === 0) {
     return (
       <Box mt={2}>
         <StyledText color={PALLETTE.charcoal} level="body-md">
-          No requests yet
+          No tickets yet
         </StyledText>
       </Box>
     );
   }
 
-  const groupedRequests = ticketRequests.reduce((groups, request) => {
-    const key = request.ticket_release?.eventId!;
+  const groupedTickets = tickets.reduce((groups, ticket) => {
+    const key = ticket.ticket_request?.ticket_release?.eventId!;
     if (!groups[key]) {
       groups[key] = [];
     }
-    groups[key].push(request);
+    groups[key].push(ticket);
     return groups;
-  }, {} as Record<string, ITicketRequest[]>);
+  }, {} as Record<string, ITicket[]>);
 
-  const upcomingEvents = Object.keys(groupedRequests).filter((eventId) => {
-    const event = groupedRequests[eventId][0].ticket_release?.event;
+  const upcomingEvents = Object.keys(groupedTickets).filter((eventId) => {
+    const event =
+      groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
     return new Date(event!.date) > new Date();
   });
 
-  const pastEvents = Object.keys(groupedRequests).filter((eventId) => {
-    const event = groupedRequests[eventId][0].ticket_release?.event;
+  const pastEvents = Object.keys(groupedTickets).filter((eventId) => {
+    const event =
+      groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
     return new Date(event!.date) < new Date();
   });
-
-  console.log(groupedRequests);
 
   return (
     <Box mt={2} sx={{ width: "90%", padding: 0 }}>
@@ -86,8 +83,8 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
         </StyledText>
       ) : (
         upcomingEvents.map((eventId) => {
-          const event = groupedRequests[eventId][0].ticket_release?.event;
-
+          const event =
+            groupedTickets[eventId][0].ticket_request!.ticket_release!.event;
           return (
             <BorderBox
               style={{
@@ -122,12 +119,12 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
                     </StyledText>
                   </AccordionSummary>
                   <AccordionDetails>
-                    {groupedRequests[eventId].map((request, index) => {
+                    {groupedTickets[eventId].map((ticket, index) => {
                       const isUpcoming =
-                        new Date(request.created_at) < new Date();
+                        new Date(ticket.created_at) < new Date();
                       return (
-                        <TicketRequestListRowView
-                          ticketRequest={request}
+                        <TicketListRowView
+                          ticket={ticket}
                           selected={selected}
                           setSelected={setSelected}
                         />
@@ -157,7 +154,8 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
         </StyledText>
       ) : (
         pastEvents.map((eventId) => {
-          const event = groupedRequests[eventId][0].ticket_release?.event;
+          const event =
+            groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
 
           return (
             <BorderBox>
@@ -189,12 +187,10 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
                     </StyledText>
                   </AccordionSummary>
                   <AccordionDetails>
-                    {groupedRequests[eventId].map((request, index) => {
-                      const isUpcoming =
-                        new Date(request.created_at) < new Date();
+                    {groupedTickets[eventId].map((ticket, index) => {
                       return (
-                        <TicketRequestListRowView
-                          ticketRequest={request}
+                        <TicketListRowView
+                          ticket={ticket}
                           selected={selected}
                           setSelected={setSelected}
                         />
@@ -211,4 +207,4 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
   );
 };
 
-export default TicketRequestsList;
+export default TicketsList;

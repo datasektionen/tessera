@@ -236,6 +236,7 @@ export interface ITicketRelease {
   ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
   is_reserved?: boolean;
   promo_code?: string;
+  event?: IEvent;
 }
 export interface PromoCodeAccessForm {
   promo_code: string;
@@ -262,6 +263,17 @@ export interface ITicketRequest {
 
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
+}
+
+export interface ITicket {
+  id: number;
+  created_at: number;
+  ticket_request?: ITicketRequest;
+  is_paid: boolean;
+  is_reserve: boolean;
+  refunded: boolean;
+  user_id: number;
+  user?: IUser;
 }
 
 export interface TicketRequestPostReq {

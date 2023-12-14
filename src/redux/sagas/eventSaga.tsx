@@ -3,6 +3,8 @@ import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
   IEvent,
+  IEventForm,
+  IEventPostReq,
   ITicketRelease,
   ITicketReleaseMethod,
   ITicketReleaseMethodDetail,
@@ -14,6 +16,12 @@ import {
   getEventRequest,
   getEventSuccess,
 } from "../features/eventSlice";
+import { toast } from "react-toastify";
+import {
+  editEventFailure,
+  editEventRequest,
+  editEventSuccess,
+} from "../features/editEventSlice";
 
 function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
   try {
@@ -26,7 +34,6 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
     );
 
     const eventData = response.data.event;
-    console.log(eventData);
 
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
@@ -92,7 +99,49 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
   }
 }
 
+function* editEventSaga(
+  action: PayloadAction<{
+    id: number;
+    event: IEventForm;
+  }>
+): Generator<any, void, any> {
+  try {
+    const { event, id } = action.payload;
+
+    const data: IEventPostReq = {
+      name: event.name,
+      description: event.description,
+      location: event.location!.label,
+      date: new Date(event.date).getTime() / 1000,
+      is_private: event.is_private,
+      organization_id: event.organization_id,
+    };
+
+    const response = yield call(
+      axios.put,
+      "http://localhost:8080/events/" + id,
+      data,
+      {
+        withCredentials: true, // This ensures cookies are sent with the request
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success("Event updated successfully!");
+      yield put(editEventSuccess(response.data));
+    } else {
+      const errorMessage = response.data.error || "An error occurred";
+      yield put(editEventFailure(errorMessage));
+    }
+  } catch (error: any) {
+    const errorMessage = error.response.data.error || "An error occurred";
+    toast.error(errorMessage);
+    yield put(editEventFailure(errorMessage));
+  }
+}
+
 function* watchEventSaga() {
+  yield takeLatest(editEventRequest.type, editEventSaga);
   yield takeLatest(getEventRequest.type, eventSaga);
 }
 

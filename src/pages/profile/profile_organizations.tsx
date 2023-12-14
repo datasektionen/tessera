@@ -5,7 +5,7 @@ import StandardGrid from "../../components/wrappers/standard_grid";
 import React, { useEffect } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrganizationsRequest } from "../../redux/features/organizationSlice";
+import { getMyOrganizationsRequest } from "../../redux/features/organizationSlice";
 import LoadingOverlay from "../../components/Loading";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
@@ -24,7 +24,7 @@ const ProfileOrgnizationsPage = () => {
   const [selected, setSelected] = React.useState<number | null>(null);
 
   useEffect(() => {
-    dispatch(getOrganizationsRequest());
+    dispatch(getMyOrganizationsRequest());
   }, [dispatch, selected]);
 
   console.log(organizations);

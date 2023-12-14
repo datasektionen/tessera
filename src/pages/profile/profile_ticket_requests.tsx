@@ -13,6 +13,7 @@ import { ROUTES } from "../../routes/def";
 import { getMyTicketRequestsRequest } from "../../redux/features/myTicketRequestsSlice";
 import { ITicketRequest } from "../../types";
 import TicketRequestsList from "../../components/ticket_requests/list_ticket_requests";
+import ViewTicketRequest from "../../components/ticket_requests/view";
 
 const ProfileTicketRequestsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -20,6 +21,8 @@ const ProfileTicketRequestsPage: React.FC = () => {
     (state: RootState) => state.myTicketRequests
   ) as { ticketRequests: ITicketRequest[] };
   const dispatch: AppDispatch = useDispatch();
+
+  const [selected, setSelected] = React.useState<number | null>(null);
 
   useEffect(() => {
     dispatch(getMyTicketRequestsRequest());
@@ -51,10 +54,20 @@ const ProfileTicketRequestsPage: React.FC = () => {
             </StyledText>
           </Box>
           <Grid xs={8}>
-            <TicketRequestsList ticketRequests={ticketRequests} />
+            <TicketRequestsList
+              ticketRequests={ticketRequests}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </Grid>
         </Grid>
-        <Grid xs={8}></Grid>
+        <Grid xs={8}>
+          {selected && (
+            <ViewTicketRequest
+              ticketRequest={ticketRequests.find((tr) => tr.id === selected)!}
+            />
+          )}
+        </Grid>
       </Grid>
     </TesseraWrapper>
   );

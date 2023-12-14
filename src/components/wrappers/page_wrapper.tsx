@@ -31,7 +31,7 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
         id="tessera-wrapper"
         style={{
           backgroundColor: PALLETTE.offWhite,
-          overflowX: "hidden",
+          overflow: "hidden",
           marginTop: "16px",
         }}
       >

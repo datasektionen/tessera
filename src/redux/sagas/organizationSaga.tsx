@@ -4,9 +4,9 @@ import {
   createOrganizationRequest,
   createOrganizationSuccess,
   createOrganizationFailure,
-  getOrganizationsRequest,
-  getOrganizationsFailure,
-  getOrganizationsSuccess,
+  getMyOrganizationsRequest,
+  getMyOrganizationsFailure,
+  getMyOrganizationsSuccess,
   getOrganizationUsersSuccess,
   getOrganizationUsersFailure,
   getOrganizationUsersRequest,
@@ -65,14 +65,14 @@ function* getMyOrganizationsSaga(): Generator<any, void, any> {
     );
 
     if (response.status == 200) {
-      yield put(getOrganizationsSuccess(organizations));
+      yield put(getMyOrganizationsSuccess(organizations));
     } else {
       toast.error("Something went wrong!");
-      yield put(getOrganizationsFailure("Something went wrong!"));
+      yield put(getMyOrganizationsFailure("Something went wrong!"));
     }
   } catch (error: any) {
     toast.error(error.response.data.error);
-    yield put(getOrganizationsFailure(error.message));
+    yield put(getMyOrganizationsFailure(error.message));
   }
 }
 
@@ -199,7 +199,7 @@ function* removeUserSaga(
 
 export function* watchCreateOrganization() {
   yield takeEvery(createOrganizationRequest.type, createOrganizationSaga);
-  yield takeEvery(getOrganizationsRequest.type, getMyOrganizationsSaga);
+  yield takeEvery(getMyOrganizationsRequest.type, getMyOrganizationsSaga);
   yield takeEvery(getOrganizationUsersRequest.type, getOrganizationUsersSaga);
   yield takeEvery(getOrganizationEventsRequest.type, getOrganizationEventsSaga);
   yield takeEvery(REMOVE_USER_REQUEST, removeUserSaga);

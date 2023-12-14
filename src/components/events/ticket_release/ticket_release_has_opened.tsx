@@ -32,6 +32,7 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import WhaIsTicketRequestModal from "./what_is_ticket_request";
 import LoadingOverlay from "../../Loading";
 import { TicketRequestData } from "../../../redux/sagas/ticketRequestSaga";
+import { toast } from "react-toastify";
 
 const TicketReleasHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -102,6 +103,11 @@ const TicketReleasHasOpened: React.FC<{
       }
     });
 
+    if (tickets.length === 0) {
+      toast.info("No tickets selected");
+      return;
+    }
+
     dispatch(
       postTicketRequest({
         tickets,
@@ -110,8 +116,6 @@ const TicketReleasHasOpened: React.FC<{
       })
     );
   };
-
-  console.log(makingRequest);
 
   return (
     <>
