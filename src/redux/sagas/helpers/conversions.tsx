@@ -39,7 +39,9 @@ export function convertResponseToTicketRelease(
         responseData.ticket_release_method_detail.max_tickets_per_user!,
       cancellationPolicy:
         responseData.ticket_release_method_detail.cancellation_policy!,
-      openWindowDays:
+      notificationMethod:
+        responseData.ticket_release_method_detail.notification_method!,
+      openWindowDuration:
         responseData.ticket_release_method_detail.open_window_days!,
     },
   };

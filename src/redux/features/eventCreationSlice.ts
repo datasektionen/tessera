@@ -46,6 +46,7 @@ const eventCreationSlice = createSlice({
   reducers: {
     setEventForm: (state, action: PayloadAction<IEventForm>) => {
       state.form.event = action.payload;
+      state.form.ticketRelease.event_date = action.payload.date;
       state.currentStep += 1;
     },
     clearEventForm: (state) => {

@@ -18,6 +18,9 @@ import CreateEventPage from "../pages/event/create";
 import EditEventPage from "../pages/event/edit";
 import ProfileTicketRequestsPage from "../pages/profile/profile_ticket_requests";
 import ProfileTicketsPage from "../pages/profile/profile_tickets";
+import EditEventAddTicketReleasePage from "../pages/event/edit_ticket_release";
+import EditTicketReleases from "../components/events/edit/edit_ticket_releases";
+import EditTicketTypes from "../pages/event/edit_ticket_types";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -38,6 +41,15 @@ function AppRoutes() {
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
+          <Route
+            path={ROUTES.EDIT_EVENT_ADD_TICKET_RELEASE}
+            element={<EditEventAddTicketReleasePage />}
+          />
+          <Route
+            path={ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES}
+            element={<EditTicketTypes />}
+          />
+
           <Route
             path={ROUTES.PROFILE_TICKET_REQUESTS}
             element={<ProfileTicketRequestsPage />}

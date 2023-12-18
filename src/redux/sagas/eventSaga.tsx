@@ -76,8 +76,10 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
               ticketRelease.ticket_release_method_detail.max_tickets_per_user!,
             cancellationPolicy:
               ticketRelease.ticket_release_method_detail.cancellation_policy!,
-            openWindowDays:
-              ticketRelease.ticket_release_method_detail.open_window_days!,
+            openWindowDuration:
+              ticketRelease.ticket_release_method_detail.open_window_duration!,
+            notificationMethod:
+              ticketRelease.ticket_release_method_detail.notification_method!,
             ticketReleaseMethod: {
               id: ticketRelease.ticket_release_method_id!,
               name: ticketRelease.ticket_release_method_detail!

@@ -11,8 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   createEventFullWorkflowRequest,
+  previousStep,
   resetCurrentStep,
   resetSuccess,
+  setTicketReleaseForm,
+  setTicketTypes,
 } from "../../redux/features/eventCreationSlice";
 import CreateTicketReleaseForm from "../../components/events/ticket_release/ticket_release_form";
 import StyledButton from "../../components/buttons/styled_button";
@@ -21,10 +24,14 @@ import CreateTicketTypes from "../../components/events/ticket_types/create_ticke
 import CreateEventLastStep from "../../components/events/create_event_last_step";
 import { useNavigate } from "react-router-dom";
 import {
+  addTicketType,
   clearTicketType,
   resetTicketTypes,
 } from "../../redux/features/ticketTypeCreationSlice";
 import RestartEventCreationButton from "../../components/buttons/restart_event_creation_button";
+import { ITicketReleaseForm, ITicketTypeForm } from "../../types";
+import { FormikHelpers } from "formik";
+import { toast } from "react-toastify";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
@@ -44,6 +51,24 @@ const CreateEventPage = () => {
 
   const submitEventFullWorkflow = () => {
     dispatch(createEventFullWorkflowRequest(form));
+  };
+
+  const handleTicketReleaseSubmit = async (
+    values: ITicketReleaseForm,
+    { validateForm }: FormikHelpers<ITicketReleaseForm>
+  ) => {
+    const errors = await validateForm(values);
+    if (Object.keys(errors).length === 0) {
+      // The form is valid
+      dispatch(setTicketReleaseForm(values));
+    } else {
+      // The form is invalid
+      toast.error("Please fix the errors in the form.");
+    }
+  };
+
+  const handleTTsSubmit = (ticketTypes: ITicketTypeForm[]) => {
+    dispatch(setTicketTypes(ticketTypes));
   };
 
   return (
@@ -93,8 +118,17 @@ const CreateEventPage = () => {
           </StandardGrid>
         )}
 
-        {currentStep === 2 && <CreateTicketReleases />}
-        {currentStep === 3 && <CreateTicketTypes />}
+        {currentStep === 2 && (
+          <CreateTicketReleases submit={handleTicketReleaseSubmit} />
+        )}
+        {currentStep === 3 && (
+          <CreateTicketTypes
+            submit={handleTTsSubmit}
+            handleBack={() => {
+              dispatch(previousStep());
+            }}
+          />
+        )}
         {currentStep === 4 && (
           <CreateEventLastStep submit={submitEventFullWorkflow} />
         )}

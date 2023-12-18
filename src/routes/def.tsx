@@ -1,3 +1,10 @@
+export const generateEditTicketReleaseTicketTypes = (
+  eventId: number,
+  ticketReleaseId: number
+) => {
+  return `/events/${eventId}/ticket-release/${ticketReleaseId}/ticket-types`;
+};
+
 export const ROUTES = {
   MAIN: "/",
   LOGIN: "/login",
@@ -6,6 +13,9 @@ export const ROUTES = {
   EVENTS: "/events",
   EVENT_DETAIL: "/events/:eventID",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
+  EDIT_EVENT_ADD_TICKET_RELEASE: "/events/:eventID/edit/add-ticket-release",
+  EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES:
+    "/events/:eventID/ticket-release/:ticketReleaseID/ticket-types",
   CREATE_EVENT: "/create-event",
   EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:

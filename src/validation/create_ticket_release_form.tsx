@@ -1,8 +1,26 @@
+import { format } from "date-fns";
 import * as Yup from "yup";
 
 const checkDateInFuture = (timestamp: Date) => {
   const now = new Date();
   return timestamp > now;
+};
+
+const checkDatesAreValidWithEventDate = (
+  event_date: Date,
+  open: Date,
+  close: Date
+) => {
+  if (!event_date || !open || !close) {
+    return false;
+  }
+
+  // Check that open and close are before event_date
+  if (open > event_date || close > event_date) {
+    return false;
+  }
+
+  return true;
 };
 
 const validateOpenAndClose = (
@@ -12,6 +30,7 @@ const validateOpenAndClose = (
 ) => {
   // Check that open is before close
   // Check that open + open_window_duration is before close
+  // Check that open is after event_date
 
   if (open > close) {
     return false;
@@ -44,6 +63,7 @@ export const PromoCodeValidationSchema = Yup.object().shape({
 
 const CreateTicketReleaseFormSchema = Yup.object()
   .shape({
+    event_date: Yup.date().required("Event Date is required"),
     name: Yup.string()
       .required("Name is required")
       .min(3, "Too short")
@@ -110,6 +130,24 @@ const CreateTicketReleaseFormSchema = Yup.object()
 
       return true;
     }
-  );
+  )
+  .test("is-valid-dates", "Dates are invalid", function (value) {
+    const isValid = checkDatesAreValidWithEventDate(
+      value.event_date,
+      value.open,
+      value.close
+    );
+
+    if (!isValid) {
+      return new Yup.ValidationError(
+        "The open and close times must be before the event date: " +
+          format(value.event_date, "yyyy-MM-dd HH:mm"),
+        null,
+        "open"
+      );
+    }
+
+    return true;
+  });
 
 export default CreateTicketReleaseFormSchema;

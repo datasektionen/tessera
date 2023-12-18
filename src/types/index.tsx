@@ -142,6 +142,7 @@ export interface ITicketReleaseMethod {
 }
 
 export interface ITicketReleaseForm {
+  event_date?: string;
   name: string;
   description: string;
   open: string;
@@ -156,6 +157,7 @@ export interface ITicketReleaseForm {
 }
 
 export interface ITicketReleasePostReq {
+  event_id?: number;
   name: string;
   description: string;
   open: number;
@@ -209,7 +211,8 @@ export interface ITicketReleaseMethodDetail {
   name: string;
   maxTicketsPerUser: number;
   cancellationPolicy: string;
-  openWindowDays: number | null;
+  openWindowDuration: number | null; // Todo change
+  notificationMethod: string;
   ticketReleaseMethod?: ITicketReleaseMethod;
 }
 
@@ -283,6 +286,11 @@ export interface TicketRequestPostReq {
 
 export interface CompleteEventWorkflowPostReq {
   event: IEventPostReq;
+  ticket_release: ITicketReleasePostReq;
+  ticket_types: ITicketTypePostReq[];
+}
+
+export interface CompleteTicketReleaseWorkflowPostReq {
   ticket_release: ITicketReleasePostReq;
   ticket_types: ITicketTypePostReq[];
 }

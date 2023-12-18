@@ -45,15 +45,27 @@ import { format } from "date-fns";
 import { toast } from "react-toastify";
 import LoadingOverlay from "../../Loading";
 
-const CreateTicketReleaseForm: React.FC = () => {
+interface CreateTicketReleaseFormProps {
+  submit: (
+    values: ITicketReleaseForm,
+    { validateForm }: FormikHelpers<ITicketReleaseForm>
+  ) => void;
+  initialValues: ITicketReleaseForm;
+  createOnSubmit?: boolean;
+}
+
+const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
+  submit,
+  initialValues = TicketReleaseFormInitialValues,
+  createOnSubmit = false,
+}) => {
   const { ticketReleaseMethods } = useSelector(
     (state: RootState) => state.ticketReleaseMethods
   );
 
-  const {
-    form: { ticketRelease: initialValues },
-    loading: initalLoading,
-  } = useSelector((state: RootState) => state.eventCreation);
+  const { loading: initalLoading } = useSelector(
+    (state: RootState) => state.eventCreation
+  );
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -61,20 +73,6 @@ const CreateTicketReleaseForm: React.FC = () => {
     // Fetch ticket release methods
     dispatch(getTicketReleaseMethodsRequest());
   }, [dispatch]);
-
-  const handleSubmission = async (
-    values: ITicketReleaseForm,
-    { validateForm }: FormikHelpers<ITicketReleaseForm>
-  ) => {
-    const errors = await validateForm(values);
-    if (Object.keys(errors).length === 0) {
-      // The form is valid
-      dispatch(setTicketReleaseForm(values));
-    } else {
-      // The form is invalid
-      toast.error("Please fix the errors in the form.");
-    }
-  };
 
   if (initalLoading) {
     return <LoadingOverlay />;
@@ -87,11 +85,22 @@ const CreateTicketReleaseForm: React.FC = () => {
       validateOnBlur={true}
       validateOnChange={true}
       validateOnMount={true}
-      onSubmit={handleSubmission}
+      onSubmit={submit}
     >
       {({ values, isValid, errors }) => {
+        console.log(values.event_date);
         return (
           <Form>
+            <FormControl>
+              <FormInput
+                name="event_date"
+                label="event_date"
+                placeholder=""
+                type="hidden"
+                overrideStyle={{ display: "none" }}
+              />
+            </FormControl>
+
             {/* Name */}
             <FormControl>
               <StyledFormLabel>Name*</StyledFormLabel>
@@ -369,24 +378,7 @@ const CreateTicketReleaseForm: React.FC = () => {
                     width: "200px",
                   }}
                 >
-                  Next
-                </StyledButton>
-              </Grid>
-              <Grid>
-                <StyledButton
-                  color={PALLETTE.cerise}
-                  textColor={PALLETTE.charcoal}
-                  size="md"
-                  onClick={() => {
-                    dispatch(clearTicketReleaseForm());
-                    window.location.reload();
-                  }}
-                  style={{
-                    marginTop: "20px",
-                    width: "100px",
-                  }}
-                >
-                  Clear
+                  {createOnSubmit ? "Create" : "Next"}
                 </StyledButton>
               </Grid>
             </Grid>

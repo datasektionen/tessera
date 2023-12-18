@@ -14,6 +14,8 @@ import BorderBox from "../../components/wrappers/border_box";
 import EditEventForm from "../../components/events/edit/edit_event_form";
 import { getEventRequest } from "../../redux/features/eventSlice";
 import { useParams } from "react-router-dom";
+import EditTicketReleases from "../../components/events/edit/edit_ticket_releases";
+import { Style } from "@mui/icons-material";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -32,13 +34,16 @@ const EditEventPage: React.FC = () => {
     }
   }, [dispatch]);
 
+  if (!event || loading) {
+    return <LoadingOverlay />;
+  }
+
   return (
     <>
-      {loading && <LoadingOverlay />}
       <TesseraWrapper>
         <StandardGrid>
           <Grid xs={16}>
-            <Box sx={{ padding: "16px 32px" }}>
+            <Box sx={{ padding: "16px 16px" }}>
               <Title>Edit Event</Title>
               <StyledText color={PALLETTE.charcoal} level="body-sm">
                 Edit your event details here.
@@ -47,7 +52,25 @@ const EditEventPage: React.FC = () => {
           </Grid>
           <Grid xs={16}>
             <BorderBox>
+              <StyledText
+                color={PALLETTE.charcoal}
+                level="body-lg"
+                fontSize={32}
+              >
+                Edit Event Details
+              </StyledText>
               <EditEventForm event={event!} />
+            </BorderBox>
+            <BorderBox
+              style={{
+                marginTop: "16px",
+                marginBottom: "64px",
+              }}
+            >
+              <EditTicketReleases
+                event={event!}
+                ticket_releases={event!.ticketReleases || []}
+              />
             </BorderBox>
           </Grid>
         </StandardGrid>

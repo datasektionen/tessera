@@ -25,6 +25,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import StatusIcon from "../../icons/status_icon";
 import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
+import { ITicketTypeForm } from "../../../types";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -46,7 +47,15 @@ const StyledBorderBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CreateTicketTypes: React.FC = () => {
+interface CreateTicketTypesProps {
+  submit: (tts: ITicketTypeForm[]) => void;
+  handleBack: () => void;
+}
+
+const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
+  submit,
+  handleBack,
+}) => {
   const dispatch: AppDispatch = useDispatch();
 
   const { selectedTicketType, ticketTypes, loading, error } = useSelector(
@@ -81,13 +90,13 @@ const CreateTicketTypes: React.FC = () => {
     setInvalidForms(invalidForms);
   };
 
-  const handleAddTicket = () => {
+  const handleAddTicket = async () => {
+    await validateAllForms();
     dispatch(addTicketType());
   };
 
   const handleSubmission = () => {
-    console.log("submit");
-    dispatch(setTicketTypes(ticketTypes));
+    submit(ticketTypes);
   };
 
   return (
@@ -107,7 +116,7 @@ const CreateTicketTypes: React.FC = () => {
             size="md"
             color="primary"
             onClick={() => {
-              dispatch(previousStep());
+              handleBack();
             }}
           >
             Back

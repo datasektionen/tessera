@@ -15,7 +15,6 @@ const eventSlice = createSlice({
       state.loading = true;
     },
     getEventSuccess: (state, action: PayloadAction<IEvent>) => {
-      console.log(action.payload);
       state.loading = false;
       state.event = action.payload;
     },

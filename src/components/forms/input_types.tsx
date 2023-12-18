@@ -10,6 +10,7 @@ interface FormInputProps {
   placeholder: string;
   type?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  overrideStyle?: Object;
 }
 
 export const DefaultInputStyle = {
@@ -25,6 +26,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   placeholder,
   type,
   onChange = undefined,
+  overrideStyle = {},
 }) => (
   <Field name={name}>
     {({ field }: any) => (
@@ -35,7 +37,12 @@ export const FormInput: React.FC<FormInputProps> = ({
         onChange={onChange ? onChange : field.onChange}
         placeholder={placeholder}
         type={type}
-        style={DefaultInputStyle}
+        style={
+          {
+            ...DefaultInputStyle,
+            ...overrideStyle,
+          } as any
+        }
       />
     )}
   </Field>
