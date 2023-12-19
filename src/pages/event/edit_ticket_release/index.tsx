@@ -3,22 +3,9 @@ import { AppDispatch, RootState } from "../../../store";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { resetTicketTypes } from "../../../redux/features/ticketTypeCreationSlice";
-import {
-  createEventFullWorkflowRequest,
-  resetCurrentStep,
-  resetSuccess,
-} from "../../../redux/features/eventCreationSlice";
+
 import TesseraWrapper from "../../../components/wrappers/page_wrapper";
 import { Box, Grid } from "@mui/joy";
-import StandardGrid from "../../../components/wrappers/standard_grid";
-import Title from "../../../components/text/title";
-import StyledText from "../../../components/text/styled_text";
-import PALLETTE from "../../../theme/pallette";
-import BorderBox from "../../../components/wrappers/border_box";
-import CreateEventForm from "../../../components/events/create_event_form";
-import CreateTicketReleases from "../../../components/events/ticket_release/create_ticket_releases";
-import CreateTicketTypes from "../../../components/events/ticket_types/create_ticket_types";
-import CreateEventLastStep from "../../../components/events/create_event_last_step";
 import EditEventAddTicketRelease from "../../../components/events/edit/edit_event_add_ticket_release";
 import {
   ITicketReleaseForm,
@@ -29,7 +16,6 @@ import { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import { getEventRequest } from "../../../redux/features/eventSlice";
 import LoadingOverlay from "../../../components/Loading";
-import EditEventAddTicketReleaseLastStep from "../../../components/events/edit/edit_event_add_ticket_release_last_step";
 import { createTicketReleaseRequest } from "../../../redux/features/createTicketReleaseSlice";
 import { format } from "date-fns";
 

@@ -27,8 +27,6 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
     number | null
   >(null);
 
-  console.log("ticket release edit");
-
   return (
     <Box>
       <Box>
@@ -97,26 +95,40 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
         </Grid>
       </Box>
       <Box sx={{ marginTop: "16px" }}>
+        {selectedTicketRelease && (
+          <>
+            <StyledButton
+              color={PALLETTE.charcoal}
+              bgColor={PALLETTE.cerise}
+              onClick={() => {
+                navigate(
+                  generateEditTicketReleaseTicketTypes(
+                    event.id!,
+                    selectedTicketRelease!
+                  )
+                );
+              }}
+              size="md"
+              style={{
+                marginBottom: "16px",
+              }}
+            >
+              <StyledText
+                level="body-sm"
+                color={PALLETTE.charcoal}
+                fontSize={32}
+              >
+                Edit Tickets
+              </StyledText>
+            </StyledButton>
+          </>
+        )}
         <EditTicketReleaseForm
           ticketRelease={ticket_releases.find(
             (release) => release.id === selectedTicketRelease
           )}
           event_date={event.date}
         />
-        <StyledButton
-          color={PALLETTE.charcoal}
-          onClick={() => {
-            navigate(
-              generateEditTicketReleaseTicketTypes(
-                event.id!,
-                selectedTicketRelease!
-              )
-            );
-          }}
-          size="md"
-        >
-          Edit Tickets
-        </StyledButton>
       </Box>
     </Box>
   );

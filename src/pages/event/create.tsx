@@ -49,6 +49,12 @@ const CreateEventPage = () => {
     dispatch(resetSuccess());
   }, [dispatch, navigate, success]);
 
+  useEffect(() => {
+    if (currentStep < 1 || currentStep > 4) {
+      dispatch(resetCurrentStep());
+    }
+  }, [currentStep, dispatch]);
+
   const submitEventFullWorkflow = () => {
     dispatch(createEventFullWorkflowRequest(form));
   };

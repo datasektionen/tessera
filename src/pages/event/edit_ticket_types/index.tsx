@@ -2,14 +2,12 @@ import { Box, Grid, Sheet, Stack, Tooltip, styled } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  previousStep,
-  setTicketTypes,
-} from "../../../redux/features/eventCreationSlice";
+import { previousStep } from "../../../redux/features/eventCreationSlice";
 import {
   removeTicketType,
   addTicketType,
   setSelectedTicketType,
+  setTicketTypes,
 } from "../../../redux/features/ticketTypeCreationSlice";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,10 +15,12 @@ import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_f
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { ITicketRelease, ITicketType, ITicketTypeForm } from "../../../types";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchTicketTypesRequest,
   fetchTicketTypesSuccess,
+  resetUpdateSuccess,
+  updateTicketTypesRequest,
 } from "../../../redux/features/ticketTypeSlice";
 import PALLETTE from "../../../theme/pallette";
 import StandardGrid from "../../../components/wrappers/standard_grid";
@@ -30,6 +30,9 @@ import StyledButton from "../../../components/buttons/styled_button";
 import BorderBox from "../../../components/wrappers/border_box";
 import EditTicketTypeForm from "../../../components/events/edit/edit_ticket_type_form";
 import TesseraWrapper from "../../../components/wrappers/page_wrapper";
+import LoadingOverlay from "../../../components/Loading";
+import { is } from "date-fns/locale";
+import { toast } from "react-toastify";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -53,13 +56,20 @@ const StyledBorderBox = styled(Box)(({ theme }) => ({
 
 const EditTicketTypes: React.FC = () => {
   const { eventID, ticketReleaseID } = useParams();
-  const { ticketTypes: fetchedTicketTypes, loading } = useSelector(
-    (state: RootState) => state.ticketTypes
-  );
+  const navigate = useNavigate();
+  const {
+    ticketTypes: fetchedTicketTypes,
+    loading,
+    updateSuccess,
+  } = useSelector((state: RootState) => state.ticketTypes);
 
-  const { ticketTypes, selectedTicketType } = useSelector(
-    (state: RootState) => state.ticketTypeCreation
-  );
+  const {
+    ticketTypes: formTicketTypes,
+    selectedTicketType,
+    loading: loading2,
+  } = useSelector((state: RootState) => state.ticketTypeCreation);
+
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -68,6 +78,13 @@ const EditTicketTypes: React.FC = () => {
   }>({});
 
   const someFormsAreInvalid = Object.keys(invalidForms).length > 0;
+
+  useEffect(() => {
+    if (updateSuccess) {
+      console.log("success");
+      dispatch(resetUpdateSuccess());
+    }
+  }, [updateSuccess]);
 
   useEffect(() => {
     if (eventID && ticketReleaseID) {
@@ -86,19 +103,21 @@ const EditTicketTypes: React.FC = () => {
   useEffect(() => {
     if (fetchedTicketTypes) {
       const formValues: ITicketTypeForm[] = fetchedTicketTypes.map(
-        (ticketType) => {
+        (ticketType: any) => {
           return {
+            id: ticketType.id,
             name: ticketType.name,
             description: ticketType.description,
             price: ticketType.price,
-            quantity_total: ticketType.quantityTotal,
-          };
+            quantity_total: ticketType.quantity_total,
+          } as ITicketTypeForm;
         }
       );
 
+      setIsInitialized(true);
       dispatch(setTicketTypes(formValues));
     }
-  });
+  }, [dispatch, fetchedTicketTypes]);
 
   const validateAllForms = async () => {
     let allFormsAreValid = true;
@@ -107,9 +126,9 @@ const EditTicketTypes: React.FC = () => {
       [key: number]: string[];
     } = {};
 
-    for (let index = 0; index < ticketTypes.length; index++) {
+    for (let index = 0; index < formTicketTypes.length; index++) {
       try {
-        await CreateTicketTypeFormSchema.validate(ticketTypes[index], {
+        await CreateTicketTypeFormSchema.validate(formTicketTypes[index], {
           abortEarly: false,
         });
       } catch (err: any) {
@@ -122,12 +141,25 @@ const EditTicketTypes: React.FC = () => {
     setInvalidForms(invalidForms);
   };
 
-  const handleAddTicket = () => {
-    console.log("add ticket");
-    dispatch(addTicketType());
-  };
+  const handleSubmission = async () => {
+    await validateAllForms();
 
-  const handleSubmission = () => {};
+    if (someFormsAreInvalid) toast.error("Please fix the errors in the form.");
+
+    dispatch(
+      updateTicketTypesRequest({
+        eventId: parseInt(eventID!),
+        ticketReleaseId: parseInt(ticketReleaseID!),
+        ticketTypes: formTicketTypes,
+      })
+    );
+  };
+  if (loading || loading2 || !isInitialized)
+    return (
+      <TesseraWrapper>
+        <LoadingOverlay />
+      </TesseraWrapper>
+    );
 
   return (
     <TesseraWrapper>
@@ -140,10 +172,10 @@ const EditTicketTypes: React.FC = () => {
               fontSize={32}
               style={{ marginBottom: "16px" }}
             >
-              Edit Ticket Releases
+              Edit Tickets
             </StyledText>
             <Box mt={2}>
-              {ticketTypes?.map((ticketType, index) => {
+              {formTicketTypes?.map((ticketType, index) => {
                 const isInvalid = invalidForms[index]?.length > 0;
 
                 return (
@@ -212,44 +244,71 @@ const EditTicketTypes: React.FC = () => {
                 textAlign: "center",
               }}
             >
-              <Tooltip title="Add Ticket Type" placement="bottom">
-                <AddIcon
-                  onClick={() => {
-                    handleAddTicket();
-                  }}
-                  style={{
-                    color: PALLETTE.cerise,
-                    fontSize: "40px",
-                    // svg shadow
-                    filter: "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
-                  }}
-                />
-              </Tooltip>
+              <StyledButton
+                size="sm"
+                color={PALLETTE.charcoal}
+                onClick={() => {
+                  dispatch(addTicketType());
+                }}
+                style={{
+                  width: "200px",
+                }}
+              >
+                <Grid container justifyContent="center" alignItems="center">
+                  <Tooltip title="Add Ticket Type" placement="bottom">
+                    <AddIcon
+                      style={{
+                        color: PALLETTE.charcoal,
+                        fontSize: "40px",
+                        // svg shadow
+                        filter: "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
+                      }}
+                    />
+                  </Tooltip>
+                </Grid>
+              </StyledButton>
             </Box>
             <Box mt={2}>
-              <StyledButton
-                size="lg"
-                onClick={handleSubmission}
-                color={PALLETTE.charcoal}
-                bgColor={PALLETTE.cerise}
-                disabled={someFormsAreInvalid}
-              >
-                Next
-              </StyledButton>
+              <Grid container justifyContent="flex-start" spacing={2}>
+                <Grid>
+                  <StyledButton
+                    size="lg"
+                    onClick={async () => {
+                      handleSubmission();
+                    }}
+                    color={PALLETTE.charcoal}
+                    bgColor={PALLETTE.green}
+                    disabled={someFormsAreInvalid}
+                  >
+                    Save
+                  </StyledButton>
+                </Grid>
+                <Grid>
+                  <StyledButton
+                    size="lg"
+                    color={PALLETTE.charcoal}
+                    bgColor={PALLETTE.offWhite}
+                    onClick={() => {
+                      navigate(`/events/${eventID}/edit`);
+                    }}
+                  >
+                    Cancel
+                  </StyledButton>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </Grid>
         <Grid xs={8}>
           <BorderBox>
             <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-              TicketTypes
+              Ticket details
             </StyledText>
             <StyledText level="body-md" fontSize={16} color={PALLETTE.charcoal}>
-              Let's define the different types of tickets that will be available
-              for the previous ticket release.
+              Modify the details of your ticket types and then click "Save".
             </StyledText>
             <EditTicketTypeForm
-              ticketTypes={ticketTypes}
+              ticketTypes={formTicketTypes}
               selectedTicketType={selectedTicketType}
               validateAllForms={validateAllForms}
             />

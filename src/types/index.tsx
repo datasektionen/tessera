@@ -186,6 +186,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
 };
 
 export interface ITicketTypeForm {
+  id?: number;
   name: string;
   description: string;
   price: number;
@@ -193,6 +194,9 @@ export interface ITicketTypeForm {
 }
 
 export interface ITicketTypePostReq {
+  id?: number;
+  event_id?: number;
+  ticket_release_id?: number;
   name: string;
   description: string;
   price: number;
