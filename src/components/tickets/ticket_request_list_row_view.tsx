@@ -16,6 +16,7 @@ import BorderBox from "../wrappers/border_box";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { format } from "date-fns";
+import { is } from "date-fns/locale";
 
 const StyledTicketBox = styled(Box)(({ theme }) => ({
   border: "2px solid " + PALLETTE.charcoal,
@@ -33,12 +34,14 @@ interface TicketListRowViewProps {
   ticket: ITicket;
   selected: number | null;
   setSelected: (id: number | null) => void;
+  isPastEvent?: boolean;
 }
 
 const TicketListRowView: React.FC<TicketListRowViewProps> = ({
   ticket,
   selected,
   setSelected,
+  isPastEvent = false,
 }) => {
   if (!ticket) {
     return <></>;
@@ -47,15 +50,21 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
   const ticketRequest = ticket.ticket_request!;
   const event = ticketRequest.ticket_release!.event;
 
+  const handleClick = () => {
+    if (!isPastEvent) setSelected(ticket.id);
+  };
+
   return (
     <StyledTicketBox
-      key={ticketRequest.id}
+      key={ticket.id}
       my={1}
       style={{
-        borderColor:
-          selected === ticketRequest.id ? PALLETTE.cerise : undefined,
+        borderColor: selected === ticket.id ? PALLETTE.cerise : undefined,
+        backgroundColor: isPastEvent
+          ? PALLETTE.charcoal_see_through
+          : undefined,
       }}
-      onClick={() => setSelected(ticket.id)}
+      onClick={handleClick}
     >
       <Grid
         container
@@ -84,22 +93,41 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
           </StyledText>
         </Grid>
         <Grid>
-          <Stack direction="row" spacing={1}>
-            <Tooltip
-              title={
-                <StyledText
-                  color={PALLETTE.white}
-                  level="body-md"
-                  fontWeight={500}
-                  fontSize={15}
+          {!isPastEvent && (
+            <Stack direction="row" spacing={1}>
+              <Tooltip
+                title={
+                  <StyledText
+                    color={PALLETTE.white}
+                    level="body-md"
+                    fontWeight={500}
+                    fontSize={15}
+                    style={{
+                      textAlign: "center",
+                    }}
+                  >
+                    This shows if you got the ticket or is a reserve.
+                  </StyledText>
+                }
+              >
+                <Chip
+                  variant="soft"
+                  color="primary"
                   style={{
-                    textAlign: "center",
+                    backgroundColor: PALLETTE.charcoal,
                   }}
                 >
-                  This shows if you got the ticket or is a reserve.
-                </StyledText>
-              }
-            >
+                  <StyledText
+                    color={ticket.is_reserve ? PALLETTE.orange : PALLETTE.green}
+                    level="body-sm"
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    {ticket.is_reserve ? "Reserve" : "Ticket"}
+                  </StyledText>
+                </Chip>
+              </Tooltip>
+
               <Chip
                 variant="soft"
                 color="primary"
@@ -108,34 +136,34 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
                 }}
               >
                 <StyledText
-                  color={ticket.is_reserve ? PALLETTE.orange : PALLETTE.green}
+                  color={!ticket.is_paid ? PALLETTE.red : PALLETTE.green}
                   level="body-sm"
                   fontSize={14}
                   fontWeight={600}
                 >
-                  {ticket.is_reserve ? "Reserve" : "Ticket"}
+                  {ticket.is_paid ? "Paid" : "Not Paid"}
                 </StyledText>
               </Chip>
-            </Tooltip>
-            {ticketRequest.ticket_release?.is_reserved && (
-              <Chip
-                variant="soft"
-                color="primary"
-                style={{
-                  backgroundColor: PALLETTE.charcoal,
-                }}
-              >
-                <StyledText
-                  color={PALLETTE.cerise}
-                  level="body-sm"
-                  fontSize={14}
-                  fontWeight={600}
+              {ticketRequest.ticket_release?.is_reserved && (
+                <Chip
+                  variant="soft"
+                  color="primary"
+                  style={{
+                    backgroundColor: PALLETTE.charcoal,
+                  }}
                 >
-                  Reserved
-                </StyledText>
-              </Chip>
-            )}
-          </Stack>
+                  <StyledText
+                    color={PALLETTE.cerise}
+                    level="body-sm"
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    Reserved
+                  </StyledText>
+                </Chip>
+              )}
+            </Stack>
+          )}
         </Grid>
       </Grid>
     </StyledTicketBox>

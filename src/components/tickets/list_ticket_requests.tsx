@@ -193,6 +193,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
                           ticket={ticket}
                           selected={selected}
                           setSelected={setSelected}
+                          isPastEvent={true}
                         />
                       );
                     })}

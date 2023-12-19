@@ -33,12 +33,14 @@ interface TicketRequestListRowViewProps {
   ticketRequest: ITicketRequest;
   selected: number | null;
   setSelected: (id: number | null) => void;
+  isPastEvent?: boolean;
 }
 
 const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
   ticketRequest,
   selected,
   setSelected,
+  isPastEvent = false,
 }) => {
   if (!ticketRequest) {
     return <></>;
@@ -53,6 +55,9 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
       style={{
         borderColor:
           selected === ticketRequest.id ? PALLETTE.cerise : undefined,
+        backgroundColor: isPastEvent
+          ? PALLETTE.charcoal_see_through
+          : undefined,
       }}
       onClick={() => setSelected(ticketRequest.id)}
     >
@@ -83,62 +88,67 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
           </StyledText>
         </Grid>
         <Grid>
-          <Stack direction="row" spacing={1}>
-            <Tooltip
-              title={
-                <StyledText
-                  color={PALLETTE.white}
-                  level="body-md"
-                  fontWeight={500}
-                  fontSize={15}
+          {!isPastEvent && (
+            <Stack direction="row" spacing={1}>
+              <Tooltip
+                title={
+                  <StyledText
+                    color={PALLETTE.white}
+                    level="body-md"
+                    fontWeight={500}
+                    fontSize={15}
+                    style={{
+                      textAlign: "center",
+                    }}
+                  >
+                    If a ticket request is handled,
+                    <br />
+                    the user will be able to view the ticket in the tickets
+                    page.
+                  </StyledText>
+                }
+              >
+                <Chip
+                  variant="soft"
+                  color="primary"
                   style={{
-                    textAlign: "center",
+                    backgroundColor: PALLETTE.charcoal,
                   }}
                 >
-                  If a ticket request is handled,
-                  <br />
-                  the user will be able to view the ticket in the tickets page.
-                </StyledText>
-              }
-            >
-              <Chip
-                variant="soft"
-                color="primary"
-                style={{
-                  backgroundColor: PALLETTE.charcoal,
-                }}
-              >
-                <StyledText
-                  color={
-                    ticketRequest.is_handled ? PALLETTE.green : PALLETTE.orange
-                  }
-                  level="body-sm"
-                  fontSize={14}
-                  fontWeight={600}
+                  <StyledText
+                    color={
+                      ticketRequest.is_handled
+                        ? PALLETTE.green
+                        : PALLETTE.orange
+                    }
+                    level="body-sm"
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    {ticketRequest.is_handled ? "Handled" : "Not handled"}
+                  </StyledText>
+                </Chip>
+              </Tooltip>
+              {ticketRequest.ticket_release?.is_reserved && (
+                <Chip
+                  variant="soft"
+                  color="primary"
+                  style={{
+                    backgroundColor: PALLETTE.charcoal,
+                  }}
                 >
-                  {ticketRequest.is_handled ? "Handled" : "Not handled"}
-                </StyledText>
-              </Chip>
-            </Tooltip>
-            {ticketRequest.ticket_release?.is_reserved && (
-              <Chip
-                variant="soft"
-                color="primary"
-                style={{
-                  backgroundColor: PALLETTE.charcoal,
-                }}
-              >
-                <StyledText
-                  color={PALLETTE.cerise}
-                  level="body-sm"
-                  fontSize={14}
-                  fontWeight={600}
-                >
-                  Reserved
-                </StyledText>
-              </Chip>
-            )}
-          </Stack>
+                  <StyledText
+                    color={PALLETTE.cerise}
+                    level="body-sm"
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    Reserved
+                  </StyledText>
+                </Chip>
+              )}
+            </Stack>
+          )}
         </Grid>
       </Grid>
     </StyledTicketRequestBox>

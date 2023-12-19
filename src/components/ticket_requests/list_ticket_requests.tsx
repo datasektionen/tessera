@@ -197,6 +197,7 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
                           ticketRequest={request}
                           selected={selected}
                           setSelected={setSelected}
+                          isPastEvent={true}
                         />
                       );
                     })}
