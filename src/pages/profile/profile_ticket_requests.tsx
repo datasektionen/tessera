@@ -26,7 +26,7 @@ const ProfileTicketRequestsPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(getMyTicketRequestsRequest());
-  }, [dispatch]);
+  }, []);
 
   return (
     <TesseraWrapper>

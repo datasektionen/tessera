@@ -11,7 +11,7 @@ interface StyledButtonExtension extends Omit<ButtonProps, "color"> {
 
 interface StyledButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (() => void) | ((e: any) => void);
   bgColor?: string;
   color?: string;
   style?: React.CSSProperties;

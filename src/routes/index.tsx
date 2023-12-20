@@ -21,13 +21,14 @@ import ProfileTicketsPage from "../pages/profile/profile_tickets";
 import EditEventAddTicketReleasePage from "../pages/event/edit_ticket_release";
 import EditTicketReleases from "../components/events/edit/edit_ticket_releases";
 import EditTicketTypes from "../pages/event/edit_ticket_types";
+import ManageEventPage from "../pages/event/manage";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(currentUserRequest());
-  }, [dispatch]);
+  }, []);
 
   return (
     <BrowserRouter basename="/">
@@ -40,6 +41,7 @@ function AppRoutes() {
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
+          <Route path={ROUTES.MANAGE_EVENT} element={<ManageEventPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
           <Route
             path={ROUTES.EDIT_EVENT_ADD_TICKET_RELEASE}

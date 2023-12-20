@@ -13,21 +13,49 @@ import { ROUTES } from "../../routes/def";
 import ViewTicketRequest from "../../components/ticket_requests/view";
 import ViewTicket from "../../components/tickets/view";
 import { getMyTicketsRequest } from "../../redux/features/myTicketsSlice";
-import TicketsList from "../../components/tickets/list_ticket_requests";
+import TicketsList from "../../components/tickets/list_tickets";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProfileTicketsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
   const [selected, setSelected] = React.useState<number | null>(null);
+  const [isInitialized, setIsInitialized] = React.useState(false);
 
-  const { tickets } = useSelector((state: RootState) => state.myTickets);
+  const { tickets, loading: ticketLoading } = useSelector(
+    (state: RootState) => state.myTickets
+  );
 
   const dispatch: AppDispatch = useDispatch();
 
   console.log(tickets);
 
   useEffect(() => {
-    dispatch(getMyTicketsRequest());
-  }, [dispatch]);
+    if (!isInitialized && !ticketLoading) {
+      console.log("dispatching");
+      dispatch(getMyTicketsRequest());
+      setIsInitialized(true);
+    }
+  }, []);
+
+  const location = useLocation();
+
+  // Handle redirect from Stripe and show toast
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const status = queryParams.get("redirect_status");
+
+    if (status === "succeeded") {
+      // Handle successful payment
+      toast.success("Your ticket purchase was successful!");
+    } else {
+      // Handle failed payment
+      toast.error("Your ticket purchase was not successful.");
+    }
+
+    // Remove redirect_status from URL
+    queryParams.delete("redirect_status");
+  }, [location]);
 
   return (
     <TesseraWrapper>

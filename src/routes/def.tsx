@@ -17,6 +17,7 @@ export const ROUTES = {
   EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES:
     "/events/:eventID/ticket-release/:ticketReleaseID/ticket-types",
   CREATE_EVENT: "/create-event",
+  MANAGE_EVENT: "/events/:eventID/manage",
   EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",

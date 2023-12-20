@@ -43,12 +43,9 @@ import { cancelTicketRequestRequest } from "../../redux/features/myTicketRequest
 import Payment from "./payment";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
-if (!process.env.REACT_APP_STRIPE_KEY) {
-  throw new Error("REACT_APP_STRIPE_KEY is undefined");
-}
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+import { appearance } from "../../types/stripe_options";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface ViewTicketProps {
   ticket: ITicket;
@@ -146,9 +143,19 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         </>
       </Box>
       <Box mt={2}>
-        <Elements stripe={stripePromise}>
+        {!ticket.is_paid ? (
           <Payment ticket={ticket} />
-        </Elements>
+        ) : (
+          <StyledText
+            level="body-sm"
+            fontSize={18}
+            color={PALLETTE.cerise}
+            style={{ marginTop: "16px" }}
+            fontWeight={700}
+          >
+            You have paid for your ticket!
+          </StyledText>
+        )}
       </Box>
       <Box>
         <ConfirmModal

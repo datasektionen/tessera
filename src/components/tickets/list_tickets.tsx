@@ -18,8 +18,8 @@ import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import BorderBox from "../wrappers/border_box";
 import { format } from "date-fns";
-import TicketRequestListRowView from "./ticket_request_list_row_view";
-import TicketListRowView from "./ticket_request_list_row_view";
+import TicketRequestListRowView from "./ticket_list_row_view";
+import TicketListRowView from "./ticket_list_row_view";
 
 interface TicketsListProps {
   tickets: ITicket[];
