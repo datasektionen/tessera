@@ -40,12 +40,25 @@ import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
 import { cancelTicketRequestRequest } from "../../redux/features/myTicketRequestsSlice";
+import Payment from "./payment";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+if (!process.env.REACT_APP_STRIPE_KEY) {
+  throw new Error("REACT_APP_STRIPE_KEY is undefined");
+}
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 interface ViewTicketProps {
   ticket: ITicket;
 }
 
 const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
+  const stripeOptions = {
+    clientSecret: process.env.REACT_APP_STRIPE_SECRET_KEY!,
+  };
+
   const dispatch: AppDispatch = useDispatch();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState<boolean>(false);
@@ -132,6 +145,11 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           <Divider />
         </>
       </Box>
+      <Box mt={2}>
+        <Elements stripe={stripePromise}>
+          <Payment ticket={ticket} />
+        </Elements>
+      </Box>
       <Box>
         <ConfirmModal
           isOpen={confirmCancelOpen}
@@ -143,7 +161,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               size="md"
               onClick={() => {}}
               style={{
-                width: "300px",
+                width: "200px",
                 marginTop: "16px",
               }}
             >
@@ -154,7 +172,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               size="md"
               onClick={() => setConfirmCancelOpen(false)}
               style={{
-                width: "100%",
+                width: "300px",
                 marginTop: "16px",
               }}
             >
