@@ -35,18 +35,29 @@ const TicketType: React.FC<TicketTypeProps> = ({
   const { items } = useSelector((state: RootState) => state.ticketRequest) as {
     items: ShoppingCartItem[];
   };
+  const [plusDisabled, setPlusDisabled] = React.useState<boolean>(false);
+
   const dispatch: AppDispatch = useDispatch();
   const handleAddTicket = (ticket: ITicketType) => {
-    if (numberOfTotalTicketRequestInBasket(items) >= maxTicketsPerUser) {
+    const numberOfTotalTickets = numberOfTotalTicketRequestInBasket(items);
+    if (numberOfTotalTickets >= maxTicketsPerUser) {
       toast.error(
         `You can only purchase a maximum of ${maxTicketsPerUser} tickets`
       );
       return;
     }
+
+    if (numberOfTotalTickets + 1 >= maxTicketsPerUser) {
+      setPlusDisabled(true);
+    } else {
+      setPlusDisabled(false);
+    }
+
     dispatch(addTicket(ticket));
   };
 
   const handleRemoveTicket = (ticket: ITicketType) => {
+    setPlusDisabled(false);
     dispatch(removeTicket(ticket));
   };
 
@@ -151,6 +162,10 @@ const TicketType: React.FC<TicketTypeProps> = ({
               fontFamily={"Josefin sans"}
               textColor={PALLETTE.cerise}
               mx={1}
+              style={{
+                width: "30px",
+                textAlign: "center",
+              }}
             >
               {ticketTypeCount[ticketType.id!] || 0}
             </Typography>
@@ -160,6 +175,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
               onClick={() => handleAddTicket(ticketType)}
               style={{ backgroundColor: PALLETTE.charcoal }}
               sx={{ px: 0.2, width: "40px", height: "20px" }}
+              disabled={plusDisabled}
             >
               +
             </Button>

@@ -2,6 +2,8 @@ import { Grid, Typography } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import { IEvent } from "../../types";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import StyledText from "../text/styled_text";
 
 interface EventDetailInfoProps {
   event: IEvent;
@@ -11,62 +13,55 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({ event }) => {
   return (
     <Grid xs={8}>
       <Grid>
-        <Typography
-          level="h1"
-          fontFamily={"Josefin sans"}
-          fontSize={48}
-          fontWeight={700}
-          style={{
-            color: PALLETTE.cerise,
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-          }}
+        <StyledText
+          color={PALLETTE.charcoal}
+          level="body-lg"
+          fontSize={32}
+          fontWeight={600}
         >
           {event.name}
-        </Typography>
+        </StyledText>
 
         <Grid container spacing={2}>
           <Grid xs={7}>
-            <Typography
+            <StyledText
+              color={PALLETTE.charcoal}
               level="body-md"
               style={{
-                color: PALLETTE.charcoal,
                 height: "150px",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
               }}
             >
               {event.description}
-            </Typography>
+            </StyledText>
           </Grid>
           <Grid xs={5}>
-            <Typography
+            <StyledText
               level="body-sm"
-              fontFamily={"Josefin sans"}
               fontSize={16}
+              color={PALLETTE.charcoal}
               fontWeight={600}
               startDecorator={<LocationOnIcon />}
-              sx={{ mt: 1 }}
               style={{
                 color: PALLETTE.charcoal,
               }}
             >
               {event.location}
-            </Typography>
-            <Typography
+            </StyledText>
+            <StyledText
               level="body-sm"
-              fontFamily={"Josefin sans"}
+              color={PALLETTE.charcoal}
               fontSize={16}
               fontWeight={600}
               startDecorator={<CalendarTodayIcon />}
-              sx={{ mt: 1 }}
               style={{
                 color: PALLETTE.charcoal,
               }}
             >
               {/* Convert from timestamp to string */}
               {new Date(event.date).toLocaleString()}
-            </Typography>
+            </StyledText>
           </Grid>
         </Grid>
       </Grid>

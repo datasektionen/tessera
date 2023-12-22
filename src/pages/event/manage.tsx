@@ -1,19 +1,29 @@
-import { Box } from "@mui/joy";
+import { Box, Stack } from "@mui/joy";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getEventRequest } from "../../redux/features/eventSlice";
 import LoadingOverlay from "../../components/Loading";
+import EventDetailInfo from "../../components/events/detail_info";
+import StyledText from "../../components/text/styled_text";
+import StyledButton from "../../components/buttons/styled_button";
+import PALLETTE from "../../theme/pallette";
+import { fetchEventTicketsStart } from "../../redux/features/eventTicketsSlice";
+import TicketsList from "../../components/tickets/list_tickets";
+import EventTicketsList from "../../components/events/tickets/list";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
+  const navigate = useNavigate();
 
   const { event, loading, error } = useSelector(
     (state: RootState) => state.eventDetail
   );
+
+  const { tickets } = useSelector((state: RootState) => state.eventTickets);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -22,6 +32,7 @@ const ManageEventPage: React.FC = () => {
   useEffect(() => {
     if (eventID) {
       dispatch(getEventRequest(parseInt(eventID)));
+      dispatch(fetchEventTicketsStart(parseInt(eventID)));
     }
   }, []);
 
@@ -30,12 +41,7 @@ const ManageEventPage: React.FC = () => {
   }
   return (
     <TesseraWrapper>
-      <Box
-        sx={{
-          marginLeft: "32px",
-          marginTop: "16px",
-        }}
-      >
+      <Box mx="64px" mt={"16px"}>
         <Title
           style={{
             textOverflow: "ellipsis",
@@ -43,70 +49,24 @@ const ManageEventPage: React.FC = () => {
             width: "90%",
           }}
         >
-          Manage Event - {event.name}
+          Manage Event
         </Title>
-        <Grid xs={8}>
-          <Item>
-            <Typography
-              level="h1"
-              fontFamily={"Josefin sans"}
-              fontSize={48}
-              fontWeight={700}
-              style={{
-                color: PALLETTE.cerise,
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-              }}
-            >
-              {event.name}
-            </Typography>
-
-            <Grid container spacing={2}>
-              <Grid xs={7}>
-                <Typography
-                  level="body-md"
-                  style={{
-                    color: PALLETTE.charcoal,
-                    height: "150px",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                  }}
-                >
-                  {event.description}
-                </Typography>
-              </Grid>
-              <Grid xs={5}>
-                <Typography
-                  level="body-sm"
-                  fontFamily={"Josefin sans"}
-                  fontSize={16}
-                  fontWeight={600}
-                  startDecorator={<LocationOnIcon />}
-                  sx={{ mt: 1 }}
-                  style={{
-                    color: PALLETTE.charcoal,
-                  }}
-                >
-                  {event.location}
-                </Typography>
-                <Typography
-                  level="body-sm"
-                  fontFamily={"Josefin sans"}
-                  fontSize={16}
-                  fontWeight={600}
-                  startDecorator={<CalendarTodayIcon />}
-                  sx={{ mt: 1 }}
-                  style={{
-                    color: PALLETTE.charcoal,
-                  }}
-                >
-                  {/* Convert from timestamp to string */}
-                  {new Date(event.date).toLocaleString()}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Item>
-        </Grid>
+        <Stack spacing={2} direction={"row"}>
+          <StyledButton
+            size="md"
+            bgColor={PALLETTE.offWhite}
+            onClick={() => {
+              navigate(`/events/${event.id}/edit`);
+            }}
+            style={{ width: "150px" }}
+          >
+            Edit
+          </StyledButton>
+        </Stack>
+        <EventDetailInfo event={event} />
+      </Box>
+      <Box>
+        <EventTicketsList tickets={tickets} />
       </Box>
     </TesseraWrapper>
   );

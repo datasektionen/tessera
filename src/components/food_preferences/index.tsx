@@ -25,7 +25,7 @@ import {
   updateUserFoodPreferencesStart,
 } from "../../redux/features/userFoodPreferences";
 import LoadingOverlay from "../Loading";
-import SaveButton from "../buttons/save_button";
+import StyledButton from "../buttons/styled_button";
 
 interface FoodPreferencesProps {}
 
@@ -154,7 +154,9 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
             Leave blank if you have none.
           </FormHelperText>
         </FormControl>
-        <SaveButton onClick={handleSave} />
+        <StyledButton size="md" onClick={handleSave} bgColor={PALLETTE.green}>
+          Save
+        </StyledButton>
       </Box>
     </>
   );

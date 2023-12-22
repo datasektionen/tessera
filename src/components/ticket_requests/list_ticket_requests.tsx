@@ -40,8 +40,8 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
   if (ticketRequests.length === 0) {
     return (
       <Box mt={2}>
-        <StyledText color={PALLETTE.charcoal} level="body-md">
-          No requests yet
+        <StyledText color={PALLETTE.charcoal} level="body-md" fontWeight={700}>
+          No ticket requests yet
         </StyledText>
       </Box>
     );

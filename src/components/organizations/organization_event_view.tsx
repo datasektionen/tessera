@@ -84,11 +84,11 @@ const OrganizationEventView: React.FC<OrganizationEventViewProps> = ({
             size="md"
             color={PALLETTE.cerise}
             onClick={() => {
-              navigate(`/events/${event.id}/edit`);
+              navigate(`/events/${event.id}/manage`);
             }}
             style={{ width: "100px" }}
           >
-            Edit
+            Manage
           </StyledButton>
         </Grid>
       </Grid>

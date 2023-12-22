@@ -73,8 +73,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
 
-  console.log(ticketRequest);
-
   const handleCancel = () => {
     dispatch(cancelTicketRequestRequest(ticketRequest));
     setConfirmCancelOpen(false);
@@ -83,10 +81,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
   if (!ticketRequest) {
     return <></>;
   }
-
-  const iterationArray = Array.from(
-    Array(ticketRequest.ticket_amount).keys()
-  ).map((item) => item + 1);
 
   return (
     <BorderBox
@@ -141,13 +135,13 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
             <StyledButton
               bgColor={PALLETTE.offWhite}
               size="md"
-              onClick={() => {}}
+              onClick={handleCancel}
               style={{
                 width: "300px",
                 marginTop: "16px",
               }}
             >
-              Cancel TICKET
+              Cancel Request
             </StyledButton>,
             <StyledButton
               bgColor={PALLETTE.green}

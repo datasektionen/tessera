@@ -33,6 +33,12 @@ import WhaIsTicketRequestModal from "./what_is_ticket_request";
 import LoadingOverlay from "../../Loading";
 import { TicketRequestData } from "../../../redux/sagas/ticketRequestSaga";
 import { toast } from "react-toastify";
+import StyledButton from "../../buttons/styled_button";
+import {
+  numberOfTicketRequestInBasket,
+  numberOfTotalTicketRequestInBasket,
+} from "../../../utils/ticket_types";
+import ConfirmModal from "../../modal/confirm_modal";
 
 const TicketReleasHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -211,17 +217,17 @@ const TicketReleasHasOpened: React.FC<{
             justifyContent={"space-between"}
             alignItems={"center"}
           >
-            <Button
-              variant="outlined"
-              size="md"
+            <StyledButton
+              size="sm"
               onClick={handleMakeRequest}
-              style={{
-                borderColor: PALLETTE.cerise,
-                color: PALLETTE.cerise,
-              }}
+              bgColor={PALLETTE.green}
+              color={PALLETTE.charcoal}
+              disabled={
+                numberOfTotalTicketRequestInBasket(ticketRequestItems) === 0
+              }
             >
               Request
-            </Button>
+            </StyledButton>
             <Typography
               fontFamily={"Josefin Sans"}
               fontSize={14}

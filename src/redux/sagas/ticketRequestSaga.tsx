@@ -28,6 +28,10 @@ import {
   getMyTicketRequestsRequest,
   getMyTicketRequestsSuccess,
 } from "../features/myTicketRequestsSlice";
+import StyledText from "../../components/text/styled_text";
+import { Link } from "@mui/joy";
+import { ROUTES } from "../../routes/def";
+import PALLETTE from "../../theme/pallette";
 
 export interface TicketRequestData {
   ticket_type_id: number;
@@ -61,7 +65,12 @@ function* createTicketRequestSaga(
     );
 
     if (response.status === 201) {
-      toast.success("Ticket request created!");
+      toast.success(
+        <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
+          Ticket request created! View it{" "}
+          <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
+        </StyledText>
+      );
       yield put(postTicketRequestSuccess());
     } else {
       const errorMessage = response.data.error || "An error occurred";
@@ -70,9 +79,6 @@ function* createTicketRequestSaga(
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
-
-    console.log(errorMessage);
-
     toast.error(errorMessage);
     yield put(postTicketRequestFailure(errorMessage));
   }

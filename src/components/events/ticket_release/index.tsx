@@ -27,6 +27,7 @@ import TicketReleasHasOpened from "./ticket_release_has_opened";
 import TicketReleaseHasClosed from "./ticket_release_has_closed";
 import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
 import StyledText from "../../text/styled_text";
+import InformationModal from "../../modal/information";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -43,7 +44,8 @@ const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
 };
 
 const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
-  console.log(ticketRelease.is_reserved);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+
   return (
     <Sheet
       variant="outlined"
@@ -86,16 +88,29 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       </Typography>
       <Typography level="body-sm" fontFamily={"Josefin sans"}>
         {ticketRelease.description} - This release uses{" "}
-        <Link
-          href={
-            "/ticket-release-method/" +
-            ticketRelease.ticketReleaseMethodDetail?.id
-          }
-          target="_blank"
-        >
+        <Link target="_blank" onClick={() => setModalIsOpen(true)}>
           {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name}
         </Link>
       </Typography>
+      <InformationModal
+        isOpen={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+        title={
+          ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name!
+        }
+      >
+        <StyledText
+          level="body-sm"
+          color={PALLETTE.charcoal}
+          fontSize={18}
+          fontWeight={500}
+        >
+          {
+            ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+              ?.description
+          }
+        </StyledText>
+      </InformationModal>
 
       {renderTicketReleaseStatus(ticketRelease)}
     </Sheet>

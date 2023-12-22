@@ -60,7 +60,7 @@ const StyledButton: React.FC<StyledButtonProps> = ({
       bgColor={bgColor}
       color_={color}
     >
-      <StyledText level="body-md" color={""}>
+      <StyledText level="body-md" color={disabled ? PALLETTE.offWhite : color!}>
         {children}
       </StyledText>
     </ButtonStyled>

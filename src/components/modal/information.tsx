@@ -5,6 +5,8 @@ import {
   ModalClose,
   ModalDialog,
 } from "@mui/joy";
+import StyledText from "../text/styled_text";
+import PALLETTE from "../../theme/pallette";
 
 interface InformationModalProps {
   isOpen: boolean;
@@ -23,7 +25,16 @@ const InformationModal: React.FC<InformationModalProps> = ({
     <Modal open={isOpen} onClose={() => onClose()}>
       <ModalDialog color="primary" size="sm" variant="outlined">
         <ModalClose onClick={() => onClose()} />
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>
+          <StyledText
+            level="h3"
+            color={PALLETTE.cerise}
+            fontSize={28}
+            fontWeight={700}
+          >
+            {title}
+          </StyledText>
+        </DialogTitle>
         <DialogContent>{children}</DialogContent>
       </ModalDialog>
     </Modal>

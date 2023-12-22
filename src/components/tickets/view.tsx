@@ -172,7 +172,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
                 marginTop: "16px",
               }}
             >
-              Cancel TICKET
+              Cancel Ticket
             </StyledButton>,
             <StyledButton
               bgColor={PALLETTE.green}

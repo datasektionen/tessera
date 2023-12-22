@@ -37,7 +37,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
   if (tickets.length === 0) {
     return (
       <Box mt={2}>
-        <StyledText color={PALLETTE.charcoal} level="body-md">
+        <StyledText color={PALLETTE.charcoal} level="body-md" fontWeight={700}>
           No tickets yet
         </StyledText>
       </Box>

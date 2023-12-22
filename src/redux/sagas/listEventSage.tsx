@@ -30,6 +30,7 @@ function* listEventSaga(): Generator<any, void, any> {
           location: event.location!,
           date: event.date!,
           organizationId: event.organization_id!,
+          createdById: event.created_by!,
         };
       })
       .sort((a: IEvent, b: IEvent) => {

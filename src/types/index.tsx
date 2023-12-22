@@ -67,8 +67,8 @@ export interface IUser {
   first_name: string;
   last_name: string;
   email: string;
-  role: IRole;
-  organizations: IOrganization[];
+  role?: IRole;
+  organizations?: IOrganization[];
 }
 
 export interface IOrganizationUser extends IUser {
@@ -91,6 +91,7 @@ export interface IEvent {
   organizationId: number;
   is_private: boolean;
   ticketReleases?: ITicketRelease[];
+  createdById?: string;
 }
 
 export interface IEventForm {
@@ -282,7 +283,6 @@ export interface ITicket {
   user_id: number;
   user?: IUser;
 }
-
 export interface TicketRequestPostReq {
   ticket_type_id: number;
   ticket_release_id: number;
@@ -334,6 +334,14 @@ export const FoodPreferences: IFoodPreference[] = [
   {
     id: "shellfish_allergy",
     label: "Shellfish Allergy",
+  },
+  {
+    id: "kosher",
+    label: "Kosher",
+  },
+  {
+    id: "halal",
+    label: "Halal",
   },
 ];
 

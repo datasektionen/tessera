@@ -20,11 +20,11 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
               <UserInfoText label="Email" value={user.email} />
               <UserInfoText label="Username" value={user.username} />
 
-              <UserInfoText label="Role" value={user.role.name} />
+              <UserInfoText label="Role" value={user.role!.name} />
 
               <UserInfoText
                 label="Teams"
-                value={user.organizations.map((org) => org.name).join(", ")}
+                value={user.organizations!.map((org) => org.name).join(", ")}
               />
             </Stack>
           </Box>

@@ -48,9 +48,6 @@ const ProfileTicketsPage: React.FC = () => {
     if (status === "succeeded") {
       // Handle successful payment
       toast.success("Your ticket purchase was successful!");
-    } else {
-      // Handle failed payment
-      toast.error("Your ticket purchase was not successful.");
     }
 
     // Remove redirect_status from URL

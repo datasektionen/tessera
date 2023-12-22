@@ -35,6 +35,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
 
     const eventData = response.data.event;
 
+    console.log(eventData.created_by);
+
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
       id: eventData.ID!,
@@ -45,6 +47,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
       location: eventData.location!,
       date: new Date(eventData.date!).getTime(),
       organizationId: eventData.organization_id!,
+      createdById: eventData.created_by!,
       ticketReleases: eventData.ticket_releases!.map((ticketRelease: any) => {
         return {
           id: ticketRelease.ID!,
