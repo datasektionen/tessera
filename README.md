@@ -1,46 +1,78 @@
-# Getting Started with Create React App
+# Tessera
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Tessera is a comprehensive event management platform designed to streamline the process of creating, managing, and attending events. It provides functionalities for creating and managing organizations, events, and ticket types. Users can request tickets for events, view details about events and organizations, and manage their own events. The platform is built with a focus on user experience, ensuring that all features are easy to use and accessible. Whether you're an event organizer or an attendee, Tessera makes the process of managing and attending events seamless and enjoyable.
 
-## Available Scripts
+## Requirements
 
-In the project directory, you can run:
+For development, you will only need Node.js installed on your environement.
+And please use the appropriate [Editorconfig](http://editorconfig.org/) plugin for your Editor (not mandatory).
 
-### `npm start`
+### Node
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[Node](http://nodejs.org/) is really easy to install & now include [NPM](https://npmjs.org/).
+You should be able to run the following command after the installation procedure
+below.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    $ node --version
+    v18.16.1
 
-### `npm test`
+    $ npm --version
+    9.5.1
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Node installation on OS X
 
-### `npm run build`
+You will need to use a Terminal. On OS X, you can find the default terminal in
+`/Applications/Utilities/Terminal.app`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Please install [Homebrew](http://brew.sh/) if it's not already done with the following command.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If everything when fine, you should run
 
-### `npm run eject`
+    brew install node
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Node installation on Linux
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    sudo apt-get install python-software-properties
+    sudo add-apt-repository ppa:chris-lea/node.js
+    sudo apt-get update
+    sudo apt-get install nodejs
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Node installation on Windows
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Just go on [official Node.js website](http://nodejs.org/) & grab the installer.
+Also, be sure to have `git` available in your PATH, `npm` might need it.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Install
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    $ git clone git@github.com:DowLucas/tessera.git
+    $ cd tessera
+    $ npm install
+
+### Configure app
+
+Copy `.env.example` to `.env` then edit it with it by inserting the google maps api key and stripe key. 
+```
+REACT_APP_ENV=development
+REACT_APP_BASE_URL=http://localhost:5000
+REACT_APP_BACKEND_URL=http://localhost:8080
+REACT_APP_GOOGLE_MAPS_API=<INSERT KEY HERE>
+REACT_APP_STRIPE_KEY=<INSERT KEY HERE>
+```
+
+## Start & watch
+
+    $ npm start
+
+## Simple build for production
+
+    $ npm run build
+
+## Languages & tools
+
+- [TypeScript](https://www.typescriptlang.org/) is used as the primary development language, offering static typing and advanced JavaScript features.
+- [Redux](https://redux.js.org/) for state management in React applications, ensuring predictable state updates.
+- [React](http://facebook.github.io/react) is used for building user interfaces, particularly single-page applications.
