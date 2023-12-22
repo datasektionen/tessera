@@ -13,6 +13,7 @@ interface InformationModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  width?: string;
 }
 
 const InformationModal: React.FC<InformationModalProps> = ({
@@ -20,10 +21,16 @@ const InformationModal: React.FC<InformationModalProps> = ({
   onClose,
   title,
   children,
+  width = "30%",
 }) => {
   return (
     <Modal open={isOpen} onClose={() => onClose()}>
-      <ModalDialog color="primary" size="sm" variant="outlined">
+      <ModalDialog
+        color="primary"
+        size="sm"
+        variant="outlined"
+        sx={{ width: width }}
+      >
         <ModalClose onClick={() => onClose()} />
         <DialogTitle>
           <StyledText

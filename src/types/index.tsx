@@ -69,6 +69,7 @@ export interface IUser {
   email: string;
   role?: IRole;
   organizations?: IOrganization[];
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface IOrganizationUser extends IUser {
@@ -282,6 +283,7 @@ export interface ITicket {
   refunded: boolean;
   user_id: number;
   user?: IUser;
+  transaction?: ITransaction;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;
@@ -303,6 +305,28 @@ export interface IFoodPreference {
   id: string;
   label: string;
   checked?: boolean;
+}
+
+export interface IUserFoodPreference {
+  gluten_intolerant: boolean;
+  lactose_intolerant: boolean;
+  vegetarian: boolean;
+  vegan: boolean;
+  nut_allergy: boolean;
+  shellfish_allergy: boolean;
+  kosher: boolean;
+  halal: boolean;
+  additional_info?: string;
+}
+
+export interface ITransaction {
+  id: number;
+  ticket_id: number;
+  amount: number;
+  currency: string;
+  payed_at: number;
+  refunded: boolean;
+  refunded_at: number | null;
 }
 
 export enum OrganizationUserRole {

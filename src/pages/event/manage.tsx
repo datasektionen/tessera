@@ -14,6 +14,7 @@ import PALLETTE from "../../theme/pallette";
 import { fetchEventTicketsStart } from "../../redux/features/eventTicketsSlice";
 import TicketsList from "../../components/tickets/list_tickets";
 import EventTicketsList from "../../components/events/tickets/list";
+import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -40,7 +41,7 @@ const ManageEventPage: React.FC = () => {
     return <LoadingOverlay />;
   }
   return (
-    <TesseraWrapper>
+    <MUITesseraWrapper>
       <Box mx="64px" mt={"16px"}>
         <Title
           style={{
@@ -68,7 +69,7 @@ const ManageEventPage: React.FC = () => {
       <Box>
         <EventTicketsList tickets={tickets} />
       </Box>
-    </TesseraWrapper>
+    </MUITesseraWrapper>
   );
 };
 

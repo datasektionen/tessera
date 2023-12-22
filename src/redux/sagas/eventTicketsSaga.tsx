@@ -12,8 +12,11 @@ import {
   ITicketRelease,
   ITicketRequest,
   ITicketType,
+  ITransaction,
   IUser,
+  IUserFoodPreference,
 } from "../../types";
+import { format } from "date-fns";
 
 function* fetchEventTickets(
   action: PayloadAction<number>
@@ -27,8 +30,9 @@ function* fetchEventTickets(
       }
     );
 
+    console.log(response.data.tickets);
+
     const tickets: ITicket[] = response.data.tickets.map((ticket: any) => {
-      console.log(ticket.user);
       const ticket_request = ticket.ticket_request;
       return {
         id: ticket.ID!,
@@ -44,7 +48,28 @@ function* fetchEventTickets(
           username: ticket.user.username!,
           first_name: ticket.user.first_name!,
           last_name: ticket.user.last_name!,
+          food_preferences: {
+            gluten_intolerant: ticket.user.food_preferences.gluten_intolerant!,
+            lactose_intolerant:
+              ticket.user.food_preferences.lactose_intolerant!,
+            vegetarian: ticket.user.food_preferences.vegetarian!,
+            vegan: ticket.user.food_preferences.vegan!,
+            nut_allergy: ticket.user.food_preferences.nut_allergy!,
+            shellfish_allergy: ticket.user.food_preferences.shellfish_allergy!,
+            kosher: ticket.user.food_preferences.kosher!,
+            halal: ticket.user.food_preferences.halal!,
+            additional: ticket.user.food_preferences.additional_info!,
+          } as IUserFoodPreference,
         } as IUser,
+        transaction: {
+          id: ticket.transaction.ID!,
+          ticket_id: ticket.transaction.ticket_id!,
+          amount: ticket.transaction.amount!,
+          currency: ticket.transaction.currency!,
+          payed_at: new Date(ticket.transaction.payed_at! * 1000).getTime(),
+          refunded: ticket.transaction.refunded!,
+          refunded_at: ticket.transaction.refunded_at || null,
+        } as ITransaction,
         ticket_request: {
           id: ticket_request.ID!,
           created_at: new Date(ticket_request.CreatedAt!).getTime(),

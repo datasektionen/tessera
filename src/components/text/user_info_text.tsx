@@ -1,9 +1,10 @@
 import { Box, Stack, Typography } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
+import { ReactNode } from "react";
 
 interface UserInfoTextProps {
   label: string;
-  value: string;
+  value: string | ReactNode;
 }
 
 const UserInfoText: React.FC<UserInfoTextProps> = ({ label, value }) => {

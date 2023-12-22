@@ -22,6 +22,8 @@ import EditEventAddTicketReleasePage from "../pages/event/edit_ticket_release";
 import EditTicketReleases from "../components/events/edit/edit_ticket_releases";
 import EditTicketTypes from "../pages/event/edit_ticket_types";
 import ManageEventPage from "../pages/event/manage";
+import { CssVarsProvider } from "@mui/joy";
+import theme from "../theme";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -41,7 +43,6 @@ function AppRoutes() {
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
-          <Route path={ROUTES.MANAGE_EVENT} element={<ManageEventPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
           <Route
             path={ROUTES.EDIT_EVENT_ADD_TICKET_RELEASE}
@@ -68,6 +69,8 @@ function AppRoutes() {
             path={ROUTES.CREATE_ORGANIZATION}
             element={<CreateOrganizationPage />}
           />
+
+          <Route path={ROUTES.MANAGE_EVENT} element={<ManageEventPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

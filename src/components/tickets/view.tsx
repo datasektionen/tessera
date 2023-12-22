@@ -143,7 +143,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         </>
       </Box>
       <Box mt={2}>
-        {!ticket.is_paid ? (
+        {true ? (
           <Payment ticket={ticket} />
         ) : (
           <StyledText

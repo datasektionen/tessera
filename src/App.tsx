@@ -12,11 +12,9 @@ import { PersistGate } from "redux-persist/integration/react";
 function App() {
   return (
     <Provider store={store}>
-      <CssVarsProvider theme={theme}>
-        <PersistGate loading={null} persistor={persistor}>
-          <AppRoutes />
-        </PersistGate>
-      </CssVarsProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppRoutes />
+      </PersistGate>
     </Provider>
   );
 }
