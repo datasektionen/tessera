@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "../../../../store";
 import { ITicket, ITicketRelease } from "../../../../types";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Divider, Grid, Link, Sheet } from "@mui/joy";
+import { Divider, FormControl, Grid, Input, Link, Sheet } from "@mui/joy";
 import LoadingOverlay from "../../../Loading";
 import PALLETTE from "../../../../theme/pallette";
 import StyledText from "../../../text/styled_text";
@@ -14,6 +14,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { getEventRequest } from "../../../../redux/features/eventSlice";
 import { fetchEventTicketsStart } from "../../../../redux/features/eventTicketsSlice";
+import {
+  StyledFormLabel,
+  StyledFormLabelWithHelperText,
+} from "../../../forms/form_labels";
+import { DefaultInputStyle, FormInput } from "../../../forms/input_types";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -29,6 +34,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const navigate = useNavigate();
 
   const [allocationLoading, setAllocationLoading] = useState<boolean>(false);
+  const [payWithinHours, setPayWithinHours] = useState<number>(0);
 
   const isCurrentlyOpen = () => {
     const now = new Date();
@@ -192,6 +198,31 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               {isCurrentlyOpen()
                 ? "This ticket release is currently open. Allocating tickets now will automatically close the ticket release. Are you sure you want to allocate tickets now?"
                 : "Are you sure you want to open this ticket release?"}
+
+              <Divider sx={{ my: 2 }} />
+
+              <FormControl>
+                <StyledFormLabel>
+                  Users must pay within (hours)*
+                </StyledFormLabel>
+                <Input
+                  value={payWithinHours}
+                  onChange={(e) => {
+                    setPayWithinHours(parseInt(e.target.value));
+                  }}
+                  placeholder=""
+                  type="number"
+                  style={
+                    {
+                      ...DefaultInputStyle,
+                    } as any
+                  }
+                />
+
+                <StyledFormLabelWithHelperText>
+                  How long do users have to pay for their tickets?
+                </StyledFormLabelWithHelperText>
+              </FormControl>
             </StyledText>
           </ConfirmModal>
           <StyledButton
