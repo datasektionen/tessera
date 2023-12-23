@@ -59,6 +59,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           close: new Date(ticketRelease.close! * 1000).getTime(),
           is_reserved: ticketRelease.is_reserved!,
           promo_code: ticketRelease.promo_code!,
+          has_allocated_tickets: ticketRelease.has_allocated_tickets!,
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           ticketTypes: ticketRelease.ticket_types!.map((ticketType: any) => {

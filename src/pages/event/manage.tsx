@@ -16,6 +16,7 @@ import TicketsList from "../../components/tickets/list_tickets";
 import EventTicketsList from "../../components/events/tickets/list";
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ListEventTicketReleases from "../../components/events/ticket_release/list";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -67,10 +68,15 @@ const ManageEventPage: React.FC = () => {
         </Stack>
         <EventDetailInfo event={event} />
 
-        <Grid container alignItems="center" justifyContent="flex-start">
-          <StyledText level="body-sm" fontSize={28} color={PALLETTE.charcoal}>
-            Event Tickets
-          </StyledText>
+        <ListEventTicketReleases
+          ticketReleases={event.ticketReleases!}
+          tickets={tickets}
+        />
+
+        <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
+          <Title fontSize={22} color={PALLETTE.charcoal}>
+            Manage Event Tickets
+          </Title>
           <Tooltip title="The table shows all the ticket requests and tickets for this event.">
             <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
           </Tooltip>

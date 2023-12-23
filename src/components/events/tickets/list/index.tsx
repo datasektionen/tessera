@@ -51,23 +51,31 @@ const EventTicketsList: React.FC<{
       field: "is_reserve",
       headerName: "Reserve",
       width: 75,
-      renderCell: (params) =>
-        params.value ? (
+      renderCell: (params) => {
+        if (params.value === null) {
+          return "N/A";
+        }
+        return params.value ? (
           <CheckCircle color="success" />
         ) : (
           <Cancel color="error" />
-        ),
+        );
+      },
     },
     {
       field: "is_paid",
       headerName: "Paid",
       width: 75,
-      renderCell: (params) =>
-        params.value ? (
+      renderCell: (params) => {
+        if (params.value === null) {
+          return "N/A";
+        }
+        return params.value ? (
           <CheckCircle color="success" />
         ) : (
           <Cancel color="error" />
-        ),
+        );
+      },
     },
     { field: "ticket", headerName: "Ticket", width: 100 },
     {
@@ -113,7 +121,16 @@ const EventTicketsList: React.FC<{
       headerName: "Additional Info",
       width: 150,
     },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 150,
+    },
   ];
+
+  const isTicketRequest = (ticket: ITicket) => {
+    return ticket.id === 0;
+  };
 
   React.useEffect(() => {
     setRows(
@@ -123,14 +140,14 @@ const EventTicketsList: React.FC<{
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
         is_allocated:
           ticket.ticket_request?.ticket_release?.has_allocated_tickets!,
-        is_reserve: ticket.is_reserve,
-        is_paid: ticket.is_paid,
+        is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
+        is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
         ticket: ticket.ticket_request?.ticket_type?.name,
         user: ticket?.user,
-        payed_at: format(
-          ticket?.transaction?.payed_at as number,
-          "dd/MM/yyyy HH:mm"
-        ),
+        email: ticket?.user?.email,
+        payed_at: ticket?.transaction
+          ? format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
+          : "N/A",
         price: ticket?.ticket_request?.ticket_type?.price,
         gluten_intolerant: ticket?.user?.food_preferences?.gluten_intolerant,
         halal: ticket?.user?.food_preferences?.halal,
@@ -166,6 +183,7 @@ const EventTicketsList: React.FC<{
       is_paid: true,
       ticket: true,
       user: true,
+      email: false,
       payed_at: true,
       price: true,
       // Hide all the food preferences

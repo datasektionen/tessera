@@ -30,7 +30,7 @@ function* fetchEventTickets(
       }
     );
 
-    console.log(response.data.tickets);
+    console.log(response.data);
 
     const tickets: ITicket[] = response.data.tickets.map((ticket: any) => {
       const ticket_request = ticket.ticket_request;
@@ -104,6 +104,75 @@ function* fetchEventTickets(
         } as ITicketRequest,
       } as ITicket;
     });
+
+    const ticketRequests: ITicket[] = response.data.ticket_requests.map(
+      (ticketRequest: any) => {
+        return {
+          id: 0,
+          is_paid: false,
+          is_reserve: false,
+          refunded: false,
+          user_id: ticketRequest.user_id!,
+          created_at: new Date().getTime(),
+          user: {
+            ug_kth_id: ticketRequest.user.ug_kth_id!,
+            id: ticketRequest.user.ID!,
+            email: ticketRequest.user.email!,
+            username: ticketRequest.user.username!,
+            first_name: ticketRequest.user.first_name!,
+            last_name: ticketRequest.user.last_name!,
+            food_preferences: {
+              gluten_intolerant:
+                ticketRequest.user.food_preferences.gluten_intolerant!,
+              lactose_intolerant:
+                ticketRequest.user.food_preferences.lactose_intolerant!,
+              vegetarian: ticketRequest.user.food_preferences.vegetarian!,
+              vegan: ticketRequest.user.food_preferences.vegan!,
+              nut_allergy: ticketRequest.user.food_preferences.nut_allergy!,
+              shellfish_allergy:
+                ticketRequest.user.food_preferences.shellfish_allergy!,
+              kosher: ticketRequest.user.food_preferences.kosher!,
+              halal: ticketRequest.user.food_preferences.halal!,
+              additional: ticketRequest.user.food_preferences.additional_info!,
+            } as IUserFoodPreference,
+          } as IUser,
+          ticket_request: {
+            id: ticketRequest.ID!,
+            created_at: new Date(ticketRequest.CreatedAt!).getTime(),
+            is_handled: ticketRequest.is_handled!,
+            ticket_amount: ticketRequest.ticket_amount!,
+            ticket_type_id: ticketRequest.ticket_type_id!,
+            ticket_type: {
+              id: ticketRequest.ticket_type.ID!,
+              name: ticketRequest.ticket_type.name!,
+              description: ticketRequest.ticket_type.description!,
+              price: ticketRequest.ticket_type.price!,
+              isReserved: ticketRequest.ticket_type.is_reserved!,
+            } as ITicketType,
+            ticket_release_id: ticketRequest.ticket_release_id!,
+            ticket_release: {
+              id: ticketRequest.ticket_release.ID!,
+              eventId: ticketRequest.ticket_release.event_id!,
+              event: {
+                id: ticketRequest.ticket_release.event.ID!,
+                name: ticketRequest.ticket_release.event.name!,
+                date: new Date(
+                  ticketRequest.ticket_release.event.date!
+                ).getTime(),
+              } as IEvent,
+              name: ticketRequest.ticket_release.name!,
+              description: ticketRequest.ticket_release.description!,
+              open: new Date(ticketRequest.ticket_release.open!).getTime(),
+              close: new Date(ticketRequest.ticket_release.close!).getTime(),
+              has_allocated_tickets:
+                ticketRequest.ticket_release.has_allocated_tickets,
+            } as ITicketRelease,
+          } as ITicketRequest,
+        } as ITicket;
+      }
+    );
+
+    tickets.push(...ticketRequests);
 
     yield put(fetchEventTicketsSuccess(tickets));
   } catch (error: any) {

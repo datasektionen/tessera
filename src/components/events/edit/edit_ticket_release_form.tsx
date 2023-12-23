@@ -115,8 +115,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
     );
   }
 
-  console.log(initialValues);
-
   return (
     <Formik
       initialValues={initialValues}
