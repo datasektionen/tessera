@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/joy";
+import { Box, Grid, IconButton, Stack, Tooltip } from "@mui/joy";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import { fetchEventTicketsStart } from "../../redux/features/eventTicketsSlice";
 import TicketsList from "../../components/tickets/list_tickets";
 import EventTicketsList from "../../components/events/tickets/list";
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -65,8 +66,15 @@ const ManageEventPage: React.FC = () => {
           </StyledButton>
         </Stack>
         <EventDetailInfo event={event} />
-      </Box>
-      <Box>
+
+        <Grid container alignItems="center" justifyContent="flex-start">
+          <StyledText level="body-sm" fontSize={28} color={PALLETTE.charcoal}>
+            Event Tickets
+          </StyledText>
+          <Tooltip title="The table shows all the ticket requests and tickets for this event.">
+            <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
+          </Tooltip>
+        </Grid>
         <EventTicketsList tickets={tickets} />
       </Box>
     </MUITesseraWrapper>

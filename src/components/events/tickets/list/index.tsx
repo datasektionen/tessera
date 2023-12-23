@@ -15,50 +15,8 @@ import { format } from "date-fns";
 import InformationModal from "../../../modal/information";
 import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: '"Josefin Sans", "Roboto", "Helvetica", "Arial", sans-serif',
-    fontSize: 16,
-  },
-  components: {
-    MuiDataGrid: {
-      styleOverrides: {
-        toolbarContainer: {
-          "& .MuiButton-root": {
-            // Targeting all buttons inside the toolbar
-            color: PALLETTE.cerise,
-            "&:hover": {
-              backgroundColor: PALLETTE.charcoal_see_through,
-            },
-          },
-        },
-        root: {
-          backgroundColor: "#f5f5f5", // Background color for the entire DataGrid
-        },
-        row: {
-          "&:nth-of-type(odd)": {
-            // Style for odd rows
-            backgroundColor: "#efefef",
-          },
-          "&:nth-of-type(even)": {
-            // Style for even rows
-            backgroundColor: "#dfdfdf",
-          },
-        },
-      },
-    },
-  },
-});
-
-const createFoodPreferenceColumn = (field: string, headerName: string) => ({
-  field,
-  headerName,
-  width: 25,
-  valueFormatter: (params: any) => (params.value ? "Yes" : "No"),
-  renderCell: (params: any) =>
-    params.value ? <CheckCircle color="success" /> : <Cancel color="error" />,
-});
+import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
+import { MUItheme } from "./datagrid_utils/mui_theme";
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
@@ -150,7 +108,11 @@ const EventTicketsList: React.FC<{
     createFoodPreferenceColumn("shellfish_allergy", "Shellfish Allergy"),
     createFoodPreferenceColumn("vegan", "Vegan"),
     createFoodPreferenceColumn("vegetarian", "Vegetarian"),
-    createFoodPreferenceColumn("additional_info", "Additional Info"),
+    {
+      field: "additional_info",
+      headerName: "Additional Info",
+      width: 150,
+    },
   ];
 
   React.useEffect(() => {
@@ -225,8 +187,8 @@ const EventTicketsList: React.FC<{
   console.log(selectedUser);
 
   return (
-    <Box sx={{ width: "80%", margin: "0 auto" }}>
-      <ThemeProvider theme={theme}>
+    <Box sx={{}}>
+      <ThemeProvider theme={MUItheme}>
         <DataGrid
           rows={rows}
           rowHeight={32}
