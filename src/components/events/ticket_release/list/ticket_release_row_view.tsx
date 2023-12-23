@@ -10,6 +10,10 @@ import StyledText from "../../../text/styled_text";
 import { format } from "date-fns";
 import StyledButton from "../../../buttons/styled_button";
 import ConfirmModal from "../../../modal/confirm_modal";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getEventRequest } from "../../../../redux/features/eventSlice";
+import { fetchEventTicketsStart } from "../../../../redux/features/eventTicketsSlice";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -24,13 +28,44 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [allocationLoading, setAllocationLoading] = useState<boolean>(false);
 
   const isCurrentlyOpen = () => {
     const now = new Date();
     return (
       new Date(ticketRelease.open) < now && new Date(ticketRelease.close) > now
     );
+  };
+
+  const handleAllocateTickets = async () => {
+    setAllocationLoading(true);
+    try {
+      const response = await axios.post(
+        `${
+          process.env.REACT_APP_BACKEND_URL
+        }/events/${ticketRelease.eventId!}/ticket-release/${
+          ticketRelease.id
+        }/allocate-tickets`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Tickets allocated successfully");
+        dispatch(getEventRequest(ticketRelease.eventId!));
+        dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
+      } else {
+        const errorMessage = response.data?.message || "Something went wrong";
+        toast.error(errorMessage);
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+      toast.error(errorMessage);
+    }
+    setAllocationLoading(false);
   };
 
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
@@ -53,7 +88,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
         backgroundColor: PALLETTE.offWhite,
       }}
     >
-      {loading && <LoadingOverlay />}
       <Grid container spacing={2} columns={16}>
         <Grid xs={4}>
           {" "}
@@ -121,9 +155,12 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               <StyledButton
                 size="md"
                 bgColor={PALLETTE.green}
-                onClick={() => {}}
+                onClick={async () => {
+                  await handleAllocateTickets();
+                  setConfirmOpen(false);
+                }}
               >
-                Confirm
+                {allocationLoading ? "Allocating..." : "Allocate"}
               </StyledButton>,
               <StyledButton
                 size="md"

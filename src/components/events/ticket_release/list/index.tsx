@@ -44,14 +44,8 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
     return null;
   }
 
-  console.log(groupedTickets);
-
   return (
-    <Box sx={{ marginTop: "16px" }}>
-      <Title fontSize={22} color={PALLETTE.charcoal}>
-        Manage Ticket Releases
-      </Title>
-
+    <Box>
       <AccordionGroup>
         {ticketReleases.map((ticketRelease) => {
           return (

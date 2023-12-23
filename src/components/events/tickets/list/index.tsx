@@ -145,7 +145,7 @@ const EventTicketsList: React.FC<{
         ticket: ticket.ticket_request?.ticket_type?.name,
         user: ticket?.user,
         email: ticket?.user?.email,
-        payed_at: ticket?.transaction
+        payed_at: ticket?.is_paid
           ? format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
           : "N/A",
         price: ticket?.ticket_request?.ticket_type?.price,

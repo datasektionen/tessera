@@ -68,6 +68,15 @@ const ManageEventPage: React.FC = () => {
         </Stack>
         <EventDetailInfo event={event} />
 
+        <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
+          <Title fontSize={22} color={PALLETTE.charcoal}>
+            Manage Ticket Releases
+          </Title>
+          <Tooltip title="Manage ticket releases for this event.">
+            <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
+          </Tooltip>
+        </Grid>
+
         <ListEventTicketReleases
           ticketReleases={event.ticketReleases!}
           tickets={tickets}
