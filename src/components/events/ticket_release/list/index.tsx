@@ -12,11 +12,48 @@ import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import TicketReleaseRowView from "./ticket_release_row_view";
 import { useEffect, useState } from "react";
+import {
+  ticketReleaseHasClosed,
+  ticketReleaseHasOpened,
+} from "../../../../utils/event_open_close";
 
 interface ListEventTicketReleasesProps {
   ticketReleases: ITicketRelease[];
   tickets: ITicket[];
 }
+
+// Component to view what status the ticket release is in and if an action is needed
+const TicketReleaseStatusIndicator: React.FC<{
+  ticketRelease: ITicketRelease;
+}> = ({ ticketRelease }) => {
+  const [status, setStatus] = useState<string>("");
+
+  useEffect(() => {
+    let status: string = "";
+    if (ticketReleaseHasOpened(ticketRelease)) {
+      status = "Open";
+    } else if (ticketReleaseHasClosed(ticketRelease)) {
+      status = "Closed, ";
+      if (!ticketRelease.has_allocated_tickets) {
+        status += "No tickets allocated";
+      } else {
+        status += "Tickets allocated";
+      }
+    }
+    setStatus(status);
+  }, [ticketRelease]);
+
+  return (
+    <StyledText
+      level="body-md"
+      fontSize={18}
+      color={PALLETTE.charcoal_see_through}
+      fontWeight={700}
+    >
+      {status}
+    </StyledText>
+  );
+};
 
 const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   ticketReleases,
@@ -54,10 +91,11 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
                 <StyledText
                   level="body-md"
                   fontSize={18}
-                  color={PALLETTE.charcoal_see_through}
+                  color={PALLETTE.cerise}
                   fontWeight={700}
                 >
-                  {ticketRelease.name}
+                  {ticketRelease.name} -{" "}
+                  <TicketReleaseStatusIndicator ticketRelease={ticketRelease} />
                 </StyledText>
               </AccordionSummary>
               <AccordionDetails>
