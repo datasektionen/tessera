@@ -43,7 +43,18 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     );
   };
 
+  const hasntOpenedYet = () => {
+    const now = new Date();
+    return new Date(ticketRelease.open) > now;
+  };
+
   const handleAllocateTickets = async () => {
+    // Validate payWithinHours
+    if (payWithinHours < 1) {
+      toast.error("Hours must be greater than 0");
+      return;
+    }
+
     setAllocationLoading(true);
     try {
       const response = await axios.post(
@@ -52,7 +63,9 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
         }/events/${ticketRelease.eventId!}/ticket-release/${
           ticketRelease.id
         }/allocate-tickets`,
-        {},
+        {
+          pay_within: payWithinHours,
+        },
         {
           withCredentials: true,
         }
@@ -67,11 +80,13 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
         toast.error(errorMessage);
       }
     } catch (error: any) {
+      console.log(error);
       const errorMessage =
-        error.response?.data?.message || "Something went wrong";
+        error.response?.data?.error || "Something went wrong";
       toast.error(errorMessage);
     }
     setAllocationLoading(false);
+    setConfirmOpen(false);
   };
 
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
@@ -125,7 +140,10 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             fontWeight={500}
             color={isCurrentlyOpen() ? PALLETTE.green : PALLETTE.red}
           >
-            Ticket release is {isCurrentlyOpen() ? "Open" : "Closed"}
+            {hasntOpenedYet()
+              ? "Not yet open"
+              : "Ticket Release " +
+                (isCurrentlyOpen() ? "is open" : "has closed")}
           </StyledText>
         </Grid>
         <Grid xs={4}>
@@ -163,7 +181,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 bgColor={PALLETTE.green}
                 onClick={async () => {
                   await handleAllocateTickets();
-                  setConfirmOpen(false);
                 }}
               >
                 {allocationLoading ? "Allocating..." : "Allocate"}
@@ -225,16 +242,18 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               </FormControl>
             </StyledText>
           </ConfirmModal>
-          <StyledButton
-            size="md"
-            bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
-            disabled={ticketRelease.has_allocated_tickets}
-            onClick={() => {
-              setConfirmOpen(true);
-            }}
-          >
-            Allocate Tickets
-          </StyledButton>
+          {!hasntOpenedYet() && (
+            <StyledButton
+              size="md"
+              bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
+              disabled={ticketRelease.has_allocated_tickets}
+              onClick={() => {
+                setConfirmOpen(true);
+              }}
+            >
+              Allocate Tickets
+            </StyledButton>
+          )}
         </Grid>
       </Grid>
     </Sheet>

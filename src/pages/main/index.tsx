@@ -13,11 +13,18 @@ import StyledText from "../../components/text/styled_text";
 import StyledButton from "../../components/buttons/styled_button";
 import MainPageButton from "../../components/buttons/main_page_button";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import mainPageImage from "../../assets/images/main_page.jpg";
+import styles from "./divider.module.css";
+import CallToActionButton from "../../components/buttons/call_to_action_button";
 
 const MainPage: React.FC = () => {
   const { loading, error, events } = useSelector(
     (state: RootState) => state.events
   );
+
+  const { t } = useTranslation();
+
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,22 +42,116 @@ const MainPage: React.FC = () => {
     <>
       <Navigation />
       <Box
+        className={styles.divider}
+        sx={{
+          top: 0,
+          left: 0,
+          width: "100%", // Full width
+          height: "100vh", // Full height
+        }}
+      >
+        <img
+          src={mainPageImage}
+          alt="main page"
+          style={{
+            backgroundImage: `url(${mainPageImage})`, // Use the imported image here
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover", // Cover the whole Box
+            backgroundPosition: "center",
+            filter: "blur(4px)",
+          }}
+        />
+
+        <Box
+          sx={{
+            position: "absolute",
+            top: "20%",
+            left: "20%",
+          }}
+        >
+          <StyledText color={PALLETTE.offWhite} level="body-md" fontSize={24}>
+            {
+              t("main_page.welcome", {
+                name: getUserFullName(currentUser!),
+              }) as string
+            }
+          </StyledText>
+          <Title fontSize={128}>Tessera</Title>
+          <StyledText
+            color={PALLETTE.offWhite}
+            level="body-md"
+            fontSize={32}
+            style={{
+              marginTop: "-32px",
+            }}
+          >
+            {t("main_page.not_a_pain")}
+          </StyledText>
+        </Box>
+        <Box
+          style={{
+            position: "absolute",
+            bottom: "12%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 100,
+          }}
+        >
+          <CallToActionButton />
+        </Box>
+      </Box>
+      <Box
         sx={{ width: "100%", height: "100vh" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
         }}
       >
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="flex-start"
+          columns={12}
+          sx={{ height: "100%" }}
+        >
+          <Grid xs={12} md={6}>
+            <Box
+              sx={{
+                margin: "16px 32px",
+              }}
+            >
+              <Title fontSize={32}>
+                {t("main_page.page_description.what_title")}
+              </Title>
+              <StyledText
+                level="body-md"
+                fontSize={18}
+                color={PALLETTE.charcoal}
+              >
+                {t("main_page.page_description.what")}
+              </StyledText>
+            </Box>
+          </Grid>
+          <Grid xs={12} md={6}>
+            <Box
+              sx={{
+                margin: "16px 32px",
+              }}
+            >
+              <Title fontSize={32}>
+                {t("main_page.page_description.how_title")}
+              </Title>
+              <StyledText
+                level="body-md"
+                fontSize={18}
+                color={PALLETTE.charcoal}
+              >
+                {t("main_page.page_description.how")}
+              </StyledText>
+            </Box>
+          </Grid>
+        </Grid>
+
         <Box sx={{ margin: "16px 32px" }}>
-          <Title fontSize={32}>Welcome, {getUserFullName(currentUser!)}!</Title>
-          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            Tessera is a platform that makes ticket releases easy. Purchasing
-            tickets should not be a pain. Tessera makes it easy to create ticket
-            releases and manage them. Event organizers can easily view your food
-            preferences, allergies, and more in order to make your experience as
-            enjoyable as possible, with no hassle. Your account is automatically
-            tied to your tickets, so no need to fill in google forms or anything
-            like that.
-          </StyledText>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
             Tessera is currently in <b>beta</b>. If you have any feedback,
             please contact me at{" "}
