@@ -82,7 +82,7 @@ const EventTicketsList: React.FC<{
       field: "price",
       headerName: "Price",
       width: 60,
-      renderCell: (params) => `${params.value / 100} :-`,
+      renderCell: (params) => `${params.value} :-`,
     },
     {
       field: "user",

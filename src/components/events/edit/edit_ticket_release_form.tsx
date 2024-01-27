@@ -78,6 +78,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       toast.error("Please fix the errors in the form.");
     }
   };
+
   const [initialValues, setInitialValues] = useState<ITicketReleaseForm>(
     TicketReleaseFormInitialValues
   );
