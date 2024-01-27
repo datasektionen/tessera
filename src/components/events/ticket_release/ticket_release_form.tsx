@@ -116,8 +116,6 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
               </StyledFormLabelWithHelperText>
             </FormControl>
 
-            <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
-
             {/* Description */}
             <FormControl>
               <StyledFormLabel>Description*</StyledFormLabel>
@@ -149,7 +147,6 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 When do the tickets become available?
               </StyledFormLabelWithHelperText>
             </FormControl>
-            <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 
             {/* Close */}
             <FormControl>
@@ -277,6 +274,21 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
               <StyledErrorMessage name="max_tickets_per_user" />
               <StyledFormLabelWithHelperText>
                 How many tickets can a user request?
+              </StyledFormLabelWithHelperText>
+            </FormControl>
+
+            <FormControl>
+              <StyledFormLabel>Ticket Quantity*</StyledFormLabel>
+              <FormInput
+                type="number"
+                name="available_tickets"
+                label="Quantity"
+                placeholder=""
+              />
+              <StyledErrorMessage name="available_tickets" />
+
+              <StyledFormLabelWithHelperText>
+                How many tickets are available?
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Divider sx={{ marginTop: 1, marginBottom: 1 }} />

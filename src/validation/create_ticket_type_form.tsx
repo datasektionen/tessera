@@ -16,14 +16,6 @@ const CreateTicketTypeFormSchema = Yup.object().shape({
   price: Yup.number()
     .required("Price is required")
     .min(0, "Price must be greater than or equal to 0"),
-  quantity_total: Yup.number()
-    .required("Quantity is required")
-    .min(1, "Quantity must be greater than or equal to 1")
-    .test(
-      "is-rounded-number",
-      "Quantity must be a rounded number",
-      isRoundedNumber
-    ),
 });
 
 export default CreateTicketTypeFormSchema;

@@ -82,7 +82,8 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     } catch (error: any) {
       console.log(error);
       const errorMessage =
-        error.response?.data?.error || "Something went wrong";
+        error.response?.data?.message || "Something went wrong";
+      console.log(error);
       toast.error(errorMessage);
     }
     setAllocationLoading(false);
@@ -237,7 +238,8 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 />
 
                 <StyledFormLabelWithHelperText>
-                  How long do users have to pay for their tickets?
+                  How long do users have to pay for their tickets before it is
+                  given to the next person in line?
                 </StyledFormLabelWithHelperText>
               </FormControl>
             </StyledText>

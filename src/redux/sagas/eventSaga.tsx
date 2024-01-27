@@ -59,6 +59,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           close: new Date(ticketRelease.close! * 1000).getTime(),
           is_reserved: ticketRelease.is_reserved!,
           promo_code: ticketRelease.promo_code!,
+          available_tickets: ticketRelease.available_tickets!,
           has_allocated_tickets: ticketRelease.has_allocated_tickets!,
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
@@ -69,7 +70,6 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
               name: ticketType.name!,
               description: ticketType.description!,
               price: ticketType.price!,
-              quantityTotal: ticketType.quantity_total!,
               isReserved: ticketType.is_reserved!,
             } as ITicketType;
           }),

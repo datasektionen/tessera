@@ -35,8 +35,6 @@ function* fetchTicketTypes(
         name: ticketType.name!,
         description: ticketType.description!,
         price: ticketType.price!,
-        quantity_total: ticketType.quantity_total!,
-        quantity_remaining: ticketType.quantity_remaining!,
         is_reserved: ticketType.is_reserved!,
       };
     });
@@ -73,7 +71,6 @@ function* updateTicketTypes(
         name: ticketType.name,
         description: ticketType.description,
         price: ticketType.price,
-        quantity_total: ticketType.quantity_total,
       };
     });
 

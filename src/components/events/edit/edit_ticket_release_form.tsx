@@ -103,6 +103,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
           ticketRelease.ticketReleaseMethodDetail.cancellationPolicy,
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
+        available_tickets: ticketRelease.available_tickets!,
       });
       setInitValueSet(true);
     }
@@ -314,6 +315,21 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   <StyledErrorMessage name="max_tickets_per_user" />
                   <StyledFormLabelWithHelperText>
                     How many tickets can a user request?
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                <FormControl>
+                  <StyledFormLabel>Ticket Quantity*</StyledFormLabel>
+                  <FormInput
+                    type="number"
+                    name="available_tickets"
+                    label="Quantity"
+                    placeholder=""
+                  />
+                  <StyledErrorMessage name="available_tickets" />
+
+                  <StyledFormLabelWithHelperText>
+                    How many tickets are available?
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 

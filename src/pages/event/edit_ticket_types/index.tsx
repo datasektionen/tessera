@@ -109,7 +109,6 @@ const EditTicketTypes: React.FC = () => {
             name: ticketType.name,
             description: ticketType.description,
             price: ticketType.price,
-            quantity_total: ticketType.quantity_total,
           } as ITicketTypeForm;
         }
       );

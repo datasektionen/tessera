@@ -62,13 +62,13 @@ function* createEventFullWorkflowSaga(
         ticket_release_method_id: ticketRelease.ticket_release_method_id,
         is_reserved: ticketRelease.is_reserved,
         promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
+        available_tickets: ticketRelease.available_tickets,
       },
       ticket_types: ticketTypes.map((ticketType: ITicketTypeForm) => {
         return {
           name: ticketType.name,
           description: ticketType.description,
           price: ticketType.price,
-          quantity_total: ticketType.quantity_total,
         };
       }),
     };

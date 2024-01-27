@@ -153,38 +153,6 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
-                <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
-
-                <FormControl>
-                  <StyledFormLabel>Quantity*</StyledFormLabel>
-                  <FormInput
-                    type="number"
-                    name="quantity_total"
-                    label="Quantity"
-                    placeholder=""
-                    // ...other props
-                    onChange={(e: any) => {
-                      handleChange(e);
-                      validateAllForms();
-
-                      handleFieldChange(
-                        "quantity_total",
-                        parseInt(e.target.value),
-                        index
-                      );
-
-                      // Optionally dispatch on change instead of on submit
-                    }}
-                  />
-                  <StyledErrorMessage name="quantity_total" />
-
-                  <StyledFormLabelWithHelperText>
-                    How many tickets are available?
-                  </StyledFormLabelWithHelperText>
-                </FormControl>
-
-                <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
-
                 <Grid
                   container
                   spacing={2}
