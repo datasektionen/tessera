@@ -19,6 +19,7 @@ import {
   StyledFormLabelWithHelperText,
 } from "../../../forms/form_labels";
 import { DefaultInputStyle, FormInput } from "../../../forms/input_types";
+import { useTranslation } from "react-i18next";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -32,6 +33,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [allocationLoading, setAllocationLoading] = useState<boolean>(false);
   const [payWithinHours, setPayWithinHours] = useState<number>(0);
@@ -175,7 +177,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             onClose={() => {
               setConfirmOpen(false);
             }}
-            title="Confirm ticket release"
+            title={t("manage_event.allocate_tickets_confirm_title")}
             actions={[
               <StyledButton
                 size="md"
@@ -184,7 +186,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                   await handleAllocateTickets();
                 }}
               >
-                {allocationLoading ? "Allocating..." : "Allocate"}
+                {allocationLoading ? "Allocating..." : t("form.button_confirm")}
               </StyledButton>,
               <StyledButton
                 size="md"
@@ -193,7 +195,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                   setConfirmOpen(false);
                 }}
               >
-                Cancel
+                {t("form.button_cancel")}
               </StyledButton>,
             ]}
           >
@@ -214,14 +216,14 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 </StyledText>
               )}
               {isCurrentlyOpen()
-                ? "This ticket release is currently open. Allocating tickets now will automatically close the ticket release. Are you sure you want to allocate tickets now?"
-                : "Are you sure you want to open this ticket release?"}
+                ? t("manage_event.allocate_tickets_warning")
+                : t("manage_event.allocate_tickets_confirm")}
 
               <Divider sx={{ my: 2 }} />
 
               <FormControl>
                 <StyledFormLabel>
-                  Users must pay within (hours)*
+                  {t("manage_event.pay_within_hours")}
                 </StyledFormLabel>
                 <Input
                   value={payWithinHours}
@@ -238,8 +240,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 />
 
                 <StyledFormLabelWithHelperText>
-                  How long do users have to pay for their tickets before it is
-                  given to the next person in line?
+                  {t("manage_event.allocate_tickets_helperText")}
                 </StyledFormLabelWithHelperText>
               </FormControl>
             </StyledText>
@@ -253,7 +254,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 setConfirmOpen(true);
               }}
             >
-              Allocate Tickets
+              {t("manage_event.allocate_tickets_button")}
             </StyledButton>
           )}
         </Grid>

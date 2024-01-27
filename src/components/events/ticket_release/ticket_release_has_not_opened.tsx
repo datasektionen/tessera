@@ -3,10 +3,12 @@ import { ITicketRelease } from "../../../types";
 import { Typography } from "@mui/joy";
 import PALLETTE from "../../../theme/pallette";
 import TicketReleaseCountdown from "./tr_countdown";
+import { useTranslation } from "react-i18next";
 
 const TicketReleasHasNotOpened: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
+  const { t } = useTranslation();
   return (
     <>
       <Typography
@@ -17,7 +19,7 @@ const TicketReleasHasNotOpened: React.FC<{
           color: PALLETTE.charcoal,
         }}
       >
-        Tickets availability in:
+        {t("event.ticket_release.tickets_available_in")}:
       </Typography>
       <TicketReleaseCountdown
         ticketRelease={ticketRelease}

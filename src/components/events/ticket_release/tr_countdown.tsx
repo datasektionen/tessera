@@ -3,6 +3,7 @@ import PALLETTE from "../../../theme/pallette";
 import { useEffect, useState } from "react";
 import { ITicketRelease } from "../../../types";
 import { differenceInSeconds, intervalToDuration } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const TicketReleaseCountdown: React.FC<{
   ticketRelease: ITicketRelease;
@@ -42,6 +43,8 @@ const TicketReleaseCountdown: React.FC<{
     return String(time ?? 0);
   };
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Typography
@@ -54,17 +57,29 @@ const TicketReleaseCountdown: React.FC<{
         }}
       >
         {duration.months! > 0 && (
-          <span>{formatTime(duration.months)} month(s) </span>
-        )}
-        {duration.days! > 0 && <span>{formatTime(duration.days)} day(s) </span>}
+          <span>
+            {formatTime(duration.months)} {t("event.ticket_release.month")}
+          </span>
+        )}{" "}
+        {duration.days! > 0 && (
+          <span>
+            {formatTime(duration.days)} {t("event.ticket_release.day")}
+          </span>
+        )}{" "}
         {duration.hours! > 0 && (
-          <span>{formatTime(duration.hours)} hour(s) </span>
-        )}
+          <span>
+            {formatTime(duration.hours)} {t("event.ticket_release.hour")}
+          </span>
+        )}{" "}
         {duration.minutes! > 0 && (
-          <span>{formatTime(duration.minutes)} minute(s) </span>
-        )}
+          <span>
+            {formatTime(duration.minutes)} {t("event.ticket_release.minute")}
+          </span>
+        )}{" "}
         {duration.seconds! > 0 && (
-          <span>{formatTime(duration.seconds)} second(s)</span>
+          <span>
+            {formatTime(duration.seconds)} {t("event.ticket_release.second")}
+          </span>
         )}
       </Typography>
     </>

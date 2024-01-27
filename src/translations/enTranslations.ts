@@ -19,7 +19,10 @@ const enTranslations = {
     },
   },
   tooltips: {
-    add_ticket_type: "Add ticket batch  ",
+    add_ticket_type: "Add ticket batch",
+    manage_ticket_releases: "Manage ticket releases for this event.",
+    manage_tickets:
+      "The table shows all the ticket requests and tickets for this event.",
   },
   form: {
     event_details: {
@@ -84,6 +87,7 @@ const enTranslations = {
 
     button_clear: "Clear",
     button_next: "Next",
+    button_edit: "Edit",
     button_create: "Create",
     button_back: "Back",
     button_restart: "Restart",
@@ -93,6 +97,8 @@ const enTranslations = {
     button_save: "Save",
     button_submit: "Submit",
     button_manage: "Manage",
+    button_details: "Details",
+    button_request: "Request",
   },
   create_event: {
     title: "Create event",
@@ -183,11 +189,92 @@ const enTranslations = {
     },
   },
 
+  create_team: {
+    title: "Create team",
+    what_is_a_team: "What is a team?",
+
+    description:
+      "Here you can create a team. Teams are used to organize events and manage users. It allows the managers of the team to create events, manage ticket sales and plan the event more efficiently. You can ginvite other users to join your team andive them different permissions. You are also not limited to one team, you can create as many as you want, and join as many as you want. You can also leave teams at any time. Without being a part of a team you cannot create events. So go ahead and create a team!",
+    your_teams_text: "Your teams",
+    add_team_title: "Add team",
+    add_team_helperText:
+      "This will be the name of your team. You will automatically be the owner of this team.",
+    create_team_button: "Create team",
+  },
+
+  manage_event: {
+    title: "Manage event",
+    manage_ticket_releases: "Manage ticket releases",
+    allocate_tickets_button: "Allocate tickets",
+    allocated_tickets: "Allocated tickets",
+    pay_within_hours: "Users must pay within (hours)*",
+    allocate_tickets_confirm_title: "Confirm ticket allocation",
+    allocate_tickets_warning:
+      "This ticket release is currently open. Allocating tickets now will automatically close the ticket release. Are you sure you want to allocate tickets now?",
+    allocate_tickets_confirm:
+      "Are you sure you want to close this ticket release?",
+    manage_tickets: "Manage tickets",
+    allocate_tickets_helperText:
+      "How long do users have to pay for their tickets before it is given to the next person in line?",
+
+    edit: {
+      title: "Edit event",
+      event_details: {
+        title: "Edit event details",
+      },
+    },
+  },
+
+  ticket_release_method: {
+    first_come_first_served_title: "First come first served",
+    first_come_first_served_description:
+      "First Come First Serve Lottery is a ticket release method where people who request a ticket within a specified time frame are entered into a lottery. When tickets are allocated, all ticket requests within this time frame are entered into a lottery and winners are selected randomly. Winners receive a ticket and the rest are placed on the waitlist. Anyone requesting a ticket after the specified time frame is placed on the waitlist, unless the lottery is not full. If the lottery is not full, remaining tickets are distributed to those on the waitlist in the order they requested the ticket.",
+  },
+
+  ticket_request: {
+    cost_overview: "Cost overview",
+    cancel_ticket_request_button: "Cancel ticket request",
+    go_to_tickets_button: "Go to tickets",
+    cancel_ticket_request_confirm_title: "Confirm ticket request cancellation",
+    cancel_ticket_request_confirm:
+      "Are you sure you want to cancel this ticket request? This action cannot be undone.",
+  },
+
+  event: {
+    list_title: "Events",
+    tickets: "Tickets",
+    promo_code_title: "Promo code",
+    promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
+    ticket_release: {
+      closed: "Ticket release has closed",
+      tickets_available_in: "Tickets available in",
+      tickets_available_for: "Tickets available for",
+      method: "This release uses <1>{{method}}</1>",
+      second: "second(s)",
+      minute: "minute(s)",
+      hour: "hour(s)",
+      day: "day(s)",
+      week: "week(s)",
+      month: "month(s)",
+      reserved: "Reserved",
+      no_tickets: "There are no tickets available.",
+      checkout: {
+        overview: "Overview",
+        what_is_a_request_title: "What is a ticket request?",
+        what_is_a_request:
+          "When making a request, you are not guaranteed to get the tickets you want. The allocation of the tickets are done according to the Ticket Release Method, which is described in the release description.",
+        total: "Total",
+        ticket: "Ticket",
+      },
+    },
+  },
+
   common: {
     show_all: "Show all",
     show_less: "Show less",
     search: "Search",
     created: "Created",
+    made_at: "Made at",
   },
 
   faq: {

@@ -7,26 +7,21 @@ import StandardGrid from "../../components/wrappers/standard_grid";
 import CreateOrganizationForm from "../../components/organizations/create_form";
 import StyledButton from "../../components/buttons/styled_button";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CreateOrganizationPage: React.FC = () => {
   const nagivate = useNavigate();
+  const { t } = useTranslation();
   return (
     <TesseraWrapper>
       <StandardGrid>
         <Grid xs={8}>
-          <Title>Create Team</Title>
+          <Title>{t("create_team.title")}</Title>
           <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={22}>
-            What is a Team?
+            {t("create_team.what_is_a_team")}
           </StyledText>
           <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
-            Here you can create a team. Teams are used to organize events and
-            manage users. It allows the managers of the team to create events,
-            manage ticket sales and plan the event more efficiently. You can
-            ginvite other users to join your team andive them different
-            permissions. You are also not limited to one team, you can create as
-            many as you want, and join as many as you want. You can also leave
-            teams at any time. Without being a part of a team you cannot create
-            events. So go ahead and create a team!
+            {t("create_team.description")}
           </StyledText>
           <Box mt={2}>
             <StyledButton
@@ -37,7 +32,7 @@ const CreateOrganizationPage: React.FC = () => {
               color={PALLETTE.charcoal}
               bgColor={PALLETTE.offWhite}
             >
-              Your teams
+              {t("create_team.your_teams_text")}
             </StyledButton>
           </Box>
         </Grid>

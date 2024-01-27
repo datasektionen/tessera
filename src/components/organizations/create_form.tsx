@@ -14,11 +14,17 @@ import { useState } from "react";
 import { AppDispatch } from "../../store";
 import { useDispatch } from "react-redux";
 import { createOrganizationRequest } from "../../redux/features/organizationSlice";
+import { useTranslation } from "react-i18next";
+import {
+  StyledFormLabel,
+  StyledFormLabelWithHelperText,
+} from "../forms/form_labels";
 
 const CreateOrganizationForm: React.FC = () => {
   const [organizationName, setOrganizationName] = useState<string>("");
 
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleCreateOrganization = () => {
     // Create the organization
@@ -49,16 +55,7 @@ const CreateOrganizationForm: React.FC = () => {
               alignItems: "flex-start",
             }}
           >
-            <Typography
-              level="body-sm"
-              fontFamily={"Josefin sans"}
-              fontWeight={700}
-              style={{
-                color: PALLETTE.charcoal,
-              }}
-            >
-              Team Name
-            </Typography>
+            <StyledFormLabel>{t("create_team.add_team_title")}</StyledFormLabel>
             <Input
               value={organizationName}
               placeholder="Lit Club"
@@ -67,10 +64,9 @@ const CreateOrganizationForm: React.FC = () => {
                 color: PALLETTE.charcoal,
               }}
             />
-            <FormHelperText>
-              This will be the name of your team. You will automatically be the
-              owner of this team.
-            </FormHelperText>
+            <StyledFormLabelWithHelperText>
+              {t("create_team.add_team_helperText")}
+            </StyledFormLabelWithHelperText>
           </FormLabel>
           <Button
             variant="outlined"
@@ -82,7 +78,7 @@ const CreateOrganizationForm: React.FC = () => {
             }}
             onClick={handleCreateOrganization}
           >
-            Create Team
+            {t("create_team.create_team_button")}
           </Button>
         </FormControl>
       </Box>

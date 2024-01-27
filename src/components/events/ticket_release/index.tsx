@@ -28,6 +28,7 @@ import TicketReleaseHasClosed from "./ticket_release_has_closed";
 import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
 import StyledText from "../../text/styled_text";
 import InformationModal from "../../modal/information";
+import { Trans, useTranslation } from "react-i18next";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -45,6 +46,7 @@ const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
 
 const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const { t } = useTranslation();
 
   return (
     <Sheet
@@ -72,26 +74,37 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
               level="body-sm"
               fontWeight={600}
             >
-              RESERVED
+              {t("event.reserved")}
             </StyledText>
           </Chip>
         </Box>
       )}
-      <Typography
+      <StyledText
         level="h4"
-        fontFamily={"Josefin sans"}
+        fontSize={24}
+        color={PALLETTE.charcoal}
         style={{
           color: PALLETTE.charcoal,
         }}
       >
         {ticketRelease.name}
-      </Typography>
-      <Typography level="body-sm" fontFamily={"Josefin sans"}>
-        {ticketRelease.description} - This release uses{" "}
-        <Link target="_blank" onClick={() => setModalIsOpen(true)}>
-          {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name}
-        </Link>
-      </Typography>
+      </StyledText>
+      <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16}>
+        {ticketRelease.description} -{" "}
+        <Trans
+          i18nKey="event.ticket_release.method"
+          values={{
+            method:
+              ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+                ?.name,
+          }}
+        >
+          This release uses
+          <Link target="_blank" onClick={() => setModalIsOpen(true)}>
+            {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name}
+          </Link>
+        </Trans>
+      </StyledText>
       <InformationModal
         isOpen={modalIsOpen}
         onClose={() => setModalIsOpen(false)}

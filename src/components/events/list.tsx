@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { useTranslation } from "react-i18next";
 
 interface EventListProps {
   events: IEvent[];
@@ -23,13 +24,11 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = ({ events }) => {
   const navigate = useNavigate();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { t } = useTranslation();
 
   return (
     <Grid container spacing={2}>
       {events.map((event: IEvent, index) => {
-        console.log(event.organizationId);
-        console.log(currentUser?.organizations);
-
         const userCanManage =
           currentUser?.organizations?.some(
             (org) => org.id === event.organizationId
@@ -108,7 +107,6 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 <StyledButton
                   size="md"
                   color="primary"
-                  aria-label="Explore Bahamas Islands"
                   onClick={() => {
                     navigate(`/events/${event.id}`);
                   }}
@@ -117,7 +115,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                     width: "100px",
                   }}
                 >
-                  Details
+                  {t("form.button_details")}
                 </StyledButton>
               </CardContent>
             </Card>

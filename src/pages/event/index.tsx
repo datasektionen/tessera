@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import LoadingOverlay from "../../components/Loading";
 import { getEventsRequest } from "../../redux/features/listEventsSlice";
+import { useTranslation } from "react-i18next";
 
 const EventsPage: React.FC = () => {
   const { events, loading, error } = useSelector(
@@ -15,8 +16,7 @@ const EventsPage: React.FC = () => {
   );
 
   const dispatch: AppDispatch = useDispatch();
-
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(getEventsRequest());
@@ -27,7 +27,7 @@ const EventsPage: React.FC = () => {
       {loading && <LoadingOverlay />}
       <TesseraWrapper>
         <Box sx={{ padding: "16px 32px" }}>
-          <Title>Events</Title>
+          <Title>{t("event.list_title")}</Title>
         </Box>
 
         <Box sx={{ padding: "16px 32px" }}>

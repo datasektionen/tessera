@@ -3,6 +3,9 @@ import seFaq from "../assets/faq/se_faq.json";
 const seTranslations = {
   tooltips: {
     add_ticket_type: "Lägg till biljettgrupp",
+    manage_ticket_releases: "Hantera biljettsläpp för detta evenemang.",
+    manage_tickets:
+      "Tabellen visar alla biljettförfrågningar och biljetter för detta evenemang.",
   },
   form: {
     event_details: {
@@ -52,10 +55,10 @@ const seTranslations = {
       cancellation_policy_helperText: "Vad är avbokningspolicyn?",
       reserved_ticket_release: "Reserverat biljettsläpp",
       reserved_ticket_release_helperText:
-        "Ett reserverat biljettsläpp innehåller biljetter som är reserverade för specifika användare. En kampanjkod krävs för att få tillgång till denna biljett. Kom ihåg att du kan lägga till fler biljettsläpp senare.",
-      promo_code: "Kampanjkod",
+        "Ett reserverat biljettsläpp innehåller biljetter som är reserverade för specifika användare. En promokod krävs för att få tillgång till denna biljett. Kom ihåg att du kan lägga till fler biljettsläpp senare.",
+      promo_code: "Promokod",
       promo_code_helperText:
-        "Vilken kampanjkod ska användas för att få tillgång till detta reserverade biljettsläpp?",
+        "Vilken promokod ska användas för att få tillgång till detta reserverade biljettsläpp?",
     },
     ticket_types: {
       name: "Namn",
@@ -69,6 +72,7 @@ const seTranslations = {
     button_clear: "Rensa",
     button_next: "Nästa",
     button_create: "Skapa",
+    button_edit: "Redigera",
     button_back: "Tillbaka",
     button_restart: "Starta om",
     button_confirm: "Bekräfta",
@@ -77,6 +81,8 @@ const seTranslations = {
     button_save: "Spara",
     button_submit: "Submit",
     button_manage: "Hantera",
+    button_details: "Detaljer",
+    button_request: "Begär biljett(er)",
   },
   create_event: {
     title: "Skapa evenemang",
@@ -167,11 +173,94 @@ const seTranslations = {
     },
   },
 
+  create_team: {
+    title: "Skapa grupp",
+    what_is_a_team: "Vad är en grupp?",
+
+    description:
+      "Här kan du skapa en grupp. Grupper används för att organisera evenemang och hantera användare. Det gör att gruppens ledare kan skapa evenemang, hantera biljettförsäljning och planera evenemanget mer effektivt. Du kan bjuda in andra användare att gå med i din grupp och ge dem olika behörigheter. Du är inte heller begränsad till en grupp, du kan skapa så många du vill, och gå med i så många du vill. Du kan också lämna grupper när som helst. Utan att vara en del av en grupp kan du inte skapa evenemang. Så gå vidare och skapa en grupp!",
+    your_teams_text: "Dina grupper",
+    add_team_title: "Lägg till grupp",
+    add_team_helperText:
+      "Detta kommer att vara namnet på din grupp. Du kommer automatiskt att vara ägare till denna grupp.",
+    create_team_button: "Skapa grupp",
+  },
+
+  manage_event: {
+    title: "Hantera evenemang",
+    manage_ticket_releases: "Hantera biljettsläpp",
+    allocate_tickets_button: "Tilldela biljetter",
+    allocated_tickets: "Tilldelade biljetter",
+    pay_within_hours: "Användare måste betala inom (timmar)*",
+    allocate_tickets_confirm_title: "Bekräfta tilldelning av biljetter",
+    allocate_tickets_warning:
+      "Detta biljettsläpp är för närvarande öppet. Att tilldela biljetter nu kommer automatiskt att stänga biljettsläppet. Är du säker på att du vill tilldela biljetter nu?",
+    allocate_tickets_confirm:
+      "Är du säker på att du vill stänga detta biljettsläpp?",
+    manage_tickets: "Hantera biljetter",
+    allocate_tickets_helperText:
+      "Hur lång tid har användare på sig att betala för sina biljetter innan det ges till nästa person i kön?",
+
+    edit: {
+      title: "Redigera evenemang",
+      event_details: {
+        title: "Redigera evenemangsdetaljer",
+      },
+    },
+  },
+
+  event: {
+    list_title: "Evenemang",
+    tickets: "Biljetter",
+    promo_code_title: "Promokod",
+    promo_code_helperText:
+      "Ange promokoden för att få tillgång till reserverade biljetter.",
+    ticket_release: {
+      closed: "Biljettsläppet har stängts",
+      tickets_available_in: "Biljetter tillgängliga om",
+      tickets_available_for: "Biljetter tillgängliga i",
+      method: "Detta biljettsläpp använder <1>{{method}}</1>",
+      second: "sekund(er)",
+      minute: "minut(er)",
+      hour: "timme(ar)",
+      day: "dag(ar)",
+      week: "vecka(or)",
+      month: "månad(er)",
+      reserved: "Reserverad",
+      no_tickets: "Det finns inga biljetter tillgängliga.",
+      checkout: {
+        overview: "Översikt",
+        what_is_a_request_title: "Vad är en biljettförfrågan?",
+        what_is_a_request:
+          "När du gör en biljett begäran är du inte garanterad att få de biljetter du vill ha. Tilldelningen av biljetterna görs enligt metoden för biljettsläpp, som beskrivs i biljettsläppbeskrivningen.",
+        total: "Totalt",
+        ticket: "Biljett",
+      },
+    },
+  },
+
+  ticket_request: {
+    cost_overview: "Prisöversikt",
+    cancel_ticket_request_button: "Avbryt biljettförfrågan",
+    go_to_tickets_button: "Gå till biljetter",
+    cancel_ticket_request_confirm_title:
+      "Bekräfta avbrytande av biljettförfrågan",
+    cancel_ticket_request_confirm:
+      "Är du säker på att du vill avbryta denna biljettförfrågan? Denna åtgärd kan inte ångras.",
+  },
+
+  ticket_release_method: {
+    first_come_first_served_title: "Först till kvarn",
+    first_come_first_served_description:
+      "Först till kvarn-lotteriet är en metod för biljettsläpp där personer som begär en biljett inom en angiven tidsram deltar i ett lotteri. När biljetter tilldelas, placeras alla biljettbegäranden inom denna tidsram i ett lotteri och vinnarna väljs slumpmässigt. Vinnarna får en biljett och resten placeras på väntelistan. Alla som begär en biljett efter den angivna tidsramen placeras på väntelistan, om inte lotteriet är ofullständigt. Om lotteriet inte är fullt, ges de återstående biljetterna till personerna på väntelistan i den ordning de begärde biljetten.",
+  },
+
   common: {
     show_all: "Visa alla",
     show_less: "Visa mindre",
     search: "Sök",
     created: "Skapad",
+    made_at: "Gjord",
   },
 
   main_page: {

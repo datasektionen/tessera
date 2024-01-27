@@ -42,6 +42,7 @@ import { Form, Formik } from "formik";
 import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
 import { StyledErrorMessage } from "../../components/forms/messages";
 import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessSlice";
+import { useTranslation } from "react-i18next";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -66,6 +67,7 @@ const EventDetail: React.FC = () => {
   ) as { success: boolean | null; loading: boolean };
 
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
     dispatch(
@@ -183,7 +185,7 @@ const EventDetail: React.FC = () => {
                 overflow: "hidden",
               }}
             >
-              Tickets
+              {t("event.tickets")}
             </Typography>
             <div>
               <Stack spacing={2} sx={{ p: 0 }}>
@@ -206,11 +208,11 @@ const EventDetail: React.FC = () => {
               validationSchema={PromoCodeValidationSchema}
             >
               <Form>
-                <StyledFormLabel>Promo Code</StyledFormLabel>
+                <StyledFormLabel>{t("event.promo_code_title")}</StyledFormLabel>
 
                 <Stack spacing={2} sx={{ p: 0 }} direction="row">
                   <FormInput
-                    label={"Promo Code"}
+                    label={t("event.promo_code_title")}
                     name={"promo_code"}
                     placeholder={"Enter Promo Code"}
                     type={"text"}
@@ -221,13 +223,13 @@ const EventDetail: React.FC = () => {
                     size="md"
                     color={PALLETTE.charcoal}
                   >
-                    Submit
+                    {t("form.button_submit")}
                   </StyledButton>
                 </Stack>
                 <StyledErrorMessage name="promo_code" />
 
                 <StyledFormLabelWithHelperText>
-                  Enter a promo code to get access to reserved tickets.
+                  {t("event.promo_code_helperText")}
                 </StyledFormLabelWithHelperText>
               </Form>
             </Formik>

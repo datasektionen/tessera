@@ -17,6 +17,7 @@ import EventTicketsList from "../../components/events/tickets/list";
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ListEventTicketReleases from "../../components/events/ticket_release/list";
+import { useTranslation } from "react-i18next";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -31,6 +32,7 @@ const ManageEventPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (eventID) {
@@ -52,7 +54,7 @@ const ManageEventPage: React.FC = () => {
             width: "90%",
           }}
         >
-          Manage Event
+          {t("manage_event.title")}
         </Title>
         <Stack spacing={2} direction={"row"}>
           <StyledButton
@@ -63,16 +65,16 @@ const ManageEventPage: React.FC = () => {
             }}
             style={{ width: "150px" }}
           >
-            Edit
+            {t("form.button_edit")}
           </StyledButton>
         </Stack>
         <EventDetailInfo event={event} />
 
         <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
           <Title fontSize={22} color={PALLETTE.charcoal}>
-            Manage Ticket Releases
+            {t("manage_event.manage_ticket_releases")}
           </Title>
-          <Tooltip title="Manage ticket releases for this event.">
+          <Tooltip title={t("tooltips.manage_ticket_releases")}>
             <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
           </Tooltip>
         </Grid>
@@ -84,9 +86,9 @@ const ManageEventPage: React.FC = () => {
 
         <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
           <Title fontSize={22} color={PALLETTE.charcoal}>
-            Manage Event Tickets
+            {t("manage_event.manage_tickets")}
           </Title>
-          <Tooltip title="The table shows all the ticket requests and tickets for this event.">
+          <Tooltip title={t("tooltips.manage_tickets")}>
             <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
           </Tooltip>
         </Grid>

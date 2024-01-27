@@ -51,18 +51,36 @@ const MainPage: React.FC = () => {
           height: "100vh", // Full height
         }}
       >
-        <img
-          src={mainPageImage}
-          alt="main page"
+        <div
           style={{
-            backgroundImage: `url(${mainPageImage})`, // Use the imported image here
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover", // Cover the whole Box
-            backgroundPosition: "center",
-            filter: "blur(4px)",
+            position: "relative",
+            width: "100%",
+            height: "100%",
           }}
-        />
-
+        >
+          <img
+            src={mainPageImage}
+            alt="main page"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+              filter: "blur(4px)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background:
+                "linear-gradient(to top, rgb(25, 25, 25), transparent)",
+            }}
+          />
+        </div>
         <Box
           sx={{
             position: "absolute",
@@ -102,7 +120,7 @@ const MainPage: React.FC = () => {
         </Box>
       </Box>
       <Box
-        sx={{ width: "100%" }}
+        sx={{ width: "100%", height: "100vh" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
         }}
@@ -112,7 +130,7 @@ const MainPage: React.FC = () => {
           justifyContent="center"
           alignItems="flex-start"
           columns={12}
-          sx={{ height: "100%" }}
+          sx={{ height: "fit-content" }}
         >
           <Grid xs={12} md={6}>
             <Box

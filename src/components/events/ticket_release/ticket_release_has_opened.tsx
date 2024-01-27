@@ -39,6 +39,7 @@ import {
   numberOfTotalTicketRequestInBasket,
 } from "../../../utils/ticket_types";
 import ConfirmModal from "../../modal/confirm_modal";
+import { useTranslation } from "react-i18next";
 
 const TicketReleasHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -60,6 +61,7 @@ const TicketReleasHasOpened: React.FC<{
 
   const [whatIsRequestOpen, setWhatIsRequestOpen] = React.useState(false);
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Create a summary of the ticket request items
@@ -142,7 +144,7 @@ const TicketReleasHasOpened: React.FC<{
           })
         ) : (
           <Typography level="body-sm" fontFamily={"Josefin sans"}>
-            No tickets available
+            {t("event.ticket_release.no_tickets")}
           </Typography>
         )}
       </Stack>
@@ -156,7 +158,7 @@ const TicketReleasHasOpened: React.FC<{
               color: PALLETTE.charcoal,
             }}
           >
-            Overview
+            {t("event.ticket_release.checkout.overview")}
           </Typography>
           {basket?.map((item, index) => (
             <>
@@ -199,7 +201,7 @@ const TicketReleasHasOpened: React.FC<{
             <Grid container justifyContent={"flex-start"} flexDirection={"row"}>
               <ShoppingCartIcon />
               <Typography level="body-sm" fontFamily={"Josefin sans"} ml={2}>
-                Total
+                {t("event.ticket_release.checkout.total")}
               </Typography>
             </Grid>
             <Typography level="body-sm" fontFamily={"Josefin sans"}>
@@ -226,7 +228,7 @@ const TicketReleasHasOpened: React.FC<{
                 numberOfTotalTicketRequestInBasket(ticketRequestItems) === 0
               }
             >
-              Request
+              {t("form.button_request")}
             </StyledButton>
             <Typography
               fontFamily={"Josefin Sans"}
@@ -239,7 +241,7 @@ const TicketReleasHasOpened: React.FC<{
                   setWhatIsRequestOpen(true);
                 }}
               >
-                What is request?
+                {t("event.ticket_release.checkout.what_is_a_request_title")}
               </Link>
             </Typography>
           </Grid>
@@ -265,7 +267,7 @@ const TicketReleasHasOpened: React.FC<{
             // ALign right
           }}
         >
-          Tickets available for:
+          {t("event.ticket_release.tickets_available_for")}:
         </Typography>
         <TicketReleaseCountdown
           ticketRelease={ticketRelease}

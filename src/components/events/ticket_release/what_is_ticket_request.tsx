@@ -2,6 +2,7 @@ import { Typography } from "@mui/joy";
 import InformationModal from "../../modal/information";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isOpen: boolean;
@@ -9,20 +10,19 @@ interface Props {
 }
 
 const WhaIsTicketRequestModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   return (
     <InformationModal
       isOpen={isOpen}
       onClose={onClose}
-      title="What is a ticket request?"
+      title={t("event.ticket_release.checkout.what_is_a_request_title")}
     >
       <StyledText
         level="body-md"
         color={PALLETTE.charcoal}
         style={{ marginBottom: "16px" }}
       >
-        When making a request, you are not guaranteed to get the tickets you
-        want. The allocation of the tickets are done according to the Ticket
-        Release Method, which is described in the release description.
+        {t("event.ticket_release.checkout.what_is_a_request")}
       </StyledText>
     </InformationModal>
   );

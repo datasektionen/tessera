@@ -41,6 +41,7 @@ import ConfirmModal from "../modal/confirm_modal";
 import { cancelTicketRequestRequest } from "../../redux/features/myTicketRequestsSlice";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/def";
+import { useTranslation } from "react-i18next";
 
 interface ViewTicketRequestProps {
   ticketRequest: ITicketRequest;
@@ -77,6 +78,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     dispatch(cancelTicketRequestRequest(ticketRequest));
     setConfirmCancelOpen(false);
   };
+  const { t } = useTranslation();
 
   if (!ticketRequest) {
     return <></>;
@@ -88,12 +90,13 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     >
       <Title fontSize={32}>{ticketRequest.ticket_type?.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-        Made at {new Date(ticketRequest.created_at).toLocaleString()}
+        {t("common.made_at")}{" "}
+        {new Date(ticketRequest.created_at).toLocaleString()}
       </StyledText>
 
       <Box mt={2}>
         <StyledText level="body-sm" fontSize={22} color={PALLETTE.charcoal}>
-          Cost Overview
+          {t("ticket_request.cost_overview")}
         </StyledText>
         <>
           <Grid
@@ -130,7 +133,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
         <ConfirmModal
           isOpen={confirmCancelOpen}
           onClose={() => setConfirmCancelOpen(false)}
-          title="Confirm cancellation"
+          title={t("ticket_request.cancel_ticket_request_confirm_title")}
           actions={[
             <StyledButton
               bgColor={PALLETTE.offWhite}
@@ -141,7 +144,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
                 marginTop: "16px",
               }}
             >
-              Cancel Request
+              {t("form.button_confirm")}
             </StyledButton>,
             <StyledButton
               bgColor={PALLETTE.green}
@@ -152,13 +155,12 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
                 marginTop: "16px",
               }}
             >
-              Go Back
+              {t("form.button_cancel")}
             </StyledButton>,
           ]}
         >
           <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-            Are you sure you want to cancel this ticket request? This action
-            cannot be undone.
+            {t("ticket_request.cancel_ticket_request_confirm")}
           </StyledText>
         </ConfirmModal>
 
@@ -172,7 +174,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               marginTop: "16px",
             }}
           >
-            Cancel Request
+            {t("ticket_request.cancel_ticket_request_button")}
           </StyledButton>
         ) : (
           <StyledButton
@@ -186,7 +188,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               marginTop: "16px",
             }}
           >
-            Go to tickets
+            {t("ticket_request.go_to_tickets_button")}
           </StyledButton>
         )}
       </Box>
