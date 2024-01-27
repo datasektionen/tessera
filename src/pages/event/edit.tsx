@@ -16,6 +16,7 @@ import { getEventRequest } from "../../redux/features/eventSlice";
 import { useParams } from "react-router-dom";
 import EditTicketReleases from "../../components/events/edit/edit_ticket_releases";
 import { Style } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -27,6 +28,7 @@ const EditEventPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (eventID) {
@@ -44,9 +46,9 @@ const EditEventPage: React.FC = () => {
         <StandardGrid>
           <Grid xs={16}>
             <Box sx={{ padding: "16px 16px" }}>
-              <Title>Edit Event</Title>
+              <Title>{t("manage_event.edit.title")}</Title>
               <StyledText color={PALLETTE.charcoal} level="body-sm">
-                Edit your event details here.
+                {t("manage_event.edit.subtitle")}
               </StyledText>
             </Box>
           </Grid>
@@ -57,7 +59,7 @@ const EditEventPage: React.FC = () => {
                 level="body-lg"
                 fontSize={32}
               >
-                Edit Event Details
+                {t("manage_event.edit.event_details.title")}
               </StyledText>
               <EditEventForm event={event!} />
             </BorderBox>

@@ -18,7 +18,7 @@ const seTranslations = {
       date_helperText: "När är ditt evenemang?",
       location: "Plats",
       location_helperText: "Var hålls ditt evenemang?",
-      team: "Lag",
+      team: "Grupp",
       team_helperText:
         "Vilken grupp står värd för ditt evenemang? Du måste koppla evenemanget till ett grupp. Om du inte tillhör en grupp kan du skapa ett, läs mer på startsidan.",
       private_event: "Privat evenemang",
@@ -45,8 +45,8 @@ const seTranslations = {
       max_tickets_per_user: "Max biljetter per användare",
       max_tickets_per_user_helperText:
         "Hur många biljetter kan en användare begära?",
-      ticket_quantity: "Antal biljetter",
-      ticket_quantity_helperText:
+      tickets_available: "Antal biljetter",
+      tickets_available_helperText:
         "Hur många biljetter kommer att vara tillgängliga?",
       notification_method: "Notifieringsmetod",
       notification_method_helperText:
@@ -203,8 +203,27 @@ const seTranslations = {
 
     edit: {
       title: "Redigera evenemang",
+      description: "Redigera evenemangsdetaljer",
       event_details: {
         title: "Redigera evenemangsdetaljer",
+      },
+      ticket_releases: {
+        title: "Redigera biljettsläpp",
+        subtitle:
+          "Skapa biljettsläpp för ditt evenemang. Du kan skapa så många du vill, och du kan redigera dem senare.",
+        select: "Välj ett biljettsläpp för att redigera det.",
+        add: "Lägg till biljettsläpp",
+        add_subtitle:
+          "Låt oss lägga till ett annat biljettsläpp. Först måste vi definiera detaljerna för detta biljettsläpp.",
+        no_ticket_releases: "Det finns inga biljettsläpp för detta evenemang.",
+        edit_ticket_types: "Redigera biljetter",
+        add_helperText: "Vänligen välj ett biljettsläpp att redigera.",
+      },
+      ticket_types: {
+        title: "Redigera biljettbatcher",
+        ticket_details: "Biljettinformation",
+        ticket_details_helperText:
+          "Ändra detaljerna för dina biljettyper och klicka sedan på 'Spara'.",
       },
     },
   },

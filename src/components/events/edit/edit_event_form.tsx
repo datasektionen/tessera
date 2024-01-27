@@ -41,6 +41,7 @@ import PALLETTE from "../../../theme/pallette";
 import { format } from "date-fns";
 import CreateEventFormSchema from "../../../validation/create_event_form";
 import { editEventRequest } from "../../../redux/features/editEventSlice";
+import { Trans, useTranslation } from "react-i18next";
 
 interface EditEventFormProps {
   event: IEvent;
@@ -57,6 +58,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
     EventFormInitialValues
   );
   const [initValueSet, setInitValueSet] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(getMyOrganizationsRequest());
@@ -115,7 +117,9 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
             >
               <Grid xs={16} sm={8}>
                 <FormControl>
-                  <StyledFormLabel>Name*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.event_details.name")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="name"
                     label="Name"
@@ -124,12 +128,14 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                   <StyledErrorMessage name="name" />
 
                   <StyledFormLabelWithHelperText>
-                    What is the name of your event?
+                    {t("form.event_details.name_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <FormControl>
-                  <StyledFormLabel>Description*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.event_details.description")}*
+                  </StyledFormLabel>
 
                   <FormTextarea
                     name="description"
@@ -139,12 +145,14 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                   <StyledErrorMessage name="description" />
 
                   <StyledFormLabelWithHelperText>
-                    What is your event about? What should people expect?
+                    {t("form.event_details.description_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <FormControl>
-                  <StyledFormLabel>Date*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.event_details.date")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="date"
                     label="Date"
@@ -154,24 +162,28 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                   <StyledErrorMessage name="date" />
 
                   <StyledFormLabelWithHelperText>
-                    When is your event?
+                    {t("form.event_details.date_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
               </Grid>
 
               <Grid xs={16} sm={8}>
                 <FormControl>
-                  <StyledFormLabel>Location*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.event_details.location")}*
+                  </StyledFormLabel>
                   <FormGooglePlacesAutocomplete name="location" />
                   <StyledErrorMessage name="location" />
 
                   <StyledFormLabelWithHelperText>
-                    Where is your event?
+                    {t("form.event_details.location_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <FormControl>
-                  <StyledFormLabel>Team*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.event_details.team")}*
+                  </StyledFormLabel>
                   <Field name="organization_id">
                     {({ field, form }: any) => {
                       return (
@@ -195,19 +207,19 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                   </Field>
                   <StyledErrorMessage name="organization_id" />
                   <StyledFormLabelWithHelperText>
-                    Which team is hosting your event? You need to tie the event
-                    to a team. If your not a part of a team, you can create one{" "}
-                    <Link href="/organizations/create">here</Link>.
+                    {t("form.event_details.team_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <FormControl>
-                  <StyledFormLabel>Private Event</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.event_details.private_event")}
+                  </StyledFormLabel>
                   <FormCheckbox name="is_private" label="Is Private" />
                   <StyledErrorMessage name="is_private" />
 
                   <StyledFormLabelWithHelperText>
-                    Is your event private?
+                    {t("form.event_details.private_event_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
               </Grid>
@@ -232,7 +244,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                     width: "150px",
                   }}
                 >
-                  Save
+                  {t("form.button_save")}
                 </StyledButton>
               </Grid>
             </Grid>

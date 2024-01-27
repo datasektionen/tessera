@@ -1,3 +1,4 @@
+import { title } from "process";
 import gbFaq from "../assets/faq/gb_faq.json";
 
 const enTranslations = {
@@ -62,8 +63,8 @@ const enTranslations = {
         "For First Come First Serve, the lottery duration defines within how many minutes, requested tickets will be entered into a lottery. If more tickets are requested than available, all participants that request tickets within this timeframe will be entered into a lottery, the rest will be reserves.",
       max_tickets_per_user: "Max tickets per user",
       max_tickets_per_user_helperText: "How many tickets can a user request?",
-      ticket_quantity: "Ticket quantity",
-      ticket_quantity_helperText: "How many tickets will be available?",
+      tickets_available: "Ticket quantity",
+      tickets_available_helperText: "How many tickets will be available?",
       notification_method: "Notification method",
       notification_method_helperText:
         "How do you want to notify users about the ticket release?",
@@ -219,8 +220,27 @@ const enTranslations = {
 
     edit: {
       title: "Edit event",
+      subtitle: "Edit all of your event details here.",
       event_details: {
         title: "Edit event details",
+      },
+      ticket_releases: {
+        title: "Edit Ticket Ticket ReleaseRelease",
+        subtitle:
+          "Create ticket releases for your event. You can create as many as you want, and you can edit them later.",
+        select: "Select a ticket release to edit it.",
+        add: "Add ticket release",
+        add_subtitle:
+          "Lets add another ticket release. First we need to define the details for this ticket release.",
+        no_ticket_releases: "There are no ticket releases for this event.",
+        edit_ticket_types: "Edit tickets",
+        add_helperText: "Please select a ticket release to edit.",
+      },
+      ticket_types: {
+        title: "Edit Ticket Batches",
+        ticket_details: "Ticket details",
+        ticket_details_helperText:
+          "Modify the details of your ticket types and then click 'Save'.",
       },
     },
   },

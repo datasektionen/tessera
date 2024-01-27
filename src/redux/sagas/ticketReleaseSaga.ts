@@ -52,7 +52,7 @@ function* createTicketReleaseSaga(
       ticket_release_method_id: ticketRelease.ticket_release_method_id,
       is_reserved: ticketRelease.is_reserved,
       promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
-      available_tickets: ticketRelease.available_tickets,
+      tickets_available: ticketRelease.tickets_available,
     };
 
     const response = yield call(

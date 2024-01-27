@@ -33,6 +33,7 @@ import TesseraWrapper from "../../../components/wrappers/page_wrapper";
 import LoadingOverlay from "../../../components/Loading";
 import { is } from "date-fns/locale";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -78,6 +79,7 @@ const EditTicketTypes: React.FC = () => {
   }>({});
 
   const someFormsAreInvalid = Object.keys(invalidForms).length > 0;
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (updateSuccess) {
@@ -171,7 +173,7 @@ const EditTicketTypes: React.FC = () => {
               fontSize={32}
               style={{ marginBottom: "16px" }}
             >
-              Edit Tickets
+              {t("manage_event.edit.ticket_types.title")}
             </StyledText>
             <Box mt={2}>
               {formTicketTypes?.map((ticketType, index) => {
@@ -279,7 +281,7 @@ const EditTicketTypes: React.FC = () => {
                     bgColor={PALLETTE.green}
                     disabled={someFormsAreInvalid}
                   >
-                    Save
+                    {t("form.button_save")}
                   </StyledButton>
                 </Grid>
                 <Grid>
@@ -291,7 +293,7 @@ const EditTicketTypes: React.FC = () => {
                       navigate(`/events/${eventID}/edit`);
                     }}
                   >
-                    Cancel
+                    {t("form.button_cancel")}
                   </StyledButton>
                 </Grid>
               </Grid>
@@ -301,10 +303,10 @@ const EditTicketTypes: React.FC = () => {
         <Grid xs={8}>
           <BorderBox>
             <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-              Ticket details
+              {t("manage_event.edit.ticket_types.ticket_details")}
             </StyledText>
             <StyledText level="body-md" fontSize={16} color={PALLETTE.charcoal}>
-              Modify the details of your ticket types and then click "Save".
+              {t("manage_event.edit.ticket_types.ticket_details_helperText")}
             </StyledText>
             <EditTicketTypeForm
               ticketTypes={formTicketTypes}

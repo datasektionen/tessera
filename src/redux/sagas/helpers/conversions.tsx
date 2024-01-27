@@ -32,6 +32,7 @@ export function convertResponseToTicketRelease(
     open: new Date(responseData.open! * 1000).getTime(),
     close: new Date(responseData.close! * 1000).getTime(),
     ticketReleaseMethodDetailId: responseData.ticket_release_method_detail_id!,
+    tickets_available: responseData.tickets_available!,
     ticketReleaseMethodDetail: {
       id: responseData.ticket_release_method_detail_id!,
       name: responseData.ticket_release_method_detail.name!,

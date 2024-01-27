@@ -17,6 +17,7 @@ import RestartEventCreationButton from "../../buttons/restart_event_creation_but
 import CreateTicketReleaseForm from "../ticket_release/ticket_release_form";
 import { useNavigate } from "react-router-dom";
 import { FormikHelpers } from "formik";
+import { useTranslation } from "react-i18next";
 
 interface EditEventAddTicketReleaseProps {
   eventId: number;
@@ -37,14 +38,15 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   return (
     <StandardGrid>
       <Grid xs={8}>
-        <Title>Add Ticket Releases</Title>
+        <Title>{t("manage_event.edit.ticket_releases.add")}</Title>
         <Box>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            Lets add another ticket release. First we need to define the details
-            for this ticket release.
+            {t("manage_event.edit.ticket_releases.add_subtitle")}
           </StyledText>
         </Box>
         <Stack mt={2} spacing={2} direction="row">
@@ -55,14 +57,14 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
               navigate(`/events/${eventId}/edit`);
             }}
           >
-            Back
+            {t("form.button_back")}
           </StyledButton>
         </Stack>
       </Grid>
       <Grid xs={8}>
         <BorderBox>
           <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-            Ticket Release
+            {t("create_event.ticket_release")}
           </StyledText>
           <CreateTicketReleaseForm
             submit={submit}

@@ -45,6 +45,7 @@ import CreateTicketReleaseFormSchema from "../../../validation/create_ticket_rel
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import LoadingOverlay from "../../Loading";
+import { useTranslation } from "react-i18next";
 
 interface EditTicketReleaseFormProps {
   ticketRelease: ITicketRelease | undefined;
@@ -78,6 +79,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       toast.error("Please fix the errors in the form.");
     }
   };
+  const { t } = useTranslation();
 
   const [initialValues, setInitialValues] = useState<ITicketReleaseForm>(
     TicketReleaseFormInitialValues
@@ -103,7 +105,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
           ticketRelease.ticketReleaseMethodDetail.cancellationPolicy,
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
-        available_tickets: ticketRelease.available_tickets!,
+        tickets_available: ticketRelease.tickets_available!,
       });
       setInitValueSet(true);
     }
@@ -112,7 +114,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
   if (!ticketRelease || !initValueSet) {
     return (
       <StyledText level="body-sm" color={PALLETTE.charcoal}>
-        Please select a ticket release to edit.
+        {t("manage_event.edit.ticket_releases.add_helperText")}
       </StyledText>
     );
   }
@@ -144,7 +146,9 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                 {/* Name */}
 
                 <FormControl>
-                  <StyledFormLabel>Name*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.name")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="name"
                     label="Name"
@@ -153,13 +157,15 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   <StyledErrorMessage name="name" />
 
                   <StyledFormLabelWithHelperText>
-                    What is the name of this ticket release?
+                    {t("form.ticket_release.name_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 {/* Description */}
                 <FormControl>
-                  <StyledFormLabel>Description*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.description")}*
+                  </StyledFormLabel>
                   <FormTextarea
                     name="description"
                     label="Description"
@@ -168,13 +174,15 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   <StyledErrorMessage name="description" />
 
                   <StyledFormLabelWithHelperText>
-                    What types of tickets are you releasing?
+                    {t("form.ticket_release.description_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 {/* Open */}
                 <FormControl>
-                  <StyledFormLabel>Available at*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.available_at")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="open"
                     label="Open"
@@ -184,13 +192,15 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   <StyledErrorMessage name="open" />
 
                   <StyledFormLabelWithHelperText>
-                    When do the tickets become available?
+                    {t("form.ticket_release.available_at_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 {/* Close */}
                 <FormControl>
-                  <StyledFormLabel>Closes at*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.closes_at")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="close"
                     label="Close"
@@ -199,14 +209,16 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   />
                   <StyledErrorMessage name="close" />
                   <StyledFormLabelWithHelperText>
-                    When do the tickets stop being available?
+                    {t("form.ticket_release.closes_at_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
               </Grid>
               <Grid xs={16} sm={8}>
                 {/* Ticket Release Method ID */}
                 <FormControl>
-                  <StyledFormLabel>Ticket Release Method*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.ticket_release_method")}*
+                  </StyledFormLabel>
                   <Field name="ticket_release_method_id">
                     {({ field, form }: any) => {
                       return (
@@ -256,7 +268,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   </Field>
                   <StyledErrorMessage name="ticket_release_method_id" />
                   <StyledFormLabelWithHelperText>
-                    What method are you using to release tickets?
+                    {t("form.ticket_release.ticket_release_method_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
@@ -264,7 +276,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                 {values && values.ticket_release_method_id === 1 && (
                   <FormControl>
                     <StyledFormLabel>
-                      Lottery Duration (minutes)*
+                      {t("form.ticket_release.lottery_duration")}*
                     </StyledFormLabel>
                     <FormInput
                       type="number"
@@ -292,19 +304,16 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     ) : null}
 
                     <StyledFormLabelWithHelperText>
-                      For First Come First Serve, the lottery duration defines
-                      within how many minutes, requested tickets will be entered
-                      into a lottery. If more tickets are requested than
-                      available, all participants that request tickets within
-                      this timeframe will be entered into a lottery, the rest
-                      will be reserves.
+                      {t("form.ticket_release.lottery_duration_helperText")}
                     </StyledFormLabelWithHelperText>
                   </FormControl>
                 )}
 
                 {/* Max Tickets Per User */}
                 <FormControl>
-                  <StyledFormLabel>Max Tickets Per User*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.max_tickets_per_user")}*
+                  </StyledFormLabel>
 
                   <FormInput
                     type="number"
@@ -314,28 +323,32 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   />
                   <StyledErrorMessage name="max_tickets_per_user" />
                   <StyledFormLabelWithHelperText>
-                    How many tickets can a user request?
+                    {t("form.ticket_release.max_tickets_per_user_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <FormControl>
-                  <StyledFormLabel>Ticket Quantity*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.tickets_available")}*
+                  </StyledFormLabel>
                   <FormInput
                     type="number"
-                    name="available_tickets"
+                    name="tickets_available"
                     label="Quantity"
                     placeholder=""
                   />
-                  <StyledErrorMessage name="available_tickets" />
+                  <StyledErrorMessage name="tickets_available" />
 
                   <StyledFormLabelWithHelperText>
-                    How many tickets are available?
+                    {t("form.ticket_release.tickets_available_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 {/* Notification Method */}
                 <FormControl>
-                  <StyledFormLabel>Notification Method*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.notification_method")}* *
+                  </StyledFormLabel>
                   <Field name="notification_method">
                     {({ field, form }: any) => {
                       return (
@@ -355,12 +368,14 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   </Field>
                   <StyledErrorMessage name="notification_method" />
                   <StyledFormLabelWithHelperText>
-                    How would you like to notify users?
+                    {t("form.ticket_release.notification_method_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <FormControl>
-                  <StyledFormLabel>Cancellation Policy*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.cancellation_policy")}* *
+                  </StyledFormLabel>
                   <Field name="cancellation_policy">
                     {({ field, form }: any) => {
                       return (
@@ -383,26 +398,30 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   </Field>
                   <StyledErrorMessage name="cancellation_policy" />
                   <StyledFormLabelWithHelperText>
-                    What is your cancellation policy?
+                    {t("form.ticket_release.cancellation_policy_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
+                {/* Reserved Ticket Release */}
                 <FormControl>
-                  <StyledFormLabel>Reserved Ticket Release</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.reserved_ticket_release")}*
+                  </StyledFormLabel>
                   <FormCheckbox name="is_reserved" label="Is Reserved" />
                   <StyledErrorMessage name="is_reserved" />
 
                   <StyledFormLabelWithHelperText>
-                    A reserved ticket release contains tickets that are reserved
-                    for specific users. A promo code is required to access this
-                    ticket. Remember that you can add more ticket releases
-                    later.
+                    {t(
+                      "form.ticket_release.reserved_ticket_release_helperText"
+                    )}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 {values && values.is_reserved && (
                   <FormControl>
-                    <StyledFormLabel>Promo Code*</StyledFormLabel>
+                    <StyledFormLabel>
+                      {t("form.ticket_release.promo_code")}*
+                    </StyledFormLabel>
                     <FormInput
                       name="promo_code"
                       label="Promo Code"
@@ -411,7 +430,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     <StyledErrorMessage name="promo_code" />
 
                     <StyledFormLabelWithHelperText>
-                      What is the promo code for this ticket release?
+                      {t("form.ticket_release.promo_code_helperText")}
                     </StyledFormLabelWithHelperText>
                   </FormControl>
                 )}
@@ -436,7 +455,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     width: "150px",
                   }}
                 >
-                  Save
+                  {t("form.button_save")}
                 </StyledButton>
               </Grid>
             </Grid>

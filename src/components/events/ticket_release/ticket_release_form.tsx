@@ -292,18 +292,18 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
             {/* Ticket Quantity */}
             <FormControl>
               <StyledFormLabel>
-                {t("form.ticket_release.ticket_quantity")}*
+                {t("form.ticket_release.tickets_available")}*
               </StyledFormLabel>
               <FormInput
                 type="number"
-                name="available_tickets"
+                name="tickets_available"
                 label="Quantity"
                 placeholder=""
               />
-              <StyledErrorMessage name="available_tickets" />
+              <StyledErrorMessage name="tickets_available" />
 
               <StyledFormLabelWithHelperText>
-                {t("form.ticket_release.ticket_quantity_helperText")}
+                {t("form.ticket_release.tickets_available_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Divider sx={{ marginTop: 1, marginBottom: 1 }} />

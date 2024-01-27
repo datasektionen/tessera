@@ -19,6 +19,7 @@ import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { useEffect } from "react";
 import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import { useTranslation } from "react-i18next";
 
 interface EditTicketTypeFormProps {
   ticketTypes: ITicketTypeForm[];
@@ -49,6 +50,8 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
   useEffect(() => {
     validateAllForms();
   }, [ticketTypes]);
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -83,7 +86,9 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                 }}
               >
                 <FormControl>
-                  <StyledFormLabel>Name*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.name")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="name"
                     label="Name"
@@ -98,12 +103,14 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                   <StyledErrorMessage name="name" />
 
                   <StyledFormLabelWithHelperText>
-                    What is the name of this ticket?
+                    {t("form.ticket_types.name_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
                 <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
                 <FormControl>
-                  <StyledFormLabel>Description*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.description")}*
+                  </StyledFormLabel>
                   <FormTextarea
                     name="description"
                     label="Description"
@@ -118,14 +125,16 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                   <StyledErrorMessage name="description" />
 
                   <StyledFormLabelWithHelperText>
-                    What is included in this ticket?
+                    {t("form.ticket_types.description_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 
                 <FormControl>
-                  <StyledFormLabel>Price (in SEK)*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.price")}*
+                  </StyledFormLabel>
                   <FormInput
                     type="number"
                     name="price"
@@ -149,7 +158,7 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                   <StyledErrorMessage name="price" />
 
                   <StyledFormLabelWithHelperText>
-                    How much does this ticket cost?
+                    {t("form.ticket_types.price_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
@@ -167,7 +176,7 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                         dispatch(clearTicketType(index));
                       }}
                     >
-                      Clear
+                      {t("form.button_clear")}
                     </StyledButton>
                   </Grid>
                 </Grid>

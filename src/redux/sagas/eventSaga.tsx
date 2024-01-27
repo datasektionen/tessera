@@ -35,8 +35,6 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
 
     const eventData = response.data.event;
 
-    console.log(eventData.created_by);
-
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
       id: eventData.ID!,
@@ -59,7 +57,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           close: new Date(ticketRelease.close! * 1000).getTime(),
           is_reserved: ticketRelease.is_reserved!,
           promo_code: ticketRelease.promo_code!,
-          available_tickets: ticketRelease.available_tickets!,
+          tickets_available: ticketRelease.tickets_available!,
           has_allocated_tickets: ticketRelease.has_allocated_tickets!,
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
@@ -81,7 +79,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
             cancellationPolicy:
               ticketRelease.ticket_release_method_detail.cancellation_policy!,
             openWindowDuration:
-              ticketRelease.ticket_release_method_detail.open_window_duration!,
+              ticketRelease.ticket_release_method_detail.open_window_duration! /
+              60, // Since backend stores in seconds, convert to minutes
             notificationMethod:
               ticketRelease.ticket_release_method_detail.notification_method!,
             ticketReleaseMethod: {
@@ -96,6 +95,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
         } as ITicketRelease;
       }),
     };
+
+    console.log(event);
 
     yield put(getEventSuccess(event));
   } catch (error: any) {

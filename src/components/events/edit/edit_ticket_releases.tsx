@@ -11,6 +11,7 @@ import StyledButton from "../../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
 import EditTicketTypeForm from "./edit_ticket_type_form";
 import { generateEditTicketReleaseTicketTypes } from "../../../routes/def";
+import { useTranslation } from "react-i18next";
 
 interface EditTicketReleasesProps {
   ticket_releases: ITicketRelease[] | [];
@@ -26,6 +27,7 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
   const [selectedTicketRelease, setSelectedTicketRelease] = useState<
     number | null
   >(null);
+  const { t } = useTranslation();
 
   return (
     <Box>
@@ -36,11 +38,10 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
           fontSize={32}
           style={{ marginBottom: "16px" }}
         >
-          Edit Ticket Releases
+          {t("manage_event.edit.ticket_releases.title")}
         </StyledText>
         <StyledText color={PALLETTE.charcoal} level="body-sm">
-          Create ticket releases for your event. You can create as many as you
-          want, and you can edit them later.
+          {t("manage_event.edit.ticket_releases.subtitle")}
         </StyledText>
 
         <StyledText
@@ -48,7 +49,7 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
           level="body-sm"
           style={{ marginTop: "16px" }}
         >
-          Select a ticket release to edit it.
+          {t("manage_event.edit.ticket_releases.select")}
         </StyledText>
         <Grid
           container
@@ -77,7 +78,7 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
               </Select>
             ) : (
               <StyledText color={PALLETTE.charcoal} level="body-sm">
-                No ticket releases created yet.
+                {t("manage_event.edit.ticket_releases.no_ticket_releases")}
               </StyledText>
             )}
           </Grid>
@@ -89,7 +90,7 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
               }}
               size="md"
             >
-              Add Ticket Release
+              {t("manage_event.edit.ticket_releases.add")}
             </StyledButton>
           </Grid>
         </Grid>
@@ -118,7 +119,7 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
                 color={PALLETTE.charcoal}
                 fontSize={32}
               >
-                Edit Tickets
+                {t("manage_event.edit.ticket_releases.edit_ticket_types")}
               </StyledText>
             </StyledButton>
           </>
