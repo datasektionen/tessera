@@ -13,11 +13,11 @@ And please use the appropriate [Editorconfig](http://editorconfig.org/) plugin f
 You should be able to run the following command after the installation procedure
 below.
 
-    $ node --version
-    v18.16.1
+    $ node -v
+    v21.2.0
 
-    $ npm --version
-    9.5.1
+    $ npm -v
+    10.2.3
 
 #### Node installation on OS X
 
