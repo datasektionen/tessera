@@ -1,12 +1,14 @@
 import { Box, Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { IUser } from "../../types";
 import UserInfoText from "../text/user_info_text";
+import { useTranslation } from "react-i18next";
 
 interface UserInfoProps {
   user: IUser;
 }
 
 const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+  const { t } = useTranslation();
   return (
     <>
       <Grid container spacing={1} columns={16} sx={{ flexGrow: 1 }}>
@@ -14,16 +16,19 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
           <Box>
             <Stack direction="column" spacing={2}>
               <UserInfoText
-                label="Full name"
+                label={t("profile.full_name")}
                 value={`${user.first_name} ${user.last_name}`}
               />
-              <UserInfoText label="Email" value={user.email} />
-              <UserInfoText label="Username" value={user.username} />
-
-              <UserInfoText label="Role" value={user.role!.name} />
-    
+              <UserInfoText label={t("profile.email")} value={user.email} />
               <UserInfoText
-                label="Teams"
+                label={t("profile.username")}
+                value={user.username}
+              />
+
+              <UserInfoText label={t("profile.role")} value={user.role!.name} />
+
+              <UserInfoText
+                label={t("profile.teams")}
                 value={user.organizations!.map((org) => org.name).join(", ")}
               />
             </Stack>
@@ -33,13 +38,22 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
           <Box>
             <Stack direction="column" spacing={2}>
               <Link href="/profile/ticket-requests">
-                <UserInfoText label="Your ticket requests" value="" />
+                <UserInfoText
+                  label={t("profile.links_and_buttons.your_ticket_requests")}
+                  value=""
+                />
               </Link>
               <Link href="/profile/tickets">
-                <UserInfoText label="Your tickets" value="" />
+                <UserInfoText
+                  label={t("profile.links_and_buttons.your_tickets")}
+                  value=""
+                />
               </Link>
               <Link href="/profile/organizations">
-                <UserInfoText label="Your teams" value="" />
+                <UserInfoText
+                  label={t("profile.links_and_buttons.your_teams")}
+                  value=""
+                />
               </Link>
             </Stack>
           </Box>

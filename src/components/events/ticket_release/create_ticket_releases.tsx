@@ -14,6 +14,7 @@ import { previousStep } from "../../../redux/features/eventCreationSlice";
 import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 import { FormikHelpers } from "formik";
 import { getEventRequest } from "../../../redux/features/eventSlice";
+import { useTranslation } from "react-i18next";
 
 interface CreateTicketReleasesProps {
   submit: (
@@ -26,6 +27,7 @@ const CreateTicketReleases: React.FC<CreateTicketReleasesProps> = ({
   submit,
 }) => {
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const {
     form: { ticketRelease },
@@ -34,12 +36,10 @@ const CreateTicketReleases: React.FC<CreateTicketReleasesProps> = ({
   return (
     <StandardGrid>
       <Grid xs={8}>
-        <Title>Create Ticket Releases</Title>
+        <Title>{t("create_event.ticket_release_title")}</Title>
         <Box>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            Moving on to the ticket releases. How will you release tickets for
-            your event? Do you want to divide tickets into batches? You can also
-            create more ticket releases later, in the edit event page.
+            {t("create_event.ticket_release_description")}
           </StyledText>
         </Box>
         <Stack mt={2} spacing={2} direction="row">
@@ -50,7 +50,7 @@ const CreateTicketReleases: React.FC<CreateTicketReleasesProps> = ({
               dispatch(previousStep());
             }}
           >
-            Back
+            {t("form.button_back")}
           </StyledButton>
           <RestartEventCreationButton />
         </Stack>

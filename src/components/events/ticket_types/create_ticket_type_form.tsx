@@ -19,6 +19,7 @@ import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 interface CreateTicketTypeFormProps {
   ticketTypes: ITicketTypeForm[];
@@ -32,9 +33,8 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
   validateAllForms,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-  const handleSubmission = (values: ITicketTypeForm) => {
-    console.log(values);
-  };
+
+  const { t } = useTranslation();
 
   const handleFieldChange = (fieldName: string, value: any, index: number) => {
     // Update the local form state and dispatch the update to the Redux store
@@ -83,7 +83,9 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                 }}
               >
                 <FormControl>
-                  <StyledFormLabel>Name*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.name")}*
+                  </StyledFormLabel>
                   <FormInput
                     name="name"
                     label="Name"
@@ -98,12 +100,14 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                   <StyledErrorMessage name="name" />
 
                   <StyledFormLabelWithHelperText>
-                    What is the name of this ticket?
+                    {t("form.ticket_types.name_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
                 <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
                 <FormControl>
-                  <StyledFormLabel>Description*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.description")}*
+                  </StyledFormLabel>
                   <FormTextarea
                     name="description"
                     label="Description"
@@ -118,14 +122,16 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                   <StyledErrorMessage name="description" />
 
                   <StyledFormLabelWithHelperText>
-                    What is included in this ticket?
+                    {t("form.ticket_types.description_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
                 <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 
                 <FormControl>
-                  <StyledFormLabel>Price (in SEK)*</StyledFormLabel>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.price")}*
+                  </StyledFormLabel>
                   <FormInput
                     type="number"
                     name="price"
@@ -149,7 +155,7 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                   <StyledErrorMessage name="price" />
 
                   <StyledFormLabelWithHelperText>
-                    How much does this ticket cost?
+                    {t("form.ticket_types.price_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
@@ -167,7 +173,7 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                         dispatch(clearTicketType(index));
                       }}
                     >
-                      Clear
+                      {t("form.button_clear")}
                     </StyledButton>
                   </Grid>
                 </Grid>

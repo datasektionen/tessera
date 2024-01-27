@@ -19,6 +19,7 @@ import { useState } from "react";
 import StyledButton from "../buttons/styled_button";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface AddOrganizationUserProps {
   organization: IOrganization;
@@ -30,7 +31,7 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
   reFetch,
 }) => {
   const [username, setUsername] = useState<string>("");
-
+  const { t } = useTranslation();
   const handleAddUser = async () => {
     // Add the user to the organization
     try {
@@ -62,7 +63,7 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
       }}
     >
       <Title fontSize={22} color={PALLETTE.charcoal}>
-        Add User
+        {t("profile.your_teams.add_user")}
       </Title>
       <FormControl>
         <Stack direction="row" spacing={2} alignItems="center">
@@ -87,15 +88,13 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
                 await handleAddUser();
               }}
             >
-              Submit
+              {t("form.button_submit")}
             </StyledButton>
           </Box>
         </Stack>
         <FormHelperText>
           <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
-            Enter the username of the user you want to add to this team. You can
-            change their role later. <br /> Hint: Username is the same as
-            kth-id.
+            {t("profile.your_teams.add_user_helperText")}
           </StyledText>
         </FormHelperText>
       </FormControl>

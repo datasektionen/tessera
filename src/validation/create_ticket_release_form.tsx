@@ -26,7 +26,7 @@ const checkDatesAreValidWithEventDate = (
 const validateOpenAndClose = (
   open: Date,
   close: Date,
-  open_window_duration: number
+  open_window_duration?: number
 ) => {
   // Check that open is before close
   // Check that open + open_window_duration is before close
@@ -36,8 +36,12 @@ const validateOpenAndClose = (
     return false;
   }
 
-  if (!open || !close || !open_window_duration) {
+  if (!open || !close) {
     return false;
+  }
+
+  if (!open_window_duration) {
+    return true;
   }
 
   const openTimestamp = open.getTime();
@@ -82,9 +86,15 @@ const CreateTicketReleaseFormSchema = Yup.object()
     ticket_release_method_id: Yup.number()
       .required("Ticket Release Method ID is required")
       .min(1, "Ticket Release Method ID is required"),
-    open_window_duration: Yup.number()
-      .required("Open Window Duration is required")
-      .min(1, "Open Window Duration must be greater than or equal to 1"),
+    open_window_duration: Yup.number().when("ticket_release_method_id", {
+      // @ts-ignore
+      is: 1,
+      then: (schema) =>
+        schema
+          .required("Open Window Duration is required")
+          .min(1, "Open Window Duration must be greater than or equal to 1"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
       .min(1, "Max Tickets Per User must be greater than or equal to 1"),
@@ -133,7 +143,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
       const isValid = validateOpenAndClose(
         value.open,
         value.close,
-        value.open_window_duration
+        value.open_window_duration || 0
       );
 
       if (!isValid) {

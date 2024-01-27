@@ -26,6 +26,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import StatusIcon from "../../icons/status_icon";
 import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 import { ITicketTypeForm } from "../../../types";
+import { useTranslation } from "react-i18next";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -57,7 +58,7 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
   handleBack,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const { t } = useTranslation();
   const { selectedTicketType, ticketTypes, loading, error } = useSelector(
     (state: RootState) => state.ticketTypeCreation
   );
@@ -102,13 +103,10 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
   return (
     <StandardGrid>
       <Grid xs={8}>
-        <Title>Create Tickets</Title>
+        <Title>{t("create_event.ticket_types_title")}</Title>
         <Box>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            Next step... Tickets. Here you will define the different types of
-            tickets that will be available for your event under the previous
-            ticket release. Each ticket release can have multiple ticket types.
-            You can also create more ticket types later, in the edit event page.
+            {t("create_event.ticket_types_description")}
           </StyledText>
         </Box>
         <Stack mt={2} spacing={2} direction="row">
@@ -119,13 +117,13 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
               handleBack();
             }}
           >
-            Back
+            {t("form.button_back")}
           </StyledButton>
           <RestartEventCreationButton />
         </Stack>
         <Box mt={2}>
           <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-            Ticket Types
+            {t("create_event.ticket_types")}
           </StyledText>
           <Box mt={2}>
             {ticketTypes?.map((ticketType, index) => {
@@ -196,7 +194,7 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
               textAlign: "center",
             }}
           >
-            <Tooltip title="Add Ticket Type" placement="bottom">
+            <Tooltip title={t("tooltips.add_ticket_type")} placement="bottom">
               <AddIcon
                 onClick={handleAddTicket}
                 style={{
@@ -216,7 +214,7 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
               bgColor={PALLETTE.cerise}
               disabled={someFormsAreInvalid}
             >
-              Next
+              {t("form.button_next")}
             </StyledButton>
           </Box>
         </Box>
@@ -224,11 +222,10 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
       <Grid xs={8}>
         <BorderBox>
           <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-            TicketTypes
+            {t("create_event.ticket_types")}
           </StyledText>
           <StyledText level="body-md" fontSize={16} color={PALLETTE.charcoal}>
-            Let's define the different types of tickets that will be available
-            for the previous ticket release.
+            {t("create_event.ticket_types_helperText")}
           </StyledText>
           <CreateTicketTypeForm
             ticketTypes={ticketTypes}

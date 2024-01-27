@@ -13,10 +13,12 @@ import {
 import { useState } from "react";
 import StyledText from "../text/styled_text";
 import ConfirmModal from "../modal/confirm_modal";
+import { useTranslation } from "react-i18next";
 
 const RestartEventCreationButton: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleRestart = () => {
     dispatch(resetCompletely());
@@ -41,7 +43,7 @@ const RestartEventCreationButton: React.FC = () => {
       size="md"
       style={{ marginTop: "16px" }}
     >
-      Confirm
+      {t("form.button_confirm")}
     </StyledButton>,
     <StyledButton
       onClick={handleClose}
@@ -50,7 +52,7 @@ const RestartEventCreationButton: React.FC = () => {
       size="md"
       style={{ marginTop: "16px" }}
     >
-      Cancel
+      {t("form.button_cancel")}
     </StyledButton>,
   ];
 
@@ -61,7 +63,7 @@ const RestartEventCreationButton: React.FC = () => {
         textColor={PALLETTE.red}
         size="md"
       >
-        Restart
+        {t("form.button_restart")}
       </StyledButton>
 
       <ConfirmModal
@@ -71,8 +73,7 @@ const RestartEventCreationButton: React.FC = () => {
         actions={actions}
       >
         <StyledText level="body-md" color={PALLETTE.charcoal}>
-          Are you sure you want to restart event creation? All progress will be
-          lost.
+          {t("create_event.confirm_event_creation_restart_text")}
         </StyledText>
       </ConfirmModal>
     </>

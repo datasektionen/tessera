@@ -26,6 +26,8 @@ import {
 } from "../../redux/features/userFoodPreferences";
 import LoadingOverlay from "../Loading";
 import StyledButton from "../buttons/styled_button";
+import { useTranslation } from "react-i18next";
+import { StyledFormLabelWithHelperText } from "../forms/form_labels";
 
 interface FoodPreferencesProps {}
 
@@ -39,6 +41,7 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
   } = useSelector((state: RootState) => state.foodPreferences);
 
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [value, setValue] = useState<string[]>([]);
   const [additonalNotes, setAdditionalNotes] = useState<string>("");
@@ -74,19 +77,20 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
   return (
     <>
       {loadingFoodPref && <LoadingOverlay />}
-      <Title fontSize={24}>Food Preferences</Title>
+      <Title fontSize={24}>{t("profile.food_preferences.title")}</Title>
       <Box>
         <FormControl>
           <FormLabel>
             <Typography
               level="body-sm"
               fontFamily={"Josefin sans"}
+              fontSize={18}
               fontWeight={700}
               style={{
                 color: PALLETTE.charcoal,
               }}
             >
-              Allergies & Dietary Restrictions (Select all that apply)
+              {t("profile.food_preferences.allergies_and_dietary_restrictions")}
             </Typography>
           </FormLabel>
           <Select
@@ -123,9 +127,11 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
               </Option>
             ))}
           </Select>
-          <FormHelperText>
-            Select all that apply, leave blank if none apply .
-          </FormHelperText>
+          <StyledFormLabelWithHelperText>
+            {t(
+              "profile.food_preferences.allergies_and_dietary_restrictions_helperText"
+            )}
+          </StyledFormLabelWithHelperText>
         </FormControl>
 
         <Divider sx={{ my: 2 }} />
@@ -135,12 +141,13 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
             <Typography
               level="body-sm"
               fontFamily={"Josefin sans"}
+              fontSize={18}
               fontWeight={700}
               style={{
                 color: PALLETTE.charcoal,
               }}
             >
-              Additonal Notes
+              {t("profile.food_preferences.additional_notes")}
             </Typography>
           </FormLabel>
           <Textarea
@@ -149,13 +156,12 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
             onChange={(e) => setAdditionalNotes(e.target.value)}
             value={additonalNotes}
           />
-          <FormHelperText>
-            Provide any additional notes here regarding your food preferences.
-            Leave blank if you have none.
-          </FormHelperText>
+          <StyledFormLabelWithHelperText>
+            {t("profile.food_preferences.additional_notes_helperText")}
+          </StyledFormLabelWithHelperText>
         </FormControl>
         <StyledButton size="md" onClick={handleSave} bgColor={PALLETTE.green}>
-          Save
+          {t("form.button_save")}
         </StyledButton>
       </Box>
     </>

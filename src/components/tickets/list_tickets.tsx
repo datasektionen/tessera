@@ -20,6 +20,7 @@ import BorderBox from "../wrappers/border_box";
 import { format } from "date-fns";
 import TicketRequestListRowView from "./ticket_list_row_view";
 import TicketListRowView from "./ticket_list_row_view";
+import { useTranslation } from "react-i18next";
 
 interface TicketsListProps {
   tickets: ITicket[];
@@ -33,6 +34,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
   setSelected,
 }) => {
   const [showAll, setShowAll] = useState(false);
+  const { t } = useTranslation();
 
   if (tickets.length === 0) {
     return (
@@ -74,12 +76,12 @@ const TicketsList: React.FC<TicketsListProps> = ({
         fontWeight={700}
         fontSize={22}
       >
-        Upcoming Events
+        {t("profile.your_tickets.upcoming_events")}
       </StyledText>
       {/* Start by only showing events that are in the future */}
       {upcomingEvents.length === 0 ? (
         <StyledText color={PALLETTE.charcoal} level="body-md">
-          No upcoming events
+          {t("profile.your_tickets.no_upcoming_events")}
         </StyledText>
       ) : (
         upcomingEvents.map((eventId) => {
@@ -146,11 +148,11 @@ const TicketsList: React.FC<TicketsListProps> = ({
           marginTop: "16px",
         }}
       >
-        Past Events
+        {t("profile.your_tickets.past_events")}
       </StyledText>
       {pastEvents.length === 0 ? (
         <StyledText color={PALLETTE.charcoal} level="body-md">
-          No past events
+          {t("profile.your_tickets.no_past_events")}
         </StyledText>
       ) : (
         pastEvents.map((eventId) => {

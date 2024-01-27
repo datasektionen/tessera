@@ -13,6 +13,7 @@ import { Link, unstable_HistoryRouter } from "react-router-dom";
 import StyledButton from "../../components/buttons/styled_button";
 import { ROUTES } from "../../routes/def";
 import ViewOrganization from "../../components/organizations/view";
+import { Trans, useTranslation } from "react-i18next";
 
 const ProfileOrgnizationsPage = () => {
   const { organizations, loading, error } = useSelector(
@@ -27,26 +28,27 @@ const ProfileOrgnizationsPage = () => {
     dispatch(getMyOrganizationsRequest());
   }, [dispatch, selected]);
 
-  console.log(organizations);
+  const { t } = useTranslation();
 
   return (
     <TesseraWrapper>
       {loading && <LoadingOverlay />}
       <StandardGrid>
         <Grid xs={8}>
-          <Title>Your Teams</Title>
+          <Title>{t("profile.your_teams.title")}</Title>
           <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
-            Here you can see all the teams you are a part of. Click on a team to
-            see more details. You can create a new team{" "}
-            <Link to={ROUTES.CREATE_ORGANIZATION}>here</Link>.
+            <Trans i18nKey="profile.your_teams.description">
+              Here you can see all the teams you are a part of. Click on a team
+              to see more details. You can create a new team
+              <Link to={ROUTES.CREATE_ORGANIZATION}>here</Link>.
+            </Trans>
           </StyledText>
 
           <Divider sx={{ marginTop: "16px", marginBottom: "16px" }} />
 
           {organizations?.length === 0 ? (
             <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
-              You are not a part of any team. You can create one{" "}
-              <Link to={ROUTES.CREATE_ORGANIZATION}>here</Link>.
+              {t("profile.your_teams.not_part_of_any_teams")}
             </StyledText>
           ) : (
             <Grid container spacing={2} flexDirection="row">

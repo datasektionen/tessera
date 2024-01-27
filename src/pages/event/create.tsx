@@ -32,11 +32,13 @@ import RestartEventCreationButton from "../../components/buttons/restart_event_c
 import { ITicketReleaseForm, ITicketTypeForm } from "../../types";
 import { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
     (state: RootState) => state.eventCreation
   );
+  const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   // Only run when the component mounts
@@ -83,17 +85,14 @@ const CreateEventPage = () => {
         {currentStep == 1 && (
           <StandardGrid>
             <Grid xs={8}>
-              <Title>Create Event</Title>
+              <Title>{t("create_event.title")}</Title>
               <Box>
                 <StyledText
                   level="body-md"
                   fontSize={18}
                   color={PALLETTE.charcoal}
                 >
-                  Create an event to manage ticket releases, attendees, and
-                  more. An event consists of many parts, but tessera aims to
-                  make it as easy as possible. We will walk you through the
-                  process step by step.
+                  {t("create_event.create_event_description")}
                 </StyledText>
               </Box>
               <Box mt={2}>
@@ -108,15 +107,14 @@ const CreateEventPage = () => {
                   fontSize={24}
                   color={PALLETTE.cerise}
                 >
-                  Event Details
+                  {t("create_event.event_details_title")}
                 </StyledText>
                 <StyledText
                   level="body-md"
                   fontSize={16}
                   color={PALLETTE.charcoal}
                 >
-                  Let's start with the basics. What are the details of your
-                  event?
+                  {t("create_event.event_details_description")}
                 </StyledText>
                 <CreateEventForm />
               </BorderBox>

@@ -14,6 +14,7 @@ import { getMyTicketRequestsRequest } from "../../redux/features/myTicketRequest
 import { ITicketRequest } from "../../types";
 import TicketRequestsList from "../../components/ticket_requests/list_ticket_requests";
 import ViewTicketRequest from "../../components/ticket_requests/view";
+import { Trans, useTranslation } from "react-i18next";
 
 const ProfileTicketRequestsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -23,6 +24,7 @@ const ProfileTicketRequestsPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [selected, setSelected] = React.useState<number | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(getMyTicketRequestsRequest());
@@ -42,15 +44,17 @@ const ProfileTicketRequestsPage: React.FC = () => {
         }}
       >
         <Grid xs={8}>
-          <Title>Your Ticket Requests</Title>
+          <Title>{t("profile.your_ticket_requests.title")}</Title>
           <Box>
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-              Here you can see all the ticket requests you have made. You can
-              cancel a ticket request by clicking on the ticket request and
-              clicking the cancel button. When the event organizer allocates
-              tickets you will recieve either a ticket or a reserve status. You
-              can see all your tickets and reserve status{" "}
-              <Link href={ROUTES.PROFILE_TICKETS}>here</Link>.
+              <Trans i18nKey="profile.your_ticket_requests.description">
+                Here you can see all the ticket requests you have made. You can
+                cancel a ticket request by clicking on the ticket request and
+                clicking the cancel button. When the event organizer allocates
+                tickets you will recieve either a ticket or a reserve status.
+                You can see all your tickets and reserve status
+                <Link href={ROUTES.PROFILE_TICKETS}>here</Link>.
+              </Trans>
             </StyledText>
           </Box>
           <Grid xs={8}>

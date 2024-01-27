@@ -12,6 +12,7 @@ import {
 } from "../../redux/features/eventCreationSlice";
 import LoadingOverlay from "../Loading";
 import RestartEventCreationButton from "../buttons/restart_event_creation_button";
+import { useTranslation } from "react-i18next";
 
 interface CreateEventLastStepProps {
   submit: () => void;
@@ -20,6 +21,7 @@ interface CreateEventLastStepProps {
 const CreateEventLastStep: React.FC<CreateEventLastStepProps> = ({
   submit,
 }) => {
+  const { t } = useTranslation();
   const { loading } = useSelector((state: RootState) => state.eventCreation);
   const dispatch: AppDispatch = useDispatch();
 
@@ -27,13 +29,10 @@ const CreateEventLastStep: React.FC<CreateEventLastStepProps> = ({
     <StandardGrid>
       {loading && <LoadingOverlay />}
       <Grid xs={8}>
-        <Title>Thats it!</Title>
+        <Title>{t("create_event.finish_title")}</Title>
         <Box>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            You have now successfully filled out all the details for your event.
-            Click the button below to create your event. You can also go back
-            and edit your event by clicking the back button. But you can also
-            edit your event later in the edit event page.
+            {t("create_event.finish_description")}
           </StyledText>
         </Box>
         <Box mt={2}>
@@ -44,7 +43,7 @@ const CreateEventLastStep: React.FC<CreateEventLastStepProps> = ({
               bgColor={PALLETTE.cerise}
               onClick={submit}
             >
-              Create Event
+              {t("form.button_create_event")}
             </StyledButton>
             <StyledButton
               size="lg"
@@ -53,7 +52,7 @@ const CreateEventLastStep: React.FC<CreateEventLastStepProps> = ({
                 dispatch(previousStep());
               }}
             >
-              Back
+              {t("form.button_back")}
             </StyledButton>
             <RestartEventCreationButton />
           </Stack>

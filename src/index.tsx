@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "@fontsource/inter";
 
-import "./i18n";
+import "./translations/i18n";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

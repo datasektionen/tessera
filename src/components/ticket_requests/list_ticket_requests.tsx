@@ -19,6 +19,7 @@ import PALLETTE from "../../theme/pallette";
 import BorderBox from "../wrappers/border_box";
 import { format } from "date-fns";
 import TicketRequestListRowView from "./ticket_request_list_row_view";
+import { useTranslation } from "react-i18next";
 
 interface TicketRequestsListProps {
   ticketRequests: ITicketRequest[];
@@ -33,6 +34,7 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
 
+  const { t } = useTranslation();
   const displayedRequests = showAll
     ? ticketRequests
     : ticketRequests.slice(0, 1);
@@ -66,8 +68,6 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
     return new Date(event!.date) < new Date();
   });
 
-  console.log(groupedRequests);
-
   return (
     <Box mt={2} sx={{ width: "90%", padding: 0 }}>
       {/* Group ticket request based on event id */}
@@ -77,12 +77,12 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
         fontWeight={700}
         fontSize={22}
       >
-        Upcoming Events
+        {t("profile.your_ticket_requests.upcoming_events")}
       </StyledText>
       {/* Start by only showing events that are in the future */}
       {upcomingEvents.length === 0 ? (
         <StyledText color={PALLETTE.charcoal} level="body-md">
-          No upcoming events
+          {t("profile.your_ticket_requests.no_upcoming_events")}
         </StyledText>
       ) : (
         upcomingEvents.map((eventId) => {
@@ -149,11 +149,11 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
           marginTop: "16px",
         }}
       >
-        Past Events
+        {t("profile.your_ticket_requests.past_events")}
       </StyledText>
       {pastEvents.length === 0 ? (
         <StyledText color={PALLETTE.charcoal} level="body-md">
-          No past events
+          {t("profile.your_ticket_requests.no_past_events")}
         </StyledText>
       ) : (
         pastEvents.map((eventId) => {

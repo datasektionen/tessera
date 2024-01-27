@@ -42,11 +42,13 @@ import {
   nextStep,
   setEventForm,
 } from "../../redux/features/eventCreationSlice";
+import { useTranslation } from "react-i18next";
 
 const CreateEventForm: React.FC = () => {
   const { organizations, loading } = useSelector(
     (state: RootState) => state.organization
   );
+  const { t } = useTranslation();
 
   const {
     form: { event: initialValues },
@@ -84,18 +86,20 @@ const CreateEventForm: React.FC = () => {
         return (
           <Form>
             <FormControl>
-              <StyledFormLabel>Name*</StyledFormLabel>
+              <StyledFormLabel>{t("form.event_details.name")}*</StyledFormLabel>
               <FormInput name="name" label="Name" placeholder="Party Rangers" />
               <StyledErrorMessage name="name" />
 
               <StyledFormLabelWithHelperText>
-                What is the name of your event?
+                {t("form.event_details.name_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
 
             <Divider />
             <FormControl>
-              <StyledFormLabel>Description*</StyledFormLabel>
+              <StyledFormLabel>
+                {t("form.event_details.description")}*
+              </StyledFormLabel>
 
               <FormTextarea
                 name="description"
@@ -105,13 +109,13 @@ const CreateEventForm: React.FC = () => {
               <StyledErrorMessage name="description" />
 
               <StyledFormLabelWithHelperText>
-                What is your event about? What should people expect?
+                {t("form.event_details.description_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
 
             <Divider />
             <FormControl>
-              <StyledFormLabel>Date*</StyledFormLabel>
+              <StyledFormLabel>{t("form.event_details.date")}*</StyledFormLabel>
               <FormInput
                 name="date"
                 label="Date"
@@ -121,30 +125,37 @@ const CreateEventForm: React.FC = () => {
               <StyledErrorMessage name="date" />
 
               <StyledFormLabelWithHelperText>
-                When is your event?
+                {t("form.event_details.date_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Divider />
             <FormControl>
-              <FormLabel>Location*</FormLabel>
+              <FormLabel>
+                <StyledFormLabel>
+                  {t("form.event_details.location")}*
+                </StyledFormLabel>
+              </FormLabel>
               <FormGooglePlacesAutocomplete name="location" />
               <StyledErrorMessage name="location" />
 
               <StyledFormLabelWithHelperText>
-                Where is your event?
+                {t("form.event_details.location_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
 
             <Divider />
             <FormControl>
-              <StyledFormLabel>Team*</StyledFormLabel>
+              <StyledFormLabel>{t("form.event_details.team")}*</StyledFormLabel>
               <Field name="organization_id">
                 {({ field, form }: any) => {
                   return (
                     <Select
                       {...field}
                       onChange={(_, newValue) => {
-                        form.setFieldValue(field.name, newValue as number);
+                        form.event_details.setFieldValue(
+                          field.name,
+                          newValue as number
+                        );
                       }}
                       style={DefaultInputStyle}
                     >
@@ -161,8 +172,7 @@ const CreateEventForm: React.FC = () => {
               </Field>
               <StyledErrorMessage name="organization_id" />
               <StyledFormLabelWithHelperText>
-                Which team is hosting your event? You need to tie the event to a
-                team. If your not a part of a team, you can create one{" "}
+                {t("form.event_details.team_helperText") + " "}
                 <Link href="/organizations/create">here</Link>.
               </StyledFormLabelWithHelperText>
             </FormControl>
@@ -170,12 +180,14 @@ const CreateEventForm: React.FC = () => {
             <Divider />
 
             <FormControl>
-              <StyledFormLabel>Private Event</StyledFormLabel>
+              <StyledFormLabel>
+                {t("form.event_details.private_event")}
+              </StyledFormLabel>
               <FormCheckbox name="is_private" label="Is Private" />
               <StyledErrorMessage name="is_private" />
 
               <StyledFormLabelWithHelperText>
-                Is your event private?
+                {t("form.event_details.private_event_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Grid
@@ -197,7 +209,7 @@ const CreateEventForm: React.FC = () => {
                     width: "150px",
                   }}
                 >
-                  Next
+                  {t("form.button_next")}
                 </StyledButton>
               </Grid>
               <Grid>
@@ -211,7 +223,7 @@ const CreateEventForm: React.FC = () => {
                     // window.location.reload();
                   }}
                 >
-                  Clear
+                  {t("form.button_clear")}
                 </StyledButton>
               </Grid>
             </Grid>

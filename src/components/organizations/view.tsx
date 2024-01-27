@@ -35,6 +35,7 @@ import OrganizationUserView from "./organization_user_view";
 import { removeUserSuccess } from "../../redux/sagas/organizationSaga";
 import AddOrganizationUser from "./add_organization_user";
 import OrganizationEventView from "./organization_event_view";
+import { Trans, useTranslation } from "react-i18next";
 
 interface ViewOrganizationProps {
   organization: IOrganization;
@@ -44,6 +45,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
   organization,
 }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { t } = useTranslation();
 
   const { organizationUsers, loading, organizationEvents } = useSelector(
     (state: RootState) => state.organization
@@ -77,7 +79,8 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
       {loading && <LoadingOverlay />}
       <Title fontSize={32}>{organization.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-        Created {new Date(organization.created_at!).toLocaleDateString()}
+        {t("common.created") + " "}{" "}
+        {new Date(organization.created_at!).toLocaleDateString()}
       </StyledText>
 
       {/* Users */}
@@ -86,7 +89,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
         style={{ marginTop: "16px" }}
         color={PALLETTE.charcoal}
       >
-        Users
+        {t("profile.your_teams.users")}
       </Title>
       <AccordionGroup>
         <Accordion
@@ -101,7 +104,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
               color={PALLETTE.charcoal_see_through}
               fontWeight={700}
             >
-              {showAllUsers ? "Show less" : "Show all"}
+              {showAllUsers ? t("common.show_less") : t("common.show_all")}
             </StyledText>
           </AccordionSummary>
           <AccordionDetails>
@@ -111,7 +114,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
                 fontSize={18}
                 color={PALLETTE.charcoal}
               >
-                There are no users in this team.
+                {t("profile.your_teams.no_users")}
               </StyledText>
             ) : (
               organizationUsers?.map((user) => {
@@ -133,7 +136,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
       <Divider sx={{ marginTop: "16px", marginBottom: "16px" }} />
       <Box sx={{ marginTop: "16px" }}>
         <Title fontSize={22} color={PALLETTE.charcoal}>
-          Manage Team Events
+          {t("profile.your_teams.manage_team_events")}
         </Title>
 
         <AccordionGroup>
@@ -149,7 +152,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
                 color={PALLETTE.charcoal_see_through}
                 fontWeight={700}
               >
-                {showAllEvents ? "Show less" : "Show all"}
+                {showAllEvents ? t("common.show_less") : t("common.show_all")}
               </StyledText>
             </AccordionSummary>
             <AccordionDetails>
@@ -159,8 +162,10 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
                   fontSize={18}
                   color={PALLETTE.charcoal}
                 >
-                  There are no events in this team.{" "}
-                  <Link href="/create-event">Create one</Link>.
+                  <Trans i18nKey="profile.your_teams.no_events">
+                    There are no events in this team.
+                    <Link href="/create-event">Create one</Link>.
+                  </Trans>
                 </StyledText>
               ) : (
                 organizationEvents?.map((event) => {

@@ -7,9 +7,11 @@ import UserInfo from "../../components/user/user_info";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import LoadingOverlay from "../../components/Loading";
+import { useTranslation } from "react-i18next";
 
 const ProfilePage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
+  const { t } = useTranslation();
 
   return (
     <TesseraWrapper>
@@ -26,7 +28,7 @@ const ProfilePage: React.FC = () => {
           }}
         >
           <Grid xs={8}>
-            <Title>Profile</Title>
+            <Title>{t("profile.title")}</Title>
             <UserInfo user={user!} />
           </Grid>
           <Grid xs={8}>

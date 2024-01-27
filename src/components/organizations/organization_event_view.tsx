@@ -21,6 +21,7 @@ import { removeUserRequest } from "../../redux/sagas/organizationSaga";
 import StyledButton from "../buttons/styled_button";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface OrganizationEventViewProps {
   organization: IOrganization;
@@ -34,6 +35,7 @@ const OrganizationEventView: React.FC<OrganizationEventViewProps> = ({
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
 
@@ -88,7 +90,7 @@ const OrganizationEventView: React.FC<OrganizationEventViewProps> = ({
             }}
             style={{ width: "100px" }}
           >
-            Manage
+            {t("form.button_manage")}
           </StyledButton>
         </Grid>
       </Grid>

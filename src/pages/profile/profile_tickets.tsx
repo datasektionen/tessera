@@ -16,6 +16,7 @@ import { getMyTicketsRequest } from "../../redux/features/myTicketsSlice";
 import TicketsList from "../../components/tickets/list_tickets";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Trans, useTranslation } from "react-i18next";
 
 const ProfileTicketsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -39,6 +40,7 @@ const ProfileTicketsPage: React.FC = () => {
   }, []);
 
   const location = useLocation();
+  const { t } = useTranslation();
 
   // Handle redirect from Stripe and show toast
   useEffect(() => {
@@ -68,15 +70,17 @@ const ProfileTicketsPage: React.FC = () => {
         }}
       >
         <Grid xs={8}>
-          <Title>Your Tickets</Title>
+          <Title>{t("profile.your_tickets.title")}</Title>
           <Box>
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-              Here you can see all the tickets you have gotten. You can give up
-              your ticket by clicking on the ticket and then choose the option
-              "I no longer wish to attend", which will give your ticket to the
-              next person in line. If you have not yet been allocated a ticket
-              or reserve ticket, you can see your ticket requests{" "}
-              <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>.
+              <Trans i18nKey="profile.your_tickets.description">
+                Here you can see all the tickets you have gotten. You can give
+                up your ticket by clicking on the ticket and then choose the
+                option "I no longer wish to attend", which will give your ticket
+                to the next person in line. If you have not yet been allocated a
+                ticket or reserve ticket, you can see your ticket requests
+                <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>.
+              </Trans>
             </StyledText>
           </Box>
           <Grid xs={8}>
