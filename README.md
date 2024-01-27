@@ -54,7 +54,8 @@ Also, be sure to have `git` available in your PATH, `npm` might need it.
 
 ### Configure app
 
-Copy `.env.example` to `.env` then edit it with it by inserting the google maps api key and stripe key. 
+Copy `.env.example` to `.env` then edit it with it by inserting the google maps api key and stripe key.
+
 ```
 REACT_APP_ENV=development
 REACT_APP_BASE_URL=http://localhost:5000
@@ -62,6 +63,10 @@ REACT_APP_BACKEND_URL=http://localhost:8080
 REACT_APP_GOOGLE_MAPS_API=<INSERT KEY HERE>
 REACT_APP_STRIPE_KEY=<INSERT KEY HERE>
 ```
+
+## Translations
+
+Currently, tessera supports english and swedish translations. You will find the translation text files under the `translations` folder. When adding content to the website, use the files to write text for the supported languages. Ensure that `npm run test` for translation consistency passes before pushing.
 
 ## Start & watch
 
