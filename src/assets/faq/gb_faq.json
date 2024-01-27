@@ -1,0 +1,6 @@
+{
+    "q1": {
+        "question": "Whats the different between a Ticket and a Ticket Request?",
+        "answer": "Since users don't buy tickets upfront, they instead request a ticket, which in simple terms means the user shows interest in attending the event. Once the tickets have been allocated, the request turns into a ticket if you recieved a ticket, or a reserve spot if you were put on the waiting list."
+    }
+}

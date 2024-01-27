@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import mainPageImage from "../../assets/images/main_page.jpg";
 import styles from "./divider.module.css";
 import CallToActionButton from "../../components/buttons/call_to_action_button";
+import CommonlyAskedQuestions from "../../components/faq";
 
 const MainPage: React.FC = () => {
   const { loading, error, events } = useSelector(
@@ -101,7 +102,7 @@ const MainPage: React.FC = () => {
         </Box>
       </Box>
       <Box
-        sx={{ width: "100%", height: "100vh" }}
+        sx={{ width: "100%" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
         }}
@@ -150,6 +151,14 @@ const MainPage: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
+
+        <Box
+          sx={{
+            margin: "32px 32px",
+          }}
+        >
+          <CommonlyAskedQuestions />
+        </Box>
 
         <Box sx={{ margin: "16px 32px" }}>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
