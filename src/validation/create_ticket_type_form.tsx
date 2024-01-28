@@ -15,7 +15,7 @@ const CreateTicketTypeFormSchema = Yup.object().shape({
     .max(500, "Too long"),
   price: Yup.number()
     .required("Price is required")
-    .min(0, "Price must be greater than or equal to 0"),
+    .min(3, "Price must be greater than or equal to 3"),
 });
 
 export default CreateTicketTypeFormSchema;
