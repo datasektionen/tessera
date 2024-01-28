@@ -95,7 +95,7 @@ const MainPage: React.FC = () => {
               }) as string
             }
           </StyledText>
-          <Title fontSize={128}>Tessera</Title>
+          <Title fontSize={128}>Tessera2</Title>
           <StyledText
             color={PALLETTE.offWhite}
             level="body-md"

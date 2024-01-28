@@ -156,7 +156,7 @@ function NavigationBar() {
               margin: "0 16px",
             }}
           >
-            <StyledLink href={ROUTES.PROFILE_TICKETS}>Teams</StyledLink>
+            <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>Teams</StyledLink>
           </StyledText>
         </Stack>
         {/* Right-aligned profile icon */}
