@@ -1,5 +1,6 @@
 
 {
+    "numberOfQuestions": 10,
     "q1": {
         "question": "Vad är Tessera och hur förenklar det processen med biljettsläpp?",
         "answer": "Tessera är en användarvänlig plattform utformad för att förenkla processen att skapa och hantera biljettsläpp. Det gör det möjligt för arrangörer att enkelt anpassa biljettsläpp, hantera deltagare och säkerställa en smidig upplevelse genom att integrera deltagarpreferenser såsom matval och allergier. För deltagare förenklar Tessera processen för att begära biljetter, erbjuder olika distributionsmetoder som lotterisystem eller först-till-kvarn, vilket tar bort krånglet med att fylla i omfattande formulär."
