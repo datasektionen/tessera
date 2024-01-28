@@ -5,9 +5,11 @@ import IconButton from "@mui/joy/IconButton";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PALLETTE from "../../theme/pallette";
-import { Grid, MenuItem, Option, Select, Stack } from "@mui/joy";
+import { Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
 
 import { useTranslation, Trans } from "react-i18next";
+import StyledText from "../text/styled_text";
+import { ROUTES } from "../../routes/def";
 
 const lngs = [
   {
@@ -75,13 +77,22 @@ const LanguageSelector: React.FC = () => {
   );
 };
 
+const StyledLink = (props: any) => (
+  <Link
+    {...props}
+    style={{
+      textDecoration: "none",
+      color: PALLETTE.offWhite,
+    }}
+  />
+);
+
 function NavigationBar() {
   return (
     <Box
       sx={{
         margin: 0,
         padding: 0,
-        paddingBottom: 2,
         backgroundColor: PALLETTE.cerise,
         color: "white",
         width: "100vw",
@@ -109,6 +120,45 @@ function NavigationBar() {
         >
           tessera
         </Typography>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          style={{
+            padding: 0,
+          }}
+        >
+          <StyledText
+            level="body-sm"
+            color={""}
+            fontSize={18}
+            style={{
+              margin: "0 16px",
+            }}
+          >
+            <StyledLink href={ROUTES.EVENTS}>Events</StyledLink>
+          </StyledText>
+          <StyledText
+            color={""}
+            level="body-sm"
+            fontSize={18}
+            style={{
+              margin: "0 16px",
+            }}
+          >
+            <StyledLink href={ROUTES.CREATE_EVENT}>Create event</StyledLink>
+          </StyledText>
+          <StyledText
+            color={""}
+            level="body-sm"
+            fontSize={18}
+            style={{
+              margin: "0 16px",
+            }}
+          >
+            <StyledLink href={ROUTES.PROFILE_TICKETS}>Teams</StyledLink>
+          </StyledText>
+        </Stack>
         {/* Right-aligned profile icon */}
         <Stack
           direction="row"

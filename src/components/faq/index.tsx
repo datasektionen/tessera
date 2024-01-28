@@ -35,7 +35,7 @@ const CommonlyAskedQuestions: React.FC = () => {
               <AccordionSummary>
                 <StyledText
                   level="body-md"
-                  fontSize={18}
+                  fontSize={20}
                   color={PALLETTE.cerise}
                   fontWeight={600}
                 >
@@ -45,7 +45,7 @@ const CommonlyAskedQuestions: React.FC = () => {
               <AccordionDetails>
                 <StyledText
                   level="body-sm"
-                  fontSize={14}
+                  fontSize={18}
                   color={PALLETTE.charcoal}
                   fontWeight={400}
                 >

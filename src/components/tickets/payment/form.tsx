@@ -11,6 +11,7 @@ import StyledButton from "../../buttons/styled_button";
 import PALLETTE from "../../../theme/pallette";
 import { CircularProgress } from "@mui/joy";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface CheckoutFormProps {
   ticketType: ITicketType;
@@ -38,7 +39,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      console.log(paymentIntent?.status);
       switch (paymentIntent?.status) {
         case "succeeded":
           break;
@@ -89,6 +89,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
     setIsLoading(false);
   };
 
+  const { t } = useTranslation();
+
   return (
     <>
       <form id="payment-form" onSubmit={handleSubmit}>
@@ -112,7 +114,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
             {isLoading ? (
               <CircularProgress color="primary" size={"sm"} variant="plain" />
             ) : (
-              `Pay ${ticketType.price} SEK Now`
+              t("tickets.payment.pay_now", { price: ticketType.price })
             )}
           </span>
         </StyledButton>

@@ -260,6 +260,30 @@ const enTranslations = {
       "Are you sure you want to cancel this ticket request? This action cannot be undone.",
   },
 
+  tickets: {
+    cost_overview: "Cost overview",
+    confirmed_ticket:
+      "Your ticket has been confirmed! Its now time to pay for your ticket. You can pay for your ticket by clicking the button below. If you do not pay for your ticket before DATE, your ticket will be given to the next person in line.",
+    reserve_ticket:
+      "Unfortunately, you were allocated a reserve ticket for this event. You will be notified if a ticket becomes available.",
+    has_paid: "You have paid for your ticket!",
+
+    cancel_ticket_request_button: "Cancel ticket request",
+    cancel_ticket_button: "I no longer wish to attend",
+    leave_reserve_list_text: "Leave reserve list",
+    confirm_cancel_reserve_ticket_text:
+      "Are you sure you want to cancel your ticket? You will not be able to get your ticket back and this action cannot be undone!",
+    confirm_cancel_ticket_text:
+      "Are you sure you want to leave the reserve list and cancel your ticket? You will not be able to get your ticket back and this action cannot be undone!",
+    pay_button: "Pay now",
+
+    payment: {
+      title: "Confirm Your Ticket Purchase",
+      pay_now: "Pay {{price}} SEK now",
+      description: "Here you can pay for your ticket.",
+    },
+  },
+
   event: {
     list_title: "Events",
     tickets: "Tickets",

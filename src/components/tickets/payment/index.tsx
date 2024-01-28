@@ -25,6 +25,7 @@ import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
+import { useTranslation } from "react-i18next";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 
@@ -56,16 +57,20 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
       console.error("Error creating payment intent:", error);
     }
   };
+
+  const { t } = useTranslation();
+
   return (
     <>
       <StyledButton
         size="lg"
+        bgColor={PALLETTE.cerise}
         // ... existing button props ...
         onClick={(e) => {
           handlePay(e);
         }}
       >
-        Pay
+        {t("tickets.pay_button")}
       </StyledButton>
       {clientSecret && (
         <Modal open={true} onClose={() => setClientSecret(null)}>
@@ -73,7 +78,7 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
             <ModalClose onClick={() => setClientSecret(null)} />
             <DialogTitle>
               <StyledText level="h3" color={PALLETTE.cerise} fontSize={24}>
-                Confirm Your Ticket Purchase
+                {t("tickets.payment.title")}
               </StyledText>
             </DialogTitle>
             <DialogContent>

@@ -185,44 +185,6 @@ const MainPage: React.FC = () => {
             <a href="mailto:lucdow7@gmail.com">lucdow7@gmail.com</a>.
           </StyledText>
         </Box>
-        <Grid container spacing={2} sx={{ margin: "16px 32px" }}>
-          <Grid>
-            <MainPageButton
-              onClick={() => {
-                navigate("/events");
-              }}
-            >
-              Events
-            </MainPageButton>
-          </Grid>
-          <Grid>
-            <MainPageButton
-              onClick={() => {
-                navigate("/create-event");
-              }}
-            >
-              Create Event
-            </MainPageButton>
-          </Grid>
-          <Grid>
-            <MainPageButton
-              onClick={() => {
-                navigate("/profile");
-              }}
-            >
-              Profile
-            </MainPageButton>
-          </Grid>
-          <Grid>
-            <MainPageButton
-              onClick={() => {
-                navigate("/profile/organizations");
-              }}
-            >
-              Your Teams
-            </MainPageButton>
-          </Grid>
-        </Grid>
       </Box>
     </>
   );

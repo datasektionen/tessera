@@ -203,7 +203,7 @@ const seTranslations = {
 
     edit: {
       title: "Redigera evenemang",
-      description: "Redigera evenemangsdetaljer",
+      subtitle: "Här kan du redigera alla detaljer om ditt evenemang.",
       event_details: {
         title: "Redigera evenemangsdetaljer",
       },
@@ -272,6 +272,30 @@ const seTranslations = {
     first_come_first_served_title: "Först till kvarn",
     first_come_first_served_description:
       "Först till kvarn-lotteriet är en metod för biljettsläpp där personer som begär en biljett inom en angiven tidsram deltar i ett lotteri. När biljetter tilldelas, placeras alla biljettbegäranden inom denna tidsram i ett lotteri och vinnarna väljs slumpmässigt. Vinnarna får en biljett och resten placeras på väntelistan. Alla som begär en biljett efter den angivna tidsramen placeras på väntelistan, om inte lotteriet är ofullständigt. Om lotteriet inte är fullt, ges de återstående biljetterna till personerna på väntelistan i den ordning de begärde biljetten.",
+  },
+
+  tickets: {
+    cost_overview: "Prisöversikt",
+    confirmed_ticket:
+      "Din biljett har bekräftats! Nu är det dags att betala för din biljett. Du kan betala för din biljett genom att klicka på knappen nedan. Om du inte betalar för din biljett före DATUM kommer din biljett att ges till nästa person i kön.",
+    reserve_ticket:
+      "Tyvärr fick du en reservbiljett till detta evenemang. Du kommer att meddelas om en biljett blir tillgänglig.",
+    has_paid: "Du har betalat för din biljett!",
+
+    cancel_ticket_request_button: "Avbryt biljettförfrågan",
+    cancel_ticket_button: "Jag vill inte längre delta",
+    leave_reserve_list_text: "Lämna reservlistan",
+    confirm_cancel_reserve_ticket_text:
+      "Är du säker på att du vill avbryta din biljett? Du kommer inte att kunna få tillbaka din biljett och denna åtgärd kan inte ångras!",
+    confirm_cancel_ticket_text:
+      "Är du säker på att du vill lämna reservlistan och avbryta din biljett? Du kommer inte att kunna få tillbaka din biljett och denna åtgärd kan inte ångras!",
+    pay_button: "Betala nu",
+
+    payment: {
+      title: "Bekräfta ditt biljettköp",
+      pay_now: "Betala {{price}} SEK nu",
+      description: "Här kan du betala för din biljett.",
+    },
   },
 
   common: {
