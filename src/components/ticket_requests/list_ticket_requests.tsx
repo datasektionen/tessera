@@ -43,7 +43,7 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
     return (
       <Box mt={2}>
         <StyledText color={PALLETTE.charcoal} level="body-md" fontWeight={700}>
-          No ticket requests yet
+          {t("profile.your_ticket_requests.no_ticket_requests")}
         </StyledText>
       </Box>
     );

@@ -40,7 +40,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
     return (
       <Box mt={2}>
         <StyledText color={PALLETTE.charcoal} level="body-md" fontWeight={700}>
-          No tickets yet
+          {t("profile.your_tickets.no_tickets")}
         </StyledText>
       </Box>
     );

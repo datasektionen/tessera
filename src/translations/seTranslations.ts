@@ -144,6 +144,7 @@ const seTranslations = {
       no_upcoming_events: "Du har inga kommande evenemang.",
       past_events: "Tidigare evenemang",
       no_past_events: "Du har inga tidigare evenemang.",
+      no_ticket_requests: "Du har inga biljettförfrågningar.",
     },
 
     your_tickets: {
@@ -154,6 +155,7 @@ const seTranslations = {
       no_upcoming_events: "Du har inga kommande evenemang.",
       past_events: "Tidigare evenemang",
       no_past_events: "Du har inga tidigare evenemang.",
+      no_tickets: "Du har inga biljetter.",
     },
 
     your_teams: {

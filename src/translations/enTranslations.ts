@@ -161,6 +161,7 @@ const enTranslations = {
       no_upcoming_events: "You have no upcoming events.",
       past_events: "Past events",
       no_past_events: "You have no past events.",
+      no_ticket_requests: "You have no ticket requests.",
     },
 
     your_tickets: {
@@ -171,6 +172,7 @@ const enTranslations = {
       no_upcoming_events: "You have no upcoming events.",
       past_events: "Past events",
       no_past_events: "You have no past events.",
+      no_tickets: "You have no tickets.",
     },
 
     your_teams: {
