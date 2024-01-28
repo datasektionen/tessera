@@ -88,6 +88,8 @@ const StyledLink = (props: any) => (
 );
 
 function NavigationBar() {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -136,7 +138,9 @@ function NavigationBar() {
               margin: "0 16px",
             }}
           >
-            <StyledLink href={ROUTES.EVENTS}>Events</StyledLink>
+            <StyledLink href={ROUTES.EVENTS}>
+              {t("navigation.events")}
+            </StyledLink>
           </StyledText>
           <StyledText
             color={""}
@@ -146,7 +150,9 @@ function NavigationBar() {
               margin: "0 16px",
             }}
           >
-            <StyledLink href={ROUTES.CREATE_EVENT}>Create event</StyledLink>
+            <StyledLink href={ROUTES.CREATE_EVENT}>
+              {t("navigation.create_event")}
+            </StyledLink>
           </StyledText>
           <StyledText
             color={""}
@@ -156,7 +162,9 @@ function NavigationBar() {
               margin: "0 16px",
             }}
           >
-            <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>Teams</StyledLink>
+            <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+              {t("navigation.teams")}
+            </StyledLink>
           </StyledText>
         </Stack>
         {/* Right-aligned profile icon */}

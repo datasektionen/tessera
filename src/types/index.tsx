@@ -3,7 +3,6 @@ import { formatDateToDateTimeLocal } from "../utils/date_conversions";
 
 enum NoticicationMethod {
   EMAIL = "email",
-  SMS = "sms",
 }
 
 enum CacellationPolicy {

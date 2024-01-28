@@ -1,6 +1,12 @@
 import seFaq from "../assets/faq/se_faq.json";
 
 const seTranslations = {
+  navigation: {
+    events: "Evenemang",
+    create_event: "Skapa evenemang",
+    teams: "Grupper",
+  },
+
   tooltips: {
     add_ticket_type: "Lägg till biljettgrupp",
     manage_ticket_releases: "Hantera biljettsläpp för detta evenemang.",

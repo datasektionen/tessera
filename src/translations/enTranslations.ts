@@ -2,6 +2,12 @@ import { title } from "process";
 import gbFaq from "../assets/faq/gb_faq.json";
 
 const enTranslations = {
+  navigation: {
+    events: "Events",
+    create_event: "Create event",
+    teams: "Teams",
+  },
+
   main_page: {
     not_a_pain: "Ticket releases shouldn't be a pain!",
     welcome: "{{name}}, Welcome to",
