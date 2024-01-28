@@ -10,6 +10,9 @@ import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import gbJson from "../../assets/faq/gb_faq.json";
+
+const numberOfQuestions = gbJson["numberOfQuestions"];
 
 const CommonlyAskedQuestions: React.FC = () => {
   const { t } = useTranslation();
@@ -17,9 +20,8 @@ const CommonlyAskedQuestions: React.FC = () => {
   const [questionNumbers, setQuestionNumbers] = useState<number[]>([]);
 
   useEffect(() => {
-    const numQuestions = 1;
     const numbers = [];
-    for (let i = 1; i <= numQuestions; i++) {
+    for (let i = 1; i <= numberOfQuestions; i++) {
       numbers.push(i);
     }
     setQuestionNumbers(numbers);

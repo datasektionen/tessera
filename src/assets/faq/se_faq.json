@@ -1,5 +1,42 @@
+
 {
     "q1": {
+        "question": "Vad är Tessera och hur förenklar det processen med biljettsläpp?",
+        "answer": "Tessera är en användarvänlig plattform utformad för att förenkla processen att skapa och hantera biljettsläpp. Det gör det möjligt för arrangörer att enkelt anpassa biljettsläpp, hantera deltagare och säkerställa en smidig upplevelse genom att integrera deltagarpreferenser såsom matval och allergier. För deltagare förenklar Tessera processen för att begära biljetter, erbjuder olika distributionsmetoder som lotterisystem eller först-till-kvarn, vilket tar bort krånglet med att fylla i omfattande formulär."
+    },
+    "q2": {
+        "question": "Hur blir jag en evenemangsarrangör och skapar ett team på Tessera?",
+        "answer": "För att bli en evenemangsarrangör behöver du skapa ett team. För närvarande kan team skapas genom att kontakta oss direkt. Efter att du har skapat ditt team kan du börja utforma biljettsläpp och bjuda in andra medlemmar till ditt team för hjälp med att hantera evenemangen."
+    },
+    "q3": {
+        "question": "Vilka är de olika sätten som biljetter kan distribueras till användare på Tessera?",
+        "answer": "Tessera erbjuder unika biljettdistributionsmetoder, inklusive ett lotterisystem och ett först-till-kvarn-system. Istället för att direkt köpa biljetter, begär användare biljetter. Efter att biljettsläppet stänger används den valda allokationsmetoden för att rättvist distribuera biljetterna bland användarna."
+    },
+    "q4": {
+        "question": "Hur kan jag hantera mina evenemangsdetaljer och biljettsläpp?",
+        "answer": "Tessera erbjuder en omfattande evenemangshantering där du kan redigera evenemangsdetaljer, hantera biljettsläpp och allokera biljetter. Du kan hantera alla aspekter av ditt evenemang, inklusive att redigera biljettbatchar och detaljer, från sidan 'Hantera evenemang'."
+    },
+    "q5": {
+        "question": "Vad är ett 'Reserverat Biljettsläpp' och hur fungerar det?",
+        "answer": "Ett Reserverat Biljettsläpp är en speciell typ av biljettsläpp där biljetter är reserverade för specifika användare. Tillgång till dessa biljetter kräver en promokod. Den här funktionen är användbar för privata evenemang eller för att erbjuda prioriterad tillgång till vissa deltagare."
+    },
+    "q6": {
+        "question": "Kan jag redigera eller lägga till fler biljettsläpp och biljettyper efter att ha skapat ett evenemang?",
+        "answer": "Ja, Tessera är flexibel. Du kan redigera dina evenemangsdetaljer, lägga till eller redigera biljettsläpp och justera biljettbatchar när som helst via avsnittet 'Redigera evenemang'. Tessera låter dig anpassa evenemangsdetaljerna för att säkerställa att allt är perfekt inställt för dina behov."
+    },
+    "q7": {
+        "question": "Vad händer om jag behöver avboka en biljettförfrågan eller en biljett?",
+        "answer": "Om du behöver avboka en biljettförfrågan eller en biljett kan du göra det genom att tillgå avsnittet 'Dina Biljetter' eller 'Dina Biljettförfrågningar' i din profil. Observera dock att avbokningar är slutgiltiga och inte kan ångras. Om du ger upp en biljett, kommer den att gå vidare till nästa person i kön."
+    },
+    "q8": {
+        "question": "Hur hanteras matpreferenser och allergier för evenemangsdeltagare?",
+        "answer": "Tessera låter deltagare ange sina matpreferenser och eventuella allergier eller kostbegränsningar under biljettförfrågningsprocessen. Evenemangsarrangörer kan enkelt få tillgång till denna information för att tillgodose deltagarnas behov och säkerställa en njutbar upplevelse för alla."
+    },
+    "q9": {
+        "question": "Hur kan jag betala för mina biljetter och vad är betalningspolicyn?",
+        "answer": "Om du tilldelas en biljett efter biljettsläppet får du instruktioner för att slutföra din betalning inom en specifik tidsram. Det är viktigt att betala inom denna period för att säkra din biljett, då obetalda biljetter erbjuds till nästa person i kön. Betalningsmetoder och detaljerade instruktioner finns i avsnittet 'Biljetter' i din profil."
+    },
+    "q10": {
         "question": "Vad är skillnaden mellan en biljett och en biljettförfrågan?",
         "answer": "Eftersom användare inte köper biljetter i förväg, begär de istället en biljett, vilket i enkla termer innebär att användaren visar intresse för att delta i evenemanget. När biljetterna har tilldelats blir förfrågan till en biljett om du fick en biljett, eller en reservplats om du hamnade på väntelistan."
     }
