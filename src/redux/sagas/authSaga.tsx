@@ -23,6 +23,8 @@ function* loginSaga(): Generator<any, void, any> {
 
     const redirectUrl = response.data.login_url;
 
+    console.log(redirectUrl);
+
     // Redirect to the login page
     window.location.href = redirectUrl;
   } catch (error: any) {
