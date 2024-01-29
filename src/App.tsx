@@ -10,6 +10,21 @@ import dotenv from "dotenv";
 import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
+  console.log(process.env.NODE_ENV, "process.env.NODE_ENV");
+  console.log(
+    process.env.REACT_APP_BACKEND_URL,
+    "process.env.REACT_APP_BACKEND_URL"
+  );
+  console.log(
+    process.env.REACT_APP_STRIPE_KEY,
+    "process.env.REACT_APP_STRIPE_KEY"
+  );
+  console.log(
+    process.env.REACT_APP_GOOGLE_MAPS_API,
+    "process.env.REACT_APP_GOOGLE_MAPS_API"
+  );
+  console.log(process.env.REACT_APP_ENV, "process.env.REACT_APP_ENV");
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
