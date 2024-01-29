@@ -18,6 +18,7 @@ function App() {
     process.env.NODE_GOOGLE_MAPS_API,
     "process.env.NODE_GOOGLE_MAPS_API"
   );
+  console.log(process.env.TEST, "process.env.TEST");
 
   return (
     <Provider store={store}>
