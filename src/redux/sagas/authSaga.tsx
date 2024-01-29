@@ -23,6 +23,8 @@ function* loginSaga(): Generator<any, void, any> {
       }
     );
 
+    console.log(response);
+
     if (process.env.NODE_ENV === "development") {
       const redirectUrl = response.data.login_url;
 
@@ -31,6 +33,7 @@ function* loginSaga(): Generator<any, void, any> {
       window.location.href = redirectUrl;
     }
   } catch (error: any) {
+    console.log("Error with loginSaga, error:", error);
     yield put(loginFailure(error.message));
   }
 }
