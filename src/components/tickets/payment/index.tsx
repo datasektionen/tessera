@@ -27,7 +27,9 @@ import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
 import { useTranslation } from "react-i18next";
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
+console.log(process.env.REACT_APP_STRIPE_KEY as string);
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY! as string);
 
 interface PaymentProps {
   ticket: ITicket;

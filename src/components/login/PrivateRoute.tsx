@@ -18,6 +18,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     (state: RootState) => state.user
   );
 
+  console.log("isLoggedIn", isLoggedIn);
+  console.log("authLoading", authLoading);
+
   if (userLoading) {
     return null;
   }
