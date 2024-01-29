@@ -28,9 +28,13 @@ const authSlice = createSlice({
       state.loading = true;
     },
     loginSuccess: (state, action: PayloadAction<{ token: string }>) => {
+      if (!action.payload.token) {
+        state.isLoggedIn = false;
+        state.loading = false;
+        return;
+      }
       state.loading = false;
       state.token = action.payload.token;
-      console.log("token", action.payload.token);
       state.isLoggedIn = true;
     },
     loginFailure: (state, action: PayloadAction<string>) => {

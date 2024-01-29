@@ -27,7 +27,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
   try {
     const response = yield call(
       axios.get,
-      "http://localhost:8080/events/" + action.payload,
+      process.env.REACT_APP_BACKEND_URL + "/events/" + action.payload,
       {
         withCredentials: true, // This ensures cookies are sent with the request
       }

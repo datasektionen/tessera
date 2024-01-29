@@ -16,9 +16,13 @@ import {
 function* listEventSaga(): Generator<any, void, any> {
   try {
     console.log("listEventSaga");
-    const response = yield call(axios.get, "http://localhost:8080/events", {
-      withCredentials: true, // This ensures cookies are sent with the request
-    });
+    const response = yield call(
+      axios.get,
+      process.env.REACT_APP_BACKEND_URL + "/events",
+      {
+        withCredentials: true, // This ensures cookies are sent with the request
+      }
+    );
 
     const events: IEvent[] = response.data
       .map((event: any) => {
