@@ -20,6 +20,24 @@ function App() {
   );
   console.log(process.env.TEST, "process.env.TEST");
 
+  console.log("REACT_APP");
+
+  console.log(process.env.REACT_APP_ENV, "process.env.REACT_APP_ENV");
+  console.log(process.env.REACT_APP_BASE_URL, "process.env.REACT_APP_BASE_URL");
+  console.log(
+    process.env.REACT_APP_BACKEND_URL,
+    "process.env.REACT_APP_BACKEND_URL"
+  );
+  console.log(
+    process.env.REACT_APP_STRIPE_KEY,
+    "process.env.REACT_APP_STRIPE_KEY"
+  );
+  console.log(
+    process.env.REACT_APP_GOOGLE_MAPS_API,
+    "process.env.REACT_APP_GOOGLE_MAPS_API"
+  );
+  console.log(process.env.REACT_APP_TEST, "process.env.TEST");
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
