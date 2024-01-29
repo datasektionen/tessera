@@ -35,6 +35,7 @@ function AppRoutes() {
   return (
     <BrowserRouter basename="/">
       <Routes>
+        <Route path="/test" element={<div>Test</div>} />
         <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.LOGOUT} element={<Logout />} />
