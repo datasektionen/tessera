@@ -38,9 +38,9 @@ function AppRoutes() {
         <Route path="/test" element={<div>Test</div>} />
         <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
         <Route element={<ProtectedRoute />}>
+          <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.LOGOUT} element={<Logout />} />
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
-          <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
