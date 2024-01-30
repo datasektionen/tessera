@@ -31,7 +31,7 @@ function* userSaga(): Generator<any, void, any> {
 
     // Yield both currentUserSuccess and loginSuccess
     yield put(currentUserSuccess(user));
-    yield put(loginSuccess({ token: Cookies.get("auth_token") as string }));
+    yield put(loginSuccess({ user: user }));
   } catch (error: any) {
     yield put(loginFailure(error.message));
     yield put(currentUserFailure(error.message));

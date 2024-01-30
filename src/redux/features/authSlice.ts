@@ -4,6 +4,7 @@ import { AuthState, LoginCredentials, IUser } from "../../types";
 const initialState: AuthState = {
   token: null,
   loading: false,
+  user: null,
   error: null,
   isLoggedIn: false,
 };
@@ -27,14 +28,9 @@ const authSlice = createSlice({
     loginRequest: (state) => {
       state.loading = true;
     },
-    loginSuccess: (state, action: PayloadAction<{ token: string }>) => {
-      if (!action.payload.token) {
-        state.isLoggedIn = false;
-        state.loading = false;
-        return;
-      }
+    loginSuccess: (state, action: PayloadAction<{ user: Object }>) => {
       state.loading = false;
-      state.token = action.payload.token;
+      state.user = action.payload.user;
       state.isLoggedIn = true;
     },
     loginFailure: (state, action: PayloadAction<string>) => {

@@ -18,6 +18,7 @@ export interface LoginCredentials {
 export interface AuthState {
   isLoggedIn: boolean;
   loading: boolean;
+  user: Object | null;
   token: string | null;
   error: string | null;
 }
