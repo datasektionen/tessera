@@ -76,6 +76,12 @@ Currently, tessera supports english and swedish translations. You will find the 
 
     $ npm run build
 
+## Using Docker
+
+You can use docker in order to run the application aswell. For development, use
+
+    $ docker-compose up --build
+
 ## Languages & tools
 
 - [TypeScript](https://www.typescriptlang.org/) is used as the primary development language, offering static typing and advanced JavaScript features.
