@@ -203,7 +203,9 @@ const enTranslations = {
     what_is_a_team: "What is a team?",
 
     description:
-      "Here you can create a team. Teams are used to organize events and manage users. It allows the managers of the team to create events, manage ticket sales and plan the event more efficiently. You can ginvite other users to join your team andive them different permissions. You are also not limited to one team, you can create as many as you want, and join as many as you want. You can also leave teams at any time. Without being a part of a team you cannot create events. So go ahead and create a team!",
+      "Here you can create a team. Teams are used to organize events and manage users. It allows the managers of the team to create events, manage ticket sales and plan the event more efficiently. You can ginvite other users to join your team andive them different permissions. You are also not limited to one team, you can create as many as you want, and join as many as you want. You can also leave teams at any time. Without being a part of a team you cannot create events.",
+    teams_created_by_contacting_us:
+      "Currently, teams are created by contacting us. We are working on a solution to allow users to create teams themselves.",
     your_teams_text: "Your teams",
     add_team_title: "Add team",
     add_team_helperText:

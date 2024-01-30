@@ -21,7 +21,8 @@ const CreateOrganizationPage: React.FC = () => {
             {t("create_team.what_is_a_team")}
           </StyledText>
           <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
-            {t("create_team.description")}
+            {t("create_team.description")}{" "}
+            <strong>{t("create_team.teams_created_by_contacting_us")}</strong>
           </StyledText>
           <Box mt={2}>
             <StyledButton

@@ -186,7 +186,9 @@ const seTranslations = {
     what_is_a_team: "Vad är en grupp?",
 
     description:
-      "Här kan du skapa en grupp. Grupper används för att organisera evenemang och hantera användare. Det gör att gruppens ledare kan skapa evenemang, hantera biljettförsäljning och planera evenemanget mer effektivt. Du kan bjuda in andra användare att gå med i din grupp och ge dem olika behörigheter. Du är inte heller begränsad till en grupp, du kan skapa så många du vill, och gå med i så många du vill. Du kan också lämna grupper när som helst. Utan att vara en del av en grupp kan du inte skapa evenemang. Så gå vidare och skapa en grupp!",
+      "Här kan du skapa en grupp. Grupper används för att organisera evenemang och hantera användare. Det gör att gruppens ledare kan skapa evenemang, hantera biljettförsäljning och planera evenemanget mer effektivt. Du kan bjuda in andra användare att gå med i din grupp och ge dem olika behörigheter. Du är inte heller begränsad till en grupp, du kan skapa så många du vill, och gå med i så många du vill. Du kan också lämna grupper när som helst. Utan att vara en del av en grupp kan du inte skapa evenemang.",
+    teams_created_by_contacting_us:
+      "För närvarande skapas grupper genom att kontakta oss. Vi arbetar på en lösning för att låta användare skapa grupper själva",
     your_teams_text: "Dina grupper",
     add_team_title: "Lägg till grupp",
     add_team_helperText:

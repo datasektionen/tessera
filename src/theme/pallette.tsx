@@ -1,5 +1,15 @@
 interface IPallette {
-  [key: string]: string;
+  primary: string;
+  red: string;
+  charcoal: string;
+  charcoal_see_through: string;
+  offWhite: string;
+  cerise: string;
+  black: string;
+  white: string;
+  green: string;
+  yellow: string;
+  orange: string;
 }
 
 const PALLETTE: IPallette = {

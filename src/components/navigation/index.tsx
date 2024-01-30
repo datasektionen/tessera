@@ -42,13 +42,15 @@ const LanguageSelector: React.FC = () => {
       style={{
         backgroundColor: PALLETTE.offWhite,
       }}
-      value={i18n.language}
+      value={i18n.language === "en-GB" ? "gb" : i18n.language}
       defaultValue={"gb"}
       onChange={handleChange}
       renderValue={(selected) => (
         <img
           alt={i18n.language}
-          src={`https://flagcdn.com/16x12/${i18n.language}.png`}
+          src={`https://flagcdn.com/16x12/${
+            i18n.language === "en-GB" ? "gb" : i18n.language
+          }.png`}
         />
       )}
       sx={{
@@ -64,7 +66,9 @@ const LanguageSelector: React.FC = () => {
           <Option value={lng.code}>
             <img
               alt={lng.nativeName}
-              src={`https://flagcdn.com/16x12/${lng.code}.png`}
+              src={`https://flagcdn.com/16x12/${
+                lng.code === "en-GB" ? "gb" : lng.code
+              }.png`}
               style={{
                 marginRight: 8,
               }}

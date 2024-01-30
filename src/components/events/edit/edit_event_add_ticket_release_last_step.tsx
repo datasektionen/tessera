@@ -38,7 +38,7 @@ const EditEventAddTicketReleaseLastStep: React.FC<
           <Stack direction="row" spacing={2}>
             <StyledButton
               size="lg"
-              color={PALLETTE.charcoa}
+              color={PALLETTE.charcoal}
               bgColor={PALLETTE.cerise}
               onClick={submit}
             >

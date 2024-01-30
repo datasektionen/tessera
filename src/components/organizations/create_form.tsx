@@ -44,6 +44,7 @@ const CreateOrganizationForm: React.FC = () => {
           borderStyle: "solid",
           padding: "16px",
           marginTop: "32px",
+          backgroundColor: PALLETTE.charcoal_see_through, // Change when ready
         }}
       >
         <FormControl>
@@ -59,6 +60,7 @@ const CreateOrganizationForm: React.FC = () => {
             <Input
               value={organizationName}
               placeholder="Lit Club"
+              disabled={true} // Change when ready
               onChange={(e) => setOrganizationName(e.target.value)}
               style={{
                 color: PALLETTE.charcoal,
@@ -70,6 +72,7 @@ const CreateOrganizationForm: React.FC = () => {
           </FormLabel>
           <Button
             variant="outlined"
+            disabled={true} // Change when ready
             style={{
               marginTop: "16px",
               width: "200px",
