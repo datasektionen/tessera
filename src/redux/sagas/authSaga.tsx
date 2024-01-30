@@ -7,6 +7,7 @@ import {
   loginFailure,
   logoutFailure,
   logoutRequest,
+  logoutSuccess,
 } from "../features/authSlice";
 import { LoginCredentials } from "../../types";
 import { toast } from "react-toastify";
@@ -48,7 +49,7 @@ function* logoutSaga(): Generator<any, void, any> {
       yield put(logoutFailure("Something went wrong!"));
     } else {
       toast.info("Logged out!");
-      yield put(loginSuccess({ token: "" }));
+      yield put(logoutSuccess());
       window.location.href = "/";
     }
 
