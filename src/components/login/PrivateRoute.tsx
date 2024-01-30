@@ -10,9 +10,11 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectPath = "/login",
 }) => {
-  const { isLoggedIn, loading: authLoading } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    isLoggedIn,
+    loading: authLoading,
+    token,
+  } = useSelector((state: RootState) => state.auth);
 
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user
@@ -20,6 +22,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   console.log("isLoggedIn", isLoggedIn);
   console.log("authLoading", authLoading);
+  console.log("token", token);
 
   if (userLoading) {
     return null;

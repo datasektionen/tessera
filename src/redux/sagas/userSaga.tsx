@@ -26,6 +26,9 @@ function* userSaga(): Generator<any, void, any> {
 
     const user = response.data.user;
 
+    console.log("user", user);
+    console.log("cookies", Cookies.get("auth_token"));
+
     // Yield both currentUserSuccess and loginSuccess
     yield put(currentUserSuccess(user));
     yield put(loginSuccess({ token: Cookies.get("auth_token") as string }));
