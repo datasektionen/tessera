@@ -114,6 +114,8 @@ const seTranslations = {
     finish_title: "Det var det!",
     finish_description:
       "Du har nu fyllt i alla detaljer för ditt evenemang. Klicka på knappen nedan för att skapa ditt evenemang. Du kan också gå tillbaka och redigera ditt evenemang genom att klicka på tillbaka-knappen. Men du kan också redigera ditt evenemang senare på redigera evenemang-sidan.",
+    no_teams:
+      "Du är för närvarande inte med i en grupp och kan därför inte skapa ett evenemang. För att skapa en grupp behöver du kontakta oss. Läs mer på startsidan.",
   },
 
   // Profile
@@ -169,7 +171,7 @@ const seTranslations = {
       description:
         "Här kan du se alla grupper du är en del av. Klicka på en grupp för att se mer detaljer. Du kan skapa en ny grupp <1>här</1>.",
       not_part_of_any_teams:
-        "Du är inte en del av några grupper. Läs mer om att skapa en grupp på startsidan.",
+        "Du är inte en del av någon grupp. Läs mer om att skapa en grupp på startsidan.",
       add_user: "Lägg till användare",
       add_user_helperText:
         "Ange användarnamnet för användaren du vill lägga till i denna grupp. Du kan ändra deras roll senare. Tips: Användarnamn är detsamma som kth-id.",
@@ -178,6 +180,10 @@ const seTranslations = {
         "Det finns inga händelser i denna grupp. Skapa en nu <1>här</1>.",
       users: "Användare",
       no_users: "Det finns inga användare i denna grupp.",
+      delete_team: "Radera grupp",
+      delete_team_confirmation_title: "Bekräfta radering av grupp",
+      delete_team_confirmation:
+        "Är du säker på att du vill radera denna grupp? Denna åtgärd kan inte ångras.",
     },
   },
 
@@ -262,7 +268,7 @@ const seTranslations = {
         overview: "Översikt",
         what_is_a_request_title: "Vad är en biljettförfrågan?",
         what_is_a_request:
-          "När du gör en biljett begäran är du inte garanterad att få de biljetter du vill ha. Tilldelningen av biljetterna görs enligt metoden för biljettsläpp, som beskrivs i biljettsläppbeskrivningen.",
+          "När du gör en biljettförfrågan är du inte garanterad att få de biljetter du vill ha. Tilldelningen av biljetterna görs enligt metoden för biljettsläpp, som beskrivs i biljettsläppbeskrivningen.",
         total: "Totalt",
         ticket: "Biljett",
       },
@@ -282,7 +288,7 @@ const seTranslations = {
   ticket_release_method: {
     first_come_first_served_title: "Först till kvarn",
     first_come_first_served_description:
-      "Först till kvarn-lotteriet är en metod för biljettsläpp där personer som begär en biljett inom en angiven tidsram deltar i ett lotteri. När biljetter tilldelas, placeras alla biljettbegäranden inom denna tidsram i ett lotteri och vinnarna väljs slumpmässigt. Vinnarna får en biljett och resten placeras på väntelistan. Alla som begär en biljett efter den angivna tidsramen placeras på väntelistan, om inte lotteriet är ofullständigt. Om lotteriet inte är fullt, ges de återstående biljetterna till personerna på väntelistan i den ordning de begärde biljetten.",
+      "Först till kvarn-lotteriet är en metod för biljettsläpp där personer som begär en biljett inom en angiven tidsram deltar i ett lotteri. När biljetter tilldelas, placeras alla biljettförfråganden inom denna tidsram i ett lotteri och vinnarna väljs slumpmässigt. Vinnarna får en biljett och resten placeras på väntelistan. Alla som begär en biljett efter den angivna tidsramen placeras på väntelistan, om inte lotteriet är ofullständigt. Om lotteriet inte är fullt, ges de återstående biljetterna till personerna på väntelistan i den ordning de begärde biljetten.",
   },
 
   tickets: {
@@ -318,8 +324,8 @@ const seTranslations = {
   },
 
   main_page: {
-    not_a_pain: "Biljettsläpp ska inte vara struligt!",
-    welcome: "{{name}}, Välkommen till",
+    not_a_pain: "Biljettsläpp ska inte vara jobbigt!",
+    welcome: "{{name}}, välkommen till",
     learn_how_button: "Lär dig hur",
     page_description: {
       what_title: "Vad är Tessera?",

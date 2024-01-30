@@ -132,6 +132,8 @@ const enTranslations = {
     finish_title: "Thats it!",
     finish_description:
       "You have now successfully filled out all the details for your event. Click the button below to create your event. You can also go back and edit your event by clicking the back button. But you can also edit your event later in the edit event page.",
+    no_teams:
+      "You are currently no part of any team, and therefore cannot create an event. In order to create a team you need to contact us. Read more on the landing page.",
   },
   // Profile
   profile: {
@@ -195,6 +197,10 @@ const enTranslations = {
         "There are no events in this team. Create one now <1>here</1>.",
       users: "Users",
       no_users: "There are no users in this team.",
+      delete_team: "Delete team",
+      delete_team_confirmation_title: "Confirm team deletion",
+      delete_team_confirmation:
+        "Are you sure you want to delete this team? This action cannot be undone.",
     },
   },
 
