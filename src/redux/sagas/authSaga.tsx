@@ -13,25 +13,20 @@ import { toast } from "react-toastify";
 
 function* loginSaga(): Generator<any, void, any> {
   try {
-    const url = `${process.env.REACT_APP_BACKEND_URL}/login?auto_redirect=true`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/login?auto_redirect=false`;
     console.log("url", url);
-    const response = yield call(
-      axios.get,
-      `${process.env.REACT_APP_BACKEND_URL}/login?auto_redirect=true`,
-      {
-        withCredentials: true, // This ensures cookies are sent with the request
-      }
-    );
+    const response = yield call(axios.get, url, {
+      withCredentials: true, // This ensures cookies are sent with the request
+    });
 
     console.log(response);
 
-    if (process.env.NODE_ENV === "development") {
-      const redirectUrl = response.data.login_url;
+    // if (process.env.NODE_ENV === "development") {
+    const redirectUrl = response.data.login_url;
 
-      console.log(redirectUrl);
-      // Redirect to the login page
-      window.location.href = redirectUrl;
-    }
+    console.log(redirectUrl);
+    // Redirect to the login page
+    window.location.href = redirectUrl;
   } catch (error: any) {
     console.log("Error with loginSaga, error:", error);
     yield put(loginFailure(error.message));
