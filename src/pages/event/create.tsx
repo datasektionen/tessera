@@ -17,17 +17,11 @@ import {
   setTicketReleaseForm,
   setTicketTypes,
 } from "../../redux/features/eventCreationSlice";
-import CreateTicketReleaseForm from "../../components/events/ticket_release/ticket_release_form";
-import StyledButton from "../../components/buttons/styled_button";
 import CreateTicketReleases from "../../components/events/ticket_release/create_ticket_releases";
 import CreateTicketTypes from "../../components/events/ticket_types/create_ticket_types";
 import CreateEventLastStep from "../../components/events/create_event_last_step";
 import { useNavigate } from "react-router-dom";
-import {
-  addTicketType,
-  clearTicketType,
-  resetTicketTypes,
-} from "../../redux/features/ticketTypeCreationSlice";
+import { resetTicketTypes } from "../../redux/features/ticketTypeCreationSlice";
 import RestartEventCreationButton from "../../components/buttons/restart_event_creation_button";
 import { ITicketReleaseForm, ITicketTypeForm } from "../../types";
 import { FormikHelpers } from "formik";
@@ -38,6 +32,7 @@ const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
     (state: RootState) => state.eventCreation
   );
+  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,6 +70,8 @@ const CreateEventPage = () => {
     }
   };
 
+  const canCreateEvent = currentUser?.organizations?.length! > 0;
+
   const handleTTsSubmit = (ticketTypes: ITicketTypeForm[]) => {
     dispatch(setTicketTypes(ticketTypes));
   };
@@ -94,38 +91,49 @@ const CreateEventPage = () => {
                 >
                   {t("create_event.create_event_description")}
                 </StyledText>
+                {!canCreateEvent && (
+                  <StyledText
+                    level="body-md"
+                    fontSize={18}
+                    color={PALLETTE.orange}
+                    fontWeight={700}
+                  >
+                    {t("create_event.no_teams")}
+                  </StyledText>
+                )}
               </Box>
               <Box mt={2}>
-                <RestartEventCreationButton />
+                {canCreateEvent && <RestartEventCreationButton />}
               </Box>
             </Grid>
-
-            <Grid xs={8}>
-              <BorderBox>
-                <StyledText
-                  level="body-lg"
-                  fontSize={24}
-                  color={PALLETTE.cerise}
-                >
-                  {t("create_event.event_details_title")}
-                </StyledText>
-                <StyledText
-                  level="body-md"
-                  fontSize={16}
-                  color={PALLETTE.charcoal}
-                >
-                  {t("create_event.event_details_description")}
-                </StyledText>
-                <CreateEventForm />
-              </BorderBox>
-            </Grid>
+            {canCreateEvent && (
+              <Grid xs={8}>
+                <BorderBox>
+                  <StyledText
+                    level="body-lg"
+                    fontSize={24}
+                    color={PALLETTE.cerise}
+                  >
+                    {t("create_event.event_details_title")}
+                  </StyledText>
+                  <StyledText
+                    level="body-md"
+                    fontSize={16}
+                    color={PALLETTE.charcoal}
+                  >
+                    {t("create_event.event_details_description")}
+                  </StyledText>
+                  <CreateEventForm />
+                </BorderBox>
+              </Grid>
+            )}
           </StandardGrid>
         )}
 
-        {currentStep === 2 && (
+        {currentStep === 2 && canCreateEvent && (
           <CreateTicketReleases submit={handleTicketReleaseSubmit} />
         )}
-        {currentStep === 3 && (
+        {currentStep === 3 && canCreateEvent && (
           <CreateTicketTypes
             submit={handleTTsSubmit}
             handleBack={() => {
@@ -133,7 +141,7 @@ const CreateEventPage = () => {
             }}
           />
         )}
-        {currentStep === 4 && (
+        {currentStep === 4 && canCreateEvent && (
           <CreateEventLastStep submit={submitEventFullWorkflow} />
         )}
       </Box>

@@ -202,8 +202,6 @@ const EventTicketsList: React.FC<{
     return <LoadingOverlay />;
   }
 
-  console.log(selectedUser);
-
   return (
     <Box sx={{}}>
       <ThemeProvider theme={MUItheme}>

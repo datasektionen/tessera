@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 const CreateOrganizationPage: React.FC = () => {
   const nagivate = useNavigate();
   const { t } = useTranslation();
+
   return (
     <TesseraWrapper>
       <StandardGrid>

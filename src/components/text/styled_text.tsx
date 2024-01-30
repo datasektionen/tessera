@@ -9,6 +9,7 @@ interface StyledTextProps {
   fontSize?: number;
   style?: React.CSSProperties;
   startDecorator?: React.ReactNode;
+  onClick?: () => void;
 }
 
 const StyledText: React.FC<StyledTextProps> = ({
@@ -19,6 +20,7 @@ const StyledText: React.FC<StyledTextProps> = ({
   fontSize = 18,
   startDecorator,
   fontWeight,
+  onClick,
 }) => {
   return (
     <Typography
@@ -26,6 +28,7 @@ const StyledText: React.FC<StyledTextProps> = ({
       level={level}
       fontFamily={"Josefin Sans"}
       fontWeight={fontWeight}
+      onClick={onClick}
       fontSize={fontSize}
       startDecorator={startDecorator}
       style={{

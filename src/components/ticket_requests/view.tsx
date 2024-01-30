@@ -60,7 +60,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     // This function now updates the screenWidth state immediately.
     const updateWindowDimensions = () => {
       const newWidth = window.innerWidth / 2.3;
-      console.log(newWidth);
       setScreenWidth(newWidth);
     };
 
@@ -71,8 +70,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     // Return a cleanup function to remove the event listener when the component unmounts.
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
-
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
 
   const handleCancel = () => {
     dispatch(cancelTicketRequestRequest(ticketRequest));

@@ -83,7 +83,6 @@ const EditTicketTypes: React.FC = () => {
 
   useEffect(() => {
     if (updateSuccess) {
-      console.log("success");
       dispatch(resetUpdateSuccess());
     }
   }, [updateSuccess]);

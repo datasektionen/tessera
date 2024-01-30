@@ -27,6 +27,7 @@ import StatusIcon from "../../icons/status_icon";
 import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 import { ITicketTypeForm } from "../../../types";
 import { useTranslation } from "react-i18next";
+import RemoveTTButton from "./remove_ticket_type_button";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -171,17 +172,7 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
                       transform: "translateY(-50%)",
                     }}
                   >
-                    <RemoveCircleOutlineIcon
-                      onClick={() => {
-                        dispatch(removeTicketType(index));
-                      }}
-                      style={{
-                        color: PALLETTE.red,
-                        fontSize: "30px",
-                        // svg shadow
-                        filter: "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
-                      }}
-                    />
+                    <RemoveTTButton index={index} />
                   </Box>
                 </StyledBorderBox>
               );

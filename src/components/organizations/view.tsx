@@ -12,6 +12,8 @@ import Title from "../text/title";
 import BorderBox from "../wrappers/border_box";
 import { useEffect, useState } from "react";
 import {
+  deleteOrganizationRequest,
+  getMyOrganizationsRequest,
   getOrganizationEventsRequest,
   getOrganizationUsersRequest,
 } from "../../redux/features/organizationSlice";
@@ -36,6 +38,11 @@ import { removeUserSuccess } from "../../redux/sagas/organizationSaga";
 import AddOrganizationUser from "./add_organization_user";
 import OrganizationEventView from "./organization_event_view";
 import { Trans, useTranslation } from "react-i18next";
+import ConfirmModal from "../modal/confirm_modal";
+import StyledButton from "../buttons/styled_button";
+import { set } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface ViewOrganizationProps {
   organization: IOrganization;
@@ -55,9 +62,11 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
     organizationEvents: IEvent[];
   };
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [showAllUsers, setShowAllUsers] = useState(false);
   const [showAllEvents, setShowAllEvents] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const reFetch = () => {
     dispatch(getOrganizationUsersRequest(organization.id));
@@ -67,6 +76,11 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
     dispatch(getOrganizationUsersRequest(organization.id));
     dispatch(getOrganizationEventsRequest(organization.id));
   }, [dispatch, removeUserSuccess, organization]);
+
+  const handleDeleteOrganization = () => {
+    // Delete the organization
+    dispatch(deleteOrganizationRequest(organization.id));
+  };
 
   const isOwner = organizationUsers?.find(
     (user) =>
@@ -180,6 +194,57 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
             </AccordionDetails>
           </Accordion>
         </AccordionGroup>
+      </Box>
+      <Box style={{ textAlign: "right" }}>
+        {/* Delete team box */}
+        <ConfirmModal
+          isOpen={showDeleteModal}
+          onClose={() => {
+            setShowDeleteModal(false);
+          }}
+          title={t("profile.your_teams.delete_team_confirmation_title")}
+          actions={[
+            <StyledButton
+              size="lg"
+              key="confirm-delete"
+              onClick={() => {
+                setShowDeleteModal(false);
+                handleDeleteOrganization();
+              }}
+              bgColor={PALLETTE.offWhite}
+              color={PALLETTE.charcoal}
+            >
+              {t("form.button_confirm")}
+            </StyledButton>,
+            <StyledButton
+              size="lg"
+              key="cancel-delete"
+              onClick={() => {
+                // Close the modal
+                setShowDeleteModal(false);
+              }}
+              bgColor={PALLETTE.orange}
+              color={PALLETTE.charcoal}
+            >
+              {t("form.button_cancel")}
+            </StyledButton>,
+          ]}
+        >
+          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
+            {t("profile.your_teams.delete_team_confirmation")}
+          </StyledText>
+        </ConfirmModal>
+        <StyledButton
+          size="sm"
+          style={{ marginTop: "32px" }}
+          onClick={() => {
+            setShowDeleteModal(true);
+          }}
+          bgColor={PALLETTE.red}
+          color={PALLETTE.charcoal}
+        >
+          {t("profile.your_teams.delete_team")}
+        </StyledButton>
       </Box>
     </BorderBox>
   );

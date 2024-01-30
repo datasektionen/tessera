@@ -29,11 +29,8 @@ const ProfileTicketsPage: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  console.log(tickets);
-
   useEffect(() => {
     if (!isInitialized && !ticketLoading) {
-      console.log("dispatching");
       dispatch(getMyTicketsRequest());
       setIsInitialized(true);
     }

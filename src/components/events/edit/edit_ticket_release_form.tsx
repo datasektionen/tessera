@@ -76,7 +76,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
     if (Object.keys(errors).length === 0) {
       // The form is valid
       // dispatch(setTicketReleaseForm(values));
-      console.log("Submitting form");
       dispatch(
         updateTicketReleaseStart({
           eventId: ticketRelease!.eventId,

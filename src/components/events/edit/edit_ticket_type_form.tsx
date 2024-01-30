@@ -33,9 +33,6 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
   validateAllForms,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-  const handleSubmission = (values: ITicketTypeForm) => {
-    console.log(values);
-  };
 
   const handleFieldChange = (fieldName: string, value: any, index: number) => {
     // Update the local form state and dispatch the update to the Redux store
