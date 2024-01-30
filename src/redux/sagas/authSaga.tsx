@@ -20,12 +20,9 @@ function* loginSaga(): Generator<any, void, any> {
       withCredentials: true, // This ensures cookies are sent with the request
     });
 
-    console.log(response);
-
     // if (process.env.NODE_ENV === "development") {
     const redirectUrl = response.data.login_url;
 
-    console.log(redirectUrl);
     // Redirect to the login page
     window.location.href = redirectUrl;
   } catch (error: any) {
@@ -50,7 +47,6 @@ function* logoutSaga(): Generator<any, void, any> {
     } else {
       toast.info("Logged out!");
       yield put(logoutSuccess());
-      window.location.href = "/";
     }
 
     // Redirect to the login page

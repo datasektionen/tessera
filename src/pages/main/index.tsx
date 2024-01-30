@@ -39,8 +39,6 @@ const MainPage: React.FC = () => {
     return null;
   }
 
-  console.log("current", currentUser);
-
   if (!currentUser) {
     navigate("/login");
     return null;

@@ -17,6 +17,10 @@ const WelcomePage = () => {
   );
   const navigate = useNavigate();
 
+  if (loading) {
+    return null;
+  }
+
   if (isLoggedIn) {
     navigate("/");
   }
