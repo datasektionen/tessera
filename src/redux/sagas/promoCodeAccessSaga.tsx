@@ -21,8 +21,6 @@ const promoCodeAccessSaga = function* (
       withCredentials: true,
     });
 
-    console.log(response);
-
     if (response.status === 200) {
       setTimeout(() => {
         toast.success("Promo code applied successfully");

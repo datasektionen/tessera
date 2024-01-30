@@ -15,7 +15,6 @@ import {
 
 function* listEventSaga(): Generator<any, void, any> {
   try {
-    console.log("listEventSaga");
     const response = yield call(
       axios.get,
       process.env.REACT_APP_BACKEND_URL + "/events",

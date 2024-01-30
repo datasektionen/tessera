@@ -13,10 +13,14 @@ import {
   getOrganizationEventsRequest,
   getOrganizationEventsSuccess,
   getOrganizationEventsFailure,
+  deleteOrganizationRequest,
+  deleteOrganizationSuccess,
+  deleteOrganizationFailure,
 } from "./../features/organizationSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { IEvent, IOrganization, IOrganizationUser } from "../../types";
+import ReloadToastContent from "../../components/toasts/ReloadToast";
 
 function* createOrganizationSaga(
   action: PayloadAction<{ name: string }>
@@ -31,7 +35,7 @@ function* createOrganizationSaga(
       }
     );
 
-    if (response.status == 201) {
+    if (response.status === 201) {
       toast.success("Organization created!");
       yield put(createOrganizationSuccess(response));
     } else {
@@ -197,10 +201,38 @@ function* removeUserSaga(
   }
 }
 
+function* deleteOrganizationSaga(
+  action: PayloadAction<number>
+): Generator<any, void, any> {
+  try {
+    const response = yield call(
+      axios.delete,
+      `${process.env.REACT_APP_BACKEND_URL}/organizations/${action.payload}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success(<ReloadToastContent message="Team was deleted!" />);
+      yield put(deleteOrganizationSuccess());
+    } else {
+      const errorMessage = response.data.error || "Something went wrong!";
+      toast.error("Something went wrong!");
+      yield put(deleteOrganizationFailure(errorMessage));
+    }
+  } catch (error: any) {
+    const errorMessage = error.response.data.error || error.message;
+    yield put(deleteOrganizationFailure(errorMessage));
+    toast.error("There was a problem deleting the organization!");
+  }
+}
+
 export function* watchCreateOrganization() {
   yield takeEvery(createOrganizationRequest.type, createOrganizationSaga);
   yield takeEvery(getMyOrganizationsRequest.type, getMyOrganizationsSaga);
   yield takeEvery(getOrganizationUsersRequest.type, getOrganizationUsersSaga);
   yield takeEvery(getOrganizationEventsRequest.type, getOrganizationEventsSaga);
+  yield takeEvery(deleteOrganizationRequest.type, deleteOrganizationSaga);
   yield takeEvery(REMOVE_USER_REQUEST, removeUserSaga);
 }

@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 function* loginSaga(): Generator<any, void, any> {
   try {
     const url = `${process.env.REACT_APP_BACKEND_URL}/login?auto_redirect=false`;
-    console.log("url", url);
     const response = yield call(axios.get, url, {
       withCredentials: true, // This ensures cookies are sent with the request
     });

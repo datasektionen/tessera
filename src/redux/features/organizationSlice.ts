@@ -6,6 +6,7 @@ import {
   IOrganizationUser,
   OrganizationUserRole,
 } from "../../types";
+import { stat } from "fs";
 
 export interface ChangeUserRolePayload {
   organizationId: number;
@@ -90,6 +91,17 @@ const organizationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    deleteOrganizationRequest: (state, action: PayloadAction<number>) => {
+      state.loading = true;
+    },
+    deleteOrganizationSuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
+    deleteOrganizationFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -106,6 +118,9 @@ export const {
   getOrganizationEventsRequest,
   getOrganizationEventsSuccess,
   getOrganizationEventsFailure,
+  deleteOrganizationRequest,
+  deleteOrganizationSuccess,
+  deleteOrganizationFailure,
 } = organizationSlice.actions;
 
 export default organizationSlice.reducer;

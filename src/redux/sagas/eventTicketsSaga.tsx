@@ -30,8 +30,6 @@ function* fetchEventTickets(
       }
     );
 
-    console.log(response.data);
-
     const tickets: ITicket[] = response.data.tickets.map((ticket: any) => {
       const ticket_request = ticket.ticket_request;
       return {

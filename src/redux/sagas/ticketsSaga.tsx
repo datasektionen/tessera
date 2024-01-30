@@ -73,8 +73,6 @@ function* getMyTicketSaga(): Generator<any, void, any> {
       } as ITicket;
     });
 
-    console.log(tickets);
-
     if (response.status === 200) {
       yield put(getMyTicketsSuccess(tickets));
     } else {
