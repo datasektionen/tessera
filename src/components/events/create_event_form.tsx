@@ -152,10 +152,7 @@ const CreateEventForm: React.FC = () => {
                     <Select
                       {...field}
                       onChange={(_, newValue) => {
-                        form.event_details.setFieldValue(
-                          field.name,
-                          newValue as number
-                        );
+                        form.setFieldValue(field.name, newValue as number);
                       }}
                       style={DefaultInputStyle}
                     >
@@ -218,7 +215,6 @@ const CreateEventForm: React.FC = () => {
                   textColor={PALLETTE.charcoal}
                   size="md"
                   onClick={() => {
-                    console.log("clear");
                     dispatch(clearEventForm());
                     // window.location.reload();
                   }}
