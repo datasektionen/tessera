@@ -90,7 +90,6 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
       onSubmit={submit}
     >
       {({ values, isValid, errors }) => {
-        console.log(values.event_date);
         return (
           <Form>
             <FormControl>

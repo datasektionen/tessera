@@ -221,6 +221,7 @@ const seTranslations = {
           "Skapa biljettsläpp för ditt evenemang. Du kan skapa så många du vill, och du kan redigera dem senare.",
         select: "Välj ett biljettsläpp för att redigera det.",
         add: "Lägg till biljettsläpp",
+        closed: "Stängt",
         add_subtitle:
           "Låt oss lägga till ett annat biljettsläpp. Först måste vi definiera detaljerna för detta biljettsläpp.",
         no_ticket_releases: "Det finns inga biljettsläpp för detta evenemang.",

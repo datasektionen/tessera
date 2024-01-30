@@ -96,6 +96,7 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
     {({ field }: any) => (
       <Checkbox
         {...field}
+        value={String(field.value)} // Ensure value is a string
         onChange={onChange ? onChange : field.onChange}
         style={{
           ...DefaultInputStyle,

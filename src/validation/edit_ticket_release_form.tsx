@@ -65,7 +65,7 @@ export const PromoCodeValidationSchema = Yup.object().shape({
     .max(20, "Promo Code must be at most 20 characters"),
 });
 
-const CreateTicketReleaseFormSchema = Yup.object()
+const EditTicketReleaseFormSchema = Yup.object()
   .shape({
     event_date: Yup.date().required("Event Date is required"),
     name: Yup.string()
@@ -76,13 +76,10 @@ const CreateTicketReleaseFormSchema = Yup.object()
       .required("Description is required")
       .min(5, "Too short")
       .max(500, "Too long"),
-    open: Yup.date()
-      .required("Open is required")
-      .test("is-future", "Needs to be in the future", checkDateInFuture),
+    open: Yup.date().required("Open is required"),
     close: Yup.date()
       .required("Close is required")
-      .min(Yup.ref("open"), "Close must be after open")
-      .test("is-future", "Close must be in the future", checkDateInFuture),
+      .min(Yup.ref("open"), "Close must be after open"),
     ticket_release_method_id: Yup.number()
       .required("Ticket Release Method ID is required")
       .min(1, "Ticket Release Method ID is required"),
@@ -169,11 +166,11 @@ const CreateTicketReleaseFormSchema = Yup.object()
         "The open and close times must be before the event date: " +
           format(value.event_date, "yyyy-MM-dd HH:mm"),
         null,
-        "close"
+        "open"
       );
     }
 
     return true;
   });
 
-export default CreateTicketReleaseFormSchema;
+export default EditTicketReleaseFormSchema;

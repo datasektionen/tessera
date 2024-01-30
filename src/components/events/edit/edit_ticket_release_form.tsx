@@ -46,6 +46,8 @@ import { format } from "date-fns";
 import { toast } from "react-toastify";
 import LoadingOverlay from "../../Loading";
 import { useTranslation } from "react-i18next";
+import EditTicketReleaseFormSchema from "../../../validation/edit_ticket_release_form";
+import { updateTicketReleaseStart } from "../../../redux/features/ticketReleaseSlice";
 
 interface EditTicketReleaseFormProps {
   ticketRelease: ITicketRelease | undefined;
@@ -73,7 +75,15 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
     const errors = await validateForm(values);
     if (Object.keys(errors).length === 0) {
       // The form is valid
-      dispatch(setTicketReleaseForm(values));
+      // dispatch(setTicketReleaseForm(values));
+      console.log("Submitting form");
+      dispatch(
+        updateTicketReleaseStart({
+          eventId: ticketRelease!.eventId,
+          ticketReleaseId: ticketRelease!.id,
+          formData: values,
+        })
+      );
     } else {
       // The form is invalid
       toast.error("Please fix the errors in the form.");
@@ -122,7 +132,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={CreateTicketReleaseFormSchema}
+      validationSchema={EditTicketReleaseFormSchema}
       validateOnBlur={true}
       validateOnChange={true}
       validateOnMount={true}
@@ -449,6 +459,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   color={PALLETTE.charcoal}
                   bgColor={PALLETTE.green}
                   textColor={PALLETTE.charcoal}
+                  disabled={!isValid}
                   size="md"
                   type="submit"
                   style={{

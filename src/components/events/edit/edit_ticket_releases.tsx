@@ -68,10 +68,19 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
                 placeholder="Select a ticket release"
               >
                 {ticket_releases.map((release) => {
-                  console.log(release.id);
+                  const disabled = release.close < new Date().getTime();
                   return (
-                    <Option key={release.id} value={release.id}>
+                    <Option
+                      key={release.id}
+                      value={release.id}
+                      disabled={disabled}
+                    >
                       {release.name}
+                      {disabled && (
+                        <b style={{ color: PALLETTE.red }}>
+                          ({t("manage_event.edit.ticket_releases.closed")})
+                        </b>
+                      )}
                     </Option> // Use the correct component and add a key prop
                   );
                 })}

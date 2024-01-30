@@ -240,6 +240,7 @@ const enTranslations = {
         add: "Add ticket release",
         add_subtitle:
           "Lets add another ticket release. First we need to define the details for this ticket release.",
+        closed: "Closed",
         no_ticket_releases: "There are no ticket releases for this event.",
         edit_ticket_types: "Edit tickets",
         add_helperText: "Please select a ticket release to edit.",

@@ -29,6 +29,11 @@ import {
   createTicketReleaseRequest,
   createTicketReleaseSuccess,
 } from "../features/createTicketReleaseSlice";
+import {
+  updateTicketReleaseFailure,
+  updateTicketReleaseStart,
+  updateTicketReleaseSuccess,
+} from "../features/ticketReleaseSlice";
 
 function* createTicketReleaseSaga(
   action: PayloadAction<{
@@ -78,8 +83,58 @@ function* createTicketReleaseSaga(
   }
 }
 
+function* updateTicketReleasSaga(
+  action: PayloadAction<{
+    eventId: number;
+    ticketReleaseId: number;
+    formData: ITicketReleaseForm;
+  }>
+): Generator<any, void, any> {
+  try {
+    const { formData, eventId, ticketReleaseId } = action.payload;
+
+    const data: ITicketReleasePostReq = {
+      name: formData.name,
+      description: formData.description,
+      open: new Date(formData.open).getTime() / 1000,
+      close: new Date(formData.close).getTime() / 1000,
+      open_window_duration: formData.open_window_duration! * 60,
+      max_tickets_per_user: formData.max_tickets_per_user,
+      notification_method: formData.notification_method.toUpperCase(),
+      cancellation_policy: formData.cancellation_policy.toUpperCase(),
+      ticket_release_method_id: formData.ticket_release_method_id,
+      is_reserved: formData.is_reserved,
+      promo_code: formData.is_reserved ? formData.promo_code : "",
+      tickets_available: formData.tickets_available,
+    };
+
+    const response = yield call(
+      axios.put,
+      `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/ticket-release/${ticketReleaseId}`,
+      data,
+      {
+        withCredentials: true, // This ensures cookies are sent with the request
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success("Ticket release updated successfully");
+      yield put(updateTicketReleaseSuccess(response.data));
+    } else {
+      const errorMessage = response.data.error || "An error occurred";
+      toast.error(errorMessage);
+      yield put(updateTicketReleaseFailure(errorMessage));
+    }
+  } catch (error: any) {
+    const errorMessage = error.response.data.error || "An error occurred";
+    toast.error(errorMessage);
+    yield put(updateTicketReleaseFailure(errorMessage));
+  }
+}
+
 function* watchTicketReleaseSaga() {
   yield takeLatest(createTicketReleaseRequest.type, createTicketReleaseSaga);
+  yield takeLatest(updateTicketReleaseStart.type, updateTicketReleasSaga);
 }
 
 export default watchTicketReleaseSaga;
