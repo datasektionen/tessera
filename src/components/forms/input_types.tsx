@@ -85,17 +85,20 @@ interface FormCheckboxProps {
   name: string;
   label: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 export const FormCheckbox: React.FC<FormCheckboxProps> = ({
   name,
   label,
   onChange = undefined,
+  disabled = false,
 }) => (
   <Field name={name} type="checkbox" label={label}>
     {({ field }: any) => (
       <Checkbox
         {...field}
+        disabled={disabled}
         value={String(field.value)} // Ensure value is a string
         onChange={onChange ? onChange : field.onChange}
         style={{
