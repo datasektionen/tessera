@@ -200,6 +200,9 @@ const seTranslations = {
     add_team_helperText:
       "Detta kommer att vara namnet på din grupp. Du kommer automatiskt att vara ägare till denna grupp.",
     create_team_button: "Skapa grupp",
+    add_team_email: "Gruppens e-post",
+    add_team_email_helperText:
+      "Detta kommer att vara gruppens e-post. Detta måste vara en giltig e-postadress.",
   },
 
   manage_event: {
@@ -324,7 +327,7 @@ const seTranslations = {
   },
 
   main_page: {
-    not_a_pain: "Biljettsläpp ska inte vara jobbigt!",
+    not_a_pain: "Biljettsläpp ska inte vara jobbiga!",
     welcome: "{{name}}, välkommen till",
     learn_how_button: "Lär dig hur",
     page_description: {

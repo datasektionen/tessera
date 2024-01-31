@@ -23,7 +23,7 @@ import { IEvent, IOrganization, IOrganizationUser } from "../../types";
 import ReloadToastContent from "../../components/toasts/ReloadToast";
 
 function* createOrganizationSaga(
-  action: PayloadAction<{ name: string }>
+  action: PayloadAction<{ name: string, email: string }>
 ): Generator<any, void, any> {
   try {
     const response = yield call(

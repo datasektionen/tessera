@@ -22,6 +22,7 @@ import {
 
 const CreateOrganizationForm: React.FC = () => {
   const [organizationName, setOrganizationName] = useState<string>("");
+  const [organizationEmail, setOrganizationEmail] = useState<string>("");
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const CreateOrganizationForm: React.FC = () => {
     dispatch(
       createOrganizationRequest({
         name: organizationName,
+        email: organizationEmail,
       })
     );
   };
@@ -74,6 +76,30 @@ const CreateOrganizationForm: React.FC = () => {
             {t("create_team.add_team_helperText")}
           </StyledFormLabelWithHelperText>
         </FormLabel>
+        {/* Team email */}
+        <FormLabel
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+          }}
+        >
+          <StyledFormLabel>{t("create_team.add_team_email")}</StyledFormLabel>
+          <Input
+            value={organizationEmail}
+            placeholder="example@datasektionen.se"
+            disabled={!canCreate}
+            onChange={(e) => setOrganizationEmail(e.target.value)}
+            style={{
+              color: PALLETTE.charcoal,
+            }}
+          />
+          <StyledFormLabelWithHelperText>
+            {t("create_team.add_team_email_helperText")}
+          </StyledFormLabelWithHelperText>
+        </FormLabel>
+
         <Button
           variant="outlined"
           disabled={!canCreate} // Change when ready

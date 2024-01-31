@@ -51,7 +51,13 @@ const organizationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    createOrganizationRequest: (state, action: PayloadAction<any>) => {
+    createOrganizationRequest: (
+      state,
+      action: PayloadAction<{
+        name: string;
+        email: string;
+      }>
+    ) => {
       state.loading = true;
     },
     createOrganizationSuccess: (state, action: PayloadAction<any>) => {

@@ -217,6 +217,9 @@ const enTranslations = {
     add_team_helperText:
       "This will be the name of your team. You will automatically be the owner of this team.",
     create_team_button: "Create team",
+    add_team_email: "Team email",
+    add_team_email_helperText:
+      "This will be the email of your team. This is used to contact the team.",
   },
 
   manage_event: {
