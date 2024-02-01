@@ -33,7 +33,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
     // This function now updates the screenWidth state immediately.
     const updateWindowDimensions = () => {
       const newWidth = window.innerWidth / 2.3;
-      console.log(newWidth);
       setScreenWidth(newWidth);
     };
 
@@ -44,6 +43,10 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
     // Return a cleanup function to remove the event listener when the component unmounts.
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
+
+  const handleCancelTicket = () => {
+    // dispatch(cancelTicketRequest(ticket.id));
+  };
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
 
@@ -72,7 +75,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           style={{ marginTop: "16px" }}
         >
           {ticket.is_reserve
-            ? "Unfortunately, you were allocated a reserve ticket for this event. You will be notified if a ticket becomes available."
+            ? t("tickets.reserve_ticket")
             : t("tickets.confirmed_ticket")}
         </StyledText>
       </Box>

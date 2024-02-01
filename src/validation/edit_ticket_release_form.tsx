@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import * as Yup from "yup";
+import { isValidDecimal } from "../utils/integer_validation";
 
 const checkDateInFuture = (timestamp: Date) => {
   const now = new Date();
@@ -82,22 +83,26 @@ const EditTicketReleaseFormSchema = Yup.object()
       .min(Yup.ref("open"), "Close must be after open"),
     ticket_release_method_id: Yup.number()
       .required("Ticket Release Method ID is required")
-      .min(1, "Ticket Release Method ID is required"),
+      .min(1, "Ticket Release Method ID is required")
+      .integer("Ticket Release Method ID must be an integer"),
     open_window_duration: Yup.number().when("ticket_release_method_id", {
       // @ts-ignore
       is: 1,
       then: (schema) =>
         schema
           .required("Open Window Duration is required")
-          .min(1, "Open Window Duration must be greater than or equal to 1"),
+          .min(1, "Open Window Duration must be greater than or equal to 1")
+          .integer("Open Window Duration must be an integer"),
       otherwise: (schema) => schema.notRequired(),
     }),
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
-      .min(1, "Max Tickets Per User must be greater than or equal to 1"),
+      .min(1, "Max Tickets Per User must be greater than or equal to 1")
+      .integer("Max Tickets Per User must be an integer"),
     tickets_available: Yup.number()
       .required("Available Tickets is required")
       .min(1, "Available Tickets must be greater than or equal to 1")
+      .integer("Available Tickets must be an integer")
       .test(
         "is-valid-available-tickets",
         "Number of available tickets must be greater than or equal to the number of tickets per user",
@@ -110,7 +115,6 @@ const EditTicketReleaseFormSchema = Yup.object()
           return true;
         }
       ),
-
     notification_method: Yup.string().required(
       "Notification Method is required"
     ),

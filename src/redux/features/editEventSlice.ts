@@ -13,11 +13,13 @@ import {
 interface EditEventState {
   loading: boolean;
   error: string | null;
+  success: boolean;
 }
 
 const initialState: EditEventState = {
   loading: false,
   error: null,
+  success: false,
 };
 
 const editEventSlice = createSlice({
@@ -41,10 +43,31 @@ const editEventSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    deleteEventStart: (state, action: PayloadAction<number>) => {
+      state.loading = true;
+      state.error = null;
+      state.success = false;
+    },
+    deleteEventSuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+      state.success = true;
+    },
+    deleteEventFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.success = false;
+    },
   },
 });
 
-export const { editEventRequest, editEventSuccess, editEventFailure } =
-  editEventSlice.actions;
+export const {
+  editEventRequest,
+  editEventSuccess,
+  editEventFailure,
+  deleteEventStart,
+  deleteEventSuccess,
+  deleteEventFailure,
+} = editEventSlice.actions;
 
 export default editEventSlice.reducer;

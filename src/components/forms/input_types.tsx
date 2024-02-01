@@ -29,12 +29,26 @@ export const FormInput: React.FC<FormInputProps> = ({
   overrideStyle = {},
 }) => (
   <Field name={name}>
-    {({ field }: any) => (
+    {({ field, form }: { field: any; form: any }) => (
       <Input
         {...field}
         label={label}
         required
-        onChange={onChange ? onChange : field.onChange}
+        onChange={(e: any) => {
+          if (type === "number") {
+            // Remove leading zeros
+            // If its only 1 zero, keep it
+            if (e.target.value.length > 1) {
+              e.target.value = e.target.value.replace(/^0+/, "");
+            }
+          }
+
+          if (onChange) {
+            onChange(e);
+          } else {
+            field.onChange(e);
+          }
+        }}
         placeholder={placeholder}
         type={type}
         style={

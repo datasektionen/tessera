@@ -27,7 +27,7 @@ const seTranslations = {
       team: "Grupp",
       team_helperText:
         "Vilken grupp står värd för ditt evenemang? Du måste koppla evenemanget till ett grupp. Om du inte tillhör en grupp kan du skapa ett, läs mer på startsidan.",
-      private_event: "Privat evenemang",
+      private_event: "Privat evenemang (Kommer snart)",
       private_event_helperText:
         "Är ditt evenemang privat? Om så är fallet kan bara personer med länken se det.",
     },
@@ -89,6 +89,7 @@ const seTranslations = {
     button_manage: "Hantera",
     button_details: "Detaljer",
     button_request: "Begär biljett(er)",
+    button_delete: "Radera",
   },
   create_event: {
     title: "Skapa evenemang",
@@ -219,6 +220,9 @@ const seTranslations = {
     manage_tickets: "Hantera biljetter",
     allocate_tickets_helperText:
       "Hur lång tid har användare på sig att betala för sina biljetter innan det ges till nästa person i kön?",
+    delete_event_title: "Bekräfta radering av evenemang",
+    delete_event_confirmation:
+      "Är du säker på att du vill radera detta evenemang? Denna åtgärd kan inte ångras.",
 
     edit: {
       title: "Redigera evenemang",

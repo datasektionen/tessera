@@ -41,6 +41,7 @@ const EditEventAddTicketReleasePage: React.FC = () => {
   ) => {
     const errors = await validateForm(values);
     if (Object.keys(errors).length === 0) {
+      console.log(values);
       dispatch(
         createTicketReleaseRequest({
           ticketRelease: values,

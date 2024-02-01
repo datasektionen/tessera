@@ -34,7 +34,7 @@ export const myTicketsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    cancelTicketRequest: (state, action: PayloadAction<ITicket>) => {
+    cancelTicketStart: (state, action: PayloadAction<ITicket>) => {
       state.loading = true;
     },
     cancelTicketSuccess: (state, action: PayloadAction<number>) => {
@@ -53,7 +53,7 @@ export const {
   getMyTicketsRequest,
   getMyTicketsFailure,
   getMyTicketsSuccess,
-  cancelTicketRequest,
+  cancelTicketStart,
   cancelTicketFailure,
   cancelTicketSuccess,
 } = myTicketsSlice.actions;

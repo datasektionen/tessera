@@ -18,6 +18,9 @@ import {
 } from "../features/eventSlice";
 import { toast } from "react-toastify";
 import {
+  deleteEventFailure,
+  deleteEventStart,
+  deleteEventSuccess,
   editEventFailure,
   editEventRequest,
   editEventSuccess,
@@ -84,7 +87,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
             notificationMethod:
               ticketRelease.ticket_release_method_detail.notification_method!,
             ticketReleaseMethod: {
-              id: ticketRelease.ticket_release_method_id!,
+              id: ticketRelease.ticket_release_method_detail
+                .ticket_release_method!.ID!,
               name: ticketRelease.ticket_release_method_detail!
                 .ticket_release_method!.method_name!,
               description:
@@ -124,7 +128,7 @@ function* editEventSaga(
 
     const response = yield call(
       axios.put,
-      "http://localhost:8080/events/" + id,
+      process.env.REACT_APP_BACKEND_URL + "/events/" + id,
       data,
       {
         withCredentials: true, // This ensures cookies are sent with the request
@@ -145,7 +149,34 @@ function* editEventSaga(
   }
 }
 
+function* deleteEventSaga(
+  action: PayloadAction<number>
+): Generator<any, void, any> {
+  try {
+    const response = yield call(
+      axios.delete,
+      process.env.REACT_APP_BACKEND_URL + "/events/" + action.payload,
+      {
+        withCredentials: true, // This ensures cookies are sent with the request
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success("Event deleted successfully!");
+      yield put(deleteEventSuccess(response.data));
+    } else {
+      const errorMessage = response.data.error || "An error occurred";
+      yield put(deleteEventFailure(errorMessage));
+    }
+  } catch (error: any) {
+    const errorMessage = error.response.data.error || "An error occurred";
+    toast.error(errorMessage);
+    yield put(deleteEventFailure(errorMessage));
+  }
+}
+
 function* watchEventSaga() {
+  yield takeLatest(deleteEventStart.type, deleteEventSaga);
   yield takeLatest(editEventRequest.type, editEventSaga);
   yield takeLatest(getEventRequest.type, eventSaga);
 }

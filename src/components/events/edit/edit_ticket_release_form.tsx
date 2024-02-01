@@ -97,13 +97,14 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
 
   useEffect(() => {
     if (ticketRelease) {
-      setInitialValues({
+      const initVals = {
         name: ticketRelease.name,
         description: ticketRelease.description,
         event_date: format(new Date(event_date), "yyyy-MM-dd'T'HH:mm"),
         open: format(new Date(ticketRelease.open), "yyyy-MM-dd'T'HH:mm"),
         close: format(new Date(ticketRelease.close), "yyyy-MM-dd'T'HH:mm"),
-        ticket_release_method_id: ticketRelease.ticketReleaseMethodDetailId!,
+        ticket_release_method_id:
+          ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.id!,
         open_window_duration:
           ticketRelease.ticketReleaseMethodDetail.openWindowDuration!,
         max_tickets_per_user:
@@ -115,7 +116,8 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
         tickets_available: ticketRelease.tickets_available!,
-      });
+      };
+      setInitialValues(initVals);
       setInitValueSet(true);
     }
   }, [ticketRelease, event_date]);

@@ -45,7 +45,7 @@ const enTranslations = {
       team: "Team",
       team_helperText:
         "Which team is hosting your event? You need to tie the event to a team. If your not a part of a team, you can create one",
-      private_event: "Private event",
+      private_event: "Private event (Coming soon)",
       private_event_helperText:
         "Is your event private? If so, only people with the link can see it.",
     },
@@ -106,6 +106,7 @@ const enTranslations = {
     button_manage: "Manage",
     button_details: "Details",
     button_request: "Request",
+    button_delete: "Delete",
   },
   create_event: {
     title: "Create event",
@@ -236,6 +237,9 @@ const enTranslations = {
     manage_tickets: "Manage tickets",
     allocate_tickets_helperText:
       "How long do users have to pay for their tickets before it is given to the next person in line?",
+    delete_event_title: "Confirm event deletion",
+    delete_event_confirmation:
+      "Are you sure you want to delete this event? This action cannot be undone.",
 
     edit: {
       title: "Edit event",

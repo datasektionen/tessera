@@ -60,6 +60,8 @@ function* createTicketReleaseSaga(
       tickets_available: ticketRelease.tickets_available,
     };
 
+    console.log(data);
+
     const response = yield call(
       axios.post,
       `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/ticket-release`,

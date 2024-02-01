@@ -4,7 +4,7 @@ import Title from "../../components/text/title";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getEventRequest } from "../../redux/features/eventSlice";
 import LoadingOverlay from "../../components/Loading";
 import EventDetailInfo from "../../components/events/detail_info";
@@ -18,6 +18,8 @@ import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ListEventTicketReleases from "../../components/events/ticket_release/list";
 import { useTranslation } from "react-i18next";
+import ConfirmModal from "../../components/modal/confirm_modal";
+import { deleteEventStart } from "../../redux/features/editEventSlice";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -27,12 +29,19 @@ const ManageEventPage: React.FC = () => {
     (state: RootState) => state.eventDetail
   );
 
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
   const { tickets } = useSelector((state: RootState) => state.eventTickets);
 
   const dispatch: AppDispatch = useDispatch();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
+
+  const handleEventDelete = () => {
+    dispatch(deleteEventStart(parseInt(eventID!)));
+    navigate("/events");
+  };
 
   useEffect(() => {
     if (eventID) {
@@ -56,6 +65,43 @@ const ManageEventPage: React.FC = () => {
         >
           {t("manage_event.title")}
         </Title>
+        <ConfirmModal
+          isOpen={showDeleteModal}
+          onClose={() => {
+            setShowDeleteModal(false);
+          }}
+          title={t("manage_event.delete_event_title")}
+          actions={[
+            <StyledButton
+              size="lg"
+              key="confirm-delete"
+              onClick={() => {
+                setShowDeleteModal(false);
+                handleEventDelete();
+              }}
+              bgColor={PALLETTE.offWhite}
+              color={PALLETTE.charcoal}
+            >
+              {t("form.button_confirm")}
+            </StyledButton>,
+            <StyledButton
+              size="lg"
+              key="cancel-delete"
+              onClick={() => {
+                // Close the modal
+                setShowDeleteModal(false);
+              }}
+              bgColor={PALLETTE.orange}
+              color={PALLETTE.charcoal}
+            >
+              {t("form.button_cancel")}
+            </StyledButton>,
+          ]}
+        >
+          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
+            {t("manage_event.delete_event_confirmation")}
+          </StyledText>
+        </ConfirmModal>
         <Stack spacing={2} direction={"row"}>
           <StyledButton
             size="md"
@@ -66,6 +112,16 @@ const ManageEventPage: React.FC = () => {
             style={{ width: "150px" }}
           >
             {t("form.button_edit")}
+          </StyledButton>
+          <StyledButton
+            size="md"
+            bgColor={PALLETTE.orange}
+            onClick={() => {
+              setShowDeleteModal(true);
+            }}
+            style={{ width: "150px" }}
+          >
+            {t("form.button_delete")}
           </StyledButton>
         </Stack>
         <EventDetailInfo event={event} />

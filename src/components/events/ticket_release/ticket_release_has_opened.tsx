@@ -225,7 +225,10 @@ const TicketReleasHasOpened: React.FC<{
               bgColor={PALLETTE.green}
               color={PALLETTE.charcoal}
               disabled={
-                numberOfTotalTicketRequestInBasket(ticketRequestItems) === 0
+                numberOfTotalTicketRequestInBasket(
+                  ticketRequestItems,
+                  ticketRelease.id!
+                ) === 0
               }
             >
               {t("form.button_request")}

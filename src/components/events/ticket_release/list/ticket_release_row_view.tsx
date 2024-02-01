@@ -228,6 +228,19 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 <Input
                   value={payWithinHours}
                   onChange={(e) => {
+                    // remove zeros at the start
+                    if (
+                      e.target.value.startsWith("0") &&
+                      e.target.value.length > 1
+                    ) {
+                      e.target.value = e.target.value.slice(1);
+                    }
+
+                    // check more than 0
+                    if (parseInt(e.target.value) < 1) {
+                      e.target.value = "1";
+                    }
+
                     setPayWithinHours(parseInt(e.target.value));
                   }}
                   placeholder=""

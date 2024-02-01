@@ -87,35 +87,25 @@ function* getMyTicketSaga(): Generator<any, void, any> {
   }
 }
 
-function* cancellTicketRequestSaga(
-  action: PayloadAction<ITicketRequest>
+function* cancelTicketSaga(
+  action: PayloadAction<{
+    ticket: ITicket;
+    ticketRelease: ITicketRelease;
+  }>
 ): Generator<any, void, any> {
   try {
-    const ticketRelease = action.payload;
+    const { ticket, ticketRelease } = action.payload;
 
     const response = yield call(
-      axios.delete,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${
-        ticketRelease.ticket_release!.event!.id
-      }/ticket-requests/${ticketRelease.id}`,
+      axios.post,
+      `${process.env.REACT_APP_BACKEND_URL}/tickets/${ticket.id}/cancel`,
+      {},
       {
         withCredentials: true,
       }
     );
 
-    if (response.status === 200) {
-      toast.success("Ticket request cancelled!");
-      yield put(cancelTicketSuccess(ticketRelease.id));
-    } else {
-      const errorMessage = response.data.error || "An error occurred";
-      toast.error(errorMessage);
-      yield put(cancelTicketFailure(errorMessage));
-    }
-  } catch (error: any) {
-    const errorMessage = error.response.data.error || "An error occurred";
-    toast.error(errorMessage);
-    yield put(cancelTicketFailure(errorMessage));
-  }
+  } catch (error: any) {}
 }
 
 function* watchTicketsSaga() {

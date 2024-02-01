@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import * as Yup from "yup";
+import { isValidDecimal } from "../utils/integer_validation";
 
 const checkDateInFuture = (timestamp: Date) => {
   const now = new Date();
@@ -85,14 +86,17 @@ const CreateTicketReleaseFormSchema = Yup.object()
       .test("is-future", "Close must be in the future", checkDateInFuture),
     ticket_release_method_id: Yup.number()
       .required("Ticket Release Method ID is required")
+      .integer("Ticket Release Method ID must be an integer")
       .min(1, "Ticket Release Method ID is required"),
+
     open_window_duration: Yup.number().when("ticket_release_method_id", {
       // @ts-ignore
       is: 1,
       then: (schema) =>
         schema
           .required("Open Window Duration is required")
-          .min(1, "Open Window Duration must be greater than or equal to 1"),
+          .min(1, "Open Window Duration must be greater than or equal to 1")
+          .integer("Open Window Duration must be an integer"),
       otherwise: (schema) => schema.notRequired(),
     }),
     max_tickets_per_user: Yup.number()
@@ -101,19 +105,19 @@ const CreateTicketReleaseFormSchema = Yup.object()
     tickets_available: Yup.number()
       .required("Available Tickets is required")
       .min(1, "Available Tickets must be greater than or equal to 1")
+      .integer("Available Tickets must be an integer")
       .test(
-        "is-valid-available-tickets",
-        "Number of available tickets must be greater than or equal to the number of tickets per user",
+        "is-valid-decimal",
+        "Available Tickets must be a valid decimal number and cannot start with zero",
         function (value) {
-          const maxTicketsPerUser = this.parent.max_tickets_per_user;
-          if (value < maxTicketsPerUser) {
+          // Convert the value to a string and check if it starts with a zero
+          if (String(value).startsWith("0") && value !== 0) {
             return false;
           }
 
           return true;
         }
       ),
-
     notification_method: Yup.string().required(
       "Notification Method is required"
     ),

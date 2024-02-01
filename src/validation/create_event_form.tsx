@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { isValidDecimal } from "../utils/integer_validation";
 
 const checkDateInFuture = (date: string) => {
   const now = new Date();
@@ -23,7 +24,10 @@ const CreateEventFormSchema = Yup.object().shape({
       label: Yup.string().required("Location is required"),
     })
     .required("Location is required"),
-  organization_id: Yup.number().required("Team is required"),
+  organization_id: Yup.number()
+    .required("Team is required")
+    .integer("Team must be a whole number"),
+
   is_private: Yup.boolean(),
 });
 

@@ -12,11 +12,14 @@ export const numberOfTicketRequestInBasket = (
 };
 
 export const numberOfTotalTicketRequestInBasket = (
-  items: ShoppingCartItem[]
+  items: ShoppingCartItem[],
+  ticketReleaseId: number
 ): number => {
   let total = 0;
   items.forEach((item) => {
-    total += item.quantity;
+    if (item.ticket.ticketReleaseId === ticketReleaseId) {
+      total += item.quantity;
+    }
   });
 
   return total;

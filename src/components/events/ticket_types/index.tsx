@@ -39,7 +39,10 @@ const TicketType: React.FC<TicketTypeProps> = ({
 
   const dispatch: AppDispatch = useDispatch();
   const handleAddTicket = (ticket: ITicketType) => {
-    const numberOfTotalTickets = numberOfTotalTicketRequestInBasket(items);
+    const numberOfTotalTickets = numberOfTotalTicketRequestInBasket(
+      items,
+      ticket.ticketReleaseId!
+    );
     if (numberOfTotalTickets >= maxTicketsPerUser) {
       toast.error(
         `You can only purchase a maximum of ${maxTicketsPerUser} tickets`
