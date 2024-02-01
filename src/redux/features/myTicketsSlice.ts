@@ -34,14 +34,14 @@ export const myTicketsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    cancelTicketStart: (state, action: PayloadAction<ITicket>) => {
+    cancelMyTicketStart: (state, action: PayloadAction<ITicket>) => {
       state.loading = true;
     },
-    cancelTicketSuccess: (state, action: PayloadAction<number>) => {
+    cancelMyTicketSuccess: (state, action: PayloadAction<number>) => {
       state.loading = false;
       state.error = null;
     },
-    cancelTicketFailure: (state, action: PayloadAction<string>) => {
+    cancelMyTicketFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -53,9 +53,9 @@ export const {
   getMyTicketsRequest,
   getMyTicketsFailure,
   getMyTicketsSuccess,
-  cancelTicketStart,
-  cancelTicketFailure,
-  cancelTicketSuccess,
+  cancelMyTicketStart,
+  cancelMyTicketFailure,
+  cancelMyTicketSuccess,
 } = myTicketsSlice.actions;
 
 // Export the reducer

@@ -285,6 +285,7 @@ export interface ITicket {
   user_id: number;
   user?: IUser;
   transaction?: ITransaction;
+  reserve_number?: number;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

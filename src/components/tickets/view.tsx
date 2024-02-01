@@ -14,7 +14,8 @@ import ConfirmModal from "../modal/confirm_modal";
 
 import Payment from "./payment";
 
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
 
 interface ViewTicketProps {
   ticket: ITicket;
@@ -45,7 +46,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   }, []);
 
   const handleCancelTicket = () => {
-    // dispatch(cancelTicketRequest(ticket.id));
+    dispatch(cancelMyTicketStart(ticket));
   };
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
@@ -76,8 +77,29 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         >
           {ticket.is_reserve
             ? t("tickets.reserve_ticket")
-            : t("tickets.confirmed_ticket")}
+            : !ticket.is_paid
+            ? t("tickets.confirmed_ticket")
+            : t("tickets.paid_ticket")}
         </StyledText>
+        {ticket.is_reserve && (
+          <StyledText
+            level="body-sm"
+            fontSize={20}
+            fontWeight={600}
+            color={PALLETTE.cerise}
+            style={{ marginTop: "16px" }}
+          >
+            <Trans
+              i18nKey="tickets.reserve_number"
+              values={{
+                number: ticket.reserve_number,
+              }}
+            >
+              You are number <strong>{ticket.reserve_number}</strong> on the
+              reserve list.
+            </Trans>
+          </StyledText>
+        )}
       </Box>
 
       <Box mt={2}>
@@ -115,37 +137,43 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           <Divider />
         </>
       </Box>
-      <Box mt={2}>
-        {true ? (
-          <Payment ticket={ticket} />
-        ) : (
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            color={PALLETTE.cerise}
-            style={{ marginTop: "16px" }}
-            fontWeight={700}
-          >
-            {t("tickets.has_paid")}
-          </StyledText>
-        )}
-      </Box>
+      {!ticket.is_reserve && (
+        <Box mt={2}>
+          {!ticket.is_paid ? (
+            <Payment ticket={ticket} />
+          ) : (
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              color={PALLETTE.cerise}
+              style={{ marginTop: "16px" }}
+              fontWeight={700}
+            >
+              {t("tickets.has_paid")}
+            </StyledText>
+          )}
+        </Box>
+      )}
       <Box>
         <ConfirmModal
           isOpen={confirmCancelOpen}
           onClose={() => setConfirmCancelOpen(false)}
-          title="Confirm cancellation"
+          title={t("tickets.confirm_cancel_ticket_request_title")}
           actions={[
             <StyledButton
               bgColor={PALLETTE.offWhite}
               size="md"
-              onClick={() => {}}
+              onClick={() => {
+                handleCancelTicket();
+              }}
               style={{
                 width: "300px",
                 marginTop: "16px",
               }}
             >
-              {t("tickets.cancel_ticket_request_button")}
+              {ticket.is_reserve
+                ? t("tickets.leave_reserve_list_text")
+                : t("tickets.cancel_ticket_button")}
             </StyledButton>,
             <StyledButton
               bgColor={PALLETTE.green}

@@ -71,7 +71,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: process.env.REACT_APP_BASE_URL + "/profile/tickets",
-        receipt_email: currentUser?.email!,
+        receipt_email: "lucdow7@gmail.com", // TODO CHANGE to currentUser.email
       },
     });
 
@@ -85,6 +85,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
     } else {
       setMessage("An unexpected error occurred.");
     }
+
+    // Set local storage success message
+    localStorage.setItem("payment_success", "true");
 
     setIsLoading(false);
   };

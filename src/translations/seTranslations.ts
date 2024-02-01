@@ -300,6 +300,7 @@ const seTranslations = {
 
   tickets: {
     cost_overview: "Prisöversikt",
+    // TODO change DATUM
     confirmed_ticket:
       "Din biljett har bekräftats! Nu är det dags att betala för din biljett. Du kan betala för din biljett genom att klicka på knappen nedan. Om du inte betalar för din biljett före DATUM kommer din biljett att ges till nästa person i kön.",
     reserve_ticket:
@@ -308,7 +309,12 @@ const seTranslations = {
 
     cancel_ticket_request_button: "Avbryt biljettförfrågan",
     cancel_ticket_button: "Jag vill inte längre delta",
+    confirm_cancel_ticket_request_title:
+      "Bekräfta avbrytande av biljettförfrågan",
+    reserve_number: "Du har plats <1>{{number}}</1> på reservlistan.",
     leave_reserve_list_text: "Lämna reservlistan",
+    paid_ticket:
+      "Du har betalat för din biljett! Vi ser fram emot att se dig på evenemanget. Kvittot kommer att skickas till din e-post.",
     confirm_cancel_reserve_ticket_text:
       "Är du säker på att du vill avbryta din biljett? Du kommer inte att kunna få tillbaka din biljett och denna åtgärd kan inte ångras!",
     confirm_cancel_ticket_text:

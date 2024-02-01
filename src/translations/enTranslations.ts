@@ -294,7 +294,11 @@ const enTranslations = {
 
     cancel_ticket_request_button: "Cancel ticket request",
     cancel_ticket_button: "I no longer wish to attend",
+    confirm_cancel_ticket_request_title: "Confirm ticket request cancellation",
     leave_reserve_list_text: "Leave reserve list",
+    reserve_number: "You are number <1>{{number}}</1> on the reserve list.",
+    paid_ticket:
+      "You have paid for your ticket! We are looking forward to seeing you at the event. Reciept will be sent to your email.",
     confirm_cancel_reserve_ticket_text:
       "Are you sure you want to cancel your ticket? You will not be able to get your ticket back and this action cannot be undone!",
     confirm_cancel_ticket_text:

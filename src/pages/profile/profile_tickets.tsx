@@ -42,15 +42,15 @@ const ProfileTicketsPage: React.FC = () => {
   // Handle redirect from Stripe and show toast
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const status = queryParams.get("redirect_status");
+    // get localstorage payment_success
+    const status = queryParams.get("payment_success");
 
-    if (status === "succeeded") {
+    if (status === "true") {
       // Handle successful payment
       toast.success("Your ticket purchase was successful!");
     }
 
-    // Remove redirect_status from URL
-    queryParams.delete("redirect_status");
+    localStorage.removeItem("payment_success");
   }, [location]);
 
   return (

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 
@@ -11,8 +11,9 @@ import {
   TicketRequestPostReq,
 } from "../../types";
 import {
-  cancelTicketFailure,
-  cancelTicketSuccess,
+  cancelMyTicketFailure,
+  cancelMyTicketStart,
+  cancelMyTicketSuccess,
   getMyTicketsFailure,
   getMyTicketsRequest,
   getMyTicketsSuccess,
@@ -38,6 +39,7 @@ function* getMyTicketSaga(): Generator<any, void, any> {
         refunded: ticket.refunded!,
         user_id: ticket.user_id!,
         created_at: new Date(ticket.CreatedAt!).getTime(),
+        reserve_number: ticket.reserve_number!,
         ticket_request: {
           id: ticket_request.ID!,
           created_at: new Date(ticket_request.CreatedAt!).getTime(),
@@ -87,28 +89,40 @@ function* getMyTicketSaga(): Generator<any, void, any> {
   }
 }
 
-function* cancelTicketSaga(
-  action: PayloadAction<{
-    ticket: ITicket;
-    ticketRelease: ITicketRelease;
-  }>
+function* cancelMyTicketSaga(
+  action: PayloadAction<ITicket>
 ): Generator<any, void, any> {
   try {
-    const { ticket, ticketRelease } = action.payload;
-
     const response = yield call(
-      axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/tickets/${ticket.id}/cancel`,
-      {},
+      axios.delete,
+      `${process.env.REACT_APP_BACKEND_URL}/my-tickets/${action.payload.id}`,
       {
         withCredentials: true,
       }
     );
 
-  } catch (error: any) {}
+    if (response.status === 200) {
+      yield put(cancelMyTicketSuccess(action.payload.id));
+      yield put(getMyTicketsRequest());
+      toast.success("Ticket cancelled successfully");
+
+      // If the ticket release has allocated tickets, we need to update the
+      // ticket release to reflect the fact that a ticket has been cancelled
+    } else {
+      const errorMessage = response.data.error || "An error occurred";
+      toast.error(errorMessage);
+      yield put(cancelMyTicketFailure(errorMessage));
+    }
+  } catch (error: any) {
+    console.log(error);
+    const errorMessage = error.response.data.error || "An error occurred";
+    toast.error(errorMessage);
+    yield put(cancelMyTicketFailure(errorMessage));
+  }
 }
 
 function* watchTicketsSaga() {
+  yield takeEvery(cancelMyTicketStart.type, cancelMyTicketSaga);
   yield takeLatest(getMyTicketsRequest.type, getMyTicketSaga);
 }
 
