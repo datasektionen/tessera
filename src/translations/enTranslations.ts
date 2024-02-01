@@ -315,6 +315,9 @@ const enTranslations = {
   event: {
     list_title: "Events",
     tickets: "Tickets",
+    ticket_releases: "Ticket releases",
+    no_ticket_releases: "There are no ticket releases for this event.",
+    event_by: "Event by",
     promo_code_title: "Promo code",
     promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
     ticket_release: {

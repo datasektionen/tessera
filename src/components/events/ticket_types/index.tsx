@@ -132,6 +132,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
               style={{
                 width: "100px",
                 whiteSpace: "nowrap",
+                marginLeft: "16px",
               }}
             >
               SEK{" "}

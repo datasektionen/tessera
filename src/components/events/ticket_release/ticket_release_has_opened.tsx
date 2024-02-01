@@ -184,7 +184,7 @@ const TicketReleasHasOpened: React.FC<{
                     {item.quantity} x {item.name}
                   </Typography>
                 </Grid>
-                <Typography level="body-sm" fontFamily={"Josefin sans"}>
+                <Typography level="body-sm" fontFamily={"Josefin sans"} >
                   SEK {(item.price * item.quantity).toFixed(2)}
                 </Typography>
               </Grid>

@@ -6,7 +6,7 @@ interface StyledTextProps {
   level: string;
   color: string;
   fontWeight?: number;
-  fontSize?: number;
+  fontSize?: number | string;
   style?: React.CSSProperties;
   startDecorator?: React.ReactNode;
   onClick?: () => void;

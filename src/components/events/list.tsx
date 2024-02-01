@@ -16,6 +16,7 @@ import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useTranslation } from "react-i18next";
+import styles from "./list.module.css";
 
 interface EventListProps {
   events: IEvent[];
@@ -26,6 +27,16 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
 
+  const eventIsInThePast = (event: IEvent) => {
+    // If the event is more than 1 day in the past
+    const eventDate = new Date(event.date);
+    const now = new Date();
+
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+
+    return eventDate.getTime() + oneDay < now.getTime();
+  };
+
   return (
     <Grid container spacing={2}>
       {events.map((event: IEvent, index) => {
@@ -33,6 +44,10 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
           currentUser?.organizations?.some(
             (org) => org.id === event.organizationId
           ) || currentUser?.ug_kth_id === event.createdById;
+
+        if (eventIsInThePast(event)) {
+          return null;
+        }
 
         return (
           <Grid
@@ -61,11 +76,9 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
             </Box>
             <Card
               variant="outlined"
-              style={{
-                backgroundColor: PALLETTE.offWhite,
-                borderRadius: 0,
-                borderColor: PALLETTE.cerise,
-                borderWidth: 2,
+              className={styles.card}
+              onClick={() => {
+                navigate(`/events/${event.id}`);
               }}
             >
               <div>
@@ -80,14 +93,14 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 <StyledText
                   level="body-sm"
                   color={PALLETTE.charcoal}
-                  fontSize={14}
+                  fontSize={15}
                   startDecorator={<CalendarTodayIcon />}
                 >
                   {new Date(event.date).toDateString()}
                 </StyledText>
                 <StyledText
                   level="body-sm"
-                  fontSize={14}
+                  fontSize={15}
                   color={PALLETTE.charcoal}
                   startDecorator={<LocationOnIcon />}
                 >
@@ -96,28 +109,17 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 <StyledText
                   level="body-sm"
                   fontSize={16}
-                  startDecorator={<InfoIcon />}
                   color={PALLETTE.charcoal}
-                  style={{ marginTop: 10 }}
+                  style={{
+                    marginTop: 10,
+                    height: "100px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
                 >
                   {event.description}
                 </StyledText>
               </div>
-              <CardContent>
-                <StyledButton
-                  size="md"
-                  color="primary"
-                  onClick={() => {
-                    navigate(`/events/${event.id}`);
-                  }}
-                  style={{
-                    marginTop: 10,
-                    width: "100px",
-                  }}
-                >
-                  {t("form.button_details")}
-                </StyledButton>
-              </CardContent>
             </Card>
           </Grid>
         );

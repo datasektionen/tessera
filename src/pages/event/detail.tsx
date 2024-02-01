@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../../store";
 import { getEventsRequest } from "../../redux/features/listEventsSlice";
 import { getEventRequest } from "../../redux/features/eventSlice";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
+import { format } from "date-fns";
 import {
   Box,
   Card,
@@ -43,6 +44,8 @@ import { PromoCodeValidationSchema } from "../../validation/create_ticket_releas
 import { StyledErrorMessage } from "../../components/forms/messages";
 import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessSlice";
 import { useTranslation } from "react-i18next";
+import StyledText from "../../components/text/styled_text";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -121,6 +124,8 @@ const EventDetail: React.FC = () => {
                 color: PALLETTE.cerise,
                 textOverflow: "ellipsis",
                 overflow: "hidden",
+                whiteSpace: "nowrap",
+                width: "90%",
               }}
             >
               {event.name}
@@ -152,7 +157,18 @@ const EventDetail: React.FC = () => {
                     color: PALLETTE.charcoal,
                   }}
                 >
-                  {event.location}
+                  <a
+                    href={`https://www.google.com/search?q=${encodeURIComponent(
+                      event.location
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: PALLETTE.charcoal,
+                    }}
+                  >
+                    {event.location}
+                  </a>
                 </Typography>
                 <Typography
                   level="body-sm"
@@ -166,13 +182,25 @@ const EventDetail: React.FC = () => {
                   }}
                 >
                   {/* Convert from timestamp to string */}
-                  {new Date(event.date).toLocaleString()}
+                  {format(new Date(event.date), "EEEE 'the' do 'at' HH:mm")}
                 </Typography>
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-sm"
+                  fontSize={16}
+                  fontWeight={600}
+                  startDecorator={<GroupsIcon />}
+                  style={{
+                    marginTop: "1rem",
+                  }}
+                >
+                  {t("event.event_by")} {event.organization?.name}
+                </StyledText>
               </Grid>
             </Grid>
           </Item>
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={8} mt={1}>
           <Item>
             <Typography
               level="h2"
@@ -185,9 +213,22 @@ const EventDetail: React.FC = () => {
                 overflow: "hidden",
               }}
             >
-              {t("event.tickets")}
+              {t("event.ticket_releases")}
             </Typography>
             <div>
+              {event.ticketReleases?.length === 0 && (
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-sm"
+                  fontSize={22}
+                  fontWeight={500}
+                  style={{
+                    marginTop: "1rem",
+                  }}
+                >
+                  {t("event.no_ticket_releases")}
+                </StyledText>
+              )}
               <Stack spacing={2} sx={{ p: 0 }}>
                 {event.ticketReleases?.map((ticketRelease, i) => {
                   const key = `${event.name}-${i}`;
@@ -204,34 +245,46 @@ const EventDetail: React.FC = () => {
               initialValues={PromoCodeAccessFormInitialValues}
               onSubmit={(values: PromoCodeAccessForm, actions) => {
                 submitPromoCode(values);
+                // Clear
+                actions.resetForm();
               }}
               validationSchema={PromoCodeValidationSchema}
             >
-              <Form>
-                <StyledFormLabel>{t("event.promo_code_title")}</StyledFormLabel>
+              {({ handleChange, setFieldValue }) => (
+                <Form>
+                  <StyledFormLabel>
+                    {t("event.promo_code_title")}
+                  </StyledFormLabel>
 
-                <Stack spacing={2} sx={{ p: 0 }} direction="row">
-                  <FormInput
-                    label={t("event.promo_code_title")}
-                    name={"promo_code"}
-                    placeholder={"Enter Promo Code"}
-                    type={"text"}
-                  />
+                  <Stack spacing={2} sx={{ p: 0 }} direction="row">
+                    <FormInput
+                      label={t("event.promo_code_title")}
+                      name={"promo_code"}
+                      placeholder={"Enter Promo Code"}
+                      type={"text"}
+                      onChange={(
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        const { value } = event.currentTarget;
+                        setFieldValue("promo_code", value.toUpperCase());
+                      }}
+                    />
 
-                  <StyledButton
-                    type="submit"
-                    size="md"
-                    color={PALLETTE.charcoal}
-                  >
-                    {t("form.button_submit")}
-                  </StyledButton>
-                </Stack>
-                <StyledErrorMessage name="promo_code" />
+                    <StyledButton
+                      type="submit"
+                      size="md"
+                      color={PALLETTE.charcoal}
+                    >
+                      {t("form.button_submit")}
+                    </StyledButton>
+                  </Stack>
+                  <StyledErrorMessage name="promo_code" />
 
-                <StyledFormLabelWithHelperText>
-                  {t("event.promo_code_helperText")}
-                </StyledFormLabelWithHelperText>
-              </Form>
+                  <StyledFormLabelWithHelperText>
+                    {t("event.promo_code_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </Form>
+              )}
             </Formik>
           </Box>
         </Grid>

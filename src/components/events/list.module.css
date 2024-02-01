@@ -1,0 +1,13 @@
+.card {
+    background-color: #e2e2e2 !important;
+    border-color: #E83D84 !important;
+    border-width: 2px !important;
+    height: 200px;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.card:hover {
+    background-color: rgb(210, 202, 207) !important;
+    transform: scale(1.02);
+}

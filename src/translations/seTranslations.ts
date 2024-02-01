@@ -256,6 +256,9 @@ const seTranslations = {
     list_title: "Evenemang",
     tickets: "Biljetter",
     promo_code_title: "Promokod",
+    ticket_releases: "Biljettsläpp",
+    event_by: "Evenemang av",
+    no_ticket_releases: "Det finns inga biljettsläpp för detta evenemang.",
     promo_code_helperText:
       "Ange promokoden för att få tillgång till reserverade biljetter.",
     ticket_release: {

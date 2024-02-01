@@ -5,6 +5,7 @@ import {
   IEvent,
   IEventForm,
   IEventPostReq,
+  IOrganization,
   ITicketRelease,
   ITicketReleaseMethod,
   ITicketReleaseMethodDetail,
@@ -49,6 +50,12 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
       date: new Date(eventData.date!).getTime(),
       organizationId: eventData.organization_id!,
       createdById: eventData.created_by!,
+      organization: {
+        id: eventData.organization.ID!,
+        name: eventData.organization.name!,
+        email: eventData.organization.email!,
+        updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
+      } as IOrganization,
       ticketReleases: eventData.ticket_releases!.map((ticketRelease: any) => {
         return {
           id: ticketRelease.ID!,

@@ -80,8 +80,10 @@ export interface IOrganizationUser extends IUser {
 export interface IOrganization {
   id: number;
   name: string;
+  email: string;
   created_at?: number;
 }
+
 export interface IEvent {
   id: number;
   createdAt: number;
@@ -90,6 +92,7 @@ export interface IEvent {
   date: number;
   location: string;
   organizationId: number;
+  organization?: IOrganization;
   is_private: boolean;
   ticketReleases?: ITicketRelease[];
   createdById?: string;
