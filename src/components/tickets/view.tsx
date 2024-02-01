@@ -22,10 +22,6 @@ interface ViewTicketProps {
 }
 
 const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
-  const stripeOptions = {
-    clientSecret: process.env.REACT_APP_STRIPE_SECRET_KEY!,
-  };
-
   const dispatch: AppDispatch = useDispatch();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState<boolean>(false);
@@ -165,9 +161,9 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               size="md"
               onClick={() => {
                 handleCancelTicket();
+                setConfirmCancelOpen(false);
               }}
               style={{
-                width: "300px",
                 marginTop: "16px",
               }}
             >
@@ -180,7 +176,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               size="md"
               onClick={() => setConfirmCancelOpen(false)}
               style={{
-                width: "200px",
                 marginTop: "16px",
               }}
             >

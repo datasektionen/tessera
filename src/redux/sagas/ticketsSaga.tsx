@@ -104,7 +104,9 @@ function* cancelMyTicketSaga(
     if (response.status === 200) {
       yield put(cancelMyTicketSuccess(action.payload.id));
       yield put(getMyTicketsRequest());
-      toast.success("Ticket cancelled successfully");
+      setTimeout(() => {
+        toast.success("Ticket cancelled successfully");
+      }, 500);
 
       // If the ticket release has allocated tickets, we need to update the
       // ticket release to reflect the fact that a ticket has been cancelled

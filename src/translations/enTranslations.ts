@@ -248,7 +248,7 @@ const enTranslations = {
         title: "Edit event details",
       },
       ticket_releases: {
-        title: "Edit Ticket Ticket ReleaseRelease",
+        title: "Edit Ticket Ticket Release",
         subtitle:
           "Create ticket releases for your event. You can create as many as you want, and you can edit them later.",
         select: "Select a ticket release to edit it.",
@@ -307,7 +307,7 @@ const enTranslations = {
 
     payment: {
       title: "Confirm Your Ticket Purchase",
-      pay_now: "Pay {{price}} SEK now",
+      pay_now: "Pay {{price}} SEK",
       description: "Here you can pay for your ticket.",
     },
   },

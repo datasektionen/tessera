@@ -71,7 +71,10 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: process.env.REACT_APP_BASE_URL + "/profile/tickets",
-        receipt_email: "lucdow7@gmail.com", // TODO CHANGE to currentUser.email
+        receipt_email:
+          process.env.NODE_ENV === "development"
+            ? process.env.REACT_APP_TEST_EMAIL
+            : currentUser?.email,
       },
     });
 

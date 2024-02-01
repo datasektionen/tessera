@@ -319,11 +319,11 @@ const seTranslations = {
       "Är du säker på att du vill avbryta din biljett? Du kommer inte att kunna få tillbaka din biljett och denna åtgärd kan inte ångras!",
     confirm_cancel_ticket_text:
       "Är du säker på att du vill lämna reservlistan och avbryta din biljett? Du kommer inte att kunna få tillbaka din biljett och denna åtgärd kan inte ångras!",
-    pay_button: "Betala nu",
+    pay_button: "Betala",
 
     payment: {
       title: "Bekräfta ditt biljettköp",
-      pay_now: "Betala {{price}} SEK nu",
+      pay_now: "Betala {{price}} SEK",
       description: "Här kan du betala för din biljett.",
     },
   },

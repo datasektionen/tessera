@@ -137,7 +137,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               size="md"
               onClick={handleCancel}
               style={{
-                width: "300px",
                 marginTop: "16px",
               }}
             >
@@ -148,7 +147,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               size="md"
               onClick={() => setConfirmCancelOpen(false)}
               style={{
-                width: "100%",
                 marginTop: "16px",
               }}
             >
@@ -167,7 +165,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
             size="md"
             onClick={() => setConfirmCancelOpen(true)}
             style={{
-              width: "250px",
               marginTop: "16px",
             }}
           >
@@ -181,7 +178,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               navigate(ROUTES.PROFILE_TICKETS);
             }}
             style={{
-              width: "250px",
               marginTop: "16px",
             }}
           >
