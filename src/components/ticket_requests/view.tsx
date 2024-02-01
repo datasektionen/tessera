@@ -133,6 +133,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           title={t("ticket_request.cancel_ticket_request_confirm_title")}
           actions={[
             <StyledButton
+              key="confirm"
               bgColor={PALLETTE.offWhite}
               size="md"
               onClick={handleCancel}
@@ -143,6 +144,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               {t("form.button_confirm")}
             </StyledButton>,
             <StyledButton
+              key="cancel"
               bgColor={PALLETTE.green}
               size="md"
               onClick={() => setConfirmCancelOpen(false)}

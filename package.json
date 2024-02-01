@@ -25,6 +25,7 @@
     "@types/yup": "^0.32.0",
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "dotenv": "^16.3.1",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.16",

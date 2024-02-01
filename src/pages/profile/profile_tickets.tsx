@@ -44,8 +44,6 @@ const ProfileTicketsPage: React.FC = () => {
     // get localstorage payment_success
     const status = localStorage.getItem("payment_success");
 
-    console.log("status", status);
-
     if (status === "true") {
       // Handle successful payment
       toast.success("Your ticket purchase was successful!");

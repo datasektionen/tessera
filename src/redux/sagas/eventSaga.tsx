@@ -64,6 +64,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           has_allocated_tickets: ticketRelease.has_allocated_tickets!,
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
+          pay_within: ticketRelease.pay_within!,
           ticketTypes: ticketRelease.ticket_types!.map((ticketType: any) => {
             return {
               id: ticketType.ID!,

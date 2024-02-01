@@ -287,7 +287,7 @@ const enTranslations = {
   tickets: {
     cost_overview: "Cost overview",
     confirmed_ticket:
-      "Your ticket has been confirmed! Its now time to pay for your ticket. You can pay for your ticket by clicking the button below. If you do not pay for your ticket before DATE, your ticket will be given to the next person in line.",
+      "Your ticket has been confirmed! Its now time to pay for your ticket. You can pay for your ticket by clicking the button below. If you do not pay for your ticket before <1>{{payBefore}}</1>, your ticket will be given to the next person in line.",
     reserve_ticket:
       "Unfortunately, you were allocated a reserve ticket for this event. You will be notified if a ticket becomes available.",
     has_paid: "You have paid for your ticket!",
@@ -320,7 +320,7 @@ const enTranslations = {
     ticket_release: {
       closed: "Ticket release has closed",
       tickets_available_in: "Tickets available in",
-      tickets_available_for: "Tickets available for",
+      tickets_available_for: "Ticket release closes in",
       method: "This release uses <1>{{method}}</1>",
       second: "second(s)",
       minute: "minute(s)",

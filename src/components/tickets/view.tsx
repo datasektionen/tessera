@@ -14,8 +14,36 @@ import ConfirmModal from "../modal/confirm_modal";
 
 import Payment from "./payment";
 
+import { addHours, format, isBefore } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+
 import { Trans, useTranslation } from "react-i18next";
 import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
+
+function mustPayBefore(payWithin: number, ticketUpdatedAt: Date): Date {
+  const location = "Europe/Paris";
+  let ticketUpdatedAtInLocation = utcToZonedTime(ticketUpdatedAt, location);
+
+  let roundedTime = addHours(ticketUpdatedAtInLocation, payWithin + 1);
+  roundedTime.setMinutes(0, 0, 0); // Truncate to the hour
+
+  if (isBefore(roundedTime, ticketUpdatedAtInLocation)) {
+    roundedTime = addHours(roundedTime, 1);
+  }
+
+  return roundedTime;
+}
+
+function convertPayWithinToString(
+  payWithin: number,
+  ticketUpdatedAt: Date
+): string {
+  const mustPayBeforeDate = mustPayBefore(payWithin, ticketUpdatedAt);
+  return (
+    format(mustPayBeforeDate, "yyyy-MM-dd HH:mm:ss") +
+    " CET (or CEST in summer)"
+  );
+}
 
 interface ViewTicketProps {
   ticket: ITicket;
@@ -25,6 +53,24 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const dispatch: AppDispatch = useDispatch();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState<boolean>(false);
+  const [payBefore, setPayBefore] = useState<string>("the start of the event");
+
+  const ticketRequest = ticket.ticket_request!;
+
+  useEffect(() => {
+    let updatedAt = new Date(ticket.updated_at);
+    console.log(ticketRequest.ticket_release?.pay_within);
+    if (ticketRequest.ticket_release?.pay_within) {
+      setPayBefore(
+        convertPayWithinToString(
+          ticketRequest.ticket_release.pay_within,
+          updatedAt
+        )
+      );
+    } else {
+      setPayBefore("the start of the event");
+    }
+  }, [ticket]);
 
   useEffect(() => {
     // This function now updates the screenWidth state immediately.
@@ -53,8 +99,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
     return <></>;
   }
 
-  const ticketRequest = ticket.ticket_request!;
-
   return (
     <BorderBox
       style={{ marginTop: "16px", width: screenWidth, position: "fixed" }}
@@ -71,11 +115,21 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           color={PALLETTE.charcoal}
           style={{ marginTop: "16px" }}
         >
-          {ticket.is_reserve
-            ? t("tickets.reserve_ticket")
-            : !ticket.is_paid
-            ? t("tickets.confirmed_ticket")
-            : t("tickets.paid_ticket")}
+          {ticket.is_reserve ? (
+            t("tickets.reserve_ticket")
+          ) : !ticket.is_paid ? (
+            <Trans i18nKey="tickets.confirmed_ticket" values={{ payBefore }}>
+              "Your ticket has been confirmed! Its now time to pay for your
+              ticket. You can pay for your ticket by clicking the button below.
+              If you do not pay for your ticket before
+              <strong>{payBefore}</strong>, your ticket will be given to the
+              next person in line.",
+            </Trans>
+          ) : (
+            t("tickets.paid_ticket")
+          )}
+
+          {/* t("tickets.confirmed_ticket") */}
         </StyledText>
         {ticket.is_reserve && (
           <StyledText
@@ -158,6 +212,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           actions={[
             <StyledButton
               bgColor={PALLETTE.offWhite}
+              key="confirm"
               size="md"
               onClick={() => {
                 handleCancelTicket();
@@ -172,6 +227,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
                 : t("tickets.cancel_ticket_button")}
             </StyledButton>,
             <StyledButton
+              key="cancel"
               bgColor={PALLETTE.green}
               size="md"
               onClick={() => setConfirmCancelOpen(false)}

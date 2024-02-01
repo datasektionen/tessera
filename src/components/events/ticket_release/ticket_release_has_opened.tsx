@@ -40,6 +40,7 @@ import {
 } from "../../../utils/ticket_types";
 import ConfirmModal from "../../modal/confirm_modal";
 import { useTranslation } from "react-i18next";
+import StyledText from "../../text/styled_text";
 
 const TicketReleasHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -261,21 +262,18 @@ const TicketReleasHasOpened: React.FC<{
           marginTop: "1rem",
         }}
       >
-        <Typography
-          level="body-md"
-          fontFamily={"Josefin sans"}
-          fontWeight={500}
-          style={{
-            color: PALLETTE.charcoal,
-            // ALign right
-          }}
+        <StyledText
+          level="body-sm"
+          fontWeight={600}
+          fontSize={16}
+          color={PALLETTE.charcoal}
         >
           {t("event.ticket_release.tickets_available_for")}:
-        </Typography>
+        </StyledText>
         <TicketReleaseCountdown
           ticketRelease={ticketRelease}
           fw={500}
-          fs={14}
+          fs={16}
           useOpen={false}
         />
       </div>

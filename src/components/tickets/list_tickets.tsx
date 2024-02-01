@@ -89,6 +89,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
             groupedTickets[eventId][0].ticket_request!.ticket_release!.event;
           return (
             <BorderBox
+              key={`${eventId}-border-box`}
               style={{
                 marginTop: "16px",
               }}

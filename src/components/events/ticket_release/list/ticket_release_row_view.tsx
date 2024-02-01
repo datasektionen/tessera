@@ -180,6 +180,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             title={t("manage_event.allocate_tickets_confirm_title")}
             actions={[
               <StyledButton
+                key="confirm"
                 size="md"
                 bgColor={PALLETTE.green}
                 onClick={async () => {
@@ -189,6 +190,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 {allocationLoading ? "Allocating..." : t("form.button_confirm")}
               </StyledButton>,
               <StyledButton
+                key="cancel"
                 size="md"
                 bgColor={PALLETTE.red}
                 onClick={() => {

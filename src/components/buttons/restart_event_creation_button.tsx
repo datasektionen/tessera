@@ -37,6 +37,7 @@ const RestartEventCreationButton: React.FC = () => {
 
   const actions: React.ReactNode[] = [
     <StyledButton
+      key="confirm"
       onClick={handleConfirm}
       color={PALLETTE.cerise}
       bgColor={PALLETTE.offWhite}
@@ -46,6 +47,7 @@ const RestartEventCreationButton: React.FC = () => {
       {t("form.button_confirm")}
     </StyledButton>,
     <StyledButton
+      key="cancel"
       onClick={handleClose}
       color={PALLETTE.red}
       bgColor={PALLETTE.offWhite}

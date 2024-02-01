@@ -39,6 +39,7 @@ function* getMyTicketSaga(): Generator<any, void, any> {
         refunded: ticket.refunded!,
         user_id: ticket.user_id!,
         created_at: new Date(ticket.CreatedAt!).getTime(),
+        updated_at: new Date(ticket.UpdatedAt!).getTime(),
         reserve_number: ticket.reserve_number!,
         ticket_request: {
           id: ticket_request.ID!,
@@ -65,6 +66,7 @@ function* getMyTicketSaga(): Generator<any, void, any> {
               ).getTime(),
             } as IEvent,
             name: ticket_request.ticket_release.name!,
+            pay_within: ticket_request.ticket_release.pay_within!,
             description: ticket_request.ticket_release.description!,
             open: new Date(ticket_request.ticket_release.open!).getTime(),
             close: new Date(ticket_request.ticket_release.close!).getTime(),

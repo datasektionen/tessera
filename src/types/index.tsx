@@ -247,6 +247,7 @@ export interface ITicketRelease {
   promo_code?: string;
   event?: IEvent;
   tickets_available: number;
+  pay_within?: number;
 }
 export interface PromoCodeAccessForm {
   promo_code: string;
@@ -278,6 +279,7 @@ export interface ITicketRequest {
 export interface ITicket {
   id: number;
   created_at: number;
+  updated_at: number;
   ticket_request?: ITicketRequest;
   is_paid: boolean;
   is_reserve: boolean;

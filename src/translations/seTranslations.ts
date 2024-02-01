@@ -261,7 +261,7 @@ const seTranslations = {
     ticket_release: {
       closed: "Biljettsläppet har stängts",
       tickets_available_in: "Biljetter tillgängliga om",
-      tickets_available_for: "Biljetter tillgängliga i",
+      tickets_available_for: "Biljettsläppet stänger om",
       method: "Detta biljettsläpp använder <1>{{method}}</1>",
       second: "sekund(er)",
       minute: "minut(er)",
