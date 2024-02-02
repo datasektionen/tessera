@@ -4,7 +4,7 @@ export function userCanSeeTicketRelease(
   ticketRelease: ITicketRelease,
   user: IUser
 ) {
-  if (ticketRelease.allow_external && user.is_external) return true;
+  if (!ticketRelease.allow_external && user.is_external) return false;
 
-  return false;
+  return true;
 }
