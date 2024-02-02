@@ -46,6 +46,7 @@ import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessS
 import { useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
+import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -68,6 +69,7 @@ const EventDetail: React.FC = () => {
   const { success: promoCodeSuccess, loading: promoCodeLoading } = useSelector(
     (state: RootState) => state.promoCodeAccess
   ) as { success: boolean | null; loading: boolean };
+  const { user: currentUser } = useSelector((state: RootState) => state.user);
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
@@ -232,6 +234,10 @@ const EventDetail: React.FC = () => {
               <Stack spacing={2} sx={{ p: 0 }}>
                 {event.ticketReleases?.map((ticketRelease, i) => {
                   const key = `${event.name}-${i}`;
+                  if (!userCanSeeTicketRelease(ticketRelease, currentUser!)) {
+                    return null;
+                  }
+
                   return (
                     <TicketRelease ticketRelease={ticketRelease} key={key} />
                   );

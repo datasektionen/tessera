@@ -59,7 +59,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
 
   useEffect(() => {
     let updatedAt = new Date(ticket.updated_at);
-    console.log(ticketRequest.ticket_release?.pay_within);
     if (ticketRequest.ticket_release?.pay_within) {
       setPayBefore(
         convertPayWithinToString(

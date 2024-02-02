@@ -96,8 +96,6 @@ function* updateTicketReleasSaga(
   try {
     const { formData, eventId, ticketReleaseId } = action.payload;
 
-    console.log(formData);
-
     const data: ITicketReleasePostReq = {
       name: formData.name,
       description: formData.description,

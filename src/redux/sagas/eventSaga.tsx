@@ -109,8 +109,6 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
       }),
     };
 
-    console.log(event);
-
     yield put(getEventSuccess(event));
   } catch (error: any) {
     yield put(getEventFailure(error.message));

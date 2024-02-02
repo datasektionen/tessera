@@ -10,6 +10,9 @@ import { Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
 import { ROUTES } from "../../routes/def";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import styles from "./nav.module.css";
 
 const lngs = [
   {
@@ -84,15 +87,16 @@ const LanguageSelector: React.FC = () => {
 const StyledLink = (props: any) => (
   <Link
     {...props}
+    className={styles.link}
     style={{
-      textDecoration: "none",
-      color: PALLETTE.offWhite,
+      color: PALLETTE.charcoal,
     }}
   />
 );
-
 function NavigationBar() {
   const { t } = useTranslation();
+
+  const { user: currentUser } = useSelector((state: RootState) => state.user);
 
   return (
     <Box
@@ -102,6 +106,10 @@ function NavigationBar() {
         backgroundColor: PALLETTE.cerise,
         color: "white",
         width: "100vw",
+        height: "64px",
+        position: "sticky",
+        top: 0,
+        zIndex: 1000, // Ensure it stays on top of other elements
       }}
     >
       {/* Left-aligned "tessera" text */}
@@ -146,30 +154,34 @@ function NavigationBar() {
               {t("navigation.events")}
             </StyledLink>
           </StyledText>
-          <StyledText
-            color={""}
-            level="body-sm"
-            fontSize={18}
-            style={{
-              margin: "0 16px",
-            }}
-          >
-            <StyledLink href={ROUTES.CREATE_EVENT}>
-              {t("navigation.create_event")}
-            </StyledLink>
-          </StyledText>
-          <StyledText
-            color={""}
-            level="body-sm"
-            fontSize={18}
-            style={{
-              margin: "0 16px",
-            }}
-          >
-            <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-              {t("navigation.teams")}
-            </StyledLink>
-          </StyledText>
+          {!currentUser?.is_external && (
+            <StyledText
+              color={""}
+              level="body-sm"
+              fontSize={18}
+              style={{
+                margin: "0 16px",
+              }}
+            >
+              <StyledLink href={ROUTES.CREATE_EVENT}>
+                {t("navigation.create_event")}
+              </StyledLink>
+            </StyledText>
+          )}
+          {!currentUser?.is_external && (
+            <StyledText
+              color={""}
+              level="body-sm"
+              fontSize={18}
+              style={{
+                margin: "0 16px",
+              }}
+            >
+              <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+                {t("navigation.teams")}
+              </StyledLink>
+            </StyledText>
+          )}
         </Stack>
         {/* Right-aligned profile icon */}
         <Stack
