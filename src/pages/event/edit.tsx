@@ -13,10 +13,11 @@ import PALLETTE from "../../theme/pallette";
 import BorderBox from "../../components/wrappers/border_box";
 import EditEventForm from "../../components/events/edit/edit_event_form";
 import { getEventRequest } from "../../redux/features/eventSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import EditTicketReleases from "../../components/events/edit/edit_ticket_releases";
 import { Style } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { useCanAccessEvent } from "../../utils/event_access";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -25,7 +26,14 @@ const EditEventPage: React.FC = () => {
     (state: RootState) => state.eventDetail
   );
 
+  const canAccess = useCanAccessEvent(eventID!);
+
+  useEffect(() => {
+    // Any other logic you want to run when `eventID` or `canAccess` changes
+  }, [eventID, canAccess]);
+
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
@@ -39,6 +47,9 @@ const EditEventPage: React.FC = () => {
   if (!event || loading) {
     return <LoadingOverlay />;
   }
+
+  if (canAccess !== null && canAccess === false)
+    navigate("/events", { replace: true });
 
   return (
     <>

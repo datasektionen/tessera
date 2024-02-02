@@ -116,6 +116,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
         tickets_available: ticketRelease.tickets_available!,
+        allow_external: ticketRelease.allow_external!,
       };
       setInitialValues(initVals);
       setInitValueSet(true);
@@ -221,6 +222,21 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   <StyledErrorMessage name="close" />
                   <StyledFormLabelWithHelperText>
                     {t("form.ticket_release.closes_at_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.allow_external")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="allow_external"
+                    label="Allow External Users"
+                  />
+                  <StyledErrorMessage name="allow_external" />
+
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_release.allow_external_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
               </Grid>

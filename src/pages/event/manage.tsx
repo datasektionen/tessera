@@ -20,6 +20,8 @@ import ListEventTicketReleases from "../../components/events/ticket_release/list
 import { useTranslation } from "react-i18next";
 import ConfirmModal from "../../components/modal/confirm_modal";
 import { deleteEventStart } from "../../redux/features/editEventSlice";
+import axios from "axios";
+import { useCanAccessEvent } from "../../utils/event_access";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -28,6 +30,12 @@ const ManageEventPage: React.FC = () => {
   const { event, loading, error } = useSelector(
     (state: RootState) => state.eventDetail
   );
+
+  const canAccess = useCanAccessEvent(eventID!);
+
+  useEffect(() => {
+    // Any other logic you want to run when `eventID` or `canAccess` changes
+  }, [eventID, canAccess]);
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
@@ -53,6 +61,11 @@ const ManageEventPage: React.FC = () => {
   if (!event || loading) {
     return <LoadingOverlay />;
   }
+
+  if (canAccess !== null && canAccess === false) {
+    navigate("/events/" + eventID);
+  }
+
   return (
     <MUITesseraWrapper>
       <Box mx="64px" mt={"16px"}>

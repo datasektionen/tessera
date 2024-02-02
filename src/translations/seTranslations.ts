@@ -65,6 +65,9 @@ const seTranslations = {
       promo_code: "Promokod",
       promo_code_helperText:
         "Vilken promokod ska användas för att få tillgång till detta reserverade biljettsläpp?",
+      allow_external: "Tillåt externa användare",
+      allow_external_helperText:
+        "Ska externa användare tillåtas att begära biljetter till detta biljettsläpp?",
     },
     ticket_types: {
       name: "Namn",
@@ -328,6 +331,20 @@ const seTranslations = {
       title: "Bekräfta ditt biljettköp",
       pay_now: "Betala {{price}} SEK",
       description: "Här kan du betala för din biljett.",
+    },
+  },
+
+  external: {
+    form: {
+      first_name: "Förnamn",
+      last_name: "Efternamn",
+      username: "Användarnamn",
+      email: "E-post",
+      password: "Lösenord",
+      password_repeat: "Upprepa lösenord",
+      button_signup: "Registrera dig",
+      button_login: "Logga in",
+      no_account: "Har du inget konto? Vänligen kontakta oss.", // TODO add email
     },
   },
 

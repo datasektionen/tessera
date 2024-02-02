@@ -161,6 +161,7 @@ export interface ITicketReleaseForm {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
+  allow_external: boolean;
 }
 
 export interface ITicketReleasePostReq {
@@ -177,6 +178,7 @@ export interface ITicketReleasePostReq {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
+  allow_external: boolean;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
@@ -192,6 +194,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   tickets_available: 0,
   is_reserved: false,
   promo_code: "",
+  allow_external: false,
 };
 
 export interface ITicketTypeForm {
@@ -252,6 +255,7 @@ export interface ITicketRelease {
   event?: IEvent;
   tickets_available: number;
   pay_within?: number;
+  allow_external: boolean;
 }
 export interface PromoCodeAccessForm {
   promo_code: string;

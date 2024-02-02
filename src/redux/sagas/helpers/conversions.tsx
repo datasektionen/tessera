@@ -34,6 +34,7 @@ export function convertResponseToTicketRelease(
     ticketReleaseMethodDetailId: responseData.ticket_release_method_detail_id!,
     tickets_available: responseData.tickets_available!,
     pay_within: responseData.pay_within!,
+    allow_external: responseData.allow_external!,
     ticketReleaseMethodDetail: {
       id: responseData.ticket_release_method_detail_id!,
       name: responseData.ticket_release_method_detail.name!,

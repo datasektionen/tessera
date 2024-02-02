@@ -97,6 +97,7 @@ function* fetchEventTickets(
             description: ticket_request.ticket_release.description!,
             open: new Date(ticket_request.ticket_release.open!).getTime(),
             close: new Date(ticket_request.ticket_release.close!).getTime(),
+            allow_external: ticket_request.ticket_release.allow_external!,
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
           } as ITicketRelease,

@@ -273,7 +273,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
             {/* Max Tickets Per User */}
             <FormControl>
               <StyledFormLabel>
-                {t("form.ticket_release.max_tickets_per_user")}* *
+                {t("form.ticket_release.max_tickets_per_user")}*
               </StyledFormLabel>
 
               <FormInput
@@ -306,6 +306,21 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
+
+            <FormControl>
+              <StyledFormLabel>
+                {t("form.ticket_release.allow_external")}
+              </StyledFormLabel>
+              <FormCheckbox
+                name="allow_external"
+                label="Allow External Users"
+              />
+              <StyledErrorMessage name="allow_external" />
+
+              <StyledFormLabelWithHelperText>
+                {t("form.ticket_release.allow_external_helperText")}
+              </StyledFormLabelWithHelperText>
+            </FormControl>
 
             {/* Notification Method */}
             <FormControl>
@@ -371,7 +386,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
 
             <FormControl>
               <StyledFormLabel>
-                {t("form.ticket_release.reserved_ticket_release")}*
+                {t("form.ticket_release.reserved_ticket_release")}
               </StyledFormLabel>
               <FormCheckbox name="is_reserved" label="Is Reserved" />
               <StyledErrorMessage name="is_reserved" />
@@ -384,7 +399,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
             {values && values.is_reserved && (
               <FormControl>
                 <StyledFormLabel>
-                  {t("form.ticket_release.promo_code")}*
+                  {t("form.ticket_release.promo_code")}
                 </StyledFormLabel>
                 <FormInput
                   name="promo_code"

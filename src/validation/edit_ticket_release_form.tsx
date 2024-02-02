@@ -122,6 +122,7 @@ const EditTicketReleaseFormSchema = Yup.object()
       "Cancellation Policy is required"
     ),
     is_reserved: Yup.boolean(),
+    allow_external: Yup.boolean(),
     promo_code: Yup.string().when("is_reserved", {
       // @ts-ignore
       is: true,

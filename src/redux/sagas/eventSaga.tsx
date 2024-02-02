@@ -67,6 +67,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           close: new Date(ticketRelease.close! * 1000).getTime(),
           is_reserved: ticketRelease.is_reserved!,
           promo_code: ticketRelease.promo_code!,
+          allow_external: ticketRelease.allow_external!,
           tickets_available: ticketRelease.tickets_available!,
           has_allocated_tickets: ticketRelease.has_allocated_tickets!,
           ticketReleaseMethodDetailId:

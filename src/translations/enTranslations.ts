@@ -82,6 +82,9 @@ const enTranslations = {
       promo_code: "Promo code",
       promo_code_helperText:
         "What promo code should be used to access this reserved ticket release?",
+      allow_external: "Allow external users",
+      allow_external_helperText:
+        "Allow external users to request tickets for this ticket release.",
     },
     ticket_types: {
       name: "Name",

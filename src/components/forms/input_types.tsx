@@ -116,7 +116,7 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
       <Checkbox
         {...field}
         disabled={disabled}
-        value={String(field.value)} // Ensure value is a string
+        value={field.value} // Ensure value is a string
         onChange={onChange ? onChange : field.onChange}
         style={{
           ...DefaultInputStyle,
