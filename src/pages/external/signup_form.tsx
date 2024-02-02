@@ -79,6 +79,7 @@ const SignupForm: React.FC = () => {
               label="First name"
               type="text"
               placeholder="John"
+              autoComplete="given-name"
               overrideStyle={{ width: "150px", backgroundColor: "white" }}
             />
             <StyledErrorMessage fontSize={14} name="first_name" />
@@ -94,6 +95,7 @@ const SignupForm: React.FC = () => {
               label="Last name"
               type="text"
               placeholder="Doe"
+              autoComplete="family-name"
               overrideStyle={{ width: "150px", backgroundColor: "white" }}
             />
             <StyledErrorMessage fontSize={14} name="last_name" />
@@ -107,6 +109,7 @@ const SignupForm: React.FC = () => {
               name="email"
               label="Email"
               type="email"
+              autoComplete="email"
               placeholder=""
               overrideStyle={{ backgroundColor: "white" }}
             />
@@ -143,6 +146,7 @@ const SignupForm: React.FC = () => {
               name="password"
               label="Password"
               type="password"
+              autoComplete="new-password"
               placeholder=""
               overrideStyle={{ backgroundColor: "white" }}
             />
@@ -157,6 +161,7 @@ const SignupForm: React.FC = () => {
               name="password_repeat"
               label="Repeat password"
               type="password"
+              autoComplete="new-password"
               placeholder=""
               overrideStyle={{ backgroundColor: "white" }}
             />

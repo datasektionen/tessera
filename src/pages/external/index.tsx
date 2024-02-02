@@ -19,6 +19,7 @@ import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
 import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
+import LoginForm from "./login_form";
 
 const External: React.FC = () => {
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
@@ -130,7 +131,9 @@ const External: React.FC = () => {
           <TabPanel value={0}>
             <SignupForm />
           </TabPanel>
-          <TabPanel value={1}>...</TabPanel>
+          <TabPanel value={1}>
+            <LoginForm />
+          </TabPanel>
         </Tabs>
         <StyledText
           fontSize={14}

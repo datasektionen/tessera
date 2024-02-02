@@ -354,6 +354,7 @@ const enTranslations = {
       password_repeat: "Repeat password",
       button_signup: "Sign up",
       button_login: "Login",
+      no_account: "Don't have an account? Please contact us.", // TODO add email
     },
   },
 

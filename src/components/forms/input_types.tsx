@@ -11,6 +11,7 @@ interface FormInputProps {
   type?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   overrideStyle?: Object;
+  autoComplete?: string;
 }
 
 export const DefaultInputStyle = {
@@ -27,6 +28,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   type,
   onChange = undefined,
   overrideStyle = {},
+  autoComplete = "on",
 }) => (
   <Field name={name}>
     {({ field, form }: { field: any; form: any }) => (
@@ -34,6 +36,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         {...field}
         label={label}
         required
+        autoComplete={autoComplete}
         onChange={(e: any) => {
           if (type === "number") {
             // Remove leading zeros
