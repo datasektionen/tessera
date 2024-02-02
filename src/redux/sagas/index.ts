@@ -13,6 +13,7 @@ import watchTicketsSaga from "./ticketsSaga";
 import watchTicketReleaseSaga from "./ticketReleaseSaga";
 import watchFetchTicketTypes from "./ticketTypeSaga";
 import watchEventTicketsSaga from "./eventTicketsSaga";
+import watchExternalAuthSagas from "./externalAuthSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -30,6 +31,7 @@ export default function* rootSaga() {
     watchPromoCodeAccessSaga(),
     watchFetchTicketTypes(),
     watchEventTicketsSaga(),
+    watchExternalAuthSagas(),
     // add other sagas here
   ]);
 }

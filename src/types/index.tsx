@@ -337,6 +337,33 @@ export interface ITransaction {
   refunded_at: number | null;
 }
 
+// External user
+export interface ISignupFormValues {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  password_repeat: string;
+}
+
+export interface ILoginFormValues {
+  email: string;
+  password: string;
+}
+
+export const SignupInitialValues: ISignupFormValues = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  password: "",
+  password_repeat: "",
+};
+
+export const LoginInitialValues: ILoginFormValues = {
+  email: "",
+  password: "",
+};
+
 export enum OrganizationUserRole {
   OWNER = "owner",
   MEMBER = "member",

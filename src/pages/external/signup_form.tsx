@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, FormikHelpers, FormikValues } from "formik";
 import * as Yup from "yup";
 import { StyledErrorMessage } from "../../components/forms/messages";
 import {
@@ -12,24 +12,11 @@ import { useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import StyledButton from "../../components/buttons/styled_button";
-
-interface SignupFormValues {
-  first_name: string;
-  last_name: string;
-  email: string;
-  username: string;
-  password: string;
-  password_repeat: string;
-}
-
-const initialValues: SignupFormValues = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  username: "",
-  password: "",
-  password_repeat: "",
-};
+import { ISignupFormValues, SignupInitialValues } from "../../types";
+import { externalSignupRequest } from "../../redux/features/authSlice";
+import { AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   first_name: Yup.string().required("First name cannot be empty"),
@@ -37,9 +24,6 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email cannot be empty"),
-  username: Yup.string()
-    .min(5, "Username must be at least 5 characters long")
-    .required("Username cannot be empty"),
   password: Yup.string()
     .min(10, "Password must be at least 10 characters long")
     .matches(/[a-z]/, "Password must contain at least one lowercase letter")
@@ -53,18 +37,35 @@ const validationSchema = Yup.object({
 
 const SignupForm: React.FC = () => {
   const { t } = useTranslation();
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignup = async (values: ISignupFormValues) => {
+    // Submit form values
+    dispatch(externalSignupRequest(values));
+    navigate("/external");
+  };
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={SignupInitialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, actions) => {
-        // Submit form values
+      onSubmit={async (
+        values: ISignupFormValues,
+        actions: FormikHelpers<ISignupFormValues>
+      ) => {
+        // You can perform event.preventDefault() here if needed,
+        // but Formik's <Form> does this by default.
+        // Perform it
+        // event.preventDefault();
+
+        // You can set submitting to false if needed
+        handleSignup(values);
         actions.setSubmitting(false);
       }}
       validateOnBlur={true}
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, values }) => (
         <Form
           style={{
             textAlign: "left",
@@ -114,21 +115,6 @@ const SignupForm: React.FC = () => {
               overrideStyle={{ backgroundColor: "white" }}
             />
             <StyledErrorMessage fontSize={14} name="email" />
-          </FormControl>
-
-          <FormControl>
-            <StyledText level="body-md" fontSize={15} color="charcoal">
-              {t("external.form.username")}*
-            </StyledText>
-
-            <FormInput
-              name="username"
-              label="Username"
-              type="text"
-              placeholder=""
-              overrideStyle={{ backgroundColor: "white" }}
-            />
-            <StyledErrorMessage fontSize={14} name="username" />
           </FormControl>
 
           <FormControl>

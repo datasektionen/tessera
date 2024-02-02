@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthState, LoginCredentials, IUser } from "../../types";
+import {
+  AuthState,
+  LoginCredentials,
+  IUser,
+  ISignupFormValues,
+  ILoginFormValues,
+} from "../../types";
 
 const initialState: AuthState = {
   token: null,
@@ -39,6 +45,33 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    externalSignupRequest: (
+      state,
+      action: PayloadAction<ISignupFormValues>
+    ) => {
+      state.loading = true;
+    },
+    externalSignupSuccess: (state) => {
+      state.loading = false;
+    },
+    externalSignupFailure: (state, action: PayloadAction<string>) => {
+      state.isLoggedIn = false;
+      state.loading = false;
+      state.error = action.payload;
+    },
+    externalLoginRequest: (state, action: PayloadAction<ILoginFormValues>) => {
+      state.loading = true;
+    },
+    externalLoginSuccess: (state, action: PayloadAction<{ user: IUser }>) => {
+      state.loading = false;
+      state.user = action.payload.user;
+      state.isLoggedIn = true;
+    },
+    externalLoginFailure: (state, action: PayloadAction<string>) => {
+      state.isLoggedIn = false;
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -49,5 +82,11 @@ export const {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
+  externalSignupRequest,
+  externalSignupSuccess,
+  externalSignupFailure,
+  externalLoginRequest,
+  externalLoginSuccess,
+  externalLoginFailure,
 } = authSlice.actions;
 export default authSlice.reducer;

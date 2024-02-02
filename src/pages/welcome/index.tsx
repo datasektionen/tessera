@@ -9,6 +9,8 @@ import MainPage from "../main";
 import LoadingOverlay from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import StyledText from "../../components/text/styled_text";
+import { ToastContainer } from "react-toastify";
+import { isMobile } from "react-device-detect";
 
 const WelcomePage = () => {
   // Get auth
@@ -42,6 +44,18 @@ const WelcomePage = () => {
         backgroundColor: PALLETTE.offWhite,
       }}
     >
+      <ToastContainer
+        position={isMobile ? "top-center" : "bottom-right"}
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       {orLoading ? <LoadingOverlay /> : null}
       <Typography level="h1" color="primary" fontSize={72}>
         Tessera

@@ -13,16 +13,10 @@ import StyledText from "../../components/text/styled_text";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import StyledButton from "../../components/buttons/styled_button";
 import PALLETTE from "../../theme/pallette";
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
-const initialValues: LoginFormValues = {
-  email: "",
-  password: "",
-};
+import { ILoginFormValues, LoginInitialValues } from "../../types";
+import { AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+import { externalLoginRequest } from "../../redux/features/authSlice";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -33,14 +27,20 @@ const validationSchema = Yup.object({
 
 const LoginForm: React.FC = () => {
   const { t } = useTranslation();
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleLogin = (values: ILoginFormValues) => {
+    // Submit form values
+    dispatch(externalLoginRequest(values));
+  };
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={LoginInitialValues}
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
         // Submit form values
-        actions.setSubmitting(false);
+        handleLogin(values);
       }}
       validateOnBlur={true}
     >

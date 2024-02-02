@@ -20,12 +20,21 @@ import StyledText from "../../components/text/styled_text";
 import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
 import LoginForm from "./login_form";
+import { ToastContainer } from "react-toastify";
 
 const External: React.FC = () => {
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user
   );
+
+  const [tabIndex, setTabIndex] = React.useState(
+    Number(localStorage.getItem("tabIndex")) || 0
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem("tabIndex", String(tabIndex));
+  }, [tabIndex]);
 
   const navigate = useNavigate();
 
@@ -55,6 +64,18 @@ const External: React.FC = () => {
         paddingBottom: "10em",
       }}
     >
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Box sx={{ width: !isMobile ? "50%" : "80%", textAlign: "center" }}>
         {orLoading ? <LoadingOverlay /> : null}
         <Typography level="h1" color="primary" fontSize={72}>
@@ -94,6 +115,8 @@ const External: React.FC = () => {
             margin: "0 auto",
             marginTop: "2em",
           }}
+          onChange={(_, newValue: any) => setTabIndex(newValue)}
+          value={tabIndex}
         >
           <TabList
             disableUnderline
@@ -117,7 +140,7 @@ const External: React.FC = () => {
               disableIndicator
               sx={{ flexGrow: 1 }}
             >
-              Signup
+              Login
             </Tab>
             <Tab
               variant="outlined"
@@ -125,14 +148,14 @@ const External: React.FC = () => {
               disableIndicator
               sx={{ flexGrow: 1 }}
             >
-              Login
+              Signup
             </Tab>
           </TabList>
           <TabPanel value={0}>
-            <SignupForm />
+            <LoginForm />
           </TabPanel>
           <TabPanel value={1}>
-            <LoginForm />
+            <SignupForm />
           </TabPanel>
         </Tabs>
         <StyledText
