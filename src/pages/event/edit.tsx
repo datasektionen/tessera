@@ -3,7 +3,7 @@ import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
 import NavigationBar from "../../components/navigation";
 import EventList from "../../components/events/list";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import LoadingOverlay from "../../components/Loading";
@@ -25,12 +25,17 @@ const EditEventPage: React.FC = () => {
   const { event, loading, error } = useSelector(
     (state: RootState) => state.eventDetail
   );
+  const [canAccess, setCanAccess] = useState<boolean | null>(null);
 
-  const canAccess = useCanAccessEvent(eventID!);
+  const canAccessEvent = useCanAccessEvent(eventID!);
 
   useEffect(() => {
-    // Any other logic you want to run when `eventID` or `canAccess` changes
-  }, [eventID, canAccess]);
+    const fetchCanAccess: any = async () => {
+      setCanAccess(await canAccessEvent);
+    };
+
+    fetchCanAccess();
+  }, [canAccessEvent]);
 
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();

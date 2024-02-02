@@ -30,12 +30,17 @@ const ManageEventPage: React.FC = () => {
   const { event, loading, error } = useSelector(
     (state: RootState) => state.eventDetail
   );
+  const [canAccess, setCanAccess] = useState<boolean | null>(null);
 
-  const canAccess = useCanAccessEvent(eventID!);
+  const canAccessEvent = useCanAccessEvent(eventID!);
 
   useEffect(() => {
-    // Any other logic you want to run when `eventID` or `canAccess` changes
-  }, [eventID, canAccess]);
+    const fetchCanAccess: any = async () => {
+      setCanAccess(await canAccessEvent);
+    };
+
+    fetchCanAccess();
+  }, [canAccessEvent]);
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
@@ -61,6 +66,8 @@ const ManageEventPage: React.FC = () => {
   if (!event || loading) {
     return <LoadingOverlay />;
   }
+
+  console.log("canAccess", canAccess);
 
   if (canAccess !== null && canAccess === false) {
     navigate("/events/" + eventID);
