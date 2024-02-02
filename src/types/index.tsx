@@ -70,6 +70,7 @@ export interface IUser {
   role?: IRole;
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
+  is_external: boolean;
 }
 
 export interface IOrganizationUser extends IUser {

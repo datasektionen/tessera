@@ -10,6 +10,7 @@ interface StyledTextProps {
   style?: React.CSSProperties;
   startDecorator?: React.ReactNode;
   onClick?: () => void;
+  sx?: any;
 }
 
 const StyledText: React.FC<StyledTextProps> = ({
@@ -21,6 +22,7 @@ const StyledText: React.FC<StyledTextProps> = ({
   startDecorator,
   fontWeight,
   onClick,
+  sx = {},
 }) => {
   return (
     <Typography
@@ -31,6 +33,7 @@ const StyledText: React.FC<StyledTextProps> = ({
       onClick={onClick}
       fontSize={fontSize}
       startDecorator={startDecorator}
+      sx={sx}
       style={{
         ...style,
         color: color,

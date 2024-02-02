@@ -46,6 +46,7 @@ function* fetchEventTickets(
           username: ticket.user.username!,
           first_name: ticket.user.first_name!,
           last_name: ticket.user.last_name!,
+          is_external: ticket.user.is_external || false,
           food_preferences: {
             gluten_intolerant: ticket.user.food_preferences.gluten_intolerant!,
             lactose_intolerant:
@@ -119,6 +120,7 @@ function* fetchEventTickets(
             username: ticketRequest.user.username!,
             first_name: ticketRequest.user.first_name!,
             last_name: ticketRequest.user.last_name!,
+            is_external: ticketRequest.user.is_external || false,
             food_preferences: {
               gluten_intolerant:
                 ticketRequest.user.food_preferences.gluten_intolerant!,

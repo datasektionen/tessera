@@ -1,4 +1,4 @@
-import { AspectRatio, Button, Divider, Typography } from "@mui/joy";
+import { AspectRatio, Button, Divider, Link, Typography } from "@mui/joy";
 import React, { useEffect } from "react";
 import PALLETTE from "../../theme/pallette";
 import LoginButton from "../../components/login/LoginButton";
@@ -8,6 +8,7 @@ import { currentUserRequest } from "../../redux/features/userSlice";
 import MainPage from "../main";
 import LoadingOverlay from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
+import StyledText from "../../components/text/styled_text";
 
 const WelcomePage = () => {
   // Get auth
@@ -52,6 +53,16 @@ const WelcomePage = () => {
       <Typography level="h4" color="neutral" fontSize={14} mt={3}>
         <LoginButton /> To secure your spot.
       </Typography>
+
+      <StyledText
+        fontSize={14}
+        color={PALLETTE.charcoal_see_through}
+        level="body-sm"
+        sx={{ mt: 3 }}
+      >
+        External user with no KTH account?{" "}
+        <Link href="/external">Click here</Link>
+      </StyledText>
     </div>
   );
 };

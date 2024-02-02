@@ -24,6 +24,7 @@ import EditTicketTypes from "../pages/event/edit_ticket_types";
 import ManageEventPage from "../pages/event/manage";
 import { CssVarsProvider } from "@mui/joy";
 import theme from "../theme";
+import External from "../pages/external";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
@@ -36,6 +37,8 @@ function AppRoutes() {
     <BrowserRouter basename="/">
       <Routes>
         <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
+        <Route path={ROUTES.EXTERNAL} element={<External />} />
+
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.LOGOUT} element={<Logout />} />

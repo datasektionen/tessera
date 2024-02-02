@@ -344,6 +344,19 @@ const enTranslations = {
     },
   },
 
+  external: {
+    form: {
+      first_name: "First name",
+      last_name: "Last name",
+      username: "Username",
+      email: "Email",
+      password: "Password",
+      password_repeat: "Repeat password",
+      button_signup: "Sign up",
+      button_login: "Login",
+    },
+  },
+
   common: {
     show_all: "Show all",
     show_less: "Show less",
