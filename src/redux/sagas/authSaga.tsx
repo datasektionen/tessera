@@ -21,12 +21,10 @@ function* loginSaga(): Generator<any, void, any> {
 
     // if (process.env.NODE_ENV === "development") {
     const redirectUrl = response.data.login_url;
-    console.log("Redirecting to:", redirectUrl);
 
     // Redirect to the login page
     window.location.href = redirectUrl;
   } catch (error: any) {
-    console.log("Error with loginSaga, error:", error);
     yield put(loginFailure(error.message));
   }
 }

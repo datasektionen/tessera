@@ -67,8 +67,6 @@ const ManageEventPage: React.FC = () => {
     return <LoadingOverlay />;
   }
 
-  console.log("canAccess", canAccess);
-
   if (canAccess !== null && canAccess === false) {
     navigate("/events/" + eventID);
   }
