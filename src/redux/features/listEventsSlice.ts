@@ -12,6 +12,7 @@ const listEventSlice = createSlice({
   initialState,
   reducers: {
     getEventsRequest: (state) => {
+      if (state.loading) return;
       state.loading = true;
     },
     getEventsSuccess: (state, action: PayloadAction<IEvent[]>) => {

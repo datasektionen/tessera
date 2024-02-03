@@ -40,7 +40,7 @@ const Logout: React.FC = () => {
           size="lg"
           onClick={() => {
             // Reload the page
-            window.location.reload();
+            dispatch(logoutRequest());
           }}
         >
           Login again

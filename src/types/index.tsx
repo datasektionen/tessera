@@ -21,6 +21,7 @@ export interface AuthState {
   user: Object | null;
   token: string | null;
   error: string | null;
+  fetchUser: boolean;
 }
 
 export interface UserState {

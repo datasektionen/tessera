@@ -6,6 +6,7 @@ import {
   ISignupFormValues,
   ILoginFormValues,
 } from "../../types";
+import { REHYDRATE } from "redux-persist";
 
 const initialState: AuthState = {
   token: null,
@@ -13,6 +14,7 @@ const initialState: AuthState = {
   user: null,
   error: null,
   isLoggedIn: false,
+  fetchUser: false,
 };
 
 const authSlice = createSlice({
@@ -39,6 +41,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.isLoggedIn = true;
+      state.fetchUser = true;
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isLoggedIn = false;
@@ -66,11 +69,29 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.isLoggedIn = true;
+      state.fetchUser = true;
     },
     externalLoginFailure: (state, action: PayloadAction<string>) => {
       state.isLoggedIn = false;
       state.loading = false;
       state.error = action.payload;
+    },
+    resetFetchUser: (state) => {
+      state.fetchUser = false;
+    },
+  },
+  extraReducers: {
+    // Handle the rehydration action
+    [REHYDRATE]: (state, action) => {
+      // Customize the rehydrated state as needed
+      return {
+        ...state,
+        ...(action.payload ? action.payload.auth : {}),
+        // Set loading to false to prevent unwanted UI states
+        loading: false,
+        // Reset error to ensure error states are cleared on app re-start
+        error: null,
+      };
     },
   },
 });
@@ -88,5 +109,6 @@ export const {
   externalLoginRequest,
   externalLoginSuccess,
   externalLoginFailure,
+  resetFetchUser,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -61,8 +61,6 @@ function* createTicketReleaseSaga(
       allow_external: ticketRelease.allow_external,
     };
 
-    console.log(data);
-
     const response = yield call(
       axios.post,
       `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/ticket-release`,

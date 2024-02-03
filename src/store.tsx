@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, createStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./redux/sagas/index";
 import authReducer from "./redux/features/authSlice";
@@ -51,8 +51,12 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+if (process.env.NODE_ENV === "development") {
+  console.log("Development mode");
+}
+
 export const store = configureStore({
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV === "development",
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

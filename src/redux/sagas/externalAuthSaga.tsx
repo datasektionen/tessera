@@ -11,6 +11,7 @@ import {
 } from "../features/authSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ROUTES } from "../../routes/def";
 
 function* externalSignupSaga(
   action: PayloadAction<ISignupFormValues>
@@ -50,12 +51,8 @@ function* externalLoginSaga(
 
     if (response.status === 200) {
       yield put(externalSignupSuccess());
-      setTimeout(() => {
-        toast.success("Login successful!");
-      }, 500);
-      window.location.href = "/";
+      window.location.href = ROUTES.HANDLE_LOGIN_CALLBACK;
     } else {
-      console.log(response.data.error);
       const errorMessage = response.data.error || "Something went wrong!";
       toast.error(errorMessage);
       yield put(externalSignupFailure(response.data.error));

@@ -1,13 +1,13 @@
 // Import statements should be at the top
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "./def";
 import WelcomePage from "../pages/welcome";
 import MainPage from "../pages/main";
 import ProtectedRoute from "../components/login/PrivateRoute";
 import EventDetail from "../pages/event/detail";
-import { AppDispatch } from "../store";
+import { AppDispatch, RootState } from "../store";
 import { currentUserRequest } from "../redux/features/userSlice";
 import ProfilePage from "../pages/profile";
 import CreateOrganizationPage from "../pages/organization/create";
@@ -25,18 +25,20 @@ import ManageEventPage from "../pages/event/manage";
 import { CssVarsProvider } from "@mui/joy";
 import theme from "../theme";
 import External from "../pages/external";
+import { resetFetchUser } from "../redux/features/authSlice";
+import HandleLoginCallback from "../pages/login/callback";
 
 function AppRoutes() {
   const dispatch: AppDispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(currentUserRequest());
-  }, []);
 
   return (
     <BrowserRouter basename="/">
       <Routes>
         <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
+        <Route
+          path={ROUTES.HANDLE_LOGIN_CALLBACK}
+          element={<HandleLoginCallback />}
+        />
         <Route path={ROUTES.EXTERNAL} element={<External />} />
 
         <Route element={<ProtectedRoute />}>

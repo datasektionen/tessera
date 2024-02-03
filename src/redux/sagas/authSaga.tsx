@@ -21,6 +21,7 @@ function* loginSaga(): Generator<any, void, any> {
 
     // if (process.env.NODE_ENV === "development") {
     const redirectUrl = response.data.login_url;
+    console.log("Redirecting to:", redirectUrl);
 
     // Redirect to the login page
     window.location.href = redirectUrl;
@@ -32,6 +33,10 @@ function* loginSaga(): Generator<any, void, any> {
 
 function* logoutSaga(): Generator<any, void, any> {
   try {
+    console.log(
+      "logoutSaga, process.env.REACT_APP_BACKEND_URL:",
+      process.env.REACT_APP_BACKEND_URL
+    );
     const response = yield call(
       axios.get,
       `${process.env.REACT_APP_BACKEND_URL}/logout`,
@@ -40,18 +45,23 @@ function* logoutSaga(): Generator<any, void, any> {
       }
     );
 
-    if (response.status !== 200) {
-      toast.error("Something went wrong!");
-      yield put(logoutFailure("Something went wrong!"));
-    } else {
+    if (response.status === 200 || response.status === 401) {
       toast.info("Logged out!");
       yield put(logoutSuccess());
+    } else {
+      toast.error("Something went wrong!");
+      yield put(logoutFailure("Something went wrong!"));
     }
 
     // Redirect to the login page
   } catch (error: any) {
-    toast.error(error.response.data.error);
-    yield put(logoutFailure(error.message));
+    if (error.response.status === 401) {
+      toast.info("Logged out!");
+      yield put(logoutSuccess());
+    } else {
+      toast.error(error.response.data.error);
+      yield put(logoutFailure(error.message));
+    }
   }
 }
 
