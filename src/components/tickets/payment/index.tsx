@@ -33,8 +33,10 @@ console.log(
   process.env.REACT_APP_STRIPE_KEY,
   process.env.REACT_APP_STRIPE_PUB_KEY
 );
+console.log("prod", process.env.REACT_APP_STRIPE_PROD_KEY);
+
 const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_PUB_KEY! as string
+  process.env.REACT_APP_STRIPE_PROD_KEY! as string
 );
 
 interface PaymentProps {
