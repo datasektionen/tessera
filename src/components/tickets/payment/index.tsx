@@ -27,17 +27,13 @@ import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
 import { useTranslation } from "react-i18next";
 
-console.log("test", process.env.REACT_APP_TEST);
-console.log(
-  "stripe",
-  process.env.REACT_APP_STRIPE_KEY,
-  process.env.REACT_APP_STRIPE_PUB_KEY
-);
-console.log("prod", process.env.REACT_APP_STRIPE_PROD_KEY);
+let stripePromise: any;
 
-const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_PROD_KEY! as string
-);
+if (process.env.NODE_ENV === "production") {
+  stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PROD_KEY! as string);
+} else {
+  stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY! as string);
+}
 
 interface PaymentProps {
   ticket: ITicket;
