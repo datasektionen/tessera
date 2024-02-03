@@ -1,6 +1,6 @@
 // Import statements should be at the top
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
+import { ComponentType, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "./def";
 import WelcomePage from "../pages/welcome";
@@ -27,10 +27,55 @@ import theme from "../theme";
 import External from "../pages/external";
 import { resetFetchUser } from "../redux/features/authSlice";
 import HandleLoginCallback from "../pages/login/callback";
+import { ReactElement, ReactNode } from "react";
+
+type WithCurrentUserRequestProps = {
+  // define your props here, for example:
+  // someProp: string;
+};
+
+function withCurrentUserRequest<P>(
+  Component: ComponentType<P>
+): ComponentType<P & React.JSX.IntrinsicAttributes> {
+  const WrappedComponent: React.FC<P & React.JSX.IntrinsicAttributes> = (
+    props
+  ) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      dispatch(currentUserRequest());
+    }, [dispatch]);
+
+    return <Component {...props} />;
+  };
+
+  return WrappedComponent;
+}
+
+const MainPageWithCurrentUser = withCurrentUserRequest(MainPage);
+const EventDetailWithCurrentUser = withCurrentUserRequest(EventDetail);
+const ProfilePageWithCurrentUser = withCurrentUserRequest(ProfilePage);
+const EventsPageWithCurrentUser = withCurrentUserRequest(EventsPage);
+const CreateEventPageWithCurrentUser = withCurrentUserRequest(CreateEventPage);
+const EditEventPageWithCurrentUser = withCurrentUserRequest(EditEventPage);
+const EditEventAddTicketReleasePageWithCurrentUser = withCurrentUserRequest(
+  EditEventAddTicketReleasePage
+);
+const EditTicketTypesWithCurrentUser = withCurrentUserRequest(EditTicketTypes);
+const ProfileTicketRequestsPageWithCurrentUser = withCurrentUserRequest(
+  ProfileTicketRequestsPage
+);
+const ProfileTicketsPageWithCurrentUser =
+  withCurrentUserRequest(ProfileTicketsPage);
+const ProfileOrgnizationsPageWithCurrentUser = withCurrentUserRequest(
+  ProfileOrgnizationsPage
+);
+const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
+  CreateOrganizationPage
+);
+const ManageEventPageWithCurrentUser = withCurrentUserRequest(ManageEventPage);
 
 function AppRoutes() {
-  const dispatch: AppDispatch = useDispatch();
-
   return (
     <BrowserRouter basename="/">
       <Routes>
@@ -42,40 +87,53 @@ function AppRoutes() {
         <Route path={ROUTES.EXTERNAL} element={<External />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path={ROUTES.MAIN} element={<MainPage />} />
+          <Route path={ROUTES.MAIN} element={<MainPageWithCurrentUser />} />
           <Route path={ROUTES.LOGOUT} element={<Logout />} />
-          <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
-          <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
-          <Route path={ROUTES.EVENTS} element={<EventsPage />} />
-          <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
-          <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
+          <Route
+            path={ROUTES.EVENT_DETAIL}
+            element={<EventDetailWithCurrentUser />}
+          />
+          <Route
+            path={ROUTES.PROFILE}
+            element={<ProfilePageWithCurrentUser />}
+          />
+          <Route path={ROUTES.EVENTS} element={<EventsPageWithCurrentUser />} />
+          <Route
+            path={ROUTES.CREATE_EVENT}
+            element={<CreateEventPageWithCurrentUser />}
+          />
+          <Route
+            path={ROUTES.EDIT_EVENT}
+            element={<EditEventPageWithCurrentUser />}
+          />
           <Route
             path={ROUTES.EDIT_EVENT_ADD_TICKET_RELEASE}
-            element={<EditEventAddTicketReleasePage />}
+            element={<EditEventAddTicketReleasePageWithCurrentUser />}
           />
           <Route
             path={ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES}
-            element={<EditTicketTypes />}
+            element={<EditTicketTypesWithCurrentUser />}
           />
-
           <Route
             path={ROUTES.PROFILE_TICKET_REQUESTS}
-            element={<ProfileTicketRequestsPage />}
+            element={<ProfileTicketRequestsPageWithCurrentUser />}
           />
           <Route
             path={ROUTES.PROFILE_TICKETS}
-            element={<ProfileTicketsPage />}
+            element={<ProfileTicketsPageWithCurrentUser />}
           />
           <Route
             path={ROUTES.PROFILE_ORGANIZATIONS}
-            element={<ProfileOrgnizationsPage />}
+            element={<ProfileOrgnizationsPageWithCurrentUser />}
           />
           <Route
             path={ROUTES.CREATE_ORGANIZATION}
-            element={<CreateOrganizationPage />}
+            element={<CreateOrganizationPageWithCurrentUser />}
           />
-
-          <Route path={ROUTES.MANAGE_EVENT} element={<ManageEventPage />} />
+          <Route
+            path={ROUTES.MANAGE_EVENT}
+            element={<ManageEventPageWithCurrentUser />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
