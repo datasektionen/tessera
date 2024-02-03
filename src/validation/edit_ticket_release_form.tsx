@@ -114,6 +114,18 @@ const EditTicketReleaseFormSchema = Yup.object()
 
           return true;
         }
+      )
+      .test(
+        "is-valid-available-tickets",
+        "Number of available tickets must be greater than or equal to the number of tickets per user",
+        function (value) {
+          const maxTicketsPerUser = this.parent.max_tickets_per_user;
+          if (value < maxTicketsPerUser) {
+            return false;
+          }
+
+          return true;
+        }
       ),
     notification_method: Yup.string().required(
       "Notification Method is required"

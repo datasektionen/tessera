@@ -107,6 +107,18 @@ const CreateTicketReleaseFormSchema = Yup.object()
       .min(1, "Available Tickets must be greater than or equal to 1")
       .integer("Available Tickets must be an integer")
       .test(
+        "is-valid-available-tickets",
+        "Number of available tickets must be greater than or equal to the number of tickets per user",
+        function (value) {
+          const maxTicketsPerUser = this.parent.max_tickets_per_user;
+          if (value < maxTicketsPerUser) {
+            return false;
+          }
+
+          return true;
+        }
+      )
+      .test(
         "is-valid-decimal",
         "Available Tickets must be a valid decimal number and cannot start with zero",
         function (value) {

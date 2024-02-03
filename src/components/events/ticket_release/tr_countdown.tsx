@@ -1,9 +1,11 @@
-import { Button, Typography } from "@mui/joy";
+import { Button, IconButton, Typography } from "@mui/joy";
 import PALLETTE from "../../../theme/pallette";
 import { useEffect, useState } from "react";
 import { ITicketRelease } from "../../../types";
 import { differenceInSeconds, intervalToDuration } from "date-fns";
 import { useTranslation } from "react-i18next";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import StyledText from "../../text/styled_text";
 
 const TicketReleaseCountdown: React.FC<{
   ticketRelease: ITicketRelease;
@@ -44,6 +46,27 @@ const TicketReleaseCountdown: React.FC<{
   };
 
   const { t } = useTranslation();
+
+  if (useOpen && new Date().getTime() >= ticketRelease.open) {
+    return (
+      <>
+        <IconButton onClick={() => setDuration(calculateDuration())} sx={{mt: 2}}>
+          <StyledText
+            color={PALLETTE.cerise}
+            level="body-md"
+            onClick={() => {
+              window.location.reload();
+            }}
+            fontSize={fs}
+            fontWeight={fw}
+            startDecorator={<RefreshIcon />}
+          >
+            Refresh
+          </StyledText>
+        </IconButton>
+      </>
+    );
+  }
 
   return (
     <>
