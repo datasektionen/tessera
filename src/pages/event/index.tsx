@@ -22,7 +22,7 @@ const EventsPage: React.FC = () => {
   useEffect(() => {
     dispatch(getEventsRequest());
     // No dependencies should be needed here as we only want to dispatch once on mount
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

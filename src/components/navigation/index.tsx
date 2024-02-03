@@ -66,7 +66,7 @@ const LanguageSelector: React.FC = () => {
     >
       {lngs.map((lng, index) => {
         return (
-          <Option value={lng.code}>
+          <Option value={lng.code} key={index}>
             <img
               alt={lng.nativeName}
               src={`https://flagcdn.com/16x12/${
