@@ -29,7 +29,7 @@ const lngs = [
   },
 ];
 
-const LanguageSelector: React.FC = () => {
+export const LanguageSelector: React.FC = () => {
   const { t, i18n } = useTranslation();
 
   const handleChange = (
@@ -86,7 +86,7 @@ const LanguageSelector: React.FC = () => {
   );
 };
 
-const StyledLink = (props: any) => (
+export const StyledLink = (props: any) => (
   <Link
     {...props}
     className={styles.link}

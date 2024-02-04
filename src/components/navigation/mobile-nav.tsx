@@ -16,6 +16,7 @@ import styles from "./nav.module.css";
 import StyledButton from "../buttons/styled_button";
 import Menu from "@mui/icons-material/Menu";
 import InformationModal from "../modal/information";
+import { LanguageSelector, StyledLink } from ".";
 
 const lngs = [
   {
@@ -29,73 +30,6 @@ const lngs = [
     nativeName: "Svenska",
   },
 ];
-
-const LanguageSelector: React.FC = () => {
-  const { t, i18n } = useTranslation();
-
-  const handleChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (!newValue) {
-      return;
-    }
-    i18n.changeLanguage(newValue);
-  };
-
-  return (
-    <Select
-      style={{
-        backgroundColor: PALLETTE.offWhite,
-      }}
-      value={i18n.language === "en-GB" ? "gb" : i18n.language}
-      defaultValue={"gb"}
-      onChange={handleChange}
-      renderValue={(selected) => (
-        <img
-          alt={i18n.language}
-          src={`https://flagcdn.com/16x12/${
-            i18n.language === "en-GB" ? "gb" : i18n.language
-          }.png`}
-        />
-      )}
-      sx={{
-        color: PALLETTE.offWhite,
-        borderColor: PALLETTE.offWhite,
-        "&:hover": {
-          borderColor: PALLETTE.offWhite,
-        },
-      }}
-    >
-      {lngs.map((lng, index) => {
-        return (
-          <Option value={lng.code} key={index}>
-            <img
-              alt={lng.nativeName}
-              src={`https://flagcdn.com/16x12/${
-                lng.code === "en-GB" ? "gb" : lng.code
-              }.png`}
-              style={{
-                marginRight: 8,
-              }}
-            />
-            {lng.nativeName}
-          </Option>
-        );
-      })}
-    </Select>
-  );
-};
-
-const StyledLink = (props: any) => (
-  <Link
-    {...props}
-    className={styles.link}
-    style={{
-      color: PALLETTE.charcoal,
-    }}
-  />
-);
 
 function MobileNavigationBar() {
   const { t } = useTranslation();
