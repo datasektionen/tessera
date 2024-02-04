@@ -78,12 +78,6 @@ const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
 const ManageEventPageWithCurrentUser = withCurrentUserRequest(ManageEventPage);
 
 function AppRoutes() {
-  const { i18n } = useTranslation();
-  useEffect(() => {
-    // This code runs when `i18n.language` changes
-    // You can trigger state updates or perform other actions here
-  }, [i18n.language]); // Dependency on `i18n.language`
-
   return (
     <BrowserRouter basename="/">
       <Routes>
