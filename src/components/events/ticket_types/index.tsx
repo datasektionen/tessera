@@ -22,6 +22,9 @@ import {
   numberOfTicketRequestInBasket,
   numberOfTotalTicketRequestInBasket,
 } from "../../../utils/ticket_types";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import StyledText from "../../text/styled_text";
 
 interface TicketTypeProps {
   ticketType: ITicketType;
@@ -36,6 +39,8 @@ const TicketType: React.FC<TicketTypeProps> = ({
     items: ShoppingCartItem[];
   };
   const [plusDisabled, setPlusDisabled] = React.useState<boolean>(false);
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const dispatch: AppDispatch = useDispatch();
   const handleAddTicket = (ticket: ITicketType) => {
@@ -82,8 +87,8 @@ const TicketType: React.FC<TicketTypeProps> = ({
       style={{
         backgroundColor: "transparent",
         borderColor: PALLETTE.cerise,
-        maxHeight: "150px",
-        minWidth: "fit-content",
+        maxHeight: isScreenSmall ? "100px" : "150px",
+        minWidth: isScreenSmall ? "80%" : "fit-content",
         width: "90%",
       }}
     >
@@ -98,29 +103,31 @@ const TicketType: React.FC<TicketTypeProps> = ({
             }}
           >
             <div>
-              <Typography
-                textColor={PALLETTE.cerise}
-                fontFamily={"Josefin sans"}
+              <StyledText
+                level="body-md"
+                color={PALLETTE.cerise}
                 fontWeight={700}
+                fontSize={isScreenSmall ? 14 : 18}
                 style={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  width: "160px", // Adjust this value to suit your needs
+                  maxWidth: isScreenSmall ? "100px" : "inherit",
+                  width: isScreenSmall ? "fit-content" : "150px",
                 }}
               >
                 {ticketType.name}
-              </Typography>
+              </StyledText>
               <Typography
                 level="body-sm"
-                fontSize={12}
+                fontSize={8}
                 fontFamily={"Josefin sans"}
                 textColor={PALLETTE.charcoal}
                 style={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  width: "160px", // Adjust this value to suit your needs
+                  width: isScreenSmall ? "fit-content" : "150px",
                 }}
               >
                 {ticketType.description}
@@ -130,9 +137,9 @@ const TicketType: React.FC<TicketTypeProps> = ({
               level="body-sm"
               textColor={PALLETTE.cerise}
               style={{
-                width: "100px",
+                width: isScreenSmall ? "fit-content" : "150px",
                 whiteSpace: "nowrap",
-                marginLeft: "16px",
+                margin: "0 8px",
               }}
             >
               SEK{" "}
@@ -154,7 +161,11 @@ const TicketType: React.FC<TicketTypeProps> = ({
               size="sm"
               variant="solid"
               style={{ backgroundColor: PALLETTE.charcoal }}
-              sx={{ px: 0.2, width: "40px", height: "20px" }}
+              sx={{
+                px: 0.2,
+                width: isScreenSmall ? "20px" : "40px",
+                height: isScreenSmall ? "20px" : "40px",
+              }}
               onClick={() => handleRemoveTicket(ticketType)}
             >
               -
@@ -178,7 +189,11 @@ const TicketType: React.FC<TicketTypeProps> = ({
               size="sm"
               onClick={() => handleAddTicket(ticketType)}
               style={{ backgroundColor: PALLETTE.charcoal }}
-              sx={{ px: 0.2, width: "40px", height: "20px" }}
+              sx={{
+                px: 0.2,
+                width: isScreenSmall ? "20px" : "40px",
+                height: isScreenSmall ? "20px" : "40px",
+              }}
               disabled={plusDisabled}
             >
               +

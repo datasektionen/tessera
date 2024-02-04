@@ -161,7 +161,7 @@ const seTranslations = {
     },
 
     your_tickets: {
-      title: "Dina biljetter",
+      title: "Mina biljetter",
       description:
         "Här kan du se alla biljetter du har fått. Du kan ge upp din biljett genom att klicka på biljetten och sedan välja alternativet 'Jag vill inte längre delta', vilket kommer att ge din biljett till nästa person i kön. Om du ännu inte har tilldelats en biljett eller reservbiljett kan du se dina biljettförfrågningar <1>här</1>.",
       upcoming_events: "Kommande evenemang",
@@ -370,6 +370,8 @@ const seTranslations = {
     search: "Sök",
     created: "Skapad",
     made_at: "Gjord",
+    mobile_warning:
+      "Välkommen till Tessera! Vi ser att du använder en mobil enhet. Vissa delar av webbplatsen kanske inte är optimerade för mobila enheter. Men att begära och visa biljetter bör fungera som förväntat. Om du är en evenemangsarrangör rekommenderar vi att du använder en skrivbordsenhet.",
   },
 
   main_page: {

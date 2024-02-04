@@ -11,6 +11,8 @@ import { Box, Divider, Grid } from "@mui/joy";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import Payment from "./payment";
 
@@ -54,6 +56,8 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [confirmCancelOpen, setConfirmCancelOpen] = useState<boolean>(false);
   const [payBefore, setPayBefore] = useState<string>("the start of the event");
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const ticketRequest = ticket.ticket_request!;
 
@@ -100,7 +104,11 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
 
   return (
     <BorderBox
-      style={{ marginTop: "16px", width: screenWidth, position: "fixed" }}
+      style={{
+        marginTop: "16px",
+        width: isScreenSmall ? "90%" : screenWidth,
+        position: isScreenSmall ? "relative" : "fixed",
+      }}
     >
       <Title fontSize={32}>{ticketRequest.ticket_type?.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>

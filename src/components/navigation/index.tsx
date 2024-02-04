@@ -13,6 +13,8 @@ import { ROUTES } from "../../routes/def";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import styles from "./nav.module.css";
+import { isMobile } from "react-device-detect";
+import MobileNavigationBar from "./mobile-nav";
 
 const lngs = [
   {
@@ -97,6 +99,10 @@ function NavigationBar() {
   const { t } = useTranslation();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+
+  if (isMobile) {
+    return <MobileNavigationBar />;
+  }
 
   return (
     <Box

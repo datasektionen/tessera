@@ -27,11 +27,11 @@ const ProfilePage: React.FC = () => {
             marginRight: "5%",
           }}
         >
-          <Grid xs={8}>
+          <Grid xs={16} md={8}>
             <Title>{t("profile.title")}</Title>
             <UserInfo user={user!} />
           </Grid>
-          <Grid xs={8}>
+          <Grid xs={16} md={8}>
             <FoodPreferences />
           </Grid>
         </Grid>

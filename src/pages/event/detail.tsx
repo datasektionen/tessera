@@ -48,6 +48,8 @@ import StyledText from "../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
 import ReactMarkdown from "react-markdown";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -74,6 +76,8 @@ const EventDetail: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
     dispatch(
@@ -116,7 +120,7 @@ const EventDetail: React.FC = () => {
     <TesseraWrapper>
       {promoCodeLoading && <LoadingOverlay />}
       <StandardGrid>
-        <Grid xs={8}>
+        <Grid xs={16} md={isScreenSmall ? 12 : 8}>
           <Item>
             <Typography
               level="h1"
@@ -134,8 +138,8 @@ const EventDetail: React.FC = () => {
               {event.name}
             </Typography>
 
-            <Grid container spacing={2}>
-              <Grid xs={7}>
+            <Grid container spacing={2} columns={16}>
+              <Grid xs={16} md={isScreenSmall ? 10 : 7}>
                 <Typography
                   level="body-md"
                   style={{
@@ -149,7 +153,7 @@ const EventDetail: React.FC = () => {
                   <ReactMarkdown>{event.description}</ReactMarkdown>
                 </Typography>
               </Grid>
-              <Grid xs={5}>
+              <Grid xs={16} md={isScreenSmall ? 10 : 5}>
                 <Typography
                   level="body-sm"
                   fontFamily={"Josefin sans"}
@@ -204,7 +208,7 @@ const EventDetail: React.FC = () => {
             </Grid>
           </Item>
         </Grid>
-        <Grid xs={8} mt={1}>
+        <Grid xs={16} md={isScreenSmall ? 12 : 8} mt={1}>
           <Item>
             <Typography
               level="h2"

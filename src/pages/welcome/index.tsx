@@ -1,4 +1,11 @@
-import { AspectRatio, Button, Divider, Link, Typography } from "@mui/joy";
+import {
+  AspectRatio,
+  Button,
+  Divider,
+  Link,
+  Typography,
+  useTheme,
+} from "@mui/joy";
 import React, { useEffect } from "react";
 import PALLETTE from "../../theme/pallette";
 import LoginButton from "../../components/login/LoginButton";
@@ -11,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import StyledText from "../../components/text/styled_text";
 import { ToastContainer } from "react-toastify";
 import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "@mui/material";
 
 const WelcomePage = () => {
   // Get auth
@@ -18,6 +26,7 @@ const WelcomePage = () => {
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user
   );
+
   const navigate = useNavigate();
 
   if (loading) {

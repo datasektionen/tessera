@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PALLETTE from "../../theme/pallette";
-import { Box, Grid, Typography, styled } from "@mui/joy";
+import { Box, Grid, Typography, styled, useTheme } from "@mui/joy";
 import Navigation from "../../components/navigation";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,8 @@ import mainPageImage from "../../assets/images/main_page.jpg";
 import styles from "./divider.module.css";
 import CallToActionButton from "../../components/buttons/call_to_action_button";
 import CommonlyAskedQuestions from "../../components/faq";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "@mui/material";
 
 const MainPage: React.FC = () => {
   const { loading, error, events } = useSelector(
@@ -34,6 +36,9 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     dispatch(getEventsRequest());
   }, []);
+
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (loading || error) {
     return null;
@@ -89,24 +94,28 @@ const MainPage: React.FC = () => {
         <Box
           sx={{
             position: "absolute",
-            top: "20%",
-            left: "20%",
+            top: isScreenSmall ? "15%" : "20%", // Adjust position based on screen size
+            left: isScreenSmall ? "15%" : "20%", // Adjust position based on screen size
           }}
         >
-          <StyledText color={PALLETTE.offWhite} level="body-md" fontSize={24}>
+          <StyledText
+            color={PALLETTE.offWhite}
+            level="body-md"
+            fontSize={isScreenSmall ? 16 : 24}
+          >
             {
               t("main_page.welcome", {
                 name: getUserFullName(currentUser!),
               }) as string
             }
           </StyledText>
-          <Title fontSize={128}>Tessera</Title>
+          <Title fontSize={isScreenSmall ? 64 : 128}>Tessera</Title>
           <StyledText
             color={PALLETTE.offWhite}
             level="body-md"
-            fontSize={32}
+            fontSize={isScreenSmall ? 16 : 32}
             style={{
-              marginTop: "-32px",
+              marginTop: isScreenSmall ? "-16px" : "-32px",
             }}
           >
             {t("main_page.not_a_pain")}

@@ -1,40 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
 import PALLETTE from "../../theme/pallette";
-import {
-  IEvent,
-  IOrganization,
-  IOrganizationUser,
-  ITicketRequest,
-  OrganizationUserRole,
-} from "../../types";
+import { ITicketRequest } from "../../types";
 import StyledText from "../text/styled_text";
 import Title from "../text/title";
 import BorderBox from "../wrappers/border_box";
 import { useEffect, useState } from "react";
-import {
-  getOrganizationEventsRequest,
-  getOrganizationUsersRequest,
-} from "../../redux/features/organizationSlice";
-import LoadingOverlay from "../Loading";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionGroup,
-  AccordionSummary,
-  Box,
-  Divider,
-  Grid,
-  Input,
-  Link,
-  ListDivider,
-  Option,
-  Select,
-  Sheet,
-  Typography,
-} from "@mui/joy";
-import { getUserFullName } from "../../utils/user_utils";
-import { removeUserSuccess } from "../../redux/sagas/organizationSaga";
+
+import { Box, Divider, Grid, useTheme } from "@mui/joy";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
@@ -42,6 +15,7 @@ import { cancelTicketRequestRequest } from "../../redux/features/myTicketRequest
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/def";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@mui/material";
 
 interface ViewTicketRequestProps {
   ticketRequest: ITicketRequest;
@@ -76,6 +50,8 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     setConfirmCancelOpen(false);
   };
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (!ticketRequest) {
     return <></>;
@@ -83,7 +59,11 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
 
   return (
     <BorderBox
-      style={{ marginTop: "16px", width: screenWidth, position: "fixed" }}
+      style={{
+        marginTop: "16px",
+        width: isScreenSmall ? "90%" : screenWidth,
+        position: isScreenSmall ? "relative" : "fixed",
+      }}
     >
       <Title fontSize={32}>{ticketRequest.ticket_type?.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>

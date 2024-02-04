@@ -167,7 +167,7 @@ const enTranslations = {
     },
 
     your_ticket_requests: {
-      title: "Your ticket requests",
+      title: "My ticket requests",
       description:
         "Here you can see all the ticket requests you have made. You can cancel a ticket request by clicking on the ticket request and clicking the cancel button. When the event organizer allocates tickets you will receive either a ticket or a reserve status. You can see all your tickets and reserve status <1>here</1>.",
       upcoming_events: "Upcoming events",
@@ -178,7 +178,7 @@ const enTranslations = {
     },
 
     your_tickets: {
-      title: "Your tickets",
+      title: "My tickets",
       description:
         "Here you can see all the tickets you have gotten. You can give up your ticket by clicking on the ticket and then choose the option 'I no longer wish to attend', which will give your ticket to the next person in line. If you have not yet been allocated a ticket or reserve ticket, you can see your ticket requests <1>here</1>.",
       upcoming_events: "Upcoming events",
@@ -383,6 +383,8 @@ const enTranslations = {
     search: "Search",
     created: "Created",
     made_at: "Made at",
+    mobile_warning:
+      "Welcom to Tessera! We see that you are using a mobile device. Some aspects of the website might not be optimized for mobile devices. However request and viewin tickets should work as expected. If youre an event organizer, we recommend using a desktop device.",
   },
 
   faq: {

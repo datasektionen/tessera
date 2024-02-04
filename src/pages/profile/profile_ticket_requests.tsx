@@ -26,6 +26,11 @@ const ProfileTicketRequestsPage: React.FC = () => {
   const [selected, setSelected] = React.useState<number | null>(null);
   const { t } = useTranslation();
 
+  const setSelectedTicketRequest = (index: number | null) => {
+    setSelected(index);
+    window.scrollTo(0, 5000);
+  };
+
   useEffect(() => {
     dispatch(getMyTicketRequestsRequest());
   }, []);
@@ -43,7 +48,7 @@ const ProfileTicketRequestsPage: React.FC = () => {
           marginRight: "5%",
         }}
       >
-        <Grid xs={8}>
+        <Grid xs={16} md={8}>
           <Title>{t("profile.your_ticket_requests.title")}</Title>
           <Box>
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
@@ -57,15 +62,15 @@ const ProfileTicketRequestsPage: React.FC = () => {
               </Trans>
             </StyledText>
           </Box>
-          <Grid xs={8}>
+          <Grid xs={16} md={8}>
             <TicketRequestsList
               ticketRequests={ticketRequests}
               selected={selected}
-              setSelected={setSelected}
+              setSelected={setSelectedTicketRequest}
             />
           </Grid>
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={16} md={8}>
           {selected && (
             <ViewTicketRequest
               ticketRequest={ticketRequests.find((tr) => tr.id === selected)!}

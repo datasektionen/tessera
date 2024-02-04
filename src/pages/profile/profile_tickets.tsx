@@ -27,6 +27,11 @@ const ProfileTicketsPage: React.FC = () => {
     (state: RootState) => state.myTickets
   );
 
+  const handleSetSelected = (index: number | null) => {
+    setSelected(index);
+    window.scrollTo(0, 5000);
+  };
+
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -72,7 +77,7 @@ const ProfileTicketsPage: React.FC = () => {
           marginRight: "5%",
         }}
       >
-        <Grid xs={8}>
+        <Grid xs={16} md={8}>
           <Title>{t("profile.your_tickets.title")}</Title>
           <Box>
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
@@ -86,15 +91,15 @@ const ProfileTicketsPage: React.FC = () => {
               </Trans>
             </StyledText>
           </Box>
-          <Grid xs={8}>
+          <Grid xs={16} md={8}>
             <TicketsList
               tickets={tickets}
               selected={selected}
-              setSelected={setSelected}
+              setSelected={handleSetSelected}
             />
           </Grid>
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={16} md={8}>
           {selected && (
             <ViewTicket ticket={tickets.find((tr) => tr.id === selected)!} />
           )}
