@@ -29,6 +29,7 @@ import { resetFetchUser } from "../redux/features/authSlice";
 import HandleLoginCallback from "../pages/login/callback";
 import { ReactElement, ReactNode } from "react";
 import ExternalVerifyEmail from "../pages/external/verify-email";
+import { useTranslation } from "react-i18next";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -77,6 +78,12 @@ const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
 const ManageEventPageWithCurrentUser = withCurrentUserRequest(ManageEventPage);
 
 function AppRoutes() {
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    // This code runs when `i18n.language` changes
+    // You can trigger state updates or perform other actions here
+  }, [i18n.language]); // Dependency on `i18n.language`
+
   return (
     <BrowserRouter basename="/">
       <Routes>
@@ -86,7 +93,10 @@ function AppRoutes() {
           element={<HandleLoginCallback />}
         />
         <Route path={ROUTES.EXTERNAL} element={<External />} />
-        <Route path={ROUTES.EXTERNAL_VERIFY_EMAIL} element={<ExternalVerifyEmail />} />
+        <Route
+          path={ROUTES.EXTERNAL_VERIFY_EMAIL}
+          element={<ExternalVerifyEmail />}
+        />
 
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.MAIN} element={<MainPageWithCurrentUser />} />
