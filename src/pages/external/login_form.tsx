@@ -60,7 +60,7 @@ const LoginForm: React.FC = () => {
               autoComplete="email"
               type="text"
               placeholder="John"
-              overrideStyle={{ width: "150px", backgroundColor: "white" }}
+              overrideStyle={{ width: "250px", backgroundColor: "white" }}
             />
             <StyledErrorMessage fontSize={14} name="email" />
           </FormControl>
@@ -76,7 +76,7 @@ const LoginForm: React.FC = () => {
               type="password"
               autoComplete="password"
               placeholder="Enter password"
-              overrideStyle={{ width: "150px", backgroundColor: "white" }}
+              overrideStyle={{ width: "250px", backgroundColor: "white" }}
             />
             <StyledErrorMessage fontSize={14} name="password" />
           </FormControl>
