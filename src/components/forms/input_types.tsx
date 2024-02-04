@@ -3,6 +3,10 @@ import { Field } from "formik";
 import PALLETTE from "../../theme/pallette";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { formatDateToDateTimeLocal } from "../../utils/date_conversions";
+import { useState } from "react";
+import "react-markdown-editor-lite/lib/index.css";
+
+// Initialize a markdown parser
 
 interface FormInputProps {
   name: string;
@@ -97,6 +101,52 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
     )}
   </Field>
 );
+
+export interface FormMarkdownProps {
+  name: string;
+  label: string;
+  placeholder: string;
+  minRows?: number;
+  onChange?: (content: string) => void;
+}
+
+export const FormMarkdown: React.FC<FormMarkdownProps> = ({
+  name,
+  label,
+  placeholder,
+  minRows = 2,
+  onChange = () => {},
+}) => {
+  const [content, setContent] = useState<string>("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = event.target.value;
+    setContent(newText);
+    if (onChange) {
+      onChange(newText);
+    }
+  };
+
+  return (
+    <Field name={name}>
+      {({ field, form }: any) => (
+        <Textarea
+          {...field}
+          rows={minRows}
+          placeholder={placeholder}
+          onChange={(event) => {
+            handleChange(event);
+            field.onChange(event);
+          }}
+          style={{
+            ...DefaultInputStyle,
+            width: "350px",
+          }}
+        />
+      )}
+    </Field>
+  );
+};
 
 interface FormCheckboxProps {
   name: string;

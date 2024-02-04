@@ -26,6 +26,7 @@ import {
   FormCheckbox,
   FormGooglePlacesAutocomplete,
   FormInput,
+  FormMarkdown,
   FormTextarea,
 } from "../forms/input_types";
 import CreateEventFormSchema from "../../validation/create_event_form";
@@ -101,7 +102,7 @@ const CreateEventForm: React.FC = () => {
                 {t("form.event_details.description")}*
               </StyledFormLabel>
 
-              <FormTextarea
+              <FormMarkdown
                 name="description"
                 label="Description"
                 placeholder="Party Rangers is a party for rangers."

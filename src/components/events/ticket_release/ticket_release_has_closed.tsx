@@ -10,6 +10,9 @@ const TicketReleasHasClosed: React.FC<{
     <Typography
       level="body-sm"
       fontFamily={"Josefin sans"}
+      fontSize={18}
+      mt={1}
+      fontWeight={700}
       style={{
         color: PALLETTE.charcoal,
       }}

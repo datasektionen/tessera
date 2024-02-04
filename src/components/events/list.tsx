@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useTranslation } from "react-i18next";
 import styles from "./list.module.css";
+import ReactMarkdown from "react-markdown";
 
 interface EventListProps {
   events: IEvent[];
@@ -108,16 +109,15 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 </StyledText>
                 <StyledText
                   level="body-sm"
-                  fontSize={16}
+                  fontSize={10}
                   color={PALLETTE.charcoal}
                   style={{
-                    marginTop: 10,
                     height: "100px",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {event.description}
+                  <ReactMarkdown>{event.description}</ReactMarkdown>
                 </StyledText>
               </div>
             </Card>

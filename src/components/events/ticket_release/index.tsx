@@ -29,6 +29,7 @@ import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
 import StyledText from "../../text/styled_text";
 import InformationModal from "../../modal/information";
 import { Trans, useTranslation } from "react-i18next";
+import ReactMarkdown from "react-markdown";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -90,40 +91,55 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         {ticketRelease.name}
       </StyledText>
       <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16}>
-        {ticketRelease.description} -{" "}
-        <Trans
-          i18nKey="event.ticket_release.method"
-          values={{
-            method:
-              ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
-                ?.name,
-          }}
-        >
-          This release uses
-          <Link target="_blank" onClick={() => setModalIsOpen(true)}>
-            {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name}
-          </Link>
-        </Trans>
+        <div style={{ margin: 0 }}>
+          <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
+        </div>
       </StyledText>
-      <InformationModal
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-        title={
-          ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name!
-        }
-      >
+      {!ticketReleaseHasClosed(ticketRelease) && [
         <StyledText
           level="body-sm"
-          color={PALLETTE.charcoal}
-          fontSize={18}
-          fontWeight={500}
+          key="ticket_release_method"
+          color={PALLETTE.charcoal_see_through}
+          fontSize={16}
         >
-          {
-            ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
-              ?.description
+          <Trans
+            i18nKey="event.ticket_release.method"
+            values={{
+              method:
+                ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+                  ?.name,
+            }}
+          >
+            This release uses
+            <Link target="_blank" onClick={() => setModalIsOpen(true)}>
+              {
+                ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+                  ?.name
+              }
+            </Link>
+          </Trans>
+        </StyledText>,
+        <InformationModal
+          key={"ticket_release_method_modal"}
+          isOpen={modalIsOpen}
+          onClose={() => setModalIsOpen(false)}
+          title={
+            ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name!
           }
-        </StyledText>
-      </InformationModal>
+        >
+          <StyledText
+            level="body-sm"
+            color={PALLETTE.charcoal}
+            fontSize={18}
+            fontWeight={500}
+          >
+            {
+              ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+                ?.description
+            }
+          </StyledText>
+        </InformationModal>,
+      ]}
 
       {renderTicketReleaseStatus(ticketRelease)}
     </Sheet>

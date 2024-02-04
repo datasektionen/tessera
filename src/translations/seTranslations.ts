@@ -19,7 +19,7 @@ const seTranslations = {
       name_helperText: "Vad är namnet på ditt evenemang?",
       description: "Beskrivning",
       description_helperText:
-        "Beskriv vad ditt evenemang handlar om. Vad kan deltagarna förvänta sig?",
+        "Beskriv vad ditt evenemang handlar om. Vad kan deltagarna förvänta sig? Markdown stöds.",
       date: "Datum",
       date_helperText: "När är ditt evenemang?",
       location: "Plats",
@@ -36,7 +36,7 @@ const seTranslations = {
       name_helperText: "Vad är namnet på biljettsläppet?",
       description: "Beskrivning",
       description_helperText:
-        "Beskriv vilken typ av biljetter du släpper. Vad kan deltagarna förvänta sig?",
+        "Beskriv vilken typ av biljetter du släpper. Vad kan deltagarna förvänta sig? Markdown stöds.",
       available_at: "Tillgänglig från",
       available_at_helperText:
         "När släpps biljetterna? Detta är tidpunkten då användare kan börja begära biljetter.",
@@ -73,7 +73,8 @@ const seTranslations = {
       name: "Namn",
       name_helperText: "Vad är namnet på denna biljett?",
       description: "Beskrivning",
-      description_helperText: "Beskriv vad som ingår i denna biljett",
+      description_helperText:
+        "Beskriv vad som ingår i denna biljett. Markdown stöds.",
       price: "Pris (SEK)",
       price_helperText: "Hur mycket kostar denna biljett?",
     },

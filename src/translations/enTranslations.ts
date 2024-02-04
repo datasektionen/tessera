@@ -37,7 +37,7 @@ const enTranslations = {
       name_helperText: "What is the name of your event?",
       description: "Description",
       description_helperText:
-        "Describe what your event is about? What should people expect?",
+        "Describe what your event is about? What should people expect? Markdown is supported.",
       date: "Date",
       date_helperText: "When is your event?",
       location: "Location",
@@ -54,7 +54,7 @@ const enTranslations = {
       name_helperText: "What is the name of your ticket release?",
       description: "Description",
       description_helperText:
-        "Describe what types of tickets you are releasing. What should people expect?",
+        "Describe what types of tickets you are releasing. What should people expect? Markdown is supported.",
       available_at: "Available at",
       available_at_helperText:
         "When will the tickets be released? This is the time when users can start requesting tickets.",
@@ -90,7 +90,8 @@ const enTranslations = {
       name: "Name",
       name_helperText: "What is the name of this ticket?",
       description: "Description",
-      description_helperText: "Describe whats included in this ticket",
+      description_helperText:
+        "Describe whats included in this ticket. Markdown is supported.",
       price: "Price (SEK)",
       price_helperText: "How much does this ticket cost?",
     },

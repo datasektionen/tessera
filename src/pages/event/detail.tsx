@@ -47,6 +47,7 @@ import { useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
+import ReactMarkdown from "react-markdown";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -142,9 +143,10 @@ const EventDetail: React.FC = () => {
                     height: "150px",
                     textOverflow: "ellipsis",
                     overflow: "hidden",
+                    wordBreak: "break-word", // To ensure long words do not cause layout issues
                   }}
                 >
-                  {event.description}
+                  <ReactMarkdown>{event.description}</ReactMarkdown>
                 </Typography>
               </Grid>
               <Grid xs={5}>
