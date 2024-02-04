@@ -240,6 +240,7 @@ const enTranslations = {
     ticket_release_actions_title: "Ticket release actions",
     closed: "has closed",
     open: "is open",
+    allocate_tickets_button: "Allocate tickets",
     the_ticket_release: "The Ticket release",
     not_open: "Not open",
     check_allocated_reserve_tickets: "Try to allocate reserve tickets",
