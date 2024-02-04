@@ -3,7 +3,16 @@ import { AppDispatch, RootState } from "../../../../store";
 import { ITicket, ITicketRelease } from "../../../../types";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Divider, FormControl, Grid, Input, Link, Sheet } from "@mui/joy";
+import {
+  Box,
+  Divider,
+  FormControl,
+  Grid,
+  Input,
+  Link,
+  Sheet,
+  Tooltip,
+} from "@mui/joy";
 import LoadingOverlay from "../../../Loading";
 import PALLETTE from "../../../../theme/pallette";
 import StyledText from "../../../text/styled_text";
@@ -20,6 +29,10 @@ import {
 } from "../../../forms/form_labels";
 import { DefaultInputStyle, FormInput } from "../../../forms/input_types";
 import { useTranslation } from "react-i18next";
+import CheckIcon from "@mui/icons-material/Check";
+import HourglassTopIcon from "@mui/icons-material/HourglassTop";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -30,9 +43,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   ticketRelease,
   ticketReleaseTickets,
 }) => {
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const [allocationLoading, setAllocationLoading] = useState<boolean>(false);
@@ -82,7 +93,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
         toast.error(errorMessage);
       }
     } catch (error: any) {
-      console.log(error);
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
       console.log(error);
@@ -92,36 +102,84 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     setConfirmOpen(false);
   };
 
+  const tryToAllocateReserveTickets = async () => {
+    const response = await axios.post(
+      `${
+        process.env.REACT_APP_BACKEND_URL
+      }/events/${ticketRelease.eventId!}/ticket-release/${
+        ticketRelease.id
+      }/manually-allocate-reserve-tickets`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      setTimeout(() => {
+        toast.success("Reserve tickets allocated successfully");
+      }, 1000);
+      // dispatch(getEventRequest(ticketRelease.eventId!));
+      dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
+    } else {
+      const errorMessage = response.data?.message || "Something went wrong";
+      toast.error(errorMessage);
+    }
+  };
+
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
 
   if (!ticketReleaseTickets) {
     return null;
   }
 
-  const numTicketRequests = ticketReleaseTickets.filter(
-    (ticket) => !ticket.ticket_request?.is_handled
-  ).length;
+  console.log(ticketReleaseTickets, "ticketReleaseTickets");
+
+  const numTicketRequests = ticketReleaseTickets.length;
 
   const numAllocatedTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket.ticket_request?.is_handled
+    (ticket) => ticket.id !== 0
+  ).length;
+
+  const numPaidTickets = ticketReleaseTickets.filter(
+    (ticket) => ticket?.is_paid!
+  ).length;
+
+  const numRefundedTickets = ticketReleaseTickets.filter(
+    (ticket) => ticket?.refunded!
+  ).length;
+
+  const numReserveTickets = ticketReleaseTickets.filter(
+    (ticket) => ticket?.is_reserve!
   ).length;
 
   return (
     <Sheet
-      style={{
-        backgroundColor: PALLETTE.offWhite,
+      sx={{
+        width: "100%",
+        height: "500px",
       }}
     >
-      <Grid container spacing={2} columns={16}>
-        <Grid xs={4}>
-          {" "}
+      <Grid
+        container
+        spacing={2}
+        columns={16}
+        sx={{
+          paddingTop: 4,
+          paddingBottom: 4,
+          paddingLeft: 1,
+          paddingRight: 1,
+          width: "100%",
+        }}
+      >
+        <Grid xs={8}>
           <StyledText
-            level="body-sm"
+            level="body-md"
             fontSize={18}
             fontWeight={700}
-            color={PALLETTE.cerise}
+            color={PALLETTE.charcoal_see_through}
           >
-            {ticketRelease.name}
+            {t("manage_event.ticket_release_method_title")}
           </StyledText>
           <StyledText
             level="body-sm"
@@ -131,8 +189,77 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
           >
             {ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.name}
           </StyledText>
+          <StyledText
+            level="body-sm"
+            fontSize={18}
+            fontWeight={700}
+            sx={{ mt: 2 }}
+            color={PALLETTE.charcoal}
+          >
+            {t("manage_event.ticket_release_ticket_info_title")}
+          </StyledText>
+          <StyledText
+            level="body-sm"
+            fontSize={18}
+            fontWeight={600}
+            color={PALLETTE.charcoal}
+          >
+            {`${numTicketRequests} ` + t("manage_event.ticket_requests")}
+          </StyledText>
+          <Box mt={1}>
+            <StyledText
+              level="body-sm"
+              fontSize={20}
+              fontWeight={600}
+              color={PALLETTE.green}
+            >
+              {`${numAllocatedTickets} ${t("manage_event.allocated_tickets")}`}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={500}
+              color={PALLETTE.charcoal}
+              sx={{ ml: 2 }}
+              startDecorator={<CheckIcon />}
+            >
+              {`${numPaidTickets} ${t("manage_event.paid_tickets")}`}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={500}
+              color={PALLETTE.charcoal}
+              sx={{ ml: 2 }}
+              startDecorator={<HourglassTopIcon />}
+            >
+              {`${numAllocatedTickets - numPaidTickets} ${t(
+                "manage_event.not_yet_paid_tickets"
+              )}`}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={500}
+              color={PALLETTE.charcoal}
+              sx={{ ml: 2 }}
+              startDecorator={<KeyboardReturnIcon />}
+            >
+              {`${numRefundedTickets} ${t("manage_event.refunded_tickets")}`}
+            </StyledText>
+          </Box>
+          <Box mt={1}>
+            <StyledText
+              level="body-sm"
+              fontSize={20}
+              fontWeight={600}
+              color={PALLETTE.orange}
+            >
+              {`${numReserveTickets} ${t("manage_event.reserve_tickets")}`}
+            </StyledText>
+          </Box>
         </Grid>
-        <Grid xs={5} justifyContent="flex-end" flexDirection="row">
+        <Grid xs={8} justifyContent="flex-end" flexDirection="row">
           <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
             {format(new Date(ticketRelease.open), "dd/MM/yyyy HH:mm:ss")} -{" "}
             {format(new Date(ticketRelease.close), "dd/MM/yyyy HH:mm:ss")}
@@ -144,134 +271,145 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             color={isCurrentlyOpen() ? PALLETTE.green : PALLETTE.red}
           >
             {hasntOpenedYet()
-              ? "Not yet open"
-              : "Ticket Release " +
-                (isCurrentlyOpen() ? "is open" : "has closed")}
+              ? t("manage_event.not_yet_open")
+              : t("manage_event.the_ticket_release") +
+                " " +
+                (isCurrentlyOpen()
+                  ? t("manage_event.open")
+                  : t("manage_event.closed"))}
           </StyledText>
-        </Grid>
-        <Grid xs={4}>
           <StyledText
             level="body-sm"
-            fontSize={18}
-            fontWeight={600}
-            color={
-              ticketRelease.has_allocated_tickets
-                ? PALLETTE.green
-                : PALLETTE.orange
-            }
+            fontSize={22}
+            color={PALLETTE.charcoal_see_through}
+            fontWeight={700}
+            sx={{ mt: 2 }}
           >
-            {ticketRelease.has_allocated_tickets!
-              ? ` ${numAllocatedTickets} Allocated tickets`
-              : `${numTicketRequests} Ticket requests`}
+            {t("manage_event.ticket_release_actions_title")}
           </StyledText>
-        </Grid>
-        <Grid
-          container
-          xs={3}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          <ConfirmModal
-            isOpen={confirmOpen}
-            onClose={() => {
-              setConfirmOpen(false);
-            }}
-            title={t("manage_event.allocate_tickets_confirm_title")}
-            actions={[
-              <StyledButton
-                key="confirm"
-                size="md"
-                bgColor={PALLETTE.green}
-                onClick={async () => {
-                  await handleAllocateTickets();
-                }}
-              >
-                {allocationLoading ? "Allocating..." : t("form.button_confirm")}
-              </StyledButton>,
-              <StyledButton
-                key="cancel"
-                size="md"
-                bgColor={PALLETTE.red}
-                onClick={() => {
-                  setConfirmOpen(false);
-                }}
-              >
-                {t("form.button_cancel")}
-              </StyledButton>,
-            ]}
-          >
-            <StyledText
-              level="body-md"
-              fontWeight={500}
-              color={PALLETTE.charcoal}
-              fontSize={18}
-            >
-              {isCurrentlyOpen() && (
-                <StyledText
-                  level="body-md"
-                  fontWeight={700}
-                  color={PALLETTE.red}
-                  fontSize={18}
-                >
-                  WARNING:{" "}
-                </StyledText>
-              )}
-              {isCurrentlyOpen()
-                ? t("manage_event.allocate_tickets_warning")
-                : t("manage_event.allocate_tickets_confirm")}
-
-              <Divider sx={{ my: 2 }} />
-
-              <FormControl>
-                <StyledFormLabel>
-                  {t("manage_event.pay_within_hours")}
-                </StyledFormLabel>
-                <Input
-                  value={payWithinHours}
-                  onChange={(e) => {
-                    // remove zeros at the start
-                    if (
-                      e.target.value.startsWith("0") &&
-                      e.target.value.length > 1
-                    ) {
-                      e.target.value = e.target.value.slice(1);
-                    }
-
-                    // check more than 0
-                    if (parseInt(e.target.value) < 1) {
-                      e.target.value = "1";
-                    }
-
-                    setPayWithinHours(parseInt(e.target.value));
+          <Box mt={2}>
+            <ConfirmModal
+              isOpen={confirmOpen}
+              onClose={() => {
+                setConfirmOpen(false);
+              }}
+              title={t("manage_event.allocate_tickets_confirm_title")}
+              actions={[
+                <StyledButton
+                  key="confirm"
+                  size="md"
+                  bgColor={PALLETTE.green}
+                  onClick={async () => {
+                    await handleAllocateTickets();
                   }}
-                  placeholder=""
-                  type="number"
-                  style={
-                    {
-                      ...DefaultInputStyle,
-                    } as any
-                  }
-                />
+                >
+                  {allocationLoading
+                    ? "Allocating..."
+                    : t("form.button_confirm")}
+                </StyledButton>,
+                <StyledButton
+                  key="cancel"
+                  size="md"
+                  bgColor={PALLETTE.red}
+                  onClick={() => {
+                    setConfirmOpen(false);
+                  }}
+                >
+                  {t("form.button_cancel")}
+                </StyledButton>,
+              ]}
+            >
+              <StyledText
+                level="body-md"
+                fontWeight={500}
+                color={PALLETTE.charcoal}
+                fontSize={18}
+              >
+                {isCurrentlyOpen() && (
+                  <StyledText
+                    level="body-md"
+                    fontWeight={700}
+                    color={PALLETTE.red}
+                    fontSize={18}
+                  >
+                    WARNING:{" "}
+                  </StyledText>
+                )}
+                {isCurrentlyOpen()
+                  ? t("manage_event.allocate_tickets_warning")
+                  : t("manage_event.allocate_tickets_confirm")}
 
-                <StyledFormLabelWithHelperText>
-                  {t("manage_event.allocate_tickets_helperText")}
-                </StyledFormLabelWithHelperText>
-              </FormControl>
-            </StyledText>
-          </ConfirmModal>
-          {!hasntOpenedYet() && (
+                <Divider sx={{ my: 2 }} />
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("manage_event.pay_within_hours")}
+                  </StyledFormLabel>
+                  <Input
+                    value={payWithinHours}
+                    onChange={(e) => {
+                      // remove zeros at the start
+                      if (
+                        e.target.value.startsWith("0") &&
+                        e.target.value.length > 1
+                      ) {
+                        e.target.value = e.target.value.slice(1);
+                      }
+
+                      // check more than 0
+                      if (parseInt(e.target.value) < 1) {
+                        e.target.value = "1";
+                      }
+
+                      setPayWithinHours(parseInt(e.target.value));
+                    }}
+                    placeholder=""
+                    type="number"
+                    style={
+                      {
+                        ...DefaultInputStyle,
+                      } as any
+                    }
+                  />
+
+                  <StyledFormLabelWithHelperText>
+                    {t("manage_event.allocate_tickets_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+              </StyledText>
+            </ConfirmModal>
+            {!hasntOpenedYet() && (
+              <StyledButton
+                size="md"
+                bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
+                disabled={ticketRelease.has_allocated_tickets}
+                onClick={() => {
+                  setConfirmOpen(true);
+                }}
+              >
+                {t("manage_event.allocate_tickets_button")}
+              </StyledButton>
+            )}
             <StyledButton
               size="md"
-              bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
-              disabled={ticketRelease.has_allocated_tickets}
+              bgColor={PALLETTE.offWhite}
+              startDecorator={
+                <Tooltip
+                  title={t(
+                    "manage_event.check_allocated_reserve_tickets_tooltip"
+                  )}
+                >
+                  <HelpOutlineIcon />
+                </Tooltip>
+              }
               onClick={() => {
-                setConfirmOpen(true);
+                tryToAllocateReserveTickets();
               }}
+              sx={{ mt: 1 }}
             >
-              {t("manage_event.allocate_tickets_button")}
+              {t("manage_event.check_allocated_reserve_tickets")}
             </StyledButton>
-          )}
+          </Box>
         </Grid>
       </Grid>
     </Sheet>

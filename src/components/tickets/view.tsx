@@ -207,7 +207,11 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         <ConfirmModal
           isOpen={confirmCancelOpen}
           onClose={() => setConfirmCancelOpen(false)}
-          title={t("tickets.confirm_cancel_ticket_request_title")}
+          title={
+            ticket.is_reserve
+              ? t("tickets.confirm_cancel_ticket_request_title")
+              : t("tickets.confirm_cancel_ticket_title")
+          }
           actions={[
             <StyledButton
               bgColor={PALLETTE.offWhite}

@@ -20,6 +20,7 @@ interface StyledButtonProps {
   startDecorator?: React.ReactNode;
   textColor?: string;
   type?: "button" | "submit" | "reset";
+  sx?: any;
 }
 
 const ButtonStyled = styled(Button)<StyledButtonExtension>(
@@ -47,6 +48,7 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   disabled = false,
   startDecorator,
   textColor,
+  sx = {},
 }) => {
   return (
     <ButtonStyled
@@ -59,6 +61,7 @@ const StyledButton: React.FC<StyledButtonProps> = ({
       style={style}
       bgColor={bgColor}
       color_={color}
+      sx={sx}
     >
       <StyledText level="body-md" color={disabled ? PALLETTE.offWhite : color!}>
         {children}

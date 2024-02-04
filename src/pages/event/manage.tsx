@@ -48,7 +48,6 @@ const ManageEventPage: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
 
   const handleEventDelete = () => {
@@ -61,7 +60,7 @@ const ManageEventPage: React.FC = () => {
       dispatch(getEventRequest(parseInt(eventID)));
       dispatch(fetchEventTicketsStart(parseInt(eventID)));
     }
-  }, []);
+  }, [dispatch, eventID]);
 
   if (!event || loading) {
     return <LoadingOverlay />;

@@ -150,9 +150,9 @@ const enTranslations = {
     teams: "Teams",
 
     links_and_buttons: {
-      your_ticket_requests: "Your ticket requests",
-      your_tickets: "Your tickets",
-      your_teams: "Your teams",
+      your_ticket_requests: "My ticket requests",
+      your_tickets: "My tickets",
+      your_teams: "My teams",
     },
 
     food_preferences: {
@@ -230,7 +230,21 @@ const enTranslations = {
   manage_event: {
     title: "Manage event",
     manage_ticket_releases: "Manage ticket releases",
-    allocate_tickets_button: "Allocate tickets",
+    ticket_release_method_title: "Ticket release Method",
+    ticket_release_ticket_info_title: "Tickets info",
+    ticket_requests: "Ticket requests",
+    paid_tickets: "Paid tickets",
+    not_yet_paid_tickets: "Not yet paid tickets",
+    refunded_tickets: "Refunded tickets",
+    reserve_tickets: "Reserve tickets",
+    ticket_release_actions_title: "Ticket release actions",
+    closed: "has closed",
+    open: "is open",
+    the_ticket_release: "The Ticket release",
+    not_open: "Not open",
+    check_allocated_reserve_tickets: "Try to allocate reserve tickets",
+    check_allocated_reserve_tickets_tooltip:
+      "Pressing this button will manually try to allocate reserve tickets. This is useful if you dont want to wait for the automatic allocation.",
     allocated_tickets: "Allocated tickets",
     pay_within_hours: "Users must pay within (hours)*",
     allocate_tickets_confirm_title: "Confirm ticket allocation",
@@ -298,6 +312,7 @@ const enTranslations = {
 
     cancel_ticket_request_button: "Cancel ticket request",
     cancel_ticket_button: "I no longer wish to attend",
+    confirm_cancel_ticket_title: "Confirm ticket cancellation",
     confirm_cancel_ticket_request_title: "Confirm ticket request cancellation",
     leave_reserve_list_text: "Leave reserve list",
     reserve_number: "You are number <1>{{number}}</1> on the reserve list.",
@@ -306,7 +321,7 @@ const enTranslations = {
     confirm_cancel_reserve_ticket_text:
       "Are you sure you want to cancel your ticket? You will not be able to get your ticket back and this action cannot be undone!",
     confirm_cancel_ticket_text:
-      "Are you sure you want to leave the reserve list and cancel your ticket? You will not be able to get your ticket back and this action cannot be undone!",
+      "Are you sure want to cancel this ticket? You will not be able to get your ticket back and this action cannot be undone!",
     pay_button: "Pay now",
 
     payment: {

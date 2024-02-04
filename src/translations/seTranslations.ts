@@ -133,9 +133,9 @@ const seTranslations = {
     teams: "Grupper",
 
     links_and_buttons: {
-      your_ticket_requests: "Dina biljettförfrågningar",
-      your_tickets: "Dina biljetter",
-      your_teams: "Dina grupper",
+      your_ticket_requests: "Mina biljettförfrågningar",
+      your_tickets: "Mina biljetter",
+      your_teams: "Mina grupper",
     },
 
     food_preferences: {
@@ -215,6 +215,21 @@ const seTranslations = {
     manage_ticket_releases: "Hantera biljettsläpp",
     allocate_tickets_button: "Tilldela biljetter",
     allocated_tickets: "Tilldelade biljetter",
+    ticket_release_method_title: "Biljettsläppsmetod",
+    ticket_release_ticket_info_title: "Biljettinformation",
+    ticket_requests: "Biljettförfrågningar",
+    ticket_release_actions_title: "Biljettsläppsåtgärder",
+    paid_tickets: "Betalda biljetter",
+    not_yet_paid_tickets: "Ännu inte betalda biljetter",
+    refunded_tickets: "Återbetalade biljetter",
+    closed: "har stängts",
+    open: "är öppen",
+    the_ticket_release: "Biljettsläppet",
+    check_allocated_reserve_tickets: "Försök att tilldela reservbiljetter",
+    check_allocated_reserve_tickets_tooltip:
+      "Genom att trycka på denna knapp kommer du manuellt försöka tilldela reserverade biljetter. Detta är användbart om du inte vill vänta på den automatiska tilldelningen.",
+    not_open_yet: "Inte öppnat än",
+    reserve_tickets: "Reservera biljetter",
     pay_within_hours: "Användare måste betala inom (timmar)*",
     allocate_tickets_confirm_title: "Bekräfta tilldelning av biljetter",
     allocate_tickets_warning:
@@ -307,7 +322,7 @@ const seTranslations = {
 
   tickets: {
     cost_overview: "Prisöversikt",
-    // TODO change DATUM
+    confirm_cancel_ticket_title: "Bekräfta borttagande av biljett",
     confirmed_ticket:
       "Din biljett har bekräftats! Nu är det dags att betala för din biljett. Du kan betala för din biljett genom att klicka på knappen nedan. Om du inte betalar för din biljett före DATUM kommer din biljett att ges till nästa person i kön.",
     reserve_ticket:

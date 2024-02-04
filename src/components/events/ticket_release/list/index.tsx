@@ -4,7 +4,9 @@ import {
   AccordionGroup,
   AccordionSummary,
   Box,
+  Grid,
   Link,
+  Modal,
 } from "@mui/joy";
 import { IEvent, ITicket, ITicketRelease } from "../../../../types";
 import Title from "../../../text/title";
@@ -16,6 +18,9 @@ import {
   ticketReleaseHasClosed,
   ticketReleaseHasOpened,
 } from "../../../../utils/event_open_close";
+import InformationModal from "../../../modal/information";
+import BorderBox from "../../../wrappers/border_box";
+import StyledButton from "../../../buttons/styled_button";
 
 interface ListEventTicketReleasesProps {
   ticketReleases: ITicketRelease[];
@@ -63,6 +68,16 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
     Record<string, ITicket[]>
   >({});
 
+  const [openModal, setOpenModal] = useState<number | null>(null);
+
+  const handleOpen = (id: number) => {
+    setOpenModal(id);
+  };
+
+  const handleClose = () => {
+    setOpenModal(null);
+  };
+
   // Group tickets by ticket release
   useEffect(() => {
     const grouped = tickets.reduce((groups, ticket) => {
@@ -82,33 +97,35 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   }
 
   return (
-    <Box>
-      <AccordionGroup>
-        {ticketReleases.map((ticketRelease) => {
-          return (
-            <Accordion key={`ticket-release-${ticketRelease.id}`}>
-              <AccordionSummary>
-                <StyledText
-                  level="body-md"
-                  fontSize={18}
-                  color={PALLETTE.cerise}
-                  fontWeight={700}
-                >
-                  {ticketRelease.name} -{" "}
-                  <TicketReleaseStatusIndicator ticketRelease={ticketRelease} />
-                </StyledText>
-              </AccordionSummary>
-              <AccordionDetails>
-                <TicketReleaseRowView
-                  ticketRelease={ticketRelease}
-                  ticketReleaseTickets={groupedTickets[ticketRelease.id] || []}
-                />
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-      </AccordionGroup>
-    </Box>
+    <Grid container alignItems="center" justifyContent="flex-start" spacing={2}>
+      {ticketReleases.map((ticketRelease) => {
+        return (
+          <Grid>
+            <StyledButton
+              size="md"
+              bgColor={PALLETTE.offWhite}
+              onClick={() => {
+                handleOpen(ticketRelease.id);
+              }}
+              style={{ width: "300px" }}
+            >
+              {ticketRelease.name}
+            </StyledButton>
+            <InformationModal
+              title={"Manage " + ticketRelease.name}
+              isOpen={openModal === ticketRelease.id}
+              onClose={handleClose}
+              width={"75%"}
+            >
+              <TicketReleaseRowView
+                ticketRelease={ticketRelease}
+                ticketReleaseTickets={groupedTickets[ticketRelease.id] || []}
+              />
+            </InformationModal>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 
