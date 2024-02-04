@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/joy/Box";
 import Typography from "@mui/joy/Typography";
 import IconButton from "@mui/joy/IconButton";
@@ -13,8 +13,10 @@ import { ROUTES } from "../../routes/def";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import styles from "./nav.module.css";
-import { isMobile } from "react-device-detect";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import MobileNavigationBar from "./mobile-nav";
+import { is } from "date-fns/locale";
 
 const lngs = [
   {
@@ -100,130 +102,132 @@ function NavigationBar() {
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
 
-  if (isMobile) {
-    return <MobileNavigationBar />;
-  }
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  return (
-    <Box
-      sx={{
-        margin: 0,
-        padding: 0,
-        backgroundColor: PALLETTE.cerise,
-        color: "white",
-        width: "100vw",
-        height: "64px",
-        position: "sticky",
-        top: 0,
-        zIndex: 1000, // Ensure it stays on top of other elements
-      }}
-    >
-      {/* Left-aligned "tessera" text */}
-      <Grid
-        container
-        spacing={2}
-        alignItems="center"
-        justifyContent="space-between"
+  if (isScreenSmall) {
+    return <MobileNavigationBar />;
+  } else
+    return (
+      <Box
         sx={{
-          padding: "16px",
-          marginLeft: "16px",
-          marginRight: "16px",
+          margin: 0,
+          padding: 0,
+          backgroundColor: PALLETTE.cerise,
+          color: "white",
+          width: "100vw",
+          height: "64px",
+          position: "sticky",
+          top: 0,
+          zIndex: 1000, // Ensure it stays on top of other elements
         }}
       >
-        <Typography
-          level="h4"
-          component="a"
-          href="/" // Link to the main page
-          fontFamily={"Josefin sans"}
-          fontSize={24}
-          sx={{ textDecoration: "none", color: PALLETTE.offWhite }}
-        >
-          tessera
-        </Typography>
-        <Stack
-          direction="row"
+        {/* Left-aligned "tessera" text */}
+        <Grid
+          container
           spacing={2}
           alignItems="center"
-          style={{
-            padding: 0,
+          justifyContent="space-between"
+          sx={{
+            padding: "16px",
+            marginLeft: "16px",
+            marginRight: "16px",
           }}
         >
-          <StyledText
-            level="body-sm"
-            color={""}
-            fontSize={18}
+          <Typography
+            level="h4"
+            component="a"
+            href="/" // Link to the main page
+            fontFamily={"Josefin sans"}
+            fontSize={24}
+            sx={{ textDecoration: "none", color: PALLETTE.offWhite }}
+          >
+            tessera
+          </Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
             style={{
-              margin: "0 16px",
+              padding: 0,
             }}
           >
-            <StyledLink href={ROUTES.EVENTS}>
-              {t("navigation.events")}
-            </StyledLink>
-          </StyledText>
-          {!currentUser?.is_external && (
             <StyledText
-              color={""}
               level="body-sm"
+              color={""}
               fontSize={18}
               style={{
                 margin: "0 16px",
               }}
             >
-              <StyledLink href={ROUTES.CREATE_EVENT}>
-                {t("navigation.create_event")}
+              <StyledLink href={ROUTES.EVENTS}>
+                {t("navigation.events")}
               </StyledLink>
             </StyledText>
-          )}
-          {!currentUser?.is_external && (
-            <StyledText
-              color={""}
-              level="body-sm"
-              fontSize={18}
-              style={{
-                margin: "0 16px",
-              }}
-            >
-              <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                {t("navigation.teams")}
-              </StyledLink>
-            </StyledText>
-          )}
-        </Stack>
-        {/* Right-aligned profile icon */}
-        <Stack
-          direction="row"
-          spacing={2}
-          alignItems="center"
-          style={{
-            padding: 0,
-          }}
-        >
-          <LanguageSelector />
+            {!currentUser?.is_external && (
+              <StyledText
+                color={""}
+                level="body-sm"
+                fontSize={18}
+                style={{
+                  margin: "0 16px",
+                }}
+              >
+                <StyledLink href={ROUTES.CREATE_EVENT}>
+                  {t("navigation.create_event")}
+                </StyledLink>
+              </StyledText>
+            )}
+            {!currentUser?.is_external && (
+              <StyledText
+                color={""}
+                level="body-sm"
+                fontSize={18}
+                style={{
+                  margin: "0 16px",
+                }}
+              >
+                <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+                  {t("navigation.teams")}
+                </StyledLink>
+              </StyledText>
+            )}
+          </Stack>
+          {/* Right-aligned profile icon */}
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            style={{
+              padding: 0,
+            }}
+          >
+            <LanguageSelector />
 
-          <IconButton
-            component="a"
-            href="/profile" // Link to the profile page
-          >
-            <PersonIcon
-              style={{
-                color: PALLETTE.offWhite,
-              }}
-            />
-          </IconButton>
-          <IconButton
-            component="a"
-            href="/logout" // Link to the logout page
-          >
-            <LogoutIcon
-              style={{
-                color: PALLETTE.offWhite,
-              }}
-            />
-          </IconButton>
-        </Stack>
-      </Grid>
-    </Box>
-  );
+            <IconButton
+              component="a"
+              href="/profile" // Link to the profile page
+            >
+              <PersonIcon
+                style={{
+                  color: PALLETTE.offWhite,
+                }}
+              />
+            </IconButton>
+            <IconButton
+              component="a"
+              href="/logout" // Link to the logout page
+            >
+              <LogoutIcon
+                style={{
+                  color: PALLETTE.offWhite,
+                }}
+              />
+            </IconButton>
+          </Stack>
+        </Grid>
+      </Box>
+    );
 }
 
 export default NavigationBar;
