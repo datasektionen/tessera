@@ -144,7 +144,7 @@ const EventDetail: React.FC = () => {
                   level="body-md"
                   style={{
                     color: PALLETTE.charcoal,
-                    height: "150px",
+                    height: "fit-content",
                     textOverflow: "ellipsis",
                     overflow: "hidden",
                     wordBreak: "break-word", // To ensure long words do not cause layout issues

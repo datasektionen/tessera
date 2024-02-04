@@ -11,6 +11,7 @@ import {
   Input,
   Link,
   Sheet,
+  Stack,
   Tooltip,
 } from "@mui/joy";
 import LoadingOverlay from "../../../Loading";
@@ -378,37 +379,39 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 </FormControl>
               </StyledText>
             </ConfirmModal>
-            {!hasntOpenedYet() && (
+            <Stack spacing={2} direction={"column"}>
+              {!hasntOpenedYet() && (
+                <StyledButton
+                  size="md"
+                  bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
+                  disabled={ticketRelease.has_allocated_tickets}
+                  onClick={() => {
+                    setConfirmOpen(true);
+                  }}
+                >
+                  {t("manage_event.allocate_tickets_button")}
+                </StyledButton>
+              )}
               <StyledButton
                 size="md"
-                bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
-                disabled={ticketRelease.has_allocated_tickets}
+                bgColor={PALLETTE.offWhite}
+                startDecorator={
+                  <Tooltip
+                    title={t(
+                      "manage_event.check_allocated_reserve_tickets_tooltip"
+                    )}
+                  >
+                    <HelpOutlineIcon />
+                  </Tooltip>
+                }
                 onClick={() => {
-                  setConfirmOpen(true);
+                  tryToAllocateReserveTickets();
                 }}
+                sx={{ mt: 1 }}
               >
-                {t("manage_event.allocate_tickets_button")}
+                {t("manage_event.check_allocated_reserve_tickets")}
               </StyledButton>
-            )}
-            <StyledButton
-              size="md"
-              bgColor={PALLETTE.offWhite}
-              startDecorator={
-                <Tooltip
-                  title={t(
-                    "manage_event.check_allocated_reserve_tickets_tooltip"
-                  )}
-                >
-                  <HelpOutlineIcon />
-                </Tooltip>
-              }
-              onClick={() => {
-                tryToAllocateReserveTickets();
-              }}
-              sx={{ mt: 1 }}
-            >
-              {t("manage_event.check_allocated_reserve_tickets")}
-            </StyledButton>
+            </Stack>
           </Box>
         </Grid>
       </Grid>
