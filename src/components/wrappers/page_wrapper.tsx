@@ -6,6 +6,7 @@ import PALLETTE from "../../theme/pallette";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import theme from "../../theme";
+import Footer from "./footer";
 interface TesseraWrapperProps {
   children: React.ReactNode;
 }
@@ -39,6 +40,7 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
         >
           {children}
         </Box>
+        <Footer />
       </CssVarsProvider>
     </>
   );

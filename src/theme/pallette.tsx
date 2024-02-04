@@ -10,6 +10,7 @@ interface IPallette {
   green: string;
   yellow: string;
   orange: string;
+  offBlack: string;
 }
 
 const PALLETTE: IPallette = {
@@ -24,6 +25,7 @@ const PALLETTE: IPallette = {
   green: "#73BA9B",
   yellow: "#FDE74C",
   orange: "#F06449",
+  offBlack: "#1E1E1E",
 };
 
 export default PALLETTE;

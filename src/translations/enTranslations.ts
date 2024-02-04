@@ -378,6 +378,21 @@ const enTranslations = {
     },
   },
 
+  footer: {
+    about_title: "About",
+    about_content:
+      "Tessera is a platform that makes ticket releases and ticket management easy.",
+    quick_links_title: "Quick links",
+    home: "Home",
+    events: "Events",
+    profile: "Profile",
+    report_an_issue_title: "Report an issue",
+    made_by:
+      "Tessera is built by Lucas Dow and belongs to <1>Konglig Datasektionen</1>.",
+    report_an_issue_content:
+      "If something isn't working, or you have a suggestion, You can <1>Create an issue on Github</1>.",
+  },
+
   common: {
     show_all: "Show all",
     show_less: "Show less",

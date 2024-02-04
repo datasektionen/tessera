@@ -20,6 +20,7 @@ import CallToActionButton from "../../components/buttons/call_to_action_button";
 import CommonlyAskedQuestions from "../../components/faq";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "@mui/material";
+import Footer from "../../components/wrappers/footer";
 
 const MainPage: React.FC = () => {
   const { loading, error, events } = useSelector(
@@ -200,6 +201,7 @@ const MainPage: React.FC = () => {
           </StyledText>
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };

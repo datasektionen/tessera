@@ -141,7 +141,6 @@ function NavigationBar() {
         {/* Left-aligned "tessera" text */}
         <Grid
           container
-          spacing={2}
           alignItems="center"
           justifyContent="space-between"
           sx={{

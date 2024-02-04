@@ -374,6 +374,21 @@ const seTranslations = {
       "Välkommen till Tessera! Vi ser att du använder en mobil enhet. Vissa delar av webbplatsen kanske inte är optimerade för mobila enheter. Men att begära och visa biljetter bör fungera som förväntat. Om du är en evenemangsarrangör rekommenderar vi att du använder en skrivbordsenhet.",
   },
 
+  footer: {
+    about_title: "Om",
+    about_content:
+      "Tessera är en plattform som gör biljettsläpp och biljettadministration enkelt.",
+    quick_links_title: "Snabblänkar",
+    home: "Hem",
+    events: "Evenemang",
+    profile: "Profil",
+    report_an_issue_title: "Rapportera ett problem",
+    made_by:
+      "Tessera är byggt av Lucas Dow och tillhör <1>Konglig Datasektionen</1>.",
+    report_an_issue_content:
+      "Om något inte fungerar, eller om du har ett förslag, kan du <1>Skapa ett problem på Github</1>.",
+  },
+
   main_page: {
     not_a_pain: "Biljettsläpp ska inte vara jobbiga!",
     welcome: "{{name}}, välkommen till",

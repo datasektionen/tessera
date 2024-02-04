@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import Footer from "./footer";
 
 interface TesseraWrapperProps {
   children: React.ReactNode;
@@ -40,6 +41,7 @@ const MUITesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
       >
         {children}
       </Box>
+      <Footer />
     </>
   );
 };
