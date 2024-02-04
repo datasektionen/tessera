@@ -31,10 +31,6 @@ function* loginSaga(): Generator<any, void, any> {
 
 function* logoutSaga(): Generator<any, void, any> {
   try {
-    console.log(
-      "logoutSaga, process.env.REACT_APP_BACKEND_URL:",
-      process.env.REACT_APP_BACKEND_URL
-    );
     const response = yield call(
       axios.get,
       `${process.env.REACT_APP_BACKEND_URL}/logout`,

@@ -89,9 +89,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
       setMessage("An unexpected error occurred.");
     }
 
-    // Set local storage success message
-    localStorage.setItem("payment_success", "true");
-
     setIsLoading(false);
   };
 
