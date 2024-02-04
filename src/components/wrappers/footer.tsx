@@ -107,6 +107,7 @@ const Footer: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          flexDirection: "column",
         }}
       >
         <StyledText
@@ -122,6 +123,19 @@ const Footer: React.FC = () => {
             </Link>
           </Trans>
         </StyledText>
+        <Link
+          href="https://www.youtube.com/watch?v=7IZ-Fek2kzE&ab_channel=ForestFilmStudio"
+          target="_blank"
+        >
+          <StyledText
+            level="body-sm"
+            fontSize={1}
+            fontWeight={600}
+            color={PALLETTE.charcoal}
+          >
+            Issa made the mushroom logo 🍄
+          </StyledText>
+        </Link>
       </Box>
     </>
   );

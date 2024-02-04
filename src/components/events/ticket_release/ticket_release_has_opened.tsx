@@ -39,7 +39,7 @@ import {
   numberOfTotalTicketRequestInBasket,
 } from "../../../utils/ticket_types";
 import ConfirmModal from "../../modal/confirm_modal";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
 
 const TicketReleasHasOpened: React.FC<{
@@ -184,7 +184,7 @@ const TicketReleasHasOpened: React.FC<{
                     {item.quantity} x {item.name}
                   </Typography>
                 </Grid>
-                <Typography level="body-sm" fontFamily={"Josefin sans"} >
+                <Typography level="body-sm" fontFamily={"Josefin sans"}>
                   SEK {(item.price * item.quantity).toFixed(2)}
                 </Typography>
               </Grid>
@@ -212,6 +212,29 @@ const TicketReleasHasOpened: React.FC<{
                 .toFixed(2)}
             </Typography>
           </Grid>
+
+          <Box mt={2}>
+            <StyledText
+              level="body-sm"
+              fontWeight={500}
+              fontSize={14}
+              color={PALLETTE.charcoal}
+            >
+              <Trans i18nKey="event.ticket_release.information_processing_policy_info">
+                By requesting a ticket you agree to share your food preferences
+                and user details with the event organizer until the event is
+                over. Information collected will be processed in accordance with
+                the chapters information processing policy,
+                <Link
+                  href="https://styrdokument.datasektionen.se/pm_informationshantering"
+                  target="_blank"
+                >
+                  click here
+                </Link>
+                for more information.
+              </Trans>
+            </StyledText>
+          </Box>
 
           <Grid
             mt={2}

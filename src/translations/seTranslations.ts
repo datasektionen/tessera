@@ -293,6 +293,8 @@ const seTranslations = {
       month: "månad(er)",
       reserved: "Reserverad",
       no_tickets: "Det finns inga biljetter tillgängliga.",
+      information_processing_policy_info:
+        "Genom att begära en biljett godkänner du att dela dina matpreferenser och användaruppgifter med evenemangsarrangören tills evenemanget är över. Insamlad information kommer att behandlas i enlighet med sektionens informationsbehandlingspolicy, <1>Klicka här</1> för mer information.",
       checkout: {
         overview: "Översikt",
         what_is_a_request_title: "Vad är en biljettförfrågan?",
