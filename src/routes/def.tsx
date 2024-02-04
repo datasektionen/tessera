@@ -39,4 +39,5 @@ export const ROUTES = {
   PROFILE_ORGANIZATIONS: "/profile/organizations",
   EXTERNAL: "/external",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",
+  EXTERNAL_VERIFY_EMAIL: "/verify-email/:token",
 };

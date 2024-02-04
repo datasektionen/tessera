@@ -28,6 +28,7 @@ import External from "../pages/external";
 import { resetFetchUser } from "../redux/features/authSlice";
 import HandleLoginCallback from "../pages/login/callback";
 import { ReactElement, ReactNode } from "react";
+import ExternalVerifyEmail from "../pages/external/verify-email";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -85,6 +86,7 @@ function AppRoutes() {
           element={<HandleLoginCallback />}
         />
         <Route path={ROUTES.EXTERNAL} element={<External />} />
+        <Route path={ROUTES.EXTERNAL_VERIFY_EMAIL} element={<ExternalVerifyEmail />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.MAIN} element={<MainPageWithCurrentUser />} />
