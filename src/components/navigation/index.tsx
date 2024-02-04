@@ -42,6 +42,9 @@ export const LanguageSelector: React.FC = () => {
       return;
     }
     i18n.changeLanguage(newValue);
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
