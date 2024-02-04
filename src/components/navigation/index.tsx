@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/joy/Box";
 import Typography from "@mui/joy/Typography";
 import IconButton from "@mui/joy/IconButton";
@@ -43,13 +43,26 @@ export const LanguageSelector: React.FC = () => {
     }
     i18n.changeLanguage(newValue);
   };
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setSelectedLanguage(i18n.language);
+    };
+
+    i18n.on("languageChanged", handleLanguageChange);
+
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange);
+    };
+  }, [i18n]);
 
   return (
     <Select
       style={{
         backgroundColor: PALLETTE.offWhite,
       }}
-      value={i18n.language === "en-GB" ? "gb" : i18n.language}
+      value={selectedLanguage === "en-GB" ? "gb" : selectedLanguage}
       defaultValue={"gb"}
       onChange={handleChange}
       renderValue={(selected) => (
