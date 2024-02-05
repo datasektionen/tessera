@@ -17,6 +17,8 @@ import TicketsList from "../../components/tickets/list_tickets";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Trans, useTranslation } from "react-i18next";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ProfileTicketsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -27,9 +29,12 @@ const ProfileTicketsPage: React.FC = () => {
     (state: RootState) => state.myTickets
   );
 
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("md"));
+
   const handleSetSelected = (index: number | null) => {
     setSelected(index);
-    window.scrollTo(0, 5000);
+    if (isScreenSmall) window.scrollTo(0, 5000);
   };
 
   const dispatch: AppDispatch = useDispatch();

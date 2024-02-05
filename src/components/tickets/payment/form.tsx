@@ -4,7 +4,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { ITicketType } from "../../../types";
+import { IEvent, ITicket, ITicketType } from "../../../types";
 import { RootState } from "../../../store";
 import { useSelector } from "react-redux";
 import StyledButton from "../../buttons/styled_button";
@@ -14,10 +14,11 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
 interface CheckoutFormProps {
+  ticket: ITicket;
   ticketType: ITicketType;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const stripe = useStripe();
   const elements = useElements();
@@ -117,7 +118,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticketType }) => {
             {isLoading ? (
               <CircularProgress color="primary" size={"sm"} variant="plain" />
             ) : (
-              t("tickets.payment.pay_now", { price: ticketType.price })
+              t("tickets.payment.pay_now", {
+                price: ticketType.price * ticket.ticket_request?.ticket_amount!,
+              })
             )}
           </span>
         </StyledButton>

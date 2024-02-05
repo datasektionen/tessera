@@ -90,7 +90,13 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
             <DialogContent>
               <Box>
                 <StyledText level="body-md" color={PALLETTE.charcoal}>
-                  {ticketType.name} - <b>{ticketType.price} SEK</b>
+                  {ticketType.name}
+                  {" x"}
+                  {ticket.ticket_request?.ticket_amount} -{" "}
+                  <b>
+                    {ticketType.price * ticket.ticket_request?.ticket_amount!}{" "}
+                    SEK
+                  </b>
                 </StyledText>
                 <StyledText level="body-sm" color={PALLETTE.charcoal}>
                   {ticketType.description}
@@ -106,7 +112,7 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
                       },
                     }}
                   >
-                    <CheckoutForm ticketType={ticketType} />
+                    <CheckoutForm ticket={ticket} ticketType={ticketType} />
                   </Elements>
                 </Box>
               </Box>

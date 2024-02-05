@@ -86,7 +86,9 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
       );
 
       if (response.status === 200) {
-        toast.success("Tickets allocated successfully");
+        setTimeout(() => {
+          toast.success("Tickets allocated successfully");
+        }, 500);
         dispatch(getEventRequest(ticketRelease.eventId!));
         dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
       } else {
