@@ -4,6 +4,7 @@ import { IEvent } from "../../types";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import StyledText from "../text/styled_text";
+import ReactMarkdown from "react-markdown";
 
 interface EventDetailInfoProps {
   event: IEvent;
@@ -28,12 +29,12 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({ event }) => {
               color={PALLETTE.charcoal}
               level="body-md"
               style={{
-                height: "150px",
+                height: "fit-content",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
               }}
             >
-              {event.description}
+              <ReactMarkdown>{event.description}</ReactMarkdown>
             </StyledText>
           </Grid>
           <Grid xs={5}>

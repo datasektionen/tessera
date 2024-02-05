@@ -101,7 +101,8 @@ const CreateTicketReleaseFormSchema = Yup.object()
     }),
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
-      .min(1, "Max Tickets Per User must be greater than or equal to 1"),
+      .min(1, "Max Tickets Per User must be greater than or equal to 1")
+      .max(1, "Multiple tickets per user is not supported yet"),
     tickets_available: Yup.number()
       .required("Available Tickets is required")
       .min(1, "Available Tickets must be greater than or equal to 1")

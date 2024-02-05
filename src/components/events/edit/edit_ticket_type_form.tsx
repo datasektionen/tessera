@@ -46,6 +46,7 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
 
   useEffect(() => {
     validateAllForms();
+    window.scrollTo(0, 0);
   }, [ticketTypes]);
 
   const { t } = useTranslation();

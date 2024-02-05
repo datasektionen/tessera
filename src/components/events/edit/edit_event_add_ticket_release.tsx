@@ -4,7 +4,7 @@ import StyledText from "../../text/styled_text";
 import StyledButton from "../../buttons/styled_button";
 import PALLETTE from "../../../theme/pallette";
 import BorderBox from "../../wrappers/border_box";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ITicketReleaseForm,
   TicketReleaseFormInitialValues,
@@ -39,6 +39,10 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
   const navigate = useNavigate();
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <StandardGrid>

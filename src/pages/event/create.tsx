@@ -50,6 +50,7 @@ const CreateEventPage = () => {
     if (currentStep < 1 || currentStep > 4) {
       dispatch(resetCurrentStep());
     }
+    window.scrollTo(0, 0);
   }, [currentStep, dispatch]);
 
   const submitEventFullWorkflow = () => {
