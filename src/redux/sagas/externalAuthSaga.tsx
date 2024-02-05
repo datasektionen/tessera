@@ -25,7 +25,9 @@ function* externalSignupSaga(
     if (response.status === 201) {
       yield put(externalSignupSuccess());
       setTimeout(() => {
-        toast.success("Signup successful!");
+        toast.success(
+          "Signup successful, please verify your email before logging in!"
+        );
       }, 500);
     } else {
       const errorMessage = response.data.error || "Something went wrong!";
