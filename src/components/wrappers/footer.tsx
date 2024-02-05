@@ -2,29 +2,37 @@ import { Box, Grid, Link, Stack } from "@mui/joy";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { Trans, useTranslation } from "react-i18next";
+import { useTheme } from "@mui/joy";
+import { useMediaQuery } from "@mui/material";
+import { is } from "date-fns/locale";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <>
       <Box
         sx={{
           backgroundColor: PALLETTE.offBlack,
-          height: "200px",
+          height: "fit-content",
           width: "100vw",
           marginTop: 30,
         }}
+        py={4}
       >
         <Grid
           container
           columns={15}
-          flexDirection={"row"}
+          flexDirection={isScreenSmall ? "column" : "row"}
           justifyContent={"center"}
           alignItems={"flex-start"}
-          pt={4}
-          mx={24}
+          pt={1}
+          spacing={isScreenSmall ? 2 : 0}
+          mx={isScreenSmall ? "5%" : "20%"}
         >
-          <Grid xs={5}>
+          <Grid xs={isScreenSmall ? 15 : 5}>
             <StyledText
               level="body-sm"
               fontSize={20}
@@ -39,7 +47,7 @@ const Footer: React.FC = () => {
 
             {/* Add content for Section 1 here */}
           </Grid>
-          <Grid xs={5}>
+          <Grid xs={isScreenSmall ? 15 : 5}>
             <StyledText
               level="body-sm"
               fontSize={20}
@@ -75,7 +83,7 @@ const Footer: React.FC = () => {
             {/* Add content for Section 2 here */}
           </Grid>
 
-          <Grid xs={5}>
+          <Grid xs={isScreenSmall ? 15 : 5}>
             <StyledText
               level="body-sm"
               fontSize={20}
@@ -112,7 +120,7 @@ const Footer: React.FC = () => {
       >
         <StyledText
           level="body-sm"
-          fontSize={20}
+          fontSize={isScreenSmall ? 14 : 20}
           fontWeight={600}
           color={PALLETTE.charcoal}
         >

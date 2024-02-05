@@ -120,7 +120,7 @@ const EventDetail: React.FC = () => {
     <TesseraWrapper>
       {promoCodeLoading && <LoadingOverlay />}
       <StandardGrid>
-        <Grid xs={16} md={isScreenSmall ? 12 : 8}>
+        <Grid xs={16} md={8}>
           <Item>
             <Typography
               level="h1"
@@ -139,7 +139,7 @@ const EventDetail: React.FC = () => {
             </Typography>
 
             <Grid container spacing={2} columns={16}>
-              <Grid xs={16} md={isScreenSmall ? 10 : 7}>
+              <Grid xs={16} md={12}>
                 <Typography
                   level="body-md"
                   style={{
@@ -153,7 +153,7 @@ const EventDetail: React.FC = () => {
                   <ReactMarkdown>{event.description}</ReactMarkdown>
                 </Typography>
               </Grid>
-              <Grid xs={16} md={isScreenSmall ? 10 : 5}>
+              <Grid xs={16} md={4}>
                 <Typography
                   level="body-sm"
                   fontFamily={"Josefin sans"}
@@ -208,7 +208,7 @@ const EventDetail: React.FC = () => {
             </Grid>
           </Item>
         </Grid>
-        <Grid xs={16} md={isScreenSmall ? 12 : 8} mt={1}>
+        <Grid xs={16} md={8} mt={1}>
           <Item>
             <Typography
               level="h2"
