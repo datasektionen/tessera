@@ -402,7 +402,7 @@ const enTranslations = {
     created: "Created",
     made_at: "Made at",
     mobile_warning:
-      "Welcom to Tessera! We see that you are using a mobile device. Some aspects of the website might not be optimized for mobile devices. However request and viewin tickets should work as expected. If youre an event organizer, we recommend using a desktop device.",
+      "Welcome to Tessera! We see that you are using a mobile device. Some aspects of the website might not be optimized for mobile devices. However request and viewin tickets should work as expected. If youre an event organizer, we recommend using a desktop device.",
   },
 
   faq: {
