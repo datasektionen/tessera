@@ -59,7 +59,7 @@ const MainPage: React.FC = () => {
           top: 0,
           left: 0,
           width: "100%", // Full width
-          height: "100vh", // Full height
+          height: "fit-content", // Height is based on content
         }}
       >
         <div
@@ -184,24 +184,9 @@ const MainPage: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
-
-        <Box
-          sx={{
-            margin: "32px 32px",
-          }}
-        >
-          <CommonlyAskedQuestions />
-        </Box>
-
-        <Box sx={{ margin: "16px 32px" }}>
-          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            Tessera is currently in <b>beta</b>. If you have any feedback,
-            please contact me at{" "}
-            <a href="mailto:lucdow7@gmail.com">lucdow7@gmail.com</a>.
-          </StyledText>
-        </Box>
+        <CommonlyAskedQuestions />'
+        <Footer />
       </Box>
-      <Footer />
     </>
   );
 };

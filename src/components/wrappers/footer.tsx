@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
         sx={{
           backgroundColor: PALLETTE.offBlack,
           height: "fit-content",
-          width: "100vw",
+          width: "100%",
           marginTop: 30,
         }}
         py={4}
@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
         sx={{
           backgroundColor: PALLETTE.cerise,
           height: "50px",
-          width: "100vw",
+          width: "100%",
           textAlign: "center",
           display: "flex",
           alignItems: "center",

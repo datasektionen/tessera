@@ -28,7 +28,13 @@ const CommonlyAskedQuestions: React.FC = () => {
   }, []);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        position: "relative",
+      }}
+      mx={4}
+      mt={4}
+    >
       <Title fontSize={24}>{t("faq.title")}</Title>
       <AccordionGroup>
         {questionNumbers.map((index: number) => {
