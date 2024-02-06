@@ -1,6 +1,7 @@
 import {
   Box,
   Chip,
+  IconButton,
   Link,
   List,
   ListItem,
@@ -30,6 +31,10 @@ import StyledText from "../../text/styled_text";
 import InformationModal from "../../modal/information";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import axios from "axios";
+import { NotificationsActive } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -48,6 +53,90 @@ const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
 const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const { t } = useTranslation();
+
+  const [reminderStatus, setReminderStatus] = React.useState<{
+    has_reminder: boolean;
+    reminder_time: number;
+  } | null>(null);
+
+  const getUserTicketReleaseReminderStatus = async (
+    ticketRelease: ITicketRelease
+  ) => {
+    axios
+      // /events/:eventID/ticket-release/:ticketReleaseID/reminder
+      .get(
+        process.env.REACT_APP_BACKEND_URL +
+          `/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/reminder`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        const { reminder_time } = response.data;
+        if (reminder_time) {
+          const reminder_time_unix = new Date(reminder_time).getTime();
+          setReminderStatus({
+            has_reminder: true,
+            reminder_time: reminder_time_unix,
+          });
+        }
+      })
+      .catch((error) => {});
+  };
+
+  const createReminder = async () => {
+    const reminder_time: number = Math.floor(
+      (ticketRelease.open - 60 * 10) / 1000
+    );
+
+    axios
+      .post(
+        process.env.REACT_APP_BACKEND_URL +
+          `/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/reminder`,
+        {
+          reminder_time,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setReminderStatus({
+          has_reminder: true,
+          reminder_time,
+        });
+        toast.info(
+          "Reminder has been set, you will be notified 10 minutes before the ticket release opens"
+        );
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.error || "An error occurred";
+        toast.error(errorMessage);
+      });
+  };
+
+  const removeReminder = async () => {
+    axios
+      .delete(
+        process.env.REACT_APP_BACKEND_URL +
+          `/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/reminder`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setReminderStatus(null);
+        toast.info("Reminder has been removed");
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.error || "An error occurred";
+        toast.error(errorMessage);
+      });
+  };
+
+  useEffect(() => {
+    getUserTicketReleaseReminderStatus(ticketRelease);
+  }, []);
 
   return (
     <Sheet
@@ -80,6 +169,36 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           </Chip>
         </Box>
       )}
+      {ticketReleaseHasNotOpened(ticketRelease) &&
+        (reminderStatus === null ? (
+          <Box
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            <IconButton onClick={createReminder}>
+              <NotificationsNoneIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          <Box
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            <IconButton onClick={removeReminder}>
+              <NotificationsActive
+                style={{
+                  color: PALLETTE.cerise,
+                }}
+              />
+            </IconButton>
+          </Box>
+        ))}
       <StyledText
         level="h4"
         fontSize={24}
