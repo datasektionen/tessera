@@ -6,6 +6,7 @@ const enTranslations = {
     events: "Events",
     create_event: "Create event",
     teams: "Teams",
+    contact: "Contact",
   },
 
   main_page: {
@@ -95,6 +96,21 @@ const enTranslations = {
       price: "Price (SEK)",
       price_helperText: "How much does this ticket cost?",
     },
+    contact: {
+      title: "Contact",
+      email: "Email",
+      email_helperText: "What is the contact email for this ticket?",
+      subject: "Subject",
+      subject_helperText: "What is the subject for this ticket?",
+      name: "Name",
+      name_helperText: "What is the name of the contact person?",
+      message: "Message",
+      message_helperText: "What is the message for this ticket?",
+      success: "Your message has been sent!",
+      fail: "Your message could not be sent. Please try again later.",
+      description:
+        "If you have any questions, problems or suggestions, feel free to contact us. We will get back to you as soon as possible.",
+    },
 
     button_clear: "Clear",
     button_next: "Next",
@@ -111,6 +127,7 @@ const enTranslations = {
     button_details: "Details",
     button_request: "Request",
     button_delete: "Delete",
+    button_send: "Send",
   },
   create_event: {
     title: "Create event",
