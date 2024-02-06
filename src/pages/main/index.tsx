@@ -135,7 +135,7 @@ const MainPage: React.FC = () => {
         </Box>
       </Box>
       <Box
-        sx={{ width: "100%", height: "100vh" }}
+        sx={{ width: "100%" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
         }}
@@ -185,8 +185,8 @@ const MainPage: React.FC = () => {
           </Grid>
         </Grid>
         <CommonlyAskedQuestions />'
-        <Footer />
       </Box>
+      <Footer />
     </>
   );
 };
