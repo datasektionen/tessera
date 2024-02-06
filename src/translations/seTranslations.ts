@@ -291,6 +291,8 @@ const seTranslations = {
       day: "dag(ar)",
       week: "vecka(or)",
       month: "månad(er)",
+      remove_reminder: "Ta bort påminnelse",
+      set_reminder: "Sätt påminnelse 10 minuter innan biljettsläppet öppnar",
       reserved: "Reserverad",
       no_tickets: "Det finns inga biljetter tillgängliga.",
       information_processing_policy_info:

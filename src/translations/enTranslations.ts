@@ -353,6 +353,8 @@ const enTranslations = {
       month: "month(s)",
       reserved: "Reserved",
       no_tickets: "There are no tickets available.",
+      remove_reminder: "Remove reminder",
+      set_reminder: "Set reminder for 10 minutes before ticket release",
       information_processing_policy_info:
         "By requesting a ticket you agree to share your food preferences and user details with the event organizer until the event is over. Information collected will be processed in accordance with the chapters information processing policy, <1>Click Here</1> for more information.",
       checkout: {

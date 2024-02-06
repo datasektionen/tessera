@@ -7,6 +7,7 @@ import {
   ListItem,
   Sheet,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/joy";
 import { ITicketRelease } from "../../../types";
@@ -178,9 +179,11 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
               right: 8,
             }}
           >
-            <IconButton onClick={createReminder}>
-              <NotificationsNoneIcon />
-            </IconButton>
+            <Tooltip title={t("event.ticket_release.set_reminder")}>
+              <IconButton onClick={createReminder}>
+                <NotificationsNoneIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         ) : (
           <Box
@@ -190,13 +193,15 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
               right: 8,
             }}
           >
-            <IconButton onClick={removeReminder}>
-              <NotificationsActive
-                style={{
-                  color: PALLETTE.cerise,
-                }}
-              />
-            </IconButton>
+            <Tooltip title={t("event.ticket_release.remove_reminder")}>
+              <IconButton onClick={removeReminder}>
+                <NotificationsActive
+                  style={{
+                    color: PALLETTE.cerise,
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
           </Box>
         ))}
       <StyledText
