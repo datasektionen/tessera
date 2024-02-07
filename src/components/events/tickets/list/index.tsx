@@ -88,7 +88,10 @@ const EventTicketsList: React.FC<{
       field: "user",
       headerName: "User",
       width: 100,
-      valueFormatter: (params) => params.value.username,
+      valueFormatter: (params) => {
+        console.log(params);
+        return params.value.username;
+      },
       valueGetter: (params) => params.value,
       renderCell: (params) => (
         <div
@@ -133,8 +136,8 @@ const EventTicketsList: React.FC<{
   };
 
   React.useEffect(() => {
-    setRows(
-      tickets.map((ticket) => ({
+    const rows = tickets.map((ticket) => {
+      const row = {
         id: ticket.id,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
@@ -158,8 +161,12 @@ const EventTicketsList: React.FC<{
         vegan: ticket?.user?.food_preferences?.vegan,
         vegetarian: ticket?.user?.food_preferences?.vegetarian,
         additional_info: ticket?.user?.food_preferences?.additional_info,
-      }))
-    );
+      };
+
+      return row;
+    });
+
+    setRows(rows);
   }, [tickets]);
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -198,7 +205,7 @@ const EventTicketsList: React.FC<{
       additional_info: false,
     });
 
-  if (!tickets) {
+  if (!tickets || rows.length === 0) {
     return <LoadingOverlay />;
   }
 

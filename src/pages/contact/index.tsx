@@ -34,7 +34,7 @@ const ContactPage: React.FC = () => {
         }
       })
       .catch((err) => {
-        toast.error(t("form.contact.error"));
+        toast.error(t("form.contact.fail"));
       });
   };
 
