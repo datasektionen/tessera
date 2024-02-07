@@ -87,7 +87,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
 
   const createReminder = async () => {
     const reminder_time: number = Math.floor(
-      (ticketRelease.open - 60 * 10) / 1000
+      ticketRelease.open / 1000 - 60 * 10
     );
 
     axios
