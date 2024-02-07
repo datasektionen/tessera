@@ -161,7 +161,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const numTicketRequests = ticketReleaseTickets.length;
 
   const numAllocatedTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket.id !== 0
+    (ticket) => ticket.id !== 0 && ticket?.ticket_request?.is_handled!
   ).length;
 
   const numPaidTickets = ticketReleaseTickets.filter(
