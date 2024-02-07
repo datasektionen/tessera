@@ -158,8 +158,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     return null;
   }
 
-  console.log(ticketReleaseTickets, "ticketReleaseTickets");
-
   const numTicketRequests = ticketReleaseTickets.length;
 
   const numAllocatedTickets = ticketReleaseTickets.filter(

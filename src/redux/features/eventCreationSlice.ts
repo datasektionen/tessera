@@ -117,6 +117,9 @@ const eventCreationSlice = createSlice({
     createEventFullWorkflowFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
     },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
 });
 
@@ -135,6 +138,7 @@ export const {
   createEventFullWorkflowSuccess,
   createEventFullWorkflowFailure,
   resetCompletely,
+  setLoading,
 } = eventCreationSlice.actions;
 
 export default eventCreationSlice.reducer;

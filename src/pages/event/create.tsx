@@ -14,6 +14,7 @@ import {
   previousStep,
   resetCurrentStep,
   resetSuccess,
+  setLoading,
   setTicketReleaseForm,
   setTicketTypes,
 } from "../../redux/features/eventCreationSlice";
@@ -70,6 +71,12 @@ const CreateEventPage = () => {
       toast.error("Please fix the errors in the form.");
     }
   };
+
+  useEffect(() => {
+    if (currentStep === 4) {
+      dispatch(setLoading(false));
+    }
+  }, []);
 
   const canCreateEvent = currentUser?.organizations?.length! > 0;
 
