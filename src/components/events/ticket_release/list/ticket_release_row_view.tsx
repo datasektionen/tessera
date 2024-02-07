@@ -49,6 +49,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
 
   const [allocationLoading, setAllocationLoading] = useState<boolean>(false);
   const [payWithinHours, setPayWithinHours] = useState<number>(0);
+  const [openDeleteModel, setOpenDeleteModel] = useState<boolean>(false);
 
   const isCurrentlyOpen = () => {
     const now = new Date();
@@ -103,6 +104,27 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     }
     setAllocationLoading(false);
     setConfirmOpen(false);
+  };
+
+  const handleDeleteTicketRelease = async () => {
+    const response = await axios.delete(
+      `${
+        process.env.REACT_APP_BACKEND_URL
+      }/events/${ticketRelease.eventId!}/ticket-release/${ticketRelease.id}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      setTimeout(() => {
+        toast.success("Ticket release deleted successfully");
+      }, 500);
+      dispatch(getEventRequest(ticketRelease.eventId));
+    } else {
+      const errorMessage = response.data?.message || "Something went wrong";
+      toast.error(errorMessage);
+    }
   };
 
   const tryToAllocateReserveTickets = async () => {
@@ -412,6 +434,58 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 sx={{ mt: 1 }}
               >
                 {t("manage_event.check_allocated_reserve_tickets")}
+              </StyledButton>
+              <ConfirmModal
+                title="Confrim Delete Ticket Release"
+                isOpen={openDeleteModel}
+                onClose={() => {
+                  setOpenDeleteModel(false);
+                }}
+                actions={[
+                  <StyledButton
+                    size="md"
+                    key="confirm-delete"
+                    bgColor={PALLETTE.charcoal_see_through}
+                    onClick={() => {
+                      handleDeleteTicketRelease();
+                      setOpenDeleteModel(false);
+                    }}
+                  >
+                    {t("form.button_confirm")}
+                  </StyledButton>,
+                  <StyledButton
+                    size="md"
+                    key="cancel-delete"
+                    bgColor={PALLETTE.red}
+                    onClick={() => {
+                      setOpenDeleteModel(false);
+                    }}
+                  >
+                    {t("form.button_cancel")}
+                  </StyledButton>,
+                ]}
+              >
+                <StyledText
+                  level="body-md"
+                  fontSize={18}
+                  color={PALLETTE.charcoal}
+                >
+                  {t("manage_event.delete_ticket_release_confirmation")}
+                </StyledText>
+              </ConfirmModal>
+              <StyledButton
+                color={PALLETTE.charcoal}
+                bgColor={PALLETTE.charcoal_see_through}
+                textColor={PALLETTE.charcoal}
+                size="md"
+                onClick={() => {
+                  setOpenDeleteModel(true);
+                }}
+                style={{
+                  width: "100%",
+                }}
+              >
+                {t("form.button_delete")}
               </StyledButton>
             </Stack>
           </Box>

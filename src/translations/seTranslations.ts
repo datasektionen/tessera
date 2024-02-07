@@ -242,7 +242,8 @@ const seTranslations = {
     delete_event_title: "Bekräfta radering av evenemang",
     delete_event_confirmation:
       "Är du säker på att du vill radera detta evenemang? Denna åtgärd kan inte ångras.",
-
+    delete_ticket_release_confirmation:
+      "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
     edit: {
       title: "Redigera evenemang",
       subtitle: "Här kan du redigera alla detaljer om ditt evenemang.",
@@ -274,6 +275,7 @@ const seTranslations = {
   event: {
     list_title: "Evenemang",
     tickets: "Biljetter",
+    reserved: "Reserverad",
     promo_code_title: "Promokod",
     ticket_releases: "Biljettsläpp",
     event_by: "Evenemang av",

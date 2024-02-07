@@ -150,60 +150,55 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         backgroundColor: "transparent",
       }}
     >
-      {ticketRelease.is_reserved! && (
-        <Box
-          style={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-          }}
-        >
-          <Chip variant="soft" color="primary">
-            <StyledText
-              color={PALLETTE.charcoal}
-              fontSize={12}
-              level="body-sm"
-              fontWeight={600}
-            >
-              {t("event.reserved")}
-            </StyledText>
-          </Chip>
-        </Box>
-      )}
-      {ticketReleaseHasNotOpened(ticketRelease) &&
-        (reminderStatus === null ? (
-          <Box
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-            }}
-          >
-            <Tooltip title={t("event.ticket_release.set_reminder")}>
-              <IconButton onClick={createReminder}>
-                <NotificationsNoneIcon />
-              </IconButton>
-            </Tooltip>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems={"center"}
+        spacing={2}
+        style={{
+          position: "absolute",
+          top: 8,
+          right: 8,
+        }}
+      >
+        {ticketRelease.is_reserved! && (
+          <Box>
+            <Chip variant="soft" color="primary">
+              <StyledText
+                color={PALLETTE.charcoal}
+                fontSize={12}
+                level="body-sm"
+                fontWeight={600}
+              >
+                {t("event.reserved")}
+              </StyledText>
+            </Chip>
           </Box>
-        ) : (
-          <Box
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-            }}
-          >
-            <Tooltip title={t("event.ticket_release.remove_reminder")}>
-              <IconButton onClick={removeReminder}>
-                <NotificationsActive
-                  style={{
-                    color: PALLETTE.cerise,
-                  }}
-                />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        ))}
+        )}
+        {ticketReleaseHasNotOpened(ticketRelease) &&
+          (reminderStatus === null ? (
+            <Box style={{}}>
+              <Tooltip title={t("event.ticket_release.set_reminder")}>
+                <IconButton onClick={createReminder}>
+                  <NotificationsNoneIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          ) : (
+            <Box>
+              <Tooltip title={t("event.ticket_release.remove_reminder")}>
+                <IconButton onClick={removeReminder}>
+                  <NotificationsActive
+                    style={{
+                      color: PALLETTE.cerise,
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          ))}
+      </Stack>
+
       <StyledText
         level="h4"
         fontSize={24}

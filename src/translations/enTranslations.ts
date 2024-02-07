@@ -259,6 +259,8 @@ const enTranslations = {
     delete_event_title: "Confirm event deletion",
     delete_event_confirmation:
       "Are you sure you want to delete this event? This action cannot be undone.",
+    delete_ticket_release_confirmation:
+      "Are you sure you want to delete this ticket release? This action cannot be undone.",
 
     edit: {
       title: "Edit event",
@@ -335,6 +337,7 @@ const enTranslations = {
   event: {
     list_title: "Events",
     tickets: "Tickets",
+    reserved: "Reserved",
     ticket_releases: "Ticket releases",
     no_ticket_releases: "There are no ticket releases for this event.",
     event_by: "Event by",

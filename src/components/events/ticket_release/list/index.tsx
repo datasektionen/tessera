@@ -100,7 +100,7 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
     <Grid container alignItems="center" justifyContent="flex-start" spacing={2}>
       {ticketReleases.map((ticketRelease) => {
         return (
-          <Grid>
+          <Grid key={"ticket-release-" + ticketRelease.id}>
             <StyledButton
               size="md"
               bgColor={PALLETTE.offWhite}

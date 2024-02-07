@@ -44,7 +44,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
         const userCanManage =
           currentUser?.organizations?.some(
             (org) => org.id === event.organizationId
-          ) || currentUser?.ug_kth_id === event.createdById;
+          ) ?? currentUser?.ug_kth_id === event.createdById;
 
         if (eventIsInThePast(event)) {
           return null;
