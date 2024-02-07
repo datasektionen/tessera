@@ -108,7 +108,7 @@ function* fetchEventTickets(
     const ticketRequests: ITicket[] = response.data.ticket_requests.map(
       (ticketRequest: any) => {
         return {
-          id: 0,
+          id: ticketRequest.ID!,
           is_paid: false,
           is_reserve: false,
           refunded: false,

@@ -5,6 +5,7 @@ const seTranslations = {
     events: "Evenemang",
     create_event: "Skapa evenemang",
     teams: "Grupper",
+    contact: "Kontakt",
   },
 
   tooltips: {
@@ -13,6 +14,7 @@ const seTranslations = {
     manage_tickets:
       "Tabellen visar alla biljettförfrågningar och biljetter för detta evenemang.",
   },
+
   form: {
     event_details: {
       name: "Namn",
@@ -79,6 +81,22 @@ const seTranslations = {
       price_helperText: "Hur mycket kostar denna biljett?",
     },
 
+    contact: {
+      title: "Kontakt",
+      email: "E-post",
+      email_helperText: "Vad är kontakt-e-posten för denna biljett?",
+      subject: "Ämne",
+      subject_helperText: "Vad är ämnet för denna biljett?",
+      name: "Namn",
+      name_helperText: "Vad är namnet på kontaktpersonen?",
+      message: "Meddelande",
+      message_helperText: "Vad är meddelandet för denna biljett?",
+      success: "Ditt meddelande har skickats!",
+      fail: "Något gick fel. Försök igen senare.",
+      description:
+        "Om du har några frågor, problem eller förslag, tveka inte att kontakta oss. Vi kommer att återkomma till dig så snart som möjligt.",
+    },
+
     button_clear: "Rensa",
     button_next: "Nästa",
     button_create: "Skapa",
@@ -94,6 +112,7 @@ const seTranslations = {
     button_details: "Detaljer",
     button_request: "Begär biljett(er)",
     button_delete: "Radera",
+    button_send: "Skicka",
   },
   create_event: {
     title: "Skapa evenemang",

@@ -369,6 +369,13 @@ export const LoginInitialValues: ILoginFormValues = {
   password: "",
 };
 
+export interface IContactFormValues {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
 export enum OrganizationUserRole {
   OWNER = "owner",
   MEMBER = "member",

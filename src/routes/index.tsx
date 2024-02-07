@@ -30,6 +30,7 @@ import HandleLoginCallback from "../pages/login/callback";
 import { ReactElement, ReactNode } from "react";
 import ExternalVerifyEmail from "../pages/external/verify-email";
 import { useTranslation } from "react-i18next";
+import ContactPage from "../pages/contact";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -95,6 +96,7 @@ function AppRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.MAIN} element={<MainPageWithCurrentUser />} />
           <Route path={ROUTES.LOGOUT} element={<Logout />} />
+          <Route path={ROUTES.CONTACT_PAGE} element={<ContactPage />} />
           <Route
             path={ROUTES.EVENT_DETAIL}
             element={<EventDetailWithCurrentUser />}

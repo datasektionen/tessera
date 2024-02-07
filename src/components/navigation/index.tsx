@@ -207,6 +207,18 @@ function NavigationBar() {
                 </StyledLink>
               </StyledText>
             )}
+            <StyledText
+              level="body-sm"
+              color={""}
+              fontSize={18}
+              style={{
+                margin: "0 16px",
+              }}
+            >
+              <StyledLink href={ROUTES.CONTACT_PAGE}>
+                {t("navigation.contact")}
+              </StyledLink>
+            </StyledText>
           </Stack>
           {/* Right-aligned profile icon */}
           <Stack
