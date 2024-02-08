@@ -15,7 +15,11 @@ const CreateTicketTypeFormSchema = Yup.object().shape({
     .max(500, "Too long"),
   price: Yup.number()
     .required("Price is required")
-    .min(3, "Price must be greater than or equal to 3")
+    .test(
+      "is-greater-than-or-equal-to-3-or-0",
+      "Price must be 0 or greater than or equal to 3",
+      (value) => value === 0 || value >= 3
+    )
     .integer("Price must be a whole number"),
 });
 
