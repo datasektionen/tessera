@@ -80,6 +80,17 @@ const TicketType: React.FC<TicketTypeProps> = ({
     setTicketTypeCount(counts);
   }, [items]);
 
+  const calculateFontSize = (str: string) => {
+    const length = str.length;
+    if (length <= 10) {
+      return isScreenSmall ? 14 : 20;
+    } else if (length <= 20) {
+      return isScreenSmall ? 12 : 18;
+    } else {
+      return isScreenSmall ? 10 : 16;
+    }
+  };
+
   return (
     <Card
       orientation="horizontal"
@@ -107,11 +118,13 @@ const TicketType: React.FC<TicketTypeProps> = ({
                 level="body-md"
                 color={PALLETTE.cerise}
                 fontWeight={700}
-                fontSize={isScreenSmall ? 14 : 18}
+                fontSize={
+                  isScreenSmall ? 14 : calculateFontSize(ticketType.name)
+                }
                 style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
+                  overflow: "break-word",
+                  lineHeight: "1",
+                  textOverflow: "wrap",
                   maxWidth: isScreenSmall ? "100px" : "inherit",
                   width: isScreenSmall ? "fit-content" : "150px",
                 }}
@@ -137,7 +150,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
               level="body-sm"
               textColor={PALLETTE.cerise}
               style={{
-                width: isScreenSmall ? "fit-content" : "150px",
+                width: isScreenSmall ? "fit-content" : "50",
                 whiteSpace: "nowrap",
                 margin: "0 8px",
               }}
@@ -156,7 +169,15 @@ const TicketType: React.FC<TicketTypeProps> = ({
             </Typography>
           </div>
 
-          <Grid container spacing={1} alignItems="center">
+          <Grid
+            container
+            spacing={1}
+            alignItems="center"
+            justifyContent="flex-start"
+            style={{
+              minWidth: "128px",
+            }}
+          >
             <Button
               size="sm"
               variant="solid"
