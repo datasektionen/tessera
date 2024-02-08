@@ -19,6 +19,7 @@ import { MUItheme } from "../../../components/events/tickets/list/datagrid_utils
 import { ThemeProvider } from "@mui/material";
 import StyledButton from "../../../components/buttons/styled_button";
 import { useTranslation } from "react-i18next";
+import Footer from "../../../components/wrappers/footer";
 
 const EventTicketsListScannerView: React.FC<{ tickets: ITicket[] }> = ({
   tickets,
@@ -114,15 +115,18 @@ const TicketScannerPage = () => {
 
       if (response.status === 200) {
         setScanSuccess(response.data.message);
+        setScanError(null);
+        dispatch(fetchEventTicketsStart(parseInt(eventID!)));
         setTimeout(() => {
           setScanLoading(false);
-        }, 1000);
+        }, 3000);
       }
     } catch (error: any) {
       setScanError(error.response.data.error || "An error occurred");
+      setScanSuccess(null);
       setTimeout(() => {
         setScanLoading(false);
-      }, 1000);
+      }, 3000);
     }
   };
 
@@ -174,12 +178,14 @@ const TicketScannerPage = () => {
       >
         <Title>Scan Ticket</Title>
         <StyledText level="body-sm" color={PALLETTE.charcoal}>
-          Scan the QR code on the ticket to check in
+          {t("event.check_in.scan_ticket_instructions")}
         </StyledText>
         <BorderBox
           style={{
             width: "95%",
             margin: "0 auto",
+            maxHeight: "400px",
+            maxWidth: "400px",
           }}
         >
           <QrScanner onDecode={handleScan} onError={handleScanError} />
@@ -190,7 +196,7 @@ const TicketScannerPage = () => {
             color={PALLETTE.charcoal}
             fontWeight={700}
           >
-            Loading...
+            {t("event.check_in.loading")}
           </StyledText>
         )}
         {scanSuccess && (
@@ -207,6 +213,8 @@ const TicketScannerPage = () => {
       <ThemeProvider theme={MUItheme}>
         <EventTicketsListScannerView tickets={tickets} />
       </ThemeProvider>
+      <Box mb={24}></Box>
+      <Footer />
     </>
   );
 };

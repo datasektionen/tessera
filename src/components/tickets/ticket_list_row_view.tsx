@@ -162,6 +162,24 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
                   </StyledText>
                 </Chip>
               )}
+              {!ticket.is_reserve && ticket.is_paid && (
+                <Chip
+                  variant="soft"
+                  color="primary"
+                  style={{
+                    backgroundColor: PALLETTE.charcoal,
+                  }}
+                >
+                  <StyledText
+                    color={ticket.checked_in ? PALLETTE.green : PALLETTE.orange}
+                    level="body-sm"
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    {ticket.checked_in ? "Checked in" : "Not checked in"}
+                  </StyledText>
+                </Chip>
+              )}
             </Stack>
           )}
         </Grid>

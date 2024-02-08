@@ -170,8 +170,40 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               width: "fit-content",
               margin: "16px auto",
             }}
+            style={
+              {
+                // add blur effect
+              }
+            }
           >
-            <QRCode value={ticket.qr_code} size={256} />
+            {ticket.checked_in && (
+              <StyledText
+                level="body-sm"
+                fontSize={24}
+                color={PALLETTE.green}
+                fontWeight={700}
+                style={{
+                  position: "absolute",
+                  zIndex: 100,
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                  width: "200px",
+                  textShadow: "0 0 8px black",
+                }}
+              >
+                {t("tickets.qr_code.already_checked_in")}
+              </StyledText>
+            )}
+
+            <QRCode
+              value={ticket.qr_code}
+              size={256}
+              style={{
+                filter: ticket.checked_in ? "blur(8px)" : "none",
+              }}
+            />
           </Box>
           <StyledText
             level="body-sm"

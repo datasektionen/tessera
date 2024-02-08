@@ -128,6 +128,7 @@ const enTranslations = {
     button_request: "Request",
     button_delete: "Delete",
     button_send: "Send",
+    button_check_in: "Check in",
   },
   create_event: {
     title: "Create event",
@@ -355,6 +356,7 @@ const enTranslations = {
     qr_code: {
       description:
         "This is your QR code. Please have it ready when you arrive at the event.",
+      already_checked_in: "You have already checked in.",
     },
   },
 
@@ -367,6 +369,10 @@ const enTranslations = {
     event_by: "Event by",
     promo_code_title: "Promo code",
     promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
+    check_in: {
+      scan_ticket_instructions: "Scan the QR code on the ticket to check in",
+      loading: "Loading...",
+    },
     ticket_release: {
       closed: "Ticket release has closed",
       tickets_available_in: "Tickets available in",

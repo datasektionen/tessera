@@ -222,7 +222,7 @@ const EventTicketsList: React.FC<{
     });
 
   if (!tickets || rows.length === 0) {
-    return <LoadingOverlay />;
+    return null;
   }
 
   return (
