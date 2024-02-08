@@ -66,6 +66,7 @@ const EventTicketsList: React.FC<{
       field: "is_paid",
       headerName: "Paid",
       width: 75,
+      resizable: true,
       renderCell: (params) => {
         if (params.value === null) {
           return "N/A";
@@ -77,11 +78,12 @@ const EventTicketsList: React.FC<{
         );
       },
     },
-    { field: "ticket", headerName: "Ticket", width: 100 },
+    { field: "ticket", headerName: "Ticket", width: 200, resizable: true },
     {
       field: "price",
       headerName: "Price",
       width: 60,
+      resizable: true,
       renderCell: (params) => `${params.value} :-`,
     },
     {
