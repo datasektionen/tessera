@@ -13,6 +13,7 @@ import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import QRCode from "qrcode.react";
 
 import Payment from "./payment";
 
@@ -158,6 +159,30 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           </StyledText>
         )}
       </Box>
+
+      {ticket.is_paid && (
+        <Box>
+          <Box
+            sx={{
+              backgroundColor: PALLETTE.cerise,
+              padding: "16px",
+              borderRadius: "8px",
+              width: "fit-content",
+              margin: "16px auto",
+            }}
+          >
+            <QRCode value={ticket.qr_code} size={256} />
+          </Box>
+          <StyledText
+            level="body-sm"
+            fontSize={18}
+            color={PALLETTE.charcoal}
+            style={{ marginTop: "8px" }}
+          >
+            {t("tickets.qr_code.description")}
+          </StyledText>
+        </Box>
+      )}
 
       <Box mt={2}>
         <StyledText level="body-sm" fontSize={22} color={PALLETTE.charcoal}>

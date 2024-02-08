@@ -39,6 +39,8 @@ function* fetchEventTickets(
         refunded: ticket.refunded!,
         user_id: ticket.user_id!,
         created_at: new Date(ticket.CreatedAt!).getTime(),
+        qr_code: ticket.qr_code!,
+        checked_in: ticket.checked_in!,
         user: {
           ug_kth_id: ticket.user.ug_kth_id!,
           id: ticket.user.ID!,

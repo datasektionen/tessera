@@ -41,6 +41,8 @@ function* getMyTicketSaga(): Generator<any, void, any> {
         created_at: new Date(ticket.CreatedAt!).getTime(),
         updated_at: new Date(ticket.UpdatedAt!).getTime(),
         reserve_number: ticket.reserve_number!,
+        qr_code: ticket.qr_code!,
+        checked_in: ticket.checked_in!,
         ticket_request: {
           id: ticket_request.ID!,
           created_at: new Date(ticket_request.CreatedAt!).getTime(),

@@ -351,6 +351,11 @@ const enTranslations = {
       pay_now: "Pay {{price}} SEK",
       description: "Here you can pay for your ticket.",
     },
+
+    qr_code: {
+      description:
+        "This is your QR code. Please have it ready when you arrive at the event.",
+    },
   },
 
   event: {
