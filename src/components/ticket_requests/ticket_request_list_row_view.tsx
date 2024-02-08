@@ -16,6 +16,7 @@ import BorderBox from "../wrappers/border_box";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { format } from "date-fns";
+import { t } from "i18next";
 
 const StyledTicketRequestBox = styled(Box)(({ theme }) => ({
   border: "2px solid " + PALLETTE.charcoal,
@@ -125,7 +126,9 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
                     fontSize={14}
                     fontWeight={600}
                   >
-                    {ticketRequest.is_handled ? "Handled" : "Not handled"}
+                    {ticketRequest.is_handled
+                      ? t("ticket_request.handled")
+                      : t("ticket_request.ticket_request")}
                   </StyledText>
                 </Chip>
               </Tooltip>

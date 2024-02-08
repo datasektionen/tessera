@@ -21,6 +21,8 @@ import {
 import InformationModal from "../../../modal/information";
 import BorderBox from "../../../wrappers/border_box";
 import StyledButton from "../../../buttons/styled_button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 
 interface ListEventTicketReleasesProps {
   ticketReleases: ITicketRelease[];
@@ -32,12 +34,13 @@ const TicketReleaseStatusIndicator: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
   const [status, setStatus] = useState<string>("");
+  const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
   useEffect(() => {
     let status: string = "";
-    if (ticketReleaseHasOpened(ticketRelease)) {
+    if (ticketReleaseHasOpened(ticketRelease, timestamp!)) {
       status = "Open";
-    } else if (ticketReleaseHasClosed(ticketRelease)) {
+    } else if (ticketReleaseHasClosed(ticketRelease, timestamp!)) {
       status = "Closed, ";
       if (!ticketRelease.has_allocated_tickets) {
         status += "No tickets allocated";

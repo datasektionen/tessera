@@ -36,17 +36,21 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import axios from "axios";
 import { NotificationsActive } from "@mui/icons-material";
 import { toast } from "react-toastify";
+import TicketReleaseMethodDetail from "./ticket_release_method/detailed_info";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
 }
 
-const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
-  if (ticketReleaseHasNotOpened(ticketRelease)) {
+const renderTicketReleaseStatus = (
+  ticketRelease: ITicketRelease,
+  timestamp: number
+) => {
+  if (ticketReleaseHasNotOpened(ticketRelease, timestamp)) {
     return <TicketReleasHasNotOpened ticketRelease={ticketRelease} />;
-  } else if (ticketReleaseHasClosed(ticketRelease)) {
+  } else if (ticketReleaseHasClosed(ticketRelease, timestamp)) {
     return <TicketReleaseHasClosed ticketRelease={ticketRelease} />;
-  } else if (ticketReleaseHasOpened(ticketRelease)) {
+  } else if (ticketReleaseHasOpened(ticketRelease, timestamp)) {
     return <TicketReleasHasOpened ticketRelease={ticketRelease} />;
   }
 };
@@ -54,6 +58,7 @@ const renderTicketReleaseStatus = (ticketRelease: ITicketRelease) => {
 const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const { t } = useTranslation();
+  const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
   const [reminderStatus, setReminderStatus] = React.useState<{
     has_reminder: boolean;
@@ -175,7 +180,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
             </Chip>
           </Box>
         )}
-        {ticketReleaseHasNotOpened(ticketRelease) &&
+        {ticketReleaseHasNotOpened(ticketRelease, timestamp!) &&
           (reminderStatus === null ? (
             <Box style={{}}>
               <Tooltip title={t("event.ticket_release.set_reminder")}>
@@ -214,7 +219,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
         </div>
       </StyledText>
-      {!ticketReleaseHasClosed(ticketRelease) && [
+      {!ticketReleaseHasClosed(ticketRelease, timestamp!) && [
         <StyledText
           level="body-sm"
           key="ticket_release_method"
@@ -260,7 +265,11 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         </InformationModal>,
       ]}
 
-      {renderTicketReleaseStatus(ticketRelease)}
+      {renderTicketReleaseStatus(ticketRelease, timestamp!)}
+      <TicketReleaseMethodDetail
+        key="ticket_release_method_detail"
+        ticketRelease={ticketRelease}
+      />
     </Sheet>
   );
 };

@@ -318,6 +318,8 @@ const enTranslations = {
     cancel_ticket_request_button: "Cancel ticket request",
     go_to_tickets_button: "Go to tickets",
     cancel_ticket_request_confirm_title: "Confirm ticket request cancellation",
+    handled: "Ticket Request converted to ticket",
+    ticket_request: "Ticket Request",
     cancel_ticket_request_confirm:
       "Are you sure you want to cancel this ticket request? This action cannot be undone.",
   },
@@ -371,6 +373,10 @@ const enTranslations = {
       day: "day(s)",
       week: "week(s)",
       month: "month(s)",
+      method_info: {
+        fcfsl:
+          "Requests made within the first <1>{{duration}}</1> minutes of the tickets release will be entered into the lottery.",
+      },
       reserved: "Reserved",
       no_tickets: "There are no tickets available.",
       remove_reminder: "Remove reminder",

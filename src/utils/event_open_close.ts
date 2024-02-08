@@ -1,26 +1,42 @@
 import { ITicketRelease } from "../types";
 
 export const ticketReleaseHasClosed = (
-  ticketRelease: ITicketRelease
+  ticketRelease: ITicketRelease,
+  serverTimestamp: number
 ): boolean => {
   const { open, close } = ticketRelease;
-  const now = new Date().getTime();
-  return now > close;
+
+  return serverTimestamp > close;
 };
 
 export const ticketReleaseHasOpened = (
-  ticketRelease: ITicketRelease
+  ticketRelease: ITicketRelease,
+  serverTimestamp: number
 ): boolean => {
   const { open, close } = ticketRelease;
-  const now = new Date().getTime();
-  return now > open && now < close;
+
+  return serverTimestamp > open && serverTimestamp < close;
 };
 
 export const ticketReleaseHasNotOpened = (
-  ticketRelease: ITicketRelease
+  ticketRelease: ITicketRelease,
+  serverTimestamp: number
 ): boolean => {
   return (
-    !ticketReleaseHasOpened(ticketRelease) &&
-    !ticketReleaseHasClosed(ticketRelease)
+    !ticketReleaseHasOpened(ticketRelease, serverTimestamp) &&
+    !ticketReleaseHasClosed(ticketRelease, serverTimestamp)
   );
+};
+
+export const beforeWindowDuration = (
+  ticketRelease: ITicketRelease,
+  serverTimestamp: number
+): boolean => {
+  const { open } = ticketRelease;
+  const open_window_duration =
+    ticketRelease.ticketReleaseMethodDetail.openWindowDuration;
+
+  if (!open_window_duration) return false;
+
+  return serverTimestamp < serverTimestamp + open_window_duration * 60 * 1000;
 };

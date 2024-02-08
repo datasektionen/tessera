@@ -26,6 +26,7 @@ import {
   editEventRequest,
   editEventSuccess,
 } from "../features/editEventSlice";
+import { setTimestamp } from "../features/serverTimestampSlice";
 
 function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
   try {
@@ -110,6 +111,7 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
     };
 
     yield put(getEventSuccess(event));
+    yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
     yield put(getEventFailure(error.message));
   }

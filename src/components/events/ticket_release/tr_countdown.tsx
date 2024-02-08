@@ -50,7 +50,10 @@ const TicketReleaseCountdown: React.FC<{
   if (useOpen && new Date().getTime() >= ticketRelease.open) {
     return (
       <>
-        <IconButton onClick={() => setDuration(calculateDuration())} sx={{mt: 2}}>
+        <IconButton
+          onClick={() => setDuration(calculateDuration())}
+          sx={{ mt: 2 }}
+        >
           <StyledText
             color={PALLETTE.cerise}
             level="body-md"

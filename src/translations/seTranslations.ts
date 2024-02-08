@@ -312,6 +312,10 @@ const seTranslations = {
       day: "dag(ar)",
       week: "vecka(or)",
       month: "månad(er)",
+      method_info: {
+        fcfsl:
+          "Förfrågningar som görs inom de första <1>{{duration}}</1> minuter av biljettsläppet kommer att delta i lotteriet.",
+      },
       remove_reminder: "Ta bort påminnelse",
       set_reminder: "Sätt påminnelse 10 minuter innan biljettsläppet öppnar",
       reserved: "Reserverad",
@@ -335,6 +339,8 @@ const seTranslations = {
     go_to_tickets_button: "Gå till biljetter",
     cancel_ticket_request_confirm_title:
       "Bekräfta avbrytande av biljettförfrågan",
+    handled: "Biljettförfrågan konverterad till biljett",
+    ticket_request: "Biljettförfrågan",
     cancel_ticket_request_confirm:
       "Är du säker på att du vill avbryta denna biljettförfrågan? Denna åtgärd kan inte ångras.",
   },

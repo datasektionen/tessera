@@ -20,11 +20,18 @@ import createTicketReleaseSlice from "./redux/features/createTicketReleaseSlice"
 import ticketTypeSlice from "./redux/features/ticketTypeSlice";
 import eventTicketsSlice from "./redux/features/eventTicketsSlice";
 import ticketReleaseSlice from "./redux/features/ticketReleaseSlice";
+import serverTimestampSlice from "./redux/features/serverTimestampSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
-  whitelist: ["user", "auth", "eventCreation", "ticketTypeCreation"],
+  whitelist: [
+    "user",
+    "auth",
+    "eventCreation",
+    "ticketTypeCreation",
+    "timestamp",
+  ],
   key: "root",
   storage,
 };
@@ -47,6 +54,7 @@ const rootReducer = combineReducers({
   ticketTypes: ticketTypeSlice,
   eventTickets: eventTicketsSlice,
   ticketRelease: ticketReleaseSlice,
+  timestamp: serverTimestampSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
