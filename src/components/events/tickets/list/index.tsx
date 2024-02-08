@@ -91,7 +91,6 @@ const EventTicketsList: React.FC<{
       headerName: "User",
       width: 100,
       valueFormatter: (params) => {
-        console.log(params);
         return params.value.username;
       },
       valueGetter: (params) => params.value,
@@ -139,6 +138,8 @@ const EventTicketsList: React.FC<{
 
   React.useEffect(() => {
     const rows = tickets.map((ticket) => {
+      const ufp = ticket.user!.food_preferences!;
+
       const row = {
         id: ticket.id,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
@@ -154,15 +155,15 @@ const EventTicketsList: React.FC<{
           ? format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
           : "N/A",
         price: ticket?.ticket_request?.ticket_type?.price,
-        gluten_intolerant: ticket?.user?.food_preferences?.gluten_intolerant,
-        halal: ticket?.user?.food_preferences?.halal,
-        kosher: ticket?.user?.food_preferences?.kosher,
-        lactose_intolerant: ticket?.user?.food_preferences?.lactose_intolerant,
-        nut_allergy: ticket?.user?.food_preferences?.nut_allergy,
-        shellfish_allergy: ticket?.user?.food_preferences?.shellfish_allergy,
-        vegan: ticket?.user?.food_preferences?.vegan,
-        vegetarian: ticket?.user?.food_preferences?.vegetarian,
-        additional_info: ticket?.user?.food_preferences?.additional_info,
+        gluten_intolerant: ufp.gluten_intolerant,
+        halal: ufp.halal,
+        kosher: ufp.kosher,
+        lactose_intolerant: ufp.lactose_intolerant,
+        nut_allergy: ufp.nut_allergy,
+        shellfish_allergy: ufp.shellfish_allergy,
+        vegan: ufp.vegan,
+        vegetarian: ufp.vegetarian,
+        additional_info: ufp.additional,
       };
 
       return row;

@@ -148,8 +148,8 @@ const TicketsRowUserInfo: React.FC<TicketsRowUserInfoProps> = ({ user }) => {
           <UserInfoText
             label="Additional info"
             value={
-              !!user.food_preferences?.additional_info ? (
-                user.food_preferences?.additional_info
+              !!user.food_preferences?.additional ? (
+                user.food_preferences?.additional
               ) : (
                 <StyledText
                   level="body-sm"

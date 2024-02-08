@@ -329,7 +329,7 @@ export interface IUserFoodPreference {
   shellfish_allergy: boolean;
   kosher: boolean;
   halal: boolean;
-  additional_info?: string;
+  additional: string;
 }
 
 export interface ITransaction {
