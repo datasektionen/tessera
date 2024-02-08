@@ -62,7 +62,7 @@ const ManageEventPage: React.FC = () => {
     }
   }, [dispatch, eventID]);
 
-  if (!event || loading) {
+  if (!event) {
     return <LoadingOverlay />;
   }
 
@@ -139,6 +139,16 @@ const ManageEventPage: React.FC = () => {
             style={{ width: "150px" }}
           >
             {t("form.button_delete")}
+          </StyledButton>
+          <StyledButton
+            size="md"
+            bgColor={PALLETTE.green}
+            onClick={() => {
+              navigate(`/events/${event.id}/manage/scan`);
+            }}
+            style={{ width: "150px" }}
+          >
+            {t("form.button_check_in")}
           </StyledButton>
         </Stack>
         <EventDetailInfo event={event} />

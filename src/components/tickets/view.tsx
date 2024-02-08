@@ -13,6 +13,7 @@ import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import QRCode from "qrcode.react";
 
 import Payment from "./payment";
 
@@ -158,6 +159,62 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           </StyledText>
         )}
       </Box>
+
+      {ticket.is_paid && (
+        <Box>
+          <Box
+            sx={{
+              backgroundColor: PALLETTE.cerise,
+              padding: "16px",
+              borderRadius: "8px",
+              width: "fit-content",
+              margin: "16px auto",
+            }}
+            style={
+              {
+                // add blur effect
+              }
+            }
+          >
+            {ticket.checked_in && (
+              <StyledText
+                level="body-sm"
+                fontSize={24}
+                color={PALLETTE.green}
+                fontWeight={700}
+                style={{
+                  position: "absolute",
+                  zIndex: 100,
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                  width: "200px",
+                  textShadow: "0 0 8px black",
+                }}
+              >
+                {t("tickets.qr_code.already_checked_in")}
+              </StyledText>
+            )}
+
+            <QRCode
+              value={ticket.qr_code}
+              size={256}
+              style={{
+                filter: ticket.checked_in ? "blur(8px)" : "none",
+              }}
+            />
+          </Box>
+          <StyledText
+            level="body-sm"
+            fontSize={18}
+            color={PALLETTE.charcoal}
+            style={{ marginTop: "8px" }}
+          >
+            {t("tickets.qr_code.description")}
+          </StyledText>
+        </Box>
+      )}
 
       <Box mt={2}>
         <StyledText level="body-sm" fontSize={22} color={PALLETTE.charcoal}>

@@ -32,6 +32,7 @@ import ExternalVerifyEmail from "../pages/external/verify-email";
 import { useTranslation } from "react-i18next";
 import ContactPage from "../pages/contact";
 import FourOFour404 from "../pages/errors/404";
+import TicketScannerPage from "../pages/event/ticket_scanner";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -78,6 +79,8 @@ const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
   CreateOrganizationPage
 );
 const ManageEventPageWithCurrentUser = withCurrentUserRequest(ManageEventPage);
+const TicketScannerPageWithCurrentUser =
+  withCurrentUserRequest(TicketScannerPage);
 
 function AppRoutes() {
   return (
@@ -142,6 +145,10 @@ function AppRoutes() {
           <Route
             path={ROUTES.MANAGE_EVENT}
             element={<ManageEventPageWithCurrentUser />}
+          />
+          <Route
+            path={ROUTES.TICKET_SCANNER}
+            element={<TicketScannerPageWithCurrentUser />}
           />
         </Route>
         <Route path="*" element={<FourOFour404 />} />

@@ -113,6 +113,7 @@ const seTranslations = {
     button_request: "Begär biljett(er)",
     button_delete: "Radera",
     button_send: "Skicka",
+    button_check_in: "Checka in",
   },
   create_event: {
     title: "Skapa evenemang",
@@ -301,6 +302,10 @@ const seTranslations = {
     no_ticket_releases: "Det finns inga biljettsläpp för detta evenemang.",
     promo_code_helperText:
       "Ange promokoden för att få tillgång till reserverade biljetter.",
+    check_in: {
+      scan_ticket_instructions: "Skann QR-koden för att checka in.",
+      loading: "Laddar...",
+    },
     ticket_release: {
       closed: "Biljettsläppet har stängts",
       tickets_available_in: "Biljetter tillgängliga om",
@@ -378,6 +383,11 @@ const seTranslations = {
       title: "Bekräfta ditt biljettköp",
       pay_now: "Betala {{price}} SEK",
       description: "Här kan du betala för din biljett.",
+    },
+    qr_code: {
+      description:
+        "Detta är din QR-kod. Var vänlig ha den redo när du anländer till evenemanget.",
+      already_checked_in: "Du har redan checkat in.",
     },
   },
 

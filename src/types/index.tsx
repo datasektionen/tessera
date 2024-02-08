@@ -189,7 +189,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   close: formatDateToDateTimeLocal(new Date()),
   ticket_release_method_id: 0,
   open_window_duration: 0,
-  max_tickets_per_user: 0,
+  max_tickets_per_user: 1,
   notification_method: "EMAIL",
   cancellation_policy: "FULL_REFUND",
   tickets_available: 0,
@@ -297,6 +297,8 @@ export interface ITicket {
   user?: IUser;
   transaction?: ITransaction;
   reserve_number?: number;
+  checked_in: boolean;
+  qr_code: string;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

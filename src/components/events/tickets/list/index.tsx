@@ -130,6 +130,17 @@ const EventTicketsList: React.FC<{
       headerName: "Email",
       width: 150,
     },
+    {
+      field: "checked_in",
+      headerName: "Checked In",
+      width: 100,
+      renderCell: (params) =>
+        params.value ? (
+          <CheckCircle color="success" />
+        ) : (
+          <Cancel color="error" />
+        ),
+    },
   ];
 
   const isTicketRequest = (ticket: ITicket) => {
@@ -164,6 +175,7 @@ const EventTicketsList: React.FC<{
         vegan: ufp.vegan,
         vegetarian: ufp.vegetarian,
         additional_info: ufp.additional,
+        checked_in: ticket.checked_in,
       };
 
       return row;
@@ -206,10 +218,11 @@ const EventTicketsList: React.FC<{
       vegan: false,
       vegetarian: false,
       additional_info: false,
+      checked_in: true,
     });
 
   if (!tickets || rows.length === 0) {
-    return <LoadingOverlay />;
+    return null;
   }
 
   return (
