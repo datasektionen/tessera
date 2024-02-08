@@ -34,6 +34,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
+import SnoozeIcon from "@mui/icons-material/Snooze";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -158,6 +160,18 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     return null;
   }
 
+  const enteredIntoFCFCLottery = () => {
+    return ticketReleaseTickets.filter((ticket) => {
+      const windowDeadline = new Date(
+        ticketRelease.close +
+          ticketRelease.ticketReleaseMethodDetail.openWindowDuration! *
+            60 *
+            1000
+      );
+      return new Date(ticket.created_at) < windowDeadline;
+    }).length;
+  };
+
   const numTicketRequests = ticketReleaseTickets.length;
 
   const numAllocatedTickets = ticketReleaseTickets.filter(
@@ -221,14 +235,44 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
           >
             {t("manage_event.ticket_release_ticket_info_title")}
           </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={600}
-            color={PALLETTE.charcoal}
-          >
-            {`${numTicketRequests} ` + t("manage_event.ticket_requests")}
-          </StyledText>
+          <Box mt={1}>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={600}
+              color={PALLETTE.charcoal}
+            >
+              {`${numTicketRequests} ` + t("manage_event.ticket_requests")}
+            </StyledText>
+            {ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.id ===
+              1 && [
+              // First come first serve lottery
+              <StyledText
+                key="fcfs-lottery-1"
+                level="body-sm"
+                fontSize={18}
+                startDecorator={<ShuffleIcon />}
+                fontWeight={600}
+                color={PALLETTE.charcoal}
+                sx={{ ml: 2 }}
+              >
+                {`${enteredIntoFCFCLottery()} ` +
+                  t("manage_event.lottery_entered_ticket_requests")}
+              </StyledText>,
+              <StyledText
+                key="fcfs-lottery-2"
+                level="body-sm"
+                fontSize={18}
+                fontWeight={600}
+                startDecorator={<SnoozeIcon />}
+                color={PALLETTE.charcoal}
+                sx={{ ml: 2 }}
+              >
+                {`${numAllocatedTickets - enteredIntoFCFCLottery()} ` +
+                  t("manage_event.not_lottery_entered_ticket_requests")}
+              </StyledText>,
+            ]}
+          </Box>
           <Box mt={1}>
             <StyledText
               level="body-sm"

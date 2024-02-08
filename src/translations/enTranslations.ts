@@ -251,6 +251,8 @@ const enTranslations = {
     ticket_release_method_title: "Ticket release Method",
     ticket_release_ticket_info_title: "Tickets info",
     ticket_requests: "Ticket requests",
+    lottery_entered_ticket_requests: "Lottery entered ticket requests",
+    not_lottery_entered_ticket_requests: "Requested after lottery window",
     paid_tickets: "Paid tickets",
     not_yet_paid_tickets: "Not yet paid tickets",
     refunded_tickets: "Refunded tickets",

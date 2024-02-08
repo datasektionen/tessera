@@ -238,6 +238,8 @@ const seTranslations = {
     ticket_release_method_title: "Biljettsläppsmetod",
     ticket_release_ticket_info_title: "Biljettinformation",
     ticket_requests: "Biljettförfrågningar",
+    lottery_entered_ticket_requests: "Begärdes under lotterifönstret",
+    not_lottery_entered_ticket_requests: "Begärdes utanför lotterifönstret",
     ticket_release_actions_title: "Biljettsläppsåtgärder",
     paid_tickets: "Betalda biljetter",
     not_yet_paid_tickets: "Ännu inte betalda biljetter",
