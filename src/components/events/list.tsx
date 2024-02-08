@@ -8,7 +8,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InfoIcon from "@mui/icons-material/Info";
 import { IEvent } from "../../types";
 import PALLETTE from "../../theme/pallette";
-import { Box, Button, Link } from "@mui/joy";
+import { Box, Button, IconButton, Link } from "@mui/joy";
 import StyledText from "../text/styled_text";
 import StyledButton from "../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
@@ -72,7 +72,9 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
             >
               {userCanManage && (
                 <Link href={`/events/${event.id}/manage`}>
-                  <ModeEditIcon />
+                  <IconButton>
+                    <ModeEditIcon />
+                  </IconButton>
                 </Link>
               )}
             </Box>

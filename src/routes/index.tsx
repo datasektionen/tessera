@@ -31,6 +31,7 @@ import { ReactElement, ReactNode } from "react";
 import ExternalVerifyEmail from "../pages/external/verify-email";
 import { useTranslation } from "react-i18next";
 import ContactPage from "../pages/contact";
+import FourOFour404 from "../pages/errors/404";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -143,6 +144,8 @@ function AppRoutes() {
             element={<ManageEventPageWithCurrentUser />}
           />
         </Route>
+        <Route path="*" element={<FourOFour404 />} />
+        <Route path="/404" element={<FourOFour404 />} />
       </Routes>
     </BrowserRouter>
   );
