@@ -163,12 +163,12 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const enteredIntoFCFCLottery = () => {
     return ticketReleaseTickets.filter((ticket) => {
       const windowDeadline = new Date(
-        ticketRelease.close +
+        ticketRelease.open +
           ticketRelease.ticketReleaseMethodDetail.openWindowDuration! *
             60 *
             1000
       );
-      return new Date(ticket.created_at) < windowDeadline;
+      return new Date(ticket.ticket_request!.created_at) < windowDeadline;
     }).length;
   };
 
@@ -268,7 +268,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 color={PALLETTE.charcoal}
                 sx={{ ml: 2 }}
               >
-                {`${numAllocatedTickets - enteredIntoFCFCLottery()} ` +
+                {`${numTicketRequests - enteredIntoFCFCLottery()} ` +
                   t("manage_event.not_lottery_entered_ticket_requests")}
               </StyledText>,
             ]}
