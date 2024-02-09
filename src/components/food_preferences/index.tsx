@@ -8,6 +8,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Link,
   Option,
   Select,
   Stack,
@@ -26,8 +27,13 @@ import {
 } from "../../redux/features/userFoodPreferences";
 import LoadingOverlay from "../Loading";
 import StyledButton from "../buttons/styled_button";
-import { useTranslation } from "react-i18next";
-import { StyledFormLabelWithHelperText } from "../forms/form_labels";
+import { Trans, useTranslation } from "react-i18next";
+import {
+  StyledFormLabel,
+  StyledFormLabelWithHelperText,
+} from "../forms/form_labels";
+import InformationModal from "../modal/information";
+import FoodPreferencesAgreement from "./food_preferences_agreement";
 
 interface FoodPreferencesProps {}
 
@@ -38,6 +44,8 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
     userFoodPreferences,
     additionalNotes,
     loading: loadingFoodPref,
+    gdpr_agreed: initialGdprAgree,
+    needs_to_renew_gdpr: initialNeedsToRenewGdpr,
   } = useSelector((state: RootState) => state.foodPreferences);
 
   const dispatch: AppDispatch = useDispatch();
@@ -45,6 +53,8 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
 
   const [value, setValue] = useState<string[]>([]);
   const [additonalNotes, setAdditionalNotes] = useState<string>("");
+  const [gdprAgree, setGdprAgree] = useState<boolean>(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState<boolean>(false);
 
   const handleChange = (event: any, newValue: string[]) => {
     setValue(newValue);
@@ -52,10 +62,14 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
 
   const handleSave = () => {
     // Save the food preferences
+    if (!gdprAgree) return;
+
     dispatch(
       updateUserFoodPreferencesStart({
         foodPreferences: value,
         additionalNotes: additonalNotes,
+        gdpr_agreed: gdprAgree,
+        needs_to_renew_gdpr: initialNeedsToRenewGdpr,
       })
     );
   };
@@ -70,6 +84,7 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
     const checkedFoodPrefs = userFoodPreferences.filter((pref) => pref.checked);
     const checkedFoodPrefIds = checkedFoodPrefs.map((pref) => pref.id);
     setValue(checkedFoodPrefIds);
+    setGdprAgree(initialNeedsToRenewGdpr ? false : initialGdprAgree);
 
     if (additionalNotes) setAdditionalNotes(additionalNotes);
   }, [userFoodPreferences, additionalNotes]);
@@ -160,8 +175,40 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
             {t("profile.food_preferences.additional_notes_helperText")}
           </StyledFormLabelWithHelperText>
         </FormControl>
-        <StyledButton size="md" onClick={handleSave} bgColor={PALLETTE.green}>
-          {t("form.button_save")}
+        <Box mt={4}>
+          <FormControl>
+            <Checkbox
+              checked={gdprAgree}
+              onChange={(e) => setGdprAgree(e.target.checked)}
+            />
+            <StyledFormLabelWithHelperText>
+              <Trans i18nKey="profile.food_preferences.gdpr_agree_helperText">
+                I agree to the processing of my personal data for the purpose of
+                managing my food preferences
+                <Link href="#" onClick={() => setShowPrivacyPolicy(true)}>
+                  Food Preferences Privacy Policy
+                </Link>
+              </Trans>
+            </StyledFormLabelWithHelperText>
+          </FormControl>
+        </Box>
+        <InformationModal
+          isOpen={showPrivacyPolicy}
+          onClose={() => setShowPrivacyPolicy(false)}
+          title={t("profile.food_preferences.privacy_policy_title")}
+          width="75%"
+        >
+          <FoodPreferencesAgreement />
+        </InformationModal>
+        <StyledButton
+          size="md"
+          onClick={handleSave}
+          bgColor={PALLETTE.green}
+          disabled={!gdprAgree}
+        >
+          {initialNeedsToRenewGdpr
+            ? t("form.button_update_gdpr")
+            : t("form.button_save")}
         </StyledButton>
       </Box>
     </>
