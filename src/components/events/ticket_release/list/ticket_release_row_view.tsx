@@ -17,7 +17,7 @@ import {
 import LoadingOverlay from "../../../Loading";
 import PALLETTE from "../../../../theme/pallette";
 import StyledText from "../../../text/styled_text";
-import { format } from "date-fns";
+import { add, format } from "date-fns";
 import StyledButton from "../../../buttons/styled_button";
 import ConfirmModal from "../../../modal/confirm_modal";
 import axios from "axios";
@@ -36,6 +36,7 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SnoozeIcon from "@mui/icons-material/Snooze";
+import { ticketsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -160,18 +161,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     return null;
   }
 
-  const enteredIntoFCFCLottery = () => {
-    return ticketReleaseTickets.filter((ticket) => {
-      const windowDeadline = new Date(
-        ticketRelease.open +
-          ticketRelease.ticketReleaseMethodDetail.openWindowDuration! *
-            60 *
-            1000
-      );
-      return new Date(ticket.ticket_request!.created_at) < windowDeadline;
-    }).length;
-  };
-
   const numTicketRequests = ticketReleaseTickets.length;
 
   const numAllocatedTickets = ticketReleaseTickets.filter(
@@ -248,6 +237,24 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               1 && [
               // First come first serve lottery
               <StyledText
+                key="fcfs-lottery-info"
+                level="body-sm"
+                fontSize={18}
+                fontWeight={600}
+                color={PALLETTE.charcoal_see_through}
+                sx={{ ml: 2 }}
+              >
+                FCFSL Deadline:{" "}
+                {format(
+                  add(new Date(ticketRelease.open), {
+                    minutes:
+                      ticketRelease.ticketReleaseMethodDetail
+                        .openWindowDuration!,
+                  }),
+                  "dd/MM/yyyy HH:mm:ss"
+                )}
+              </StyledText>,
+              <StyledText
                 key="fcfs-lottery-1"
                 level="body-sm"
                 fontSize={18}
@@ -256,8 +263,10 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 color={PALLETTE.charcoal}
                 sx={{ ml: 2 }}
               >
-                {`${enteredIntoFCFCLottery()} ` +
-                  t("manage_event.lottery_entered_ticket_requests")}
+                {`${ticketsEnteredIntoFCFCLottery(
+                  ticketReleaseTickets,
+                  ticketRelease
+                )} ` + t("manage_event.lottery_entered_ticket_requests")}
               </StyledText>,
               <StyledText
                 key="fcfs-lottery-2"
@@ -268,8 +277,13 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 color={PALLETTE.charcoal}
                 sx={{ ml: 2 }}
               >
-                {`${numTicketRequests - enteredIntoFCFCLottery()} ` +
-                  t("manage_event.not_lottery_entered_ticket_requests")}
+                {`${
+                  numTicketRequests -
+                  ticketsEnteredIntoFCFCLottery(
+                    ticketReleaseTickets,
+                    ticketRelease
+                  )
+                } ` + t("manage_event.not_lottery_entered_ticket_requests")}
               </StyledText>,
             ]}
           </Box>

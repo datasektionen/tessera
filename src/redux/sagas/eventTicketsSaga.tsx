@@ -10,6 +10,7 @@ import {
   IEvent,
   ITicket,
   ITicketRelease,
+  ITicketReleaseMethodDetail,
   ITicketRequest,
   ITicketType,
   ITransaction,
@@ -97,11 +98,22 @@ function* fetchEventTickets(
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,
-            open: new Date(ticket_request.ticket_release.open!).getTime(),
-            close: new Date(ticket_request.ticket_release.close!).getTime(),
+            open: new Date(
+              ticket_request.ticket_release.open! * 1000
+            ).getTime(),
+            close: new Date(
+              ticket_request.ticket_release.close! * 1000
+            ).getTime(),
             allow_external: ticket_request.ticket_release.allow_external!,
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
+            ticketReleaseMethodDetail: {
+              id: ticket_request.ticket_release.ticket_release_method_detail
+                .ID!,
+              openWindowDuration:
+                ticket_request.ticket_release.ticket_release_method_detail
+                  .open_window_duration! / 60,
+            } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
         } as ITicketRequest,
       } as ITicket;
@@ -165,10 +177,21 @@ function* fetchEventTickets(
               } as IEvent,
               name: ticketRequest.ticket_release.name!,
               description: ticketRequest.ticket_release.description!,
-              open: new Date(ticketRequest.ticket_release.open!).getTime(),
-              close: new Date(ticketRequest.ticket_release.close!).getTime(),
+              open: new Date(
+                ticketRequest.ticket_release.open! * 1000
+              ).getTime(),
+              close: new Date(
+                ticketRequest.ticket_release.close! * 1000
+              ).getTime(),
               has_allocated_tickets:
                 ticketRequest.ticket_release.has_allocated_tickets,
+              ticketReleaseMethodDetail: {
+                id: ticketRequest.ticket_release.ticket_release_method_detail
+                  .ID!,
+                openWindowDuration:
+                  ticketRequest.ticket_release.ticket_release_method_detail
+                    .open_window_duration! / 60,
+              } as ITicketReleaseMethodDetail,
             } as ITicketRelease,
           } as ITicketRequest,
         } as ITicket;

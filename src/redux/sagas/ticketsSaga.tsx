@@ -6,6 +6,7 @@ import {
   IEvent,
   ITicket,
   ITicketRelease,
+  ITicketReleaseMethodDetail,
   ITicketRequest,
   ITicketType,
   TicketRequestPostReq,
@@ -38,8 +39,8 @@ function* getMyTicketSaga(): Generator<any, void, any> {
         is_reserve: ticket.is_reserve!,
         refunded: ticket.refunded!,
         user_id: ticket.user_id!,
-        created_at: new Date(ticket.CreatedAt!).getTime(),
-        updated_at: new Date(ticket.UpdatedAt!).getTime(),
+        created_at: new Date(ticket.CreatedAt!).getTime() * 1000,
+        updated_at: new Date(ticket.UpdatedAt!).getTime() * 1000,
         reserve_number: ticket.reserve_number!,
         qr_code: ticket.qr_code!,
         checked_in: ticket.checked_in!,
@@ -70,10 +71,19 @@ function* getMyTicketSaga(): Generator<any, void, any> {
             name: ticket_request.ticket_release.name!,
             pay_within: ticket_request.ticket_release.pay_within!,
             description: ticket_request.ticket_release.description!,
-            open: new Date(ticket_request.ticket_release.open!).getTime(),
-            close: new Date(ticket_request.ticket_release.close!).getTime(),
+            open:
+              new Date(ticket_request.ticket_release.open!).getTime() * 1000,
+            close:
+              new Date(ticket_request.ticket_release.close!).getTime() * 1000,
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
+            ticketReleaseMethodDetail: {
+              id: ticket_request.ticket_release.ticket_release_method_detail
+                .ID!,
+              openWindowDuration:
+                ticket_request.ticket_release.ticket_release_method_detail
+                  .open_window_duration!,
+            } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
         } as ITicketRequest,
       } as ITicket;

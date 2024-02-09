@@ -1,4 +1,4 @@
-import { ITicketRelease } from "../types";
+import { ITicket, ITicketRelease } from "../types";
 
 export const ticketReleaseHasClosed = (
   ticketRelease: ITicketRelease,
@@ -39,4 +39,24 @@ export const beforeWindowDuration = (
   if (!open_window_duration) return false;
 
   return serverTimestamp < serverTimestamp + open_window_duration * 60 * 1000;
+};
+
+export const ticketIsEnteredIntoFCFCLottery = (
+  ticket: ITicket,
+  ticketRelease: ITicketRelease
+) => {
+  const windowDeadline = new Date(
+    ticketRelease.open +
+      ticketRelease.ticketReleaseMethodDetail.openWindowDuration! * 60 * 1000
+  );
+  return ticket.ticket_request!.created_at < windowDeadline.getTime();
+};
+
+export const ticketsEnteredIntoFCFCLottery = (
+  tickets: ITicket[],
+  ticketRelease: ITicketRelease
+) => {
+  return tickets.filter((ticket) =>
+    ticketIsEnteredIntoFCFCLottery(ticket, ticketRelease)
+  ).length;
 };

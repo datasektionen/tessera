@@ -17,6 +17,7 @@ import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
 import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
 import { MUItheme } from "./datagrid_utils/mui_theme";
+import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
@@ -66,7 +67,6 @@ const EventTicketsList: React.FC<{
       field: "is_paid",
       headerName: "Paid",
       width: 75,
-      resizable: true,
       renderCell: (params) => {
         if (params.value === null) {
           return "N/A";
@@ -78,12 +78,11 @@ const EventTicketsList: React.FC<{
         );
       },
     },
-    { field: "ticket", headerName: "Ticket", width: 200, resizable: true },
+    { field: "ticket", headerName: "Ticket", width: 200 },
     {
       field: "price",
       headerName: "Price",
       width: 60,
-      resizable: true,
       renderCell: (params) => `${params.value} :-`,
     },
     {
@@ -141,6 +140,25 @@ const EventTicketsList: React.FC<{
           <Cancel color="error" />
         ),
     },
+    {
+      field: "requseted_at",
+      headerName: "Requested At",
+      width: 150,
+      valueFormatter: (params) => {
+        return format(params.value as number, "dd/MM/yyyy HH:mm");
+      },
+    },
+    {
+      field: "entered_into_lottery",
+      headerName: "Entered Into Lottery",
+      width: 150,
+      renderCell: (params) =>
+        params.value ? (
+          <CheckCircle color="success" />
+        ) : (
+          <Cancel color="error" />
+        ),
+    },
   ];
 
   const isTicketRequest = (ticket: ITicket) => {
@@ -176,6 +194,11 @@ const EventTicketsList: React.FC<{
         vegetarian: ufp.vegetarian,
         additional_info: ufp.additional,
         checked_in: ticket.checked_in,
+        requseted_at: ticket?.ticket_request?.created_at,
+        entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
+          ticket,
+          ticket.ticket_request?.ticket_release!
+        ),
       };
 
       return row;
@@ -219,6 +242,7 @@ const EventTicketsList: React.FC<{
       vegetarian: false,
       additional_info: false,
       checked_in: true,
+      requseted_at: true,
     });
 
   if (!tickets || rows.length === 0) {
