@@ -42,4 +42,5 @@ export const ROUTES = {
   EXTERNAL_VERIFY_EMAIL: "/verify-email/:token",
   CONTACT_PAGE: "/contact",
   TICKET_SCANNER: "/events/:eventID/manage/scan",
+  RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
 };

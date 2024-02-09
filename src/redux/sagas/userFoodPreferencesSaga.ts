@@ -32,6 +32,8 @@ function* fetchUserFoodPreferences(): Generator<any, void, any> {
       fetchUserFoodPreferencesSuccess({
         userFoodPreferences,
         additionalNotes: data.additional_info,
+        gdpr_agreed: data.gdpr_agreed,
+        needs_to_renew_gdpr: data.needs_to_renew_gdpr,
       })
     );
   } catch (error: any) {
@@ -40,10 +42,20 @@ function* fetchUserFoodPreferences(): Generator<any, void, any> {
 }
 
 function* updateUserFoodPreferences(
-  action: PayloadAction<{ foodPreferences: string[]; additionalNotes: string }>
+  action: PayloadAction<{
+    foodPreferences: string[];
+    additionalNotes: string;
+    gdpr_agreed: boolean;
+    needs_to_renew_gdpr: boolean;
+  }>
 ): Generator<any, void, any> {
   try {
-    const { foodPreferences, additionalNotes } = action.payload;
+    const {
+      foodPreferences,
+      additionalNotes,
+      gdpr_agreed,
+      needs_to_renew_gdpr,
+    } = action.payload;
     // Each of the values in the array should be true in  the new object
     let userFoodPreferences: { [key: string]: boolean | string } =
       FoodPreferences.reduce(
@@ -56,6 +68,8 @@ function* updateUserFoodPreferences(
       );
 
     userFoodPreferences.additional_info = additionalNotes;
+    userFoodPreferences.gdpr_agreed = gdpr_agreed;
+    userFoodPreferences.needs_to_renew_gdpr = needs_to_renew_gdpr;
 
     const response = yield call(
       axios.put,
@@ -70,10 +84,25 @@ function* updateUserFoodPreferences(
         userFoodPreferences
       );
 
+      let new_gdpr_agreed: boolean;
+      let new_needs_to_renew_gdpr: boolean;
+      if (needs_to_renew_gdpr && gdpr_agreed) {
+        new_gdpr_agreed = true;
+        new_needs_to_renew_gdpr = false;
+      } else if (!needs_to_renew_gdpr && gdpr_agreed) {
+        new_gdpr_agreed = true;
+        new_needs_to_renew_gdpr = false;
+      } else {
+        new_gdpr_agreed = gdpr_agreed;
+        new_needs_to_renew_gdpr = needs_to_renew_gdpr;
+      }
+
       yield put(
         updateUserFoodPreferencesSuccess({
           userFoodPreferences: newUserFoodPreferences,
           additionalNotes: userFoodPreferences.additional_info,
+          gdpr_agreed: new_gdpr_agreed,
+          needs_to_renew_gdpr: new_needs_to_renew_gdpr,
         })
       );
       toast.success("Food preferences updated successfully");
