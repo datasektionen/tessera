@@ -98,7 +98,7 @@ const enTranslations = {
     },
     contact: {
       title: "Contact",
-      email: "Email",
+      email: "Your Email",
       email_helperText: "What is the contact email for this ticket?",
       subject: "Subject",
       subject_helperText: "What is the subject for this ticket?",
@@ -110,6 +110,8 @@ const enTranslations = {
       fail: "Your message could not be sent. Please try again later.",
       description:
         "If you have any questions, problems or suggestions, feel free to contact us. We will get back to you as soon as possible.",
+      team_name: "Team",
+      team_helperText: "Which team are you contacting?",
     },
 
     button_clear: "Clear",
@@ -371,6 +373,8 @@ const enTranslations = {
     event_by: "Event by",
     promo_code_title: "Promo code",
     promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
+    contact_organizers:
+      "If you have any questions, you can contact <1>{{organization}}</1> <2>here</2>.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",
@@ -395,7 +399,7 @@ const enTranslations = {
       remove_reminder: "Remove reminder",
       set_reminder: "Set reminder for 10 minutes before ticket release",
       information_processing_policy_info:
-        "By requesting a ticket you agree to share your food preferences and user details with the event organizer until the event is over. Information collected will be processed in accordance with the chapters information processing policy, <1>Click Here</1> for more information.",
+        "By requesting a ticket you agree to share your food preferences and user details with the event organizer. Information collected will be processed in accordance with the chapters information processing policy, <1>Click Here</1> for more information.",
       checkout: {
         overview: "Overview",
         what_is_a_request_title: "What is a ticket request?",

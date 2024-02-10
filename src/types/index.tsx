@@ -374,6 +374,7 @@ export const LoginInitialValues: ILoginFormValues = {
 export interface IContactFormValues {
   name: string;
   email: string;
+  organization_id: number | null;
   subject: string;
   message: string;
 }

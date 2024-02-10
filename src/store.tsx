@@ -21,6 +21,7 @@ import ticketTypeSlice from "./redux/features/ticketTypeSlice";
 import eventTicketsSlice from "./redux/features/eventTicketsSlice";
 import ticketReleaseSlice from "./redux/features/ticketReleaseSlice";
 import serverTimestampSlice from "./redux/features/serverTimestampSlice";
+import listOrganizationsSlice from "./redux/features/listOrganizationsSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
   eventTickets: eventTicketsSlice,
   ticketRelease: ticketReleaseSlice,
   timestamp: serverTimestampSlice,
+  organizations: listOrganizationsSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

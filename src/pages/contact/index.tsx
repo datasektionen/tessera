@@ -1,27 +1,50 @@
-import { Box, FormControl } from "@mui/joy";
+import {
+  Autocomplete,
+  Box,
+  FormControl,
+  Option,
+  Select,
+  TextField,
+} from "@mui/joy";
 import Title from "../../components/text/title";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
-import { Form, Formik } from "formik";
-import { IContactFormValues } from "../../types";
+import { Field, Form, Formik } from "formik";
+import { IContactFormValues, IOrganization } from "../../types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
 } from "../../components/forms/form_labels";
-import { FormInput, FormTextarea } from "../../components/forms/input_types";
+import {
+  DefaultInputStyle,
+  FormInput,
+  FormTextarea,
+} from "../../components/forms/input_types";
 import { StyledErrorMessage } from "../../components/forms/messages";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 import ContactFormSchema from "../../validation/contact_form";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import StyledButton from "../../components/buttons/styled_button";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { listOrganizationsStart } from "../../redux/features/listOrganizationsSlice";
+import LoadingOverlay from "../../components/Loading";
+import { useLocation } from "react-router-dom";
 
 const ContactPage: React.FC = () => {
   const { t } = useTranslation();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { organizations, loading: orgLoading } = useSelector(
+    (state: RootState) => state.organizations
+  );
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const organization_id = queryParams.get("organization_id");
+  const dispatch: AppDispatch = useDispatch();
 
   const handleSubmit = async (values: IContactFormValues) => {
     axios
@@ -38,12 +61,21 @@ const ContactPage: React.FC = () => {
       });
   };
 
+  useEffect(() => {
+    dispatch(listOrganizationsStart());
+  }, []);
+
   const ContactFormInitialValues: IContactFormValues = {
     name: currentUser?.first_name + " " + currentUser?.last_name,
     email: currentUser?.email!,
+    organization_id: organization_id ? parseInt(organization_id) : 0,
     subject: "",
     message: "",
   };
+
+  if (orgLoading) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <TesseraWrapper>
@@ -80,6 +112,48 @@ const ContactPage: React.FC = () => {
             {({ values, isValid, errors }) => {
               return (
                 <Form>
+                  <StyledFormLabel>
+                    {t("form.contact.team_name")}*
+                  </StyledFormLabel>
+                  <Field name="organization_id">
+                    {({ field, form }: any) => {
+                      const selectedOrganization =
+                        organizations.find((org) => org.id === field.value) ||
+                        ({
+                          id: 0,
+                          name: "",
+                          email: "",
+                          created_at: 0,
+                        } as IOrganization);
+                      return (
+                        <Autocomplete
+                          value={selectedOrganization}
+                          options={organizations}
+                          getOptionLabel={(option) => option.name}
+                          style={DefaultInputStyle}
+                          onChange={(_, newValue) => {
+                            form.setFieldValue(
+                              field.name,
+                              newValue ? newValue.id : ""
+                            );
+                          }}
+                        />
+                      );
+                    }}
+                  </Field>
+                  <StyledErrorMessage name="organization_id" />
+                  <StyledText
+                    level="body-sm"
+                    fontSize={16}
+                    color={PALLETTE.charcoal}
+                    style={{
+                      width: "350px",
+                    }}
+                    sx={{ marginBottom: "10px" }}
+                  >
+                    {t("form.contact.team_helperText")}
+                  </StyledText>
+
                   <FormControl>
                     <StyledFormLabel>{t("form.contact.name")}*</StyledFormLabel>
                     <FormInput
@@ -91,7 +165,8 @@ const ContactPage: React.FC = () => {
                       }}
                     />
                     <StyledErrorMessage name="name" />
-
+                  </FormControl>
+                  <FormControl>
                     <StyledFormLabel>
                       {t("form.contact.email")}*
                     </StyledFormLabel>
@@ -104,7 +179,8 @@ const ContactPage: React.FC = () => {
                       }}
                     />
                     <StyledErrorMessage name="email" />
-
+                  </FormControl>
+                  <FormControl>
                     <StyledFormLabel>
                       {t("form.contact.subject")}*
                     </StyledFormLabel>
@@ -117,7 +193,8 @@ const ContactPage: React.FC = () => {
                       }}
                     />
                     <StyledErrorMessage name="subject" />
-
+                  </FormControl>
+                  <FormControl>
                     <StyledFormLabel>
                       {t("form.contact.message")}*
                     </StyledFormLabel>

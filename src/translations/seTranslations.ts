@@ -83,11 +83,12 @@ const seTranslations = {
 
     contact: {
       title: "Kontakt",
-      email: "E-post",
+      email: "Din E-post",
       email_helperText: "Vad är kontakt-e-posten för denna biljett?",
       subject: "Ämne",
       subject_helperText: "Vad är ämnet för denna biljett?",
       name: "Namn",
+
       name_helperText: "Vad är namnet på kontaktpersonen?",
       message: "Meddelande",
       message_helperText: "Vad är meddelandet för denna biljett?",
@@ -95,6 +96,8 @@ const seTranslations = {
       fail: "Något gick fel. Försök igen senare.",
       description:
         "Om du har några frågor, problem eller förslag, tveka inte att kontakta oss. Vi kommer att återkomma till dig så snart som möjligt.",
+      team_name: "Grupp",
+      team_helperText: "Vilken grupp kontaktar du?",
     },
 
     button_clear: "Rensa",
@@ -304,6 +307,8 @@ const seTranslations = {
     no_ticket_releases: "Det finns inga biljettsläpp för detta evenemang.",
     promo_code_helperText:
       "Ange promokoden för att få tillgång till reserverade biljetter.",
+    contact_organizers:
+      "Om du har några frågor, kan du kontakta <1>{{organization}}</1> <2>här</2>.",
     check_in: {
       scan_ticket_instructions: "Skann QR-koden för att checka in.",
       loading: "Laddar...",

@@ -12,6 +12,7 @@ import {
   Divider,
   Grid,
   Input,
+  Link,
   Sheet,
   Stack,
   Typography,
@@ -43,7 +44,7 @@ import { Form, Formik } from "formik";
 import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
 import { StyledErrorMessage } from "../../components/forms/messages";
 import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessSlice";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
@@ -152,6 +153,31 @@ const EventDetail: React.FC = () => {
                 >
                   <ReactMarkdown>{event.description}</ReactMarkdown>
                 </Typography>
+
+                <Box>
+                  <StyledText
+                    color={PALLETTE.charcoal_see_through}
+                    level="body-sm"
+                    fontSize={16}
+                    fontWeight={600}
+                    style={{
+                      width: "75%",
+                      margin: "2rem 0",
+                    }}
+                  >
+                    <Trans
+                      i18nKey="event.contact_organizers"
+                      values={{ organization: event.organization?.name }}
+                    >
+                      Contact the organizers at <strong>hi</strong>
+                      <Link
+                        href={`/contact?organization_id=${event.organization?.id}`}
+                      >
+                        here
+                      </Link>
+                    </Trans>
+                  </StyledText>
+                </Box>
               </Grid>
               <Grid xs={16} md={4}>
                 <Typography
