@@ -33,6 +33,8 @@ import { useTranslation } from "react-i18next";
 import ContactPage from "../pages/contact";
 import FourOFour404 from "../pages/errors/404";
 import TicketScannerPage from "../pages/event/ticket_scanner";
+import ForgotPassword from "../pages/external/forgot_password";
+import PasswordReset from "../pages/external/password_reset";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -92,6 +94,8 @@ function AppRoutes() {
           element={<HandleLoginCallback />}
         />
         <Route path={ROUTES.EXTERNAL} element={<External />} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={ROUTES.PASSWORD_RESET} element={<PasswordReset />} />
         <Route
           path={ROUTES.EXTERNAL_VERIFY_EMAIL}
           element={<ExternalVerifyEmail />}
