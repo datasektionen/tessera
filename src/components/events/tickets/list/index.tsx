@@ -34,6 +34,9 @@ const EventTicketsList: React.FC<{
       field: "ticket_release_name",
       headerName: "Ticket Release",
       width: 150,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        return cellParams1.value.localeCompare(cellParams2.value);
+      },
     },
     {
       field: "is_allocated",
@@ -41,6 +44,11 @@ const EventTicketsList: React.FC<{
       description:
         "A false value would indicate that the ticket is still a ticket request.",
       width: 100,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        if (cellParams1.value === null) return 1;
+        if (cellParams2.value === null) return -1;
+        return cellParams2.value - cellParams1.value;
+      },
       renderCell: (params) =>
         params.value ? (
           <CheckCircle color="success" />
@@ -52,6 +60,11 @@ const EventTicketsList: React.FC<{
       field: "is_reserve",
       headerName: "Reserve",
       width: 75,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        if (cellParams1.value === null) return 1;
+        if (cellParams2.value === null) return -1;
+        return cellParams2.value - cellParams1.value;
+      },
       renderCell: (params) => {
         if (params.value === null) {
           return "N/A";
@@ -67,6 +80,11 @@ const EventTicketsList: React.FC<{
       field: "is_paid",
       headerName: "Paid",
       width: 75,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        if (cellParams1.value === null) return 1;
+        if (cellParams2.value === null) return -1;
+        return cellParams2.value - cellParams1.value;
+      },
       renderCell: (params) => {
         if (params.value === null) {
           return "N/A";
@@ -83,12 +101,20 @@ const EventTicketsList: React.FC<{
       field: "price",
       headerName: "Price",
       width: 60,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        return cellParams1.value - cellParams2.value;
+      },
       renderCell: (params) => `${params.value} :-`,
     },
     {
       field: "user",
       headerName: "User",
       width: 100,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        return cellParams1.value.username.localeCompare(
+          cellParams2.value.username
+        );
+      },
       valueFormatter: (params) => {
         return params.value.username;
       },
@@ -110,6 +136,11 @@ const EventTicketsList: React.FC<{
       field: "payed_at",
       headerName: "Payed At",
       width: 150,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        const date1 = new Date(cellParams1.value);
+        const date2 = new Date(cellParams2.value);
+        return date1.getTime() - date2.getTime();
+      },
     },
     createFoodPreferenceColumn("gluten_intolerant", "Gluten Intolerant"),
     createFoodPreferenceColumn("halal", "Halal"),
@@ -170,7 +201,7 @@ const EventTicketsList: React.FC<{
       const ufp = ticket.user!.food_preferences!;
 
       const row = {
-        id: ticket.id,
+        id: `${ticket.id}-${ticket.user_id}`,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
         is_allocated:
