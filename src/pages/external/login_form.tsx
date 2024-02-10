@@ -6,7 +6,7 @@ import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
 } from "../../components/forms/form_labels";
-import { FormControl, Stack, Tooltip } from "@mui/joy";
+import { FormControl, Link, Stack, Tooltip } from "@mui/joy";
 import { FormInput } from "../../components/forms/input_types";
 import { useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
@@ -100,6 +100,8 @@ const LoginForm: React.FC = () => {
               textAlign: "center",
             }}
           >
+            Forgot your password?{" "}
+            <Link href="/forgot-password">Click here</Link> <br />
             {t("external.form.no_account")}
           </StyledText>
         </Form>

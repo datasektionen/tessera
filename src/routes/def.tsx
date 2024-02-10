@@ -38,8 +38,11 @@ export const ROUTES = {
   PROFILE: "/profile",
   PROFILE_ORGANIZATIONS: "/profile/organizations",
   EXTERNAL: "/external",
+  FORGOT_PASSWORD: "/forgot-password",
+  PASSWORD_RESET: "/reset-password/:token",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",
   EXTERNAL_VERIFY_EMAIL: "/verify-email/:token",
   CONTACT_PAGE: "/contact",
   TICKET_SCANNER: "/events/:eventID/manage/scan",
+  RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
 };

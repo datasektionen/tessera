@@ -131,6 +131,7 @@ const enTranslations = {
     button_delete: "Delete",
     button_send: "Send",
     button_check_in: "Check in",
+    button_update_gdpr: "Save and renew consent",
   },
   create_event: {
     title: "Create event",
@@ -184,6 +185,9 @@ const enTranslations = {
       additional_notes: "Aditional notes",
       additional_notes_helperText:
         "Provide any additional notes here regarding your food preferences. Leave blank if you have none.",
+      privacy_policy_title: "Privacy policy",
+      gdpr_agree_helperText:
+        "I had read and agree to the processing of my personal data for the purpose of managing my food preferences according to the <1>Food Preferences Privacy Policy</1>",
     },
 
     your_ticket_requests: {
@@ -421,7 +425,7 @@ const enTranslations = {
       password_repeat: "Repeat password",
       button_signup: "Sign up",
       button_login: "Login",
-      no_account: "Don't have an account? Please contact us.", // TODO add email
+      no_account: "Don't have an account? Sign up!",
     },
   },
 

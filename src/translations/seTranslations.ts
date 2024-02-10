@@ -117,6 +117,7 @@ const seTranslations = {
     button_delete: "Radera",
     button_send: "Skicka",
     button_check_in: "Checka in",
+    button_update_gdpr: "Spara och uppdatera GDPR samtycke",
   },
   create_event: {
     title: "Skapa evenemang",
@@ -170,6 +171,9 @@ const seTranslations = {
       additional_notes: "Ytterligare anteckningar",
       additional_notes_helperText:
         "Ange eventuella ytterligare anteckningar här angående dina matpreferenser. Lämna blankt om du inte har några.",
+      privacy_policy_title: "Integritetspolicy",
+      gdpr_agree_helperText:
+        "Jag har läst och godkänner behandlingen av mina personuppgifter för att hantera mina matpreferenser enligt <1>Integritetspolicy för matpreferenser</1>",
     },
 
     your_ticket_requests: {
