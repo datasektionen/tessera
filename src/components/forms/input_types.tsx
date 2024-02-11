@@ -42,18 +42,29 @@ export const FormInput: React.FC<FormInputProps> = ({
         required
         autoComplete={autoComplete}
         onChange={(e: any) => {
-          if (type === "number") {
-            // Remove leading zeros
-            // If its only 1 zero, keep it
-            if (e.target.value.length > 1) {
-              e.target.value = e.target.value.replace(/^0+/, "");
+          try {
+            if (type === "datetime-local") {
+              if (!e.target.value) {
+                return;
+              }
+              // Optional: Validate the datetime-local value here before setting it
             }
-          }
 
-          if (onChange) {
-            onChange(e);
-          } else {
-            field.onChange(e);
+            if (type === "number") {
+              if (e.target.value.length > 1) {
+                e.target.value = e.target.value.replace(/^0+/, "");
+              }
+            }
+
+            // Proceed with onChange logic
+            if (onChange) {
+              onChange(e);
+            } else {
+              field.onChange(e);
+            }
+          } catch (error) {
+            console.error("Error processing input change:", error);
+            // Optionally set an error state here
           }
         }}
         placeholder={placeholder}

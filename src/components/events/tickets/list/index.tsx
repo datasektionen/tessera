@@ -201,7 +201,7 @@ const EventTicketsList: React.FC<{
       const ufp = ticket.user!.food_preferences!;
 
       const row = {
-        id: `${ticket.id}-${ticket.user_id}`,
+        id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
         is_allocated:
@@ -212,7 +212,12 @@ const EventTicketsList: React.FC<{
         user: ticket?.user,
         email: ticket?.user?.email,
         payed_at: ticket?.is_paid
-          ? format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
+          ? ticket.ticket_request?.ticket_type?.price === 0
+            ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
+            : format(
+                ticket?.transaction?.payed_at as number,
+                "dd/MM/yyyy HH:mm"
+              )
           : "N/A",
         price: ticket?.ticket_request?.ticket_type?.price,
         gluten_intolerant: ufp.gluten_intolerant,
