@@ -132,6 +132,7 @@ const enTranslations = {
     button_send: "Send",
     button_check_in: "Check in",
     button_update_gdpr: "Save and renew consent",
+    button_send_out: "Send out (BETA)",
   },
   create_event: {
     title: "Create event",
@@ -288,6 +289,25 @@ const enTranslations = {
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
 
+    send_out: {
+      title: "Send Out (BETA)",
+      description:
+        "Send out an email to all users that have requested a ticket for this event. You can use this to notify users about the ticket release, or to notify users that have been allocated a ticket.",
+      preview: "Preview",
+      subject: "Subject",
+      subject_helperText: "What is the subject of the email?",
+      message: "Message",
+      message_helperText:
+        "What is the contents of the email? Markdown is supported.",
+      preview_helperText: "This is how the email will look to the users.",
+      ticket_releases: "Select ticket releases",
+      ticket_releases_helperText:
+        "The users of the selected ticket releases will receive the email.",
+      filter_tickets: "Filter tickets",
+      filter_tickets_helperText:
+        "Filter tickets based on their status. You can select multiple statuses.",
+      num_users: "The email will be sent to {{numUsers}} users.",
+    },
     edit: {
       title: "Edit event",
       subtitle: "Edit all of your event details here.",

@@ -64,7 +64,7 @@ const EventTicketsListScannerView: React.FC<{ tickets: ITicket[] }> = ({
   useEffect(() => {
     const rows = tickets.map((ticket: ITicket) => {
       const row = {
-        id: ticket.id,
+        id: `${ticket.id}-${ticket.ticket_request!.id}-ticket`,
         ticket: ticket.ticket_request?.ticket_type?.name,
         user: ticket?.user,
         checked_in: ticket.checked_in,

@@ -86,6 +86,7 @@ export interface FormTextareaProps {
   placeholder: string;
   minRows?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  overrideStyle?: Object;
 }
 
 export const FormTextarea: React.FC<FormTextareaProps> = ({
@@ -94,6 +95,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   placeholder,
   minRows = 2,
   onChange = undefined,
+  overrideStyle = {},
 }) => (
   <Field name={name}>
     {({ field }: any) => (
@@ -107,6 +109,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
         style={{
           ...DefaultInputStyle,
           width: "350px",
+          ...overrideStyle,
         }}
       />
     )}

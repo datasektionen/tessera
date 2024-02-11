@@ -35,6 +35,7 @@ import FourOFour404 from "../pages/errors/404";
 import TicketScannerPage from "../pages/event/ticket_scanner";
 import ForgotPassword from "../pages/external/forgot_password";
 import PasswordReset from "../pages/external/password_reset";
+import SendOut from "../components/events/send_out";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -149,6 +150,10 @@ function AppRoutes() {
           <Route
             path={ROUTES.MANAGE_EVENT}
             element={<ManageEventPageWithCurrentUser />}
+          />
+          <Route 
+            path={ROUTES.SEND_OUT}
+            element={<SendOut />}
           />
           <Route
             path={ROUTES.TICKET_SCANNER}

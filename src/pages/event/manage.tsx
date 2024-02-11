@@ -62,6 +62,10 @@ const ManageEventPage: React.FC = () => {
     }
   }, [dispatch, eventID]);
 
+  if (error) {
+    navigate("/events");
+  }
+
   if (!event) {
     return <LoadingOverlay />;
   }
@@ -149,6 +153,15 @@ const ManageEventPage: React.FC = () => {
             style={{ width: "150px" }}
           >
             {t("form.button_check_in")}
+          </StyledButton>
+          <StyledButton
+            size="md"
+            bgColor={PALLETTE.offWhite}
+            onClick={() => {
+              navigate(`/events/${event.id}/send-out`);
+            }}
+          >
+            {t("form.button_send_out")}
           </StyledButton>
         </Stack>
         <EventDetailInfo event={event} />

@@ -118,6 +118,7 @@ const seTranslations = {
     button_send: "Skicka",
     button_check_in: "Checka in",
     button_update_gdpr: "Spara och uppdatera GDPR samtycke",
+    button_send_out: "Utskick (BETA)",
   },
   create_event: {
     title: "Skapa evenemang",
@@ -273,6 +274,27 @@ const seTranslations = {
       "Är du säker på att du vill radera detta evenemang? Denna åtgärd kan inte ångras.",
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
+    send_out: {
+      title: "Utskick (BETA)",
+      description:
+        "Skicka ett e-postmeddelande till alla användare som har begärt en biljett till detta evenemang. Du kan använda detta för att meddela användare om biljettsläppet, eller för att meddela användare som har tilldelats en biljett.",
+      preview: "Förhandsgranska",
+      subject: "Ämne",
+      subject_helperText: "Vad är ämnet för e-postmeddelandet?",
+      message: "Meddelande",
+      message_helperText:
+        "Vad är innehållet i e-postmeddelandet? Markdown stöds.",
+      preview_helperText:
+        "Så här kommer e-postmeddelandet att se ut för användarna.",
+      ticket_releases: "Välj biljettsläpp",
+      ticket_releases_helperText:
+        "Användarna av de valda biljettsläppen kommer att få e-postmeddelandet.",
+      filter_tickets: "Filtrera biljetter",
+      filter_tickets_helperText:
+        "Filtrera biljetter baserat på deras status. Du kan välja flera statusar.",
+      num_users:
+        "E-postmeddelandet kommer att skickas till {{numUsers}} användare.",
+    },
     edit: {
       title: "Redigera evenemang",
       subtitle: "Här kan du redigera alla detaljer om ditt evenemang.",
