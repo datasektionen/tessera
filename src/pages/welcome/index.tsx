@@ -1,5 +1,6 @@
 import {
   AspectRatio,
+  Box,
   Button,
   Divider,
   Link,
@@ -66,9 +67,9 @@ const WelcomePage = () => {
         theme="light"
       />
       {orLoading ? <LoadingOverlay /> : null}
-      <Typography level="h1" color="primary" fontSize={72}>
+      <StyledText level="h1" color={PALLETTE.cerise} fontSize={100}>
         Tessera
-      </Typography>
+      </StyledText>
       <Typography level="h4" color="neutral">
         Ticket releases should not be a pain.
       </Typography>
@@ -86,6 +87,33 @@ const WelcomePage = () => {
         External user with no KTH account?{" "}
         <Link href="/external">Click here</Link>
       </StyledText>
+
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: "3%",
+          width: "90%",
+          textAlign: "center",
+          mx: 2,
+        }}
+      >
+        <StyledText
+          fontSize={17}
+          color={PALLETTE.charcoal_see_through}
+          level="body-sm"
+          sx={{ mt: 3 }}
+        >
+          For business-related inquiries, please contact{" "}
+          <Link
+            href="https://www.linkedin.com/in/lucas-dow-1315a61b5/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Lucas Dow
+          </Link>
+          , the creator of Tessera.
+        </StyledText>
+      </Box>
     </div>
   );
 };
