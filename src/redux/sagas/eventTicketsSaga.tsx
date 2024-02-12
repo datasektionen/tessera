@@ -70,7 +70,7 @@ function* fetchEventTickets(
             ticket_id: ticket.transaction.ticket_id!,
             amount: ticket.transaction.amount!,
             currency: ticket.transaction.currency!,
-            payed_at: new Date(ticket.transaction.payed_at!).getTime(),
+            payed_at: new Date(ticket.transaction.payed_at! * 1000).getTime(),
             refunded: ticket.transaction.refunded!,
             refunded_at: ticket.transaction.refunded_at || null,
           } as ITransaction),
