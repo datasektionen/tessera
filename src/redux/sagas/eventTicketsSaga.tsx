@@ -63,15 +63,17 @@ function* fetchEventTickets(
             additional: ticket.user.food_preferences.additional_info!,
           } as IUserFoodPreference,
         } as IUser,
-        transaction: {
-          id: ticket.transaction.ID!,
-          ticket_id: ticket.transaction.ticket_id!,
-          amount: ticket.transaction.amount!,
-          currency: ticket.transaction.currency!,
-          payed_at: new Date(ticket.transaction.payed_at! * 1000).getTime(),
-          refunded: ticket.transaction.refunded!,
-          refunded_at: ticket.transaction.refunded_at || null,
-        } as ITransaction,
+        transaction:
+          !!ticket.transaction &&
+          ({
+            id: ticket.transaction.ID!,
+            ticket_id: ticket.transaction.ticket_id!,
+            amount: ticket.transaction.amount!,
+            currency: ticket.transaction.currency!,
+            payed_at: new Date(ticket.transaction.payed_at!).getTime(),
+            refunded: ticket.transaction.refunded!,
+            refunded_at: ticket.transaction.refunded_at || null,
+          } as ITransaction),
         ticket_request: {
           id: ticket_request.ID!,
           created_at: new Date(ticket_request.CreatedAt!).getTime(),
@@ -202,6 +204,7 @@ function* fetchEventTickets(
 
     yield put(fetchEventTicketsSuccess(tickets));
   } catch (error: any) {
+    console.error("Error fetching event tickets:", error);
     yield put(fetchEventTicketsFailure(error.message));
   }
 }
