@@ -200,6 +200,21 @@ const EventTicketsList: React.FC<{
     const rows = tickets.map((ticket) => {
       const ufp = ticket.user!.food_preferences!;
 
+      let payed_at = "N/A";
+      console.log(ticket);
+      try {
+        payed_at = ticket.is_paid
+          ? ticket.ticket_request?.ticket_type?.price === 0
+            ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
+            : format(
+                ticket?.transaction?.payed_at as number,
+                "dd/MM/yyyy HH:mm"
+              )
+          : "N/A";
+      } catch (e) {
+        console.error(e);
+      }
+
       const row = {
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
@@ -211,14 +226,7 @@ const EventTicketsList: React.FC<{
         ticket: ticket.ticket_request?.ticket_type?.name,
         user: ticket?.user,
         email: ticket?.user?.email,
-        payed_at: ticket?.is_paid
-          ? ticket.ticket_request?.ticket_type?.price === 0
-            ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
-            : format(
-                ticket?.transaction?.payed_at as number,
-                "dd/MM/yyyy HH:mm"
-              )
-          : "N/A",
+        payed_at: payed_at,
         price: ticket?.ticket_request?.ticket_type?.price,
         gluten_intolerant: ufp.gluten_intolerant,
         halal: ufp.halal,
