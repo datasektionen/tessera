@@ -75,10 +75,8 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
         onClick={(e) => {
           handlePay(e);
         }}
-        disabled={true}
       >
-        TEMPORARILY DISABLED
-        {/* {t("tickets.pay_button")} */}
+        {t("tickets.pay_button")}
       </StyledButton>
       {clientSecret && (
         <Modal open={true} onClose={() => setClientSecret(null)}>

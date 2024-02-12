@@ -201,7 +201,6 @@ const EventTicketsList: React.FC<{
       const ufp = ticket.user!.food_preferences!;
 
       let payed_at = "N/A";
-      console.log(ticket);
       try {
         payed_at = ticket.is_paid
           ? ticket.ticket_request?.ticket_type?.price === 0
