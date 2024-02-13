@@ -166,7 +166,12 @@ const enTranslations = {
   profile: {
     title: "Profile",
     full_name: "Full name",
-    email: "Email",
+    internal_email: "KTH Email",
+    external_email: "Email",
+    preferred_email: "Preferred email",
+    edit_preferred_email: "Edit preferred email",
+    edit_preferred_email_description:
+      "Here you can edit your preferred email. This is the email you will recieve all notifications to.",
     username: "Username",
     role: "Role",
     teams: "Teams",

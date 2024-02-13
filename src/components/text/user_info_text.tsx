@@ -5,9 +5,14 @@ import { ReactNode } from "react";
 interface UserInfoTextProps {
   label: string;
   value: string | ReactNode;
+  labelStyle?: React.CSSProperties;
 }
 
-const UserInfoText: React.FC<UserInfoTextProps> = ({ label, value }) => {
+const UserInfoText: React.FC<UserInfoTextProps> = ({
+  label,
+  value,
+  labelStyle,
+}) => {
   return (
     <Stack direction="column" spacing={-0.5}>
       <Typography
@@ -24,6 +29,7 @@ const UserInfoText: React.FC<UserInfoTextProps> = ({ label, value }) => {
         fontFamily={"Josefin Sans"}
         style={{
           color: PALLETTE.charcoal,
+          ...labelStyle,
         }}
       >
         {value}

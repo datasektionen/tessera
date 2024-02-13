@@ -62,6 +62,14 @@ export interface IRole {
   id: number;
   name: string;
 }
+
+export interface IPreferredEmail {
+  ID: number;
+  email: string;
+  requested_change_email: string;
+  is_verified: boolean;
+}
+
 export interface IUser {
   // Define user properties based on your backend response
   ug_kth_id: string;
@@ -73,6 +81,7 @@ export interface IUser {
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
+  preferred_email?: IPreferredEmail;
 }
 
 export interface IOrganizationUser extends IUser {

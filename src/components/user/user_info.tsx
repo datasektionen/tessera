@@ -2,6 +2,7 @@ import { Box, Button, Grid, Link, Stack, Typography } from "@mui/joy";
 import { IUser } from "../../types";
 import UserInfoText from "../text/user_info_text";
 import { useTranslation } from "react-i18next";
+import UserEmail from "./user_email";
 
 interface UserInfoProps {
   user: IUser;
@@ -19,7 +20,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                 label={t("profile.full_name")}
                 value={`${user.first_name} ${user.last_name}`}
               />
-              <UserInfoText label={t("profile.email")} value={user.email} />
+              <UserEmail user={user} />
               <UserInfoText
                 label={t("profile.username")}
                 value={user.username}

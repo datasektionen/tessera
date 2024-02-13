@@ -36,6 +36,7 @@ import TicketScannerPage from "../pages/event/ticket_scanner";
 import ForgotPassword from "../pages/external/forgot_password";
 import PasswordReset from "../pages/external/password_reset";
 import SendOut from "../components/events/send_out";
+import VerifyPreferredEmail from "../pages/user/preferred_email/verify";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -101,6 +102,10 @@ function AppRoutes() {
           path={ROUTES.EXTERNAL_VERIFY_EMAIL}
           element={<ExternalVerifyEmail />}
         />
+        <Route
+          path={ROUTES.VERIFY_PREFERRED_EMAIL}
+          element={<VerifyPreferredEmail />}
+        />
 
         <Route element={<ProtectedRoute />}>
           <Route path={ROUTES.MAIN} element={<MainPageWithCurrentUser />} />
@@ -151,10 +156,7 @@ function AppRoutes() {
             path={ROUTES.MANAGE_EVENT}
             element={<ManageEventPageWithCurrentUser />}
           />
-          <Route 
-            path={ROUTES.SEND_OUT}
-            element={<SendOut />}
-          />
+          <Route path={ROUTES.SEND_OUT} element={<SendOut />} />
           <Route
             path={ROUTES.TICKET_SCANNER}
             element={<TicketScannerPageWithCurrentUser />}

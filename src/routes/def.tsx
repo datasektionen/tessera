@@ -42,6 +42,7 @@ export const ROUTES = {
   PASSWORD_RESET: "/reset-password/:token",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",
   EXTERNAL_VERIFY_EMAIL: "/verify-email/:token",
+  VERIFY_PREFERRED_EMAIL: "/verify-preferred-email/:token",
   CONTACT_PAGE: "/contact",
   TICKET_SCANNER: "/events/:eventID/manage/scan",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
