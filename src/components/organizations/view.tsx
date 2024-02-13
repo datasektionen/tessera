@@ -31,6 +31,7 @@ import {
   Option,
   Select,
   Sheet,
+  Stack,
 } from "@mui/joy";
 import { getUserFullName } from "../../utils/user_utils";
 import OrganizationUserView from "./organization_user_view";
@@ -43,6 +44,8 @@ import StyledButton from "../buttons/styled_button";
 import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import EditOrganization from "./edit";
+import InformationModal from "../modal/information";
 
 interface ViewOrganizationProps {
   organization: IOrganization;
@@ -67,6 +70,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
   const [showAllUsers, setShowAllUsers] = useState(false);
   const [showAllEvents, setShowAllEvents] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const reFetch = () => {
     dispatch(getOrganizationUsersRequest(organization.id));
@@ -234,17 +238,40 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
             {t("profile.your_teams.delete_team_confirmation")}
           </StyledText>
         </ConfirmModal>
-        <StyledButton
-          size="sm"
-          style={{ marginTop: "32px" }}
-          onClick={() => {
-            setShowDeleteModal(true);
+
+        <InformationModal
+          title="Edit team"
+          isOpen={editModalOpen}
+          onClose={() => {
+            setEditModalOpen(false);
           }}
-          bgColor={PALLETTE.red}
-          color={PALLETTE.charcoal}
         >
-          {t("profile.your_teams.delete_team")}
-        </StyledButton>
+          <EditOrganization organization={organization} />
+        </InformationModal>
+
+        <Stack spacing={2} direction={"row"}>
+          <StyledButton
+            size="sm"
+            style={{ marginTop: "32px" }}
+            onClick={() => {
+              setEditModalOpen(true);
+            }}
+            color={PALLETTE.charcoal}
+          >
+            {t("profile.your_teams.edit_team")}
+          </StyledButton>
+          <StyledButton
+            size="sm"
+            style={{ marginTop: "32px" }}
+            onClick={() => {
+              setShowDeleteModal(true);
+            }}
+            bgColor={PALLETTE.red}
+            color={PALLETTE.charcoal}
+          >
+            {t("profile.your_teams.delete_team")}
+          </StyledButton>
+        </Stack>
       </Box>
     </BorderBox>
   );

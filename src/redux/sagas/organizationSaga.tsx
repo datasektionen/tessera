@@ -16,6 +16,9 @@ import {
   deleteOrganizationRequest,
   deleteOrganizationSuccess,
   deleteOrganizationFailure,
+  updateOrganizationStart,
+  updateOrganizationSuccess,
+  updateOrganizationFailure,
 } from "./../features/organizationSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -23,7 +26,7 @@ import { IEvent, IOrganization, IOrganizationUser } from "../../types";
 import ReloadToastContent from "../../components/toasts/ReloadToast";
 
 function* createOrganizationSaga(
-  action: PayloadAction<{ name: string, email: string }>
+  action: PayloadAction<{ name: string; email: string }>
 ): Generator<any, void, any> {
   try {
     const response = yield call(
@@ -63,6 +66,7 @@ function* getMyOrganizationsSaga(): Generator<any, void, any> {
         return {
           id: organization.ID!,
           name: organization.name!,
+          email: organization.email!,
           created_at: new Date(organization.CreatedAt!).getTime(),
         };
       }
@@ -228,11 +232,45 @@ function* deleteOrganizationSaga(
   }
 }
 
+function* updateOrganizationSaga(
+  action: PayloadAction<{ id: number; name: string; email: string }>
+): Generator<any, void, any> {
+  try {
+    const response = yield call(
+      axios.put,
+      `${process.env.REACT_APP_BACKEND_URL}/organizations/${action.payload.id}`,
+      action.payload,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const organization: IOrganization = {
+      id: response.data.organization.ID!,
+      name: response.data.organization.name!,
+      email: response.data.organization.email!,
+      created_at: new Date(response.data.organization.CreatedAt!).getTime(),
+    };
+
+    if (response.status === 200) {
+      toast.success("Organization updated!");
+      yield put(updateOrganizationSuccess(organization));
+    } else {
+      toast.error("Something went wrong!");
+      yield put(updateOrganizationFailure("Something went wrong!"));
+    }
+  } catch (error: any) {
+    toast.error(error.response.data.error);
+    yield put(updateOrganizationFailure(error.message));
+  }
+}
+
 export function* watchCreateOrganization() {
   yield takeEvery(createOrganizationRequest.type, createOrganizationSaga);
   yield takeEvery(getMyOrganizationsRequest.type, getMyOrganizationsSaga);
   yield takeEvery(getOrganizationUsersRequest.type, getOrganizationUsersSaga);
   yield takeEvery(getOrganizationEventsRequest.type, getOrganizationEventsSaga);
   yield takeEvery(deleteOrganizationRequest.type, deleteOrganizationSaga);
+  yield takeEvery(updateOrganizationStart.type, updateOrganizationSaga);
   yield takeEvery(REMOVE_USER_REQUEST, removeUserSaga);
 }

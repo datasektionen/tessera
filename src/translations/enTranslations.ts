@@ -228,6 +228,8 @@ const enTranslations = {
       users: "Users",
       no_users: "There are no users in this team.",
       delete_team: "Delete team",
+      team_name_title: "Team name",
+      edit_team: "Edit team",
       delete_team_confirmation_title: "Confirm team deletion",
       delete_team_confirmation:
         "Are you sure you want to delete this team? This action cannot be undone.",
@@ -243,7 +245,7 @@ const enTranslations = {
     teams_created_by_contacting_us:
       "Currently, teams are created by contacting us. We are working on a solution to allow users to create teams themselves.",
     your_teams_text: "Your teams",
-    add_team_title: "Add team",
+    add_team_title: "Team Name",
     add_team_helperText:
       "This will be the name of your team. You will automatically be the owner of this team.",
     create_team_button: "Create team",

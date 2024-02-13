@@ -214,6 +214,8 @@ const seTranslations = {
       users: "Användare",
       no_users: "Det finns inga användare i denna grupp.",
       delete_team: "Radera grupp",
+      team_name_title: "Gruppnamn",
+      edit_team: "Redigera grupp",
       delete_team_confirmation_title: "Bekräfta radering av grupp",
       delete_team_confirmation:
         "Är du säker på att du vill radera denna grupp? Denna åtgärd kan inte ångras.",
@@ -229,7 +231,7 @@ const seTranslations = {
     teams_created_by_contacting_us:
       "För närvarande skapas grupper genom att kontakta oss. Vi arbetar på en lösning för att låta användare skapa grupper själva",
     your_teams_text: "Dina grupper",
-    add_team_title: "Lägg till grupp",
+    add_team_title: "Gruppnamn",
     add_team_helperText:
       "Detta kommer att vara namnet på din grupp. Du kommer automatiskt att vara ägare till denna grupp.",
     create_team_button: "Skapa grupp",

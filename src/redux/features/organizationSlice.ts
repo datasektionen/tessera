@@ -21,6 +21,7 @@ interface OrganizationState {
   organizationUsers: IOrganizationUser[] | null;
   organizationEvents: IEvent[] | null;
   error: string | null;
+  updateSuccess: boolean;
 }
 
 const initialState: OrganizationState = {
@@ -30,6 +31,7 @@ const initialState: OrganizationState = {
   organizations: [],
   organizationEvents: [],
   error: null,
+  updateSuccess: false,
 };
 
 const organizationSlice = createSlice({
@@ -108,6 +110,27 @@ const organizationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    updateOrganizationStart: (
+      state,
+      action: PayloadAction<{ id: number; name: string; email: string }>
+    ) => {
+      state.loading = true;
+      state.updateSuccess = false;
+    },
+    updateOrganizationSuccess: (
+      state,
+      action: PayloadAction<IOrganization>
+    ) => {
+      state.loading = false;
+      state.organization = action.payload;
+      state.error = null;
+      state.updateSuccess = true;
+    },
+    updateOrganizationFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.updateSuccess = false;
+    },
   },
 });
 
@@ -127,6 +150,9 @@ export const {
   deleteOrganizationRequest,
   deleteOrganizationSuccess,
   deleteOrganizationFailure,
+  updateOrganizationStart,
+  updateOrganizationSuccess,
+  updateOrganizationFailure,
 } = organizationSlice.actions;
 
 export default organizationSlice.reducer;
