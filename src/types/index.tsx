@@ -22,6 +22,7 @@ export interface AuthState {
   token: string | null;
   error: string | null;
   fetchUser: boolean;
+  onLoginRedirect: string | null;
 }
 
 export interface UserState {

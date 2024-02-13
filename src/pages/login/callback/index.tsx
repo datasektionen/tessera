@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { currentUserRequest } from "../../../redux/features/userSlice";
 import { AppDispatch, RootState } from "../../../store";
 import { is } from "immer/dist/internal";
@@ -8,13 +8,17 @@ import { Box, CircularProgress } from "@mui/joy";
 import StyledText from "../../../components/text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { toast } from "react-toastify";
+import { clearLoginRedirect } from "../../../redux/features/authSlice";
 
 const HandleLoginCallback: React.FC = () => {
   const query = new URLSearchParams(useLocation().search);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const dispatch: AppDispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn, onLoginRedirect } = useSelector(
+    (state: RootState) => state.auth
+  );
   const { user } = useSelector((state: RootState) => state.user);
 
   const attemptCountRef = useRef<number>(0);
@@ -23,6 +27,13 @@ const HandleLoginCallback: React.FC = () => {
     const intervalId = setInterval(() => {
       if (isLoggedIn && user) {
         clearInterval(intervalId);
+
+        if (onLoginRedirect) {
+          dispatch(clearLoginRedirect());
+          navigate(decodeURIComponent(onLoginRedirect));
+          return;
+        }
+
         navigate("/");
       }
 
