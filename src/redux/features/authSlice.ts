@@ -15,6 +15,7 @@ const initialState: AuthState = {
   error: null,
   isLoggedIn: false,
   fetchUser: false,
+  onLoginRedirect: null,
 };
 
 const authSlice = createSlice({
@@ -47,6 +48,17 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.loading = false;
       state.error = action.payload;
+    },
+    setLoginRedirect: (state, action: PayloadAction<string>) => {
+      // Check if its logout
+      if (decodeURIComponent(action.payload).includes("logout")) {
+        state.onLoginRedirect = null;
+        return;
+      }
+      state.onLoginRedirect = action.payload;
+    },
+    clearLoginRedirect: (state) => {
+      state.onLoginRedirect = null;
     },
     externalSignupRequest: (
       state,
@@ -103,6 +115,8 @@ export const {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
+  setLoginRedirect,
+  clearLoginRedirect,
   externalSignupRequest,
   externalSignupSuccess,
   externalSignupFailure,

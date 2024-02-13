@@ -9,7 +9,6 @@ import {
   logoutRequest,
   logoutSuccess,
 } from "../features/authSlice";
-import { LoginCredentials } from "../../types";
 import { toast } from "react-toastify";
 
 function* loginSaga(): Generator<any, void, any> {
