@@ -83,6 +83,9 @@ const EditOrganization: React.FC<EditOrganizationProps> = ({
               name="name"
               type="text"
               label="Name"
+              overrideStyle={{
+                width: "300px",
+              }}
             />
             <StyledErrorMessage name="name" />
             {/* Team email */}
@@ -94,6 +97,9 @@ const EditOrganization: React.FC<EditOrganizationProps> = ({
               type="email"
               label="Email"
               placeholder="example@datasektionen.se"
+              overrideStyle={{
+                width: "300px",
+              }}
             />
             <StyledErrorMessage name="email" />
           </FormControl>
