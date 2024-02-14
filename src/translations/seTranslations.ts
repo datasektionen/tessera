@@ -279,6 +279,8 @@ const seTranslations = {
     delete_event_title: "Bekräfta radering av evenemang",
     delete_event_confirmation:
       "Är du säker på att du vill radera detta evenemang? Denna åtgärd kan inte ångras.",
+    delete_event_confirmation_enter_text: "Skriv in 'delete' för att bekräfta.",
+
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
     send_out: {

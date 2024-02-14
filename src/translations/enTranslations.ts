@@ -293,6 +293,7 @@ const enTranslations = {
     delete_event_title: "Confirm event deletion",
     delete_event_confirmation:
       "Are you sure you want to delete this event? This action cannot be undone.",
+    delete_event_confirmation_enter_text: "Type 'delete' to confirm deletion",
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
 

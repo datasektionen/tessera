@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Stack, Tooltip } from "@mui/joy";
+import { Box, Grid, IconButton, Input, Stack, Tooltip } from "@mui/joy";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,7 @@ import ConfirmModal from "../../components/modal/confirm_modal";
 import { deleteEventStart } from "../../redux/features/editEventSlice";
 import axios from "axios";
 import { useCanAccessEvent } from "../../utils/event_access";
+import { DefaultInputStyle } from "../../components/forms/input_types";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -43,6 +44,9 @@ const ManageEventPage: React.FC = () => {
   }, [canAccessEvent]);
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [confirmDeleteText, setConfirmDeleteText] = useState<string>("");
+  const [confirmDeleteTextIsValid, setConfirmDeleteTextIsValid] =
+    useState<boolean>(false);
 
   const { tickets } = useSelector((state: RootState) => state.eventTickets);
 
@@ -101,6 +105,7 @@ const ManageEventPage: React.FC = () => {
                 handleEventDelete();
               }}
               bgColor={PALLETTE.offWhite}
+              disabled={!confirmDeleteTextIsValid}
               color={PALLETTE.charcoal}
             >
               {t("form.button_confirm")}
@@ -122,6 +127,20 @@ const ManageEventPage: React.FC = () => {
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
             {t("manage_event.delete_event_confirmation")}
           </StyledText>
+
+          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
+            {t("manage_event.delete_event_confirmation_enter_text")}
+          </StyledText>
+          <Input
+            type="text"
+            placeholder={"Type here"}
+            value={confirmDeleteText}
+            onChange={(e) => {
+              setConfirmDeleteText(e.target.value);
+              setConfirmDeleteTextIsValid(e.target.value === "delete");
+            }}
+            style={DefaultInputStyle}
+          />
         </ConfirmModal>
         <Stack spacing={2} direction={"row"}>
           <StyledButton
