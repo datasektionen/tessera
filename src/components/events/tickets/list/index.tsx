@@ -11,7 +11,7 @@ import {
   GridColumnVisibilityModel,
 } from "@mui/x-data-grid";
 import { Cancel, CheckCircle } from "@mui/icons-material";
-import { format } from "date-fns";
+import { compareAsc, format, parse } from "date-fns";
 import InformationModal from "../../../modal/information";
 import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
@@ -137,9 +137,20 @@ const EventTicketsList: React.FC<{
       headerName: "Payed At",
       width: 150,
       sortComparator: (v1, v2, cellParams1, cellParams2) => {
-        const date1 = new Date(cellParams1.value);
-        const date2 = new Date(cellParams2.value);
-        return date1.getTime() - date2.getTime();
+        const format = "dd/MM/yyyy HH:mm";
+
+        if (cellParams1.value === "N/A") return 1; // sort "N/A" last
+        if (cellParams2.value === "N/A") return -1; // sort "N/A" last
+
+        const date1 = parse(cellParams1.value, format, new Date());
+        const date2 = parse(cellParams2.value, format, new Date());
+
+        if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+          console.error("Invalid date format");
+          return 0;
+        }
+
+        return compareAsc(date1, date2);
       },
     },
     createFoodPreferenceColumn("gluten_intolerant", "Gluten Intolerant"),
