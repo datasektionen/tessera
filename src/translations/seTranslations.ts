@@ -100,6 +100,16 @@ const seTranslations = {
       team_helperText: "Vilken grupp kontaktar du?",
     },
 
+    event_fields: {
+      title: "Anpassade evenemangsfält",
+      subtitle:
+        "Här kan du lägga till och redigera anpassade fält för ditt evenemang. Dessa fält kommer att visas för användaren när de begär en biljett.",
+      label_name: "Namn",
+      label_description: "Beskrivning",
+      label_type: "Typ",
+    },
+
+    button_add_field: "Lägg till fält",
     button_clear: "Rensa",
     button_next: "Nästa",
     button_create: "Skapa",
@@ -476,7 +486,7 @@ const seTranslations = {
     profile: "Profil",
     report_an_issue_title: "Rapportera ett problem",
     made_by:
-      "Tessera är byggt av Lucas Dow och tillhör <1>Konglig Datasektionen</1>.",
+      "Tessera är byggt av <1>Lucas Dow</1> och tillhör <2>Konglig Datasektionen</2>.",
     report_an_issue_content:
       "Om något inte fungerar, eller om du har ett förslag, kan du <1>Skapa ett problem på Github</1>.",
   },

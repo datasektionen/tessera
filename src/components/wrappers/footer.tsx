@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
           justifyContent={"center"}
           alignItems={"flex-start"}
           pt={1}
-          spacing={isScreenSmall ? 2 : 0}
+          spacing={isScreenSmall ? 3 : 2}
           mx={isScreenSmall ? "5%" : "20%"}
         >
           <Grid xs={isScreenSmall ? 15 : 5}>
@@ -126,6 +126,13 @@ const Footer: React.FC = () => {
         >
           <Trans i18nKey="footer.made_by">
             Made with ❤️ by
+            <Link
+              href="https://www.linkedin.com/in/lucas-dow-1315a61b5/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Lucas Dow
+            </Link>
             <Link href="https://datasektionen.se" target="_blank">
               Konglig Datasektionen
             </Link>

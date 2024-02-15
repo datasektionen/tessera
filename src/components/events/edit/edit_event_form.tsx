@@ -141,6 +141,9 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                     name="description"
                     label="Description"
                     placeholder="Party Rangers is a party for rangers."
+                    overrideStyle={{
+                      width: "90%",
+                    }}
                   />
                   <StyledErrorMessage name="description" />
 

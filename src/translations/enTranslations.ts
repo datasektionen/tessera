@@ -114,6 +114,16 @@ const enTranslations = {
       team_helperText: "Which team are you contacting?",
     },
 
+    event_fields: {
+      title: "Custom Event Fields",
+      subtitle:
+        "Here you can add and edit custom fields for your event. These fields will be shown to the user when they request a ticket.",
+      label_name: "Name",
+      label_description: "Description",
+      label_type: "Type",
+    },
+
+    button_add_field: "Add field",
     button_clear: "Clear",
     button_next: "Next",
     button_edit: "Edit",
@@ -473,7 +483,7 @@ const enTranslations = {
     profile: "Profile",
     report_an_issue_title: "Report an issue",
     made_by:
-      "Tessera is built by Lucas Dow and belongs to <1>Konglig Datasektionen</1>.",
+      "Tessera is built by <1>Lucas Dow</1> and belongs to <2>Konglig Datasektionen</2>.",
     report_an_issue_content:
       "If something isn't working, or you have a suggestion, You can <1>Create an issue on Github</1>.",
   },

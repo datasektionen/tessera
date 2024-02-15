@@ -4,6 +4,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import {
   IEvent,
   IEventForm,
+  IEventFormField,
   IEventPostReq,
   IOrganization,
   ITicketRelease,
@@ -64,9 +65,19 @@ function* eventSaga(
       organization: {
         id: eventData.organization.ID!,
         name: eventData.organization.name!,
+
         email: eventData.organization.email!,
         updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
       } as IOrganization,
+      form_fields: eventData.form_fields!.map((formField: any) => {
+        return {
+          id: formField.ID!,
+          event_id: formField.event_id!,
+          name: formField.name!,
+          description: formField.description!,
+          type: formField.type!,
+        };
+      }) as IEventFormField[],
       ticketReleases: eventData.ticket_releases!.map((ticketRelease: any) => {
         return {
           id: ticketRelease.ID!,

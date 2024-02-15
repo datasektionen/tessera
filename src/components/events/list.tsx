@@ -46,7 +46,6 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
   return (
     <Grid container spacing={2}>
       {events.map((event: IEvent, index) => {
-        console.log("event", event.is_private);
         const userCanManage =
           currentUser?.organizations?.some(
             // @ts-ignore
@@ -56,7 +55,6 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
         if (eventIsInThePast(event)) {
           return null;
         }
-
         return (
           <Grid
             xs={12}

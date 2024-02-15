@@ -109,6 +109,7 @@ export interface IEvent {
   is_private: boolean;
   ticketReleases?: ITicketRelease[];
   createdById?: string;
+  form_fields?: IEventFormField[];
 }
 
 export interface IEventForm {
@@ -384,6 +385,36 @@ export const LoginInitialValues: ILoginFormValues = {
   email: "",
   password: "",
 };
+
+export type IEventFormFields = "text" | "number" | "checkbox" | "";
+export const EventFormFields: { id: IEventFormFields; label: string }[] = [
+  {
+    id: "text",
+    label: "Text",
+  },
+  {
+    id: "number",
+    label: "Number",
+  },
+  {
+    id: "checkbox",
+    label: "Checkbox",
+  },
+];
+
+export interface IEventFormField {
+  id: number;
+  name: string;
+  description: string;
+  type: IEventFormFields;
+  event_id: number;
+}
+
+export interface IEventFormFieldInput {
+  name: string;
+  description: string;
+  type: string;
+}
 
 export interface IContactFormValues {
   name: string;
