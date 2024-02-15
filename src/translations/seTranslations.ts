@@ -461,6 +461,7 @@ const seTranslations = {
     created: "Skapad",
     made_at: "Gjord",
     updated: "Uppdaterad",
+    private_event: "Privat evenemang",
     mobile_warning:
       "Välkommen till Tessera! Vi ser att du använder en mobil enhet. Vissa delar av webbplatsen kanske inte är optimerade för mobila enheter. Men att begära och visa biljetter bör fungera som förväntat. Om du är en evenemangsarrangör rekommenderar vi att du använder en skrivbordsenhet.",
   },

@@ -165,7 +165,7 @@ const EventTicketsList: React.FC<{
     {
       field: "additional_info",
       headerName: "Additional Info",
-      width: 150,
+        width: 150,
     },
     {
       field: "email",

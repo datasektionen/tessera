@@ -8,7 +8,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InfoIcon from "@mui/icons-material/Info";
 import { IEvent } from "../../types";
 import PALLETTE from "../../theme/pallette";
-import { Box, Button, IconButton, Link } from "@mui/joy";
+import { Box, Button, Chip, IconButton, Link, Stack } from "@mui/joy";
 import StyledText from "../text/styled_text";
 import StyledButton from "../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,8 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useTranslation } from "react-i18next";
 import styles from "./list.module.css";
 import ReactMarkdown from "react-markdown";
+import { useTheme } from "@mui/joy";
+import { useMediaQuery } from "@mui/material";
 
 interface EventListProps {
   events: IEvent[];
@@ -27,6 +29,9 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
   const navigate = useNavigate();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
+
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const eventIsInThePast = (event: IEvent) => {
     // If the event is more than 1 day in the past
@@ -41,6 +46,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
   return (
     <Grid container spacing={2}>
       {events.map((event: IEvent, index) => {
+        console.log("event", event.is_private);
         const userCanManage =
           currentUser?.organizations?.some(
             // @ts-ignore
@@ -70,13 +76,32 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 zIndex: 100,
               }}
             >
-              {userCanManage && (
-                <Link href={`/events/${event.id}/manage`}>
-                  <IconButton>
-                    <ModeEditIcon />
-                  </IconButton>
-                </Link>
-              )}
+              <Stack direction={isScreenSmall ? "column" : "row"} spacing={1}>
+                {event.is_private && (
+                  <Chip
+                    style={{
+                      backgroundColor: PALLETTE.offWhite,
+                      color: PALLETTE.charcoal,
+                    }}
+                  >
+                    <StyledText
+                      level="body-sm"
+                      color={PALLETTE.charcoal}
+                      fontSize={14}
+                      fontWeight={700}
+                    >
+                      {t("common.private_event")}
+                    </StyledText>
+                  </Chip>
+                )}
+                {userCanManage && (
+                  <Link href={`/events/${event.id}/manage`}>
+                    <IconButton>
+                      <ModeEditIcon />
+                    </IconButton>
+                  </Link>
+                )}
+              </Stack>
             </Box>
             <Card
               variant="outlined"
