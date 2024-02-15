@@ -61,6 +61,7 @@ function* fetchEventTickets(
             kosher: ticket.user.food_preferences.kosher!,
             halal: ticket.user.food_preferences.halal!,
             additional: ticket.user.food_preferences.additional_info!,
+            prefer_meat: ticket.user.food_preferences.prefer_meat!,
           } as IUserFoodPreference,
         } as IUser,
         transaction:
@@ -150,6 +151,7 @@ function* fetchEventTickets(
                 ticketRequest.user.food_preferences.shellfish_allergy!,
               kosher: ticketRequest.user.food_preferences.kosher!,
               halal: ticketRequest.user.food_preferences.halal!,
+              prefer_meat: ticketRequest.user.food_preferences.prefer_meat!,
               additional: ticketRequest.user.food_preferences.additional_info!,
             } as IUserFoodPreference,
           } as IUser,

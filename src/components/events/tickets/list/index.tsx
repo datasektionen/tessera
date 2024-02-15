@@ -161,6 +161,7 @@ const EventTicketsList: React.FC<{
     createFoodPreferenceColumn("shellfish_allergy", "Shellfish Allergy"),
     createFoodPreferenceColumn("vegan", "Vegan"),
     createFoodPreferenceColumn("vegetarian", "Vegetarian"),
+    createFoodPreferenceColumn("prefer_meat", "Prefers Meat"),
     {
       field: "additional_info",
       headerName: "Additional Info",

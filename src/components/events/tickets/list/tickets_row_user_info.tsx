@@ -146,6 +146,19 @@ const TicketsRowUserInfo: React.FC<TicketsRowUserInfoProps> = ({ user }) => {
               <Cancel color="error" />
             )}
           </StyledText>
+          <StyledText
+            level="body-sm"
+            color={PALLETTE.cerise}
+            fontWeight={600}
+            fontSize={20}
+          >
+            Prefers Meat{" "}
+            {user.food_preferences?.prefer_meat ? (
+              <CheckCircle color="success" />
+            ) : (
+              <Cancel color="error" />
+            )}
+          </StyledText>
           <UserInfoText
             label="Additional info"
             value={

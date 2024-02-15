@@ -344,6 +344,7 @@ export interface IUserFoodPreference {
   shellfish_allergy: boolean;
   kosher: boolean;
   halal: boolean;
+  prefer_meat: boolean;
   additional: string;
 }
 
@@ -429,6 +430,10 @@ export const FoodPreferences: IFoodPreference[] = [
   {
     id: "halal",
     label: "Halal",
+  },
+  {
+    id: "prefer_meat",
+    label: "I Prefer Meat If Available",
   },
 ];
 
