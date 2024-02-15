@@ -251,6 +251,8 @@ export interface ITicketType {
 }
 
 export interface ITicketRelease {
+  created_at: string | number | Date;
+  updated_at?: string | number | Date;
   id: number;
   eventId: number;
   name: string;

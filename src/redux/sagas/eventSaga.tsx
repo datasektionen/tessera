@@ -63,6 +63,8 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
           eventId: ticketRelease.event_id!,
           name: ticketRelease.name!,
           description: ticketRelease.description!,
+          created_at: new Date(ticketRelease.CreatedAt!).getTime(),
+          updated_at: new Date(ticketRelease.UpdatedAt!).getTime(),
           // Open and close are timestamps, convert to Date by multiplying by 1000
           open: new Date(ticketRelease.open! * 1000).getTime(),
           close: new Date(ticketRelease.close! * 1000).getTime(),

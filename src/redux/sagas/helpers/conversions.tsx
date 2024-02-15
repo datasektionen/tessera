@@ -25,6 +25,7 @@ export function convertResponseToTicketRelease(
 ): ITicketRelease {
   return {
     id: responseData.ID!,
+    created_at: new Date(responseData.CreatedAt!),
     eventId: responseData.event_id!,
     name: responseData.name!,
     description: responseData.description!,

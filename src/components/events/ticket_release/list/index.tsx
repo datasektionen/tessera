@@ -101,33 +101,45 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
 
   return (
     <Grid container alignItems="center" justifyContent="flex-start" spacing={2}>
-      {ticketReleases.map((ticketRelease) => {
-        return (
-          <Grid key={"ticket-release-" + ticketRelease.id}>
-            <StyledButton
-              size="md"
-              bgColor={PALLETTE.offWhite}
-              onClick={() => {
-                handleOpen(ticketRelease.id);
-              }}
-              style={{ width: "300px" }}
-            >
-              {ticketRelease.name}
-            </StyledButton>
-            <InformationModal
-              title={"Manage " + ticketRelease.name}
-              isOpen={openModal === ticketRelease.id}
-              onClose={handleClose}
-              width={"75%"}
-            >
-              <TicketReleaseRowView
-                ticketRelease={ticketRelease}
-                ticketReleaseTickets={groupedTickets[ticketRelease.id] || []}
-              />
-            </InformationModal>
-          </Grid>
-        );
-      })}
+      {[...ticketReleases]
+        .sort((a, b) => {
+          const dateA =
+            a.created_at instanceof Date
+              ? a.created_at
+              : new Date(a.created_at);
+          const dateB =
+            b.created_at instanceof Date
+              ? b.created_at
+              : new Date(b.created_at);
+          return dateA.getTime() - dateB.getTime();
+        })
+        .map((ticketRelease) => {
+          return (
+            <Grid key={"ticket-release-" + ticketRelease.id}>
+              <StyledButton
+                size="md"
+                bgColor={PALLETTE.offWhite}
+                onClick={() => {
+                  handleOpen(ticketRelease.id);
+                }}
+                style={{ width: "300px" }}
+              >
+                {ticketRelease.name}
+              </StyledButton>
+              <InformationModal
+                title={"Manage " + ticketRelease.name}
+                isOpen={openModal === ticketRelease.id}
+                onClose={handleClose}
+                width={"75%"}
+              >
+                <TicketReleaseRowView
+                  ticketRelease={ticketRelease}
+                  ticketReleaseTickets={groupedTickets[ticketRelease.id] || []}
+                />
+              </InformationModal>
+            </Grid>
+          );
+        })}
     </Grid>
   );
 };

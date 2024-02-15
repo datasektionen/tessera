@@ -288,6 +288,7 @@ const enTranslations = {
     allocate_tickets_confirm:
       "Are you sure you want to close this ticket release?",
     manage_tickets: "Manage tickets",
+    tickets_available: "Tickets available",
     allocate_tickets_helperText:
       "How long do users have to pay for their tickets before it is given to the next person in line?",
     delete_event_title: "Confirm event deletion",
@@ -478,6 +479,7 @@ const enTranslations = {
     search: "Search",
     created: "Created",
     made_at: "Made at",
+    updated: "Updated",
     mobile_warning:
       "Welcome to Tessera! We see that you are using a mobile device. Some aspects of the website might not be optimized for mobile devices. However request and viewin tickets should work as expected. If youre an event organizer, we recommend using a desktop device.",
   },

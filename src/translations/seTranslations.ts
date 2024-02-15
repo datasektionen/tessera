@@ -274,6 +274,7 @@ const seTranslations = {
     allocate_tickets_confirm:
       "Är du säker på att du vill stänga detta biljettsläpp?",
     manage_tickets: "Hantera biljetter",
+    tickets_available: "Biljetter tillgängliga",
     allocate_tickets_helperText:
       "Hur lång tid har användare på sig att betala för sina biljetter innan det ges till nästa person i kön?",
     delete_event_title: "Bekräfta radering av evenemang",
@@ -453,6 +454,7 @@ const seTranslations = {
     search: "Sök",
     created: "Skapad",
     made_at: "Gjord",
+    updated: "Uppdaterad",
     mobile_warning:
       "Välkommen till Tessera! Vi ser att du använder en mobil enhet. Vissa delar av webbplatsen kanske inte är optimerade för mobila enheter. Men att begära och visa biljetter bör fungera som förväntat. Om du är en evenemangsarrangör rekommenderar vi att du använder en skrivbordsenhet.",
   },

@@ -200,6 +200,24 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
       >
         <Grid xs={8}>
           <StyledText
+            color={PALLETTE.charcoal_see_through}
+            level="body-md"
+            fontSize={15}
+            sx={{}}
+          >
+            {t("common.created")}{" "}
+            {format(new Date(ticketRelease.created_at), "dd/MM/yyyy HH:mm:ss")}
+          </StyledText>
+          <StyledText
+            color={PALLETTE.charcoal_see_through}
+            level="body-md"
+            fontSize={15}
+            sx={{}}
+          >
+            {t("common.updated")}{" "}
+            {format(new Date(ticketRelease.updated_at!), "dd/MM/yyyy HH:mm:ss")}
+          </StyledText>
+          <StyledText
             level="body-md"
             fontSize={18}
             fontWeight={700}
@@ -225,6 +243,15 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             {t("manage_event.ticket_release_ticket_info_title")}
           </StyledText>
           <Box mt={1}>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={700}
+              color={PALLETTE.charcoal}
+            >
+              {`${ticketRelease.tickets_available} ` +
+                t("manage_event.tickets_available")}
+            </StyledText>
             <StyledText
               level="body-sm"
               fontSize={18}
