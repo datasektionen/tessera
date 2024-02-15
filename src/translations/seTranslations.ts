@@ -284,6 +284,12 @@ const seTranslations = {
 
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
+
+    private_event: {
+      title: "Detta är ett privat evenemang",
+      subtitle:
+        "Detta evenemang är privat. Dela länken nedan med de personer du vill bjuda in till evenemanget.",
+    },
     send_out: {
       title: "Utskick (BETA)",
       description:

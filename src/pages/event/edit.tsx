@@ -29,13 +29,7 @@ const EditEventPage: React.FC = () => {
 
   const canAccessEvent = useCanAccessEvent(eventID!);
 
-  useEffect(() => {
-    const fetchCanAccess: any = async () => {
-      setCanAccess(await canAccessEvent);
-    };
-
-    fetchCanAccess();
-  }, [canAccessEvent]);
+  useEffect(() => {}, [canAccessEvent]);
 
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();

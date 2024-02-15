@@ -298,6 +298,11 @@ const enTranslations = {
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
 
+    private_event: {
+      title: "This is a private event",
+      subtitle:
+        "This event is private. Share the link below with the people you want to invite to the event.",
+    },
     send_out: {
       title: "Send Out (BETA)",
       description:

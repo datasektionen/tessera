@@ -23,6 +23,7 @@ import { deleteEventStart } from "../../redux/features/editEventSlice";
 import axios from "axios";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
+import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -32,16 +33,24 @@ const ManageEventPage: React.FC = () => {
     (state: RootState) => state.eventDetail
   );
   const [canAccess, setCanAccess] = useState<boolean | null>(null);
+  const [secretToken, setSecretToken] = useState<string>("");
 
   const canAccessEvent = useCanAccessEvent(eventID!);
 
   useEffect(() => {
-    const fetchCanAccess: any = async () => {
-      setCanAccess(await canAccessEvent);
+    const fetchCanAccess = () => {
+      if (canAccessEvent) {
+        fetchSecretToken();
+      }
+    };
+
+    const fetchSecretToken = async () => {
+      const token = await GetSecretToken(parseInt(eventID!));
+      setSecretToken(token);
     };
 
     fetchCanAccess();
-  }, [canAccessEvent]);
+  }, [canAccessEvent]); // Make sure to include all dependencies here
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [confirmDeleteText, setConfirmDeleteText] = useState<string>("");
@@ -190,7 +199,7 @@ const ManageEventPage: React.FC = () => {
             {t("form.button_send_out")}
           </StyledButton>
         </Stack>
-        <EventDetailInfo event={event} />
+        <EventDetailInfo event={event} secret_token={secretToken || ""} />
 
         <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
           <Title fontSize={22} color={PALLETTE.charcoal}>
