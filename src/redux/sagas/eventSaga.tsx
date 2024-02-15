@@ -28,11 +28,21 @@ import {
 } from "../features/editEventSlice";
 import { setTimestamp } from "../features/serverTimestampSlice";
 
-function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
+function* eventSaga(
+  action: PayloadAction<{
+    id: number;
+    secretToken: string;
+  }>
+): Generator<any, void, any> {
   try {
+    const { id, secretToken } = action.payload;
+
+    const secretTokenParam =
+      secretToken !== "" ? "?secret_token=" + secretToken : "";
+
     const response = yield call(
       axios.get,
-      process.env.REACT_APP_BACKEND_URL + "/events/" + action.payload,
+      process.env.REACT_APP_BACKEND_URL + "/events/" + id + secretTokenParam,
       {
         withCredentials: true, // This ensures cookies are sent with the request
       }
@@ -115,7 +125,13 @@ function* eventSaga(action: PayloadAction<number>): Generator<any, void, any> {
     yield put(getEventSuccess(event));
     yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
-    yield put(getEventFailure(error.message));
+    const errorMessage = error.response.data.error || "An error occurred";
+    yield put(
+      getEventFailure({
+        error: errorMessage,
+        errorStatusCode: error.response.status,
+      })
+    );
   }
 }
 

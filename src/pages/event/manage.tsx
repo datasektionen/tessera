@@ -61,7 +61,12 @@ const ManageEventPage: React.FC = () => {
 
   useEffect(() => {
     if (eventID) {
-      dispatch(getEventRequest(parseInt(eventID)));
+      dispatch(
+        getEventRequest({
+          id: parseInt(eventID),
+          secretToken: "",
+        })
+      );
       dispatch(fetchEventTicketsStart(parseInt(eventID)));
     }
   }, [dispatch, eventID]);

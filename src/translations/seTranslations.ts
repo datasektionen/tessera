@@ -29,7 +29,7 @@ const seTranslations = {
       team: "Grupp",
       team_helperText:
         "Vilken grupp står värd för ditt evenemang? Du måste koppla evenemanget till ett grupp. Om du inte tillhör en grupp kan du skapa ett, läs mer på startsidan.",
-      private_event: "Privat evenemang (Kommer snart)",
+      private_event: "Privat evenemang",
       private_event_helperText:
         "Är ditt evenemang privat? Om så är fallet kan bara personer med länken se det.",
     },

@@ -181,11 +181,7 @@ const CreateEventForm: React.FC = () => {
               <StyledFormLabel>
                 {t("form.event_details.private_event")}
               </StyledFormLabel>
-              <FormCheckbox
-                name="is_private"
-                label="Is Private"
-                disabled={true}
-              />
+              <FormCheckbox name="is_private" label="Is Private" />
               <StyledErrorMessage name="is_private" />
 
               <StyledFormLabelWithHelperText>

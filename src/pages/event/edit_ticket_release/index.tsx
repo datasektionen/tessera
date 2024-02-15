@@ -32,7 +32,13 @@ const EditEventAddTicketReleasePage: React.FC = () => {
   // Only run when the component mounts
 
   useEffect(() => {
-    if (eventID) dispatch(getEventRequest(parseInt(eventID!)));
+    if (eventID)
+      dispatch(
+        getEventRequest({
+          id: parseInt(eventID),
+          secretToken: "",
+        })
+      );
   }, [dispatch, eventID]);
 
   const handleTicketReleaseSubmit = async (

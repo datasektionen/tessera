@@ -24,7 +24,7 @@ import {
   PromoCodeAccessFormInitialValues,
 } from "../../types";
 import LoadingOverlay from "../../components/Loading";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { validateAndConvertEventID } from "../../utils/id_validation";
 import PALLETTE from "../../theme/pallette";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -51,6 +51,7 @@ import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { toast } from "react-toastify";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -65,10 +66,19 @@ const Item = styled(Sheet)(({ theme }) => ({
 
 const EventDetail: React.FC = () => {
   const { eventID } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const secretToken = queryParams.get("secret_token");
 
-  const { loading, error, event } = useSelector(
+  const { loading, error, event, errorStatusCode } = useSelector(
     (state: RootState) => state.eventDetail
-  ) as { loading: boolean; error: string | null; event: IEvent | null };
+  ) as {
+    loading: boolean;
+    error: string | null;
+    event: IEvent | null;
+    errorStatusCode: number | null;
+  };
 
   const { success: promoCodeSuccess, loading: promoCodeLoading } = useSelector(
     (state: RootState) => state.promoCodeAccess
@@ -90,19 +100,45 @@ const EventDetail: React.FC = () => {
   };
 
   useEffect(() => {
+    if (errorStatusCode === 404) {
+      navigate("/404");
+    } else if (errorStatusCode === 403) {
+      setTimeout(() => {
+        toast.error(error);
+      }, 1000);
+      navigate("/events");
+    } else if (errorStatusCode) {
+      setTimeout(() => {
+        toast.error(error);
+      }, 1000);
+      navigate("/events");
+    }
+  }, [errorStatusCode, error]);
+
+  useEffect(() => {
     if (!eventID) {
       console.error("No event id found");
       return;
     }
     const intid: number = validateAndConvertEventID(eventID);
-    dispatch(getEventRequest(intid));
+    dispatch(
+      getEventRequest({
+        id: intid,
+        secretToken: secretToken || "",
+      })
+    );
   }, []);
 
   useEffect(() => {
     const intid: number = validateAndConvertEventID(eventID!);
     // Get id param :eventID
     if (promoCodeSuccess) {
-      dispatch(getEventRequest(intid));
+      dispatch(
+        getEventRequest({
+          id: intid,
+          secretToken: secretToken || "",
+        })
+      );
     }
   }, [promoCodeSuccess]);
 

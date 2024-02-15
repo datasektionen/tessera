@@ -41,6 +41,7 @@ export interface EventState {
   event: IEvent | null;
   loading: boolean;
   error: string | null;
+  errorStatusCode: number | null;
 }
 
 export interface LoginRequestAction {

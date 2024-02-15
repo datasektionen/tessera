@@ -45,7 +45,12 @@ const EditEventPage: React.FC = () => {
 
   useEffect(() => {
     if (eventID) {
-      dispatch(getEventRequest(parseInt(eventID)));
+      dispatch(
+        getEventRequest({
+          id: parseInt(eventID),
+          secretToken: "",
+        })
+      );
     }
   }, [dispatch]);
 

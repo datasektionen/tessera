@@ -93,7 +93,12 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
         setTimeout(() => {
           toast.success("Tickets allocated successfully");
         }, 500);
-        dispatch(getEventRequest(ticketRelease.eventId!));
+        dispatch(
+          getEventRequest({
+            id: ticketRelease.eventId!,
+            secretToken: "",
+          })
+        );
         dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
       } else {
         const errorMessage = response.data?.message || "Something went wrong";
@@ -123,7 +128,12 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
       setTimeout(() => {
         toast.success("Ticket release deleted successfully");
       }, 500);
-      dispatch(getEventRequest(ticketRelease.eventId));
+      dispatch(
+        getEventRequest({
+          id: ticketRelease.eventId!,
+          secretToken: "",
+        })
+      );
     } else {
       const errorMessage = response.data?.message || "Something went wrong";
       toast.error(errorMessage);

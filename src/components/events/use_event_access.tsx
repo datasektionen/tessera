@@ -34,7 +34,12 @@ export const useEventAccess = (eventID: string) => {
 
   useEffect(() => {
     if (eventID) {
-      dispatch(getEventRequest(parseInt(eventID)));
+      dispatch(
+        getEventRequest({
+          id: parseInt(eventID),
+          secretToken: "",
+        })
+      );
     }
   }, [dispatch, eventID]);
 

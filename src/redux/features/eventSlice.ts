@@ -5,22 +5,36 @@ const initialState: EventState = {
   event: null,
   loading: false,
   error: null,
+  errorStatusCode: null,
 };
 
 const eventSlice = createSlice({
   name: "event",
   initialState,
   reducers: {
-    getEventRequest: (state, action: PayloadAction<number>) => {
+    getEventRequest: (
+      state,
+      action: PayloadAction<{
+        id: number;
+        secretToken: string;
+      }>
+    ) => {
       state.loading = true;
     },
     getEventSuccess: (state, action: PayloadAction<IEvent>) => {
       state.loading = false;
       state.event = action.payload;
     },
-    getEventFailure: (state, action: PayloadAction<string>) => {
+    getEventFailure: (
+      state,
+      action: PayloadAction<{
+        error: string;
+        errorStatusCode: number;
+      }>
+    ) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.error;
+      state.errorStatusCode = action.payload.errorStatusCode;
     },
   },
 });

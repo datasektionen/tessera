@@ -46,7 +46,7 @@ const enTranslations = {
       team: "Team",
       team_helperText:
         "Which team is hosting your event? You need to tie the event to a team. If your not a part of a team, you can create one",
-      private_event: "Private event (Coming soon)",
+      private_event: "Private event",
       private_event_helperText:
         "Is your event private? If so, only people with the link can see it.",
     },
