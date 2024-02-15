@@ -93,6 +93,7 @@ const ManageEventPage: React.FC = () => {
         <ConfirmModal
           isOpen={showDeleteModal}
           onClose={() => {
+            setConfirmDeleteText("");
             setShowDeleteModal(false);
           }}
           title={t("manage_event.delete_event_title")}
@@ -115,6 +116,7 @@ const ManageEventPage: React.FC = () => {
               key="cancel-delete"
               onClick={() => {
                 // Close the modal
+                setConfirmDeleteText("");
                 setShowDeleteModal(false);
               }}
               bgColor={PALLETTE.orange}
