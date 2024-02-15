@@ -270,6 +270,7 @@ const seTranslations = {
     not_yet_paid_tickets: "Ännu inte betalda biljetter",
     refunded_tickets: "Återbetalade biljetter",
     not_open: "Inte öppnat än",
+    not_yet_open: "Not yet open",
     closed: "har stängts",
     open: "är öppen",
     the_ticket_release: "Biljettsläppet",

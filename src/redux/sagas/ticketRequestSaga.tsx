@@ -149,13 +149,13 @@ function* cancellTicketRequestSaga(
   action: PayloadAction<ITicketRequest>
 ): Generator<any, void, any> {
   try {
-    const ticketRelease = action.payload;
+    const ticket_request = action.payload;
 
     const response = yield call(
       axios.delete,
       `${process.env.REACT_APP_BACKEND_URL}/events/${
-        ticketRelease.ticket_release!.event!.id
-      }/ticket-requests/${ticketRelease.id}`,
+        ticket_request.ticket_release!.event!.id
+      }/ticket-requests/${ticket_request.id}`,
       {
         withCredentials: true,
       }
@@ -163,7 +163,7 @@ function* cancellTicketRequestSaga(
 
     if (response.status === 200) {
       toast.success("Ticket request cancelled!");
-      yield put(cancelTicketRequestSuccess(ticketRelease.id));
+      yield put(cancelTicketRequestSuccess(ticket_request.id));
     } else {
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);

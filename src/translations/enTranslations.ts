@@ -287,6 +287,7 @@ const enTranslations = {
     allocate_tickets_button: "Allocate tickets",
     the_ticket_release: "The Ticket release",
     not_open: "Not open",
+    not_yet_open: "Not yet open",
     check_allocated_reserve_tickets: "Try to allocate reserve tickets",
     check_allocated_reserve_tickets_tooltip:
       "Pressing this button will manually try to allocate reserve tickets. This is useful if you dont want to wait for the automatic allocation.",

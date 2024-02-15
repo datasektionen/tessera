@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/def";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "@mui/material";
+import EditFormFieldResponse from "../events/form_field_response/edit";
 
 interface ViewTicketRequestProps {
   ticketRequest: ITicketRequest;
@@ -140,6 +141,10 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
             {t("ticket_request.cancel_ticket_request_confirm")}
           </StyledText>
         </ConfirmModal>
+
+        <Box>
+          <EditFormFieldResponse ticketRequest={ticketRequest} />
+        </Box>
 
         {!ticketRequest.is_handled ? (
           <StyledButton
