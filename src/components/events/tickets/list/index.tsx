@@ -165,7 +165,7 @@ const EventTicketsList: React.FC<{
     {
       field: "additional_info",
       headerName: "Additional Info",
-        width: 150,
+      width: 150,
     },
     {
       field: "email",
@@ -223,6 +223,7 @@ const EventTicketsList: React.FC<{
               )
           : "N/A";
       } catch (e) {
+        console.log("Error in ticket: ", ticket);
         console.error(e);
       }
 
@@ -298,6 +299,7 @@ const EventTicketsList: React.FC<{
       additional_info: false,
       checked_in: true,
       requseted_at: true,
+      prefer_meat: false,
     });
 
   if (!tickets || rows.length === 0) {
