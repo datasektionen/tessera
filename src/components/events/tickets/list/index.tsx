@@ -251,6 +251,7 @@ const EventTicketsList: React.FC<{
         additional_info: ufp.additional,
         checked_in: ticket.checked_in,
         requseted_at: ticket?.ticket_request?.created_at,
+        prefer_meat: ufp.prefer_meat,
         entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
