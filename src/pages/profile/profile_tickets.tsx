@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { Box, Grid, Link, Typography } from "@mui/joy";
 import Title from "../../components/text/title";
@@ -31,10 +31,13 @@ const ProfileTicketsPage: React.FC = () => {
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const viewTicketRef = useRef<HTMLDivElement>(null);
 
   const handleSetSelected = (index: number | null) => {
     setSelected(index);
-    if (isScreenSmall) window.scrollTo(0, 5000);
+    if (isScreenSmall && viewTicketRef.current) {
+      viewTicketRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const dispatch: AppDispatch = useDispatch();
@@ -104,7 +107,7 @@ const ProfileTicketsPage: React.FC = () => {
             />
           </Grid>
         </Grid>
-        <Grid xs={16} md={8}>
+        <Grid xs={16} md={8} id="ticket-view" ref={viewTicketRef}>
           {selected && (
             <ViewTicket ticket={tickets.find((tr) => tr.id === selected)!} />
           )}
