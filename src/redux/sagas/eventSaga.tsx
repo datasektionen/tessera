@@ -69,7 +69,7 @@ function* eventSaga(
         email: eventData.organization.email!,
         updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
       } as IOrganization,
-      form_fields: eventData.form_fields!.map((formField: any) => {
+      form_fields: eventData.form_fields?.map((formField: any) => {
         return {
           id: formField.ID!,
           event_id: formField.event_id!,
@@ -136,6 +136,7 @@ function* eventSaga(
     yield put(getEventSuccess(event));
     yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
+    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(
       getEventFailure({
