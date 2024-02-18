@@ -86,10 +86,15 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
     // redirected to the `return_url`.
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message!);
+      toast.error(error.message!);
     } else {
       setMessage("An unexpected error occurred.");
+      toast.error("An unexpected error occurred, contact event organizer.");
     }
 
+    setTimeout(() => {
+      toast.success("Your ticket purchase was successful!");
+    }, 500);
     setIsLoading(false);
   };
 

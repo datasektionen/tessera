@@ -19,6 +19,10 @@ import { toast } from "react-toastify";
 import { Trans, useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  clearPaymentSuccess,
+  setPaymentSuccess,
+} from "../../redux/features/paymentSlice";
 
 const ProfileTicketsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -27,6 +31,10 @@ const ProfileTicketsPage: React.FC = () => {
 
   const { tickets, loading: ticketLoading } = useSelector(
     (state: RootState) => state.myTickets
+  );
+
+  const { success: pSuccess } = useSelector(
+    (state: RootState) => state.payment
   );
 
   const theme = useTheme();
@@ -57,20 +65,19 @@ const ProfileTicketsPage: React.FC = () => {
     // get redirect_status query param
     const searchParams = new URLSearchParams(location.search);
 
-    const payment_intent_pi = searchParams.get("payment_intent_pi");
-    const last_payment_intent_pi = localStorage.getItem(
-      "last_payment_intent_pi"
-    );
+    const redirect_status = searchParams.get("redirect_status");
 
-    if (
-      searchParams.get("redirect_status") === "succeeded" &&
-      payment_intent_pi !== last_payment_intent_pi
-    ) {
-      toast.success("Your ticket purchase was successful!");
-      localStorage.setItem("last_payment_intent_pi", payment_intent_pi!);
-      // Remove the query param
+    dispatch(setPaymentSuccess(redirect_status === "succeeded"));
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    if (pSuccess) {
+      setTimeout(() => {
+        toast.success("The payment was successful!");
+      }, 500);
+      dispatch(clearPaymentSuccess());
     }
-  }, [location]);
+  }, [pSuccess]);
 
   return (
     <TesseraWrapper>
