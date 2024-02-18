@@ -67,7 +67,7 @@ function* eventSaga(
         email: eventData.organization.email!,
         updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
       } as IOrganization,
-      ticketReleases: eventData.ticket_releases!.map((ticketRelease: any) => {
+      ticketReleases: eventData.ticket_releases?.map((ticketRelease: any) => {
         return {
           id: ticketRelease.ID!,
           eventId: ticketRelease.event_id!,
@@ -86,7 +86,7 @@ function* eventSaga(
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           pay_within: ticketRelease.pay_within!,
-          ticketTypes: ticketRelease.ticket_types!.map((ticketType: any) => {
+          ticketTypes: ticketRelease.ticket_types?.map((ticketType: any) => {
             return {
               id: ticketType.ID!,
               ticketReleaseId: ticketType.ticket_release_id!,

@@ -72,6 +72,7 @@ const ProfileTicketsPage: React.FC = () => {
 
   useEffect(() => {
     if (pSuccess) {
+      dispatch(getMyTicketsRequest());
       setTimeout(() => {
         toast.success("The payment was successful!");
       }, 500);
