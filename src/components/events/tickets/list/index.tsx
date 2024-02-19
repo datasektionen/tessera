@@ -1,7 +1,13 @@
 import { ITicket, IUser } from "../../../../types";
 import React from "react";
 import LoadingOverlay from "../../../Loading";
-import { ThemeProvider, createTheme } from "@mui/material";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import PALLETTE from "../../../../theme/pallette";
 import { Box } from "@mui/joy";
 import {
@@ -18,6 +24,36 @@ import CustomToolbar from "./datagrid_utils/toolbar";
 import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
 import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
+import { DefaultInputStyle } from "../../../forms/input_types";
+
+const MyCustomInputComponent: React.FC<{
+  item: any;
+  applyValue: (value: any) => void;
+}> = ({ item, applyValue }) => {
+  const handleInputChange = (event: any) => {
+    applyValue({ ...item, value: event.target.value });
+  };
+
+  return (
+    <FormControl>
+      <FormLabel
+        style={{
+          fontSize: "0.9em",
+        }}
+      >
+        Filter value
+      </FormLabel>
+      <Input
+        style={{
+          height: "35px",
+        }}
+        value={item.value || ""}
+        onChange={handleInputChange}
+        placeholder="Filter value"
+      />
+    </FormControl>
+  );
+};
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
@@ -131,6 +167,37 @@ const EventTicketsList: React.FC<{
           {params.value.username}
         </div>
       ),
+      filterOperators: [
+        {
+          label: "contains",
+          value: "contains",
+          getApplyFilterFn: (filterItem) => {
+            if (!filterItem.value) {
+              return null;
+            }
+            return ({ value }) => {
+              console.log("value: ", value);
+              // Assuming value is the user object here
+              return (
+                (value.email &&
+                  value.email
+                    .toLowerCase()
+                    .includes(filterItem.value.toLowerCase())) ||
+                (value.ug_kth_id &&
+                  value.ug_kth_id
+                    .toLowerCase()
+                    .includes(filterItem.value.toLowerCase())) ||
+                (value.name &&
+                  value.name
+                    .toLowerCase()
+                    .includes(filterItem.value.toLowerCase()))
+              );
+            };
+          },
+          InputComponent: MyCustomInputComponent,
+        },
+        // ... other operators if needed
+      ],
     },
     {
       field: "payed_at",
