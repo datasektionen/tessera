@@ -121,6 +121,7 @@ const enTranslations = {
       label_name: "Name",
       label_description: "Description",
       label_type: "Type",
+      label_required: "Required",
     },
 
     button_add_field: "Add field",

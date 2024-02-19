@@ -4,6 +4,8 @@ import { PayloadAction } from "@reduxjs/toolkit";
 
 import {
   IEvent,
+  IEventFormField,
+  IEventFormFieldResponse,
   ITicketRelease,
   ITicketRequest,
   ITicketType,
@@ -94,6 +96,7 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
       }
     );
 
+    console.log(response.data.ticket_requests);
     const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
       (ticket_request: any) => {
         return {
@@ -109,6 +112,16 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
             price: ticket_request.ticket_type.price!,
             isReserved: ticket_request.ticket_type.is_reserved!,
           } as ITicketType,
+          event_form_responses: ticket_request.event_form_responses?.map(
+            (form_response: any) => {
+              return {
+                id: form_response.ID!,
+                ticket_request_id: form_response.ticket_request_id!,
+                event_form_field_id: form_response.event_form_field_id!,
+                value: form_response.value!,
+              };
+            }
+          ) as IEventFormFieldResponse[],
           ticket_release_id: ticket_request.ticket_release_id!,
           ticket_release: {
             id: ticket_request.ticket_release.ID!,
@@ -119,6 +132,17 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
               date: new Date(
                 ticket_request.ticket_release.event.date!
               ).getTime(),
+              form_fields: ticket_request.ticket_release.event.form_fields?.map(
+                (form_field: any) => {
+                  return {
+                    id: form_field.ID!,
+                    name: form_field.name!,
+                    type: form_field.type!,
+                    is_required: form_field.is_required!,
+                    description: form_field.description!,
+                  } as IEventFormField;
+                }
+              ),
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,

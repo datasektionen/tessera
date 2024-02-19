@@ -297,6 +297,7 @@ export interface ITicketRequest {
 
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
+  event_form_responses?: IEventFormFieldResponse[];
 }
 
 export interface ITicket {
@@ -387,6 +388,13 @@ export const LoginInitialValues: ILoginFormValues = {
 };
 
 export type IEventFormFields = "text" | "number" | "checkbox" | "";
+export const EventFormFieldsArray: IEventFormFields[] = [
+  "text",
+  "number",
+  "checkbox",
+  "",
+];
+
 export const EventFormFields: { id: IEventFormFields; label: string }[] = [
   {
     id: "text",
@@ -406,6 +414,7 @@ export interface IEventFormField {
   id: number;
   name: string;
   description: string;
+  is_required: boolean;
   type: IEventFormFields;
   event_id: number;
 }
@@ -413,7 +422,16 @@ export interface IEventFormField {
 export interface IEventFormFieldInput {
   name: string;
   description: string;
+  is_required: boolean;
   type: string;
+}
+
+export interface IEventFormFieldResponse {
+  id: number;
+  ticket_request_id: number;
+  event_form_field_id: number;
+  event_form_field?: IEventFormField;
+  value: string | number | boolean | null;
 }
 
 export interface IContactFormValues {

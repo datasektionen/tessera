@@ -75,6 +75,7 @@ function* eventSaga(
           event_id: formField.event_id!,
           name: formField.name!,
           description: formField.description!,
+          is_required: formField.is_required!,
           type: formField.type!,
         };
       }) as IEventFormField[],
