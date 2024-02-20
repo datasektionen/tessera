@@ -193,7 +193,7 @@ const enTranslations = {
         "Provide any additional notes here regarding your food preferences. Leave blank if you have none.",
       privacy_policy_title: "Privacy policy",
       gdpr_agree_helperText:
-        "I had read and agree to the processing of my personal data for the purpose of managing my food preferences according to the <1>Food Preferences Privacy Policy</1>",
+        "I agree to the processing of my personal data for the purpose of managing my food preferences according to the <1>Food Preferences Privacy Policy</1>",
     },
 
     your_ticket_requests: {
