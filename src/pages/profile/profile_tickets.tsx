@@ -43,7 +43,7 @@ const ProfileTicketsPage: React.FC = () => {
 
   const handleSetSelected = (index: number | null) => {
     setSelected(index);
-    if (isScreenSmall && viewTicketRef.current) {
+    if (viewTicketRef.current) {
       viewTicketRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
