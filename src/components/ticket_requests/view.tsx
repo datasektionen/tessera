@@ -107,6 +107,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           <Divider />
         </>
       </Box>
+
       <Box>
         <ConfirmModal
           isOpen={confirmCancelOpen}
@@ -142,10 +143,6 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledText>
         </ConfirmModal>
 
-        <Box>
-          <EditFormFieldResponse ticketRequest={ticketRequest} />
-        </Box>
-
         {!ticketRequest.is_handled ? (
           <StyledButton
             bgColor={PALLETTE.red}
@@ -159,18 +156,21 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledButton>
         ) : (
           <StyledButton
-            bgColor={PALLETTE.green}
+            bgColor={PALLETTE.offWhite}
             size="md"
             onClick={() => {
               navigate(ROUTES.PROFILE_TICKETS);
             }}
             style={{
-              marginTop: "16px",
+              position: "absolute",
+              bottom: "16px",
+              right: "16px",
             }}
           >
             {t("ticket_request.go_to_tickets_button")}
           </StyledButton>
         )}
+        <EditFormFieldResponse ticketRequest={ticketRequest} />
       </Box>
     </BorderBox>
   );

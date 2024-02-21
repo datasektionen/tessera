@@ -109,6 +109,7 @@ export interface IEvent {
   is_private: boolean;
   ticketReleases?: ITicketRelease[];
   createdById?: string;
+  form_field_description?: string;
   form_fields?: IEventFormField[];
 }
 
@@ -420,6 +421,11 @@ export interface IEventFormField {
 }
 
 export interface IEventFormFieldInput {
+  form_field_description: string;
+  form_fields: IFormFieldInput[];
+}
+
+export interface IFormFieldInput {
   name: string;
   description: string;
   is_required: boolean;

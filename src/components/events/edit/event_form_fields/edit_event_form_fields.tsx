@@ -23,6 +23,7 @@ import {
   DefaultInputStyle,
   FormCheckbox,
   FormInput,
+  FormTextarea,
 } from "../../../forms/input_types";
 import StyledButton from "../../../buttons/styled_button";
 import { t } from "i18next";
@@ -32,7 +33,10 @@ import { mt } from "date-fns/locale";
 import { formFieldSchema } from "../../../../validation/event_form_fields";
 import { handleEventFormFieldsSubmit } from "../../../../redux/sagas/axios_calls/event_form_fields";
 import { toast } from "react-toastify";
-import { StyledFormLabel } from "../../../forms/form_labels";
+import {
+  StyledFormLabel,
+  StyledFormLabelWithHelperText,
+} from "../../../forms/form_labels";
 import { StyledErrorMessage } from "../../../forms/messages";
 
 interface EventFormFieldsProps {
@@ -40,19 +44,25 @@ interface EventFormFieldsProps {
 }
 
 const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
-  const initialValues: { formFields: IEventFormFieldInput[] } = {
-    formFields: event.form_fields || [
-      { name: "", type: "", description: "", is_required: false },
-    ],
-  };
+  console.log("event", event);
+  const initialValues: IEventFormFieldInput =
+    event.form_fields !== undefined
+      ? {
+          form_field_description: event.form_field_description || "",
+          form_fields: event.form_fields,
+        }
+      : {
+          form_field_description: "",
+          form_fields: [
+            { name: "", type: "", description: "", is_required: false },
+          ],
+        };
 
   console.log("initialValues", initialValues);
 
   const { t } = useTranslation();
 
-  const handleSubmit = async (values: {
-    formFields: IEventFormFieldInput[];
-  }) => {
+  const handleSubmit = async (values: IEventFormFieldInput) => {
     const res = (await handleEventFormFieldsSubmit(event.id, values)) as {
       success?: boolean;
       error?: string;
@@ -74,6 +84,25 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
       >
         {({ values, errors, touched }) => (
           <Form>
+            <StyledFormLabel>
+              {t("form.event_fields.form_field_description")}
+            </StyledFormLabel>
+            <FormTextarea
+              label="Form Field Description"
+              name="form_field_description"
+              placeholder="Form Field Description"
+              required={false}
+              overrideStyle={{
+                width: "80%",
+              }}
+            />
+            <StyledErrorMessage name="form_field_description" />
+            <StyledFormLabelWithHelperText>
+              {t("form.event_fields.form_field_description_helperText")}
+            </StyledFormLabelWithHelperText>
+
+            <Divider sx={{ my: 1 }} />
+
             <Stack direction="row" sx={{ my: 1 }} spacing={2}>
               <StyledFormLabel
                 overrideStyles={{
@@ -104,12 +133,13 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                 {t("form.event_fields.label_required")}
               </StyledFormLabel>
             </Stack>
-            <FieldArray name="formFields">
+
+            <FieldArray name="form_fields">
               {({ insert, remove, push }) => (
-                <Box>
-                  {values.formFields.length > 0 &&
-                    values.formFields.map((field, index) => (
-                      <>
+                <Box key={values.form_fields.length}>
+                  {values.form_fields.length > 0 &&
+                    values.form_fields.map((field, index) => (
+                      <div key={index}>
                         <Stack
                           key={index}
                           direction="row"
@@ -121,15 +151,15 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                           <Box>
                             <FormInput
                               label="Field Name"
-                              name={`formFields.${index}.name`}
+                              name={`form_fields.${index}.name`}
                               placeholder="Field Name"
                             />
                             <StyledErrorMessage
-                              name={`formFields.${index}.name`}
+                              name={`form_fields.${index}.name`}
                             />
                           </Box>
                           <Box>
-                            <Field name={`formFields.${index}.type`}>
+                            <Field name={`form_fields.${index}.type`}>
                               {({ field, form }: any) => {
                                 return (
                                   <Select
@@ -153,25 +183,25 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                               }}
                             </Field>
                             <StyledErrorMessage
-                              name={`formFields.${index}.type`}
+                              name={`form_fields.${index}.type`}
                             />
                           </Box>
 
                           <Box>
                             <FormInput
                               label="Field Description"
-                              name={`formFields.${index}.description`}
+                              name={`form_fields.${index}.description`}
                               placeholder="Field Description"
                             />
                             <StyledErrorMessage
-                              name={`formFields.${index}.description`}
+                              name={`form_fields.${index}.description`}
                             />
                           </Box>
 
                           <Box>
                             <FormCheckbox
                               label="Required"
-                              name={`formFields.${index}.is_required`}
+                              name={`form_fields.${index}.is_required`}
                             />
                           </Box>
 
@@ -189,7 +219,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                           </Box>
                         </Stack>
                         <Divider sx={{ my: 1 }} />
-                      </>
+                      </div>
                     ))}
                   <StyledButton
                     size="sm"

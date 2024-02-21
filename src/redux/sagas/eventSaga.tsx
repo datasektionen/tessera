@@ -69,6 +69,7 @@ function* eventSaga(
         email: eventData.organization.email!,
         updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
       } as IOrganization,
+      form_field_description: eventData.form_field_description!,
       form_fields: eventData.form_fields?.map((formField: any) => {
         return {
           id: formField.ID!,

@@ -122,6 +122,9 @@ const enTranslations = {
       label_description: "Description",
       label_type: "Type",
       label_required: "Required",
+      form_field_description: "Description",
+      form_field_description_helperText:
+        "Describe what additional information you want to collect from the user, and why. Markdown is supported.",
     },
 
     button_add_field: "Add field",
@@ -377,6 +380,14 @@ const enTranslations = {
     ticket_request: "Ticket Request",
     cancel_ticket_request_confirm:
       "Are you sure you want to cancel this ticket request? This action cannot be undone.",
+  },
+
+  event_form_fields: {
+    title: "Event Form",
+    description:
+      "The event organizer has requested additional information from you. See information from the event organizer below.",
+    accept_terms_and_conditions:
+      "By submitting this form, you agree to share the above information with the event organizer in order to for them to plan the event. The information will be processed in accordance with the chapters information processing policy.",
   },
 
   tickets: {

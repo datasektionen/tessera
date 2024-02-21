@@ -96,7 +96,6 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
       }
     );
 
-    console.log(response.data.ticket_requests);
     const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
       (ticket_request: any) => {
         return {
@@ -132,6 +131,8 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
               date: new Date(
                 ticket_request.ticket_release.event.date!
               ).getTime(),
+              form_field_description:
+                ticket_request.ticket_release.event.form_field_description!,
               form_fields: ticket_request.ticket_release.event.form_fields?.map(
                 (form_field: any) => {
                   return {

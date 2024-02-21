@@ -1,7 +1,8 @@
 import * as Yup from "yup";
 
 export const formFieldSchema = Yup.object().shape({
-  formFields: Yup.array().of(
+  form_field_description: Yup.string().optional(),
+  form_fields: Yup.array().of(
     Yup.object().shape({
       name: Yup.string()
         .required("Field name is required")
