@@ -119,6 +119,7 @@ function* fetchEventTickets(
             } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
         } as ITicketRequest,
+        deleted_at: new Date(ticket.DeletedAt!).getTime(),
       } as ITicket;
     });
 
@@ -197,6 +198,7 @@ function* fetchEventTickets(
                     .open_window_duration! / 60,
               } as ITicketReleaseMethodDetail,
             } as ITicketRelease,
+            deleted_at: new Date(ticketRequest.DeletedAt!).getTime(),
           } as ITicketRequest,
         } as ITicket;
       }

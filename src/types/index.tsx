@@ -296,6 +296,8 @@ export interface ITicketRequest {
 
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
+
+  deleted_at: number | null;
 }
 
 export interface ITicket {
@@ -312,6 +314,7 @@ export interface ITicket {
   reserve_number?: number;
   checked_in: boolean;
   qr_code: string;
+  deleted_at: number | null;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

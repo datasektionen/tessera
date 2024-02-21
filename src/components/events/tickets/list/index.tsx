@@ -269,6 +269,17 @@ const EventTicketsList: React.FC<{
           <Cancel color="error" />
         ),
     },
+    {
+      field: "deleted_at",
+      headerName: "Deleted At",
+      width: 150,
+      renderCell: (params) => {
+        if (params.value === "N/A") {
+          return <Cancel color="error" />;
+        }
+        return params.value;
+      },
+    },
   ];
 
   const isTicketRequest = (ticket: ITicket) => {
@@ -280,6 +291,7 @@ const EventTicketsList: React.FC<{
       const ufp = ticket.user!.food_preferences!;
 
       let payed_at = "N/A";
+      let deleted_at = "N/A";
       try {
         payed_at = ticket.is_paid
           ? ticket.ticket_request?.ticket_type?.price === 0
@@ -290,7 +302,14 @@ const EventTicketsList: React.FC<{
               )
           : "N/A";
       } catch (e) {
-        console.log("Error in ticket: ", ticket);
+        console.error(e);
+      }
+
+      try {
+        deleted_at = ticket.deleted_at
+          ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
+          : "N/A";
+      } catch (e) {
         console.error(e);
       }
 
@@ -319,6 +338,7 @@ const EventTicketsList: React.FC<{
         checked_in: ticket.checked_in,
         requseted_at: ticket?.ticket_request?.created_at,
         prefer_meat: ufp.prefer_meat,
+        deleted_at,
         entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
