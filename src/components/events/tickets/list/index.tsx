@@ -75,22 +75,10 @@ const EventTicketsList: React.FC<{
       },
     },
     {
-      field: "is_allocated",
-      headerName: "Allocated",
-      description:
-        "A false value would indicate that the ticket is still a ticket request.",
+      field: "type",
+      headerName: "Type",
+      description: "Determines whether the ticket is a request or a ticket",
       width: 100,
-      sortComparator: (v1, v2, cellParams1, cellParams2) => {
-        if (cellParams1.value === null) return 1;
-        if (cellParams2.value === null) return -1;
-        return cellParams2.value - cellParams1.value;
-      },
-      renderCell: (params) =>
-        params.value ? (
-          <CheckCircle color="success" />
-        ) : (
-          <Cancel color="error" />
-        ),
     },
     {
       field: "is_reserve",
@@ -308,6 +296,11 @@ const EventTicketsList: React.FC<{
       try {
         deleted_at = ticket.deleted_at
           ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
+          : ticket.ticket_request?.deleted_at
+          ? format(
+              ticket.ticket_request?.deleted_at as number,
+              "dd/MM/yyyy HH:mm"
+            )
           : "N/A";
       } catch (e) {
         console.error(e);
@@ -317,8 +310,7 @@ const EventTicketsList: React.FC<{
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
-        is_allocated:
-          ticket.ticket_request?.ticket_release?.has_allocated_tickets!,
+        type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
         is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
         is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
         ticket: ticket.ticket_request?.ticket_type?.name,
@@ -367,7 +359,7 @@ const EventTicketsList: React.FC<{
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
       ticket_release_name: true,
-      is_allocated: true,
+      type: true,
       is_reserve: true,
       is_paid: true,
       ticket: true,

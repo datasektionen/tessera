@@ -263,10 +263,12 @@ const seTranslations = {
     closed: "har stängts",
     open: "är öppen",
     the_ticket_release: "Biljettsläppet",
+    deleted_ticket_requests: "Raderade biljettförfrågningar",
+    deleted_tickets: "Raderade biljetter",
     check_allocated_reserve_tickets: "Försök att tilldela reservbiljetter",
     check_allocated_reserve_tickets_tooltip:
       "Genom att trycka på denna knapp kommer du manuellt försöka tilldela reserverade biljetter. Detta är användbart om du inte vill vänta på den automatiska tilldelningen.",
-    reserve_tickets: "Reservera biljetter",
+    reserve_tickets: "Reserverade biljetter",
     pay_within_hours: "Användare måste betala inom (timmar)*",
     allocate_tickets_confirm_title: "Bekräfta tilldelning av biljetter",
     allocate_tickets_warning:

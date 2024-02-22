@@ -276,6 +276,8 @@ const enTranslations = {
     open: "is open",
     allocate_tickets_button: "Allocate tickets",
     the_ticket_release: "The Ticket release",
+    deleted_ticket_requests: "Deleted ticket requests",
+    deleted_tickets: "Deleted tickets",
     not_open: "Not open",
     check_allocated_reserve_tickets: "Try to allocate reserve tickets",
     check_allocated_reserve_tickets_tooltip:
@@ -288,7 +290,7 @@ const enTranslations = {
     allocate_tickets_confirm:
       "Are you sure you want to close this ticket release?",
     manage_tickets: "Manage tickets",
-    tickets_available: "Tickets available",
+    tickets_available: "Total Tickets available",
     allocate_tickets_helperText:
       "How long do users have to pay for their tickets before it is given to the next person in line?",
     delete_event_title: "Confirm event deletion",
