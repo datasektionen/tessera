@@ -277,8 +277,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               fontWeight={600}
               color={PALLETTE.charcoal}
             >
-              {`${numTicketRequests - numDeletedTicketRequests} ` +
-                t("manage_event.ticket_requests")}
+              {`${numTicketRequests} ` + t("manage_event.ticket_requests")}
             </StyledText>
             <StyledText
               level="body-sm"
