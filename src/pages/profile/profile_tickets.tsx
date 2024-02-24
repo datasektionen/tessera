@@ -74,7 +74,9 @@ const ProfileTicketsPage: React.FC = () => {
     if (pSuccess) {
       dispatch(getMyTicketsRequest());
       setTimeout(() => {
-        toast.success("The payment was successful!");
+        toast.success(
+          "The payment was successful! You may need to reload the page to see the updated status."
+        );
       }, 500);
       dispatch(clearPaymentSuccess());
     }

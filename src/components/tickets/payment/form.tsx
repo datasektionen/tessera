@@ -93,7 +93,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
     }
 
     setTimeout(() => {
-      toast.success("Your ticket purchase was successful!");
+      toast.success(
+        "Your ticket purchase was successful! You may need to reload the page to see the updated status."
+      );
     }, 500);
     setIsLoading(false);
   };
