@@ -8,6 +8,8 @@ import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
   IEvent,
+  IEventFormField,
+  IEventFormFieldResponse,
   ITicket,
   ITicketRelease,
   ITicketReleaseMethodDetail,
@@ -88,6 +90,22 @@ function* fetchEventTickets(
             price: ticket_request.ticket_type.price!,
             isReserved: ticket_request.ticket_type.is_reserved!,
           } as ITicketType,
+          event_form_responses: ticket_request.event_form_responses.map(
+            (response: any) => {
+              return {
+                id: response.ID!,
+                ticket_request_id: response.ticket_request_id!,
+                event_form_field_id: response.event_form_field_id!,
+                event_form_field: {
+                  id: response.event_form_field.ID!,
+                  name: response.event_form_field.name!,
+                  description: response.event_form_field.description!,
+                  is_required: response.event_form_field.is_required!,
+                } as IEventFormField,
+                value: response.value!,
+              } as IEventFormFieldResponse;
+            }
+          ),
           ticket_release_id: ticket_request.ticket_release_id!,
           ticket_release: {
             id: ticket_request.ticket_release.ID!,
@@ -161,6 +179,22 @@ function* fetchEventTickets(
             is_handled: ticketRequest.is_handled!,
             ticket_amount: ticketRequest.ticket_amount!,
             ticket_type_id: ticketRequest.ticket_type_id!,
+            event_form_responses: ticketRequest.event_form_responses.map(
+              (response: any) => {
+                return {
+                  id: response.ID!,
+                  ticket_request_id: response.ticket_request_id!,
+                  event_form_field_id: response.event_form_field_id!,
+                  event_form_field: {
+                    id: response.event_form_field.ID!,
+                    name: response.event_form_field.name!,
+                    description: response.event_form_field.description!,
+                    is_required: response.event_form_field.is_required!,
+                  } as IEventFormField,
+                  value: response.value!,
+                } as IEventFormFieldResponse;
+              }
+            ),
             ticket_type: {
               id: ticketRequest.ticket_type.ID!,
               name: ticketRequest.ticket_type.name!,
