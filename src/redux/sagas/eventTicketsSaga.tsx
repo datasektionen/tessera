@@ -240,8 +240,6 @@ function* fetchEventTickets(
 
     tickets.push(...ticketRequests);
 
-    console.log("Tickets:", tickets);
-
     yield put(fetchEventTicketsSuccess(tickets));
   } catch (error: any) {
     console.error("Error fetching event tickets:", error);
