@@ -16,6 +16,7 @@ export interface ShoppingCartState {
   ticketRequests: ITicketRequest[];
   loading: boolean;
   error: string | null;
+  postSuccess: boolean;
 }
 
 // Define initial state for the shopping cart
@@ -24,6 +25,7 @@ const initialState: ShoppingCartState = {
   ticketRequests: [],
   loading: false,
   error: null,
+  postSuccess: false,
 };
 
 // Create the shopping cart slice
@@ -72,15 +74,21 @@ export const ticketRequestSlice = createSlice({
       }>
     ) => {
       state.loading = true;
+      state.postSuccess = false;
     },
     postTicketRequestSuccess: (state) => {
       state.loading = false;
       state.items = [];
       state.error = null;
+      state.postSuccess = true;
     },
     postTicketRequestFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
+      state.postSuccess = false;
+    },
+    resetPostSuccess: (state) => {
+      state.postSuccess = false;
     },
   },
 });
@@ -92,6 +100,7 @@ export const {
   postTicketRequest,
   postTicketRequestFailure,
   postTicketRequestSuccess,
+  resetPostSuccess,
 } = ticketRequestSlice.actions;
 
 // Export the reducer

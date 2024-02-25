@@ -84,6 +84,17 @@ const EditEventPage: React.FC = () => {
                 marginTop: "16px",
               }}
             >
+              <EditTicketReleases
+                event={event!}
+                ticket_releases={event!.ticketReleases || []}
+              />
+            </BorderBox>
+            <BorderBox
+              style={{
+                marginTop: "16px",
+                marginBottom: "64px",
+              }}
+            >
               <StyledText
                 color={PALLETTE.charcoal}
                 level="body-lg"
@@ -99,17 +110,6 @@ const EditEventPage: React.FC = () => {
                 {t("form.event_fields.subtitle")}
               </StyledText>
               <EditEventFormFields event={event!} />
-            </BorderBox>
-            <BorderBox
-              style={{
-                marginTop: "16px",
-                marginBottom: "64px",
-              }}
-            >
-              <EditTicketReleases
-                event={event!}
-                ticket_releases={event!.ticketReleases || []}
-              />
             </BorderBox>
           </Grid>
         </StandardGrid>

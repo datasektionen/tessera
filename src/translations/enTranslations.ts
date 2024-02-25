@@ -391,6 +391,7 @@ const enTranslations = {
       "The event organizer has requested additional information from you. See information from the event organizer below.",
     accept_terms_and_conditions:
       "By submitting this form, you agree to share the above information with the event organizer in order to for them to plan the event. The information will be processed in accordance with the chapters information processing policy.",
+    no_form_fields: "Oops! There is no form for this event.",
   },
 
   tickets: {
@@ -439,6 +440,9 @@ const enTranslations = {
     promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
     contact_organizers:
       "If you have any questions, you can contact <1>{{organization}}</1> <2>here</2>.",
+    ticket_request_success_title: "Ticket request successful",
+    ticket_request_success_description:
+      "Please fill in the event form which is located under the ticket request page, <1>here</1>. This is where you can provide the event organizer with additional information.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",

@@ -201,6 +201,18 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         }}
       >
         {({ isValid }) => {
+          if (formFields.length === 0) {
+            return (
+              <StyledText
+                level="body-sm"
+                fontSize={20}
+                fontWeight={600}
+                color={PALLETTE.orange}
+              >
+                {t("event_form_fields.no_form_fields")}
+              </StyledText>
+            );
+          }
           return (
             <Form>
               {formFields.map((field) => {

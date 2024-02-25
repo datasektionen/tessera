@@ -363,6 +363,7 @@ const seTranslations = {
       "Evenemangsarrangören har begärt ytterligare information från dig. Se information från evenemangsarrangören nedan.",
     accept_terms_and_conditions:
       "Genom att skicka in detta formulär godkänner du att dela ovanstående information med evenemangsarrangören för att de ska kunna planera evenemanget. Informationen kommer att behandlas i enlighet med kapitlens informationsbehandlingspolicy.",
+    no_form_fields: "Oj då! Det finns inget formulär för detta evenemang.",
   },
 
   event: {
@@ -377,8 +378,11 @@ const seTranslations = {
       "Ange promokoden för att få tillgång till reserverade biljetter.",
     contact_organizers:
       "Om du har några frågor, kan du kontakta <1>{{organization}}</1> <2>här</2>.",
+    ticket_request_success_title: "Biljettförfrågan skickad!",
+    ticket_request_success_description:
+      "Vänligen fyll i evenemangsformuläret som finns under biljettbegäran sidan, <1>här</1>. Detta är där du kan ge arrangören ytterligare information.",
     check_in: {
-      scan_ticket_instructions: "Skann QR-koden för att checka in.",
+      scan_ticket_instructions: "Skann> QR-koden för att checka in.",
       loading: "Laddar...",
     },
     ticket_release: {
