@@ -4,9 +4,10 @@ import PALLETTE from "../../theme/pallette";
 
 export const StyledFormLabel: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+  overrideStyles?: React.CSSProperties;
+}> = ({ children, overrideStyles = {} }) => {
   return (
-    <FormLabel>
+    <FormLabel style={overrideStyles ? overrideStyles : {}}>
       <StyledText
         level="body-md"
         fontSize={20}

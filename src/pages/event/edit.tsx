@@ -18,6 +18,7 @@ import EditTicketReleases from "../../components/events/edit/edit_ticket_release
 import { Style } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { useCanAccessEvent } from "../../utils/event_access";
+import EditEventFormFields from "../../components/events/edit/event_form_fields/edit_event_form_fields";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -81,13 +82,34 @@ const EditEventPage: React.FC = () => {
             <BorderBox
               style={{
                 marginTop: "16px",
-                marginBottom: "64px",
               }}
             >
               <EditTicketReleases
                 event={event!}
                 ticket_releases={event!.ticketReleases || []}
               />
+            </BorderBox>
+            <BorderBox
+              style={{
+                marginTop: "16px",
+                marginBottom: "64px",
+              }}
+            >
+              <StyledText
+                color={PALLETTE.charcoal}
+                level="body-lg"
+                fontSize={32}
+              >
+                {t("form.event_fields.title")}
+              </StyledText>
+              <StyledText
+                color={PALLETTE.charcoal}
+                level="body-sm"
+                fontSize={16}
+              >
+                {t("form.event_fields.subtitle")}
+              </StyledText>
+              <EditEventFormFields event={event!} />
             </BorderBox>
           </Grid>
         </StandardGrid>

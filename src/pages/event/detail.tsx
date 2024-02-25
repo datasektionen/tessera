@@ -52,6 +52,8 @@ import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
+import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
+import InformationModal from "../../components/modal/information";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -84,11 +86,15 @@ const EventDetail: React.FC = () => {
     (state: RootState) => state.promoCodeAccess
   ) as { success: boolean | null; loading: boolean };
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { postSuccess } = useSelector(
+    (state: RootState) => state.ticketRequest
+  );
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
     dispatch(
@@ -98,6 +104,13 @@ const EventDetail: React.FC = () => {
       })
     );
   };
+
+  useEffect(() => {
+    if (postSuccess) {
+      setDisplayPostSuccess(true);
+      dispatch(resetPostSuccess());
+    }
+  }, [postSuccess]);
 
   useEffect(() => {
     if (errorStatusCode === 404) {
@@ -156,6 +169,29 @@ const EventDetail: React.FC = () => {
   return (
     <TesseraWrapper>
       {promoCodeLoading && <LoadingOverlay />}
+      <InformationModal
+        isOpen={displayPostSuccess}
+        onClose={() => setDisplayPostSuccess(false)}
+        title={t("event.ticket_request_success_title")}
+      >
+        <StyledText
+          color={PALLETTE.charcoal}
+          level="body-sm"
+          fontSize={18}
+          fontWeight={500}
+          style={{
+            marginTop: "1rem",
+          }}
+        >
+          <Trans i18nKey="event.ticket_request_success_description">
+            hjdw
+            <Link href="/profile/ticket-requests" target="_blank">
+              here{" "}
+            </Link>
+            dwqd
+          </Trans>
+        </StyledText>
+      </InformationModal>
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>

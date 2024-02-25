@@ -4,6 +4,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import {
   IEvent,
   IEventForm,
+  IEventFormField,
   IEventPostReq,
   IOrganization,
   ITicketRelease,
@@ -64,10 +65,22 @@ function* eventSaga(
       organization: {
         id: eventData.organization.ID!,
         name: eventData.organization.name!,
+
         email: eventData.organization.email!,
         updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
       } as IOrganization,
-      ticketReleases: eventData.ticket_releases?.map((ticketRelease: any) => {
+      form_field_description: eventData.form_field_description!,
+      form_fields: eventData.form_fields?.map((formField: any) => {
+        return {
+          id: formField.ID!,
+          event_id: formField.event_id!,
+          name: formField.name!,
+          description: formField.description!,
+          is_required: formField.is_required!,
+          type: formField.type!,
+        };
+      }) as IEventFormField[],
+      ticketReleases: eventData.ticket_releases!.map((ticketRelease: any) => {
         return {
           id: ticketRelease.ID!,
           eventId: ticketRelease.event_id!,
@@ -125,6 +138,7 @@ function* eventSaga(
     yield put(getEventSuccess(event));
     yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
+    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(
       getEventFailure({

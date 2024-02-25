@@ -70,7 +70,7 @@ const HandleLoginCallback: React.FC = () => {
         level="h2"
         sx={{ mt: 5 }}
       >
-        Keep Tight! We are logging you in...
+        Hang Tight! We are logging you in...
       </StyledText>
     </Box>
   );

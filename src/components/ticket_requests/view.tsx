@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/def";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "@mui/material";
+import EditFormFieldResponse from "../events/form_field_response/edit";
 
 interface ViewTicketRequestProps {
   ticketRequest: ITicketRequest;
@@ -106,6 +107,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           <Divider />
         </>
       </Box>
+
       <Box>
         <ConfirmModal
           isOpen={confirmCancelOpen}
@@ -154,18 +156,21 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledButton>
         ) : (
           <StyledButton
-            bgColor={PALLETTE.green}
+            bgColor={PALLETTE.offWhite}
             size="md"
             onClick={() => {
               navigate(ROUTES.PROFILE_TICKETS);
             }}
             style={{
-              marginTop: "16px",
+              position: "absolute",
+              bottom: "16px",
+              right: "16px",
             }}
           >
             {t("ticket_request.go_to_tickets_button")}
           </StyledButton>
         )}
+        <EditFormFieldResponse ticketRequest={ticketRequest} />
       </Box>
     </BorderBox>
   );

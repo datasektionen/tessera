@@ -109,6 +109,8 @@ export interface IEvent {
   is_private: boolean;
   ticketReleases?: ITicketRelease[];
   createdById?: string;
+  form_field_description?: string;
+  form_fields?: IEventFormField[];
 }
 
 export interface IEventForm {
@@ -296,7 +298,8 @@ export interface ITicketRequest {
 
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
-
+  event_form_responses?: IEventFormFieldResponse[];
+  
   deleted_at: number | null;
 }
 
@@ -387,6 +390,59 @@ export const LoginInitialValues: ILoginFormValues = {
   email: "",
   password: "",
 };
+
+export type IEventFormFields = "text" | "number" | "checkbox" | "";
+export const EventFormFieldsArray: IEventFormFields[] = [
+  "text",
+  "number",
+  "checkbox",
+  "",
+];
+
+export const EventFormFields: { id: IEventFormFields; label: string }[] = [
+  {
+    id: "text",
+    label: "Text",
+  },
+  {
+    id: "number",
+    label: "Number",
+  },
+  {
+    id: "checkbox",
+    label: "Checkbox",
+  },
+];
+
+export interface IEventFormField {
+  id: number;
+  name: string;
+  description: string;
+  is_required: boolean;
+  type: IEventFormFields;
+  event_id: number;
+}
+
+export interface IEventFormFieldInput {
+  form_field_description: string;
+  form_fields: IFormFieldInput[];
+}
+
+export interface IFormFieldInput {
+  name: string;
+  description: string;
+    is_required: boolean;
+  type: string;
+}
+
+export interface IEventFormFieldResponse {
+  id: number;
+  ticket_request_id: number;
+  event_form_field_id: number;
+  event_form_field?: IEventFormField;
+  value: string | number | boolean | null;
+  updated_at: number;
+}
 
 export interface IContactFormValues {
   name: string;

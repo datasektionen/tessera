@@ -4,6 +4,8 @@ import { PayloadAction } from "@reduxjs/toolkit";
 
 import {
   IEvent,
+  IEventFormField,
+  IEventFormFieldResponse,
   ITicketRelease,
   ITicketRequest,
   ITicketType,
@@ -109,6 +111,17 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
             price: ticket_request.ticket_type.price!,
             isReserved: ticket_request.ticket_type.is_reserved!,
           } as ITicketType,
+          event_form_responses: ticket_request.event_form_responses?.map(
+            (form_response: any) => {
+              return {
+                id: form_response.ID!,
+                ticket_request_id: form_response.ticket_request_id!,
+                event_form_field_id: form_response.event_form_field_id!,
+                value: form_response.value!,
+                updated_at: new Date(form_response.UpdatedAt!).getTime(),
+              };
+            }
+          ) as IEventFormFieldResponse[],
           ticket_release_id: ticket_request.ticket_release_id!,
           ticket_release: {
             id: ticket_request.ticket_release.ID!,
@@ -119,6 +132,19 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
               date: new Date(
                 ticket_request.ticket_release.event.date!
               ).getTime(),
+              form_field_description:
+                ticket_request.ticket_release.event.form_field_description!,
+              form_fields: ticket_request.ticket_release.event.form_fields?.map(
+                (form_field: any) => {
+                  return {
+                    id: form_field.ID!,
+                    name: form_field.name!,
+                    type: form_field.type!,
+                    is_required: form_field.is_required!,
+                    description: form_field.description!,
+                  } as IEventFormField;
+                }
+              ),
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,
@@ -149,13 +175,13 @@ function* cancellTicketRequestSaga(
   action: PayloadAction<ITicketRequest>
 ): Generator<any, void, any> {
   try {
-    const ticketRelease = action.payload;
+    const ticket_request = action.payload;
 
     const response = yield call(
       axios.delete,
       `${process.env.REACT_APP_BACKEND_URL}/events/${
-        ticketRelease.ticket_release!.event!.id
-      }/ticket-requests/${ticketRelease.id}`,
+        ticket_request.ticket_release!.event!.id
+      }/ticket-requests/${ticket_request.id}`,
       {
         withCredentials: true,
       }
@@ -163,7 +189,7 @@ function* cancellTicketRequestSaga(
 
     if (response.status === 200) {
       toast.success("Ticket request cancelled!");
-      yield put(cancelTicketRequestSuccess(ticketRelease.id));
+      yield put(cancelTicketRequestSuccess(ticket_request.id));
     } else {
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);

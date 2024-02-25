@@ -1,4 +1,4 @@
-// Import createSlice from Redux Toolkit
+ // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITicketRequest, ITicketType } from "../../types";
 import { act } from "react-dom/test-utils";

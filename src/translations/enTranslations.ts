@@ -31,6 +31,8 @@ const enTranslations = {
     manage_ticket_releases: "Manage ticket releases for this event.",
     manage_tickets:
       "The table shows all the ticket requests and tickets for this event.",
+    manage_tickets_custom_event_form_description:
+      "Here you can see all the form responses for this event. This is the information the user has submitted when requesting a ticket.",
   },
   form: {
     event_details: {
@@ -114,6 +116,20 @@ const enTranslations = {
       team_helperText: "Which team are you contacting?",
     },
 
+    event_fields: {
+      title: "Custom Event Fields",
+      subtitle:
+        "Here you can add and edit custom fields for your event. These fields will be shown to the user when they request a ticket.",
+      label_name: "Name",
+      label_description: "Description",
+      label_type: "Type",
+      label_required: "Required",
+      form_field_description: "Description",
+      form_field_description_helperText:
+        "Describe what additional information you want to collect from the user, and why. Markdown is supported.",
+    },
+
+    button_add_field: "Add field",
     button_clear: "Clear",
     button_next: "Next",
     button_edit: "Edit",
@@ -279,6 +295,7 @@ const enTranslations = {
     deleted_ticket_requests: "Deleted ticket requests",
     deleted_tickets: "Deleted tickets",
     not_open: "Not open",
+    not_yet_open: "Not yet open",
     check_allocated_reserve_tickets: "Try to allocate reserve tickets",
     check_allocated_reserve_tickets_tooltip:
       "Pressing this button will manually try to allocate reserve tickets. This is useful if you dont want to wait for the automatic allocation.",
@@ -299,6 +316,7 @@ const enTranslations = {
     delete_event_confirmation_enter_text: "Type 'delete' to confirm deletion",
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
+    manage_tickets_custom_event_form: "Form Responses",
 
     private_event: {
       title: "This is a private event",
@@ -369,6 +387,15 @@ const enTranslations = {
       "Are you sure you want to cancel this ticket request? This action cannot be undone.",
   },
 
+  event_form_fields: {
+    title: "Event Form",
+    description:
+      "The event organizer has requested additional information from you. See information from the event organizer below.",
+    accept_terms_and_conditions:
+      "By submitting this form, you agree to share the above information with the event organizer in order to for them to plan the event. The information will be processed in accordance with the chapters information processing policy.",
+    no_form_fields: "Oops! There is no form for this event.",
+  },
+
   tickets: {
     cost_overview: "Cost overview",
     confirmed_ticket:
@@ -415,6 +442,9 @@ const enTranslations = {
     promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
     contact_organizers:
       "If you have any questions, you can contact <1>{{organization}}</1> <2>here</2>.",
+    ticket_request_success_title: "Ticket request successful",
+    ticket_request_success_description:
+      "Please fill in the event form which is located under the ticket request page, <1>here</1>. This is where you can provide the event organizer with additional information.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",
@@ -475,7 +505,7 @@ const enTranslations = {
     profile: "Profile",
     report_an_issue_title: "Report an issue",
     made_by:
-      "Tessera is built by Lucas Dow and belongs to <1>Konglig Datasektionen</1>.",
+      "Tessera is built by <1>Lucas Dow</1> and belongs to <2>Konglig Datasektionen</2>.",
     report_an_issue_content:
       "If something isn't working, or you have a suggestion, You can <1>Create an issue on Github</1>.",
   },
