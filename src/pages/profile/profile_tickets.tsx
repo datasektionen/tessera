@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { Box, Grid, Link, Typography } from "@mui/joy";
 import Title from "../../components/text/title";
@@ -19,6 +19,10 @@ import { toast } from "react-toastify";
 import { Trans, useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  clearPaymentSuccess,
+  setPaymentSuccess,
+} from "../../redux/features/paymentSlice";
 
 const ProfileTicketsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -29,12 +33,19 @@ const ProfileTicketsPage: React.FC = () => {
     (state: RootState) => state.myTickets
   );
 
+  const { success: pSuccess } = useSelector(
+    (state: RootState) => state.payment
+  );
+
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const viewTicketRef = useRef<HTMLDivElement>(null);
 
   const handleSetSelected = (index: number | null) => {
     setSelected(index);
-    if (isScreenSmall) window.scrollTo(0, 5000);
+    if (viewTicketRef.current) {
+      viewTicketRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const dispatch: AppDispatch = useDispatch();
@@ -54,20 +65,22 @@ const ProfileTicketsPage: React.FC = () => {
     // get redirect_status query param
     const searchParams = new URLSearchParams(location.search);
 
-    const payment_intent_pi = searchParams.get("payment_intent_pi");
-    const last_payment_intent_pi = localStorage.getItem(
-      "last_payment_intent_pi"
-    );
+    const redirect_status = searchParams.get("redirect_status");
 
-    if (
-      searchParams.get("redirect_status") === "succeeded" &&
-      payment_intent_pi !== last_payment_intent_pi
-    ) {
-      toast.success("Your ticket purchase was successful!");
-      localStorage.setItem("last_payment_intent_pi", payment_intent_pi!);
-      // Remove the query param
+    dispatch(setPaymentSuccess(redirect_status === "succeeded"));
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    if (pSuccess) {
+      dispatch(getMyTicketsRequest());
+      setTimeout(() => {
+        toast.success(
+          "The payment was successful! You may need to reload the page to see the updated status."
+        );
+      }, 500);
+      dispatch(clearPaymentSuccess());
     }
-  }, [location]);
+  }, [pSuccess]);
 
   return (
     <TesseraWrapper>
@@ -104,7 +117,7 @@ const ProfileTicketsPage: React.FC = () => {
             />
           </Grid>
         </Grid>
-        <Grid xs={16} md={8}>
+        <Grid xs={16} md={8} id="ticket-view" ref={viewTicketRef}>
           {selected && (
             <ViewTicket ticket={tickets.find((tr) => tr.id === selected)!} />
           )}

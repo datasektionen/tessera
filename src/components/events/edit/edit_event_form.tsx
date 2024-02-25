@@ -114,6 +114,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
               columns={16}
               flexDirection="row"
               justifyContent="flex-start"
+              spacing={2}
             >
               <Grid xs={16} sm={8}>
                 <FormControl>
@@ -142,7 +143,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                     label="Description"
                     placeholder="Party Rangers is a party for rangers."
                     overrideStyle={{
-                      width: "90%",
+                      width: "95%",
                     }}
                   />
                   <StyledErrorMessage name="description" />

@@ -108,7 +108,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
       style={{
         marginTop: "16px",
         width: isScreenSmall ? "90%" : screenWidth,
-        position: isScreenSmall ? "relative" : "fixed",
+        position: "relative",
       }}
     >
       <Title fontSize={32}>{ticketRequest.ticket_type?.name}</Title>

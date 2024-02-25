@@ -1,7 +1,13 @@
 import { ITicket, IUser } from "../../../../types";
 import React from "react";
 import LoadingOverlay from "../../../Loading";
-import { ThemeProvider, createTheme } from "@mui/material";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import PALLETTE from "../../../../theme/pallette";
 import { Box } from "@mui/joy";
 import {
@@ -18,6 +24,36 @@ import CustomToolbar from "./datagrid_utils/toolbar";
 import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
 import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
+import { DefaultInputStyle } from "../../../forms/input_types";
+
+const MyCustomInputComponent: React.FC<{
+  item: any;
+  applyValue: (value: any) => void;
+}> = ({ item, applyValue }) => {
+  const handleInputChange = (event: any) => {
+    applyValue({ ...item, value: event.target.value });
+  };
+
+  return (
+    <FormControl>
+      <FormLabel
+        style={{
+          fontSize: "0.9em",
+        }}
+      >
+        Filter value
+      </FormLabel>
+      <Input
+        style={{
+          height: "35px",
+        }}
+        value={item.value || ""}
+        onChange={handleInputChange}
+        placeholder="Filter value"
+      />
+    </FormControl>
+  );
+};
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
@@ -39,22 +75,10 @@ const EventTicketsList: React.FC<{
       },
     },
     {
-      field: "is_allocated",
-      headerName: "Allocated",
-      description:
-        "A false value would indicate that the ticket is still a ticket request.",
+      field: "type",
+      headerName: "Type",
+      description: "Determines whether the ticket is a request or a ticket",
       width: 100,
-      sortComparator: (v1, v2, cellParams1, cellParams2) => {
-        if (cellParams1.value === null) return 1;
-        if (cellParams2.value === null) return -1;
-        return cellParams2.value - cellParams1.value;
-      },
-      renderCell: (params) =>
-        params.value ? (
-          <CheckCircle color="success" />
-        ) : (
-          <Cancel color="error" />
-        ),
     },
     {
       field: "is_reserve",
@@ -131,6 +155,37 @@ const EventTicketsList: React.FC<{
           {params.value.username}
         </div>
       ),
+      filterOperators: [
+        {
+          label: "contains",
+          value: "contains",
+          getApplyFilterFn: (filterItem) => {
+            if (!filterItem.value) {
+              return null;
+            }
+            return ({ value }) => {
+              console.log("value: ", value);
+              // Assuming value is the user object here
+              return (
+                (value.email &&
+                  value.email
+                    .toLowerCase()
+                    .includes(filterItem.value.toLowerCase())) ||
+                (value.ug_kth_id &&
+                  value.ug_kth_id
+                    .toLowerCase()
+                    .includes(filterItem.value.toLowerCase())) ||
+                (value.name &&
+                  value.name
+                    .toLowerCase()
+                    .includes(filterItem.value.toLowerCase()))
+              );
+            };
+          },
+          InputComponent: MyCustomInputComponent,
+        },
+        // ... other operators if needed
+      ],
     },
     {
       field: "payed_at",
@@ -165,7 +220,7 @@ const EventTicketsList: React.FC<{
     {
       field: "additional_info",
       headerName: "Additional Info",
-        width: 150,
+      width: 150,
     },
     {
       field: "email",
@@ -202,6 +257,17 @@ const EventTicketsList: React.FC<{
           <Cancel color="error" />
         ),
     },
+    {
+      field: "deleted_at",
+      headerName: "Deleted At",
+      width: 150,
+      renderCell: (params) => {
+        if (params.value === "N/A") {
+          return <Cancel color="error" />;
+        }
+        return params.value;
+      },
+    },
   ];
 
   const isTicketRequest = (ticket: ITicket) => {
@@ -213,6 +279,7 @@ const EventTicketsList: React.FC<{
       const ufp = ticket.user!.food_preferences!;
 
       let payed_at = "N/A";
+      let deleted_at = "N/A";
       try {
         payed_at = ticket.is_paid
           ? ticket.ticket_request?.ticket_type?.price === 0
@@ -226,12 +293,24 @@ const EventTicketsList: React.FC<{
         console.error(e);
       }
 
+      try {
+        deleted_at = ticket.deleted_at
+          ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
+          : ticket.ticket_request?.deleted_at
+          ? format(
+              ticket.ticket_request?.deleted_at as number,
+              "dd/MM/yyyy HH:mm"
+            )
+          : "N/A";
+      } catch (e) {
+        console.error(e);
+      }
+
       const row = {
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
-        is_allocated:
-          ticket.ticket_request?.ticket_release?.has_allocated_tickets!,
+        type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
         is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
         is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
         ticket: ticket.ticket_request?.ticket_type?.name,
@@ -250,6 +329,8 @@ const EventTicketsList: React.FC<{
         additional_info: ufp.additional,
         checked_in: ticket.checked_in,
         requseted_at: ticket?.ticket_request?.created_at,
+        prefer_meat: ufp.prefer_meat,
+        deleted_at,
         entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
@@ -278,7 +359,7 @@ const EventTicketsList: React.FC<{
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
       ticket_release_name: true,
-      is_allocated: true,
+      type: true,
       is_reserve: true,
       is_paid: true,
       ticket: true,
@@ -298,6 +379,7 @@ const EventTicketsList: React.FC<{
       additional_info: false,
       checked_in: true,
       requseted_at: true,
+      prefer_meat: false,
     });
 
   if (!tickets || rows.length === 0) {
@@ -311,6 +393,7 @@ const EventTicketsList: React.FC<{
           rows={rows}
           rowHeight={32}
           columns={columns}
+          pageSizeOptions={[25, 50, 100, 250, 500, 1000]}
           slots={{
             toolbar: CustomToolbar,
           }}

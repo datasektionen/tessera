@@ -182,6 +182,9 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     name="description"
                     label="Description"
                     placeholder="Normal tickets for Party Rangers."
+                    overrideStyle={{
+                      width: "95%",
+                    }}
                   />
                   <StyledErrorMessage name="description" />
 

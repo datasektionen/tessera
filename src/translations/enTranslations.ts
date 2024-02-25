@@ -209,7 +209,7 @@ const enTranslations = {
         "Provide any additional notes here regarding your food preferences. Leave blank if you have none.",
       privacy_policy_title: "Privacy policy",
       gdpr_agree_helperText:
-        "I had read and agree to the processing of my personal data for the purpose of managing my food preferences according to the <1>Food Preferences Privacy Policy</1>",
+        "I agree to the processing of my personal data for the purpose of managing my food preferences according to the <1>Food Preferences Privacy Policy</1>",
     },
 
     your_ticket_requests: {
@@ -292,6 +292,8 @@ const enTranslations = {
     open: "is open",
     allocate_tickets_button: "Allocate tickets",
     the_ticket_release: "The Ticket release",
+    deleted_ticket_requests: "Deleted ticket requests",
+    deleted_tickets: "Deleted tickets",
     not_open: "Not open",
     not_yet_open: "Not yet open",
     check_allocated_reserve_tickets: "Try to allocate reserve tickets",
@@ -305,7 +307,7 @@ const enTranslations = {
     allocate_tickets_confirm:
       "Are you sure you want to close this ticket release?",
     manage_tickets: "Manage tickets",
-    tickets_available: "Tickets available",
+    tickets_available: "Total Tickets available",
     allocate_tickets_helperText:
       "How long do users have to pay for their tickets before it is given to the next person in line?",
     delete_event_title: "Confirm event deletion",

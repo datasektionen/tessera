@@ -37,6 +37,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import { ticketsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -177,16 +178,24 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     (ticket) => ticket.id !== 0 && ticket?.ticket_request?.is_handled!
   ).length;
 
+  const numDeletedTicketRequests = ticketReleaseTickets.filter(
+    (ticket) => !!ticket.ticket_request?.deleted_at
+  ).length;
+
   const numPaidTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket?.is_paid!
+    (ticket) => ticket?.is_paid! && !!!ticket?.deleted_at
   ).length;
 
   const numRefundedTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket?.refunded!
+    (ticket) => ticket?.refunded! && !!!ticket?.deleted_at
   ).length;
 
   const numReserveTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket?.is_reserve!
+    (ticket) => ticket?.is_reserve! && !!!ticket?.deleted_at
+  ).length;
+
+  const numDeletedTickets = ticketReleaseTickets.filter(
+    (ticket) => !!ticket.deleted_at
   ).length;
 
   return (
@@ -269,6 +278,17 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               color={PALLETTE.charcoal}
             >
               {`${numTicketRequests} ` + t("manage_event.ticket_requests")}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={600}
+              color={PALLETTE.charcoal}
+              startDecorator={<DeleteIcon />}
+              sx={{ ml: 2 }}
+            >
+              {`${numDeletedTicketRequests} ` +
+                t("manage_event.deleted_ticket_requests")}
             </StyledText>
             {ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.id ===
               1 && [
@@ -364,6 +384,16 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               startDecorator={<KeyboardReturnIcon />}
             >
               {`${numRefundedTickets} ${t("manage_event.refunded_tickets")}`}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              fontSize={18}
+              fontWeight={500}
+              color={PALLETTE.charcoal}
+              sx={{ ml: 2 }}
+              startDecorator={<DeleteIcon />}
+            >
+              {`${numDeletedTickets} ${t("manage_event.deleted_tickets")}`}
             </StyledText>
           </Box>
           <Box mt={1}>
