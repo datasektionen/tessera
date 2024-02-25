@@ -12,24 +12,33 @@ interface TicketEventFormResponseTableProps {
   tickets: ITicket[];
 }
 
-const getEventFormFieldsColumns = (ticket: ITicket) => {
-  if (!ticket.id) {
-    return [];
-  }
-
+const getEventFormFieldsColumns = (tickets: ITicket[]) => {
   let columns: GridColDef[] = [];
 
-  ticket.ticket_request?.event_form_responses?.forEach(
-    (response: IEventFormFieldResponse) => {
-      columns.push({
-        field: response.event_form_field?.name!,
-        headerName: response.event_form_field?.name!,
-        width: 150,
-      });
-    }
-  );
+  if (tickets.length === 0) {
+    return columns;
+  }
 
-  return columns;
+  tickets.forEach((ticket) => {
+    ticket.ticket_request?.event_form_responses?.forEach(
+      (response: IEventFormFieldResponse) => {
+        columns.push({
+          field: response.event_form_field?.name!,
+          headerName: response.event_form_field?.name!,
+          width: 150,
+          editable: false,
+        });
+      }
+    );
+  });
+
+  return columns.filter(
+    (column, index, self) =>
+      index ===
+      self.findIndex(
+        (t) => t.field === column.field && t.headerName === column.headerName
+      )
+  );
 };
 
 const getEventFormFieldsRow = (ticket: ITicket) => {
@@ -53,7 +62,7 @@ const TicketEventFormResponseTable: React.FC<
 > = ({ tickets }) => {
   const [rows, setRows] = React.useState<any[]>([]);
 
-  const customColumns = getEventFormFieldsColumns(tickets[0] || {});
+  const customColumns = getEventFormFieldsColumns(tickets);
 
   const columns: GridColDef[] = [
     {
