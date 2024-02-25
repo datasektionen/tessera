@@ -118,6 +118,7 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
                 ticket_request_id: form_response.ticket_request_id!,
                 event_form_field_id: form_response.event_form_field_id!,
                 value: form_response.value!,
+                updated_at: new Date(form_response.UpdatedAt!).getTime(),
               };
             }
           ) as IEventFormFieldResponse[],

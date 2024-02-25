@@ -13,6 +13,8 @@ const seTranslations = {
     manage_ticket_releases: "Hantera biljettsläpp för detta evenemang.",
     manage_tickets:
       "Tabellen visar alla biljettförfrågningar och biljetter för detta evenemang.",
+    manage_tickets_custom_event_form_description:
+      "Här kan du se alla anpassade evenemangsfält som användare har fyllt i när de begärde biljetter.",
   },
 
   form: {
@@ -101,12 +103,16 @@ const seTranslations = {
     },
 
     event_fields: {
-      title: "Anpassade evenemangsfält",
+      title: "Anpassat formulär",
       subtitle:
-        "Här kan du lägga till och redigera anpassade fält för ditt evenemang. Dessa fält kommer att visas för användaren när de begär en biljett.",
+        "Här kan du lägga till och redigera formuläret för ditt event. Dessa fält kommer att visas för användaren när de begär en biljett.",
       label_name: "Namn",
       label_description: "Beskrivning",
       label_type: "Typ",
+      label_required: "Obligatoriskt",
+      form_field_description: "Beskrivning",
+      form_field_description_helperText:
+        "Beskriv vilken ytterligare information du vill samla in från användaren, och varför. Markdown stöds.",
     },
 
     button_add_field: "Lägg till fält",
@@ -292,6 +298,7 @@ const seTranslations = {
     delete_event_confirmation:
       "Är du säker på att du vill radera detta evenemang? Denna åtgärd kan inte ångras.",
     delete_event_confirmation_enter_text: "Skriv in 'delete' för att bekräfta.",
+    manage_tickets_custom_event_form: "Anpassade evenemangsfält",
 
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
@@ -348,6 +355,14 @@ const seTranslations = {
           "Ändra detaljerna för dina biljettyper och klicka sedan på 'Spara'.",
       },
     },
+  },
+
+  event_form_fields: {
+    title: "Evenemangsformulär",
+    description:
+      "Evenemangsarrangören har begärt ytterligare information från dig. Se information från evenemangsarrangören nedan.",
+    accept_terms_and_conditions:
+      "Genom att skicka in detta formulär godkänner du att dela ovanstående information med evenemangsarrangören för att de ska kunna planera evenemanget. Informationen kommer att behandlas i enlighet med kapitlens informationsbehandlingspolicy.",
   },
 
   event: {

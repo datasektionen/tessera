@@ -31,6 +31,8 @@ const enTranslations = {
     manage_ticket_releases: "Manage ticket releases for this event.",
     manage_tickets:
       "The table shows all the ticket requests and tickets for this event.",
+    manage_tickets_custom_event_form_description:
+      "Here you can see all the form responses for this event. This is the information the user has submitted when requesting a ticket.",
   },
   form: {
     event_details: {
@@ -312,6 +314,7 @@ const enTranslations = {
     delete_event_confirmation_enter_text: "Type 'delete' to confirm deletion",
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
+    manage_tickets_custom_event_form: "Form Responses",
 
     private_event: {
       title: "This is a private event",

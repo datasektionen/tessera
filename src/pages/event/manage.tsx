@@ -24,6 +24,7 @@ import axios from "axios";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
+import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -224,6 +225,18 @@ const ManageEventPage: React.FC = () => {
           </Tooltip>
         </Grid>
         <EventTicketsList tickets={tickets} />
+
+        <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
+          <Title fontSize={22} color={PALLETTE.charcoal}>
+            {t("manage_event.manage_tickets_custom_event_form")}
+          </Title>
+          <Tooltip
+            title={t("tooltips.manage_tickets_custom_event_form_description")}
+          >
+            <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
+          </Tooltip>
+        </Grid>
+        <TicketEventFormResponseTable tickets={tickets} />
       </Box>
     </MUITesseraWrapper>
   );

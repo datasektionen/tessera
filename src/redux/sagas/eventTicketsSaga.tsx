@@ -103,6 +103,7 @@ function* fetchEventTickets(
                   is_required: response.event_form_field.is_required!,
                 } as IEventFormField,
                 value: response.value!,
+                updated_at: new Date(response.UpdatedAt!).getTime(),
               } as IEventFormFieldResponse;
             }
           ),
@@ -192,6 +193,7 @@ function* fetchEventTickets(
                     is_required: response.event_form_field.is_required!,
                   } as IEventFormField,
                   value: response.value!,
+                  updated_at: new Date(response.UpdatedAt!).getTime(),
                 } as IEventFormFieldResponse;
               }
             ),
@@ -237,6 +239,8 @@ function* fetchEventTickets(
     );
 
     tickets.push(...ticketRequests);
+
+    console.log("Tickets:", tickets);
 
     yield put(fetchEventTicketsSuccess(tickets));
   } catch (error: any) {

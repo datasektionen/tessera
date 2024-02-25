@@ -428,7 +428,7 @@ export interface IEventFormFieldInput {
 export interface IFormFieldInput {
   name: string;
   description: string;
-  is_required: boolean;
+    is_required: boolean;
   type: string;
 }
 
@@ -438,6 +438,7 @@ export interface IEventFormFieldResponse {
   event_form_field_id: number;
   event_form_field?: IEventFormField;
   value: string | number | boolean | null;
+  updated_at: number;
 }
 
 export interface IContactFormValues {
