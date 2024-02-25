@@ -393,7 +393,7 @@ const EventTicketsList: React.FC<{
           rows={rows}
           rowHeight={32}
           columns={columns}
-          pageSizeOptions={[10, 25, 50, 100]}
+          pageSizeOptions={[10, 25, 50, 100]} // Cannot exceed 100
           slots={{
             toolbar: CustomToolbar,
           }}
