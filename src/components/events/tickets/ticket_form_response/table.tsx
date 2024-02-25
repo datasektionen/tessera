@@ -69,6 +69,9 @@ const TicketEventFormResponseTable: React.FC<
       field: "id",
       headerName: "Ticket ID",
       width: 100,
+      valueFormatter: (params) => {
+        return params.value.split("-")[0];
+      },
     },
     {
       field: "user",
@@ -93,7 +96,7 @@ const TicketEventFormResponseTable: React.FC<
       const customRows = getEventFormFieldsRow(ticket || {});
       const row = {
         ...customRows,
-        id: ticket.id,
+        id: ticket.id + "-" + ticket.user?.ug_kth_id,
         user: ticket.user,
       };
 
