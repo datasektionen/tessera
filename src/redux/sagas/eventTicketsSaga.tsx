@@ -141,7 +141,10 @@ function* fetchEventTickets(
         } as ITicketRequest,
         deleted_at: new Date(ticket.DeletedAt!).getTime(),
         updated_at: new Date(ticket.UpdatedAt!).getTime(),
-        purchasable_at: new Date(ticket.purchasable_at!),
+        purchasable_at:
+          ticket.purchasable_at !== null
+            ? new Date(ticket.purchasable_at!).getTime()
+            : null,
       } as ITicket;
     });
 

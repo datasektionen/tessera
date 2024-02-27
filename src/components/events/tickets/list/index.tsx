@@ -334,7 +334,7 @@ const EventTicketsList: React.FC<{
       let payBefore: Date | null = null;
       if (
         ticket.ticket_request?.ticket_release?.pay_within &&
-        ticket.purchasable_at
+        ticket.purchasable_at !== null
       ) {
         // Add pay_within hours to purchasable_at
         console.log("ticket.purchasable_at: ", ticket.purchasable_at);

@@ -317,7 +317,7 @@ export interface ITicket {
   reserve_number?: number;
   checked_in: boolean;
   qr_code: string;
-  purchasable_at?: Date;
+  purchasable_at?: Date | null;
   deleted_at: number | null;
 }
 export interface TicketRequestPostReq {
