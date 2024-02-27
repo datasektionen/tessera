@@ -140,6 +140,7 @@ function* fetchEventTickets(
           } as ITicketRelease,
         } as ITicketRequest,
         deleted_at: new Date(ticket.DeletedAt!).getTime(),
+        updated_at: new Date(ticket.UpdatedAt!).getTime(),
         purchasable_at: new Date(ticket.purchasable_at!),
       } as ITicket;
     });
@@ -237,6 +238,7 @@ function* fetchEventTickets(
               } as ITicketReleaseMethodDetail,
             } as ITicketRelease,
             deleted_at: new Date(ticketRequest.DeletedAt!).getTime(),
+            updated_at: new Date(ticketRequest.UpdatedAt!).getTime(),
           } as ITicketRequest,
         } as ITicket;
       }
