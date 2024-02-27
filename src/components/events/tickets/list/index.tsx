@@ -337,7 +337,7 @@ const EventTicketsList: React.FC<{
         // Add pay_within hours to updated_at
 
         payBefore = startOfHour(
-          add(new Date(ticket.updated_at), {
+          add(new Date(ticket.updated_at * 1000), {
             hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
           })
         );
