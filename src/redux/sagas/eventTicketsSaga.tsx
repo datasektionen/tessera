@@ -120,6 +120,7 @@ function* fetchEventTickets(
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,
+            pay_within: ticket_request.ticket_release.pay_within!,
             open: new Date(
               ticket_request.ticket_release.open! * 1000
             ).getTime(),
@@ -139,6 +140,7 @@ function* fetchEventTickets(
           } as ITicketRelease,
         } as ITicketRequest,
         deleted_at: new Date(ticket.DeletedAt!).getTime(),
+        purchasable_at: new Date(ticket.purchasable_at!),
       } as ITicket;
     });
 

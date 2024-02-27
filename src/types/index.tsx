@@ -299,7 +299,7 @@ export interface ITicketRequest {
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
   event_form_responses?: IEventFormFieldResponse[];
-  
+
   deleted_at: number | null;
 }
 
@@ -317,6 +317,7 @@ export interface ITicket {
   reserve_number?: number;
   checked_in: boolean;
   qr_code: string;
+  purchasable_at?: Date;
   deleted_at: number | null;
 }
 export interface TicketRequestPostReq {
@@ -431,7 +432,7 @@ export interface IEventFormFieldInput {
 export interface IFormFieldInput {
   name: string;
   description: string;
-    is_required: boolean;
+  is_required: boolean;
   type: string;
 }
 

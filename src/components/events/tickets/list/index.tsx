@@ -17,7 +17,7 @@ import {
   GridColumnVisibilityModel,
 } from "@mui/x-data-grid";
 import { Cancel, CheckCircle } from "@mui/icons-material";
-import { compareAsc, format, parse } from "date-fns";
+import { add, compareAsc, format, parse, startOfHour } from "date-fns";
 import InformationModal from "../../../modal/information";
 import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
@@ -228,6 +228,18 @@ const EventTicketsList: React.FC<{
       width: 150,
     },
     {
+      field: "pay_before",
+      headerName: "Pay Before",
+      width: 150,
+      valueFormatter: (params) => {
+        if (!params.value) {
+          return "N/A";
+        }
+
+        return format(params.value as Date, "dd/MM/yyyy HH:mm");
+      },
+    },
+    {
       field: "checked_in",
       headerName: "Checked In",
       width: 100,
@@ -306,6 +318,31 @@ const EventTicketsList: React.FC<{
         console.error(e);
       }
 
+      let payBefore: Date | null = null;
+      if (
+        ticket.ticket_request?.ticket_release?.pay_within &&
+        ticket.purchasable_at
+      ) {
+        // Add pay_within hours to purchasable_at
+
+        payBefore = startOfHour(
+          add(ticket.purchasable_at as Date, {
+            hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
+          })
+        );
+      } else if (
+        ticket.ticket_request?.ticket_release?.pay_within &&
+        ticket.updated_at
+      ) {
+        // Add pay_within hours to updated_at
+
+        payBefore = startOfHour(
+          add(new Date(ticket.updated_at), {
+            hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
+          })
+        );
+      }
+
       const row = {
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
@@ -331,6 +368,7 @@ const EventTicketsList: React.FC<{
         requseted_at: ticket?.ticket_request?.created_at,
         prefer_meat: ufp.prefer_meat,
         deleted_at,
+        pay_before: payBefore,
         entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
