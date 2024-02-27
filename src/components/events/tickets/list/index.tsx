@@ -15,7 +15,9 @@ import {
   DataGrid,
   GridRowsProp,
   GridColumnVisibilityModel,
+  GridValueFormatterParams,
 } from "@mui/x-data-grid";
+
 import { Cancel, CheckCircle } from "@mui/icons-material";
 import { add, compareAsc, format, parse, startOfHour } from "date-fns";
 import InformationModal from "../../../modal/information";
@@ -25,6 +27,11 @@ import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
 import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
 import { DefaultInputStyle } from "../../../forms/input_types";
+
+interface CustomGridValueFormatterParams extends GridValueFormatterParams {
+  // Extend the existing type to include the row property
+  row: any; // Consider using a more specific type based on your data structure
+}
 
 const MyCustomInputComponent: React.FC<{
   item: any;
@@ -231,12 +238,18 @@ const EventTicketsList: React.FC<{
       field: "pay_before",
       headerName: "Pay Before",
       width: 150,
-      valueFormatter: (params) => {
-        if (!params.value) {
+      renderCell: (params) => {
+        const otherFieldValue = params.row.type;
+
+        if (otherFieldValue === "Ticket" && !params.value) {
+          // replace 'someValue' with the value you're checking for
+          // do something based on the value in the other field
+          return "Event Start";
+        } else if (params.value) {
+          return format(params.value as Date, "dd/MM/yyyy HH:mm");
+        } else {
           return "N/A";
         }
-
-        return format(params.value as Date, "dd/MM/yyyy HH:mm");
       },
     },
     {
@@ -337,7 +350,7 @@ const EventTicketsList: React.FC<{
         // Add pay_within hours to updated_at
 
         payBefore = startOfHour(
-          add(new Date(ticket.updated_at * 1000), {
+          add(new Date(ticket.updated_at), {
             hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
           })
         );
