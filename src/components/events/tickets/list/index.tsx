@@ -337,6 +337,7 @@ const EventTicketsList: React.FC<{
         ticket.purchasable_at
       ) {
         // Add pay_within hours to purchasable_at
+        console.log("ticket.purchasable_at: ", ticket.purchasable_at);
 
         payBefore = startOfHour(
           add(ticket.purchasable_at as Date, {
@@ -348,6 +349,7 @@ const EventTicketsList: React.FC<{
         ticket.updated_at
       ) {
         // Add pay_within hours to updated_at
+        console.log("ticket.updated_at: ", ticket.updated_at);
 
         payBefore = startOfHour(
           add(new Date(ticket.updated_at), {

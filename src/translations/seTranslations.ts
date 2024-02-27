@@ -384,7 +384,7 @@ const seTranslations = {
     ticket_request_success_description:
       "Vänligen fyll i evenemangsformuläret som finns under biljettbegäran sidan, <1>här</1>. Detta är där du kan ge arrangören ytterligare information.",
     check_in: {
-      scan_ticket_instructions: "Skann> QR-koden för att checka in.",
+      scan_ticket_instructions: "Skanna QR-koden för att checka in.",
       loading: "Laddar...",
     },
     ticket_release: {
