@@ -382,6 +382,7 @@ const enTranslations = {
     go_to_tickets_button: "Go to tickets",
     cancel_ticket_request_confirm_title: "Confirm ticket request cancellation",
     handled: "Ticket Request converted to ticket",
+    deleted: "Ticket Request has been deleted",
     ticket_request: "Ticket Request",
     cancel_ticket_request_confirm:
       "Are you sure you want to cancel this ticket request? This action cannot be undone.",

@@ -153,6 +153,7 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
           } as ITicketRelease,
+          deleted_at: ticket_request.DeletedAt,
         } as ITicketRequest;
       }
     );

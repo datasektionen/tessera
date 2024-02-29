@@ -56,9 +56,10 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
       style={{
         borderColor:
           selected === ticketRequest.id ? PALLETTE.cerise : undefined,
-        backgroundColor: isPastEvent
-          ? PALLETTE.charcoal_see_through
-          : undefined,
+        backgroundColor:
+          isPastEvent || ticketRequest.deleted_at
+            ? PALLETTE.charcoal_see_through
+            : undefined,
       }}
       onClick={() => setSelected(ticketRequest.id)}
     >
@@ -132,6 +133,24 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
                   </StyledText>
                 </Chip>
               </Tooltip>
+              {ticketRequest.deleted_at && (
+                <Chip
+                  variant="soft"
+                  color="primary"
+                  style={{
+                    backgroundColor: PALLETTE.charcoal,
+                  }}
+                >
+                  <StyledText
+                    color={PALLETTE.cerise}
+                    level="body-sm"
+                    fontSize={14}
+                    fontWeight={600}
+                  >
+                    Deleted
+                  </StyledText>
+                </Chip>
+              )}
               {ticketRequest.ticket_release?.is_reserved && (
                 <Chip
                   variant="soft"

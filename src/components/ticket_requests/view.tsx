@@ -163,14 +163,25 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
             }}
             style={{
               position: "absolute",
-              bottom: "16px",
+              top: "16px",
               right: "16px",
             }}
           >
             {t("ticket_request.go_to_tickets_button")}
           </StyledButton>
         )}
-        <EditFormFieldResponse ticketRequest={ticketRequest} />
+        {!ticketRequest.deleted_at ? (
+          <EditFormFieldResponse ticketRequest={ticketRequest} />
+        ) : (
+          <StyledText
+            level="body-sm"
+            fontSize={18}
+            color={PALLETTE.cerise}
+            sx={{ mt: 2 }}
+          >
+            {t("ticket_request.deleted")}
+          </StyledText>
+        )}
       </Box>
     </BorderBox>
   );
