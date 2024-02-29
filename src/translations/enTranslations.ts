@@ -149,7 +149,7 @@ const enTranslations = {
     button_check_in: "Check in",
     button_update_gdpr: "Save and renew consent",
     button_send_out: "Send out (BETA)",
-    button_economy: "Economy",
+    button_economy: "Economy (BETA)",
     generate_sales_report: "Generate sales report",
   },
   create_event: {

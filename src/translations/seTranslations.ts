@@ -135,7 +135,7 @@ const seTranslations = {
     button_check_in: "Checka in",
     button_update_gdpr: "Spara och uppdatera GDPR samtycke",
     button_send_out: "Utskick (BETA)",
-    button_economy: "Ekonomi",
+    button_economy: "Ekonomi (BETA)",
     generate_sales_report: "Generera försäljningsrapport",
   },
   create_event: {
