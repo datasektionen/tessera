@@ -331,6 +331,7 @@ const enTranslations = {
       status: "Status",
       message: "Message",
       download: "Download",
+      no_reports: "There are no sales reports for this event.",
     },
 
     private_event: {

@@ -318,6 +318,7 @@ const seTranslations = {
       status: "Status",
       message: "Meddelande",
       download: "Ladda ner",
+      no_reports: "Det finns inga försäljningsrapporter för detta evenemang.",
     },
 
     private_event: {
