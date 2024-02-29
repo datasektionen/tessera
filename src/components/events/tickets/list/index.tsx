@@ -397,7 +397,11 @@ const EventTicketsList: React.FC<{
         prefer_meat: ufp.prefer_meat,
         deleted_at,
         pay_before: payBefore,
-        purchasable_at: ticket.deleted_at ? null : ticket.purchasable_at,
+        purchasable_at: ticket.deleted_at
+          ? null
+          : ticket.purchasable_at !== null
+          ? ticket.purchasable_at
+          : ticket.updated_at,
         entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
