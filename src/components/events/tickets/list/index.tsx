@@ -235,6 +235,14 @@ const EventTicketsList: React.FC<{
       width: 150,
     },
     {
+      field: "requseted_at",
+      headerName: "Requested At",
+      width: 150,
+      valueFormatter: (params) => {
+        return format(params.value as number, "dd/MM/yyyy HH:mm");
+      },
+    },
+    {
       field: "pay_before",
       headerName: "Pay Before",
       width: 150,
@@ -264,14 +272,6 @@ const EventTicketsList: React.FC<{
         ),
     },
     {
-      field: "requseted_at",
-      headerName: "Requested At",
-      width: 150,
-      valueFormatter: (params) => {
-        return format(params.value as number, "dd/MM/yyyy HH:mm");
-      },
-    },
-    {
       field: "entered_into_lottery",
       headerName: "Entered Into Lottery",
       width: 150,
@@ -283,6 +283,18 @@ const EventTicketsList: React.FC<{
         ),
     },
     {
+      field: "purchasable_at",
+      headerName: "Purchaseable At",
+      width: 150,
+      renderCell: (params) => {
+        console.log("params.value: ", params.value);
+        if (params.value === null) {
+          return "N/A";
+        }
+        return format(params.value as Date, "dd/MM/yyyy HH:mm");
+      },
+    },
+    {
       field: "deleted_at",
       headerName: "Deleted At",
       width: 150,
@@ -290,6 +302,7 @@ const EventTicketsList: React.FC<{
         if (params.value === "N/A") {
           return <Cancel color="error" />;
         }
+
         return params.value;
       },
     },
@@ -384,11 +397,14 @@ const EventTicketsList: React.FC<{
         prefer_meat: ufp.prefer_meat,
         deleted_at,
         pay_before: payBefore,
+        purchasable_at: ticket.deleted_at ? null : ticket.purchasable_at,
         entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
         ),
       };
+
+      console.log("row: ", row);
 
       return row;
     });
@@ -419,6 +435,8 @@ const EventTicketsList: React.FC<{
       user: true,
       email: false,
       payed_at: true,
+      checked_in: false,
+      entered_into_lottery: false,
       price: true,
       // Hide all the food preferences
       gluten_intolerant: false,
@@ -430,8 +448,8 @@ const EventTicketsList: React.FC<{
       vegan: false,
       vegetarian: false,
       additional_info: false,
-      checked_in: true,
       requseted_at: true,
+      purchasable_at: true,
       prefer_meat: false,
     });
 
