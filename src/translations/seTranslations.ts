@@ -135,6 +135,8 @@ const seTranslations = {
     button_check_in: "Checka in",
     button_update_gdpr: "Spara och uppdatera GDPR samtycke",
     button_send_out: "Utskick (BETA)",
+    button_economy: "Ekonomi",
+    generate_sales_report: "Generera försäljningsrapport",
   },
   create_event: {
     title: "Skapa evenemang",
@@ -304,6 +306,19 @@ const seTranslations = {
 
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
+
+    economy: {
+      title: "Eventekonomi",
+      subtitle:
+        "Här kan du se ekonomin för ditt evenemang. Du kan generera försäljningsrapporter och se den totala intäkten för ditt evenemang.",
+      sales_reports: "Försäljningsrapporter",
+      total_sales: "Total försäljning",
+      tickets_sold: "Biljetter sålda",
+      created_at: "Skapad vid",
+      status: "Status",
+      message: "Meddelande",
+      download: "Ladda ner",
+    },
 
     private_event: {
       title: "Detta är ett privat evenemang",

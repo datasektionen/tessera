@@ -149,6 +149,8 @@ const enTranslations = {
     button_check_in: "Check in",
     button_update_gdpr: "Save and renew consent",
     button_send_out: "Send out (BETA)",
+    button_economy: "Economy",
+    generate_sales_report: "Generate sales report",
   },
   create_event: {
     title: "Create event",
@@ -317,6 +319,19 @@ const enTranslations = {
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
     manage_tickets_custom_event_form: "Form Responses",
+
+    economy: {
+      title: "Event Economy",
+      subtitle:
+        "Here you can see the economy of your event. You can generate sales reports and see the total revenue of your event.",
+      sales_reports: "Sales reports",
+      total_sales: "Total sales",
+      tickets_sold: "Tickets sold",
+      created_at: "Created at",
+      status: "Status",
+      message: "Message",
+      download: "Download",
+    },
 
     private_event: {
       title: "This is a private event",

@@ -287,6 +287,17 @@ export interface ITicketReleaseAdmin extends ITicketRelease {
   hasAllocatedTickets: boolean;
 }
 
+export interface IEventSalesReport {
+  id: number;
+  event_id: number;
+  total_sales: number;
+  tickets_sold: number;
+  status: string;
+  message: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export interface ITicketRequest {
   id: number;
   created_at: number;

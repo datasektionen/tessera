@@ -15,6 +15,7 @@ import watchFetchTicketTypes from "./ticketTypeSaga";
 import watchEventTicketsSaga from "./eventTicketsSaga";
 import watchExternalAuthSagas from "./externalAuthSaga";
 import { listOrganizationsSaga } from "./listOrganizationsSlice";
+import watchSalesReportSaga from "./salesReportSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     watchTicketReleaseSaga(),
     watchFoodPreferences(),
     watchCreateOrganization(),
+    watchSalesReportSaga(),
     watchFetchTicketReleaseMethods(),
     watchCreateEventSaga(),
     watchPromoCodeAccessSaga(),

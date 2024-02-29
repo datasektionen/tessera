@@ -119,7 +119,6 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
       } else if (typeof val === "number") {
         value = val.toString();
       } else if (val !== undefined) {
-        console.log("val", val);
         // @ts-ignore
         value = val.toString(); // Fix: Assign the string value of `val` to `value`.
       }

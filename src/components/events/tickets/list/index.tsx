@@ -171,7 +171,6 @@ const EventTicketsList: React.FC<{
               return null;
             }
             return ({ value }) => {
-              console.log("value: ", value);
               // Assuming value is the user object here
               return (
                 (value.email &&

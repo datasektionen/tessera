@@ -44,7 +44,6 @@ interface EventFormFieldsProps {
 }
 
 const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
-  console.log("event", event);
   const initialValues: IEventFormFieldInput =
     event.form_fields !== undefined
       ? {
@@ -57,8 +56,6 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
             { name: "", type: "", description: "", is_required: false },
           ],
         };
-
-  console.log("initialValues", initialValues);
 
   const { t } = useTranslation();
 

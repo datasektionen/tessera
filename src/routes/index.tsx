@@ -37,6 +37,7 @@ import ForgotPassword from "../pages/external/forgot_password";
 import PasswordReset from "../pages/external/password_reset";
 import SendOut from "../components/events/send_out";
 import VerifyPreferredEmail from "../pages/user/preferred_email/verify";
+import EventEconomyPage from "../pages/event/economy";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -85,6 +86,8 @@ const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
 const ManageEventPageWithCurrentUser = withCurrentUserRequest(ManageEventPage);
 const TicketScannerPageWithCurrentUser =
   withCurrentUserRequest(TicketScannerPage);
+const EventEconomyPageWithCurrentUser =
+  withCurrentUserRequest(EventEconomyPage);
 
 function AppRoutes() {
   return (
@@ -157,6 +160,10 @@ function AppRoutes() {
             element={<ManageEventPageWithCurrentUser />}
           />
           <Route path={ROUTES.SEND_OUT} element={<SendOut />} />
+          <Route
+            path={ROUTES.EVENT_ECONOMY}
+            element={<EventEconomyPageWithCurrentUser />}
+          />
           <Route
             path={ROUTES.TICKET_SCANNER}
             element={<TicketScannerPageWithCurrentUser />}

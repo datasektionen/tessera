@@ -170,6 +170,7 @@ const ManageEventPage: React.FC = () => {
           >
             {t("form.button_edit")}
           </StyledButton>
+
           <StyledButton
             size="md"
             bgColor={PALLETTE.orange}
@@ -198,6 +199,16 @@ const ManageEventPage: React.FC = () => {
             }}
           >
             {t("form.button_send_out")}
+          </StyledButton>
+          <StyledButton
+            size="md"
+            bgColor={PALLETTE.yellow}
+            onClick={() => {
+              navigate(`/events/${event.id}/economy`);
+            }}
+            style={{ width: "150px" }}
+          >
+            {t("form.button_economy")}
           </StyledButton>
         </Stack>
         <EventDetailInfo event={event} secret_token={secretToken || ""} />

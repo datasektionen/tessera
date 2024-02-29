@@ -47,4 +47,5 @@ export const ROUTES = {
   TICKET_SCANNER: "/events/:eventID/manage/scan",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
   SEND_OUT: "/events/:eventID/send-out",
+  EVENT_ECONOMY: "/events/:eventID/economy",
 };
