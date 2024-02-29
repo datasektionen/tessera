@@ -63,7 +63,7 @@ const EventEconomyPage: React.FC = () => {
     }
   }, [dispatch]);
 
-  if (!event || loading || salesLoading || eventSalesReports.length === 0) {
+  if (!event || loading || salesLoading) {
     return <LoadingOverlay />;
   }
 
