@@ -426,6 +426,7 @@ const seTranslations = {
     cancel_ticket_request_confirm_title:
       "Bekräfta avbrytande av biljettförfrågan",
     handled: "Biljettförfrågan konverterad till biljett",
+    deleted: "Radad biljettförfrågan",
     ticket_request: "Biljettförfrågan",
     cancel_ticket_request_confirm:
       "Är du säker på att du vill avbryta denna biljettförfrågan? Denna åtgärd kan inte ångras.",
