@@ -287,11 +287,19 @@ const EventTicketsList: React.FC<{
       headerName: "Purchaseable At",
       width: 150,
       renderCell: (params) => {
-        console.log("params.value: ", params.value);
-        if (params.value === null) {
+        if (!params.value) {
           return "N/A";
         }
-        return format(params.value as Date, "dd/MM/yyyy HH:mm");
+
+        let formattedDate: string;
+        try {
+          formattedDate = format(params.value as Date, "dd/MM/yyyy HH:mm");
+        } catch (e) {
+          console.error(e);
+          formattedDate = "N/A";
+        }
+
+        return formattedDate;
       },
     },
     {
@@ -349,9 +357,6 @@ const EventTicketsList: React.FC<{
         ticket.ticket_request?.ticket_release?.pay_within &&
         ticket.purchasable_at !== null
       ) {
-        // Add pay_within hours to purchasable_at
-        console.log("ticket.purchasable_at: ", ticket.purchasable_at);
-
         payBefore = startOfHour(
           add(ticket.purchasable_at as Date, {
             hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
@@ -361,8 +366,7 @@ const EventTicketsList: React.FC<{
         ticket.ticket_request?.ticket_release?.pay_within &&
         ticket.updated_at
       ) {
-        // Add pay_within hours to updated_at
-        console.log("ticket.updated_at: ", ticket.updated_at);
+        // Add pay_within hours to updatedat
 
         payBefore = startOfHour(
           add(new Date(ticket.updated_at), {
@@ -407,8 +411,6 @@ const EventTicketsList: React.FC<{
           ticket.ticket_request?.ticket_release!
         ),
       };
-
-      console.log("row: ", row);
 
       return row;
     });
