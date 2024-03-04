@@ -62,7 +62,6 @@ function* externalLoginSaga(
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "Something went wrong!";
-    console.log(errorMessage);
     if (errorMessage === "Email not verified") {
       toast.error(<ResendVerificationLinkToast email={action.payload.email} />);
     } else {
