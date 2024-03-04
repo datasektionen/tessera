@@ -71,7 +71,8 @@ const enTranslations = {
       lottery_duration_helperText:
         "For First Come First Serve, the lottery duration defines within how many minutes, requested tickets will be entered into a lottery. If more tickets are requested than available, all participants that request tickets within this timeframe will be entered into a lottery, the rest will be reserves.",
       max_tickets_per_user: "Max tickets per user",
-      max_tickets_per_user_helperText: "How many tickets can a user request?",
+      max_tickets_per_user_helperText:
+        "How many tickets can a user request? Always 1 currently.",
       tickets_available: "Ticket quantity",
       tickets_available_helperText: "How many tickets will be available?",
       notification_method: "Notification method",

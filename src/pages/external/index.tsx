@@ -38,10 +38,6 @@ const External: React.FC = () => {
 
   const navigate = useNavigate();
 
-  if (loading) {
-    return null;
-  }
-
   if (isLoggedIn) {
     navigate("/");
   }
@@ -64,6 +60,7 @@ const External: React.FC = () => {
         paddingBottom: "10em",
       }}
     >
+      {loading && <LoadingOverlay />}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

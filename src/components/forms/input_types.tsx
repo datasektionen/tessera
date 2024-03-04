@@ -16,6 +16,7 @@ interface FormInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   overrideStyle?: Object;
   autoComplete?: string;
+  readOnly?: boolean;
 }
 
 export const DefaultInputStyle = {
@@ -31,6 +32,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   placeholder,
   type,
   onChange = undefined,
+  readOnly = false,
   overrideStyle = {},
   autoComplete = "on",
 }) => (
@@ -40,6 +42,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         {...field}
         label={label}
         required
+        readOnly={readOnly}
         autoComplete={autoComplete}
         onChange={(e: any) => {
           try {

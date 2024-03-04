@@ -23,6 +23,11 @@ function* listEventSaga(): Generator<any, void, any> {
       }
     );
 
+    if (response.data === null) {
+      yield put(getEventsSuccess([]));
+      return;
+    }
+
     const events: IEvent[] = response.data
       .map((event: any) => {
         return {

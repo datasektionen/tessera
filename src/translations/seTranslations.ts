@@ -54,7 +54,7 @@ const seTranslations = {
         "För Först till kvarn, definierar lottningstiden inom hur många minuter efterfrågade biljetter kommer att ingå i en lottning. Om fler biljetter efterfrågas än tillgängligt, kommer alla deltagare som begär biljetter inom denna tidsram att delta i en lottning, övriga blir reserv.",
       max_tickets_per_user: "Max biljetter per användare",
       max_tickets_per_user_helperText:
-        "Hur många biljetter kan en användare begära?",
+        "Hur många biljetter kan en användare begära? Alltid 1 för nuvarande.",
       tickets_available: "Antal biljetter",
       tickets_available_helperText:
         "Hur många biljetter kommer att vara tillgängliga?",
@@ -458,7 +458,7 @@ const seTranslations = {
     cost_overview: "Prisöversikt",
     confirm_cancel_ticket_title: "Bekräfta borttagande av biljett",
     confirmed_ticket:
-      "Din biljett har bekräftats! Nu är det dags att betala för din biljett. Du kan betala för din biljett genom att klicka på knappen nedan. Om du inte betalar för din biljett före DATUM kommer din biljett att ges till nästa person i kön.",
+      "Din biljett har bekräftats! Nu är det dags att betala för din biljett. Du kan betala för din biljett genom att klicka på knappen nedan. Om du inte betalar för din biljett före <1>{{payBefore}}</1> kommer din biljett att ges till nästa person i kön.",
     reserve_ticket:
       "Tyvärr fick du en reservbiljett till detta evenemang. Du kommer att meddelas om en biljett blir tillgänglig.",
     has_paid: "Du har betalat för din biljett!",

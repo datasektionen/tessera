@@ -41,6 +41,7 @@ const LoginForm: React.FC = () => {
       onSubmit={(values, actions) => {
         // Submit form values
         handleLogin(values);
+        actions.setSubmitting(false);
       }}
       validateOnBlur={true}
     >

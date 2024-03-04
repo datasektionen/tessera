@@ -24,6 +24,7 @@ import serverTimestampSlice from "./redux/features/serverTimestampSlice";
 import listOrganizationsSlice from "./redux/features/listOrganizationsSlice";
 import paymentSuccessReducer from "./redux/features/paymentSlice";
 import salesReportSlice from "./redux/features/salesReportSlice";
+import languageSlice from "./redux/features/languageSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -34,6 +35,7 @@ const persistConfig = {
     "eventCreation",
     "ticketTypeCreation",
     "timestamp",
+    "language",
   ],
   key: "root",
   storage,
@@ -61,6 +63,7 @@ const rootReducer = combineReducers({
   organizations: listOrganizationsSlice,
   payment: paymentSuccessReducer,
   salesReport: salesReportSlice,
+  language: languageSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

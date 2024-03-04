@@ -281,6 +281,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 name="max_tickets_per_user"
                 label="Max Tickets Per User"
                 placeholder=""
+                readOnly={true}
               />
               <StyledErrorMessage name="max_tickets_per_user" />
               <StyledFormLabelWithHelperText>

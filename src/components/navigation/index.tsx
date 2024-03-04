@@ -10,13 +10,15 @@ import { Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
 import { ROUTES } from "../../routes/def";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 import styles from "./nav.module.css";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MobileNavigationBar from "./mobile-nav";
 import { is } from "date-fns/locale";
+import { setLanguage } from "../../redux/features/languageSlice";
+import { use } from "i18next";
 
 const lngs = [
   {
@@ -33,7 +35,10 @@ const lngs = [
 
 export const LanguageSelector: React.FC = () => {
   const { t, i18n } = useTranslation();
-
+  const { language: storedLanaguage } = useSelector(
+    (state: RootState) => state.language
+  );
+  const dispatch: AppDispatch = useDispatch();
   const handleChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
@@ -42,15 +47,13 @@ export const LanguageSelector: React.FC = () => {
       return;
     }
     i18n.changeLanguage(newValue);
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 100);
   };
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
   useEffect(() => {
     const handleLanguageChange = () => {
       setSelectedLanguage(i18n.language);
+      dispatch(setLanguage(i18n.language));
     };
 
     i18n.on("languageChanged", handleLanguageChange);
@@ -59,6 +62,11 @@ export const LanguageSelector: React.FC = () => {
       i18n.off("languageChanged", handleLanguageChange);
     };
   }, [i18n]);
+
+  useEffect(() => {
+    setSelectedLanguage(storedLanaguage);
+    i18n.changeLanguage(storedLanaguage);
+  }, []);
 
   return (
     <Select

@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ROUTES } from "../../routes/def";
+import ResendVerificationLinkToast from "../../components/toasts/ResendSignupVerificationEmail";
 
 function* externalSignupSaga(
   action: PayloadAction<ISignupFormValues>
@@ -61,7 +62,13 @@ function* externalLoginSaga(
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "Something went wrong!";
-    toast.error(errorMessage);
+    console.log(errorMessage);
+    if (errorMessage === "Email not verified") {
+      toast.error(<ResendVerificationLinkToast email={action.payload.email} />);
+    } else {
+      toast.error(errorMessage);
+    }
+
     yield put(externalLoginFailure(error.message));
   }
 }
