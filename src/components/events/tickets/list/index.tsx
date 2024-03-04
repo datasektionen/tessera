@@ -193,27 +193,6 @@ const EventTicketsList: React.FC<{
         // ... other operators if needed
       ],
     },
-    {
-      field: "payed_at",
-      headerName: "Payed At",
-      width: 150,
-      sortComparator: (v1, v2, cellParams1, cellParams2) => {
-        const format = "dd/MM/yyyy HH:mm";
-
-        if (cellParams1.value === "N/A") return 1; // sort "N/A" last
-        if (cellParams2.value === "N/A") return -1; // sort "N/A" last
-
-        const date1 = parse(cellParams1.value, format, new Date());
-        const date2 = parse(cellParams2.value, format, new Date());
-
-        if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
-          console.error("Invalid date format");
-          return 0;
-        }
-
-        return compareAsc(date1, date2);
-      },
-    },
     createFoodPreferenceColumn("gluten_intolerant", "Gluten Intolerant"),
     createFoodPreferenceColumn("halal", "Halal"),
     createFoodPreferenceColumn("kosher", "Kosher"),
@@ -242,6 +221,26 @@ const EventTicketsList: React.FC<{
       },
     },
     {
+      field: "purchasable_at",
+      headerName: "Purchaseable At",
+      width: 150,
+      renderCell: (params) => {
+        if (!params.value) {
+          return "N/A";
+        }
+
+        let formattedDate: string;
+        try {
+          formattedDate = format(params.value as Date, "dd/MM/yyyy HH:mm");
+        } catch (e) {
+          console.error(e);
+          formattedDate = "N/A";
+        }
+
+        return formattedDate;
+      },
+    },
+    {
       field: "pay_before",
       headerName: "Pay Before",
       width: 150,
@@ -257,6 +256,27 @@ const EventTicketsList: React.FC<{
         } else {
           return "N/A";
         }
+      },
+    },
+    {
+      field: "payed_at",
+      headerName: "Payed At",
+      width: 150,
+      sortComparator: (v1, v2, cellParams1, cellParams2) => {
+        const format = "dd/MM/yyyy HH:mm";
+
+        if (cellParams1.value === "N/A") return 1; // sort "N/A" last
+        if (cellParams2.value === "N/A") return -1; // sort "N/A" last
+
+        const date1 = parse(cellParams1.value, format, new Date());
+        const date2 = parse(cellParams2.value, format, new Date());
+
+        if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+          console.error("Invalid date format");
+          return 0;
+        }
+
+        return compareAsc(date1, date2);
       },
     },
     {
@@ -280,26 +300,6 @@ const EventTicketsList: React.FC<{
         ) : (
           <Cancel color="error" />
         ),
-    },
-    {
-      field: "purchasable_at",
-      headerName: "Purchaseable At",
-      width: 150,
-      renderCell: (params) => {
-        if (!params.value) {
-          return "N/A";
-        }
-
-        let formattedDate: string;
-        try {
-          formattedDate = format(params.value as Date, "dd/MM/yyyy HH:mm");
-        } catch (e) {
-          console.error(e);
-          formattedDate = "N/A";
-        }
-
-        return formattedDate;
-      },
     },
     {
       field: "deleted_at",

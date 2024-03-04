@@ -30,7 +30,7 @@ const EventTicketsListScannerView: React.FC<{ tickets: ITicket[] }> = ({
     {
       field: "user",
       headerName: "User",
-      width: 75,
+      width: 200,
       valueFormatter: (params) => {
         return params.value.username;
       },
@@ -43,11 +43,11 @@ const EventTicketsListScannerView: React.FC<{ tickets: ITicket[] }> = ({
             textDecoration: "underline",
           }}
         >
-          {params.value.username}
+          {params.value.first_name + " " + params.value.last_name}
         </div>
       ),
     },
-    { field: "ticket", headerName: "Ticket", width: 200 },
+    { field: "ticket", headerName: "Ticket", width: 100 },
     {
       field: "checked_in",
       headerName: "Checked In",
