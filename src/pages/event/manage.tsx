@@ -25,6 +25,26 @@ import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
 import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
+import {
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  useTheme,
+} from "@mui/material";
+
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import EditIcon from "@mui/icons-material/Edit";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import DrawerComponent from "../../components/navigation/manage_drawer";
+
+const drawerWidth = 200;
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -81,6 +101,8 @@ const ManageEventPage: React.FC = () => {
     }
   }, [dispatch, eventID]);
 
+  const [isHovered, setIsHovered] = useState(false);
+
   if (error) {
     navigate("/events");
   }
@@ -95,159 +117,143 @@ const ManageEventPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <Box mx="64px" mt={"16px"}>
-        <Title
-          style={{
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            width: "90%",
-          }}
-        >
-          {t("manage_event.title")}
-        </Title>
-        <ConfirmModal
-          isOpen={showDeleteModal}
-          onClose={() => {
-            setConfirmDeleteText("");
-            setShowDeleteModal(false);
-          }}
-          title={t("manage_event.delete_event_title")}
-          actions={[
-            <StyledButton
-              size="lg"
-              key="confirm-delete"
-              onClick={() => {
-                setShowDeleteModal(false);
-                handleEventDelete();
+      <DrawerComponent eventID={eventID!} />
+      <Box
+        component="main"
+        sx={{
+          marginLeft: isHovered ? `${drawerWidth + 32}px` : `70px`,
+          marginRight: 1.5,
+        }}
+      >
+        <Box mt={"16px"}>
+          <Title
+            style={{
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              width: "90%",
+            }}
+          >
+            {t("manage_event.title")}
+          </Title>
+          <ConfirmModal
+            isOpen={showDeleteModal}
+            onClose={() => {
+              setConfirmDeleteText("");
+              setShowDeleteModal(false);
+            }}
+            title={t("manage_event.delete_event_title")}
+            actions={[
+              <StyledButton
+                size="lg"
+                key="confirm-delete"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  handleEventDelete();
+                }}
+                bgColor={PALLETTE.offWhite}
+                disabled={!confirmDeleteTextIsValid}
+                color={PALLETTE.charcoal}
+              >
+                {t("form.button_confirm")}
+              </StyledButton>,
+              <StyledButton
+                size="lg"
+                key="cancel-delete"
+                onClick={() => {
+                  // Close the modal
+                  setConfirmDeleteText("");
+                  setShowDeleteModal(false);
+                }}
+                bgColor={PALLETTE.orange}
+                color={PALLETTE.charcoal}
+              >
+                {t("form.button_cancel")}
+              </StyledButton>,
+            ]}
+          >
+            <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
+              {t("manage_event.delete_event_confirmation")}
+            </StyledText>
+
+            <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
+              {t("manage_event.delete_event_confirmation_enter_text")}
+            </StyledText>
+            <Input
+              type="text"
+              placeholder={"Type here"}
+              value={confirmDeleteText}
+              onChange={(e) => {
+                setConfirmDeleteText(e.target.value);
+                setConfirmDeleteTextIsValid(e.target.value === "delete");
               }}
-              bgColor={PALLETTE.offWhite}
-              disabled={!confirmDeleteTextIsValid}
-              color={PALLETTE.charcoal}
-            >
-              {t("form.button_confirm")}
-            </StyledButton>,
+              style={DefaultInputStyle}
+            />
+          </ConfirmModal>
+          <Stack spacing={2} direction={"row"}>
             <StyledButton
-              size="lg"
-              key="cancel-delete"
-              onClick={() => {
-                // Close the modal
-                setConfirmDeleteText("");
-                setShowDeleteModal(false);
-              }}
+              size="md"
               bgColor={PALLETTE.orange}
-              color={PALLETTE.charcoal}
+              onClick={() => {
+                setShowDeleteModal(true);
+              }}
+              style={{ width: "150px" }}
             >
-              {t("form.button_cancel")}
-            </StyledButton>,
-          ]}
-        >
-          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            {t("manage_event.delete_event_confirmation")}
-          </StyledText>
+              {t("form.button_delete")}
+            </StyledButton>
+          </Stack>
+          <EventDetailInfo event={event} secret_token={secretToken || ""} />
 
-          <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
-            {t("manage_event.delete_event_confirmation_enter_text")}
-          </StyledText>
-          <Input
-            type="text"
-            placeholder={"Type here"}
-            value={confirmDeleteText}
-            onChange={(e) => {
-              setConfirmDeleteText(e.target.value);
-              setConfirmDeleteTextIsValid(e.target.value === "delete");
-            }}
-            style={DefaultInputStyle}
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="flex-start"
+            mt={2}
+          >
+            <Title fontSize={22} color={PALLETTE.charcoal}>
+              {t("manage_event.manage_ticket_releases")}
+            </Title>
+            <Tooltip title={t("tooltips.manage_ticket_releases")}>
+              <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
+            </Tooltip>
+          </Grid>
+
+          <ListEventTicketReleases
+            ticketReleases={event.ticketReleases!}
+            tickets={tickets}
           />
-        </ConfirmModal>
-        <Stack spacing={2} direction={"row"}>
-          <StyledButton
-            size="md"
-            bgColor={PALLETTE.offWhite}
-            onClick={() => {
-              navigate(`/events/${event.id}/edit`);
-            }}
-            style={{ width: "150px" }}
-          >
-            {t("form.button_edit")}
-          </StyledButton>
 
-          <StyledButton
-            size="md"
-            bgColor={PALLETTE.orange}
-            onClick={() => {
-              setShowDeleteModal(true);
-            }}
-            style={{ width: "150px" }}
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="flex-start"
+            mt={2}
           >
-            {t("form.button_delete")}
-          </StyledButton>
-          <StyledButton
-            size="md"
-            bgColor={PALLETTE.green}
-            onClick={() => {
-              navigate(`/events/${event.id}/manage/scan`);
-            }}
-            style={{ width: "150px" }}
-          >
-            {t("form.button_check_in")}
-          </StyledButton>
-          <StyledButton
-            size="md"
-            bgColor={PALLETTE.offWhite}
-            onClick={() => {
-              navigate(`/events/${event.id}/send-out`);
-            }}
-          >
-            {t("form.button_send_out")}
-          </StyledButton>
-          <StyledButton
-            size="md"
-            bgColor={PALLETTE.yellow}
-            onClick={() => {
-              navigate(`/events/${event.id}/economy`);
-            }}
-            style={{ width: "150px" }}
-          >
-            {t("form.button_economy")}
-          </StyledButton>
-        </Stack>
-        <EventDetailInfo event={event} secret_token={secretToken || ""} />
+            <Title fontSize={22} color={PALLETTE.charcoal}>
+              {t("manage_event.manage_tickets")}
+            </Title>
+            <Tooltip title={t("tooltips.manage_tickets")}>
+              <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
+            </Tooltip>
+          </Grid>
+          <EventTicketsList tickets={tickets} />
 
-        <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
-          <Title fontSize={22} color={PALLETTE.charcoal}>
-            {t("manage_event.manage_ticket_releases")}
-          </Title>
-          <Tooltip title={t("tooltips.manage_ticket_releases")}>
-            <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
-          </Tooltip>
-        </Grid>
-
-        <ListEventTicketReleases
-          ticketReleases={event.ticketReleases!}
-          tickets={tickets}
-        />
-
-        <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
-          <Title fontSize={22} color={PALLETTE.charcoal}>
-            {t("manage_event.manage_tickets")}
-          </Title>
-          <Tooltip title={t("tooltips.manage_tickets")}>
-            <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
-          </Tooltip>
-        </Grid>
-        <EventTicketsList tickets={tickets} />
-
-        <Grid container alignItems="center" justifyContent="flex-start" mt={2}>
-          <Title fontSize={22} color={PALLETTE.charcoal}>
-            {t("manage_event.manage_tickets_custom_event_form")}
-          </Title>
-          <Tooltip
-            title={t("tooltips.manage_tickets_custom_event_form_description")}
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="flex-start"
+            mt={2}
           >
-            <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
-          </Tooltip>
-        </Grid>
-        <TicketEventFormResponseTable tickets={tickets} />
+            <Title fontSize={22} color={PALLETTE.charcoal}>
+              {t("manage_event.manage_tickets_custom_event_form")}
+            </Title>
+            <Tooltip
+              title={t("tooltips.manage_tickets_custom_event_form_description")}
+            >
+              <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
+            </Tooltip>
+          </Grid>
+          <TicketEventFormResponseTable tickets={tickets} />
+        </Box>
       </Box>
     </MUITesseraWrapper>
   );

@@ -320,6 +320,7 @@ const enTranslations = {
     delete_ticket_release_confirmation:
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
     manage_tickets_custom_event_form: "Form Responses",
+    add_ticket_release: "Add ticket release",
 
     economy: {
       title: "Event Economy",

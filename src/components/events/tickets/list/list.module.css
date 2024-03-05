@@ -1,0 +1,3 @@
+.rowDeleted {
+  background-color: #ff6961 !important; /* Use important to override default DataGrid styles */
+}

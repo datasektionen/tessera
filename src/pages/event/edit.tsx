@@ -19,6 +19,8 @@ import { Style } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { useCanAccessEvent } from "../../utils/event_access";
 import EditEventFormFields from "../../components/events/edit/event_form_fields/edit_event_form_fields";
+import DrawerComponent from "../../components/navigation/manage_drawer";
+import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -35,7 +37,6 @@ const EditEventPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -58,62 +59,65 @@ const EditEventPage: React.FC = () => {
 
   return (
     <>
-      <TesseraWrapper>
-        <StandardGrid>
-          <Grid xs={16}>
-            <Box sx={{ padding: "16px 16px" }}>
-              <Title>{t("manage_event.edit.title")}</Title>
-              <StyledText color={PALLETTE.charcoal} level="body-sm">
-                {t("manage_event.edit.subtitle")}
-              </StyledText>
-            </Box>
-          </Grid>
-          <Grid xs={16}>
-            <BorderBox>
-              <StyledText
-                color={PALLETTE.charcoal}
-                level="body-lg"
-                fontSize={32}
+      <DrawerComponent eventID={eventID!} />
+      <Box component="main">
+        <TesseraWrapper>
+          <StandardGrid>
+            <Grid xs={16}>
+              <Box sx={{ padding: "16px 16px" }}>
+                <Title>{t("manage_event.edit.title")}</Title>
+                <StyledText color={PALLETTE.charcoal} level="body-sm">
+                  {t("manage_event.edit.subtitle")}
+                </StyledText>
+              </Box>
+            </Grid>
+            <Grid xs={16}>
+              <BorderBox>
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-lg"
+                  fontSize={32}
+                >
+                  {t("manage_event.edit.event_details.title")}
+                </StyledText>
+                <EditEventForm event={event!} />
+              </BorderBox>
+              <BorderBox
+                style={{
+                  marginTop: "16px",
+                }}
               >
-                {t("manage_event.edit.event_details.title")}
-              </StyledText>
-              <EditEventForm event={event!} />
-            </BorderBox>
-            <BorderBox
-              style={{
-                marginTop: "16px",
-              }}
-            >
-              <EditTicketReleases
-                event={event!}
-                ticket_releases={event!.ticketReleases || []}
-              />
-            </BorderBox>
-            <BorderBox
-              style={{
-                marginTop: "16px",
-                marginBottom: "64px",
-              }}
-            >
-              <StyledText
-                color={PALLETTE.charcoal}
-                level="body-lg"
-                fontSize={32}
+                <EditTicketReleases
+                  event={event!}
+                  ticket_releases={event!.ticketReleases || []}
+                />
+              </BorderBox>
+              <BorderBox
+                style={{
+                  marginTop: "16px",
+                  marginBottom: "64px",
+                }}
               >
-                {t("form.event_fields.title")}
-              </StyledText>
-              <StyledText
-                color={PALLETTE.charcoal}
-                level="body-sm"
-                fontSize={16}
-              >
-                {t("form.event_fields.subtitle")}
-              </StyledText>
-              <EditEventFormFields event={event!} />
-            </BorderBox>
-          </Grid>
-        </StandardGrid>
-      </TesseraWrapper>
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-lg"
+                  fontSize={32}
+                >
+                  {t("form.event_fields.title")}
+                </StyledText>
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-sm"
+                  fontSize={16}
+                >
+                  {t("form.event_fields.subtitle")}
+                </StyledText>
+                <EditEventFormFields event={event!} />
+              </BorderBox>
+            </Grid>
+          </StandardGrid>
+        </TesseraWrapper>
+      </Box>
     </>
   );
 };

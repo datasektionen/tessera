@@ -18,6 +18,7 @@ import { getEventRequest } from "../../../redux/features/eventSlice";
 import LoadingOverlay from "../../../components/Loading";
 import { createTicketReleaseRequest } from "../../../redux/features/createTicketReleaseSlice";
 import { format } from "date-fns";
+import DrawerComponent from "../../../components/navigation/manage_drawer";
 
 const EditEventAddTicketReleasePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -66,16 +67,21 @@ const EditEventAddTicketReleasePage: React.FC = () => {
   };
 
   return (
-    <TesseraWrapper>
-      <Box sx={{ padding: "16px 32px" }}>
-        <EditEventAddTicketRelease
-          eventId={parseInt(eventID!)}
-          submit={handleTicketReleaseSubmit}
-          initialValues={ticketReleaseForm || initialValues}
-          createOnSubmit={true}
-        />
+    <>
+      <DrawerComponent eventID={eventID!} />
+      <Box component={"main"}>
+        <TesseraWrapper>
+          <Box sx={{ padding: "16px 32px" }}>
+            <EditEventAddTicketRelease
+              eventId={parseInt(eventID!)}
+              submit={handleTicketReleaseSubmit}
+              initialValues={ticketReleaseForm || initialValues}
+              createOnSubmit={true}
+            />
+          </Box>
+        </TesseraWrapper>
       </Box>
-    </TesseraWrapper>
+    </>
   );
 };
 

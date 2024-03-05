@@ -303,6 +303,7 @@ const seTranslations = {
       "Är du säker på att du vill radera detta evenemang? Denna åtgärd kan inte ångras.",
     delete_event_confirmation_enter_text: "Skriv in 'delete' för att bekräfta.",
     manage_tickets_custom_event_form: "Anpassade evenemangsfält",
+    add_ticket_release: "Lägg till biljettsläpp",
 
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",

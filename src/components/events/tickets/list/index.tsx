@@ -27,6 +27,7 @@ import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
 import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
 import { DefaultInputStyle } from "../../../forms/input_types";
+import styles from "./list.module.css";
 
 interface CustomGridValueFormatterParams extends GridValueFormatterParams {
   // Extend the existing type to include the row property
@@ -476,6 +477,9 @@ const EventTicketsList: React.FC<{
           columnVisibilityModel={columnVisibilityModel}
           onColumnVisibilityModelChange={(newModel) =>
             setColumnVisibilityModel(newModel)
+          }
+          getRowClassName={(params) =>
+            params.row.deleted_at !== "N/A" ? styles.rowDeleted : ""
           }
         />
       </ThemeProvider>
