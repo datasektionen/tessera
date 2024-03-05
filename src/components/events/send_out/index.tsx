@@ -143,7 +143,7 @@ const SendOut: React.FC = () => {
     Object.entries(ticketFilters!).forEach(([filter, value]) => {
       if (value) {
         filteredTickets = filteredTickets.filter((ticket: ITicket) => {
-          if (ticket.deleted_at) {
+          if (ticket.deleted_at || ticket.ticket_request?.deleted_at) {
             return false;
           }
           if (value === "ignore") {
