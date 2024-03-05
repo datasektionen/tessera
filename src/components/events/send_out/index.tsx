@@ -323,36 +323,46 @@ const SendOut: React.FC = () => {
                       {t("manage_event.send_out.ticket_releases")}
                     </StyledFormLabel>
                     {event.ticketReleases!.length > 0 && (
-                      <Select
-                        multiple
-                        sx={{ width: "300px" }}
-                        placeholder="Select a ticket release"
-                        value={selectedTicketReleases}
-                        onChange={(event, newValue) => {
-                          setSelectedTicketReleases(newValue as never[]);
-                        }}
-                        renderValue={(selected: any) => (
-                          <Box sx={{ display: "flex", gap: "0.25rem" }}>
-                            {selected.map((selectedOption: any) => (
-                              <Chip
-                                variant="soft"
-                                color="primary"
-                                key={selectedOption.id}
+                      <div style={{ width: "100px" }}>
+                        <Select
+                          multiple
+                          sx={{ width: "400px" }}
+                          placeholder="Select a ticket release"
+                          value={selectedTicketReleases}
+                          onChange={(event, newValue) => {
+                            setSelectedTicketReleases(newValue as never[]);
+                          }}
+                          renderValue={(selected: any) => (
+                            <Box sx={{ display: "flex", gap: "0.25rem" }}>
+                              {selected.map((selectedOption: any) => (
+                                <Chip
+                                  variant="soft"
+                                  color="primary"
+                                  key={selectedOption.id}
+                                >
+                                  {selectedOption.label}
+                                </Chip>
+                              ))}
+                            </Box>
+                          )}
+                        >
+                          {event.ticketReleases!.map((release) => {
+                            return (
+                              <Option
+                                key={release.id}
+                                value={release.id}
+                                sx={{
+                                  whiteSpace: "normal",
+                                  overflowWrap: "break-word",
+                                  maxWidth: "400px",
+                                }}
                               >
-                                {selectedOption.label}
-                              </Chip>
-                            ))}
-                          </Box>
-                        )}
-                      >
-                        {event.ticketReleases!.map((release) => {
-                          return (
-                            <Option key={release.id} value={release.id}>
-                              {release.name}
-                            </Option> // Use the correct component and add a key prop
-                          );
-                        })}
-                      </Select>
+                                {release.name}
+                              </Option>
+                            );
+                          })}
+                        </Select>
+                      </div>
                     )}
                     <StyledFormLabelWithHelperText>
                       {t("manage_event.send_out.ticket_releases_helperText")}
