@@ -74,6 +74,10 @@ const EditTicketReleases: React.FC<EditTicketReleasesProps> = ({
                       key={release.id}
                       value={release.id}
                       disabled={disabled}
+                      sx={{
+                        whiteSpace: "break-word",
+                        width: "300px",
+                      }}
                     >
                       {release.name}
                       {disabled && (

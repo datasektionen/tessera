@@ -6,6 +6,7 @@ import {
   Grid,
   Input,
   ListDivider,
+  MenuItem,
   Option,
   Select,
   Stack,
@@ -71,10 +72,13 @@ const TicketFilterValues = {
   is_handled: "Is Handled",
 };
 
-type TicketFilters = {
+type FilterState = "yes" | "no" | "ignore";
+type TicketFilterValuesTypes = "yes" | "no" | "ignore";
+
+interface TicketFiltersType {
   filter: "checked_in" | "is_paid" | "refunded" | "is_reserve" | "is_handled";
-  value: boolean;
-};
+  value: TicketFilterValuesTypes;
+}
 
 interface SendOutFormValues {
   subject: string;
@@ -98,23 +102,31 @@ const SendOut: React.FC = () => {
   };
 
   const [selectedTicketReleases, setSelectedTicketReleases] = useState([]);
-  const [ticketFilters, setTicketFilters] = useState<{
-    [key: string]: boolean;
-  }>(
-    Object.keys(TicketFilterValues).reduce(
-      (acc: { [key: string]: boolean }, filter) => {
-        acc[filter] = false; // Initialize all filters as false
-        return acc;
-      },
-      {}
-    )
-  );
+  const initialTicketFilters: {
+    [key in keyof typeof TicketFilterValues]: FilterState;
+  } = {
+    checked_in: "ignore",
+    is_paid: "ignore",
+    refunded: "ignore",
+    is_reserve: "ignore",
+    is_handled: "ignore",
+  };
+
+  // Use the defined initial state
+  const [ticketFilters, setTicketFilters] =
+    useState<{ [key in keyof typeof TicketFilterValues]: FilterState }>(
+      initialTicketFilters
+    );
+
   const [users, setUsers] = useState<IUser[]>([]);
 
-  const handleFilterChange = (name: string, checked: boolean) => {
-    setTicketFilters((prevFilters: any) => ({
+  const handleFilterChange = (
+    filter: keyof typeof TicketFilterValues,
+    newValue: FilterState
+  ) => {
+    setTicketFilters((prevFilters) => ({
       ...prevFilters,
-      [name]: checked,
+      [filter]: newValue,
     }));
   };
 
@@ -124,11 +136,41 @@ const SendOut: React.FC = () => {
   const { tickets } = useSelector((state: RootState) => state.eventTickets);
   const dispatch: AppDispatch = useDispatch();
 
-  useEffect(() => {
-    if (eventID) {
-      dispatch(fetchEventTicketsStart(parseInt(eventID)));
-    }
-  }, [dispatch, eventID]);
+  const applyFiltersToTickets = (ticketsForRelease: ITicket[]) => {
+    // Returns all the tickets that match the selected filters
+    let filteredTickets = ticketsForRelease;
+
+    Object.entries(ticketFilters!).forEach(([filter, value]) => {
+      if (value) {
+        filteredTickets = filteredTickets.filter((ticket: ITicket) => {
+          if (ticket.deleted_at) {
+            return false;
+          }
+          if (value === "ignore") {
+            return ticket;
+          }
+          switch (filter) {
+            case "checked_in":
+              return value === "yes" ? ticket.checked_in : !ticket.checked_in;
+            case "is_paid":
+              return value === "yes" ? ticket.is_paid : !ticket.is_paid;
+            case "refunded":
+              return value === "yes" ? ticket.refunded : !ticket.refunded;
+            case "is_reserve":
+              return value === "yes" ? ticket.is_reserve : !ticket.is_reserve;
+            case "is_handled":
+              return value === "yes"
+                ? ticket.ticket_request?.is_handled
+                : !ticket.ticket_request?.is_handled;
+            default:
+              return ticket;
+          }
+        });
+      }
+    });
+
+    return filteredTickets;
+  };
 
   const calculateUsers = () => {
     // Calculate the number of unique users that will receive the email based on ticket releases selected
@@ -153,40 +195,15 @@ const SendOut: React.FC = () => {
   };
 
   useEffect(() => {
+    if (eventID) {
+      dispatch(fetchEventTicketsStart(parseInt(eventID)));
+    }
+  }, [dispatch, eventID]);
+
+  useEffect(() => {
     calculateUsers();
-  }, [selectedTicketReleases, ticketFilters]);
-
-  if (!event || loading) {
-    return <LoadingOverlay />;
-  }
-
-  const applyFiltersToTickets = (ticketsForRelease: ITicket[]) => {
-    // Returns all the tickets that match the selected filters
-    let filteredTickets = ticketsForRelease;
-
-    Object.entries(ticketFilters).forEach(([filter, value]) => {
-      if (value) {
-        filteredTickets = filteredTickets.filter((ticket: ITicket) => {
-          switch (filter) {
-            case "checked_in":
-              return ticket.checked_in === value;
-            case "is_paid":
-              return ticket.is_paid === value;
-            case "refunded":
-              return ticket.refunded === value;
-            case "is_reserve":
-              return ticket.is_reserve === value;
-            case "is_handled":
-              return ticket.ticket_request?.is_handled === value;
-            default:
-              return ticket;
-          }
-        });
-      }
-    });
-
-    return filteredTickets;
-  };
+    // Make sure to include both selectedTicketReleases and ticketFilters in the dependency array
+  }, [selectedTicketReleases, ticketFilters, tickets]); // Include tickets if its changes should also trigger the calculation
 
   const handleSubmit = (values: SendOutFormValues) => {
     if (selectedTicketReleases.length === 0) {
@@ -218,6 +235,10 @@ const SendOut: React.FC = () => {
         toast.error("Error sending email");
       });
   };
+
+  if (!event || loading) {
+    return <LoadingOverlay />;
+  }
 
   // Rest of your component
   return (
@@ -326,14 +347,30 @@ const SendOut: React.FC = () => {
                       <div style={{ width: "100px" }}>
                         <Select
                           multiple
-                          sx={{ width: "400px" }}
+                          sx={{
+                            width: "400px",
+                            height: "fit-content",
+                            backgroundColor: (theme) => {
+                              if (selectedTicketReleases.length === 0) {
+                                return PALLETTE.red;
+                              } else {
+                                return PALLETTE.green;
+                              }
+                            },
+                          }}
                           placeholder="Select a ticket release"
                           value={selectedTicketReleases}
                           onChange={(event, newValue) => {
                             setSelectedTicketReleases(newValue as never[]);
                           }}
                           renderValue={(selected: any) => (
-                            <Box sx={{ display: "flex", gap: "0.25rem" }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: "0.25rem",
+                              }}
+                            >
                               {selected.map((selectedOption: any) => (
                                 <Chip
                                   variant="soft"
@@ -352,8 +389,6 @@ const SendOut: React.FC = () => {
                                 key={release.id}
                                 value={release.id}
                                 sx={{
-                                  whiteSpace: "normal",
-                                  overflowWrap: "break-word",
                                   maxWidth: "400px",
                                 }}
                               >
@@ -368,16 +403,11 @@ const SendOut: React.FC = () => {
                       {t("manage_event.send_out.ticket_releases_helperText")}
                     </StyledFormLabelWithHelperText>
                   </FormControl>
-
                   <Box mt={1}></Box>
-
                   <StyledFormLabel>
                     {t("manage_event.send_out.filter_tickets")}
                   </StyledFormLabel>
-                  <Stack
-                    direction={isScreenSmall ? "column" : "row"}
-                    spacing={2}
-                  >
+                  <Stack direction={"column"} spacing={2}>
                     {Object.entries(TicketFilterValues).map(
                       ([filter, filterLabel]) => (
                         <Box key={filter + "-filter"}>
@@ -386,20 +416,47 @@ const SendOut: React.FC = () => {
                               <StyledText
                                 level="body-sm"
                                 color={PALLETTE.charcoal}
-                                sx={{
-                                  ml: 1,
-                                }}
+                                sx={{ ml: 1 }}
                               >
                                 {filterLabel}
                               </StyledText>
                             }
                             control={
-                              <Switch
-                                checked={ticketFilters[filter]}
-                                onChange={(e: any) => {
-                                  handleFilterChange(filter, e.target.checked);
+                              <Select
+                                value={
+                                  ticketFilters![
+                                    filter as keyof typeof ticketFilters
+                                  ] ?? "ignore"
+                                }
+                                onChange={(e: any, newValue: any) => {
+                                  handleFilterChange(
+                                    filter as keyof typeof TicketFilterValues,
+                                    newValue as TicketFilterValuesTypes
+                                  );
                                 }}
-                              />
+                                sx={{
+                                  ml: 1,
+                                  width: 150,
+                                  backgroundColor: (theme) => {
+                                    const value =
+                                      ticketFilters![
+                                        filter as keyof typeof ticketFilters
+                                      ] ?? "ignore";
+                                    switch (value) {
+                                      case "yes":
+                                        return PALLETTE.green;
+                                      case "no":
+                                        return PALLETTE.red;
+                                      default:
+                                        return PALLETTE.charcoal_see_through;
+                                    }
+                                  },
+                                }}
+                              >
+                                <Option value="yes">Yes</Option>
+                                <Option value="no">No</Option>
+                                <Option value="ignore">Ignore</Option>
+                              </Select>
                             }
                           />
                         </Box>
@@ -409,7 +466,6 @@ const SendOut: React.FC = () => {
                   <StyledFormLabelWithHelperText>
                     {t("manage_event.send_out.filter_tickets_helperText")}
                   </StyledFormLabelWithHelperText>
-
                   <StyledText
                     level="body-sm"
                     color={PALLETTE.orange}
@@ -429,7 +485,6 @@ const SendOut: React.FC = () => {
                       .map((user) => user.first_name + " " + user.last_name)
                       .join(", ")}
                   </StyledText>
-
                   <StyledButton
                     sx={{
                       mt: 4,
