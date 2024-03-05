@@ -477,6 +477,8 @@ const seTranslations = {
     confirm_cancel_ticket_text:
       "Är du säker på att du vill lämna reservlistan och avbryta din biljett? Du kommer inte att kunna få tillbaka din biljett och denna åtgärd kan inte ångras!",
     pay_button: "Betala",
+    not_paid_on_time:
+      "Du har inte betalat för din biljett i tid, därför har din biljett gått till nästa person i kön.",
 
     payment: {
       title: "Bekräfta ditt biljettköp",

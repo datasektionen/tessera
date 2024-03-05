@@ -436,6 +436,8 @@ const enTranslations = {
     confirm_cancel_ticket_text:
       "Are you sure want to cancel this ticket? You will not be able to get your ticket back and this action cannot be undone!",
     pay_button: "Pay now",
+    not_paid_on_time:
+      "Sorry! You did not pay for your ticket on time, So you lost your ticket.",
 
     payment: {
       title: "Confirm Your Ticket Purchase",

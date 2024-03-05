@@ -17,6 +17,7 @@ import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { format } from "date-fns";
 import { is } from "date-fns/locale";
+import { canPayForTicket } from "../../utils/user_payment";
 
 const StyledTicketBox = styled(Box)(({ theme }) => ({
   border: "2px solid " + PALLETTE.charcoal,
@@ -141,7 +142,11 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
                   fontSize={14}
                   fontWeight={600}
                 >
-                  {ticket.is_paid ? "Paid" : "Not Paid"}
+                  {ticket.is_paid
+                    ? "Paid"
+                    : canPayForTicket(ticket)
+                    ? "Not paid"
+                    : "Not paid in time"}
                 </StyledText>
               </Chip>
               {ticketRequest.ticket_release?.is_reserved && (

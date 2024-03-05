@@ -1,24 +1,16 @@
 import React, { useState } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ITicket, ITicketRequest } from "../../types";
+import { ITicket } from "../../types";
 import {
   Accordion,
   AccordionDetails,
   AccordionGroup,
   AccordionSummary,
   Box,
-  Chip,
-  Grid,
-  IconButton,
-  Stack,
-  Tooltip,
-  styled,
 } from "@mui/joy";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import BorderBox from "../wrappers/border_box";
 import { format } from "date-fns";
-import TicketRequestListRowView from "./ticket_list_row_view";
 import TicketListRowView from "./ticket_list_row_view";
 import { useTranslation } from "react-i18next";
 
