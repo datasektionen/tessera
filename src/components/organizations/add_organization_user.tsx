@@ -81,7 +81,7 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
           </Box>
           <Box>
             <StyledButton
-              color={PALLETTE.cerise}
+              color={PALLETTE.cerise_dark}
               size="sm"
               style={{ width: "100px" }}
               onClick={async () => {

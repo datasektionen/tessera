@@ -84,7 +84,7 @@ const OrganizationEventView: React.FC<OrganizationEventViewProps> = ({
         >
           <StyledButton
             size="md"
-            color={PALLETTE.cerise}
+            color={PALLETTE.cerise_dark}
             onClick={() => {
               navigate(`/events/${event.id}/manage`);
             }}
