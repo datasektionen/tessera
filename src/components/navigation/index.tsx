@@ -85,10 +85,10 @@ export const LanguageSelector: React.FC = () => {
         />
       )}
       sx={{
-        color: PALLETTE.offWhite,
-        borderColor: PALLETTE.offWhite,
+        color: PALLETTE.charcoal,
+        borderColor: PALLETTE.charcoal,
         "&:hover": {
-          borderColor: PALLETTE.offWhite,
+          borderColor: PALLETTE.charcoal,
         },
       }}
     >
@@ -163,7 +163,7 @@ function NavigationBar() {
             href="/" // Link to the main page
             fontFamily={"Josefin sans"}
             fontSize={24}
-            sx={{ textDecoration: "none", color: PALLETTE.offWhite }}
+            sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
           >
             tessera
           </Typography>
@@ -245,7 +245,7 @@ function NavigationBar() {
             >
               <PersonIcon
                 style={{
-                  color: PALLETTE.offWhite,
+                  color: PALLETTE.charcoal,
                 }}
               />
             </IconButton>
@@ -255,7 +255,7 @@ function NavigationBar() {
             >
               <LogoutIcon
                 style={{
-                  color: PALLETTE.offWhite,
+                  color: PALLETTE.charcoal,
                 }}
               />
             </IconButton>

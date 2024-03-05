@@ -110,7 +110,9 @@ const MainPage: React.FC = () => {
               }) as string
             }
           </StyledText>
-          <Title fontSize={isScreenSmall ? 64 : 128}>Tessera</Title>
+          <Title fontSize={isScreenSmall ? 64 : 128} color={PALLETTE.cerise}>
+            Tessera
+          </Title>
           <StyledText
             color={PALLETTE.offWhite}
             level="body-md"
@@ -184,7 +186,7 @@ const MainPage: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
-        <CommonlyAskedQuestions />'
+        <CommonlyAskedQuestions />
       </Box>
       <Footer />
     </>

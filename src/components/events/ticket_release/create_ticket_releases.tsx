@@ -57,7 +57,11 @@ const CreateTicketReleases: React.FC<CreateTicketReleasesProps> = ({
       </Grid>
       <Grid xs={8}>
         <BorderBox>
-          <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
+          <StyledText
+            level="body-lg"
+            fontSize={24}
+            color={PALLETTE.cerise_dark}
+          >
             Ticket Releases
           </StyledText>
           <StyledText level="body-md" fontSize={16} color={PALLETTE.charcoal}>

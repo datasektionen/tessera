@@ -25,6 +25,7 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
         style={{
           boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.5)",
         }}
+        color={PALLETTE.charcoal}
         onClick={() => {
           window.scrollTo({
             top: window.innerHeight,

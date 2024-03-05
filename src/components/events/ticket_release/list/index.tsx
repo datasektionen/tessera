@@ -122,6 +122,7 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
                 onClick={() => {
                   handleOpen(ticketRelease.id);
                 }}
+                color={PALLETTE.charcoal}
                 style={{ width: "300px" }}
               >
                 {ticketRelease.name}

@@ -223,7 +223,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
           width: isHovered ? drawerWidth : theme.spacing(7),
           marginTop: "64px",
           backgroundColor: PALLETTE.cerise,
-          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.75)",
+          // boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.75)",
 
           transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,

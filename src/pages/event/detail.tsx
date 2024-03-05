@@ -201,7 +201,7 @@ const EventDetail: React.FC = () => {
               fontSize={48}
               fontWeight={700}
               style={{
-                color: PALLETTE.cerise,
+                color: PALLETTE.cerise_dark,
                 textOverflow: "ellipsis",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
@@ -314,7 +314,7 @@ const EventDetail: React.FC = () => {
               fontSize={34}
               fontWeight={700}
               style={{
-                color: PALLETTE.cerise,
+                color: PALLETTE.cerise_dark,
                 textOverflow: "ellipsis",
                 overflow: "hidden",
               }}

@@ -19,7 +19,7 @@ const UserInfoText: React.FC<UserInfoTextProps> = ({
         level="h4"
         fontFamily={"Josefin Sans"}
         style={{
-          color: PALLETTE.cerise,
+          color: PALLETTE.cerise_dark,
         }}
       >
         {label}

@@ -44,7 +44,7 @@ const CommonlyAskedQuestions: React.FC = () => {
                 <StyledText
                   level="body-md"
                   fontSize={20}
-                  color={PALLETTE.cerise}
+                  color={PALLETTE.cerise_dark}
                   fontWeight={600}
                 >
                   {t(`faq.q${index}.question`)}

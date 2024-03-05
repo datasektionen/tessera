@@ -120,7 +120,7 @@ const CreateEventPage = () => {
                   <StyledText
                     level="body-lg"
                     fontSize={24}
-                    color={PALLETTE.cerise}
+                    color={PALLETTE.cerise_dark}
                   >
                     {t("create_event.event_details_title")}
                   </StyledText>

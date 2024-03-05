@@ -112,7 +112,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 <StyledText
                   level="h4"
                   fontWeight={600}
-                  color={PALLETTE.cerise}
+                  color={PALLETTE.cerise_dark}
                   fontSize={24}
                 >
                   {event.name}

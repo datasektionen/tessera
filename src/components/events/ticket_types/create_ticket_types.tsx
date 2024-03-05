@@ -123,7 +123,11 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
           <RestartEventCreationButton />
         </Stack>
         <Box mt={2}>
-          <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
+          <StyledText
+            level="body-lg"
+            fontSize={24}
+            color={PALLETTE.cerise_dark}
+          >
             {t("create_event.ticket_types")}
           </StyledText>
           <Box mt={2}>
@@ -138,11 +142,11 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
                   }}
                   style={{
                     color:
-                      index == selectedTicketType
+                      index === selectedTicketType
                         ? PALLETTE.offWhite
                         : PALLETTE.cerise,
                     backgroundColor:
-                      index == selectedTicketType
+                      index === selectedTicketType
                         ? PALLETTE.cerise
                         : PALLETTE.offWhite,
                   }}
@@ -153,7 +157,7 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
                     fontSize={32}
                     fontWeight={700}
                     color={
-                      index == selectedTicketType
+                      index === selectedTicketType
                         ? PALLETTE.charcoal
                         : PALLETTE.cerise
                     }
