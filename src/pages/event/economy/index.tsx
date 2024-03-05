@@ -21,6 +21,7 @@ import salesReportSlice, {
 } from "../../../redux/features/salesReportSlice";
 import downloadSalesReport from "../../../redux/sagas/axios_calls/download_sales_report";
 import { format } from "date-fns";
+import DrawerComponent from "../../../components/navigation/manage_drawer";
 
 const EventEconomyPage: React.FC = () => {
   const { eventID } = useParams();
@@ -72,87 +73,90 @@ const EventEconomyPage: React.FC = () => {
 
   return (
     <>
-      <TesseraWrapper>
-        <StandardGrid>
-          <Grid xs={16}>
-            <Box sx={{ padding: "16px 16px" }}>
-              <Title>{t("manage_event.economy.title")}</Title>
-              <StyledText color={PALLETTE.charcoal} level="body-sm">
-                {t("manage_event.economy.subtitle")}
-              </StyledText>
-              <StyledButton
-                size="lg"
-                bgColor={PALLETTE.green}
-                onClick={handleGenerateSalesReport}
-                sx={{
-                  mt: 2,
-                }}
-              >
-                {t("form.generate_sales_report")}
-              </StyledButton>
-            </Box>
-          </Grid>
-          <Grid
-            xs={16}
-            sx={{
-              my: 1,
-            }}
-          >
-            {eventSalesReports.length > 0 ? (
-              <BorderBox>
-                <Title>{t("manage_event.economy.sales_reports")}</Title>
-                {eventSalesReports.map((report) => (
-                  <Grid container justifyContent={"space-between"}>
-                    <Grid xs={10}>
-                      <Stack key={report.id} spacing={2} direction={"row"}>
-                        <StyledText color={PALLETTE.charcoal} level="body-sm">
-                          <b>ID:</b> {report.id}
-                        </StyledText>
-                        <StyledText color={PALLETTE.charcoal} level="body-sm">
-                          <b>{t("manage_event.economy.total_sales")}:</b>{" "}
-                          {report.total_sales}
-                        </StyledText>
-                        <StyledText color={PALLETTE.charcoal} level="body-sm">
-                          <b>{t("manage_event.economy.tickets_sold")}:</b>{" "}
-                          {report.tickets_sold}
-                        </StyledText>
-                        <StyledText color={PALLETTE.charcoal} level="body-sm">
-                          <b>{t("manage_event.economy.status")}:</b>{" "}
-                          {report.status}
-                        </StyledText>
-                        <StyledText color={PALLETTE.charcoal} level="body-sm">
-                          <b>{t("manage_event.economy.message")}:</b>{" "}
-                          {report.message}
-                        </StyledText>
-                        <StyledText color={PALLETTE.charcoal} level="body-sm">
-                          <b>{t("manage_event.economy.created_at")}:</b>{" "}
-                          {format(report.updated_at, "dd/MM/yyyy HH:mm")}
-                        </StyledText>
-                      </Stack>
-                    </Grid>
+      <DrawerComponent eventID={eventID!} />
+      <Box component="main">
+        <TesseraWrapper>
+          <StandardGrid>
+            <Grid xs={16}>
+              <Box sx={{ padding: "16px 16px" }}>
+                <Title>{t("manage_event.economy.title")}</Title>
+                <StyledText color={PALLETTE.charcoal} level="body-sm">
+                  {t("manage_event.economy.subtitle")}
+                </StyledText>
+                <StyledButton
+                  size="lg"
+                  bgColor={PALLETTE.green}
+                  onClick={handleGenerateSalesReport}
+                  sx={{
+                    mt: 2,
+                  }}
+                >
+                  {t("form.generate_sales_report")}
+                </StyledButton>
+              </Box>
+            </Grid>
+            <Grid
+              xs={16}
+              sx={{
+                my: 1,
+              }}
+            >
+              {eventSalesReports.length > 0 ? (
+                <BorderBox>
+                  <Title>{t("manage_event.economy.sales_reports")}</Title>
+                  {eventSalesReports.map((report) => (
+                    <Grid container justifyContent={"space-between"}>
+                      <Grid xs={10}>
+                        <Stack key={report.id} spacing={2} direction={"row"}>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>ID:</b> {report.id}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.total_sales")}:</b>{" "}
+                            {report.total_sales}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.tickets_sold")}:</b>{" "}
+                            {report.tickets_sold}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.status")}:</b>{" "}
+                            {report.status}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.message")}:</b>{" "}
+                            {report.message}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.created_at")}:</b>{" "}
+                            {format(report.updated_at, "dd/MM/yyyy HH:mm")}
+                          </StyledText>
+                        </Stack>
+                      </Grid>
 
-                    <Grid xs={2}>
-                      <StyledButton
-                        size="sm"
-                        onClick={() => {
-                          handleDownloadSalesReport(report.id);
-                        }}
-                      >
-                        {t("manage_event.economy.download")}
-                      </StyledButton>
+                      <Grid xs={2}>
+                        <StyledButton
+                          size="sm"
+                          onClick={() => {
+                            handleDownloadSalesReport(report.id);
+                          }}
+                        >
+                          {t("manage_event.economy.download")}
+                        </StyledButton>
+                      </Grid>
+                      <Divider sx={{ my: 1 }} />
                     </Grid>
-                    <Divider sx={{ my: 1 }} />
-                  </Grid>
-                ))}
-              </BorderBox>
-            ) : (
-              <StyledText color={PALLETTE.charcoal} level="body-sm">
-                {t("manage_event.economy.no_reports")}
-              </StyledText>
-            )}
-          </Grid>
-        </StandardGrid>
-      </TesseraWrapper>
+                  ))}
+                </BorderBox>
+              ) : (
+                <StyledText color={PALLETTE.charcoal} level="body-sm">
+                  {t("manage_event.economy.no_reports")}
+                </StyledText>
+              )}
+            </Grid>
+          </StandardGrid>
+        </TesseraWrapper>
+      </Box>
     </>
   );
 };
