@@ -238,9 +238,9 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
       </Box>
       {!ticket.is_reserve && (
         <Box mt={2}>
-          {!ticket.is_paid && canPayForTicket(ticket) ? (
+          {!ticket.is_paid ? (
             <Payment ticket={ticket} />
-          ) : !canPayForTicket(ticket) ? null : (
+          ) : (
             <StyledText
               level="body-sm"
               fontSize={18}
