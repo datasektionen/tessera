@@ -296,7 +296,7 @@ const TicketReleasHasOpened: React.FC<{
         <TicketReleaseCountdown
           ticketRelease={ticketRelease}
           fw={500}
-          fs={16}
+          fs={18}
           useOpen={false}
         />
       </div>
