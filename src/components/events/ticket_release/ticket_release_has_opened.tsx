@@ -244,7 +244,7 @@ const TicketReleasHasOpened: React.FC<{
             alignItems={"center"}
           >
             <StyledButton
-              size="sm"
+              size="lg"
               onClick={handleMakeRequest}
               bgColor={PALLETTE.green}
               color={PALLETTE.charcoal}
@@ -259,8 +259,8 @@ const TicketReleasHasOpened: React.FC<{
             </StyledButton>
             <Typography
               fontFamily={"Josefin Sans"}
-              fontSize={14}
-              fontWeight={300}
+              fontSize={16}
+              fontWeight={400}
             >
               <Link
                 href="#"

@@ -133,7 +133,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
               </StyledText>
               <Typography
                 level="body-sm"
-                fontSize={8}
+                fontSize={10}
                 fontFamily={"Josefin sans"}
                 textColor={PALLETTE.charcoal}
                 style={{
@@ -147,8 +147,9 @@ const TicketType: React.FC<TicketTypeProps> = ({
               </Typography>
             </div>
             <Typography
-              level="body-sm"
+              level="body-md"
               textColor={PALLETTE.cerise_dark}
+              fontWeight={500}
               style={{
                 width: isScreenSmall ? "fit-content" : "50",
                 whiteSpace: "nowrap",
@@ -158,8 +159,8 @@ const TicketType: React.FC<TicketTypeProps> = ({
               SEK{" "}
               <Typography
                 level="body-sm"
-                fontSize={18}
-                fontWeight={"lg"}
+                fontSize={20}
+                fontWeight={600}
                 fontFamily={"Josefin sans"}
                 textColor={PALLETTE.cerise_dark}
               >
@@ -181,7 +182,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
             <Button
               size="sm"
               variant="solid"
-              style={{ backgroundColor: PALLETTE.charcoal }}
+              style={{ backgroundColor: PALLETTE.cerise_dark }}
               sx={{
                 px: 0.2,
                 width: isScreenSmall ? "20px" : "40px",
@@ -196,7 +197,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
               fontWeight={700}
               fontSize={18}
               fontFamily={"Josefin sans"}
-              textColor={PALLETTE.cerise}
+              textColor={PALLETTE.charcoal}
               mx={1}
               style={{
                 width: "30px",
@@ -209,7 +210,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
               variant="solid"
               size="sm"
               onClick={() => handleAddTicket(ticketType)}
-              style={{ backgroundColor: PALLETTE.charcoal }}
+              style={{ backgroundColor: PALLETTE.cerise_dark }}
               sx={{
                 px: 0.2,
                 width: isScreenSmall ? "20px" : "40px",
@@ -236,6 +237,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
           borderLeft: "1px solid",
           borderColor: "divider",
           backgroundColor: PALLETTE.cerise,
+          color: PALLETTE.charcoal,
         }}
       >
         Ticket
