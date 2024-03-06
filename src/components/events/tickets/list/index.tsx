@@ -481,7 +481,11 @@ const EventTicketsList: React.FC<{
           getRowClassName={(params) =>
             params.row.deleted_at !== "N/A" ? styles.rowDeleted : ""
           }
-          sortModel={[{ field: "requested_at", sort: "asc" }]}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "requested_at", sort: "asc" }],
+            },
+          }}
         />
       </ThemeProvider>
       {selectedUser && (
