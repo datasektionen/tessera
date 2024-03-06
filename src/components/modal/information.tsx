@@ -35,7 +35,7 @@ const InformationModal: React.FC<InformationModalProps> = ({
         <DialogTitle>
           <StyledText
             level="h3"
-            color={PALLETTE.cerise}
+            color={PALLETTE.cerise_dark}
             fontSize={28}
             fontWeight={700}
           >

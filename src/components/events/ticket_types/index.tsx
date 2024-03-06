@@ -116,7 +116,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
             <div>
               <StyledText
                 level="body-md"
-                color={PALLETTE.cerise}
+                color={PALLETTE.cerise_dark}
                 fontWeight={700}
                 fontSize={
                   isScreenSmall ? 14 : calculateFontSize(ticketType.name)
@@ -148,7 +148,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
             </div>
             <Typography
               level="body-sm"
-              textColor={PALLETTE.cerise}
+              textColor={PALLETTE.cerise_dark}
               style={{
                 width: isScreenSmall ? "fit-content" : "50",
                 whiteSpace: "nowrap",
@@ -161,7 +161,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
                 fontSize={18}
                 fontWeight={"lg"}
                 fontFamily={"Josefin sans"}
-                textColor={PALLETTE.cerise}
+                textColor={PALLETTE.cerise_dark}
               >
                 {" "}
                 {ticketType.price}

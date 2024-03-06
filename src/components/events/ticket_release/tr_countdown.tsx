@@ -55,7 +55,7 @@ const TicketReleaseCountdown: React.FC<{
           sx={{ mt: 2 }}
         >
           <StyledText
-            color={PALLETTE.cerise}
+            color={PALLETTE.cerise_dark}
             level="body-md"
             onClick={() => {
               window.location.reload();
@@ -79,7 +79,7 @@ const TicketReleaseCountdown: React.FC<{
         fontSize={fs}
         fontWeight={fw}
         style={{
-          color: PALLETTE.cerise,
+          color: PALLETTE.cerise_dark,
         }}
       >
         {duration.months! > 0 && (
