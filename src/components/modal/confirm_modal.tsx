@@ -30,7 +30,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       <ModalDialog color="primary" size="sm" variant="outlined">
         <ModalClose onClick={() => onClose()} />
         <DialogTitle>
-          <StyledText level="h4" color={PALLETTE.cerise}>
+          <StyledText level="h4" color={PALLETTE.cerise_dark} fontSize={22}>
             {title}
           </StyledText>
         </DialogTitle>

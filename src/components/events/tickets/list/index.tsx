@@ -464,7 +464,7 @@ const EventTicketsList: React.FC<{
   }
 
   return (
-    <Box sx={{}}>
+    <Box>
       <ThemeProvider theme={MUItheme}>
         <DataGrid
           rows={rows}
@@ -481,6 +481,7 @@ const EventTicketsList: React.FC<{
           getRowClassName={(params) =>
             params.row.deleted_at !== "N/A" ? styles.rowDeleted : ""
           }
+          sortModel={[{ field: "requested_at", sort: "asc" }]}
         />
       </ThemeProvider>
       {selectedUser && (

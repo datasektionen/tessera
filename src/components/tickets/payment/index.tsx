@@ -71,6 +71,7 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
       <StyledButton
         size="lg"
         bgColor={PALLETTE.cerise}
+        color={PALLETTE.charcoal}
         // ... existing button props ...
         onClick={(e) => {
           handlePay(e);

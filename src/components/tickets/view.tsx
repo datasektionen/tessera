@@ -300,7 +300,8 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         </ConfirmModal>
 
         <StyledButton
-          bgColor={PALLETTE.offWhite}
+          bgColor={PALLETTE.red}
+          color={PALLETTE.charcoal}
           size="md"
           onClick={() => {
             if (canPayForTicket(ticket)) {
