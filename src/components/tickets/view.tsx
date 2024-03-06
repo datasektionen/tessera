@@ -22,7 +22,7 @@ import { utcToZonedTime } from "date-fns-tz";
 
 import { Trans, useTranslation } from "react-i18next";
 import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
-import { mustPayBefore } from "../../utils/user_payment";
+import { canPayForTicket, mustPayBefore } from "../../utils/user_payment";
 
 function convertPayWithinToString(
   payWithin: number,
@@ -78,22 +78,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
-  const canPayForTicket = () => {
-    if (ticket.ticket_request?.ticket_release?.pay_within !== undefined) {
-      const mustPayBeforeDate = mustPayBefore(
-        ticket.ticket_request.ticket_release.pay_within!,
-        new Date(ticket.updated_at)
-      );
-      return isBefore(new Date(), mustPayBeforeDate);
-    } else {
-      // Check if event.date is in the future
-      return isBefore(
-        new Date(),
-        new Date(ticketRequest.ticket_release?.event?.date!)
-      );
-    }
-  };
-
   const handleCancelTicket = () => {
     dispatch(cancelMyTicketStart(ticket));
   };
@@ -127,17 +111,13 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           {ticket.is_reserve ? (
             t("tickets.reserve_ticket")
           ) : !ticket.is_paid ? (
-            canPayForTicket() ? (
-              <Trans i18nKey="tickets.confirmed_ticket" values={{ payBefore }}>
-                "Your ticket has been confirmed! Its now time to pay for your
-                ticket. You can pay for your ticket by clicking the button
-                below. If you do not pay for your ticket before
-                <strong>{payBefore}</strong>, your ticket will be given to the
-                next person in line.",
-              </Trans>
-            ) : (
-              t("tickets.not_paid_on_time")
-            )
+            <Trans i18nKey="tickets.confirmed_ticket" values={{ payBefore }}>
+              "Your ticket has been confirmed! Its now time to pay for your
+              ticket. You can pay for your ticket by clicking the button below.
+              If you do not pay for your ticket before
+              <strong>{payBefore}</strong>, your ticket will be given to the
+              next person in line.",
+            </Trans>
           ) : (
             t("tickets.paid_ticket")
           )}
@@ -258,9 +238,9 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
       </Box>
       {!ticket.is_reserve && (
         <Box mt={2}>
-          {!ticket.is_paid && canPayForTicket() ? (
+          {!ticket.is_paid && canPayForTicket(ticket) ? (
             <Payment ticket={ticket} />
-          ) : !canPayForTicket() ? null : (
+          ) : !canPayForTicket(ticket) ? null : (
             <StyledText
               level="body-sm"
               fontSize={18}
@@ -323,7 +303,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           bgColor={PALLETTE.offWhite}
           size="md"
           onClick={() => {
-            if (canPayForTicket()) {
+            if (canPayForTicket(ticket)) {
               setConfirmCancelOpen(true);
             }
           }}
@@ -334,7 +314,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         >
           {ticket.is_reserve
             ? t("tickets.leave_reserve_list_text")
-            : canPayForTicket()
+            : canPayForTicket(ticket)
             ? t("tickets.cancel_ticket_button")
             : "Nothing to see here!"}
         </StyledButton>
