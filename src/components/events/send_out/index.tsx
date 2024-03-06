@@ -407,7 +407,7 @@ const SendOut: React.FC = () => {
                   <StyledFormLabel>
                     {t("manage_event.send_out.filter_tickets")}
                   </StyledFormLabel>
-                  <Stack direction={"column"} spacing={2}>
+                  <Stack direction={"column"} spacing={2} ml={2}>
                     {Object.entries(TicketFilterValues).map(
                       ([filter, filterLabel]) => (
                         <Box key={filter + "-filter"}>
@@ -422,41 +422,53 @@ const SendOut: React.FC = () => {
                               </StyledText>
                             }
                             control={
-                              <Select
-                                value={
-                                  ticketFilters![
-                                    filter as keyof typeof ticketFilters
-                                  ] ?? "ignore"
-                                }
-                                onChange={(e: any, newValue: any) => {
-                                  handleFilterChange(
-                                    filter as keyof typeof TicketFilterValues,
-                                    newValue as TicketFilterValuesTypes
-                                  );
-                                }}
-                                sx={{
-                                  ml: 1,
-                                  width: 150,
-                                  backgroundColor: (theme) => {
-                                    const value =
-                                      ticketFilters![
-                                        filter as keyof typeof ticketFilters
-                                      ] ?? "ignore";
-                                    switch (value) {
-                                      case "yes":
-                                        return PALLETTE.green;
-                                      case "no":
-                                        return PALLETTE.red;
-                                      default:
-                                        return PALLETTE.charcoal_see_through;
+                              <Box sx={{ display: "flex", gap: 2 }}>
+                                {["yes", "ignore", "no"].map((value) => (
+                                  <Box
+                                    sx={{
+                                      width: 75,
+                                      height: 30,
+                                      borderRadius: 2,
+                                      border: "1px solid " + PALLETTE.cerise,
+                                      backgroundColor:
+                                        ticketFilters![
+                                          filter as keyof typeof ticketFilters
+                                        ] === value
+                                          ? value === "yes"
+                                            ? PALLETTE.green
+                                            : value === "ignore"
+                                            ? PALLETTE.cerise_dark
+                                            : PALLETTE.red
+                                          : PALLETTE.charcoal_see_through,
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={() =>
+                                      handleFilterChange(
+                                        filter as keyof typeof TicketFilterValues,
+                                        value as TicketFilterValuesTypes
+                                      )
                                     }
-                                  },
-                                }}
-                              >
-                                <Option value="yes">Yes</Option>
-                                <Option value="no">No</Option>
-                                <Option value="ignore">Ignore</Option>
-                              </Select>
+                                  >
+                                    <StyledText
+                                      level="body-sm"
+                                      fontWeight={600}
+                                      fontSize={16}
+                                      color={
+                                        ticketFilters![
+                                          filter as keyof typeof ticketFilters
+                                        ] === value
+                                          ? PALLETTE.white
+                                          : PALLETTE.charcoal
+                                      }
+                                    >
+                                      {value.toLocaleUpperCase()}
+                                    </StyledText>
+                                  </Box>
+                                ))}
+                              </Box>
                             }
                           />
                         </Box>
