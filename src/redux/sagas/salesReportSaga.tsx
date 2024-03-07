@@ -67,8 +67,10 @@ const generateSalesReport = function* (
     );
 
     if (response.status === 200) {
+      setTimeout(() => {
+        toast.success("Sales report is being generated...");
+      }, 400);
       yield put(generateSalesReportSuccess(response.data));
-      toast.success("Sales report is being generated...");
     } else {
       yield put(generateSalesReportFailure(response.data));
       toast.error("An error occurred");

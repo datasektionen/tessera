@@ -38,7 +38,6 @@ const EventEconomyPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { eventSalesReports, loading: salesLoading } = useSelector(
     (state: RootState) => state.salesReport
   );
@@ -46,10 +45,6 @@ const EventEconomyPage: React.FC = () => {
 
   const handleGenerateSalesReport = () => {
     dispatch(generateSalesReportRequest(parseInt(eventID!)));
-  };
-
-  const handleDownloadSalesReport = (pdfId: number) => {
-    downloadSalesReport(parseInt(eventID!), pdfId);
   };
 
   useEffect(() => {
@@ -111,6 +106,7 @@ const EventEconomyPage: React.FC = () => {
                         container
                         justifyContent={"space-between"}
                         key={report.id}
+                        my={1}
                       >
                         <Grid xs={10}>
                           <Stack key={report.id} spacing={2} direction={"row"}>
@@ -145,21 +141,21 @@ const EventEconomyPage: React.FC = () => {
                             <StyledText
                               color={PALLETTE.charcoal}
                               level="body-sm"
+                              sx={{
+                                width: "250px",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                              }}
                             >
-                              <b>{t("manage_event.economy.message")}:</b>{" "}
-                              <Tooltip title={report.message}>
-                                <StyledText
-                                  color={PALLETTE.charcoal}
-                                  level="body-sm"
-                                  style={{
-                                    maxWidth: "100px",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  {report.message}
-                                </StyledText>
+                              <b>{t("manage_event.economy.message")}:</b>
+                              <Tooltip
+                                title={report.message}
+                                placement="top-start"
+                              >
+                                <span style={{ pointerEvents: "auto" }}>
+                                  {report.message || " -"}
+                                </span>
                               </Tooltip>
                             </StyledText>
 
@@ -174,12 +170,7 @@ const EventEconomyPage: React.FC = () => {
                         </Grid>
 
                         <Grid xs={2}>
-                          <StyledButton
-                            size="sm"
-                            onClick={() => {
-                              // handleDownloadSalesReport(report.id);
-                            }}
-                          >
+                          <StyledButton size="sm">
                             <Link href={report.url} target="_blank">
                               {t("manage_event.economy.download")}
                             </Link>
