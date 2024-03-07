@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Stack } from "@mui/joy";
+import { Box, Divider, Grid, Link, Stack, Tooltip } from "@mui/joy";
 import LoadingOverlay from "../../../components/Loading";
 import { getEventRequest } from "../../../redux/features/eventSlice";
 import { AppDispatch, RootState } from "../../../store";
@@ -104,49 +104,91 @@ const EventEconomyPage: React.FC = () => {
               {eventSalesReports.length > 0 ? (
                 <BorderBox>
                   <Title>{t("manage_event.economy.sales_reports")}</Title>
-                  {eventSalesReports.map((report) => (
-                    <Grid container justifyContent={"space-between"}>
-                      <Grid xs={10}>
-                        <Stack key={report.id} spacing={2} direction={"row"}>
-                          <StyledText color={PALLETTE.charcoal} level="body-sm">
-                            <b>ID:</b> {report.id}
-                          </StyledText>
-                          <StyledText color={PALLETTE.charcoal} level="body-sm">
-                            <b>{t("manage_event.economy.total_sales")}:</b>{" "}
-                            {report.total_sales}
-                          </StyledText>
-                          <StyledText color={PALLETTE.charcoal} level="body-sm">
-                            <b>{t("manage_event.economy.tickets_sold")}:</b>{" "}
-                            {report.tickets_sold}
-                          </StyledText>
-                          <StyledText color={PALLETTE.charcoal} level="body-sm">
-                            <b>{t("manage_event.economy.status")}:</b>{" "}
-                            {report.status}
-                          </StyledText>
-                          <StyledText color={PALLETTE.charcoal} level="body-sm">
-                            <b>{t("manage_event.economy.message")}:</b>{" "}
-                            {report.message}
-                          </StyledText>
-                          <StyledText color={PALLETTE.charcoal} level="body-sm">
-                            <b>{t("manage_event.economy.created_at")}:</b>{" "}
-                            {format(report.updated_at, "dd/MM/yyyy HH:mm")}
-                          </StyledText>
-                        </Stack>
-                      </Grid>
+                  {eventSalesReports.map((report) => {
+                    console.log(report.url);
+                    return (
+                      <Grid
+                        container
+                        justifyContent={"space-between"}
+                        key={report.id}
+                      >
+                        <Grid xs={10}>
+                          <Stack key={report.id} spacing={2} direction={"row"}>
+                            <StyledText
+                              color={PALLETTE.charcoal}
+                              level="body-sm"
+                            >
+                              <b>ID:</b> {report.id}
+                            </StyledText>
+                            <StyledText
+                              color={PALLETTE.charcoal}
+                              level="body-sm"
+                            >
+                              <b>{t("manage_event.economy.total_sales")}:</b>{" "}
+                              {report.total_sales}
+                            </StyledText>
+                            <StyledText
+                              color={PALLETTE.charcoal}
+                              level="body-sm"
+                            >
+                              <b>{t("manage_event.economy.tickets_sold")}:</b>{" "}
+                              {report.tickets_sold}
+                            </StyledText>
+                            <StyledText
+                              color={PALLETTE.charcoal}
+                              level="body-sm"
+                            >
+                              <b>{t("manage_event.economy.status")}:</b>{" "}
+                              {report.status}
+                            </StyledText>
 
-                      <Grid xs={2}>
-                        <StyledButton
-                          size="sm"
-                          onClick={() => {
-                            handleDownloadSalesReport(report.id);
-                          }}
-                        >
-                          {t("manage_event.economy.download")}
-                        </StyledButton>
+                            <StyledText
+                              color={PALLETTE.charcoal}
+                              level="body-sm"
+                            >
+                              <b>{t("manage_event.economy.message")}:</b>{" "}
+                              <Tooltip title={report.message}>
+                                <StyledText
+                                  color={PALLETTE.charcoal}
+                                  level="body-sm"
+                                  style={{
+                                    maxWidth: "200px",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {report.message}
+                                </StyledText>
+                              </Tooltip>
+                            </StyledText>
+
+                            <StyledText
+                              color={PALLETTE.charcoal}
+                              level="body-sm"
+                            >
+                              <b>{t("manage_event.economy.created_at")}:</b>{" "}
+                              {format(report.updated_at, "dd/MM/yyyy HH:mm")}
+                            </StyledText>
+                          </Stack>
+                        </Grid>
+
+                        <Grid xs={2}>
+                          <StyledButton
+                            size="sm"
+                            onClick={() => {
+                              // handleDownloadSalesReport(report.id);
+                            }}
+                          >
+                            <Link href={report.url} target="_blank">
+                              {t("manage_event.economy.download")}
+                            </Link>
+                          </StyledButton>
+                        </Grid>
+                        <Divider sx={{ my: 1 }} />
                       </Grid>
-                      <Divider sx={{ my: 1 }} />
-                    </Grid>
-                  ))}
+                    );
+                  })}
                 </BorderBox>
               ) : (
                 <StyledText color={PALLETTE.charcoal} level="body-sm">

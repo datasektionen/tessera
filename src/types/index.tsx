@@ -296,6 +296,7 @@ export interface IEventSalesReport {
   message: string;
   created_at: Date;
   updated_at: Date;
+  url: string;
 }
 
 export interface ITicketRequest {

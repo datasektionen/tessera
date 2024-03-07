@@ -35,6 +35,7 @@ const listEventSalesReports = function* (
         message: report.message,
         updated_at: new Date(report.UpdatedAt),
         created_at: new Date(report.CreatedAt),
+        url: report.url,
       } as IEventSalesReport;
     });
 
