@@ -152,7 +152,7 @@ const EventEconomyPage: React.FC = () => {
                                   color={PALLETTE.charcoal}
                                   level="body-sm"
                                   style={{
-                                    maxWidth: "200px",
+                                    maxWidth: "100px",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
