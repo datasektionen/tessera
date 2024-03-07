@@ -26,7 +26,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   if (!isLoggedIn) {
-    const urlAfterLogin = encodeURIComponent(location.pathname);
+    const urlAfterLogin = encodeURIComponent(
+      location.pathname + location.search
+    );
     dispatch(setLoginRedirect(urlAfterLogin));
     let redirectUrl = redirectPath;
     if (!location.pathname.includes("logout")) {
