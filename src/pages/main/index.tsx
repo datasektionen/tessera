@@ -21,6 +21,8 @@ import CommonlyAskedQuestions from "../../components/faq";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "@mui/material";
 import Footer from "../../components/wrappers/footer";
+import ContactDetails from "./get_in_touch";
+import { BorderTop } from "@mui/icons-material";
 
 const MainPage: React.FC = () => {
   const { loading, error, events } = useSelector(
@@ -186,6 +188,15 @@ const MainPage: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
+        <Box
+          style={{
+            borderTop: "1px solid " + PALLETTE.cerise,
+            borderBottom: "1px solid " + PALLETTE.cerise,
+          }}
+          my={4}
+        >
+          <ContactDetails />
+        </Box>
         <CommonlyAskedQuestions />
       </Box>
       <Footer />
