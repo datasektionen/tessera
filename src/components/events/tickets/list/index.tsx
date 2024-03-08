@@ -483,7 +483,7 @@ const EventTicketsList: React.FC<{
           }
           initialState={{
             sorting: {
-              sortModel: [{ field: "requested_at", sort: "asc" }],
+              sortModel: [{ field: "requested_at", sort: "desc" }],
             },
           }}
         />
