@@ -21,6 +21,12 @@ import CommonlyAskedQuestions from "../../components/faq";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "@mui/material";
 import Footer from "../../components/wrappers/footer";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import HowToUse from "./how_to_use";
+
+import Bg1 from "../../assets/backgrounds/1.svg";
+import Bg2 from "../../assets/backgrounds/2.svg";
 
 const MainPage: React.FC = () => {
   const { loading, error, events } = useSelector(
@@ -41,6 +47,21 @@ const MainPage: React.FC = () => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const { ref, inView } = useInView({
+    triggerOnce: true, // Trigger animation only once
+    threshold: 0.2, // Trigger when 20% of the element is in view
+  });
+
+  const fadeInFromLeft = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  };
+
+  const fadeInFromRight = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  };
+
   if (loading || error) {
     return null;
   }
@@ -51,7 +72,11 @@ const MainPage: React.FC = () => {
   }
 
   return (
-    <>
+    <div
+      style={{
+        overflow: "hidden",
+      }}
+    >
       <Navigation />
       <Box
         className={styles.divider}
@@ -140,8 +165,11 @@ const MainPage: React.FC = () => {
         sx={{ width: "100%" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
+          position: "relative",
         }}
       >
+        <HowToUse />
+
         <Grid
           container
           justifyContent="center"
@@ -150,46 +178,60 @@ const MainPage: React.FC = () => {
           sx={{ height: "fit-content" }}
         >
           <Grid xs={12} md={6}>
-            <Box
-              sx={{
-                margin: "16px 32px",
-              }}
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              variants={fadeInFromLeft}
             >
-              <Title fontSize={32}>
-                {t("main_page.page_description.what_title")}
-              </Title>
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                color={PALLETTE.charcoal}
+              <Box
+                sx={{
+                  margin: "16px 32px",
+                }}
               >
-                {t("main_page.page_description.what")}
-              </StyledText>
-            </Box>
+                <Title fontSize={32}>
+                  {t("main_page.page_description.what_title")}
+                </Title>
+                <StyledText
+                  level="body-md"
+                  fontSize={18}
+                  color={PALLETTE.charcoal}
+                >
+                  {t("main_page.page_description.what")}
+                </StyledText>
+              </Box>
+            </motion.div>
           </Grid>
           <Grid xs={12} md={6}>
-            <Box
-              sx={{
-                margin: "16px 32px",
-              }}
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              variants={fadeInFromRight}
             >
-              <Title fontSize={32}>
-                {t("main_page.page_description.how_title")}
-              </Title>
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                color={PALLETTE.charcoal}
+              <Box
+                sx={{
+                  margin: "16px 32px",
+                }}
               >
-                {t("main_page.page_description.how")}
-              </StyledText>
-            </Box>
+                <Title fontSize={32}>
+                  {t("main_page.page_description.how_title")}
+                </Title>
+                <StyledText
+                  level="body-md"
+                  fontSize={18}
+                  color={PALLETTE.charcoal}
+                >
+                  {t("main_page.page_description.how")}
+                </StyledText>
+              </Box>
+            </motion.div>
           </Grid>
         </Grid>
         <CommonlyAskedQuestions />
       </Box>
       <Footer />
-    </>
+    </div>
   );
 };
 
