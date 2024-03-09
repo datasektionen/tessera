@@ -149,8 +149,6 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
           </StyledFormLabelWithHelperText>
         </FormControl>
 
-        <Divider sx={{ my: 2 }} />
-
         <FormControl>
           <FormLabel>
             <Typography
