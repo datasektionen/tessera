@@ -7,11 +7,12 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import LinkedInIcon from "@mui/icons-material/LinkedIn"; // import LinkedIn icon'
 import GithubIcon from "@mui/icons-material/GitHub"; // import Github icon'
 import { useMediaQuery } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const ContactDetails = () => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const { t } = useTranslation();
   return (
     <Grid
       container
@@ -70,12 +71,10 @@ const ContactDetails = () => {
             mb: 2,
           }}
         >
-          "I'm very proud about Tessera because its the first time that I've
-          developed software that is being used by a large number of people.
+          "{t("main_page.get_in_touch.quote1")}
           <br />
           <br />
-          If your organization or team is looking for an easy to use event and
-          ticket management system, please contact me."
+          {t("main_page.get_in_touch.quote2")}"
         </StyledText>
 
         <StyledText level="body2" color={PALLETTE.charcoal}>

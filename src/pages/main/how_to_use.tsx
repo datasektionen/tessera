@@ -7,6 +7,7 @@ import PALLETTE from "../../theme/pallette";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const HowToUse: React.FC = () => {
   const [showText, setShowText] = useState([false, false, false]);
@@ -47,6 +48,8 @@ const HowToUse: React.FC = () => {
     }
   }, [inView1, inView2, inView3]);
 
+  const { t } = useTranslation();
+
   return (
     <Grid
       container
@@ -86,7 +89,7 @@ const HowToUse: React.FC = () => {
                 fontWeight={700}
                 fontSize={24}
               >
-                Make a Ticket Request
+                {t("main_page.how_to_use.request_ticket_title")}
               </StyledText>
               <motion.div
                 variants={textVariants}
@@ -96,11 +99,7 @@ const HowToUse: React.FC = () => {
               >
                 {showText[0] && (
                   <StyledText level="body-md" color={PALLETTE.charcoal}>
-                    Tessera's innovative approach to ticket distribution allows
-                    users to request tickets to events through methods like a
-                    lottery system or first-come-first-serve, making the process
-                    fairer and more accessible; simply navigate to the events
-                    tab, find your event, and click 'Request' to start.
+                    {t("main_page.how_to_use.request_ticket")}
                   </StyledText>
                 )}
               </motion.div>
@@ -135,7 +134,7 @@ const HowToUse: React.FC = () => {
                 fontWeight={700}
                 fontSize={24}
               >
-                Fill Out Personal Details
+                {t("main_page.how_to_use.fill_out_title")}
               </StyledText>
               <motion.div
                 variants={textVariants}
@@ -145,12 +144,7 @@ const HowToUse: React.FC = () => {
               >
                 {showText[1] && (
                   <StyledText level="body-md" color={PALLETTE.charcoal}>
-                    After requesting a ticket, you'll need to provide personal
-                    details like food preferences and allergies. This
-                    information helps organizers tailor the event to your needs,
-                    ensuring a personalized experience. Tessera links your
-                    account to your tickets, streamlining the process and
-                    enhancing your enjoyment of the event.
+                    {t("main_page.how_to_use.fill_out")}
                   </StyledText>
                 )}
               </motion.div>
@@ -185,7 +179,7 @@ const HowToUse: React.FC = () => {
                 fontWeight={700}
                 fontSize={24}
               >
-                Wait...
+                {t("main_page.how_to_use.wait_title")}
               </StyledText>
               <motion.div
                 variants={textVariants}
@@ -195,13 +189,7 @@ const HowToUse: React.FC = () => {
               >
                 {showText[2] && (
                   <StyledText level="body-md" color={PALLETTE.charcoal}>
-                    The final step involves waiting for the ticket release to
-                    close and for tickets to be allocated, either by lottery or
-                    on a first-come-first-served basis. Tessera ensures fair
-                    ticket distribution, so monitor your email or Tessera
-                    account for updates on your request status. If successful,
-                    you'll receive further instructions, including any necessary
-                    payment details.
+                    {t("main_page.how_to_use.wait")}
                   </StyledText>
                 )}
               </motion.div>

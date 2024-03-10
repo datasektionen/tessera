@@ -31,20 +31,17 @@ import Bg1 from "../../assets/backgrounds/1.svg";
 import Bg2 from "../../assets/backgrounds/2.svg";
 
 const MainPage: React.FC = () => {
-  const { loading, error, events } = useSelector(
-    (state: RootState) => state.events
-  );
-
   const { t } = useTranslation();
 
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
-  useEffect(() => {
-    dispatch(getEventsRequest());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getEventsRequest());
+  // }, []);
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -78,14 +75,10 @@ const MainPage: React.FC = () => {
     visible: { opacity: 1, transition: { delay: 2.5, duration: 0.8 } },
   };
 
-  if (loading || error) {
-    return null;
-  }
-
-  if (!currentUser) {
-    navigate("/login");
-    return null;
-  }
+  // if (!currentUser) {
+  //   navigate("/login");
+  //   return null;
+  // }
 
   return (
     <div
@@ -140,17 +133,19 @@ const MainPage: React.FC = () => {
             left: isScreenSmall ? "15%" : "20%", // Adjust position based on screen size
           }}
         >
-          <StyledText
-            color={PALLETTE.offWhite}
-            level="body-md"
-            fontSize={isScreenSmall ? 16 : 24}
-          >
-            {
-              t("main_page.welcome", {
-                name: getUserFullName(currentUser!),
-              }) as string
-            }
-          </StyledText>
+          {isLoggedIn && (
+            <StyledText
+              color={PALLETTE.offWhite}
+              level="body-md"
+              fontSize={isScreenSmall ? 16 : 24}
+            >
+              {
+                t("main_page.welcome", {
+                  name: getUserFullName(currentUser!),
+                }) as string
+              }
+            </StyledText>
+          )}
           <Title fontSize={isScreenSmall ? 64 : 128} color={PALLETTE.cerise}>
             Tessera
           </Title>
