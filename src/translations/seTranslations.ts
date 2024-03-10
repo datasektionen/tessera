@@ -494,6 +494,17 @@ const seTranslations = {
   },
 
   external: {
+    login: "Logga in",
+    signup: "Registrera dig",
+    info: {
+      subtitle: "Extern inloggning och registrering.",
+      description:
+        "Om du inte är en KTH-student kan du fortfarande använda Tessera. Eftersom du dock inte har ett KTH-konto behöver du använda en annan inloggningsmetod. När du använder Tessera kommer du endast att kunna köpa biljetter från biljettsläpp som är specifika för externa användare. Dessa kan inkludera '+1'-biljetter, eller hedersbiljetter för speciella gäster.",
+      forgot_password: "Glömt lösenord?",
+      dont_have_an_account: "Har du inget konto? Registrera dig!",
+      i_have_kth_account:
+        "Men jag har ett KTH-konto! Då kan du logga in <1>här</1>.",
+    },
     form: {
       first_name: "Förnamn",
       last_name: "Efternamn",
@@ -539,6 +550,12 @@ const seTranslations = {
     welcome: "{{name}}, välkommen till",
     learn_how_button: "Lär dig hur",
     get_in_touch_button: "Kontakta",
+    login_page: {
+      secure_spot: "För att säkra din plats.",
+      external_user: "Extern användare utan KTH-konto?",
+      for_business_inquiries:
+        "För företagsrelaterade förfrågningar, vänligen kontakta <1>Lucas Dow</1>, skaparen av Tessera",
+    },
     page_description: {
       what_title: "Vad är Tessera?",
       what: "Tessera är en plattform som gör biljettförsäljning enkel. Att köpa\

@@ -7,12 +7,14 @@ import { Button } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import Cookies from "js-cookie";
 import { currentUserRequest } from "../../redux/features/userSlice";
+import { useTranslation } from "react-i18next";
 
 const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state: RootState) => state.auth);
   // Get query params from URL
   const queryParams = new URLSearchParams(window.location.search);
+  const { t } = useTranslation();
 
   const handleLogin = () => {
     dispatch(loginRequest());
@@ -33,7 +35,7 @@ const LoginButton: React.FC = () => {
       }}
       style={{ background: PALLETTE.cerise, marginRight: 10 }}
     >
-      Login
+      {t("navigation.login")}
     </Button>
   );
 };

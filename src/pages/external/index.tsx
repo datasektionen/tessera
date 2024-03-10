@@ -21,6 +21,8 @@ import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
 import LoginForm from "./login_form";
 import { ToastContainer } from "react-toastify";
+import NavigationBar from "../../components/navigation";
+import { Trans, useTranslation } from "react-i18next";
 
 const External: React.FC = () => {
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
@@ -37,6 +39,7 @@ const External: React.FC = () => {
   }, [tabIndex]);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   if (isLoggedIn) {
     navigate("/");
@@ -46,125 +49,125 @@ const External: React.FC = () => {
 
   // Check on mobile
 
-  return isLoggedIn ? (
-    <MainPage />
-  ) : (
-    <div
-      style={{
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        backgroundColor: PALLETTE.offWhite,
-        paddingTop: "2em",
-        paddingBottom: "10em",
-      }}
-    >
-      {loading && <LoadingOverlay />}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <Box sx={{ width: !isMobile ? "50%" : "80%", textAlign: "center" }}>
-        {orLoading ? <LoadingOverlay /> : null}
-        <Typography level="h1" color="primary" fontSize={72}>
-          Tessera
-        </Typography>
-        <Typography level="h4" color="neutral">
-          External login and signup.
-        </Typography>
+  return (
+    <>
+      <NavigationBar />
+      <div
+        style={{
+          width: "100vw",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          backgroundColor: PALLETTE.offWhite,
+          paddingTop: "2em",
+          paddingBottom: "10em",
+        }}
+      >
+        {loading && <LoadingOverlay />}
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Box sx={{ width: !isMobile ? "50%" : "80%", textAlign: "center" }}>
+          {orLoading ? <LoadingOverlay /> : null}
+          <Typography level="h1" color="primary" fontSize={72}>
+            Tessera
+          </Typography>
+          <Typography level="h4" color="neutral">
+            {t("external.info.subtitle")}
+          </Typography>
 
-        <StyledText
-          level="h4"
-          color={PALLETTE.charcoal}
-          fontSize={16}
-          fontWeight={500}
-          style={{
-            width: "100%",
-            margin: "0 auto",
-            marginTop: "1em",
-          }}
-        >
-          If you're not a KTH student, you can still use Tessera. However since
-          you don't have a KTH account, you'll need to use a different login
-          method. When using tessera, you will only be able to purchase tickets
-          from ticket releases that are specific to external users. These may
-          include "+1"-tickets, or honorary tickets for special guests.
-        </StyledText>
-
-        <Tabs
-          orientation="horizontal"
-          defaultValue={0}
-          sx={{
-            width: "100%",
-            maxWidth: "400px",
-            borderRadius: "lg",
-            boxShadow: "sm",
-            overflow: "auto",
-            margin: "0 auto",
-            marginTop: "2em",
-          }}
-          onChange={(_, newValue: any) => setTabIndex(newValue)}
-          value={tabIndex}
-        >
-          <TabList
-            disableUnderline
-            sx={{
-              [`& .${tabClasses.root}`]: {
-                fontSize: "sm",
-                fontWeight: "lg",
-                [`&[aria-selected="true"]`]: {
-                  color: "primary.500",
-                  bgcolor: "background.surface",
-                },
-                [`&.${tabClasses.focusVisible}`]: {
-                  outlineOffset: "-4px",
-                },
-              },
+          <StyledText
+            level="h4"
+            color={PALLETTE.charcoal}
+            fontSize={16}
+            fontWeight={500}
+            style={{
+              width: "100%",
+              margin: "0 auto",
+              marginTop: "1em",
             }}
           >
-            <Tab
-              variant="outlined"
-              color="neutral"
-              disableIndicator
-              sx={{ flexGrow: 1 }}
+            {t("external.info.description")}
+          </StyledText>
+
+          <Tabs
+            orientation="horizontal"
+            defaultValue={0}
+            sx={{
+              width: "100%",
+              maxWidth: "400px",
+              borderRadius: "lg",
+              boxShadow: "sm",
+              overflow: "auto",
+              margin: "0 auto",
+              marginTop: "2em",
+            }}
+            onChange={(_, newValue: any) => setTabIndex(newValue)}
+            value={tabIndex}
+          >
+            <TabList
+              disableUnderline
+              sx={{
+                [`& .${tabClasses.root}`]: {
+                  fontSize: "sm",
+                  fontWeight: "lg",
+                  [`&[aria-selected="true"]`]: {
+                    color: "primary.500",
+                    bgcolor: "background.surface",
+                  },
+                  [`&.${tabClasses.focusVisible}`]: {
+                    outlineOffset: "-4px",
+                  },
+                },
+              }}
             >
-              Login
-            </Tab>
-            <Tab
-              variant="outlined"
-              color="neutral"
-              disableIndicator
-              sx={{ flexGrow: 1 }}
-            >
-              Signup
-            </Tab>
-          </TabList>
-          <TabPanel value={0}>
-            <LoginForm />
-          </TabPanel>
-          <TabPanel value={1}>
-            <SignupForm />
-          </TabPanel>
-        </Tabs>
-        <StyledText
-          fontSize={14}
-          color={PALLETTE.charcoal_see_through}
-          level="body-sm"
-          sx={{ mt: 3 }}
-        >
-          But i have a KTH account! Then <Link href="/login">Click here</Link>
-        </StyledText>
-      </Box>
-    </div>
+              <Tab
+                variant="outlined"
+                color="neutral"
+                disableIndicator
+                sx={{ flexGrow: 1 }}
+              >
+                {t("external.login")}
+              </Tab>
+              <Tab
+                variant="outlined"
+                color="neutral"
+                disableIndicator
+                sx={{ flexGrow: 1 }}
+              >
+                {t("external.signup")}
+              </Tab>
+            </TabList>
+            <TabPanel value={0}>
+              <LoginForm />
+            </TabPanel>
+            <TabPanel value={1}>
+              <SignupForm />
+            </TabPanel>
+          </Tabs>
+          <StyledText
+            fontSize={14}
+            color={PALLETTE.charcoal_see_through}
+            level="body-sm"
+            sx={{ mt: 3 }}
+          >
+            <Trans i18nKey="external.info.i_have_kth_account">
+              but ifwjidjqwoidqjwdi
+              <Link href="/login">Click here</Link>
+            </Trans>
+          </StyledText>
+        </Box>
+      </div>
+    </>
   );
 };
 

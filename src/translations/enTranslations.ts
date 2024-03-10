@@ -15,6 +15,12 @@ const enTranslations = {
     welcome: "{{name}}, Welcome to",
     learn_how_button: "Learn how",
     get_in_touch_button: "Get in touch",
+    login_page: {
+      secure_spot: "To secure your spot.",
+      external_user: "External user with no KTH account?",
+      for_business_inquiries:
+        "For business-related inquiries, please contact <1>Lucas Dow</1>, the creator of Tessera.",
+    },
     page_description: {
       what_title: "What is Tessera?",
       what: "Tessera is a platform that makes ticket releases easy. Purchasing \
@@ -522,6 +528,16 @@ const enTranslations = {
   },
 
   external: {
+    login: "Login",
+    signup: "Sign up",
+    info: {
+      subtitle: "External login and signup.",
+      description:
+        "If you're not a KTH student, you can still use Tessera. However since you don't have a KTH account, you'll need to use a different login method. When using tessera, you will only be able to purchase tickets from ticket releases that are specific to external users. These may include '+1'-tickets, or honorary tickets for special guests.",
+      forgot_password: "Forgot password?",
+      dont_have_an_account: "Don't have an account? Sign up!",
+      i_have_kth_account: "But I have a KTH account! Then <1>Click Here</1>",
+    },
     form: {
       first_name: "First name",
       last_name: "Last name",

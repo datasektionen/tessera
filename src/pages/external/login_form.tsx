@@ -87,7 +87,7 @@ const LoginForm: React.FC = () => {
             bgColor="cerise"
             textColor="charcoal"
             type="submit"
-            style={{ width: "100px", marginTop: "20px" }}
+            style={{ width: "150px", marginTop: "20px" }}
           >
             {t("external.form.button_login")}
           </StyledButton>
