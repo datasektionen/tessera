@@ -13,6 +13,7 @@ const enTranslations = {
     not_a_pain: "Ticket releases shouldn't be a pain!",
     welcome: "{{name}}, Welcome to",
     learn_how_button: "Learn how",
+    get_in_touch_button: "Get in touch",
     page_description: {
       what_title: "What is Tessera?",
       what: "Tessera is a platform that makes ticket releases easy. Purchasing \
