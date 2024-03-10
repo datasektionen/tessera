@@ -31,7 +31,7 @@ const EventTicketsListScannerView: React.FC<{
     {
       field: "ticket_id",
       headerName: "ID",
-      width: 50,
+      width: 75,
     },
     {
       field: "user",
