@@ -37,7 +37,7 @@ const enTranslations = {
       quote1:
         "I'm very proud of Tessera because it's the first time that I've developed software that is being used by a large number of people.",
       quote2:
-        "If your organization or team is looking for an easy to use event and ticket management system, please contact me.",
+        "If your organization or team is looking for an easy-to-use event and ticket management system, please contact me.",
     },
     how_to_use: {
       request_ticket_title: "Request a ticket",
