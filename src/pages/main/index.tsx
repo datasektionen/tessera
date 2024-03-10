@@ -54,6 +54,15 @@ const MainPage: React.FC = () => {
     threshold: 0.2, // Trigger when 20% of the element is in view
   });
 
+  const { ref: getInTouchButtonRef, inView: getInTouchButtonInView } =
+    useInView({
+      triggerOnce: true,
+      threshold: 0.2,
+    });
+
+  const LearnHowRef = React.useRef<HTMLDivElement>(null);
+  const GetInTouchRef = React.useRef<HTMLDivElement>(null);
+
   const fadeInFromLeft = {
     hidden: { opacity: 0, x: -100 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
@@ -62,6 +71,11 @@ const MainPage: React.FC = () => {
   const fadeInFromRight = {
     hidden: { opacity: 0, x: 100 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { delay: 2.5, duration: 0.8 } },
   };
 
   if (loading || error) {
@@ -160,10 +174,14 @@ const MainPage: React.FC = () => {
             zIndex: 100,
           }}
         >
-          <CallToActionButton />
+          <CallToActionButton
+            title={t("main_page.learn_how_button")}
+            scrollRef={LearnHowRef}
+          />
         </Box>
       </Box>
       <Box
+        ref={LearnHowRef}
         sx={{ width: "100%" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
@@ -171,7 +189,45 @@ const MainPage: React.FC = () => {
         }}
       >
         <HowToUse />
-
+        <Box
+          ref={getInTouchButtonRef}
+          style={{
+            position: "absolute",
+            bottom: "6%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 100,
+          }}
+        >
+          <motion.div
+            initial="hidden"
+            animate={getInTouchButtonInView ? "visible" : "hidden"}
+            variants={fadeIn}
+          >
+            <CallToActionButton
+              title={t("main_page.get_in_touch_button")}
+              scrollRef={GetInTouchRef}
+            />
+          </motion.div>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor: PALLETTE.offWhite,
+          position: "relative",
+        }}
+      >
+        <Box
+          ref={GetInTouchRef}
+          style={{
+            borderTop: "1px solid " + PALLETTE.cerise,
+            borderBottom: "1px solid " + PALLETTE.cerise,
+          }}
+          my={4}
+        >
+          <ContactDetails />
+        </Box>
         <Grid
           container
           justifyContent="center"
@@ -230,15 +286,6 @@ const MainPage: React.FC = () => {
             </motion.div>
           </Grid>
         </Grid>
-        <Box
-          style={{
-            borderTop: "1px solid " + PALLETTE.cerise,
-            borderBottom: "1px solid " + PALLETTE.cerise,
-          }}
-          my={4}
-        >
-          <ContactDetails />
-        </Box>
         <CommonlyAskedQuestions />
       </Box>
       <Footer />
