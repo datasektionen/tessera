@@ -7,12 +7,20 @@ const enTranslations = {
     create_event: "Create event",
     teams: "Teams",
     contact: "Contact",
+    login: "Login",
   },
 
   main_page: {
     not_a_pain: "Ticket releases shouldn't be a pain!",
     welcome: "{{name}}, Welcome to",
     learn_how_button: "Learn how",
+    get_in_touch_button: "Get in touch",
+    login_page: {
+      secure_spot: "To secure your spot.",
+      external_user: "External user with no KTH account?",
+      for_business_inquiries:
+        "For business-related inquiries, please contact <1>Lucas Dow</1>, the creator of Tessera.",
+    },
     page_description: {
       what_title: "What is Tessera?",
       what: "Tessera is a platform that makes ticket releases easy. Purchasing \
@@ -24,6 +32,23 @@ const enTranslations = {
         like that.",
       how_title: "How does it work?",
       how: "In order to create a ticket release for your event, you must first become an event organizer, by creating a team. Currently, teams are created by contacting us at. Once you have created a team, you can start creating and managing ticket releases. You can invite other members to your team so that they can help you manage ticket releases. \nAs a user, you can view public events in the events tab. Tessera does not work as other ticketing platforms, where you have to pay for a ticket directly. Tessera provides different ways of distributing tickets, such as a lottery system, or a first-come-first-serve system. As such, a user does not buy a ticket, but instead requests a ticket. When the ticket releases closes, the selected allocation method is used to distribute tickets to users. \nIf you have any questions, feel free to contact us at.",
+    },
+    get_in_touch: {
+      quote1:
+        "I'm very proud of Tessera because it's the first time that I've developed software that is being used by a large number of people.",
+      quote2:
+        "If your organization or team is looking for an easy to use event and ticket management system, please contact me.",
+    },
+    how_to_use: {
+      request_ticket_title: "Request a ticket",
+      request_ticket:
+        "Tessera's innovative approach to ticket distribution allows users to request tickets to events through methods like a lottery system or first-come-first-serve, making the process fairer and more accessible; simply navigate to the events tab, find your event, and click 'Request' to start.",
+      fill_out_title: "Fill Out Personal Details",
+
+      fill_out:
+        "After requesting a ticket, you'll need to provide personal details like food preferences and allergies. This information helps organizers tailor the event to your needs, ensuring a personalized experience. Tessera links your account to your tickets, streamlining the process and enhancing your enjoyment of the event.",
+      wait_title: "Wait for Ticket Allocation",
+      wait: "The final step involves waiting for the ticket release to close and for tickets to be allocated, either by lottery or on a first-come-first-served basis. Tessera ensures fair ticket distribution, so monitor your email or Tessera account for updates on your request status. If successful, you'll receive further instructions, including any necessary payment details.",
     },
   },
   tooltips: {
@@ -503,6 +528,16 @@ const enTranslations = {
   },
 
   external: {
+    login: "Login",
+    signup: "Sign up",
+    info: {
+      subtitle: "External login and signup.",
+      description:
+        "If you're not a KTH student, you can still use Tessera. However since you don't have a KTH account, you'll need to use a different login method. When using tessera, you will only be able to purchase tickets from ticket releases that are specific to external users. These may include '+1'-tickets, or honorary tickets for special guests.",
+      forgot_password: "Forgot password?",
+      dont_have_an_account: "Don't have an account? Sign up!",
+      i_have_kth_account: "But I have a KTH account! Then <1>Click Here</1>",
+    },
     form: {
       first_name: "First name",
       last_name: "Last name",

@@ -19,6 +19,8 @@ import MobileNavigationBar from "./mobile-nav";
 import { is } from "date-fns/locale";
 import { setLanguage } from "../../redux/features/languageSlice";
 import { use } from "i18next";
+import StyledButton from "../buttons/styled_button";
+import { useNavigate } from "react-router-dom";
 
 const lngs = [
   {
@@ -125,9 +127,11 @@ function NavigationBar() {
   const { t } = useTranslation();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
   if (isScreenSmall) {
     return <MobileNavigationBar />;
@@ -167,67 +171,69 @@ function NavigationBar() {
           >
             tessera
           </Typography>
-          <Stack
-            direction="row"
-            spacing={2}
-            alignItems="center"
-            style={{
-              padding: 0,
-            }}
-          >
-            <StyledText
-              level="body-sm"
-              color={""}
-              fontSize={18}
+          {isLoggedIn && (
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
               style={{
-                margin: "0 16px",
+                padding: 0,
               }}
             >
-              <StyledLink href={ROUTES.EVENTS}>
-                {t("navigation.events")}
-              </StyledLink>
-            </StyledText>
-            {!currentUser?.is_external && (
               <StyledText
-                color={""}
                 level="body-sm"
+                color={""}
                 fontSize={18}
                 style={{
                   margin: "0 16px",
                 }}
               >
-                <StyledLink href={ROUTES.CREATE_EVENT}>
-                  {t("navigation.create_event")}
+                <StyledLink href={ROUTES.EVENTS}>
+                  {t("navigation.events")}
                 </StyledLink>
               </StyledText>
-            )}
-            {!currentUser?.is_external && (
+              {!currentUser?.is_external && (
+                <StyledText
+                  color={""}
+                  level="body-sm"
+                  fontSize={18}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                >
+                  <StyledLink href={ROUTES.CREATE_EVENT}>
+                    {t("navigation.create_event")}
+                  </StyledLink>
+                </StyledText>
+              )}
+              {!currentUser?.is_external && (
+                <StyledText
+                  color={""}
+                  level="body-sm"
+                  fontSize={18}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                >
+                  <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+                    {t("navigation.teams")}
+                  </StyledLink>
+                </StyledText>
+              )}
               <StyledText
-                color={""}
                 level="body-sm"
+                color={""}
                 fontSize={18}
                 style={{
                   margin: "0 16px",
                 }}
               >
-                <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                  {t("navigation.teams")}
+                <StyledLink href={ROUTES.CONTACT_PAGE}>
+                  {t("navigation.contact")}
                 </StyledLink>
               </StyledText>
-            )}
-            <StyledText
-              level="body-sm"
-              color={""}
-              fontSize={18}
-              style={{
-                margin: "0 16px",
-              }}
-            >
-              <StyledLink href={ROUTES.CONTACT_PAGE}>
-                {t("navigation.contact")}
-              </StyledLink>
-            </StyledText>
-          </Stack>
+            </Stack>
+          )}
           {/* Right-aligned profile icon */}
           <Stack
             direction="row"
@@ -239,26 +245,45 @@ function NavigationBar() {
           >
             <LanguageSelector />
 
-            <IconButton
-              component="a"
-              href="/profile" // Link to the profile page
-            >
-              <PersonIcon
+            {isLoggedIn ? (
+              [
+                <IconButton
+                  component="a"
+                  key="profile"
+                  href="/profile" // Link to the profile page
+                >
+                  <PersonIcon
+                    style={{
+                      color: PALLETTE.charcoal,
+                    }}
+                  />
+                </IconButton>,
+                <IconButton
+                  component="a"
+                  key="logout"
+                  href="/logout" // Link to the logout page
+                >
+                  <LogoutIcon
+                    style={{
+                      color: PALLETTE.charcoal,
+                    }}
+                  />
+                </IconButton>,
+              ]
+            ) : (
+              <StyledButton
+                color={PALLETTE.charcoal}
+                size="sm"
                 style={{
-                  color: PALLETTE.charcoal,
+                  margin: "0 16px",
                 }}
-              />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="/logout" // Link to the logout page
-            >
-              <LogoutIcon
-                style={{
-                  color: PALLETTE.charcoal,
+                onClick={() => {
+                  navigate(ROUTES.LOGIN);
                 }}
-              />
-            </IconButton>
+              >
+                {t("navigation.login")}
+              </StyledButton>
+            )}
           </Stack>
         </Grid>
       </Box>

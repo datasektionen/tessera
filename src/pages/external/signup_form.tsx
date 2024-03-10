@@ -159,7 +159,7 @@ const SignupForm: React.FC = () => {
             bgColor="cerise"
             textColor="charcoal"
             type="submit"
-            style={{ width: "100px", marginTop: "20px" }}
+            style={{ width: "175px", marginTop: "20px" }}
           >
             {t("external.form.button_signup")}
           </StyledButton>

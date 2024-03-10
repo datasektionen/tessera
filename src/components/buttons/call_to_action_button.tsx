@@ -5,9 +5,23 @@ import PALLETTE from "../../theme/pallette";
 import { useTranslation } from "react-i18next";
 import StyledButton from "./styled_button";
 
-interface CallToActionButtonProps extends ButtonProps {}
+interface CallToActionButtonProps extends ButtonProps {
+  title: string;
+  scrollRef: React.RefObject<HTMLDivElement>;
+}
+
+const getAbsoluteTop = (el: HTMLElement | null): number => {
+  let top = 0;
+  while (el) {
+    top += el.offsetTop;
+    el = el.offsetParent as HTMLElement | null;
+  }
+  return top;
+};
 
 const CallToActionButton: React.FC<CallToActionButtonProps> = ({
+  title,
+  scrollRef,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -27,14 +41,15 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
         }}
         color={PALLETTE.charcoal}
         onClick={() => {
+          console.log(scrollRef.current?.offsetTop);
           window.scrollTo({
-            top: window.innerHeight,
+            top: getAbsoluteTop(scrollRef.current),
             behavior: "smooth",
           });
         }}
         {...props}
       >
-        {t("main_page.learn_how_button")}
+        {title}
       </StyledButton>
       <motion.div
         style={{

@@ -6,6 +6,7 @@ const seTranslations = {
     create_event: "Skapa evenemang",
     teams: "Grupper",
     contact: "Kontakt",
+    login: "Logga in",
   },
 
   tooltips: {
@@ -493,6 +494,17 @@ const seTranslations = {
   },
 
   external: {
+    login: "Logga in",
+    signup: "Registrera dig",
+    info: {
+      subtitle: "Extern inloggning och registrering.",
+      description:
+        "Om du inte är en KTH-student kan du fortfarande använda Tessera. Eftersom du dock inte har ett KTH-konto behöver du använda en annan inloggningsmetod. När du använder Tessera kommer du endast att kunna köpa biljetter från biljettsläpp som är specifika för externa användare. Dessa kan inkludera '+1'-biljetter, eller hedersbiljetter för speciella gäster.",
+      forgot_password: "Glömt lösenord?",
+      dont_have_an_account: "Har du inget konto? Registrera dig!",
+      i_have_kth_account:
+        "Men jag har ett KTH-konto! Då kan du logga in <1>här</1>.",
+    },
     form: {
       first_name: "Förnamn",
       last_name: "Efternamn",
@@ -537,6 +549,13 @@ const seTranslations = {
     not_a_pain: "Biljettsläpp ska inte vara jobbiga!",
     welcome: "{{name}}, välkommen till",
     learn_how_button: "Lär dig hur",
+    get_in_touch_button: "Kontakta",
+    login_page: {
+      secure_spot: "För att säkra din plats.",
+      external_user: "Extern användare utan KTH-konto?",
+      for_business_inquiries:
+        "För företagsrelaterade förfrågningar, vänligen kontakta <1>Lucas Dow</1>, skaparen av Tessera",
+    },
     page_description: {
       what_title: "Vad är Tessera?",
       what: "Tessera är en plattform som gör biljettförsäljning enkel. Att köpa\
@@ -548,6 +567,22 @@ const seTranslations = {
             eller något sådant.",
       how_title: "Hur fungerar det?",
       how: "För att skapa ett biljettsläpp till ditt evenemang måste du först bli en evenemangsarrangör genom att skapa ett team. För närvarande skapas team genom att kontakta oss. När du har skapat ett team kan du börja skapa och hantera biljettsläpp. Du kan bjuda in andra användare till ditt team så att de kan hjälpa till att hantera biljettsläppen. Som användare kan du se offentliga evenemang i evenemangsfliken. Tessera fungerar inte som andra biljettplattformar där du måste betala för en biljett direkt. Tessera erbjuder olika sätt att distribuera biljetter på, såsom ett lotterisystem eller ett först till kvarn system. Därför köper inte en användare en biljett, utan begär (Request) en biljett istället. När biljettsläppet stänger används den valda allokationsmetoden för att distribuera biljetter till användarna. Om du har några frågor, tveka inte att kontakta oss.",
+    },
+    get_in_touch: {
+      quote1:
+        "Jag hade egentligen inte tänkt att Tessera skulle lyckas men efter en hel del arbete och slit så blev det ändå något som fungerade. Det är oerhört kul att Tessera används av andra också! ",
+      quote2:
+        "Om din organisation eller ditt team letar efter ett lättanvänt evenemangs- och biljettadministrationssystem, kontakta mig.",
+    },
+    how_to_use: {
+      request_ticket_title: "Begär en biljett",
+      request_ticket:
+        "Tesseras innovativa tillvägagångssätt för biljettdistribution gör att användare kan begära biljetter till evenemang genom metoder som ett lotterisystem eller först-till-kvarn, vilket gör processen rättvisare och mer tillgänglig; navigera helt enkelt till fliken för evenemang, hitta ditt evenemang och klicka på 'Begär' för att starta.",
+      fill_out_title: "Fyll i personuppgifter",
+      fill_out:
+        "Efter att ha begärt en biljett måste du ange personuppgifter som matpreferenser och allergier. Denna information hjälper arrangörerna att anpassa evenemanget efter dina behov, vilket garanterar en personlig upplevelse. Tessera länkar ditt konto till dina biljetter, vilket förenklar processen och förbättrar din njutning av evenemanget.",
+      wait_title: "Vänta på biljettilldelning",
+      wait: "Det sista steget innebär att vänta på att biljettsläppet ska stängas och att biljetter ska tilldelas, antingen via lotteri eller på först-till-kvarn-basis. Tessera garanterar rättvis biljettdistribution, så övervaka din e-post eller Tessera-konto för uppdateringar om din begäranstatus. Om du lyckas får du ytterligare instruktioner, som t.ex betalningsintstruktioner.",
     },
   },
   faq: {

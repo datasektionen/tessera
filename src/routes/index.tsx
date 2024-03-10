@@ -109,9 +109,9 @@ function AppRoutes() {
           path={ROUTES.VERIFY_PREFERRED_EMAIL}
           element={<VerifyPreferredEmail />}
         />
+        <Route path={ROUTES.MAIN} element={<MainPage />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path={ROUTES.MAIN} element={<MainPageWithCurrentUser />} />
           <Route path={ROUTES.LOGOUT} element={<Logout />} />
           <Route path={ROUTES.CONTACT_PAGE} element={<ContactPage />} />
           <Route

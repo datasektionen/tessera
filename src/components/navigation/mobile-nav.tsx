@@ -17,6 +17,7 @@ import StyledButton from "../buttons/styled_button";
 import Menu from "@mui/icons-material/Menu";
 import InformationModal from "../modal/information";
 import { LanguageSelector, StyledLink } from ".";
+import { useNavigate } from "react-router-dom";
 
 const lngs = [
   {
@@ -35,8 +36,10 @@ function MobileNavigationBar() {
   const { t } = useTranslation();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const [showDrawer, setShowDrawer] = React.useState(false);
   const [showMobileWarning, setShowMobileWarning] = React.useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const showMobileWarning = localStorage.getItem("showMobileWarning");
@@ -100,86 +103,104 @@ function MobileNavigationBar() {
           >
             tessera
           </Typography>
-          <Stack
-            direction="column"
-            spacing={2}
-            alignItems="flex-start"
-            style={{
-              padding: 0,
-            }}
-          >
-            <StyledText
-              level="body-sm"
-              color={""}
-              fontSize={18}
+          {isLoggedIn && (
+            <Stack
+              direction="column"
+              spacing={2}
+              alignItems="flex-start"
               style={{
-                margin: "0 16px",
+                padding: 0,
               }}
             >
-              <StyledLink href={ROUTES.EVENTS}>
-                {t("navigation.events")}
-              </StyledLink>
-            </StyledText>
-            {!currentUser?.is_external && (
               <StyledText
-                color={""}
                 level="body-sm"
+                color={""}
                 fontSize={18}
                 style={{
                   margin: "0 16px",
                 }}
               >
-                <StyledLink href={ROUTES.CREATE_EVENT}>
-                  {t("navigation.create_event")}
+                <StyledLink href={ROUTES.EVENTS}>
+                  {t("navigation.events")}
                 </StyledLink>
               </StyledText>
-            )}
-            {!currentUser?.is_external && (
-              <StyledText
-                color={""}
-                level="body-sm"
-                fontSize={18}
-                style={{
-                  margin: "0 16px",
-                }}
-              >
-                <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                  {t("navigation.teams")}
-                </StyledLink>
-              </StyledText>
-            )}
-          </Stack>
+              {!currentUser?.is_external && (
+                <StyledText
+                  color={""}
+                  level="body-sm"
+                  fontSize={18}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                >
+                  <StyledLink href={ROUTES.CREATE_EVENT}>
+                    {t("navigation.create_event")}
+                  </StyledLink>
+                </StyledText>
+              )}
+              {!currentUser?.is_external && (
+                <StyledText
+                  color={""}
+                  level="body-sm"
+                  fontSize={18}
+                  style={{
+                    margin: "0 16px",
+                  }}
+                >
+                  <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+                    {t("navigation.teams")}
+                  </StyledLink>
+                </StyledText>
+              )}
+            </Stack>
+          )}
           {/* Right-aligned profile icon */}
-          <Stack
-            direction="column"
-            spacing={2}
-            alignItems="flex-start"
-            style={{
-              padding: 0,
-            }}
-          >
-            <IconButton
-              component="a"
-              href="/profile" // Link to the profile page
+          {isLoggedIn ? (
+            <Stack
+              direction="column"
+              spacing={2}
+              alignItems="flex-start"
+              style={{
+                padding: 0,
+              }}
             >
-              <PersonIcon
-                style={{
-                  color: PALLETTE.offWhite,
-                }}
-              />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="/logout" // Link to the logout page
+              <IconButton
+                component="a"
+                href="/profile" // Link to the profile page
+              >
+                <PersonIcon
+                  style={{
+                    color: PALLETTE.offWhite,
+                  }}
+                />
+              </IconButton>
+              <IconButton
+                component="a"
+                href="/logout" // Link to the logout page
+              >
+                <LogoutIcon
+                  style={{
+                    color: PALLETTE.offWhite,
+                  }}
+                />
+              </IconButton>
+              <LanguageSelector />
+            </Stack>
+          ) : (
+            <StyledButton
+              size="sm"
+              bgColor={PALLETTE.cerise}
+              onClick={() => {
+                setShowDrawer(false);
+                navigate(ROUTES.LOGIN);
+              }}
+              style={{
+                margin: "16px",
+              }}
             >
-              <LogoutIcon
-                style={{
-                  color: PALLETTE.offWhite,
-                }}
-              />
-            </IconButton>
-            <LanguageSelector />
-          </Stack>
+              {t("navigation.login")}
+            </StyledButton>
+          )}
         </Box>
       </Drawer>
     </>

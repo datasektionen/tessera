@@ -23,37 +23,69 @@ import { useMediaQuery } from "@mui/material";
 import Footer from "../../components/wrappers/footer";
 import ContactDetails from "./get_in_touch";
 import { BorderTop } from "@mui/icons-material";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import HowToUse from "./how_to_use";
+
+import Bg1 from "../../assets/backgrounds/1.svg";
+import Bg2 from "../../assets/backgrounds/2.svg";
 
 const MainPage: React.FC = () => {
-  const { loading, error, events } = useSelector(
-    (state: RootState) => state.events
-  );
-
   const { t } = useTranslation();
 
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
-  useEffect(() => {
-    dispatch(getEventsRequest());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getEventsRequest());
+  // }, []);
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (loading || error) {
-    return null;
-  }
+  const { ref, inView } = useInView({
+    triggerOnce: true, // Trigger animation only once
+    threshold: 0.2, // Trigger when 20% of the element is in view
+  });
 
-  if (!currentUser) {
-    navigate("/login");
-    return null;
-  }
+  const { ref: getInTouchButtonRef, inView: getInTouchButtonInView } =
+    useInView({
+      triggerOnce: true,
+      threshold: 0.2,
+    });
+
+  const LearnHowRef = React.useRef<HTMLDivElement>(null);
+  const GetInTouchRef = React.useRef<HTMLDivElement>(null);
+
+  const fadeInFromLeft = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  };
+
+  const fadeInFromRight = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { delay: 2.5, duration: 0.8 } },
+  };
+
+  // if (!currentUser) {
+  //   navigate("/login");
+  //   return null;
+  // }
 
   return (
-    <>
+    <div
+      style={{
+        overflow: "hidden",
+      }}
+    >
       <Navigation />
       <Box
         className={styles.divider}
@@ -101,17 +133,19 @@ const MainPage: React.FC = () => {
             left: isScreenSmall ? "15%" : "20%", // Adjust position based on screen size
           }}
         >
-          <StyledText
-            color={PALLETTE.offWhite}
-            level="body-md"
-            fontSize={isScreenSmall ? 16 : 24}
-          >
-            {
-              t("main_page.welcome", {
-                name: getUserFullName(currentUser!),
-              }) as string
-            }
-          </StyledText>
+          {isLoggedIn && (
+            <StyledText
+              color={PALLETTE.offWhite}
+              level="body-md"
+              fontSize={isScreenSmall ? 16 : 24}
+            >
+              {
+                t("main_page.welcome", {
+                  name: getUserFullName(currentUser!),
+                }) as string
+              }
+            </StyledText>
+          )}
           <Title fontSize={isScreenSmall ? 64 : 128} color={PALLETTE.cerise}>
             Tessera
           </Title>
@@ -135,60 +169,52 @@ const MainPage: React.FC = () => {
             zIndex: 100,
           }}
         >
-          <CallToActionButton />
+          <CallToActionButton
+            title={t("main_page.learn_how_button")}
+            scrollRef={LearnHowRef}
+          />
         </Box>
       </Box>
       <Box
+        ref={LearnHowRef}
         sx={{ width: "100%" }}
         style={{
           backgroundColor: PALLETTE.offWhite,
+          position: "relative",
         }}
       >
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="flex-start"
-          columns={12}
-          sx={{ height: "fit-content" }}
-        >
-          <Grid xs={12} md={6}>
-            <Box
-              sx={{
-                margin: "16px 32px",
-              }}
-            >
-              <Title fontSize={32}>
-                {t("main_page.page_description.what_title")}
-              </Title>
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                color={PALLETTE.charcoal}
-              >
-                {t("main_page.page_description.what")}
-              </StyledText>
-            </Box>
-          </Grid>
-          <Grid xs={12} md={6}>
-            <Box
-              sx={{
-                margin: "16px 32px",
-              }}
-            >
-              <Title fontSize={32}>
-                {t("main_page.page_description.how_title")}
-              </Title>
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                color={PALLETTE.charcoal}
-              >
-                {t("main_page.page_description.how")}
-              </StyledText>
-            </Box>
-          </Grid>
-        </Grid>
+        <HowToUse />
         <Box
+          ref={getInTouchButtonRef}
+          style={{
+            position: "absolute",
+            bottom: "6%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 100,
+          }}
+        >
+          <motion.div
+            initial="hidden"
+            animate={getInTouchButtonInView ? "visible" : "hidden"}
+            variants={fadeIn}
+          >
+            <CallToActionButton
+              title={t("main_page.get_in_touch_button")}
+              scrollRef={GetInTouchRef}
+            />
+          </motion.div>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor: PALLETTE.offWhite,
+          position: "relative",
+        }}
+      >
+        <Box
+          ref={GetInTouchRef}
           style={{
             borderTop: "1px solid " + PALLETTE.cerise,
             borderBottom: "1px solid " + PALLETTE.cerise,
@@ -197,10 +223,68 @@ const MainPage: React.FC = () => {
         >
           <ContactDetails />
         </Box>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="flex-start"
+          columns={12}
+          sx={{ height: "fit-content" }}
+        >
+          <Grid xs={12} md={6}>
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              variants={fadeInFromLeft}
+            >
+              <Box
+                sx={{
+                  margin: "16px 32px",
+                }}
+              >
+                <Title fontSize={32}>
+                  {t("main_page.page_description.what_title")}
+                </Title>
+                <StyledText
+                  level="body-md"
+                  fontSize={18}
+                  color={PALLETTE.charcoal}
+                >
+                  {t("main_page.page_description.what")}
+                </StyledText>
+              </Box>
+            </motion.div>
+          </Grid>
+          <Grid xs={12} md={6}>
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              variants={fadeInFromRight}
+            >
+              <Box
+                sx={{
+                  margin: "16px 32px",
+                }}
+              >
+                <Title fontSize={32}>
+                  {t("main_page.page_description.how_title")}
+                </Title>
+                <StyledText
+                  level="body-md"
+                  fontSize={18}
+                  color={PALLETTE.charcoal}
+                >
+                  {t("main_page.page_description.how")}
+                </StyledText>
+              </Box>
+            </motion.div>
+          </Grid>
+        </Grid>
         <CommonlyAskedQuestions />
       </Box>
       <Footer />
-    </>
+    </div>
   );
 };
 
