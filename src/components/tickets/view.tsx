@@ -84,6 +84,28 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
 
   const { t } = useTranslation();
 
+  const canPayForTicket = (ticket: ITicket) => {
+    const pay_within = ticket.ticket_request?.ticket_release?.pay_within;
+    if (!pay_within) {
+      return isBefore(
+        new Date(),
+        new Date(ticket.ticket_request?.ticket_release?.event?.date!)
+      );
+    }
+
+    if (ticket.purchasable_at) {
+      return isBefore(
+        new Date(),
+        mustPayBefore(pay_within, ticket.purchasable_at)
+      );
+    } else {
+      return isBefore(
+        new Date(),
+        mustPayBefore(pay_within, new Date(ticket.updated_at))
+      );
+    }
+  };
+
   if (!ticket) {
     return <></>;
   }
@@ -111,13 +133,17 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           {ticket.is_reserve ? (
             t("tickets.reserve_ticket")
           ) : !ticket.is_paid ? (
-            <Trans i18nKey="tickets.confirmed_ticket" values={{ payBefore }}>
-              "Your ticket has been confirmed! Its now time to pay for your
-              ticket. You can pay for your ticket by clicking the button below.
-              If you do not pay for your ticket before
-              <strong>{payBefore}</strong>, your ticket will be given to the
-              next person in line.",
-            </Trans>
+            canPayForTicket(ticket) ? (
+              <Trans i18nKey="tickets.confirmed_ticket" values={{ payBefore }}>
+                "Your ticket has been confirmed! Its now time to pay for your
+                ticket. You can pay for your ticket by clicking the button
+                below. If you do not pay for your ticket before
+                <strong>{payBefore}</strong>, your ticket will be given to the
+                next person in line.",
+              </Trans>
+            ) : (
+              t("tickets.not_paid_on_time")
+            )
           ) : (
             t("tickets.paid_ticket")
           )}
@@ -155,11 +181,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               width: "fit-content",
               margin: "16px auto",
             }}
-            style={
-              {
-                // add blur effect
-              }
-            }
           >
             {ticket.checked_in && (
               <StyledText
@@ -190,6 +211,16 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
               }}
             />
           </Box>
+          <StyledText
+            level="body-sm"
+            fontSize={16}
+            color={PALLETTE.charcoal_see_through}
+            style={{
+              textAlign: "center",
+            }}
+          >
+            ID: {ticket.id}
+          </StyledText>
           <StyledText
             level="body-sm"
             fontSize={18}
@@ -239,7 +270,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
       {!ticket.is_reserve && (
         <Box mt={2}>
           {!ticket.is_paid ? (
-            <Payment ticket={ticket} />
+            canPayForTicket(ticket) && <Payment ticket={ticket} />
           ) : (
             <StyledText
               level="body-sm"

@@ -16,17 +16,23 @@ import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 import { MUItheme } from "../../../components/events/tickets/list/datagrid_utils/mui_theme";
-import { ThemeProvider } from "@mui/material";
+import { Button, ThemeProvider } from "@mui/material";
 import StyledButton from "../../../components/buttons/styled_button";
 import { useTranslation } from "react-i18next";
 import Footer from "../../../components/wrappers/footer";
 
-const EventTicketsListScannerView: React.FC<{ tickets: ITicket[] }> = ({
-  tickets,
-}) => {
+const EventTicketsListScannerView: React.FC<{
+  tickets: ITicket[];
+  handleScan: (data: string | null) => void;
+}> = ({ tickets, handleScan }) => {
   const [rows, setRows] = useState<GridRowsProp>([]);
 
   const columns: GridColDef[] = [
+    {
+      field: "ticket_id",
+      headerName: "ID",
+      width: 50,
+    },
     {
       field: "user",
       headerName: "User",
@@ -59,19 +65,34 @@ const EventTicketsListScannerView: React.FC<{ tickets: ITicket[] }> = ({
           <Cancel color="error" />
         ),
     },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => (
+        <Button onClick={() => handleScan(params.row.qr_code)}>
+          Scan Ticket
+        </Button>
+      ),
+    },
   ];
 
   useEffect(() => {
-    const rows = tickets.map((ticket: ITicket) => {
-      const row = {
-        id: `${ticket.id}-${ticket.ticket_request!.id}-ticket`,
-        ticket: ticket.ticket_request?.ticket_type?.name,
-        user: ticket?.user,
-        checked_in: ticket.checked_in,
-      };
+    const rows = tickets
+      .filter((ticket) => !ticket.deleted_at)
+      .map((ticket: ITicket) => {
+        console.log(ticket.qr_code);
+        const row = {
+          id: `${ticket.id}-${ticket.ticket_request!.id}-ticket`,
+          ticket_id: ticket.id,
+          ticket: ticket.ticket_request?.ticket_type?.name,
+          user: ticket?.user,
+          checked_in: ticket.checked_in,
+          qr_code: ticket.qr_code,
+        };
 
-      return row;
-    });
+        return row;
+      });
 
     setRows(rows);
   }, [tickets]);
@@ -211,7 +232,10 @@ const TicketScannerPage = () => {
         )}
       </Box>
       <ThemeProvider theme={MUItheme}>
-        <EventTicketsListScannerView tickets={tickets} />
+        <EventTicketsListScannerView
+          tickets={tickets}
+          handleScan={handleScan}
+        />
       </ThemeProvider>
       <Box mb={24}></Box>
       <Footer />
