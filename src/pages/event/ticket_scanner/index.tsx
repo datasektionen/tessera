@@ -79,9 +79,8 @@ const EventTicketsListScannerView: React.FC<{
 
   useEffect(() => {
     const rows = tickets
-      .filter((ticket) => !ticket.deleted_at)
+      .filter((ticket) => !ticket.deleted_at && ticket.is_paid)
       .map((ticket: ITicket) => {
-        console.log(ticket.qr_code);
         const row = {
           id: `${ticket.id}-${ticket.ticket_request!.id}-ticket`,
           ticket_id: ticket.id,
