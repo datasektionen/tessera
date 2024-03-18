@@ -62,6 +62,7 @@ const ManageEventPage: React.FC = () => {
     const fetchCanAccess = () => {
       if (canAccessEvent) {
         fetchSecretToken();
+      } else {
       }
     };
 
@@ -71,7 +72,7 @@ const ManageEventPage: React.FC = () => {
     };
 
     fetchCanAccess();
-  }, [canAccessEvent]); // Make sure to include all dependencies here
+  }, [canAccessEvent, eventID]); // Make sure to include all dependencies here
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [confirmDeleteText, setConfirmDeleteText] = useState<string>("");

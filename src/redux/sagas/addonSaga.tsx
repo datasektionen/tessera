@@ -7,7 +7,6 @@ import {
   getAddonsRequest,
   getAddonsSuccess,
 } from "../features/addonSlice";
-import { ActionPattern } from "redux-saga";
 
 function* handleGetAddons(action: {
   eventID: number;
@@ -46,8 +45,9 @@ function* handleGetAddons(action: {
 }
 // ... existing code ...
 
-function* watchGetAddonsSaga() {
-  yield takeLatest<ActionPattern>(getAddonsRequest.type, handleGetAddons);
+function* watchGetAddonSaga() {
+  //@ts-ignore
+  yield takeLatest(getAddonsRequest.type, handleGetAddons);
 }
 
-export default watchGetAddonsSaga;
+export default watchGetAddonSaga;

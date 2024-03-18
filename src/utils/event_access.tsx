@@ -1,9 +1,12 @@
 // Refactored useCanAccessEvent to be a proper React hook
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const useCanAccessEvent = (eventID: string) => {
   const [canAccess, setCanAccess] = useState<boolean | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!eventID) {
@@ -19,19 +22,30 @@ export const useCanAccessEvent = (eventID: string) => {
             withCredentials: true,
           }
         );
+
         if (response.status === 200) {
           setCanAccess(true);
         } else {
           setCanAccess(false);
         }
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        if (error.response.status === 401) {
+          setTimeout(() => {
+            toast.error("Please login to access this page!");
+          }, 400);
+          navigate("/login");
+        } else if (error.response.status === 403) {
+          setTimeout(() => {
+            toast.error("Permissions denied!");
+          }, 400);
+          navigate("/events");
+        }
         setCanAccess(false);
       }
     };
 
     fetchAccess();
-  }, [eventID]);
+  }, [eventID, navigate]);
 
   return canAccess;
 };
