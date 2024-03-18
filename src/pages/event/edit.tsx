@@ -1,8 +1,6 @@
 import { Box, Grid } from "@mui/joy";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
-import NavigationBar from "../../components/navigation";
-import EventList from "../../components/events/list";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -14,13 +12,11 @@ import BorderBox from "../../components/wrappers/border_box";
 import EditEventForm from "../../components/events/edit/edit_event_form";
 import { getEventRequest } from "../../redux/features/eventSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import EditTicketReleases from "../../components/events/edit/edit_ticket_releases";
-import { Style } from "@mui/icons-material";
+import EditTicketReleases from "../../components/events/edit/ticket_release/edit_ticket_releases";
 import { useTranslation } from "react-i18next";
 import { useCanAccessEvent } from "../../utils/event_access";
 import EditEventFormFields from "../../components/events/edit/event_form_fields/edit_event_form_fields";
 import DrawerComponent from "../../components/navigation/manage_drawer";
-import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();

@@ -272,6 +272,7 @@ export interface ITicketRelease {
   tickets_available: number;
   pay_within?: number;
   allow_external: boolean;
+  addons?: IAddon[];
 }
 export interface PromoCodeAccessForm {
   promo_code: string;
@@ -463,6 +464,16 @@ export interface IContactFormValues {
   organization_id: number | null;
   subject: string;
   message: string;
+}
+
+export interface IAddon {
+  name: string;
+  description: string;
+  price: number;
+  min_quantity: number;
+  max_quantity: number;
+  is_enabled: boolean;
+  ticket_release_id: number;
 }
 
 export enum OrganizationUserRole {
