@@ -1,53 +1,35 @@
-import { Formik, Form, Field, useFormikContext, FormikHelpers } from "formik";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Option,
-  Textarea,
-  Divider,
-  Tooltip,
-  Grid,
-  Stack,
-} from "@mui/joy";
+import { Formik, Form, Field, FormikHelpers } from "formik";
+import { FormControl, Select, Option, Tooltip, Grid } from "@mui/joy";
 import {
   TicketReleaseFormInitialValues,
   ITicketReleaseForm,
   ITicketRelease,
-} from "../../../types";
-import { StyledErrorMessage } from "../../forms/messages";
+} from "../../../../types";
+import { StyledErrorMessage } from "../../../forms/messages";
 import {
   DefaultInputStyle,
   FormCheckbox,
   FormInput,
   FormTextarea,
-} from "../../forms/input_types";
+} from "../../../forms/input_types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
-} from "../../forms/form_labels";
+} from "../../../forms/form_labels";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store";
+import { AppDispatch, RootState } from "../../../../store";
 import { useEffect, useState } from "react";
-import { getTicketReleaseMethodsRequest } from "../../../redux/features/ticketReleaseMethodsSlice";
-import PALLETTE from "../../../theme/pallette";
+import { getTicketReleaseMethodsRequest } from "../../../../redux/features/ticketReleaseMethodsSlice";
+import PALLETTE from "../../../../theme/pallette";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import StyledText from "../../text/styled_text";
-import StyledButton from "../../buttons/styled_button";
-import {
-  clearEventForm,
-  clearTicketReleaseForm,
-  setTicketReleaseForm,
-} from "../../../redux/features/eventCreationSlice";
-import CreateTicketReleaseFormSchema from "../../../validation/create_ticket_release_form";
+import StyledText from "../../../text/styled_text";
+import StyledButton from "../../../buttons/styled_button";
+
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import LoadingOverlay from "../../Loading";
 import { useTranslation } from "react-i18next";
-import EditTicketReleaseFormSchema from "../../../validation/edit_ticket_release_form";
-import { updateTicketReleaseStart } from "../../../redux/features/ticketReleaseSlice";
+import EditTicketReleaseFormSchema from "../../../../validation/edit_ticket_release_form";
+import { updateTicketReleaseStart } from "../../../../redux/features/ticketReleaseSlice";
 
 interface EditTicketReleaseFormProps {
   ticketRelease: ITicketRelease | undefined;
@@ -125,7 +107,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
 
   if (!ticketRelease || !initValueSet) {
     return (
-      <StyledText level="body-sm" color={PALLETTE.charcoal}>
+      <StyledText level="body-sm" color={PALLETTE.cerise_dark} fontWeight={600}>
         {t("manage_event.edit.ticket_releases.add_helperText")}
       </StyledText>
     );

@@ -191,7 +191,6 @@ const EventTicketsList: React.FC<{
           },
           InputComponent: MyCustomInputComponent,
         },
-        // ... other operators if needed
       ],
     },
     createFoodPreferenceColumn("gluten_intolerant", "Gluten Intolerant"),

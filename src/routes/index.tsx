@@ -19,7 +19,7 @@ import EditEventPage from "../pages/event/edit";
 import ProfileTicketRequestsPage from "../pages/profile/profile_ticket_requests";
 import ProfileTicketsPage from "../pages/profile/profile_tickets";
 import EditEventAddTicketReleasePage from "../pages/event/edit_ticket_release";
-import EditTicketReleases from "../components/events/edit/edit_ticket_releases";
+import EditTicketReleases from "../components/events/edit/ticket_release/edit_ticket_releases";
 import EditTicketTypes from "../pages/event/edit_ticket_types";
 import ManageEventPage from "../pages/event/manage";
 import { CssVarsProvider } from "@mui/joy";
@@ -38,6 +38,7 @@ import PasswordReset from "../pages/external/password_reset";
 import SendOut from "../components/events/send_out";
 import VerifyPreferredEmail from "../pages/user/preferred_email/verify";
 import EventEconomyPage from "../pages/event/economy";
+import EditTicketReleaseAddonsPage from "../pages/event/edit_addons";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -89,6 +90,10 @@ const TicketScannerPageWithCurrentUser =
 const EventEconomyPageWithCurrentUser =
   withCurrentUserRequest(EventEconomyPage);
 
+const EditTicketReleaseAddonsWithCurrentUser = withCurrentUserRequest(
+  EditTicketReleaseAddonsPage
+);
+
 function AppRoutes() {
   return (
     <BrowserRouter basename="/">
@@ -138,6 +143,10 @@ function AppRoutes() {
           <Route
             path={ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES}
             element={<EditTicketTypesWithCurrentUser />}
+          />
+          <Route
+            path={ROUTES.EDIT_EVENT_TICKET_RELEASE_ADDONS}
+            element={<EditTicketReleaseAddonsWithCurrentUser />}
           />
           <Route
             path={ROUTES.PROFILE_TICKET_REQUESTS}
