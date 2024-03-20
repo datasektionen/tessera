@@ -14,7 +14,7 @@ import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
 } from "../../forms/form_labels";
-import { FormCheckbox, FormInput } from "../../forms/input_types";
+import { FormCheckbox, FormInput, FormTextarea } from "../../forms/input_types";
 import * as Yup from "yup";
 import { StyledErrorMessage } from "../../forms/messages";
 import StyledButton from "../../buttons/styled_button";
@@ -34,11 +34,13 @@ const createField = (field: IEventFormField) => {
     switch (type) {
       case "text":
         return (
-          <FormInput
+          <FormTextarea
             name={field.id.toString()}
             label="text"
-            type="text"
             placeholder="Enter text"
+            overrideStyle={{
+              width: "90%",
+            }}
           />
         );
       case "number":

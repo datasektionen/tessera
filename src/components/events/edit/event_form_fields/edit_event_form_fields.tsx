@@ -185,7 +185,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                           </Box>
 
                           <Box>
-                            <FormInput
+                            <FormTextarea
                               label="Field Description"
                               name={`form_fields.${index}.description`}
                               placeholder="Field Description"
