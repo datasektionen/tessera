@@ -43,7 +43,7 @@ function* listEventSaga(): Generator<any, void, any> {
         };
       })
       .sort((a: IEvent, b: IEvent) => {
-        return a.date - b.date;
+        return b.date - a.date;
       });
 
     yield put(getEventsSuccess(events));

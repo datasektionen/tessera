@@ -34,6 +34,7 @@ import LoadingOverlay from "../../../components/Loading";
 import { is } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import RemoveTTButton from "../../../components/events/ticket_types/remove_ticket_type_button";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
@@ -219,18 +220,7 @@ const EditTicketTypes: React.FC = () => {
                         transform: "translateY(-50%)",
                       }}
                     >
-                      <RemoveCircleOutlineIcon
-                        onClick={() => {
-                          dispatch(removeTicketType(index));
-                        }}
-                        style={{
-                          color: PALLETTE.red,
-                          fontSize: "30px",
-                          // svg shadow
-                          filter:
-                            "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
-                        }}
-                      />
+                      <RemoveTTButton index={index} />
                     </Box>
                   </StyledBorderBox>
                 );
