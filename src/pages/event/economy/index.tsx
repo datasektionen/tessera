@@ -100,7 +100,6 @@ const EventEconomyPage: React.FC = () => {
                 <BorderBox>
                   <Title>{t("manage_event.economy.sales_reports")}</Title>
                   {eventSalesReports.map((report) => {
-                    console.log(report.url);
                     return (
                       <Grid
                         container

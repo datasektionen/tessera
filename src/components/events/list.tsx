@@ -43,6 +43,20 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
     return eventDate.getTime() + oneDay < now.getTime();
   };
 
+  const formatEventDate = (date: Date, end_date: Date | null) => {
+    if (end_date) {
+      if (date.toDateString() === end_date.toDateString()) {
+        // Same date, only include the time part of the end date
+        return `${date.toLocaleString()} - ${end_date.toLocaleTimeString()}`;
+      } else {
+        // Different dates, include both date and time for both
+        return `${date.toLocaleString()} - ${end_date.toLocaleString()}`;
+      }
+    } else {
+      return date.toLocaleString();
+    }
+  };
+
   return (
     <Grid container spacing={2}>
       {events.map((event: IEvent, index) => {
@@ -123,7 +137,10 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                   fontSize={15}
                   startDecorator={<CalendarTodayIcon />}
                 >
-                  {new Date(event.date).toDateString()}
+                  {formatEventDate(
+                    new Date(event.date),
+                    event.end_date ? new Date(event.end_date) : null
+                  )}
                 </StyledText>
                 <StyledText
                   level="body-sm"

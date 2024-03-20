@@ -1,7 +1,7 @@
 import { all } from "redux-saga/effects";
 import watchLoginSaga from "./authSaga";
 import watchUserSagas from "./userSaga";
-import watchListEventSaga from "./listEventSage";
+import watchListEventSaga from "./listEventSaga";
 import watchEventSaga from "./eventSaga";
 import watchTicketRequestSaga from "./ticketRequestSaga";
 import { watchFoodPreferences } from "./userFoodPreferencesSaga";
