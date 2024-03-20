@@ -103,6 +103,7 @@ export interface IEvent {
   name: string;
   description: string;
   date: number;
+  end_date?: number;
   location: string;
   organizationId: number;
   organization?: IOrganization;
@@ -117,6 +118,7 @@ export interface IEventForm {
   name: string;
   description: string;
   date: string;
+  end_date?: string;
   location: PlaceOption | null;
   organization_id: number;
   is_private: boolean;
@@ -126,6 +128,7 @@ export interface IEventPostReq {
   name: string;
   description: string;
   date: number;
+  end_date?: number;
   location: string;
   organization_id: number;
   is_private: boolean;

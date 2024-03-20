@@ -60,6 +60,7 @@ const enTranslations = {
       "Here you can see all the form responses for this event. This is the information the user has submitted when requesting a ticket.",
   },
   form: {
+    required_description: "Fields marked with * are required",
     event_details: {
       name: "Name",
       name_helperText: "What is the name of your event?",
@@ -68,6 +69,8 @@ const enTranslations = {
         "Describe what your event is about? What should people expect? Markdown is supported.",
       date: "Date",
       date_helperText: "When is your event?",
+      end_date: "End date",
+      end_date_helperText: "When does your event end?",
       location: "Location",
       location_helperText: "Where is your event?",
       team: "Team",

@@ -37,6 +37,7 @@ function* listEventSaga(): Generator<any, void, any> {
           description: event.description!,
           location: event.location!,
           date: event.date!,
+          endDate: event.end_date || null,
           organizationId: event.organization_id!,
           createdById: event.created_by!,
           is_private: event.is_private!,

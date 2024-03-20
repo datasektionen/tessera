@@ -82,6 +82,15 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                   validateAllForms();
                 }}
               >
+                <StyledText
+                  color={PALLETTE.red}
+                  level="body-sm"
+                  fontSize={16}
+                  fontWeight={600}
+                  style={{ marginBottom: "16px" }}
+                >
+                  {t("form.required_description")}
+                </StyledText>
                 <FormControl>
                   <StyledFormLabel>
                     {t("form.ticket_types.name")}*

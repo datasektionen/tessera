@@ -86,6 +86,15 @@ const CreateEventForm: React.FC = () => {
       {({ values, isValid, errors }) => {
         return (
           <Form>
+            <StyledText
+              color={PALLETTE.red}
+              level="body-sm"
+              fontSize={16}
+              fontWeight={600}
+              style={{ marginBottom: "16px" }}
+            >
+              {t("form.required_description")}
+            </StyledText>
             <FormControl>
               <StyledFormLabel>{t("form.event_details.name")}*</StyledFormLabel>
               <FormInput name="name" label="Name" placeholder="Party Rangers" />
@@ -115,20 +124,40 @@ const CreateEventForm: React.FC = () => {
             </FormControl>
 
             <Divider />
-            <FormControl>
-              <StyledFormLabel>{t("form.event_details.date")}*</StyledFormLabel>
-              <FormInput
-                name="date"
-                label="Date"
-                type="datetime-local"
-                placeholder=""
-              />
-              <StyledErrorMessage name="date" />
+            <Stack spacing={5} direction={"row"}>
+              <FormControl>
+                <StyledFormLabel>
+                  {t("form.event_details.date")}*
+                </StyledFormLabel>
+                <FormInput
+                  name="date"
+                  label="Date"
+                  type="datetime-local"
+                  placeholder=""
+                />
+                <StyledErrorMessage name="date" />
 
-              <StyledFormLabelWithHelperText>
-                {t("form.event_details.date_helperText")}
-              </StyledFormLabelWithHelperText>
-            </FormControl>
+                <StyledFormLabelWithHelperText>
+                  {t("form.event_details.date_helperText")}
+                </StyledFormLabelWithHelperText>
+              </FormControl>
+              <FormControl>
+                <StyledFormLabel>
+                  {t("form.event_details.end_date")}
+                </StyledFormLabel>
+                <FormInput
+                  name="end_date"
+                  label="Date"
+                  type="datetime-local"
+                  placeholder=""
+                />
+                <StyledErrorMessage name="end_date" />
+
+                <StyledFormLabelWithHelperText>
+                  {t("form.event_details.end_date_helperText")}
+                </StyledFormLabelWithHelperText>
+              </FormControl>
+            </Stack>
             <Divider />
             <FormControl>
               <FormLabel>

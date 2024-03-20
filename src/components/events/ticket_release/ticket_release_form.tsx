@@ -92,6 +92,15 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
       {({ values, isValid, errors }) => {
         return (
           <Form>
+            <StyledText
+              color={PALLETTE.red}
+              level="body-sm"
+              fontSize={16}
+              fontWeight={600}
+              style={{ marginBottom: "16px" }}
+            >
+              {t("form.required_description")}
+            </StyledText>
             <FormControl>
               <FormInput
                 name="event_date"

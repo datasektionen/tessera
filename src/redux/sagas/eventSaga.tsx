@@ -60,6 +60,9 @@ function* eventSaga(
       description: eventData.description!,
       location: eventData.location!,
       date: new Date(eventData.date!).getTime(),
+      end_date: eventData.end_date
+        ? new Date(eventData.end_date).getTime()
+        : undefined,
       organizationId: eventData.organization_id!,
       createdById: eventData.created_by!,
       organization: {
@@ -163,6 +166,9 @@ function* editEventSaga(
       description: event.description,
       location: event.location!.label,
       date: new Date(event.date).getTime() / 1000,
+      end_date: event.end_date
+        ? new Date(event.end_date).getTime() / 1000
+        : undefined,
       is_private: event.is_private,
       organization_id: event.organization_id,
     };

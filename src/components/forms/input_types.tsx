@@ -17,6 +17,7 @@ interface FormInputProps {
   overrideStyle?: Object;
   autoComplete?: string;
   readOnly?: boolean;
+  clear?: () => void;
 }
 
 export const DefaultInputStyle = {

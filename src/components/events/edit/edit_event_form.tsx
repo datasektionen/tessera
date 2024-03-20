@@ -13,7 +13,7 @@ import {
   Stack,
   Textarea,
 } from "@mui/joy";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
 import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyOrganizationsRequest } from "../../../redux/features/organizationSlice";
@@ -70,6 +70,9 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
         name: event.name,
         description: event.description,
         date: format(new Date(event.date), "yyyy-MM-dd'T'HH:mm"),
+        end_date: event.end_date
+          ? format(new Date(event.end_date), "yyyy-MM-dd'T'HH:mm")
+          : "",
         location: {
           label: event.location,
           value: event.location,
@@ -106,7 +109,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
         handleSubmission(values);
       }}
     >
-      {({ values, isValid, errors }) => {
+      {({ values, isValid, errors, setFieldValue }) => {
         return (
           <Form>
             <Grid
@@ -153,22 +156,40 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
-                <FormControl>
-                  <StyledFormLabel>
-                    {t("form.event_details.date")}*
-                  </StyledFormLabel>
-                  <FormInput
-                    name="date"
-                    label="Date"
-                    type="datetime-local"
-                    placeholder=""
-                  />
-                  <StyledErrorMessage name="date" />
+                <Stack spacing={5} direction={"row"}>
+                  <FormControl>
+                    <StyledFormLabel>
+                      {t("form.event_details.date")}*
+                    </StyledFormLabel>
+                    <FormInput
+                      name="date"
+                      label="Date"
+                      type="datetime-local"
+                      placeholder=""
+                    />
+                    <StyledErrorMessage name="date" />
 
-                  <StyledFormLabelWithHelperText>
-                    {t("form.event_details.date_helperText")}
-                  </StyledFormLabelWithHelperText>
-                </FormControl>
+                    <StyledFormLabelWithHelperText>
+                      {t("form.event_details.date_helperText")}
+                    </StyledFormLabelWithHelperText>
+                  </FormControl>
+                  <FormControl>
+                    <StyledFormLabel>
+                      {t("form.event_details.end_date")}
+                    </StyledFormLabel>
+                    <FormInput
+                      name="end_date"
+                      label="Date"
+                      type="datetime-local"
+                      placeholder=""
+                    />
+                    <StyledErrorMessage name="date" />
+
+                    <StyledFormLabelWithHelperText>
+                      {t("form.event_details.end_date_helperText")}
+                    </StyledFormLabelWithHelperText>
+                  </FormControl>
+                </Stack>
               </Grid>
 
               <Grid xs={16} sm={8}>

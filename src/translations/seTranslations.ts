@@ -19,6 +19,7 @@ const seTranslations = {
   },
 
   form: {
+    required_description: "Fält markerade med * är obligatoriska.",
     event_details: {
       name: "Namn",
       name_helperText: "Vad är namnet på ditt evenemang?",
@@ -27,6 +28,8 @@ const seTranslations = {
         "Beskriv vad ditt evenemang handlar om. Vad kan deltagarna förvänta sig? Markdown stöds.",
       date: "Datum",
       date_helperText: "När är ditt evenemang?",
+      end_date: "Slutdatum",
+      end_date_helperText: "När slutar ditt evenemang?",
       location: "Plats",
       location_helperText: "Var hålls ditt evenemang?",
       team: "Grupp",
