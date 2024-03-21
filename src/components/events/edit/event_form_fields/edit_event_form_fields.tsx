@@ -17,6 +17,7 @@ import {
   MenuItem,
   Option,
   Select,
+  Sheet,
   Stack,
 } from "@mui/joy";
 import {
@@ -39,6 +40,7 @@ import {
 } from "../../../forms/form_labels";
 import { StyledErrorMessage } from "../../../forms/messages";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 interface EventFormFieldsProps {
   event: IEvent;
@@ -101,7 +103,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
 
             <Divider sx={{ my: 1 }} />
 
-            <Stack direction="row" sx={{ my: 1 }} spacing={2}>
+            <Stack direction="row" sx={{ my: 1, px: 2 }} spacing={2}>
               <StyledFormLabel
                 overrideStyles={{
                   width: "200px",
@@ -118,7 +120,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
               </StyledFormLabel>
               <StyledFormLabel
                 overrideStyles={{
-                  width: "200px",
+                  width: "350px",
                 }}
               >
                 {t("form.event_fields.label_description")}
@@ -137,13 +139,9 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                   return;
                 }
 
-                console.log(values.form_fields);
-
                 const items = Array.from(values.form_fields);
                 const [reorderedItem] = items.splice(result.source.index, 1);
                 items.splice(result.destination.index, 0, reorderedItem);
-
-                console.log(items);
 
                 setFieldValue("form_fields", items);
               }}
@@ -173,92 +171,116 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
-                                    <Stack
-                                      key={index}
-                                      direction="row"
-                                      spacing={2}
-                                      sx={{
-                                        my: 1,
+                                    <Box
+                                      style={{
+                                        position: "relative",
+                                        border: "1px solid " + PALLETTE.cerise,
+                                        backgroundColor:
+                                          PALLETTE.offWhite + " !important",
                                       }}
+                                      my={1}
+                                      px={2}
                                     >
-                                      <Box>
-                                        <FormInput
-                                          label="Field Name"
-                                          name={`form_fields.${index}.name`}
-                                          placeholder="Field Name"
-                                        />
-                                        <StyledErrorMessage
-                                          name={`form_fields.${index}.name`}
-                                        />
-                                      </Box>
-                                      <Box>
-                                        <Field
-                                          name={`form_fields.${index}.type`}
-                                        >
-                                          {({ field, form }: any) => {
-                                            return (
-                                              <Select
-                                                {...field}
-                                                onChange={(_, newValue) => {
-                                                  form.setFieldValue(
-                                                    field.name,
-                                                    newValue as number
-                                                  );
-                                                }}
-                                                style={DefaultInputStyle}
-                                                placeholder="Select a field type"
-                                              >
-                                                {EventFormFields.map(
-                                                  (option) => (
-                                                    <Option
-                                                      key={option.id}
-                                                      value={option.id}
-                                                    >
-                                                      {option.label}
-                                                    </Option>
-                                                  )
-                                                )}
-                                              </Select>
-                                            );
-                                          }}
-                                        </Field>
-                                        <StyledErrorMessage
-                                          name={`form_fields.${index}.type`}
-                                        />
-                                      </Box>
+                                      <Stack
+                                        key={index}
+                                        direction="row"
+                                        spacing={2}
+                                        sx={{
+                                          my: 1,
+                                        }}
+                                      >
+                                        <Box>
+                                          <FormInput
+                                            label="Field Name"
+                                            name={`form_fields.${index}.name`}
+                                            placeholder="Field Name"
+                                          />
+                                          <StyledErrorMessage
+                                            name={`form_fields.${index}.name`}
+                                          />
+                                        </Box>
+                                        <Box>
+                                          <Field
+                                            name={`form_fields.${index}.type`}
+                                          >
+                                            {({ field, form }: any) => {
+                                              return (
+                                                <Select
+                                                  {...field}
+                                                  onChange={(_, newValue) => {
+                                                    form.setFieldValue(
+                                                      field.name,
+                                                      newValue as number
+                                                    );
+                                                  }}
+                                                  style={DefaultInputStyle}
+                                                  placeholder="Select a field type"
+                                                >
+                                                  {EventFormFields.map(
+                                                    (option) => (
+                                                      <Option
+                                                        key={option.id}
+                                                        value={option.id}
+                                                      >
+                                                        {option.label}
+                                                      </Option>
+                                                    )
+                                                  )}
+                                                </Select>
+                                              );
+                                            }}
+                                          </Field>
+                                          <StyledErrorMessage
+                                            name={`form_fields.${index}.type`}
+                                          />
+                                        </Box>
 
-                                      <Box>
-                                        <FormTextarea
-                                          label="Field Description"
-                                          name={`form_fields.${index}.description`}
-                                          placeholder="Field Description"
-                                        />
-                                        <StyledErrorMessage
-                                          name={`form_fields.${index}.description`}
-                                        />
-                                      </Box>
+                                        <Box>
+                                          <FormTextarea
+                                            label="Field Description"
+                                            name={`form_fields.${index}.description`}
+                                            placeholder="Field Description"
+                                          />
+                                          <StyledErrorMessage
+                                            name={`form_fields.${index}.description`}
+                                          />
+                                        </Box>
 
-                                      <Box>
-                                        <FormCheckbox
-                                          label="Required"
-                                          name={`form_fields.${index}.is_required`}
-                                        />
-                                      </Box>
+                                        <Box>
+                                          <FormCheckbox
+                                            label="Required"
+                                            name={`form_fields.${index}.is_required`}
+                                          />
+                                        </Box>
 
-                                      <Box>
-                                        <StyledButton
-                                          size="sm"
-                                          type="button"
-                                          onClick={() => remove(index)}
+                                        <Box>
+                                          <StyledButton
+                                            size="sm"
+                                            type="button"
+                                            onClick={() => remove(index)}
+                                            style={{
+                                              marginLeft: "128px",
+                                            }}
+                                          >
+                                            {t("form.button_delete")}
+                                          </StyledButton>
+                                        </Box>
+                                      </Stack>
+                                      <Box
+                                        style={{
+                                          position: "absolute",
+                                          right: "10px",
+                                          top: "50%",
+                                          transform: "translateY(-50%)",
+                                        }}
+                                      >
+                                        <DragIndicatorIcon
                                           style={{
-                                            marginLeft: "128px",
+                                            color: PALLETTE.charcoal,
                                           }}
-                                        >
-                                          {t("form.button_delete")}
-                                        </StyledButton>
+                                        />
                                       </Box>
-                                    </Stack>
-                                    <Divider sx={{ my: 1 }} />
+                                    </Box>
                                   </div>
                                 )}
                               </Draggable>
