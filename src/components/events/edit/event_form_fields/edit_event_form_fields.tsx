@@ -7,7 +7,7 @@ import {
 } from "../../../../types";
 import axios from "axios";
 import * as Yup from "yup";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik, useFormikContext } from "formik";
 import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import {
@@ -38,6 +38,7 @@ import {
   StyledFormLabelWithHelperText,
 } from "../../../forms/form_labels";
 import { StyledErrorMessage } from "../../../forms/messages";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 interface EventFormFieldsProps {
   event: IEvent;
@@ -79,7 +80,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
         validationSchema={formFieldSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, touched }) => (
+        {({ values, errors, touched, setFieldValue }) => (
           <Form>
             <StyledFormLabel>
               {t("form.event_fields.form_field_description")}
@@ -130,109 +131,159 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                 {t("form.event_fields.label_required")}
               </StyledFormLabel>
             </Stack>
+            <DragDropContext
+              onDragEnd={(result) => {
+                if (!result.destination) {
+                  return;
+                }
 
-            <FieldArray name="form_fields">
-              {({ insert, remove, push }) => (
-                <Box key={values.form_fields.length}>
-                  {values.form_fields.length > 0 &&
-                    values.form_fields.map((field, index) => (
-                      <div key={index}>
-                        <Stack
-                          key={index}
-                          direction="row"
-                          spacing={2}
-                          sx={{
-                            my: 1,
-                          }}
+                console.log(values.form_fields);
+
+                const items = Array.from(values.form_fields);
+                const [reorderedItem] = items.splice(result.source.index, 1);
+                items.splice(result.destination.index, 0, reorderedItem);
+
+                console.log(items);
+
+                setFieldValue("form_fields", items);
+              }}
+            >
+              <FieldArray name="form_fields">
+                {({ insert, remove, push }) => (
+                  <Box key={values.form_fields.length}>
+                    <Droppable droppableId="formFields">
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
                         >
-                          <Box>
-                            <FormInput
-                              label="Field Name"
-                              name={`form_fields.${index}.name`}
-                              placeholder="Field Name"
-                            />
-                            <StyledErrorMessage
-                              name={`form_fields.${index}.name`}
-                            />
-                          </Box>
-                          <Box>
-                            <Field name={`form_fields.${index}.type`}>
-                              {({ field, form }: any) => {
-                                return (
-                                  <Select
-                                    {...field}
-                                    onChange={(_, newValue) => {
-                                      form.setFieldValue(
-                                        field.name,
-                                        newValue as number
-                                      );
-                                    }}
-                                    style={DefaultInputStyle}
-                                    placeholder="Select a field type"
+                          {values.form_fields.length > 0 &&
+                            values.form_fields.map((field, index) => (
+                              <Draggable
+                                draggableId={String(index)}
+                                index={index}
+                                key={index}
+                              >
+                                {(
+                                  provided // Added parent element for JSX expressions
+                                ) => (
+                                  <div
+                                    key={index}
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
                                   >
-                                    {EventFormFields.map((option) => (
-                                      <Option key={option.id} value={option.id}>
-                                        {option.label}
-                                      </Option>
-                                    ))}
-                                  </Select>
-                                );
-                              }}
-                            </Field>
-                            <StyledErrorMessage
-                              name={`form_fields.${index}.type`}
-                            />
-                          </Box>
+                                    <Stack
+                                      key={index}
+                                      direction="row"
+                                      spacing={2}
+                                      sx={{
+                                        my: 1,
+                                      }}
+                                    >
+                                      <Box>
+                                        <FormInput
+                                          label="Field Name"
+                                          name={`form_fields.${index}.name`}
+                                          placeholder="Field Name"
+                                        />
+                                        <StyledErrorMessage
+                                          name={`form_fields.${index}.name`}
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <Field
+                                          name={`form_fields.${index}.type`}
+                                        >
+                                          {({ field, form }: any) => {
+                                            return (
+                                              <Select
+                                                {...field}
+                                                onChange={(_, newValue) => {
+                                                  form.setFieldValue(
+                                                    field.name,
+                                                    newValue as number
+                                                  );
+                                                }}
+                                                style={DefaultInputStyle}
+                                                placeholder="Select a field type"
+                                              >
+                                                {EventFormFields.map(
+                                                  (option) => (
+                                                    <Option
+                                                      key={option.id}
+                                                      value={option.id}
+                                                    >
+                                                      {option.label}
+                                                    </Option>
+                                                  )
+                                                )}
+                                              </Select>
+                                            );
+                                          }}
+                                        </Field>
+                                        <StyledErrorMessage
+                                          name={`form_fields.${index}.type`}
+                                        />
+                                      </Box>
 
-                          <Box>
-                            <FormTextarea
-                              label="Field Description"
-                              name={`form_fields.${index}.description`}
-                              placeholder="Field Description"
-                            />
-                            <StyledErrorMessage
-                              name={`form_fields.${index}.description`}
-                            />
-                          </Box>
+                                      <Box>
+                                        <FormTextarea
+                                          label="Field Description"
+                                          name={`form_fields.${index}.description`}
+                                          placeholder="Field Description"
+                                        />
+                                        <StyledErrorMessage
+                                          name={`form_fields.${index}.description`}
+                                        />
+                                      </Box>
 
-                          <Box>
-                            <FormCheckbox
-                              label="Required"
-                              name={`form_fields.${index}.is_required`}
-                            />
-                          </Box>
+                                      <Box>
+                                        <FormCheckbox
+                                          label="Required"
+                                          name={`form_fields.${index}.is_required`}
+                                        />
+                                      </Box>
 
-                          <Box>
-                            <StyledButton
-                              size="sm"
-                              type="button"
-                              onClick={() => remove(index)}
-                              style={{
-                                marginLeft: "128px",
-                              }}
-                            >
-                              {t("form.button_delete")}
-                            </StyledButton>
-                          </Box>
-                        </Stack>
-                        <Divider sx={{ my: 1 }} />
-                      </div>
-                    ))}
-                  <StyledButton
-                    size="sm"
-                    type="button"
-                    onClick={() =>
-                      push({ name: "", type: "", description: "" })
-                    }
-                    sx={{
-                      mt: 2,
-                    }}
-                  >
-                    {t("form.button_add_field")}
-                  </StyledButton>
-                </Box>
-              )}
-            </FieldArray>
+                                      <Box>
+                                        <StyledButton
+                                          size="sm"
+                                          type="button"
+                                          onClick={() => remove(index)}
+                                          style={{
+                                            marginLeft: "128px",
+                                          }}
+                                        >
+                                          {t("form.button_delete")}
+                                        </StyledButton>
+                                      </Box>
+                                    </Stack>
+                                    <Divider sx={{ my: 1 }} />
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                    <StyledButton
+                      size="sm"
+                      type="button"
+                      onClick={() =>
+                        push({ name: "", type: "", description: "" })
+                      }
+                      sx={{
+                        mt: 2,
+                      }}
+                    >
+                      {t("form.button_add_field")}
+                    </StyledButton>
+                  </Box>
+                )}
+              </FieldArray>
+            </DragDropContext>
+
             <StyledButton
               size="lg"
               type="submit"
