@@ -395,7 +395,7 @@ const enTranslations = {
         title: "Edit event details",
       },
       ticket_releases: {
-        title: "Edit Ticket Ticket Release",
+        title: "Edit Ticket Release",
         subtitle:
           "Create ticket releases for your event. You can create as many as you want, and you can edit them later.",
         select: "Select a ticket release to edit it.",
