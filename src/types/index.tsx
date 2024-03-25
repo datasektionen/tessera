@@ -470,10 +470,10 @@ export interface IContactFormValues {
 }
 
 export interface IAddon {
+  id: number;
   name: string;
   description: string;
   price: number;
-  min_quantity: number;
   max_quantity: number;
   is_enabled: boolean;
   ticket_release_id: number;

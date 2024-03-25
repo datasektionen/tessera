@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   EventFormInitialTestValues,
   EventFormInitialValues,
+  IAddon,
   IEvent,
   IEventForm,
   ITicketReleaseForm,
