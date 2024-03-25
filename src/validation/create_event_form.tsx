@@ -25,7 +25,7 @@ const CreateEventFormSchema = Yup.object().shape({
     .test("is-future", "Date must be in the future", checkDateInFuture),
   end_date: Yup.string()
     .optional()
-    .test("is-future", "End date must be in the future", checkDateInFuture)
+      .test("is-future", "End date must be in the future", checkDateInFuture)
     .test(
       "is-after-start",
       "End date must be after start date",

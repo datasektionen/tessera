@@ -156,6 +156,8 @@ const enTranslations = {
       form_field_description: "Description",
       form_field_description_helperText:
         "Describe what additional information you want to collect from the user, and why. Markdown is supported.",
+      delete_field_confirm:
+        "Are you sure you want to delete this field? Deleting this field might result in loss of response data. You will have to save after deleting!",
     },
 
     button_add_field: "Add field",
