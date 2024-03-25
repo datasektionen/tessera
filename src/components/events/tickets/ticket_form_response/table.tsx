@@ -1,12 +1,22 @@
-import { Box } from "@mui/joy";
+import {
+  Accordion,
+  AccordionGroup,
+  AccordionSummary,
+  Box,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from "@mui/joy";
 import { IEventFormFieldResponse, ITicket } from "../../../../types";
-import { ThemeProvider } from "@mui/material";
+import { AccordionDetails, ThemeProvider } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { MUItheme } from "../list/datagrid_utils/mui_theme";
 import CustomToolbar from "../list/datagrid_utils/toolbar";
 import React from "react";
 import StyledText from "../../../text/styled_text";
 import { format } from "date-fns";
+import PALLETTE from "../../../../theme/pallette";
 
 interface TicketEventFormResponseTableProps {
   tickets: ITicket[];
@@ -61,6 +71,7 @@ const TicketEventFormResponseTable: React.FC<
   TicketEventFormResponseTableProps
 > = ({ tickets }) => {
   const [rows, setRows] = React.useState<any[]>([]);
+  const [view, setView] = React.useState<"grid" | "accordion">("grid"); // Add state variable for view
 
   const customColumns = getEventFormFieldsColumns(tickets);
 
@@ -112,16 +123,60 @@ const TicketEventFormResponseTable: React.FC<
 
   return (
     <Box sx={{}}>
-      <ThemeProvider theme={MUItheme}>
-        <DataGrid
-          rows={rows}
-          rowHeight={32}
-          columns={columns}
-          slots={{
-            toolbar: CustomToolbar,
-          }}
-        />
-      </ThemeProvider>
+      <Tabs
+        defaultValue={0}
+        sx={{
+          backgroundColor: "transparent",
+        }}
+      >
+        <TabList>
+          <Tab>
+            <StyledText level="body-lg" color={PALLETTE.charcoal} fontSize={24}>
+              Grid View
+            </StyledText>
+          </Tab>
+          <Tab>
+            <StyledText level="body-lg" color={PALLETTE.charcoal} fontSize={24}>
+              Accordion View
+            </StyledText>
+          </Tab>
+        </TabList>
+        {/* Add button to toggle view */}
+        <TabPanel value={0}>
+          <ThemeProvider theme={MUItheme}>
+            <DataGrid
+              rows={rows}
+              rowHeight={32}
+              columns={columns}
+              slots={{
+                toolbar: CustomToolbar,
+              }}
+            />
+          </ThemeProvider>
+        </TabPanel>
+        <TabPanel value={1}>
+          {tickets.map((ticket) => (
+            <AccordionGroup key={ticket.id}>
+              <Accordion>
+                <AccordionSummary>
+                  <StyledText
+                    level="body-lg"
+                    color={PALLETTE.charcoal}
+                    fontSize={24}
+                  >
+                    {ticket.id}
+                  </StyledText>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <StyledText level="body-lg" color={PALLETTE.charcoal}>
+                    {ticket.user?.username}
+                  </StyledText>
+                </AccordionDetails>
+              </Accordion>
+            </AccordionGroup>
+          ))}
+        </TabPanel>
+      </Tabs>
     </Box>
   );
 };
