@@ -425,6 +425,11 @@ const enTranslations = {
           "Modify the details of your ticket types and then click 'Save'.",
       },
     },
+
+    form_field_responses: {
+      list_view: "List View",
+      table_view: "Table View",
+    },
   },
 
   ticket_release_method: {

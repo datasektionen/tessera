@@ -378,6 +378,11 @@ const seTranslations = {
           "Ändra detaljerna för dina biljettyper och klicka sedan på 'Spara'.",
       },
     },
+
+    form_field_responses: {
+      list_view: "Listvy",
+      table_view: "Tabellvy",
+    },
   },
 
   event_form_fields: {
