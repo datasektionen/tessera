@@ -474,9 +474,10 @@ export interface IAddon {
   name: string;
   description: string;
   price: number;
+  contains_alcohol: boolean;
   max_quantity: number;
   is_enabled: boolean;
-  ticket_release_id: number;
+  ticket_release_id?: number;
 }
 
 export enum OrganizationUserRole {

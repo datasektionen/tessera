@@ -20,15 +20,6 @@ const AddonFormSchema = yup.object().shape({
       (value) => value >= 0
     )
     .integer("Price must be a whole number"),
-  min_quantity: yup
-    .number()
-    .required("Min Quantity is required")
-    .test(
-      "is-greater-than-or-equal-to-1",
-      "Min Quantity must be greater than or equal to 1",
-      (value) => value >= 1
-    )
-    .integer("Min Quantity must be a whole number"),
   max_quantity: yup
     .number()
     .required("Max Quantity is required")
@@ -52,11 +43,7 @@ const AddonFormSchema = yup.object().shape({
     ),
 
   is_enabled: yup.boolean(),
-  ticket_release_id: yup
-    .number()
-    .required("Ticket Release ID is required")
-    .integer("Ticket Release ID must be an integer")
-    .min(1, "Ticket Release ID is required"),
+  contains_alcohol: yup.boolean(),
 });
 
 export default AddonFormSchema;

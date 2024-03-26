@@ -4,12 +4,12 @@ import { IAddon } from "../../types";
 // Assuming you have predefined initial values for an addon
 export const AddonInitialValues: IAddon = {
   id: 0,
-  name: "",
+  name: "Default",
   description: "",
+  contains_alcohol: false,
   price: 0,
-  max_quantity: 2,
+  max_quantity: 1,
   is_enabled: true,
-  ticket_release_id: 0, // Adjust based on your logic
 };
 
 interface AddonCreationState {
@@ -70,6 +70,25 @@ const addonCreationSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
+    deleteAddonRequest: (
+      state,
+      action: PayloadAction<{
+        addonID: number;
+        eventID: number;
+        ticketReleaseID: number;
+      }>
+    ) => {
+      state.loading = true;
+    },
+    deleteAddonSuccess: (state, action: PayloadAction<number>) => {
+      state.loading = false;
+      console.log("Addon deleted successfully");
+      console.log(state.addons);
+    },
+    deleteAddonFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -83,6 +102,9 @@ export const {
   updateAddon,
   clearAddon,
   resetAddons,
+  deleteAddonRequest,
+  deleteAddonSuccess,
+  deleteAddonFailure,
 } = addonCreationSlice.actions;
 
 export default addonCreationSlice.reducer;

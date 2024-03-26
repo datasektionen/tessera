@@ -58,6 +58,7 @@ const enTranslations = {
       "The table shows all the ticket requests and tickets for this event.",
     manage_tickets_custom_event_form_description:
       "Here you can see all the form responses for this event. This is the information the user has submitted when requesting a ticket.",
+    must_be_edited: "This form must be valid before you can proceed.",
   },
   form: {
     required_description: "Fields marked with * are required",
@@ -156,6 +157,22 @@ const enTranslations = {
       form_field_description: "Description",
       form_field_description_helperText:
         "Describe what additional information you want to collect from the user, and why. Markdown is supported.",
+    },
+
+    addon: {
+      name: "Name",
+      name_helperText: "What is the name of this addon?",
+      description: "Description",
+      description_helperText:
+        "Describe what this addon is about. Markdown is supported.",
+      price: "Price (SEK)",
+      price_helperText: "How much does this addon cost?",
+      max_quantity: "Max quantity",
+      max_quantity_helperText: "How many of this addon can a user buy?",
+      is_enabled: "Enabled",
+      is_enabled_helperText: "Is this addon enabled?",
+      contains_alcohol: "Contains alcohol",
+      contains_alcohol_helperText: "Does this addon involve alcohol?",
     },
 
     button_add_field: "Add field",
@@ -414,6 +431,9 @@ const enTranslations = {
         title: "Edit Addons",
         subtitle:
           "Add addons to the ticket release. You can create as many as you want. Try to be specific with the name and description of the addon. You can also specify if the addon costs extra.",
+        form_title: "Addon Form",
+        form_subtitle:
+          "Define your addons here. You can add as many as you want.",
       },
 
       ticket_types: {

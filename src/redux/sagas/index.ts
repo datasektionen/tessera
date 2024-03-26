@@ -16,6 +16,7 @@ import watchEventTicketsSaga from "./eventTicketsSaga";
 import watchExternalAuthSagas from "./externalAuthSaga";
 import { listOrganizationsSaga } from "./listOrganizationsSlice";
 import watchSalesReportSaga from "./salesReportSaga";
+import watchGetAddonSaga from "./addonSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -36,6 +37,7 @@ export default function* rootSaga() {
     watchEventTicketsSaga(),
     watchExternalAuthSagas(),
     listOrganizationsSaga(),
+    watchGetAddonSaga(),
     // add other sagas here
   ]);
 }

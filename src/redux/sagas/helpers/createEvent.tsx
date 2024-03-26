@@ -31,9 +31,9 @@ export const postCreateEvent = async (
     }
   );
 
-  if (res.status == 201) {
+  if (res.status === 201) {
     return convertResponseToEvent(res.data.event);
-  } else if (res.status == 400) {
+  } else if (res.status === 400) {
     throw new CreateEventError(res.data.error);
   } else {
     throw new CreateEventError("Something went wrong!");
@@ -50,9 +50,9 @@ export const deleteEvent = async (eventId: number): Promise<void> => {
     }
   );
 
-  if (res.status == 200) {
+  if (res.status === 200) {
     return;
-  } else if (res.status == 400) {
+  } else if (res.status === 400) {
     throw new DeleteEventError(res.data.error);
   } else {
     throw new DeleteEventError("Something went wrong!");
