@@ -370,6 +370,13 @@ const seTranslations = {
         no_ticket_releases: "Det finns inga biljettsläpp för detta evenemang.",
         edit_ticket_types: "Redigera biljetter",
         add_helperText: "Vänligen välj ett biljettsläpp att redigera.",
+
+        edit_addons: "Redigera tillägg",
+      },
+      addons: {
+        title: "Redigera tillägg",
+        subtitle:
+          "Lägg till tillägg till biljettsläppet. Du kan skapa så många du vill. Försök att vara specifik med namnet och beskrivningen av tillägget. Du kan också ange om tillägget kostar extra.",
       },
       ticket_types: {
         title: "Redigera biljettbatcher",
