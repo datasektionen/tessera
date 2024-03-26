@@ -130,6 +130,7 @@ export interface FormMarkdownProps {
   placeholder: string;
   minRows?: number;
   onChange?: (content: string) => void;
+  overrideStyle?: Object;
 }
 
 export const FormMarkdown: React.FC<FormMarkdownProps> = ({
@@ -138,6 +139,7 @@ export const FormMarkdown: React.FC<FormMarkdownProps> = ({
   placeholder,
   minRows = 2,
   onChange = () => {},
+  overrideStyle = {},
 }) => {
   const [content, setContent] = useState<string>("");
 
@@ -154,7 +156,7 @@ export const FormMarkdown: React.FC<FormMarkdownProps> = ({
       {({ field, form }: any) => (
         <Textarea
           {...field}
-          rows={minRows}
+          minRows={minRows}
           placeholder={placeholder}
           onChange={(event) => {
             handleChange(event);
@@ -163,6 +165,7 @@ export const FormMarkdown: React.FC<FormMarkdownProps> = ({
           style={{
             ...DefaultInputStyle,
             width: "350px",
+            ...overrideStyle,
           }}
         />
       )}

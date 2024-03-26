@@ -97,7 +97,14 @@ const CreateEventForm: React.FC = () => {
             </StyledText>
             <FormControl>
               <StyledFormLabel>{t("form.event_details.name")}*</StyledFormLabel>
-              <FormInput name="name" label="Name" placeholder="Party Rangers" />
+              <FormInput
+                name="name"
+                label="Name"
+                placeholder="Party Rangers"
+                overrideStyle={{
+                  width: "50%",
+                }}
+              />
               <StyledErrorMessage name="name" />
 
               <StyledFormLabelWithHelperText>
@@ -115,6 +122,10 @@ const CreateEventForm: React.FC = () => {
                 name="description"
                 label="Description"
                 placeholder="Party Rangers is a party for rangers."
+                minRows={2}
+                overrideStyle={{
+                  width: "95%",
+                }}
               />
               <StyledErrorMessage name="description" />
 

@@ -120,6 +120,9 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 name="name"
                 label="Name"
                 placeholder="Normal Tickets"
+                overrideStyle={{
+                  width: "50%",
+                }}
               />
               <StyledErrorMessage name="name" />
 
@@ -137,6 +140,10 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 name="description"
                 label="Description"
                 placeholder="Normal tickets for Party Rangers."
+                minRows={2}
+                overrideStyle={{
+                  width: "95%",
+                }}
               />
               <StyledErrorMessage name="description" />
 
