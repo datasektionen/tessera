@@ -592,12 +592,12 @@ const seTranslations = {
     how_to_use: {
       request_ticket_title: "Önska en biljett",
       request_ticket:
-        "Tesseras innovativa tillvägagångssätt för biljettdistribution gör att användare kan önska biljetter till evenemang genom metoder som ett lotterisystem eller först-till-kvarn, vilket gör processen rättvisare och mer tillgänglig; navigera helt enkelt till fliken för evenemang, hitta ditt evenemang och klicka på 'Önska Biljett' för att starta.",
+        "Tesserars nyskapande sätt att dela ut biljetter gör det möjligt för användare att få biljetter till evenemang genom olika metoder, som ett lotteri eller på en först-till-kvarn. Detta gör att alla har en rättvis chans att få biljetter. För att önska en biljett, gå bara till evenemangsfliken, sök upp ditt evenemang och klicka på 'Önska Biljett'.",
       fill_out_title: "Fyll i personuppgifter",
       fill_out:
-        "Efter att ha önskat en biljett måste du ange personuppgifter som matpreferenser och allergier. Denna information hjälper arrangörerna att anpassa evenemanget efter dina behov, vilket garanterar en personlig upplevelse. Tessera länkar ditt konto till dina biljetter, vilket förenklar processen och förbättrar din njutning av evenemanget.",
-      wait_title: "Vänta på biljettilldelning",
-      wait: "Det sista steget innebär att vänta på att biljettsläppet ska stängas och att biljetter ska tilldelas, antingen via lotteri eller på först-till-kvarn-basis. Tessera garanterar rättvis biljettdistribution, så övervaka din e-post eller Tessera-konto för uppdateringar om din begäranstatus. Om du lyckas får du ytterligare instruktioner, som t.ex betalningsintstruktioner.",
+        "När du har önskat en biljett behöver du fylla i personliga uppgifter, som dina matpreferenser och eventuella allergier. Detta gör att arrangörerna kan skräddarsy evenemanget för dig och säkerställer en mer personlig upplevelse. Tessera kopplar ditt konto till dina biljetter, vilket gör processen smidigare och hjälper dig att njuta mer av evenemanget.",
+      wait_title: "Vänta på din biljett",
+      wait: "Det sista steget är att vänta på att biljettsläppet stänger och biljetterna delas ut, antingen genom ett lotteri eller på en först-till-kvarn-basis. Tessera ser till att biljetterna fördelas rättvist. Håll ett öga på din e-post eller ditt Tessera-konto för att få uppdateringar om din begärans status. Om du får biljetter kommer du även att få vidare instruktioner, som hur du betalar.",
     },
   },
   faq: {
