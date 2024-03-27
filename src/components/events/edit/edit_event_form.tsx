@@ -185,6 +185,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                       label="Date"
                       type="datetime-local"
                       placeholder=""
+                      required={false}
                     />
                     <StyledErrorMessage name="date" />
 

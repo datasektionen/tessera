@@ -114,7 +114,11 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                   {userCanManage && (
                     <Link href={`/events/${event.id}/manage`}>
                       <IconButton>
-                        <ModeEditIcon />
+                        <ModeEditIcon
+                          style={{
+                            color: PALLETTE.cerise_dark,
+                          }}
+                        />
                       </IconButton>
                     </Link>
                   )}
@@ -130,9 +134,14 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 <div>
                   <StyledText
                     level="h4"
-                    fontWeight={600}
+                    fontWeight={700}
                     color={PALLETTE.cerise_dark}
-                    fontSize={24}
+                    fontSize={22}
+                    style={{
+                      width: "60%",
+                      // Breaks text into multiple lines if it's too long
+                      overflow: "hidden",
+                    }}
                   >
                     {event.name}
                   </StyledText>
