@@ -147,7 +147,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
               const isInvalid = invalidForms[index]?.length > 0;
               return (
                 <StyledBorderBox
-                  key={index}
+                  key={index + addon.name}
                   onClick={() => {
                     dispatch(setSelectedAddon(index));
                   }}
@@ -231,18 +231,30 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
               />
             </Tooltip>
           </Box>
-          <StyledButton
-            size="lg"
-            onClick={handleSubmit}
-            color={PALLETTE.charcoal}
-            bgColor={PALLETTE.green}
-            style={{
-              width: "100px",
-              marginTop: "64px",
-            }}
-          >
-            {t("form.button_save")}
-          </StyledButton>
+          <Stack spacing={2} direction={"row"} mt={2}>
+            <StyledButton
+              size="lg"
+              onClick={handleSubmit}
+              color={PALLETTE.charcoal}
+              bgColor={PALLETTE.green}
+              style={{
+                width: "100px",
+                marginTop: "64px",
+              }}
+            >
+              {t("form.button_save")}
+            </StyledButton>
+            <StyledButton
+              size="lg"
+              onClick={() => window.history.back()}
+              style={{
+                width: "100px",
+                marginTop: "64px",
+              }}
+            >
+              {t("form.button_back")}
+            </StyledButton>
+          </Stack>
         </Grid>
         <Grid xs={8}>
           <BorderBox>

@@ -8,7 +8,6 @@ async function updateAddons(
   addons: IAddon[]
 ) {
   // /events/:eventID/ticket-release/:ticketReleaseID/add-ons
-  console.log("Updating addons...", addons);
   try {
     const response = await axios.put(
       `${process.env.REACT_APP_BACKEND_URL}/events/${eventID}/ticket-release/${ticketReleaseID}/add-ons`,

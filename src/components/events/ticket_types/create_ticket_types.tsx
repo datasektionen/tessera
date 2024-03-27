@@ -84,7 +84,6 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
         });
       } catch (err: any) {
         invalidForms[index] = err.inner.map((error: any) => error.path);
-        console.log(err.inner.map((error: any) => error.message));
         allFormsAreValid = false;
       }
     }

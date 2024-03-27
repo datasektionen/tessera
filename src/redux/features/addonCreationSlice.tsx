@@ -53,6 +53,11 @@ const addonCreationSlice = createSlice({
         (addon, index) => index !== action.payload
       );
     },
+    removeAddonById: (state, action: PayloadAction<number>) => {
+      state.addons = state.addons.filter(
+        (addon) => addon.id !== action.payload
+      );
+    },
     clearAddon: (state, action: PayloadAction<number>) => {
       // Reset the addon to its initial values, preserving ticket_release_id
       const ticketReleaseId = state.addons[action.payload].ticket_release_id;
@@ -82,8 +87,6 @@ const addonCreationSlice = createSlice({
     },
     deleteAddonSuccess: (state, action: PayloadAction<number>) => {
       state.loading = false;
-      console.log("Addon deleted successfully");
-      console.log(state.addons);
     },
     deleteAddonFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
@@ -105,6 +108,7 @@ export const {
   deleteAddonRequest,
   deleteAddonSuccess,
   deleteAddonFailure,
+  removeAddonById,
 } = addonCreationSlice.actions;
 
 export default addonCreationSlice.reducer;

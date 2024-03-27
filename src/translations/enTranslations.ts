@@ -424,11 +424,11 @@ const enTranslations = {
         edit_ticket_types: "Edit tickets",
         add_helperText: "Please select a ticket release to edit.",
 
-        edit_addons: "Edit Addons",
+        edit_addons: "Edit Ticket Addons",
       },
 
       addons: {
-        title: "Edit Addons",
+        title: "Edit Ticket Addons",
         subtitle:
           "Add addons to the ticket release. You can create as many as you want. Try to be specific with the name and description of the addon. You can also specify if the addon costs extra.",
         form_title: "Addon Form",

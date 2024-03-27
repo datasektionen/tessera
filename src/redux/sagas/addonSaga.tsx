@@ -12,6 +12,7 @@ import {
   deleteAddonRequest,
   deleteAddonSuccess,
   removeAddon,
+  removeAddonById,
 } from "../features/addonCreationSlice";
 import { toast } from "react-toastify";
 import { remove } from "lodash";
@@ -41,8 +42,6 @@ function* handleGetAddons(action: any): Generator<any, void, any> {
         ticket_release_id: addon.ticket_release_id,
       } as IAddon;
     });
-
-    console.log(addons);
 
     yield put(getAddonsSuccess(addons));
   } catch (error: any) {
@@ -74,24 +73,17 @@ function* deleteAndRefreshAddonsSaga(action: any): Generator<any, void, any> {
       throw new Error("Failed to delete addon");
     }
 
+    yield put(removeAddon(addonID));
+    yield put(deleteAddonSuccess(addonID));
+    yield put(removeAddonById(addonID));
+
     setTimeout(() => {
       toast.success("Addon deleted successfully");
     }, 250);
-
-    yield put(removeAddon(addonID));
-    yield put(deleteAddonSuccess(addonID));
-
-    // If deleteAddonSuccess action is dispatched, dispatch getAddonsRequest action
-    // yield put(
-    //   getAddonsRequest({
-    //     eventID: action.eventID,
-    //     ticketReleaseID: action.ticketReleaseID,
-    //   })
-    // );
   } catch (error: any) {
     const errorMessage = error.response.data.error || error.message;
     setTimeout(() => {
-      toast.success("Failed to delete addon");
+      toast.error(errorMessage);
     }, 250);
     yield put(deleteAddonFailure(errorMessage));
   }

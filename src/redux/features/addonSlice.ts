@@ -22,7 +22,6 @@ const addonSlice = createSlice({
       state,
       action: PayloadAction<{ eventID: number; ticketReleaseID: number }>
     ) => {
-      console.log("getAddonsRequest");
       state.loading = true;
     },
     getAddonsSuccess: (state, action: PayloadAction<IAddon[]>) => {
