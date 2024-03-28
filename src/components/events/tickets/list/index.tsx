@@ -25,7 +25,7 @@ import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
 import { createFoodPreferenceColumn } from "./datagrid_utils/food_preferences";
 import { MUItheme } from "./datagrid_utils/mui_theme";
-import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
+import { ticketIsEnteredIntoFCFSLottery } from "../../../../utils/event_open_close";
 import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
 
@@ -405,7 +405,7 @@ const EventTicketsList: React.FC<{
           : ticket.purchasable_at !== null
           ? ticket.purchasable_at
           : ticket.updated_at,
-        entered_into_lottery: ticketIsEnteredIntoFCFCLottery(
+        entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
           ticket,
           ticket.ticket_request?.ticket_release!
         ),

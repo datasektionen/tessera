@@ -42,7 +42,7 @@ import ConfirmModal from "../../modal/confirm_modal";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
 
-const TicketReleasHasOpened: React.FC<{
+const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
   const { items: ticketRequestItems, loading: makingRequest } = useSelector(
@@ -224,7 +224,7 @@ const TicketReleasHasOpened: React.FC<{
                 By requesting a ticket you agree to share your food preferences
                 and user details with the event organizer until the event is
                 over. Information collected will be processed in accordance with
-                the chapters information processing policy,
+                the Chapter's information processing policy,
                 <Link
                   href="https://styrdokument.datasektionen.se/pm_informationshantering"
                   target="_blank"
@@ -304,4 +304,4 @@ const TicketReleasHasOpened: React.FC<{
   );
 };
 
-export default TicketReleasHasOpened;
+export default TicketReleaseHasOpened;

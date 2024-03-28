@@ -26,7 +26,7 @@ const EditEventAddTicketReleaseLastStep: React.FC<
     <StandardGrid>
       {loading && <LoadingOverlay />}
       <Grid xs={8}>
-        <Title>Thats it!</Title>
+        <Title>That's it!</Title>
         <Box>
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
             You've now filled in all the details for your new ticket release.

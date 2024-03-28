@@ -135,7 +135,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           ) : !ticket.is_paid ? (
             canPayForTicket(ticket) ? (
               <Trans i18nKey="tickets.confirmed_ticket" values={{ payBefore }}>
-                "Your ticket has been confirmed! Its now time to pay for your
+                "Your ticket has been confirmed! It's now time to pay for your
                 ticket. You can pay for your ticket by clicking the button
                 below. If you do not pay for your ticket before
                 <strong>{payBefore}</strong>, your ticket will be given to the

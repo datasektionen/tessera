@@ -87,7 +87,7 @@ function* createTicketReleaseSaga(
   }
 }
 
-function* updateTicketReleasSaga(
+function* updateTicketReleaseSaga(
   action: PayloadAction<{
     eventId: number;
     ticketReleaseId: number;
@@ -139,7 +139,7 @@ function* updateTicketReleasSaga(
 
 function* watchTicketReleaseSaga() {
   yield takeLatest(createTicketReleaseRequest.type, createTicketReleaseSaga);
-  yield takeLatest(updateTicketReleaseStart.type, updateTicketReleasSaga);
+  yield takeLatest(updateTicketReleaseStart.type, updateTicketReleaseSaga);
 }
 
 export default watchTicketReleaseSaga;

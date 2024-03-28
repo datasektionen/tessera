@@ -34,7 +34,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import * as Yup from "yup";
 import { StyledFormLabel } from "../../components/forms/form_labels";
 
-const initalValues = {
+const initialValues = {
   email: "",
 };
 
@@ -127,7 +127,7 @@ const ForgotPassword: React.FC = () => {
           }}
         >
           <Formik
-            initialValues={initalValues}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             validateOnBlur={true}
             validateOnChange={true}
@@ -147,7 +147,7 @@ const ForgotPassword: React.FC = () => {
                   <FormInput
                     name="email"
                     label="Email"
-                    type="emaik"
+                    type="email"
                     autoComplete="email"
                     placeholder=""
                     overrideStyle={{ backgroundColor: "white", width: "300px" }}

@@ -1,11 +1,11 @@
 import { PlaceOption } from "../components/forms/input_types";
 import { formatDateToDateTimeLocal } from "../utils/date_conversions";
 
-enum NoticicationMethod {
+enum NotificationMethod {
   EMAIL = "email",
 }
 
-enum CacellationPolicy {
+enum CancellationPolicy {
   FULL_REFUND = "full_refund",
   NO_REFUND = "no_refund",
 }

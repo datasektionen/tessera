@@ -26,7 +26,7 @@
     },
     "q7": {
         "question": "What happens if I need to cancel a ticket request or a ticket?",
-        "answer": "If you need to cancel a ticket request or a ticket, you can do so by accessing the 'Your Tickets' or 'Your Ticket Requests' section in your profile. However, please note that cancellations are final and cannot be undone. If you give up a ticket, it will be passed to the next person in line."
+        "answer": "If you need to cancel a ticket request or a ticket, you can do so by accessing the 'Your Tickets' or 'Your Ticket Requests' section in your profile. However, please note that cancellations are final and cannot be undone. If you give up a ticket, it will be passed on to the next person in line."
     },
     "q8": {
         "question": "How are food preferences and allergies handled for event attendees?",
@@ -34,10 +34,10 @@
     },
     "q9": {
         "question": "How can I pay for my tickets, and what is the payment policy?",
-        "answer": "If you're allocated a ticket after the ticket release, you'll receive instructions to complete your payment within a specified timeframe. It's important to pay within this period to secure your ticket, as unpaid tickets will be offered to the next person in line. Payment methods and detailed instructions are provided in the 'Tickets' section of your profile."
+        "answer": "If you're allocated a ticket after the ticket release, you'll receive instructions to complete your payment within a specified time frame. It's important to pay within this period to secure your ticket, as unpaid tickets will be offered to the next person in line. Payment methods and detailed instructions are provided in the 'Tickets' section of your profile."
     },
     "q10": {
-        "question": "Whats the different between a Ticket and a Ticket Request?",
-        "answer": "Since users don't buy tickets upfront, they instead request a ticket, which in simple terms means the user shows interest in attending the event. Once the tickets have been allocated, the request turns into a ticket if you recieved a ticket, or a reserve spot if you were put on the waiting list."
+        "question": "What's the different between a Ticket and a Ticket Request?",
+        "answer": "Since users don't buy tickets upfront, they instead request a ticket, which in simple terms means the user shows interest in attending the event. Once the tickets have been allocated, the request turns into a ticket if you received a ticket, or a reserve spot if you were put on the waiting list."
     }
 }
