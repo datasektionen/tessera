@@ -198,13 +198,12 @@ const EventDetail: React.FC = () => {
             <Typography
               level="h1"
               fontFamily={"Josefin sans"}
-              fontSize={48}
+              fontSize={44}
               fontWeight={700}
               style={{
                 color: PALLETTE.cerise_dark,
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
+                overflowWrap: "break-word",
+                lineHeight: "1.2",
                 width: "90%",
               }}
             >
