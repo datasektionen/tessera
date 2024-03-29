@@ -211,7 +211,7 @@ const EventDetail: React.FC = () => {
             </Typography>
 
             <Grid container spacing={2} columns={16}>
-              <Grid xs={16} md={12}>
+              <Grid xs={16}>
                 <Typography
                   level="body-sm"
                   fontFamily={"Josefin sans"}
