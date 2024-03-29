@@ -330,6 +330,10 @@ const EventTicketsList: React.FC<{
       headerName: "Allocate",
       width: 150,
       renderCell: (params: GridRenderCellParams<any>) => {
+        if (params.row.deleted_at !== "N/A") {
+          return "N/A";
+        }
+
         if (params.row.type === "Ticket") {
           return <CheckCircle color="success" />;
         }
