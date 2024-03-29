@@ -213,45 +213,6 @@ const EventDetail: React.FC = () => {
             <Grid container spacing={2} columns={16}>
               <Grid xs={16} md={12}>
                 <Typography
-                  level="body-md"
-                  style={{
-                    color: PALLETTE.charcoal,
-                    height: "fit-content",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    wordBreak: "break-word", // To ensure long words do not cause layout issues
-                  }}
-                >
-                  <ReactMarkdown>{event.description}</ReactMarkdown>
-                </Typography>
-
-                <Box>
-                  <StyledText
-                    color={PALLETTE.charcoal_see_through}
-                    level="body-sm"
-                    fontSize={16}
-                    fontWeight={600}
-                    style={{
-                      width: "75%",
-                      margin: "2rem 0",
-                    }}
-                  >
-                    <Trans
-                      i18nKey="event.contact_organizers"
-                      values={{ organization: event.organization?.name }}
-                    >
-                      Contact the organizers at <strong>hi</strong>
-                      <Link
-                        href={`/contact?organization_id=${event.organization?.id}`}
-                      >
-                        here
-                      </Link>
-                    </Trans>
-                  </StyledText>
-                </Box>
-              </Grid>
-              <Grid xs={16} md={4}>
-                <Typography
                   level="body-sm"
                   fontFamily={"Josefin sans"}
                   fontSize={16}
@@ -295,12 +256,49 @@ const EventDetail: React.FC = () => {
                   fontSize={16}
                   fontWeight={600}
                   startDecorator={<GroupsIcon />}
-                  style={{
-                    marginTop: "1rem",
+                  sx={{
+                    mt: 1,
                   }}
                 >
                   {t("event.event_by")} {event.organization?.name}
                 </StyledText>
+                <Typography
+                  level="body-md"
+                  style={{
+                    color: PALLETTE.charcoal,
+                    height: "fit-content",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    wordBreak: "break-word", // To ensure long words do not cause layout issues
+                  }}
+                >
+                  <ReactMarkdown>{event.description}</ReactMarkdown>
+                </Typography>
+
+                <Box>
+                  <StyledText
+                    color={PALLETTE.charcoal_see_through}
+                    level="body-sm"
+                    fontSize={16}
+                    fontWeight={600}
+                    style={{
+                      width: "75%",
+                      margin: "2rem 0",
+                    }}
+                  >
+                    <Trans
+                      i18nKey="event.contact_organizers"
+                      values={{ organization: event.organization?.name }}
+                    >
+                      Contact the organizers at <strong>hi</strong>
+                      <Link
+                        href={`/contact?organization_id=${event.organization?.id}`}
+                      >
+                        here
+                      </Link>
+                    </Trans>
+                  </StyledText>
+                </Box>
               </Grid>
             </Grid>
           </Item>
