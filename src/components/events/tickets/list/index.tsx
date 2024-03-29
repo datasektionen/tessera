@@ -2,10 +2,12 @@ import { ITicket, IUser } from "../../../../types";
 import React from "react";
 import LoadingOverlay from "../../../Loading";
 import {
+  Button,
   FormControl,
   FormLabel,
   Input,
   ThemeProvider,
+  Typography,
   createTheme,
 } from "@mui/material";
 import PALLETTE from "../../../../theme/pallette";
@@ -16,6 +18,7 @@ import {
   GridRowsProp,
   GridColumnVisibilityModel,
   GridValueFormatterParams,
+  GridRenderCellParams,
 } from "@mui/x-data-grid";
 
 import { Cancel, CheckCircle } from "@mui/icons-material";
@@ -28,6 +31,9 @@ import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFSLottery } from "../../../../utils/event_open_close";
 import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
+import StyledButton from "../../../buttons/styled_button";
+import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
+import { useParams } from "react-router-dom";
 
 interface CustomGridValueFormatterParams extends GridValueFormatterParams {
   // Extend the existing type to include the row property
@@ -67,11 +73,17 @@ const EventTicketsList: React.FC<{
   tickets: ITicket[];
 }> = ({ tickets }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
+  const { eventID } = useParams();
 
   const columns: GridColDef[] = [
     {
       field: "ticket_release_id",
       headerName: "Ticket Release ID",
+      width: 150,
+    },
+    {
+      field: "ticket_request_id",
+      headerName: "Ticket Request ID",
       width: 150,
     },
     {
@@ -313,6 +325,38 @@ const EventTicketsList: React.FC<{
         return params.value;
       },
     },
+    {
+      field: "Allocate",
+      headerName: "Allocate",
+      width: 150,
+      renderCell: (params: GridRenderCellParams<any>) => {
+        if (params.row.type === "Ticket") {
+          return <CheckCircle color="success" />;
+        }
+
+        return (
+          <Button
+            variant="contained"
+            size="small"
+            tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() => {
+              allocateSelectedTicket(
+                parseInt(eventID!),
+                params.row.ticket_request_id
+              );
+            }}
+          >
+            <Typography
+              fontFamily={"Josefin Sans"}
+              fontSize={14}
+              fontWeight={400}
+            >
+              Allocate
+            </Typography>
+          </Button>
+        );
+      },
+    },
   ];
 
   const isTicketRequest = (ticket: ITicket) => {
@@ -376,6 +420,7 @@ const EventTicketsList: React.FC<{
 
       const row = {
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
+        ticket_request_id: ticket.ticket_request?.id,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
         type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
@@ -432,6 +477,7 @@ const EventTicketsList: React.FC<{
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
+      ticket_request_id: false,
       ticket_release_name: true,
       type: true,
       is_reserve: true,
@@ -456,6 +502,7 @@ const EventTicketsList: React.FC<{
       requseted_at: true,
       purchasable_at: true,
       prefer_meat: false,
+      can_be_selectively_allocated: false,
     });
 
   if (!tickets || rows.length === 0) {

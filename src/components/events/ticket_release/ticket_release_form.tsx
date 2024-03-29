@@ -284,6 +284,29 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
               </FormControl>
             )}
 
+            {/* Selected Method requires a brief description */}
+            {values && values.ticket_release_method_id === 4 && (
+              <FormControl>
+                <StyledFormLabel>
+                  {t("form.ticket_release.selective_description")}*
+                </StyledFormLabel>
+                <FormTextarea
+                  name="method_description"
+                  label="Description"
+                  placeholder="Only for members of the Party Rangers."
+                  minRows={2}
+                  overrideStyle={{
+                    width: "95%",
+                  }}
+                />
+                <StyledErrorMessage name="method_description" />
+
+                <StyledFormLabelWithHelperText>
+                  {t("form.ticket_release.selective_description_helperText")}
+                </StyledFormLabelWithHelperText>
+              </FormControl>
+            )}
+
             <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 
             {/* Max Tickets Per User */}

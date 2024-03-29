@@ -89,6 +89,8 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
           ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.id!,
         open_window_duration:
           ticketRelease.ticketReleaseMethodDetail.openWindowDuration!,
+        method_description:
+          ticketRelease.ticketReleaseMethodDetail.method_description,
         max_tickets_per_user:
           ticketRelease.ticketReleaseMethodDetail.maxTicketsPerUser,
         notification_method:
@@ -317,6 +319,30 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
 
                     <StyledFormLabelWithHelperText>
                       {t("form.ticket_release.lottery_duration_helperText")}
+                    </StyledFormLabelWithHelperText>
+                  </FormControl>
+                )}
+
+                {values && values.ticket_release_method_id === 4 && (
+                  <FormControl>
+                    <StyledFormLabel>
+                      {t("form.ticket_release.selective_description")}*
+                    </StyledFormLabel>
+                    <FormTextarea
+                      name="method_description"
+                      label="Description"
+                      placeholder="Only for members of the Party Rangers."
+                      minRows={2}
+                      overrideStyle={{
+                        width: "95%",
+                      }}
+                    />
+                    <StyledErrorMessage name="method_description" />
+
+                    <StyledFormLabelWithHelperText>
+                      {t(
+                        "form.ticket_release.selective_description_helperText"
+                      )}
                     </StyledFormLabelWithHelperText>
                   </FormControl>
                 )}

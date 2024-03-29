@@ -83,6 +83,9 @@ function* getMyTicketSaga(): Generator<any, void, any> {
               openWindowDuration:
                 ticket_request.ticket_release.ticket_release_method_detail
                   .open_window_duration!,
+              method_description:
+                ticket_request.ticket_release.ticket_release_method_detail
+                  .method_description!,
             } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
         } as ITicketRequest,

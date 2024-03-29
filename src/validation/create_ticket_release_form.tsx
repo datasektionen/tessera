@@ -99,6 +99,16 @@ const CreateTicketReleaseFormSchema = Yup.object()
           .integer("Open Window Duration must be an integer"),
       otherwise: (schema) => schema.notRequired(),
     }),
+    method_description: Yup.string().when("ticket_release_method_id", {
+      // @ts-ignore
+      is: 4,
+      then: (schema) =>
+        schema
+          .required("Method Description is required")
+          .min(5, "Too short")
+          .max(500, "Too long"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
       .min(1, "Max Tickets Per User must be greater than or equal to 1")

@@ -172,6 +172,7 @@ export interface ITicketReleaseForm {
   close: string;
   ticket_release_method_id: number;
   open_window_duration?: number;
+  method_description?: string;
   max_tickets_per_user: number;
   notification_method: string;
   cancellation_policy: string;
@@ -196,6 +197,7 @@ export interface ITicketReleasePostReq {
   promo_code?: string;
   tickets_available: number;
   allow_external: boolean;
+  method_description?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
@@ -205,6 +207,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   close: formatDateToDateTimeLocal(new Date()),
   ticket_release_method_id: 0,
   open_window_duration: 0,
+  method_description: "",
   max_tickets_per_user: 1,
   notification_method: "EMAIL",
   cancellation_policy: "FULL_REFUND",
@@ -242,6 +245,7 @@ export interface ITicketReleaseMethodDetail {
   maxTicketsPerUser: number;
   cancellationPolicy: string;
   openWindowDuration: number | null; // Todo change
+  method_description: string;
   notificationMethod: string;
   ticketReleaseMethod?: ITicketReleaseMethod;
 }

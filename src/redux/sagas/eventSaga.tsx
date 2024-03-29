@@ -122,6 +122,8 @@ function* eventSaga(
             openWindowDuration:
               ticketRelease.ticket_release_method_detail.open_window_duration! /
               60, // Since backend stores in seconds, convert to minutes
+            method_description:
+              ticketRelease.ticket_release_method_detail.method_description!,
             notificationMethod:
               ticketRelease.ticket_release_method_detail.notification_method!,
             ticketReleaseMethod: {

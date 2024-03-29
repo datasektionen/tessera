@@ -137,6 +137,8 @@ function* fetchEventTickets(
               openWindowDuration:
                 ticket_request.ticket_release.ticket_release_method_detail
                   .open_window_duration! / 60,
+              method_description:
+                ticket_request.ticket_release.method_description!,
             } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
         } as ITicketRequest,

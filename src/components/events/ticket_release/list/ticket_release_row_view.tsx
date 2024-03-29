@@ -38,6 +38,7 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SnoozeIcon from "@mui/icons-material/Snooze";
 import { ticketsEnteredIntoFCFSLottery } from "../../../../utils/event_open_close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteTicketReleaseModal from "../delete_ticket_release_modal";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -558,58 +559,9 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               >
                 {t("manage_event.check_allocated_reserve_tickets")}
               </StyledButton>
-              <ConfirmModal
-                title="Confirm Delete Ticket Release"
-                isOpen={openDeleteModel}
-                onClose={() => {
-                  setOpenDeleteModel(false);
-                }}
-                actions={[
-                  <StyledButton
-                    size="md"
-                    key="confirm-delete"
-                    bgColor={PALLETTE.charcoal_see_through}
-                    onClick={() => {
-                      handleDeleteTicketRelease();
-                      setOpenDeleteModel(false);
-                    }}
-                  >
-                    {t("form.button_confirm")}
-                  </StyledButton>,
-                  <StyledButton
-                    size="md"
-                    key="cancel-delete"
-                    bgColor={PALLETTE.red}
-                    onClick={() => {
-                      setOpenDeleteModel(false);
-                    }}
-                  >
-                    {t("form.button_cancel")}
-                  </StyledButton>,
-                ]}
-              >
-                <StyledText
-                  level="body-md"
-                  fontSize={18}
-                  color={PALLETTE.charcoal}
-                >
-                  {t("manage_event.delete_ticket_release_confirmation")}
-                </StyledText>
-              </ConfirmModal>
-              <StyledButton
-                color={PALLETTE.charcoal}
-                bgColor={PALLETTE.charcoal_see_through}
-                textColor={PALLETTE.charcoal}
-                size="md"
-                onClick={() => {
-                  setOpenDeleteModel(true);
-                }}
-                style={{
-                  width: "100%",
-                }}
-              >
-                {t("form.button_delete")}
-              </StyledButton>
+              <DeleteTicketReleaseModal
+                handleDeleteTicketRelease={handleDeleteTicketRelease}
+              />
             </Stack>
           </Box>
         </Grid>

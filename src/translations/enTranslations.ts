@@ -117,6 +117,9 @@ const enTranslations = {
       allow_external: "Allow external users",
       allow_external_helperText:
         "Allow external users to request tickets for this ticket release.",
+      selective_description: "Describe the allocation method",
+      selective_description_helperText:
+        "Specify how your team plans to allocate tickets. This information will be shown to the user when they request a ticket.",
     },
     ticket_types: {
       name: "Name",

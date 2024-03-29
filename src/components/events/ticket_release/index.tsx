@@ -144,6 +144,8 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
     getUserTicketReleaseReminderStatus(ticketRelease);
   }, []);
 
+  console.log(ticketRelease);
+
   return (
     <Sheet
       variant="outlined"
@@ -215,7 +217,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         {ticketRelease.name}
       </StyledText>
       <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16}>
-        <div style={{ margin: 0 }}>
+        <div>
           <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
         </div>
       </StyledText>
@@ -225,6 +227,9 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           key="ticket_release_method"
           color={PALLETTE.charcoal_see_through}
           fontSize={16}
+          sx={{
+            mb: 1,
+          }}
         >
           <Trans
             i18nKey="event.ticket_release.method"
@@ -242,7 +247,26 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
               }
             </Link>
           </Trans>
+          {" - "}
+          {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.id ===
+            4 && (
+            <StyledText
+              level="body-sm"
+              key="ticket_release_method"
+              color={PALLETTE.charcoal}
+              fontSize={16}
+              style={{
+                textDecoration: "italic",
+              }}
+              sx={{
+                mb: 1,
+              }}
+            >
+              {ticketRelease.ticketReleaseMethodDetail.method_description}
+            </StyledText>
+          )}
         </StyledText>,
+
         <InformationModal
           key={"ticket_release_method_modal"}
           isOpen={modalIsOpen}

@@ -41,7 +41,6 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
         }}
         color={PALLETTE.charcoal}
         onClick={() => {
-          console.log(scrollRef.current?.offsetTop);
           window.scrollTo({
             top: getAbsoluteTop(scrollRef.current),
             behavior: "smooth",

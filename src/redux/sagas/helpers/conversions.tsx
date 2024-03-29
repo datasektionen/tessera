@@ -47,6 +47,8 @@ export function convertResponseToTicketRelease(
         responseData.ticket_release_method_detail.notification_method!,
       openWindowDuration:
         responseData.ticket_release_method_detail.open_window_days!,
+      method_description:
+        responseData.ticket_release_method_detail.method_description!,
     },
   };
 }
