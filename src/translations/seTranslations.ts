@@ -76,6 +76,9 @@ const seTranslations = {
       allow_external: "Tillåt externa användare",
       allow_external_helperText:
         "Ska externa användare tillåtas att önska biljetter till detta biljettsläpp?",
+      selective_description: "Beskriv allokeringsmetoden",
+      selective_description_helperText:
+        "Ange hur ditt team planerar att allokera biljetter. Denna information kommer att visas för användaren när de begär en biljett.",
     },
     ticket_types: {
       name: "Namn",
