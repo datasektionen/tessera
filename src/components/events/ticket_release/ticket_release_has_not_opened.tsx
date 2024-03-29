@@ -5,7 +5,7 @@ import PALLETTE from "../../../theme/pallette";
 import TicketReleaseCountdown from "./tr_countdown";
 import { useTranslation } from "react-i18next";
 
-const TicketReleasHasNotOpened: React.FC<{
+const TicketReleaseHasNotOpened: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
   const { t } = useTranslation();
@@ -31,4 +31,4 @@ const TicketReleasHasNotOpened: React.FC<{
   );
 };
 
-export default TicketReleasHasNotOpened;
+export default TicketReleaseHasNotOpened;

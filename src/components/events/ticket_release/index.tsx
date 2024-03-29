@@ -25,9 +25,9 @@ import {
   ticketReleaseHasNotOpened,
   ticketReleaseHasOpened,
 } from "../../../utils/event_open_close";
-import TicketReleasHasOpened from "./ticket_release_has_opened";
+import TicketReleaseHasOpened from "./ticket_release_has_opened";
 import TicketReleaseHasClosed from "./ticket_release_has_closed";
-import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
+import TicketReleaseHasNotOpened from "./ticket_release_has_not_opened";
 import StyledText from "../../text/styled_text";
 import InformationModal from "../../modal/information";
 import { Trans, useTranslation } from "react-i18next";
@@ -47,11 +47,11 @@ const renderTicketReleaseStatus = (
   timestamp: number
 ) => {
   if (ticketReleaseHasNotOpened(ticketRelease, timestamp)) {
-    return <TicketReleasHasNotOpened ticketRelease={ticketRelease} />;
+    return <TicketReleaseHasNotOpened ticketRelease={ticketRelease} />;
   } else if (ticketReleaseHasClosed(ticketRelease, timestamp)) {
     return <TicketReleaseHasClosed ticketRelease={ticketRelease} />;
   } else if (ticketReleaseHasOpened(ticketRelease, timestamp)) {
-    return <TicketReleasHasOpened ticketRelease={ticketRelease} />;
+    return <TicketReleaseHasOpened ticketRelease={ticketRelease} />;
   }
 };
 

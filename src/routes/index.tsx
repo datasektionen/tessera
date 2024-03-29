@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from "../store";
 import { currentUserRequest } from "../redux/features/userSlice";
 import ProfilePage from "../pages/profile";
 import CreateOrganizationPage from "../pages/organization/create";
-import ProfileOrgnizationsPage from "../pages/profile/profile_organizations";
+import ProfileOrganizationsPage from "../pages/profile/profile_organizations";
 import Logout from "../components/user/logout";
 import EventsPage from "../pages/event";
 import CreateEventPage from "../pages/event/create";
@@ -78,8 +78,8 @@ const ProfileTicketRequestsPageWithCurrentUser = withCurrentUserRequest(
 );
 const ProfileTicketsPageWithCurrentUser =
   withCurrentUserRequest(ProfileTicketsPage);
-const ProfileOrgnizationsPageWithCurrentUser = withCurrentUserRequest(
-  ProfileOrgnizationsPage
+const ProfileOrganizationsPageWithCurrentUser = withCurrentUserRequest(
+  ProfileOrganizationsPage
 );
 const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
   CreateOrganizationPage
@@ -158,7 +158,7 @@ function AppRoutes() {
           />
           <Route
             path={ROUTES.PROFILE_ORGANIZATIONS}
-            element={<ProfileOrgnizationsPageWithCurrentUser />}
+            element={<ProfileOrganizationsPageWithCurrentUser />}
           />
           <Route
             path={ROUTES.CREATE_ORGANIZATION}

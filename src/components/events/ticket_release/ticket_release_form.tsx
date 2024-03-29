@@ -65,7 +65,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
   );
   const { t } = useTranslation();
 
-  const { loading: initalLoading } = useSelector(
+  const { loading: initialLoading } = useSelector(
     (state: RootState) => state.eventCreation
   );
 
@@ -76,7 +76,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
     dispatch(getTicketReleaseMethodsRequest());
   }, [dispatch]);
 
-  if (initalLoading) {
+  if (initialLoading) {
     return <LoadingOverlay />;
   }
 

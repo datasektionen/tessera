@@ -15,7 +15,7 @@ import { ROUTES } from "../../routes/def";
 import ViewOrganization from "../../components/organizations/view";
 import { Trans, useTranslation } from "react-i18next";
 
-const ProfileOrgnizationsPage = () => {
+const ProfileOrganizationsPage = () => {
   const { organizations, loading, error } = useSelector(
     (state: RootState) => state.organization
   );
@@ -96,4 +96,4 @@ const ProfileOrgnizationsPage = () => {
   );
 };
 
-export default ProfileOrgnizationsPage;
+export default ProfileOrganizationsPage;

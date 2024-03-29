@@ -53,7 +53,7 @@ const CreateEventForm: React.FC = () => {
 
   const {
     form: { event: initialValues },
-    loading: initalLoading,
+    loading: initialLoading,
   } = useSelector((state: RootState) => state.eventCreation);
 
   const dispatch: AppDispatch = useDispatch();
@@ -67,7 +67,7 @@ const CreateEventForm: React.FC = () => {
     dispatch(setEventForm(values));
   };
 
-  if (loading || initalLoading) {
+  if (loading || initialLoading) {
     return <LoadingOverlay />;
   }
 

@@ -172,7 +172,7 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
   }
 }
 
-function* cancellTicketRequestSaga(
+function* cancelTicketRequestSaga(
   action: PayloadAction<ITicketRequest>
 ): Generator<any, void, any> {
   try {
@@ -204,7 +204,7 @@ function* cancellTicketRequestSaga(
 }
 
 function* watchTicketRequestSaga() {
-  yield takeLatest(cancelTicketRequestRequest.type, cancellTicketRequestSaga);
+  yield takeLatest(cancelTicketRequestRequest.type, cancelTicketRequestSaga);
   yield takeLatest(postTicketRequest.type, createTicketRequestSaga);
   yield takeLatest(getMyTicketRequestsRequest.type, getMyTicketRequestsSaga);
 }

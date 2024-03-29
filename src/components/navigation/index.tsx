@@ -37,7 +37,7 @@ const lngs = [
 
 export const LanguageSelector: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { language: storedLanaguage } = useSelector(
+  const { language: storedLanguage } = useSelector(
     (state: RootState) => state.language
   );
   const dispatch: AppDispatch = useDispatch();
@@ -66,8 +66,8 @@ export const LanguageSelector: React.FC = () => {
   }, [i18n]);
 
   useEffect(() => {
-    setSelectedLanguage(storedLanaguage);
-    i18n.changeLanguage(storedLanaguage);
+    setSelectedLanguage(storedLanguage);
+    i18n.changeLanguage(storedLanguage);
   }, []);
 
   return (

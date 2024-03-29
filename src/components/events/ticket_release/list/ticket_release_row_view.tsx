@@ -36,7 +36,7 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SnoozeIcon from "@mui/icons-material/Snooze";
-import { ticketsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
+import { ticketsEnteredIntoFCFSLottery } from "../../../../utils/event_open_close";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface TicketReleaseRowViewProps {
@@ -320,7 +320,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 color={PALLETTE.charcoal}
                 sx={{ ml: 2 }}
               >
-                {`${ticketsEnteredIntoFCFCLottery(
+                {`${ticketsEnteredIntoFCFSLottery(
                   ticketReleaseTickets,
                   ticketRelease
                 )} ` + t("manage_event.lottery_entered_ticket_requests")}
@@ -336,7 +336,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               >
                 {`${
                   numTicketRequests -
-                  ticketsEnteredIntoFCFCLottery(
+                  ticketsEnteredIntoFCFSLottery(
                     ticketReleaseTickets,
                     ticketRelease
                   )
@@ -559,7 +559,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 {t("manage_event.check_allocated_reserve_tickets")}
               </StyledButton>
               <ConfirmModal
-                title="Confrim Delete Ticket Release"
+                title="Confirm Delete Ticket Release"
                 isOpen={openDeleteModel}
                 onClose={() => {
                   setOpenDeleteModel(false);

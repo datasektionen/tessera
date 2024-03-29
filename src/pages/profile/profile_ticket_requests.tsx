@@ -62,9 +62,9 @@ const ProfileTicketRequestsPage: React.FC = () => {
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
               <Trans i18nKey="profile.your_ticket_requests.description">
                 Here you can see all the ticket requests you have made. You can
-                cancel a ticket request by clicking on the ticket request and
-                clicking the cancel button. When the event organizer allocates
-                tickets you will recieve either a ticket or a reserve status.
+                cancel a ticket request by selecting it and clicking the cancel
+                button. When the event organizer allocates tickets you will
+                receive either a ticket or a reserve status.
                 You can see all your tickets and reserve status
                 <Link href={ROUTES.PROFILE_TICKETS}>here</Link>.
               </Trans>

@@ -41,7 +41,7 @@ export const beforeWindowDuration = (
   return serverTimestamp < serverTimestamp + open_window_duration * 60 * 1000;
 };
 
-export const ticketIsEnteredIntoFCFCLottery = (
+export const ticketIsEnteredIntoFCFSLottery = (
   ticket: ITicket,
   ticketRelease: ITicketRelease
 ) => {
@@ -52,11 +52,11 @@ export const ticketIsEnteredIntoFCFCLottery = (
   return ticket.ticket_request!.created_at < windowDeadline.getTime();
 };
 
-export const ticketsEnteredIntoFCFCLottery = (
+export const ticketsEnteredIntoFCFSLottery = (
   tickets: ITicket[],
   ticketRelease: ITicketRelease
 ) => {
   return tickets.filter((ticket) =>
-    ticketIsEnteredIntoFCFCLottery(ticket, ticketRelease)
+    ticketIsEnteredIntoFCFSLottery(ticket, ticketRelease)
   ).length;
 };

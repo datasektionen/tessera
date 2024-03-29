@@ -3,7 +3,7 @@ import { ITicketRelease } from "../../../types";
 import { Typography } from "@mui/joy";
 import PALLETTE from "../../../theme/pallette";
 
-const TicketReleasHasClosed: React.FC<{
+const TicketReleaseHasClosed: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
   return (
@@ -22,4 +22,4 @@ const TicketReleasHasClosed: React.FC<{
   );
 };
 
-export default TicketReleasHasClosed;
+export default TicketReleaseHasClosed;
