@@ -248,7 +248,10 @@ const EventDetail: React.FC = () => {
                   }}
                 >
                   {/* Convert from timestamp to string */}
-                  {format(new Date(event.date), "EEEE 'the' do 'at' HH:mm")}
+                  {format(
+                    new Date(event.date),
+                    "EEEE, 'the' do 'of' MMMM 'at' HH:mm"
+                  )}
                 </Typography>
                 <StyledText
                   color={PALLETTE.charcoal}
