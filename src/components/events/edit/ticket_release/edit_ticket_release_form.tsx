@@ -1,5 +1,5 @@
 import { Formik, Form, Field, FormikHelpers } from "formik";
-import { FormControl, Select, Option, Tooltip, Grid } from "@mui/joy";
+import { FormControl, Select, Option, Tooltip, Grid, Stack } from "@mui/joy";
 import {
   TicketReleaseFormInitialValues,
   ITicketReleaseForm,
@@ -30,6 +30,8 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import EditTicketReleaseFormSchema from "../../../../validation/edit_ticket_release_form";
 import { updateTicketReleaseStart } from "../../../../redux/features/ticketReleaseSlice";
+import DeleteTicketReleaseModal from "../../ticket_release/delete_ticket_release_modal";
+import handleDeleteTicketRelease from "../../../../redux/sagas/axios_calls/handle_delete_ticket_release";
 
 interface EditTicketReleaseFormProps {
   ticketRelease: ITicketRelease | undefined;
@@ -475,29 +477,31 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
               </Grid>
             </Grid>
 
-            <Grid
-              container
-              flexDirection="row"
+            <Stack
+              direction={"row"}
               justifyContent="flex-start"
               spacing={2}
               sx={{ mt: 2 }}
             >
-              <Grid>
-                <StyledButton
-                  color={PALLETTE.charcoal}
-                  bgColor={PALLETTE.green}
-                  textColor={PALLETTE.charcoal}
-                  disabled={!isValid}
-                  size="md"
-                  type="submit"
-                  style={{
-                    width: "150px",
-                  }}
-                >
-                  {t("form.button_save")}
-                </StyledButton>
-              </Grid>
-            </Grid>
+              <StyledButton
+                color={PALLETTE.charcoal}
+                bgColor={PALLETTE.green}
+                textColor={PALLETTE.charcoal}
+                disabled={!isValid}
+                size="md"
+                type="submit"
+                style={{
+                  width: "150px",
+                }}
+              >
+                {t("form.button_save")}
+              </StyledButton>
+              <DeleteTicketReleaseModal
+                handleDeleteTicketRelease={() => {
+                  handleDeleteTicketRelease(dispatch, ticketRelease);
+                }}
+              />
+            </Stack>
           </Form>
         );
       }}

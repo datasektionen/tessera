@@ -60,7 +60,7 @@ const DeleteTicketReleaseModal: React.FC<DeleteTicketReleaseModalProps> = ({
           setOpenDeleteModel(true);
         }}
         style={{
-          width: "100%",
+          width: "200px",
         }}
       >
         {t("form.button_delete")}
