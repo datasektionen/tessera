@@ -145,6 +145,16 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
     });
   };
 
+  const convertStringToBoolean = (value: string, type: string) => {
+    if (type === "checkbox") {
+      return value === "true";
+    } else if (type === "number") {
+      return parseInt(value);
+    }
+
+    return value;
+  };
+
   const createInitialValues = (): IEventFormField[] => {
     const values = ticketRequest.event_form_responses || [];
     let initialValues: any = {};
@@ -153,12 +163,19 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         (value) => value.event_form_field_id === field.id
       );
       if (response !== undefined) {
-        initialValues[field.id.toString()] = response.value;
+        initialValues[field.id.toString()] = convertStringToBoolean(
+          response.value as string,
+          field.type
+        );
       }
+
+      console.log("initialValues", initialValues);
     });
 
     return initialValues;
   };
+
+  createInitialValues();
 
   return (
     <Box>
