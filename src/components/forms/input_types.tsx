@@ -18,6 +18,7 @@ interface FormInputProps {
   autoComplete?: string;
   readOnly?: boolean;
   clear?: () => void;
+  requried?: boolean;
 }
 
 export const DefaultInputStyle = {
@@ -36,13 +37,14 @@ export const FormInput: React.FC<FormInputProps> = ({
   readOnly = false,
   overrideStyle = {},
   autoComplete = "on",
+  requried = true,
 }) => (
   <Field name={name}>
     {({ field, form }: { field: any; form: any }) => (
       <Input
         {...field}
         label={label}
-        required
+        required={requried}
         readOnly={readOnly}
         autoComplete={autoComplete}
         onChange={(e: any) => {

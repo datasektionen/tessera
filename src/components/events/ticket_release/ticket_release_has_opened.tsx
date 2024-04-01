@@ -41,6 +41,7 @@ import {
 import ConfirmModal from "../../modal/confirm_modal";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
+import TicketReleaseAddons from "./addons";
 
 const TicketReleasHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -149,6 +150,7 @@ const TicketReleasHasOpened: React.FC<{
           </Typography>
         )}
       </Stack>
+      <TicketReleaseAddons ticketRelease={ticketRelease} />
       {basket! && (
         <>
           <Typography

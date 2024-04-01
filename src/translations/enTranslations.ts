@@ -556,6 +556,11 @@ const enTranslations = {
         total: "Total",
         ticket: "Ticket",
       },
+      addons: {
+        title: "Ticket Addons",
+        description: "Here you can add addons to your ticket.",
+        max_quantity: "Max quantity",
+      },
     },
   },
 

@@ -150,6 +150,7 @@ const CreateEventForm: React.FC = () => {
                   label="Date"
                   type="datetime-local"
                   placeholder=""
+                  requried={false}
                 />
                 <StyledErrorMessage name="end_date" />
 
