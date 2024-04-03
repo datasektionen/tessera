@@ -28,6 +28,7 @@ const StyledTicketBox = styled(Box)(({ theme }) => ({
   "&:hover": {
     transition: "all 0.2s ease-in-out",
     border: "2px solid " + PALLETTE.charcoal_see_through,
+    backgroundColor: PALLETTE.white,
   },
 }));
 
