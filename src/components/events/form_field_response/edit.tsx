@@ -41,6 +41,7 @@ const createField = (field: IEventFormField) => {
             overrideStyle={{
               width: "90%",
             }}
+            required={field.is_required}
           />
         );
       case "number":
@@ -50,6 +51,7 @@ const createField = (field: IEventFormField) => {
             label="number"
             type="number"
             placeholder="Enter number"
+            required={field.is_required}
           />
         );
       case "checkbox":
@@ -130,7 +132,7 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         value: value,
       };
     });
-    const event_id = formFields[0].event_id;
+    const event_id = ticketRequest.ticket_release?.eventId!;
 
     handleEventFormFieldResponseSubmit(
       formFieldValues,
@@ -167,9 +169,21 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
           response.value as string,
           field.type
         );
+      } else {
+        switch (field.type) {
+          case "text":
+            initialValues[field.id.toString()] = "";
+            break;
+          case "number":
+            initialValues[field.id.toString()] = 0;
+            break;
+          case "checkbox":
+            initialValues[field.id.toString()] = false;
+            break;
+          default:
+            break;
+        }
       }
-
-      console.log("initialValues", initialValues);
     });
 
     return initialValues;
