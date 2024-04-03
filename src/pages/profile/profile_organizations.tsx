@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Stack } from "@mui/joy";
+import { Button, Divider, Grid, Stack, useTheme } from "@mui/joy";
 import Title from "../../components/text/title";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import StandardGrid from "../../components/wrappers/standard_grid";
@@ -14,6 +14,8 @@ import StyledButton from "../../components/buttons/styled_button";
 import { ROUTES } from "../../routes/def";
 import ViewOrganization from "../../components/organizations/view";
 import { Trans, useTranslation } from "react-i18next";
+import { use } from "i18next";
+import { useMediaQuery } from "@mui/material";
 
 const ProfileOrganizationsPage = () => {
   const { organizations, loading, error } = useSelector(
@@ -34,7 +36,7 @@ const ProfileOrganizationsPage = () => {
     <TesseraWrapper>
       {loading && <LoadingOverlay />}
       <StandardGrid>
-        <Grid xs={8}>
+        <Grid xs={16} lg={8}>
           <Title>{t("profile.your_teams.title")}</Title>
           <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
             <Trans i18nKey="profile.your_teams.description">
@@ -84,7 +86,7 @@ const ProfileOrganizationsPage = () => {
             </Grid>
           )}
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={16} lg={8}>
           {selected && (
             <ViewOrganization
               organization={organizations!.find((org) => org.id === selected)!}
