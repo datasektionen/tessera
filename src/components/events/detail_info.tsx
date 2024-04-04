@@ -36,49 +36,7 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
           {event.name}
         </StyledText>
 
-        <Grid container spacing={2} columns={12}>
-          <Grid xs={9}>
-            <StyledText
-              color={PALLETTE.charcoal}
-              level="body-md"
-              style={{
-                height: "fit-content",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-              }}
-            >
-              <ReactMarkdown>{event.description}</ReactMarkdown>
-            </StyledText>
-          </Grid>
-          <Grid xs={3}>
-            <StyledText
-              level="body-sm"
-              fontSize={16}
-              color={PALLETTE.charcoal}
-              fontWeight={600}
-              startDecorator={<LocationOnIcon />}
-              style={{
-                color: PALLETTE.charcoal,
-              }}
-            >
-              {event.location}
-            </StyledText>
-            <StyledText
-              level="body-sm"
-              color={PALLETTE.charcoal}
-              fontSize={16}
-              fontWeight={600}
-              startDecorator={<CalendarTodayIcon />}
-              style={{
-                color: PALLETTE.charcoal,
-              }}
-            >
-              {/* Convert from timestamp to string */}
-              {new Date(event.date).toLocaleString()}
-            </StyledText>
-          </Grid>
-        </Grid>
-        <Divider sx={{ my: 4 }} />
+        <Divider sx={{ my: 2 }} />
         {event.is_private && (
           <>
             <StyledText

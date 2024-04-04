@@ -199,7 +199,13 @@ const TicketEventFormResponseTable: React.FC<
           </Tab>
         </TabList>
         {/* Add button to toggle view */}
-        <TabPanel value={0}>
+        <TabPanel
+          value={0}
+          sx={{
+            my: 1,
+            p: 0,
+          }}
+        >
           <ThemeProvider theme={MUItheme}>
             <DataGrid
               rows={rows}

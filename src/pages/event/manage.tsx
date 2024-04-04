@@ -25,23 +25,7 @@ import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
 import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
-import {
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  useTheme,
-} from "@mui/material";
 
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import EditIcon from "@mui/icons-material/Edit";
-import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DrawerComponent from "../../components/navigation/manage_drawer";
 
 const drawerWidth = 200;
