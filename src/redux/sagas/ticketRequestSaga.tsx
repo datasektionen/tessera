@@ -3,9 +3,12 @@ import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 import {
+  IAddon,
   IEvent,
   IEventFormField,
   IEventFormFieldResponse,
+  ISelectedAddon,
+  ITicketAddon,
   ITicketRelease,
   ITicketRequest,
   ITicketType,
@@ -43,19 +46,25 @@ export interface TicketRequestData {
 function* createTicketRequestSaga(
   action: PayloadAction<{
     tickets: TicketRequestData[];
+    addons: ISelectedAddon[];
     eventId: number;
     ticketReleaseId: number;
   }>
 ): Generator<any, void, any> {
   try {
-    const { tickets, eventId, ticketReleaseId } = action.payload;
-    const body: TicketRequestPostReq[] = tickets.map((ticket) => {
+    const { tickets, eventId, ticketReleaseId, addons } = action.payload;
+    const ticket_body: TicketRequestPostReq[] = tickets.map((ticket) => {
       return {
         ticket_amount: ticket.ticket_amount,
         ticket_type_id: ticket.ticket_type_id,
         ticket_release_id: ticketReleaseId,
       };
     });
+
+    const body = {
+      ticket_requests: ticket_body,
+      selected_add_ons: addons,
+    };
 
     const response = yield call(
       axios.post,
@@ -95,6 +104,7 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
         withCredentials: true,
       }
     );
+
 
     const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
       (ticket_request: any) => {
@@ -152,8 +162,27 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
             close: new Date(ticket_request.ticket_release.close!).getTime(),
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
+            addons: ticket_request.ticket_release.add_ons?.map((addon: any) => {
+              return {
+                id: addon.ID!,
+                name: addon.name!,
+                description: addon.description!,
+                price: addon.price!,
+                max_quantity: addon.max_quantity!,
+                contains_alcohol: addon.contains_alcohol!,
+                is_enabled: addon.is_enabled!,
+              } as IAddon;
+            }) as IAddon[],
           } as ITicketRelease,
           deleted_at: ticket_request.DeletedAt,
+          ticket_add_ons: ticket_request.ticket_add_ons?.map((addon: any) => {
+            return {
+              id: addon.ID!,
+              ticket_request_id: addon.ticket_request_id!,
+              add_on_id: addon.add_on_id!,
+              quantity: addon.quantity!, 
+            };
+          }) as ITicketAddon[],
         } as ITicketRequest;
       }
     );

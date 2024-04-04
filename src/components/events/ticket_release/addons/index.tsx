@@ -17,12 +17,13 @@ interface TicketReleaseAddonsProps {
 }
 
 const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
-  ticketRelease: { addons },
+  ticketRelease,
   selectedAddons,
   handleChange,
 }) => {
-  console.log(addons);
   const { t } = useTranslation();
+
+  const { addons } = ticketRelease;
 
   if (!addons) {
     return null;
@@ -37,9 +38,6 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
         {t("event.ticket_release.addons.description")}
       </StyledText>
       {addons.map((addon) => {
-        console.log(
-          selectedAddons.find((selectedAddon) => selectedAddon.id === addon.id)
-        );
         return (
           <Box key={addon.id} mt={2}>
             <Grid
@@ -60,15 +58,18 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                         (selectedAddon) => selectedAddon.id === addon.id
                       )
                     ) {
-                      setSelectedAddons(
+                      handleChange(
                         selectedAddons.filter(
                           (selectedAddon) => selectedAddon.id !== addon.id
                         )
                       );
                     } else {
-                      setSelectedAddons([
+                      handleChange([
                         ...selectedAddons,
-                        { id: addon.id, quantity: 0 },
+                        {
+                          id: addon.id,
+                          quantity: 1,
+                        },
                       ]);
                     }
                   }}
@@ -123,6 +124,11 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                     style={{
                       height: "30px",
                     }}
+                    disabled={
+                      selectedAddons.find(
+                        (selectedAddon) => selectedAddon.id === addon.id
+                      )?.quantity === 0
+                    }
                     onClick={() => {
                       const selectedAddon = selectedAddons.find(
                         (selectedAddon) => selectedAddon.id === addon.id
@@ -136,7 +142,7 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                         return;
                       }
 
-                      setSelectedAddons(
+                      handleChange(
                         selectedAddons.map((selectedAddon) =>
                           selectedAddon.id === addon.id
                             ? {
@@ -170,6 +176,11 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                     style={{
                       height: "30px",
                     }}
+                    disabled={
+                      selectedAddons.find(
+                        (selectedAddon) => selectedAddon.id === addon.id
+                      )?.quantity === addon.max_quantity
+                    }
                     onClick={() => {
                       const selectedAddon = selectedAddons.find(
                         (selectedAddon) => selectedAddon.id === addon.id
@@ -183,7 +194,7 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                         return;
                       }
 
-                      setSelectedAddons(
+                      handleChange(
                         selectedAddons.map((selectedAddon) =>
                           selectedAddon.id === addon.id
                             ? {
@@ -216,7 +227,10 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                 fontWeight={600}
               >
                 ({t("event.ticket_release.addons.max_quantity")}{" "}
-                {addon.max_quantity})
+                {addon.max_quantity}) (
+                {addon.contains_alcohol &&
+                  t("event.ticket_release.addons.contains_alcohol")}
+                )
               </StyledText>
             </StyledText>
           </Box>

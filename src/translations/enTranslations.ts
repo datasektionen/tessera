@@ -560,6 +560,8 @@ const enTranslations = {
         title: "Ticket Addons",
         description: "Here you can add addons to your ticket.",
         max_quantity: "Max quantity",
+        contains_alcohol: "Contains alcohol",
+        view_addons: "View ticket addons",
       },
     },
   },
@@ -606,6 +608,7 @@ const enTranslations = {
   common: {
     show_all: "Show all",
     show_less: "Show less",
+    show_more: "Show more",
     search: "Search",
     created: "Created",
     made_at: "Made at",

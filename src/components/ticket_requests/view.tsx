@@ -1,13 +1,27 @@
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import PALLETTE from "../../theme/pallette";
-import { ITicketRequest } from "../../types";
+import {
+  IAddon,
+  ISelectedAddon,
+  ITicketAddon,
+  ITicketRequest,
+} from "../../types";
 import StyledText from "../text/styled_text";
 import Title from "../text/title";
 import BorderBox from "../wrappers/border_box";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { Box, Divider, Grid, useTheme } from "@mui/joy";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionGroup,
+  AccordionSummary,
+  Box,
+  Divider,
+  Grid,
+  useTheme,
+} from "@mui/joy";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
@@ -17,6 +31,47 @@ import { ROUTES } from "../../routes/def";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "@mui/material";
 import EditFormFieldResponse from "../events/form_field_response/edit";
+import TicketReleaseAddons from "../events/ticket_release/addons";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { updateTicketAddons } from "../../redux/sagas/axios_calls/addons";
+
+const useWindowResize = () => {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowDimensions = () =>
+      setScreenWidth(window.innerWidth / 2.3);
+    window.addEventListener("resize", updateWindowDimensions);
+    updateWindowDimensions(); // Initial call
+    return () => window.removeEventListener("resize", updateWindowDimensions);
+  }, []);
+
+  return screenWidth;
+};
+
+// Custom hook for calculating costs
+const useCosts = (ticketRequest: ITicketRequest) => {
+  const totalTicketCost = useMemo(
+    () => ticketRequest.ticket_type?.price! * ticketRequest.ticket_amount,
+    [ticketRequest]
+  );
+  const totalAddonsCost = useMemo(
+    () =>
+      ticketRequest.ticket_add_ons?.reduce((total, addon) => {
+        const addonDetails = ticketRequest.ticket_release?.addons?.find(
+          (a) => a.id === addon.add_on_id
+        );
+        return total + addonDetails?.price! * addon.quantity;
+      }, 0),
+    [ticketRequest]
+  );
+  const totalCost = useMemo(
+    () => totalTicketCost + (totalAddonsCost || 0),
+    [totalTicketCost, totalAddonsCost]
+  );
+
+  return { totalTicketCost, totalAddonsCost, totalCost };
+};
 
 interface ViewTicketRequestProps {
   ticketRequest: ITicketRequest;
@@ -26,33 +81,48 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
   ticketRequest,
 }) => {
   const dispatch: AppDispatch = useDispatch();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const screenWidth = useWindowResize();
+
   const navigate = useNavigate();
 
   const [confirmCancelOpen, setConfirmCancelOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    // This function now updates the screenWidth state immediately.
-    const updateWindowDimensions = () => {
-      const newWidth = window.innerWidth / 2.3;
-      setScreenWidth(newWidth);
-    };
-
-    // Call it immediately and also set it up as a resize event listener.
-    updateWindowDimensions();
-    window.addEventListener("resize", updateWindowDimensions);
-
-    // Return a cleanup function to remove the event listener when the component unmounts.
-    return () => window.removeEventListener("resize", updateWindowDimensions);
-  }, []);
 
   const handleCancel = () => {
     dispatch(cancelTicketRequestRequest(ticketRequest));
     setConfirmCancelOpen(false);
   };
-  const { t } = useTranslation();
+
   const theme = useTheme();
-  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (ticketRequest) {
+      setSelectedAddons(
+        ticketRequest.ticket_add_ons?.map((addon: ITicketAddon) => {
+          return {
+            id: addon.add_on_id,
+            quantity: addon.quantity,
+          };
+        }) || []
+      );
+    }
+  }, [ticketRequest]);
+
+  const handleUpdateAddons = () => {
+    updateTicketAddons(
+      selectedAddons,
+      ticketRequest.id,
+      ticketRequest.ticket_release_id!
+    );
+  };
+
+  const { addons: allAddons } = ticketRequest.ticket_release!;
+
+  const [selectedAddons, setSelectedAddons] = useState<ISelectedAddon[]>([]);
+
+  const { totalTicketCost, totalAddonsCost, totalCost } =
+    useCosts(ticketRequest);
 
   if (!ticketRequest) {
     return <></>;
@@ -104,7 +174,73 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
               ).toFixed(2)}
             </StyledText>
           </Grid>
+          {ticketRequest.ticket_add_ons?.map((addon: ITicketAddon) => {
+            const a: IAddon | undefined = allAddons?.find(
+              (a) => a.id === addon.add_on_id
+            );
+
+            return (
+              <Grid
+                container
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid
+                  container
+                  justifyContent={"flex-start"}
+                  flexDirection={"row"}
+                >
+                  <AddCircleOutlineIcon />
+                  <StyledText
+                    level="body-sm"
+                    color={PALLETTE.charcoal}
+                    fontSize={18}
+                    style={{
+                      marginLeft: "8px",
+                    }}
+                  >
+                    {addon.quantity} x {a?.name}
+                  </StyledText>
+                </Grid>
+                <StyledText
+                  level="body-sm"
+                  color={PALLETTE.charcoal}
+                  fontSize={18}
+                >
+                  SEK {(a?.price! * addon.quantity).toFixed(2)}
+                </StyledText>
+              </Grid>
+            );
+          })}
           <Divider />
+          <Grid
+            container
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <StyledText
+              level="body-sm"
+              color={PALLETTE.charcoal}
+              fontSize={18}
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              {t("event.ticket_release.checkout.total")}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              color={PALLETTE.charcoal}
+              fontSize={18}
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              SEK {totalCost.toFixed(2)}
+            </StyledText>
+          </Grid>
         </>
       </Box>
 
@@ -170,6 +306,44 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
             {t("ticket_request.go_to_tickets_button")}
           </StyledButton>
         )}
+
+        <AccordionGroup
+          sx={{
+            mt: 2,
+          }}
+        >
+          <Accordion>
+            <AccordionSummary>
+              <StyledText
+                level="body-sm"
+                fontSize={22}
+                color={PALLETTE.charcoal}
+              >
+                {t("event.ticket_release.addons.view_addons")}
+              </StyledText>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box>
+                <TicketReleaseAddons
+                  ticketRelease={ticketRequest.ticket_release!}
+                  handleChange={setSelectedAddons}
+                  selectedAddons={selectedAddons}
+                />
+                <StyledButton
+                  size="sm"
+                  bgColor={PALLETTE.green}
+                  onClick={handleUpdateAddons}
+                  sx={{ mt: 2 }}
+                >
+                  {t("form.button_save")}
+                </StyledButton>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+        </AccordionGroup>
+
+        <Divider sx={{ my: 1 }} />
+
         {!ticketRequest.deleted_at ? (
           <EditFormFieldResponse ticketRequest={ticketRequest} />
         ) : (

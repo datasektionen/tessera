@@ -317,6 +317,8 @@ export interface ITicketRequest {
   event_form_responses?: IEventFormFieldResponse[];
 
   deleted_at: number | null;
+
+  ticket_add_ons?: ITicketAddon[];
 }
 
 export interface ITicket {
@@ -478,6 +480,20 @@ export interface IAddon {
   max_quantity: number;
   is_enabled: boolean;
   ticket_release_id?: number;
+}
+
+export interface ITicketAddon {
+  id: any;
+  add_on_id: number;
+  add_on?: IAddon;
+  ticket_request_id?: number;
+  ticket_id?: number;
+  quantity: number;
+}
+
+export interface ISelectedAddon {
+  id: number;
+  quantity: number;
 }
 
 export enum OrganizationUserRole {
