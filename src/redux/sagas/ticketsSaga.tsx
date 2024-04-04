@@ -3,8 +3,10 @@ import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 import {
+  IAddon,
   IEvent,
   ITicket,
+  ITicketAddon,
   ITicketRelease,
   ITicketReleaseMethodDetail,
   ITicketRequest,
@@ -30,6 +32,8 @@ function* getMyTicketSaga(): Generator<any, void, any> {
         withCredentials: true,
       }
     );
+
+    console.log(response.data.tickets);
 
     const tickets: ITicket[] = response.data.tickets.map((ticket: any) => {
       const ticket_request = ticket.ticket_request;
@@ -84,7 +88,26 @@ function* getMyTicketSaga(): Generator<any, void, any> {
                 ticket_request.ticket_release.ticket_release_method_detail
                   .open_window_duration!,
             } as ITicketReleaseMethodDetail,
+            addons: ticket_request.ticket_release.add_ons?.map((addon: any) => {
+              return {
+                id: addon.ID!,
+                name: addon.name!,
+                description: addon.description!,
+                price: addon.price!,
+                max_quantity: addon.max_quantity!,
+                contains_alcohol: addon.contains_alcohol!,
+                is_enabled: addon.is_enabled!,
+              } as IAddon;
+            }) as IAddon[],
           } as ITicketRelease,
+          ticket_add_ons: ticket.ticket_add_ons?.map((addon: any) => {
+            return {
+              id: addon.ID!,
+              ticket_request_id: addon.ticket_request_id!,
+              add_on_id: addon.add_on_id!,
+              quantity: addon.quantity!,
+            };
+          }) as ITicketAddon[],
         } as ITicketRequest,
       } as ITicket;
     });

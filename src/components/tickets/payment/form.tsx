@@ -12,6 +12,7 @@ import PALLETTE from "../../../theme/pallette";
 import { CircularProgress } from "@mui/joy";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useCosts } from "../../events/payments/use_cost";
 
 interface CheckoutFormProps {
   ticket: ITicket;
@@ -25,6 +26,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
 
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { totalCost } = useCosts(ticket.ticket_request!);
 
   useEffect(() => {
     if (!stripe) {
@@ -126,7 +129,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
               <CircularProgress color="primary" size={"sm"} variant="plain" />
             ) : (
               t("tickets.payment.pay_now", {
-                price: ticketType.price * ticket.ticket_request?.ticket_amount!,
+                price: totalCost,
               })
             )}
           </span>

@@ -34,6 +34,7 @@ import EditFormFieldResponse from "../events/form_field_response/edit";
 import TicketReleaseAddons from "../events/ticket_release/addons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { updateTicketAddons } from "../../redux/sagas/axios_calls/addons";
+import { useCosts } from "../events/payments/use_cost";
 
 const useWindowResize = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -47,30 +48,6 @@ const useWindowResize = () => {
   }, []);
 
   return screenWidth;
-};
-
-// Custom hook for calculating costs
-const useCosts = (ticketRequest: ITicketRequest) => {
-  const totalTicketCost = useMemo(
-    () => ticketRequest.ticket_type?.price! * ticketRequest.ticket_amount,
-    [ticketRequest]
-  );
-  const totalAddonsCost = useMemo(
-    () =>
-      ticketRequest.ticket_add_ons?.reduce((total, addon) => {
-        const addonDetails = ticketRequest.ticket_release?.addons?.find(
-          (a) => a.id === addon.add_on_id
-        );
-        return total + addonDetails?.price! * addon.quantity;
-      }, 0),
-    [ticketRequest]
-  );
-  const totalCost = useMemo(
-    () => totalTicketCost + (totalAddonsCost || 0),
-    [totalTicketCost, totalAddonsCost]
-  );
-
-  return { totalTicketCost, totalAddonsCost, totalCost };
 };
 
 interface ViewTicketRequestProps {

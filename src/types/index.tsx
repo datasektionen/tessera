@@ -337,6 +337,7 @@ export interface ITicket {
   qr_code: string;
   purchasable_at?: Date | null;
   deleted_at: number | null;
+  ticket_add_ons?: ITicketAddon[];
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

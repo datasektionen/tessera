@@ -26,6 +26,7 @@ import PALLETTE from "../../../theme/pallette";
 import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
 import { useTranslation } from "react-i18next";
+import { useCosts } from "../../events/payments/use_cost";
 
 let stripePromise: any;
 
@@ -42,6 +43,8 @@ interface PaymentProps {
 const Payment: React.FC<PaymentProps> = ({ ticket }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const ticketType = ticket.ticket_request?.ticket_type!;
+
+  const { totalCost } = useCosts(ticket.ticket_request!);
 
   const handlePay = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -91,16 +94,7 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
             <DialogContent>
               <Box>
                 <StyledText level="body-md" color={PALLETTE.charcoal}>
-                  {ticketType.name}
-                  {" x"}
-                  {ticket.ticket_request?.ticket_amount} -{" "}
-                  <b>
-                    {ticketType.price * ticket.ticket_request?.ticket_amount!}{" "}
-                    SEK
-                  </b>
-                </StyledText>
-                <StyledText level="body-sm" color={PALLETTE.charcoal}>
-                  {ticketType.description}
+                  <b>{totalCost} SEK</b>
                 </StyledText>
                 <Box mt={2}>
                   <Elements
