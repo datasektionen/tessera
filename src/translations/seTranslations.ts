@@ -595,7 +595,7 @@ const seTranslations = {
       in_beta:
         "Tessera är just nu i BETA. Detta innebär att Tessera fortfarande\
         utvecklas och förbättras. Om du eller din organisation är intresserade\
-        av att använda Tessera BETA kan vi att sätta upp ett team för dig kostnadsfritt. På detta sätt kan du skapa\
+        av att använda Tessera BETA kan vi sätta upp en grupp för dig kostnadsfritt. På detta sätt kan du skapa\
         evenemang och hantera biljettsläpp. Samtidigt kan du ge feedback\
         och hjälpa oss att förbättra Tessera. Ta kontakt för att komma igång!",
       how_title: "Hur fungerar det?",
