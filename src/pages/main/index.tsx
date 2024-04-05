@@ -29,6 +29,7 @@ import HowToUse from "./how_to_use";
 
 import Bg1 from "../../assets/backgrounds/1.svg";
 import Bg2 from "../../assets/backgrounds/2.svg";
+import { TypeAnimation } from "react-type-animation";
 
 const MainPage: React.FC = () => {
   const { t } = useTranslation();
@@ -38,6 +39,7 @@ const MainPage: React.FC = () => {
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { language } = useSelector((state: RootState) => state.language);
 
   // useEffect(() => {
   //   dispatch(getEventsRequest());
@@ -152,12 +154,37 @@ const MainPage: React.FC = () => {
           <StyledText
             color={PALLETTE.offWhite}
             level="body-md"
-            fontSize={isScreenSmall ? 16 : 32}
+            fontSize={isScreenSmall ? 16 : 42}
             style={{
               marginTop: isScreenSmall ? "-16px" : "-32px",
             }}
           >
-            {t("main_page.not_a_pain")}
+            <TypeAnimation
+              key={language}
+              sequence={[
+                t("main_page.phrases.1"),
+                1000, // Waits 1s
+                t("main_page.phrases.2"),
+                1000, // Waits 2s
+                t("main_page.phrases.3"),
+                1000,
+                t("main_page.phrases.4"),
+                1000,
+                t("main_page.phrases.5"),
+                1000,
+                t("main_page.phrases.6"),
+                2000,
+                () => {
+                  console.log("Sequence completed");
+                },
+              ]}
+              deletionSpeed={70}
+              speed={60}
+              wrapper="span"
+              cursor={true}
+              repeat={Infinity}
+              style={{ display: "inline-block" }}
+            />
           </StyledText>
         </Box>
         <Box

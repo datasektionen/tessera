@@ -32,6 +32,7 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
           level="body-lg"
           fontSize={32}
           fontWeight={600}
+          sx={{ mt: 1 }}
         >
           {event.name}
         </StyledText>

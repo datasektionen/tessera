@@ -11,6 +11,14 @@ const enTranslations = {
   },
 
   main_page: {
+    phrases: {
+      "1": "Ticket releases shouldn't be a pain!",
+      "2": "Ticket releases shouldn't be tricky!",
+      "3": "Ticket releases shouldn't be a hassle!",
+      "4": "Event management should be easy!",
+      "5": "Event management should be simple!",
+      "6": "Event management should be straightforward!",
+    },
     not_a_pain: "Ticket releases shouldn't be a pain!",
     welcome: "{{name}}, Welcome to",
     learn_how_button: "Learn how",

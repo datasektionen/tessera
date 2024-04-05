@@ -564,6 +564,14 @@ const seTranslations = {
   },
 
   main_page: {
+    phrases: {
+      "1": "Biljettsläpp ska inte vara jobbiga!",
+      "2": "Biljettsläpp ska inte vara knepigt!",
+      "3": "Biljettsläpp ska inte vara krångliga!",
+      "4": "Eventhantering ska vara lätt!",
+      "5": "Eventhantering ska vara enkelt!",
+      "6": "Eventhantering ska vara rakt på sak!",
+    },
     not_a_pain: "Biljettsläpp ska inte vara jobbiga!",
     welcome: "{{name}}, välkommen till",
     learn_how_button: "Lär dig hur",
