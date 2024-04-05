@@ -434,6 +434,9 @@ const enTranslations = {
         form_title: "Addon Form",
         form_subtitle:
           "Define your addons here. You can add as many as you want.",
+        confirm_delete_title: "Confirm addon deletion",
+        confirm_delete_text:
+          "Are you sure you want to delete this addon? This action cannot be undone.",
       },
 
       ticket_types: {

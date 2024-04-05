@@ -205,6 +205,12 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                         text={t("form.button_delete")}
                         color={PALLETTE.red}
                         action={handleRemoveAddon}
+                        confirmTitle={t(
+                          "manage_event.edit.addons.confirm_delete_title"
+                        )}
+                        confirmText={t(
+                          "manage_event.edit.addons.confirm_delete_text"
+                        )}
                       />
                     </Box>
                   )}
