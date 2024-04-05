@@ -591,6 +591,13 @@ const seTranslations = {
             så trevlig som möjligt, utan krångel. Ditt konto är automatiskt knutet\
             till dina biljetter, så det finns inget behov av att konstant fylla i google-formulär\
             eller något sådant.",
+      in_beta_title: "Tessera BETA",
+      in_beta:
+        "Tessera är just nu i BETA. Detta innebär att Tessera fortfarande\
+        utvecklas och förbättras. Om du eller din organisation är intresserade\
+        av att använda Tessera BETA kan vi att sätta upp ett team för dig kostnadsfritt. På detta sätt kan du skapa\
+        evenemang och hantera biljettsläpp. Samtidigt kan du ge feedback\
+        och hjälpa oss att förbättra Tessera. Ta kontakt för att komma igång!",
       how_title: "Hur fungerar det?",
       how: "För att skapa ett biljettsläpp till ditt evenemang måste du först bli en evenemangsarrangör genom att skapa ett team. För närvarande skapas team genom att kontakta oss. När du har skapat ett team kan du börja skapa och hantera biljettsläpp. Du kan bjuda in andra användare till ditt team så att de kan hjälpa till att hantera biljettsläppen. Som användare kan du se offentliga evenemang i evenemangsfliken. Tessera fungerar inte som andra biljettplattformar där du måste betala för en biljett direkt. Tessera erbjuder olika sätt att distribuera biljetter på, såsom ett lotterisystem eller ett först till kvarn system. Därför köper inte en användare en biljett, utan önskar (Request) en biljett istället. När biljettsläppet stänger används den valda allokationsmetoden för att distribuera biljetter till användarna. Om du har några frågor, tveka inte att kontakta oss.",
     },

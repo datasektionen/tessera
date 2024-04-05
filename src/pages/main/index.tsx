@@ -174,9 +174,6 @@ const MainPage: React.FC = () => {
                 1000,
                 t("main_page.phrases.6"),
                 2000,
-                () => {
-                  console.log("Sequence completed");
-                },
               ]}
               deletionSpeed={70}
               speed={60}
@@ -274,7 +271,7 @@ const MainPage: React.FC = () => {
                 </Title>
                 <StyledText
                   level="body-md"
-                  fontSize={18}
+                  fontSize={20}
                   color={PALLETTE.charcoal}
                 >
                   {t("main_page.page_description.what")}
@@ -294,15 +291,15 @@ const MainPage: React.FC = () => {
                   margin: "16px 32px",
                 }}
               >
-                <Title fontSize={32}>
-                  {t("main_page.page_description.how_title")}
+                <Title fontSize={32} color={PALLETTE.cerise}>
+                  {t("main_page.page_description.in_beta_title")}
                 </Title>
                 <StyledText
                   level="body-md"
-                  fontSize={18}
+                  fontSize={20}
                   color={PALLETTE.charcoal}
                 >
-                  {t("main_page.page_description.how")}
+                  {t("main_page.page_description.in_beta")}
                 </StyledText>
               </Box>
             </motion.div>

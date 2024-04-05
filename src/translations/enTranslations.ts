@@ -38,6 +38,13 @@ const enTranslations = {
         enjoyable as possible, with no hassle. Your account is automatically\
         tied to your tickets, so no need to fill in Google Forms or anything\
         like that.",
+      in_beta_title: "Tessera BETA",
+      in_beta:
+        "Tessera is currently in BETA. This means that Tessera is still\
+        being developed and improved. If you or your organization are interested\
+        in using Tessera BETA, we will set up a team for you free of charge. This way, you can create\
+        events and manage ticket releases. At the same time you can provide feedback\
+        and help us improve Tessera. Get in touch to get started!",
       how_title: "How does it work?",
       how: "In order to create a ticket release for your event, you must first become an event organizer, by creating a team. Currently, teams are created by contacting us at. Once you have created a team, you can start creating and managing ticket releases. You can invite other members to your team so that they can help you manage ticket releases. \nAs a user, you can view public events in the events tab. Tessera does not work as other ticketing platforms, where you have to pay for a ticket directly. Tessera provides different ways of distributing tickets, such as a lottery system, or a first-come-first-serve system. As such, a user does not buy a ticket, but instead requests a ticket. When the ticket release closes, the selected allocation method is used to distribute tickets to users. \nIf you have any questions, feel free to contact us at.",
     },

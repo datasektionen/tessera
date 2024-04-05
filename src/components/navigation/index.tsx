@@ -5,7 +5,7 @@ import IconButton from "@mui/joy/IconButton";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PALLETTE from "../../theme/pallette";
-import { Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
+import { Chip, Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
 
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
@@ -161,16 +161,32 @@ function NavigationBar() {
             marginRight: "16px",
           }}
         >
-          <Typography
-            level="h4"
-            component="a"
-            href="/" // Link to the main page
-            fontFamily={"Josefin sans"}
-            fontSize={24}
-            sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
-          >
-            tessera
-          </Typography>
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+            <Typography
+              level="h4"
+              component="a"
+              href="/" // Link to the main page
+              fontFamily={"Josefin sans"}
+              fontSize={24}
+              sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
+            >
+              tessera
+            </Typography>
+            <Chip
+              sx={{
+                backgroundColor: PALLETTE.cerise_dark,
+              }}
+            >
+              <StyledText
+                level="body-sm"
+                fontSize={14}
+                fontWeight={800}
+                color={PALLETTE.offWhite}
+              >
+                BETA
+              </StyledText>
+            </Chip>
+          </Stack>
           {isLoggedIn && (
             <Stack
               direction="row"
