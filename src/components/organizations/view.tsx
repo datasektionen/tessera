@@ -32,6 +32,7 @@ import {
   Select,
   Sheet,
   Stack,
+  useTheme,
 } from "@mui/joy";
 import { getUserFullName } from "../../utils/user_utils";
 import OrganizationUserView from "./organization_user_view";
@@ -46,6 +47,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import EditOrganization from "./edit";
 import InformationModal from "../modal/information";
+import { useMediaQuery } from "@mui/material";
 
 interface ViewOrganizationProps {
   organization: IOrganization;
@@ -92,8 +94,17 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
       user.organization_role === OrganizationUserRole.OWNER
   );
 
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <BorderBox style={{ marginTop: "16px" }}>
+    <BorderBox
+      style={{
+        marginTop: "16px",
+        marginRight: "16px",
+        width: isScreenSmall ? "90%" : "100%",
+      }}
+    >
       {loading && <LoadingOverlay />}
       <Title fontSize={32}>{organization.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>

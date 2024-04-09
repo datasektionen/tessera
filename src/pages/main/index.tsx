@@ -29,6 +29,7 @@ import HowToUse from "./how_to_use";
 
 import Bg1 from "../../assets/backgrounds/1.svg";
 import Bg2 from "../../assets/backgrounds/2.svg";
+import { TypeAnimation } from "react-type-animation";
 
 const MainPage: React.FC = () => {
   const { t } = useTranslation();
@@ -38,6 +39,7 @@ const MainPage: React.FC = () => {
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { language } = useSelector((state: RootState) => state.language);
 
   // useEffect(() => {
   //   dispatch(getEventsRequest());
@@ -152,12 +154,34 @@ const MainPage: React.FC = () => {
           <StyledText
             color={PALLETTE.offWhite}
             level="body-md"
-            fontSize={isScreenSmall ? 16 : 32}
+            fontSize={isScreenSmall ? 16 : 42}
             style={{
               marginTop: isScreenSmall ? "-16px" : "-32px",
             }}
           >
-            {t("main_page.not_a_pain")}
+            <TypeAnimation
+              key={language}
+              sequence={[
+                t("main_page.phrases.1"),
+                1000, // Waits 1s
+                t("main_page.phrases.2"),
+                1000, // Waits 2s
+                t("main_page.phrases.3"),
+                1000,
+                t("main_page.phrases.4"),
+                1000,
+                t("main_page.phrases.5"),
+                1000,
+                t("main_page.phrases.6"),
+                2000,
+              ]}
+              deletionSpeed={70}
+              speed={60}
+              wrapper="span"
+              cursor={true}
+              repeat={Infinity}
+              style={{ display: "inline-block" }}
+            />
           </StyledText>
         </Box>
         <Box
@@ -247,7 +271,7 @@ const MainPage: React.FC = () => {
                 </Title>
                 <StyledText
                   level="body-md"
-                  fontSize={18}
+                  fontSize={20}
                   color={PALLETTE.charcoal}
                 >
                   {t("main_page.page_description.what")}
@@ -267,15 +291,15 @@ const MainPage: React.FC = () => {
                   margin: "16px 32px",
                 }}
               >
-                <Title fontSize={32}>
-                  {t("main_page.page_description.how_title")}
+                <Title fontSize={32} color={PALLETTE.cerise}>
+                  {t("main_page.page_description.in_beta_title")}
                 </Title>
                 <StyledText
                   level="body-md"
-                  fontSize={18}
+                  fontSize={20}
                   color={PALLETTE.charcoal}
                 >
-                  {t("main_page.page_description.how")}
+                  {t("main_page.page_description.in_beta")}
                 </StyledText>
               </Box>
             </motion.div>

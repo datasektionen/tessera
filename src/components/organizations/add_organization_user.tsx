@@ -66,8 +66,14 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
         {t("profile.your_teams.add_user")}
       </Title>
       <FormControl>
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Box>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            maxWidth: "350px",
+          }}
+        >
+          <Grid xs={12} md={8}>
             <Input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -78,8 +84,8 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
               }}
               placeholder="Enter username"
             />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid xs={12} md={4}>
             <StyledButton
               color={PALLETTE.cerise_dark}
               size="sm"
@@ -90,8 +96,8 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
             >
               {t("form.button_submit")}
             </StyledButton>
-          </Box>
-        </Stack>
+          </Grid>
+        </Grid>
         <FormHelperText>
           <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
             {t("profile.your_teams.add_user_helperText")}

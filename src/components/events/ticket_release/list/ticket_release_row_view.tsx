@@ -36,8 +36,10 @@ import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SnoozeIcon from "@mui/icons-material/Snooze";
-import { ticketsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
+import { ticketsEnteredIntoFCFSLottery } from "../../../../utils/event_open_close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteTicketReleaseModal from "../delete_ticket_release_modal";
+import handleDeleteTicketRelease from "../../../../redux/sagas/axios_calls/handle_delete_ticket_release";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -113,32 +115,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     }
     setAllocationLoading(false);
     setConfirmOpen(false);
-  };
-
-  const handleDeleteTicketRelease = async () => {
-    const response = await axios.delete(
-      `${
-        process.env.REACT_APP_BACKEND_URL
-      }/events/${ticketRelease.eventId!}/ticket-release/${ticketRelease.id}`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    if (response.status === 200) {
-      setTimeout(() => {
-        toast.success("Ticket release deleted successfully");
-      }, 500);
-      dispatch(
-        getEventRequest({
-          id: ticketRelease.eventId!,
-          secretToken: "",
-        })
-      );
-    } else {
-      const errorMessage = response.data?.message || "Something went wrong";
-      toast.error(errorMessage);
-    }
   };
 
   const tryToAllocateReserveTickets = async () => {
@@ -320,7 +296,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                 color={PALLETTE.charcoal}
                 sx={{ ml: 2 }}
               >
-                {`${ticketsEnteredIntoFCFCLottery(
+                {`${ticketsEnteredIntoFCFSLottery(
                   ticketReleaseTickets,
                   ticketRelease
                 )} ` + t("manage_event.lottery_entered_ticket_requests")}
@@ -336,7 +312,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               >
                 {`${
                   numTicketRequests -
-                  ticketsEnteredIntoFCFCLottery(
+                  ticketsEnteredIntoFCFSLottery(
                     ticketReleaseTickets,
                     ticketRelease
                   )
@@ -558,58 +534,11 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               >
                 {t("manage_event.check_allocated_reserve_tickets")}
               </StyledButton>
-              <ConfirmModal
-                title="Confrim Delete Ticket Release"
-                isOpen={openDeleteModel}
-                onClose={() => {
-                  setOpenDeleteModel(false);
+              <DeleteTicketReleaseModal
+                handleDeleteTicketRelease={() => {
+                  handleDeleteTicketRelease(dispatch, ticketRelease);
                 }}
-                actions={[
-                  <StyledButton
-                    size="md"
-                    key="confirm-delete"
-                    bgColor={PALLETTE.charcoal_see_through}
-                    onClick={() => {
-                      handleDeleteTicketRelease();
-                      setOpenDeleteModel(false);
-                    }}
-                  >
-                    {t("form.button_confirm")}
-                  </StyledButton>,
-                  <StyledButton
-                    size="md"
-                    key="cancel-delete"
-                    bgColor={PALLETTE.red}
-                    onClick={() => {
-                      setOpenDeleteModel(false);
-                    }}
-                  >
-                    {t("form.button_cancel")}
-                  </StyledButton>,
-                ]}
-              >
-                <StyledText
-                  level="body-md"
-                  fontSize={18}
-                  color={PALLETTE.charcoal}
-                >
-                  {t("manage_event.delete_ticket_release_confirmation")}
-                </StyledText>
-              </ConfirmModal>
-              <StyledButton
-                color={PALLETTE.charcoal}
-                bgColor={PALLETTE.charcoal_see_through}
-                textColor={PALLETTE.charcoal}
-                size="md"
-                onClick={() => {
-                  setOpenDeleteModel(true);
-                }}
-                style={{
-                  width: "100%",
-                }}
-              >
-                {t("form.button_delete")}
-              </StyledButton>
+              />
             </Stack>
           </Box>
         </Grid>

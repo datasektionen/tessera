@@ -31,6 +31,8 @@ export const StyledFormLabelWithHelperText: React.FC<{
         color={PALLETTE.charcoal}
         style={{
           marginTop: 5,
+          overflowWrap: "break-word",
+          width: "100%",
         }}
       >
         {children}

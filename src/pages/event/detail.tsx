@@ -54,6 +54,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
 import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
 import InformationModal from "../../components/modal/information";
+import { getEventFormFields } from "../../redux/sagas/axios_calls/event_form_fields";
+import EditFormFieldResponse from "../../components/events/form_field_response/edit";
+import { ROUTES } from "../../routes/def";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -95,6 +98,11 @@ const EventDetail: React.FC = () => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
+  const [formFields, setFormFields] = useState<any>(null);
+
+  const { ticketRequests: madeTicketRequests } = useSelector(
+    (state: RootState) => state.myTicketRequests
+  );
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
     dispatch(
@@ -110,7 +118,18 @@ const EventDetail: React.FC = () => {
       setDisplayPostSuccess(true);
       dispatch(resetPostSuccess());
     }
-  }, [postSuccess]);
+  }, [dispatch, postSuccess]);
+
+  useEffect(() => {
+    if (displayPostSuccess) {
+      toast.success(
+        <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
+          Ticket request created! View it{" "}
+          <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
+        </StyledText>
+      );
+    }
+  }, [displayPostSuccess]);
 
   useEffect(() => {
     if (errorStatusCode === 404) {
@@ -169,42 +188,46 @@ const EventDetail: React.FC = () => {
   return (
     <TesseraWrapper>
       {promoCodeLoading && <LoadingOverlay />}
-      <InformationModal
-        isOpen={displayPostSuccess}
-        onClose={() => setDisplayPostSuccess(false)}
-        title={t("event.ticket_request_success_title")}
-      >
-        <StyledText
-          color={PALLETTE.charcoal}
-          level="body-sm"
-          fontSize={18}
-          fontWeight={500}
-          style={{
-            marginTop: "1rem",
-          }}
-        >
-          <Trans i18nKey="event.ticket_request_success_description">
-            hjdw
-            <Link href="/profile/ticket-requests" target="_blank">
-              here{" "}
-            </Link>
-            dwqd
-          </Trans>
-        </StyledText>
-      </InformationModal>
+      {madeTicketRequests[0] &&
+        madeTicketRequests[0].ticket_release!.event!.form_fields!.length >
+          0 && (
+          <InformationModal
+            isOpen={displayPostSuccess}
+            onClose={() => setDisplayPostSuccess(false)}
+            title={t("event.ticket_request_success_title")}
+            width="60%"
+          >
+            <EditFormFieldResponse ticketRequest={madeTicketRequests[0]} />
+            <StyledText
+              color={PALLETTE.charcoal}
+              level="body-sm"
+              fontSize={18}
+              fontWeight={500}
+              style={{
+                marginTop: "1rem",
+              }}
+            >
+              <Trans i18nKey="event.ticket_request_success_description">
+                hjdw
+                <Link href="/profile/ticket-requests" target="_blank">
+                  here{" "}
+                </Link>
+              </Trans>
+            </StyledText>
+          </InformationModal>
+        )}
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>
             <Typography
               level="h1"
               fontFamily={"Josefin sans"}
-              fontSize={48}
+              fontSize={44}
               fontWeight={700}
               style={{
                 color: PALLETTE.cerise_dark,
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
+                overflowWrap: "break-word",
+                lineHeight: "1.2",
                 width: "90%",
               }}
             >
@@ -212,46 +235,7 @@ const EventDetail: React.FC = () => {
             </Typography>
 
             <Grid container spacing={2} columns={16}>
-              <Grid xs={16} md={12}>
-                <Typography
-                  level="body-md"
-                  style={{
-                    color: PALLETTE.charcoal,
-                    height: "fit-content",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    wordBreak: "break-word", // To ensure long words do not cause layout issues
-                  }}
-                >
-                  <ReactMarkdown>{event.description}</ReactMarkdown>
-                </Typography>
-
-                <Box>
-                  <StyledText
-                    color={PALLETTE.charcoal_see_through}
-                    level="body-sm"
-                    fontSize={16}
-                    fontWeight={600}
-                    style={{
-                      width: "75%",
-                      margin: "2rem 0",
-                    }}
-                  >
-                    <Trans
-                      i18nKey="event.contact_organizers"
-                      values={{ organization: event.organization?.name }}
-                    >
-                      Contact the organizers at <strong>hi</strong>
-                      <Link
-                        href={`/contact?organization_id=${event.organization?.id}`}
-                      >
-                        here
-                      </Link>
-                    </Trans>
-                  </StyledText>
-                </Box>
-              </Grid>
-              <Grid xs={16} md={4}>
+              <Grid xs={16}>
                 <Typography
                   level="body-sm"
                   fontFamily={"Josefin sans"}
@@ -299,12 +283,49 @@ const EventDetail: React.FC = () => {
                   fontSize={16}
                   fontWeight={600}
                   startDecorator={<GroupsIcon />}
-                  style={{
-                    marginTop: "1rem",
+                  sx={{
+                    mt: 1,
                   }}
                 >
                   {t("event.event_by")} {event.organization?.name}
                 </StyledText>
+                <Typography
+                  level="body-md"
+                  style={{
+                    color: PALLETTE.charcoal,
+                    height: "fit-content",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    wordBreak: "break-word", // To ensure long words do not cause layout issues
+                  }}
+                >
+                  <ReactMarkdown>{event.description}</ReactMarkdown>
+                </Typography>
+
+                <Box>
+                  <StyledText
+                    color={PALLETTE.charcoal_see_through}
+                    level="body-sm"
+                    fontSize={16}
+                    fontWeight={600}
+                    style={{
+                      width: "75%",
+                      margin: "2rem 0",
+                    }}
+                  >
+                    <Trans
+                      i18nKey="event.contact_organizers"
+                      values={{ organization: event.organization?.name }}
+                    >
+                      Contact the organizers at <strong>hi</strong>
+                      <Link
+                        href={`/contact?organization_id=${event.organization?.id}`}
+                      >
+                        here
+                      </Link>
+                    </Trans>
+                  </StyledText>
+                </Box>
               </Grid>
             </Grid>
           </Item>

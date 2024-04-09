@@ -76,12 +76,17 @@ function* createTicketRequestSaga(
     );
 
     if (response.status === 201) {
-      toast.success(
-        <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
-          Ticket request created! View it{" "}
-          <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
-        </StyledText>
+      yield put(
+        getMyTicketRequestsRequest(
+          response.data.map((ticket_request: any) => ticket_request.ID)
+        )
       );
+      // toast.success(
+      //   <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
+      //     Ticket request created! View it{" "}
+      //     <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
+      //   </StyledText>
+      // );
       yield put(postTicketRequestSuccess());
     } else {
       const errorMessage = response.data.error || "An error occurred";
@@ -95,15 +100,33 @@ function* createTicketRequestSaga(
   }
 }
 
-function* getMyTicketRequestsSaga(): Generator<any, void, any> {
+function* getMyTicketRequestsSaga(
+  action: PayloadAction<number[] | null>
+): Generator<any, void, any> {
+  const ids = action.payload;
+
   try {
-    const response = yield call(
-      axios.get,
-      `${process.env.REACT_APP_BACKEND_URL}/my-ticket-requests`,
-      {
-        withCredentials: true,
-      }
-    );
+    let response;
+    if (ids !== null) {
+      response = yield call(
+        axios.get,
+        `${process.env.REACT_APP_BACKEND_URL}/my-ticket-requests`,
+        {
+          params: {
+            ids: ids.join(","),
+          },
+          withCredentials: true,
+        }
+      );
+    } else {
+      response = yield call(
+        axios.get,
+        `${process.env.REACT_APP_BACKEND_URL}/my-ticket-requests`,
+        {
+          withCredentials: true,
+        }
+      );
+    }
 
 
     const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
@@ -201,7 +224,7 @@ function* getMyTicketRequestsSaga(): Generator<any, void, any> {
   }
 }
 
-function* cancellTicketRequestSaga(
+function* cancelTicketRequestSaga(
   action: PayloadAction<ITicketRequest>
 ): Generator<any, void, any> {
   try {
@@ -232,8 +255,10 @@ function* cancellTicketRequestSaga(
   }
 }
 
+export function* myTicketRequestSaga() {}
+
 function* watchTicketRequestSaga() {
-  yield takeLatest(cancelTicketRequestRequest.type, cancellTicketRequestSaga);
+  yield takeLatest(cancelTicketRequestRequest.type, cancelTicketRequestSaga);
   yield takeLatest(postTicketRequest.type, createTicketRequestSaga);
   yield takeLatest(getMyTicketRequestsRequest.type, getMyTicketRequestsSaga);
 }

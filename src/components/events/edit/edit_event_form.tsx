@@ -128,6 +128,9 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                     name="name"
                     label="Name"
                     placeholder="Party Rangers"
+                    overrideStyle={{
+                      width: "50%",
+                    }}
                   />
                   <StyledErrorMessage name="name" />
 
@@ -182,6 +185,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                       label="Date"
                       type="datetime-local"
                       placeholder=""
+                      required={false}
                     />
                     <StyledErrorMessage name="date" />
 

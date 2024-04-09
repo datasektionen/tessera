@@ -11,6 +11,14 @@ const enTranslations = {
   },
 
   main_page: {
+    phrases: {
+      "1": "Ticket releases shouldn't be a pain!",
+      "2": "Ticket releases shouldn't be tricky!",
+      "3": "Ticket releases shouldn't be a hassle!",
+      "4": "Event management should be easy!",
+      "5": "Event management should be simple!",
+      "6": "Event management should be straightforward!",
+    },
     not_a_pain: "Ticket releases shouldn't be a pain!",
     welcome: "{{name}}, Welcome to",
     learn_how_button: "Learn how",
@@ -28,10 +36,17 @@ const enTranslations = {
         releases and manage them. Event organizers can easily view your food\
         preferences, allergies, and more in order to make your experience as\
         enjoyable as possible, with no hassle. Your account is automatically\
-        tied to your tickets, so no need to fill in google forms or anything\
+        tied to your tickets, so no need to fill in Google Forms or anything\
         like that.",
+      in_beta_title: "Tessera BETA",
+      in_beta:
+        "Tessera is currently in BETA. This means that Tessera is still\
+        being developed and improved. If you or your organization are interested\
+        in using Tessera BETA, we will set up a team for you free of charge. This way, you can create\
+        events and manage ticket releases. At the same time you can provide feedback\
+        and help us improve Tessera. Get in touch to get started!",
       how_title: "How does it work?",
-      how: "In order to create a ticket release for your event, you must first become an event organizer, by creating a team. Currently, teams are created by contacting us at. Once you have created a team, you can start creating and managing ticket releases. You can invite other members to your team so that they can help you manage ticket releases. \nAs a user, you can view public events in the events tab. Tessera does not work as other ticketing platforms, where you have to pay for a ticket directly. Tessera provides different ways of distributing tickets, such as a lottery system, or a first-come-first-serve system. As such, a user does not buy a ticket, but instead requests a ticket. When the ticket releases closes, the selected allocation method is used to distribute tickets to users. \nIf you have any questions, feel free to contact us at.",
+      how: "In order to create a ticket release for your event, you must first become an event organizer, by creating a team. Currently, teams are created by contacting us at. Once you have created a team, you can start creating and managing ticket releases. You can invite other members to your team so that they can help you manage ticket releases. \nAs a user, you can view public events in the events tab. Tessera does not work as other ticketing platforms, where you have to pay for a ticket directly. Tessera provides different ways of distributing tickets, such as a lottery system, or a first-come-first-serve system. As such, a user does not buy a ticket, but instead requests a ticket. When the ticket release closes, the selected allocation method is used to distribute tickets to users. \nIf you have any questions, feel free to contact us at.",
     },
     get_in_touch: {
       quote1:
@@ -67,7 +82,7 @@ const enTranslations = {
       name_helperText: "What is the name of your event?",
       description: "Description",
       description_helperText:
-        "Describe what your event is about? What should people expect? Markdown is supported.",
+        "Describe what your event is about. What should people expect? Markdown is supported.",
       date: "Date",
       date_helperText: "When is your event?",
       end_date: "End date",
@@ -76,7 +91,7 @@ const enTranslations = {
       location_helperText: "Where is your event?",
       team: "Team",
       team_helperText:
-        "Which team is hosting your event? You need to tie the event to a team. If your not a part of a team, you can create one",
+        "Which team is hosting your event? You need to tie the event to a team. If you're not a part of a team, you can create one",
       private_event: "Private event",
       private_event_helperText:
         "Is your event private? If so, only people with the link can see it.",
@@ -92,13 +107,13 @@ const enTranslations = {
         "When will the tickets be released? This is the time when users can start requesting tickets.",
       closes_at: "Closes at",
       closes_at_helperText:
-        "Wheen will the ticket release close? This is the tim when users can no longer request tickets.",
+        "When will the ticket release close? This is the time when users can no longer request tickets.",
       ticket_release_method: "Ticket release method",
       ticket_release_method_helperText:
         "How do you want to distribute tickets?",
       lottery_duration: "Lottery duration (minutes)",
       lottery_duration_helperText:
-        "For First Come First Serve, the lottery duration defines within how many minutes, requested tickets will be entered into a lottery. If more tickets are requested than available, all participants that request tickets within this timeframe will be entered into a lottery, the rest will be reserves.",
+        "For First Come First Serve, the lottery duration defines within how many minutes, requested tickets will be entered into a lottery. If more tickets are requested than available, all participants that request tickets within this time frame will be entered into a lottery, the rest will be reserves.",
       max_tickets_per_user: "Max tickets per user",
       max_tickets_per_user_helperText:
         "How many tickets can a user request? Always 1 currently.",
@@ -118,13 +133,16 @@ const enTranslations = {
       allow_external: "Allow external users",
       allow_external_helperText:
         "Allow external users to request tickets for this ticket release.",
+      selective_description: "Describe the allocation method",
+      selective_description_helperText:
+        "Specify how your team plans to allocate tickets. This information will be shown to the user when they request a ticket.",
     },
     ticket_types: {
       name: "Name",
       name_helperText: "What is the name of this ticket?",
       description: "Description",
       description_helperText:
-        "Describe whats included in this ticket. Markdown is supported.",
+        "Describe what's included in this ticket. Markdown is supported.",
       price: "Price (SEK)",
       price_helperText: "How much does this ticket cost?",
     },
@@ -157,6 +175,8 @@ const enTranslations = {
       form_field_description: "Description",
       form_field_description_helperText:
         "Describe what additional information you want to collect from the user, and why. Markdown is supported.",
+      delete_field_confirm:
+        "Are you sure you want to delete this field? Deleting this field might result in loss of response data. You will have to save after deleting!",
     },
 
     addon: {
@@ -220,11 +240,11 @@ const enTranslations = {
     ticket_types: "Ticket Batches",
     ticket_types_helperText:
       "Let's define the different batches of tickets that will be available for the previous ticket release. Select a ticket batch to edit it.",
-    finish_title: "Thats it!",
+    finish_title: "That's it!",
     finish_description:
       "You have now successfully filled out all the details for your event. Click the button below to create your event. You can also go back and edit your event by clicking the back button. But you can also edit your event later in the edit event page.",
     no_teams:
-      "You are currently no part of any team, and therefore cannot create an event. In order to create a team you need to contact us. Read more on the landing page.",
+      "You are currently not part of any team, and therefore cannot create an event. In order to create a team you need to contact us. Read more on the landing page.",
   },
   // Profile
   profile: {
@@ -235,7 +255,7 @@ const enTranslations = {
     preferred_email: "Preferred email",
     edit_preferred_email: "Edit preferred email",
     edit_preferred_email_description:
-      "Here you can edit your preferred email. This is the email you will recieve all notifications to.",
+      "Here you can edit your preferred email. This is the email you will receive all notifications at.",
     username: "Username",
     role: "Role",
     teams: "Teams",
@@ -252,7 +272,7 @@ const enTranslations = {
         "Allergies and dietary restrictions (Select all that apply)",
       allergies_and_dietary_restrictions_helperText:
         "Select all that apply, leave blank if none apply.",
-      additional_notes: "Aditional notes",
+      additional_notes: "Additional notes",
       additional_notes_helperText:
         "Provide any additional notes here regarding your food preferences. Leave blank if you have none.",
       privacy_policy_title: "Privacy policy",
@@ -263,7 +283,7 @@ const enTranslations = {
     your_ticket_requests: {
       title: "My ticket requests",
       description:
-        "Here you can see all the ticket requests you have made. You can cancel a ticket request by clicking on the ticket request and clicking the cancel button. When the event organizer allocates tickets you will receive either a ticket or a reserve status. You can see all your tickets and reserve status <1>here</1>.",
+        "Here you can see all the ticket requests you have made. You can cancel a ticket request by selecting it and clicking the cancel button. When the event organizer allocates tickets you will receive either a ticket or a reserve status. You can see all your tickets and reserve statuses <1>here</1>.",
       upcoming_events: "Upcoming events",
       no_upcoming_events: "You have no upcoming events.",
       past_events: "Past events",
@@ -274,7 +294,7 @@ const enTranslations = {
     your_tickets: {
       title: "My tickets",
       description:
-        "Here you can see all the tickets you have gotten. You can give up your ticket by clicking on the ticket and then choose the option 'I no longer wish to attend', which will give your ticket to the next person in line. If you have not yet been allocated a ticket or reserve ticket, you can see your ticket requests <1>here</1>.",
+        "Here you can see all the tickets you have gotten. You can give up your ticket by clicking on it and then choosing the option 'I no longer wish to attend', which will give your ticket to the next person in line. If you have not yet been allocated a ticket or reserve ticket, you can see your ticket requests <1>here</1>.",
       upcoming_events: "Upcoming events",
       no_upcoming_events: "You have no upcoming events.",
       past_events: "Past events",
@@ -310,7 +330,7 @@ const enTranslations = {
     what_is_a_team: "What is a team?",
 
     description:
-      "Here you can create a team. Teams are used to organize events and manage users. It allows the managers of the team to create events, manage ticket sales and plan the event more efficiently. You can ginvite other users to join your team andive them different permissions. You are also not limited to one team, you can create as many as you want, and join as many as you want. You can also leave teams at any time. Without being a part of a team you cannot create events.",
+      "Here you can create a team. Teams are used to organize events and manage users. It allows the managers of the team to create events, manage ticket sales and plan the event more efficiently. You can invite other users to join your team and give them different permissions. You are also not limited to one team, you can create as many as you want, and join as many as you want. You can also leave teams at any time. Without being a part of a team you cannot create events.",
     teams_created_by_contacting_us:
       "Currently, teams are created by contacting us. We are working on a solution to allow users to create teams themselves.",
     your_teams_text: "Your teams",
@@ -326,7 +346,7 @@ const enTranslations = {
   manage_event: {
     title: "Manage event",
     manage_ticket_releases: "Manage ticket releases",
-    ticket_release_method_title: "Ticket release Method",
+    ticket_release_method_title: "Ticket release method",
     ticket_release_ticket_info_title: "Tickets info",
     ticket_requests: "Ticket requests",
     lottery_entered_ticket_requests: "Lottery entered ticket requests",
@@ -339,14 +359,14 @@ const enTranslations = {
     closed: "has closed",
     open: "is open",
     allocate_tickets_button: "Allocate tickets",
-    the_ticket_release: "The Ticket release",
+    the_ticket_release: "The ticket release",
     deleted_ticket_requests: "Deleted ticket requests",
     deleted_tickets: "Deleted tickets",
     not_open: "Not open",
     not_yet_open: "Not yet open",
     check_allocated_reserve_tickets: "Try to allocate reserve tickets",
     check_allocated_reserve_tickets_tooltip:
-      "Pressing this button will manually try to allocate reserve tickets. This is useful if you dont want to wait for the automatic allocation.",
+      "Pressing this button will manually try to allocate reserve tickets. This is useful if you don't want to wait for the automatic allocation.",
     allocated_tickets: "Allocated tickets",
     pay_within_hours: "Users must pay within (hours)*",
     allocate_tickets_confirm_title: "Confirm ticket allocation",
@@ -395,7 +415,7 @@ const enTranslations = {
       subject_helperText: "What is the subject of the email?",
       message: "Message",
       message_helperText:
-        "What is the contents of the email? Markdown is supported.",
+        "What are the contents of the email? Markdown is supported.",
       preview_helperText: "This is how the email will look to the users.",
       ticket_releases: "Select ticket releases",
       ticket_releases_helperText:
@@ -418,7 +438,7 @@ const enTranslations = {
         select: "Select a ticket release to edit it.",
         add: "Add ticket release",
         add_subtitle:
-          "Lets add another ticket release. First we need to define the details for this ticket release.",
+          "Let's add another ticket release. First we need to define the details for this ticket release.",
         closed: "Closed",
         no_ticket_releases: "There are no ticket releases for this event.",
         edit_ticket_types: "Edit tickets",
@@ -446,6 +466,11 @@ const enTranslations = {
           "Modify the details of your ticket types and then click 'Save'.",
       },
     },
+
+    form_field_responses: {
+      list_view: "List View",
+      table_view: "Table View",
+    },
   },
 
   ticket_release_method: {
@@ -471,14 +496,14 @@ const enTranslations = {
     description:
       "The event organizer has requested additional information from you. See information from the event organizer below.",
     accept_terms_and_conditions:
-      "By submitting this form, you agree to share the above information with the event organizer in order to for them to plan the event. The information will be processed in accordance with the chapters information processing policy.",
+      "By submitting this form, you agree to share the above information with the event organizer in order to for them to plan the event. The information will be processed in accordance with the Chapter's information processing policy.",
     no_form_fields: "Oops! There is no form for this event.",
   },
 
   tickets: {
     cost_overview: "Cost overview",
     confirmed_ticket:
-      "Your ticket has been confirmed! Its now time to pay for your ticket. You can pay for your ticket by clicking the button below. If you do not pay for your ticket before <1>{{payBefore}}</1>, your ticket will be given to the next person in line.",
+      "Your ticket has been confirmed! It's now time to pay for your ticket. You can pay for your ticket by clicking the button below. If you do not pay for your ticket before <1>{{payBefore}}</1>, your ticket will be given to the next person in line.",
     reserve_ticket:
       "Unfortunately, you were allocated a reserve ticket for this event. You will be notified if a ticket becomes available.",
     has_paid: "You have paid for your ticket!",
@@ -490,14 +515,14 @@ const enTranslations = {
     leave_reserve_list_text: "Leave reserve list",
     reserve_number: "You are number <1>{{number}}</1> on the reserve list.",
     paid_ticket:
-      "You have paid for your ticket! We are looking forward to seeing you at the event. Reciept will be sent to your email.",
+      "You have paid for your ticket! We are looking forward to seeing you at the event. Receipt will be sent to your email.",
     confirm_cancel_reserve_ticket_text:
       "Are you sure you want to cancel your ticket? You will not be able to get your ticket back and this action cannot be undone!",
     confirm_cancel_ticket_text:
-      "Are you sure want to cancel this ticket? You will not be able to get your ticket back and this action cannot be undone!",
+      "Are you sure you want to cancel this ticket? You will not be able to get your ticket back and this action cannot be undone!",
     pay_button: "Pay now",
     not_paid_on_time:
-      "Sorry! You did not pay for your ticket on time, So you lost your ticket.",
+      "Sorry! You did not pay for your ticket on time, so you lost your ticket.",
 
     payment: {
       title: "Confirm Your Ticket Purchase",
@@ -520,12 +545,12 @@ const enTranslations = {
     no_ticket_releases: "There are no ticket releases for this event.",
     event_by: "Event by",
     promo_code_title: "Promo code",
-    promo_code_helperText: "Enter the promo code to acesss reserved tickets.",
+    promo_code_helperText: "Enter the promo code to access reserved tickets.",
     contact_organizers:
       "If you have any questions, you can contact <1>{{organization}}</1> <2>here</2>.",
     ticket_request_success_title: "Ticket request successful",
     ticket_request_success_description:
-      "Please fill in the event form which is located under the ticket request page, <1>here</1>. This is where you can provide the event organizer with additional information.",
+      "You can also fill out this information later if you want. You can do so <1>here</1>.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",
@@ -550,12 +575,12 @@ const enTranslations = {
       remove_reminder: "Remove reminder",
       set_reminder: "Set reminder for 10 minutes before ticket release",
       information_processing_policy_info:
-        "By requesting a ticket you agree to share your food preferences and user details with the event organizer. Information collected will be processed in accordance with the chapters information processing policy, <1>Click Here</1> for more information.",
+        "By requesting a ticket you agree to share your food preferences and user details with the event organizer. Information collected will be processed in accordance with the Chapter's information processing policy, <1>Click Here</1> for more information.",
       checkout: {
         overview: "Overview",
         what_is_a_request_title: "What is a ticket request?",
         what_is_a_request:
-          "When making a request, you are not guaranteed to get the tickets you want. The allocation of the tickets are done according to the Ticket Release Method, which is described in the release description.",
+          "When making a request, you are not guaranteed to get the tickets you want. The allocation of the tickets is done according to the Ticket Release Method, which is described in the release description.",
         total: "Total",
         ticket: "Ticket",
       },
@@ -575,7 +600,7 @@ const enTranslations = {
     info: {
       subtitle: "External login and signup.",
       description:
-        "If you're not a KTH student, you can still use Tessera. However since you don't have a KTH account, you'll need to use a different login method. When using tessera, you will only be able to purchase tickets from ticket releases that are specific to external users. These may include '+1'-tickets, or honorary tickets for special guests.",
+        "If you're not a KTH student, you can still use Tessera. However, since you don't have a KTH account, you'll need to use a different login method. When using tessera, you will only be able to purchase tickets from ticket releases that are specific to external users. These may include '+1'-tickets, or honorary tickets for special guests.",
       forgot_password: "Forgot password?",
       dont_have_an_account: "Don't have an account? Sign up!",
       i_have_kth_account: "But I have a KTH account! Then <1>Click Here</1>",
@@ -618,7 +643,7 @@ const enTranslations = {
     updated: "Updated",
     private_event: "Private event",
     mobile_warning:
-      "Welcome to Tessera! We see that you are using a mobile device. Some aspects of the website might not be optimized for mobile devices. However request and viewin tickets should work as expected. If youre an event organizer, we recommend using a desktop device.",
+      "Welcome to Tessera! We see that you are using a mobile device. Some aspects of the website might not be optimized for mobile devices. However, requesting and viewing tickets should work as expected. If you're an event organizer, we recommend using a desktop device.",
   },
 
   faq: {

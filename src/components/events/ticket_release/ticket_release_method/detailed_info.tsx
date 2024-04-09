@@ -12,7 +12,7 @@ import {
   ticketReleaseHasNotOpened,
   ticketReleaseHasOpened,
 } from "../../../../utils/event_open_close";
-import TicketReleasHasNotOpened from "../ticket_release_has_not_opened";
+import TicketReleaseHasNotOpened from "../ticket_release_has_not_opened";
 import { time } from "console";
 import InfoIcon from "@mui/icons-material/Info";
 

@@ -41,12 +41,19 @@ import {
 import { StyledErrorMessage } from "../../../forms/messages";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import LoadingOverlay from "../../../Loading";
+import ConfirmModal from "../../../modal/confirm_modal";
 
 interface EventFormFieldsProps {
   event: IEvent;
+  refetchEvent: () => void;
 }
 
-const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
+const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
+  event,
+  refetchEvent,
+}) => {
+  const [submitting, setSubmitting] = useState(false);
   const initialValues: IEventFormFieldInput =
     event.form_fields !== undefined
       ? {
@@ -63,20 +70,29 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
   const { t } = useTranslation();
 
   const handleSubmit = async (values: IEventFormFieldInput) => {
+    setSubmitting(true);
     const res = (await handleEventFormFieldsSubmit(event.id, values)) as {
       success?: boolean;
       error?: string;
     };
 
     if (res.success) {
-      toast.success("Form fields updated");
+      setTimeout(() => {
+        toast.success("Form fields updated");
+      }, 200);
+      refetchEvent();
     } else {
       toast.error(res.error);
     }
+
+    setSubmitting(false);
   };
+
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
   return (
     <Box>
+      {submitting && <LoadingOverlay />}
       <Formik
         initialValues={initialValues}
         validationSchema={formFieldSchema}
@@ -254,10 +270,49 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({ event }) => {
                                         </Box>
 
                                         <Box>
+                                          <ConfirmModal
+                                            title="Delete Field"
+                                            isOpen={openDeleteConfirm}
+                                            onClose={() =>
+                                              setOpenDeleteConfirm(false)
+                                            }
+                                            actions={[
+                                              <StyledButton
+                                                size="sm"
+                                                onClick={() => {
+                                                  setOpenDeleteConfirm(false);
+                                                  remove(index);
+                                                }}
+                                              >
+                                                {t("form.button_confirm")}
+                                              </StyledButton>,
+                                              <StyledButton
+                                                size="sm"
+                                                bgColor={PALLETTE.red}
+                                                onClick={() =>
+                                                  setOpenDeleteConfirm(false)
+                                                }
+                                              >
+                                                {t("form.button_cancel")}
+                                              </StyledButton>,
+                                            ]}
+                                          >
+                                            <StyledText
+                                              level="body-sm"
+                                              color={PALLETTE.charcoal}
+                                              fontSize={18}
+                                            >
+                                              {t(
+                                                "form.event_fields.delete_field_confirm"
+                                              )}
+                                            </StyledText>
+                                          </ConfirmModal>
                                           <StyledButton
                                             size="sm"
                                             type="button"
-                                            onClick={() => remove(index)}
+                                            onClick={() => {
+                                              setOpenDeleteConfirm(true);
+                                            }}
                                             style={{
                                               marginLeft: "128px",
                                             }}

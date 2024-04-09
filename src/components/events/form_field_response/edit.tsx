@@ -3,6 +3,7 @@ import {
   EventFormFieldsArray,
   IEvent,
   IEventFormField,
+  IEventFormFields,
   ITicket,
   ITicketRequest,
 } from "../../../types";
@@ -41,6 +42,7 @@ const createField = (field: IEventFormField) => {
             overrideStyle={{
               width: "90%",
             }}
+            required={field.is_required}
           />
         );
       case "number":
@@ -50,6 +52,7 @@ const createField = (field: IEventFormField) => {
             label="number"
             type="number"
             placeholder="Enter number"
+            required={field.is_required}
           />
         );
       case "checkbox":
@@ -60,7 +63,7 @@ const createField = (field: IEventFormField) => {
   };
 
   return (
-    <Box key={field.id}>
+    <Box key={field.id} sx={{ width: "100%", position: "relative" }}>
       <StyledFormLabel>
         {field.name}
         {field.is_required ? "*" : ""}
@@ -130,7 +133,7 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         value: value,
       };
     });
-    const event_id = formFields[0].event_id;
+    const event_id = ticketRequest.ticket_release?.eventId!;
 
     handleEventFormFieldResponseSubmit(
       formFieldValues,
@@ -145,6 +148,16 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
     });
   };
 
+  const convertStringToBoolean = (value: string, type: string) => {
+    if (type === "checkbox") {
+      return value === "true";
+    } else if (type === "number") {
+      return parseInt(value);
+    }
+
+    return value;
+  };
+
   const createInitialValues = (): IEventFormField[] => {
     const values = ticketRequest.event_form_responses || [];
     let initialValues: any = {};
@@ -153,12 +166,31 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         (value) => value.event_form_field_id === field.id
       );
       if (response !== undefined) {
-        initialValues[field.id.toString()] = response.value;
+        initialValues[field.id.toString()] = convertStringToBoolean(
+          response.value as string,
+          field.type
+        );
+      } else {
+        switch (field.type) {
+          case "text":
+            initialValues[field.id.toString()] = "";
+            break;
+          case "number":
+            initialValues[field.id.toString()] = 0;
+            break;
+          case "checkbox":
+            initialValues[field.id.toString()] = false;
+            break;
+          default:
+            break;
+        }
       }
     });
 
     return initialValues;
   };
+
+  createInitialValues();
 
   return (
     <Box>
@@ -247,24 +279,34 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
 interface EditFormFieldResponseProps {
   ticket?: ITicket;
   ticketRequest?: ITicketRequest;
+  formFields?: IEventFormField[];
 }
 
 const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
   ticket,
   ticketRequest,
+  formFields = undefined,
 }) => {
   if (ticket !== undefined) {
     return (
       <EditFormFieldResponseBase
         ticketRequest={ticket.ticket_request!}
-        formFields={ticket.ticket_request?.ticket_release?.event?.form_fields!}
+        formFields={
+          formFields
+            ? formFields
+            : ticket.ticket_request?.ticket_release?.event?.form_fields!
+        }
       />
     );
   } else if (ticketRequest !== undefined) {
     return (
       <EditFormFieldResponseBase
         ticketRequest={ticketRequest}
-        formFields={ticketRequest.ticket_release?.event?.form_fields!}
+        formFields={
+          formFields
+            ? formFields
+            : ticketRequest.ticket_release?.event?.form_fields!
+        }
       />
     );
   } else {

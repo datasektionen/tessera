@@ -99,6 +99,9 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                     name="name"
                     label="Name"
                     placeholder="Party Pooper"
+                    overrideStyle={{
+                      width: "50%",
+                    }}
                     // ...other props
                     onChange={(e: any) => {
                       handleChange(e);
@@ -121,6 +124,9 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                     name="description"
                     label="Description"
                     placeholder="Access to the Party Pooper section"
+                    overrideStyle={{
+                      width: "95%",
+                    }}
                     // ...other props
                     onChange={(e: any) => {
                       handleChange(e);

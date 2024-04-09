@@ -51,6 +51,7 @@ function* createTicketReleaseSaga(
       open: new Date(ticketRelease.open).getTime() / 1000,
       close: new Date(ticketRelease.close).getTime() / 1000,
       open_window_duration: ticketRelease.open_window_duration! * 60,
+      method_description: ticketRelease.method_description,
       max_tickets_per_user: ticketRelease.max_tickets_per_user,
       notification_method: ticketRelease.notification_method.toUpperCase(),
       cancellation_policy: ticketRelease.cancellation_policy.toUpperCase(),
@@ -87,7 +88,7 @@ function* createTicketReleaseSaga(
   }
 }
 
-function* updateTicketReleasSaga(
+function* updateTicketReleaseSaga(
   action: PayloadAction<{
     eventId: number;
     ticketReleaseId: number;
@@ -103,6 +104,7 @@ function* updateTicketReleasSaga(
       open: new Date(formData.open).getTime() / 1000,
       close: new Date(formData.close).getTime() / 1000,
       open_window_duration: formData.open_window_duration! * 60,
+      method_description: formData.method_description,
       max_tickets_per_user: formData.max_tickets_per_user,
       notification_method: formData.notification_method.toUpperCase(),
       cancellation_policy: formData.cancellation_policy.toUpperCase(),
@@ -139,7 +141,7 @@ function* updateTicketReleasSaga(
 
 function* watchTicketReleaseSaga() {
   yield takeLatest(createTicketReleaseRequest.type, createTicketReleaseSaga);
-  yield takeLatest(updateTicketReleaseStart.type, updateTicketReleasSaga);
+  yield takeLatest(updateTicketReleaseStart.type, updateTicketReleaseSaga);
 }
 
 export default watchTicketReleaseSaga;

@@ -103,6 +103,7 @@ function* fetchEventTickets(
                   name: response.event_form_field.name!,
                   description: response.event_form_field.description!,
                   is_required: response.event_form_field.is_required!,
+                  type: response.event_form_field.type!,
                 } as IEventFormField,
                 value: response.value!,
                 updated_at: new Date(response.UpdatedAt!).getTime(),
@@ -138,6 +139,8 @@ function* fetchEventTickets(
               openWindowDuration:
                 ticket_request.ticket_release.ticket_release_method_detail
                   .open_window_duration! / 60,
+              method_description:
+                ticket_request.ticket_release.method_description!,
             } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
           ticket_add_ons: ticket_request.ticket_add_ons?.map((addon: any) => {
@@ -217,6 +220,7 @@ function* fetchEventTickets(
                     name: response.event_form_field.name!,
                     description: response.event_form_field.description!,
                     is_required: response.event_form_field.is_required!,
+                    type: response.event_form_field.type!,
                   } as IEventFormField,
                   value: response.value!,
                   updated_at: new Date(response.UpdatedAt!).getTime(),

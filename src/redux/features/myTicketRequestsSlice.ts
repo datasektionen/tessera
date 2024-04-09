@@ -23,7 +23,7 @@ export const myTicketRequestSlice = createSlice({
   name: "myTicketRequests",
   initialState,
   reducers: {
-    getMyTicketRequestsRequest: (state) => {
+    getMyTicketRequestsRequest: (state, action: PayloadAction<number[] | null>) => {
       state.loading = true;
     },
     getMyTicketRequestsSuccess: (

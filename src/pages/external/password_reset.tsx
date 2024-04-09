@@ -33,7 +33,7 @@ import { useTranslation } from "react-i18next";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import * as Yup from "yup";
 
-const initalValues = {
+const initialValues = {
   password: "",
   password_repeat: "",
 };
@@ -133,7 +133,7 @@ const PasswordReset: React.FC = () => {
           }}
         >
           <Formik
-            initialValues={initalValues}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             validateOnBlur={true}
             validateOnChange={true}

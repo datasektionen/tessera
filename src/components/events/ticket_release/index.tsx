@@ -25,9 +25,9 @@ import {
   ticketReleaseHasNotOpened,
   ticketReleaseHasOpened,
 } from "../../../utils/event_open_close";
-import TicketReleasHasOpened from "./ticket_release_has_opened";
+import TicketReleaseHasOpened from "./ticket_release_has_opened";
 import TicketReleaseHasClosed from "./ticket_release_has_closed";
-import TicketReleasHasNotOpened from "./ticket_release_has_not_opened";
+import TicketReleaseHasNotOpened from "./ticket_release_has_not_opened";
 import StyledText from "../../text/styled_text";
 import InformationModal from "../../modal/information";
 import { Trans, useTranslation } from "react-i18next";
@@ -47,11 +47,11 @@ const renderTicketReleaseStatus = (
   timestamp: number
 ) => {
   if (ticketReleaseHasNotOpened(ticketRelease, timestamp)) {
-    return <TicketReleasHasNotOpened ticketRelease={ticketRelease} />;
+    return <TicketReleaseHasNotOpened ticketRelease={ticketRelease} />;
   } else if (ticketReleaseHasClosed(ticketRelease, timestamp)) {
     return <TicketReleaseHasClosed ticketRelease={ticketRelease} />;
   } else if (ticketReleaseHasOpened(ticketRelease, timestamp)) {
-    return <TicketReleasHasOpened ticketRelease={ticketRelease} />;
+    return <TicketReleaseHasOpened ticketRelease={ticketRelease} />;
   }
 };
 
@@ -215,7 +215,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
         {ticketRelease.name}
       </StyledText>
       <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16}>
-        <div style={{ margin: 0 }}>
+        <div>
           <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
         </div>
       </StyledText>
@@ -225,6 +225,9 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           key="ticket_release_method"
           color={PALLETTE.charcoal_see_through}
           fontSize={16}
+          sx={{
+            mb: 1,
+          }}
         >
           <Trans
             i18nKey="event.ticket_release.method"
@@ -242,7 +245,26 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
               }
             </Link>
           </Trans>
+          {" - "}
+          {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.id ===
+            4 && (
+            <StyledText
+              level="body-sm"
+              key="ticket_release_method"
+              color={PALLETTE.charcoal}
+              fontSize={16}
+              style={{
+                textDecoration: "italic",
+              }}
+              sx={{
+                mb: 1,
+              }}
+            >
+              {ticketRelease.ticketReleaseMethodDetail.method_description}
+            </StyledText>
+          )}
         </StyledText>,
+
         <InformationModal
           key={"ticket_release_method_modal"}
           isOpen={modalIsOpen}

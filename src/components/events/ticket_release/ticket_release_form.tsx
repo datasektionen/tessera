@@ -65,7 +65,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
   );
   const { t } = useTranslation();
 
-  const { loading: initalLoading } = useSelector(
+  const { loading: initialLoading } = useSelector(
     (state: RootState) => state.eventCreation
   );
 
@@ -76,7 +76,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
     dispatch(getTicketReleaseMethodsRequest());
   }, [dispatch]);
 
-  if (initalLoading) {
+  if (initialLoading) {
     return <LoadingOverlay />;
   }
 
@@ -120,6 +120,9 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 name="name"
                 label="Name"
                 placeholder="Normal Tickets"
+                overrideStyle={{
+                  width: "50%",
+                }}
               />
               <StyledErrorMessage name="name" />
 
@@ -137,6 +140,10 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 name="description"
                 label="Description"
                 placeholder="Normal tickets for Party Rangers."
+                minRows={2}
+                overrideStyle={{
+                  width: "95%",
+                }}
               />
               <StyledErrorMessage name="description" />
 
@@ -273,6 +280,29 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
 
                 <StyledFormLabelWithHelperText>
                   {t("form.ticket_release.lottery_duration_helperText")}
+                </StyledFormLabelWithHelperText>
+              </FormControl>
+            )}
+
+            {/* Selected Method requires a brief description */}
+            {values && values.ticket_release_method_id === 4 && (
+              <FormControl>
+                <StyledFormLabel>
+                  {t("form.ticket_release.selective_description")}*
+                </StyledFormLabel>
+                <FormTextarea
+                  name="method_description"
+                  label="Description"
+                  placeholder="Only for members of the Party Rangers."
+                  minRows={2}
+                  overrideStyle={{
+                    width: "95%",
+                  }}
+                />
+                <StyledErrorMessage name="method_description" />
+
+                <StyledFormLabelWithHelperText>
+                  {t("form.ticket_release.selective_description_helperText")}
                 </StyledFormLabelWithHelperText>
               </FormControl>
             )}

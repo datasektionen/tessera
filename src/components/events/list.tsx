@@ -20,6 +20,7 @@ import styles from "./list.module.css";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/joy";
 import { useMediaQuery } from "@mui/material";
+import { compareAsc } from "date-fns";
 
 interface EventListProps {
   events: IEvent[];
@@ -36,9 +37,14 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
   const eventIsInThePast = (event: IEvent) => {
     // If the event is more than 1 day in the past
     const eventDate = new Date(event.date);
+    const endDate = event.end_date ? new Date(event.end_date) : null;
     const now = new Date();
 
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+
+    if (endDate) {
+      return endDate.getTime() + oneDay < now.getTime();
+    }
 
     return eventDate.getTime() + oneDay < now.getTime();
   };
@@ -59,114 +65,127 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
 
   return (
     <Grid container spacing={2}>
-      {events.map((event: IEvent, index) => {
-        const userCanManage =
-          currentUser?.organizations?.some(
-            // @ts-ignore
-            (org) => org.ID === event.organizationId
-          ) ?? currentUser?.ug_kth_id === event.createdById;
+      {[...events]
+        .sort((a, b) => {
+          return compareAsc(new Date(a.date), new Date(b.date));
+        }) // Sorts events from earliest to latest
+        .map((event: IEvent, index) => {
+          const userCanManage =
+            currentUser?.organizations?.some(
+              // @ts-ignore
+              (org) => org.ID === event.organizationId
+            ) ?? currentUser?.ug_kth_id === event.createdById;
 
-        if (eventIsInThePast(event)) {
-          return null;
-        }
-        return (
-          <Grid
-            xs={12}
-            sm={6}
-            md={4}
-            key={index}
-            component={"div"}
-            style={{
-              position: "relative",
-            }}
-          >
-            <Box
+          if (eventIsInThePast(event)) {
+            return null;
+          }
+          return (
+            <Grid
+              xs={12}
+              sm={6}
+              md={4}
+              key={index}
+              component={"div"}
               style={{
-                position: "absolute",
-                right: "16px",
-                top: "16px",
-                zIndex: 100,
+                position: "relative",
               }}
             >
-              <Stack direction={isScreenSmall ? "column" : "row"} spacing={1}>
-                {event.is_private && (
-                  <Chip
+              <Box
+                style={{
+                  position: "absolute",
+                  right: "16px",
+                  top: "16px",
+                  zIndex: 100,
+                }}
+              >
+                <Stack direction={isScreenSmall ? "column" : "row"} spacing={1}>
+                  {event.is_private && (
+                    <Chip
+                      style={{
+                        backgroundColor: PALLETTE.offWhite,
+                        color: PALLETTE.charcoal,
+                      }}
+                    >
+                      <StyledText
+                        level="body-sm"
+                        color={PALLETTE.charcoal}
+                        fontSize={14}
+                        fontWeight={700}
+                      >
+                        {t("common.private_event")}
+                      </StyledText>
+                    </Chip>
+                  )}
+                  {userCanManage && (
+                    <Link href={`/events/${event.id}/manage`}>
+                      <IconButton>
+                        <ModeEditIcon
+                          style={{
+                            color: PALLETTE.cerise_dark,
+                          }}
+                        />
+                      </IconButton>
+                    </Link>
+                  )}
+                </Stack>
+              </Box>
+              <Card
+                variant="outlined"
+                className={styles.card}
+                onClick={() => {
+                  navigate(`/events/${event.id}`);
+                }}
+              >
+                <div>
+                  <StyledText
+                    level="h4"
+                    fontWeight={700}
+                    color={PALLETTE.cerise_dark}
+                    fontSize={22}
                     style={{
-                      backgroundColor: PALLETTE.offWhite,
-                      color: PALLETTE.charcoal,
+                      width: "60%",
+                      // Breaks text into multiple lines if it's too long
+                      overflow: "hidden",
                     }}
                   >
-                    <StyledText
-                      level="body-sm"
-                      color={PALLETTE.charcoal}
-                      fontSize={14}
-                      fontWeight={700}
-                    >
-                      {t("common.private_event")}
-                    </StyledText>
-                  </Chip>
-                )}
-                {userCanManage && (
-                  <Link href={`/events/${event.id}/manage`}>
-                    <IconButton>
-                      <ModeEditIcon />
-                    </IconButton>
-                  </Link>
-                )}
-              </Stack>
-            </Box>
-            <Card
-              variant="outlined"
-              className={styles.card}
-              onClick={() => {
-                navigate(`/events/${event.id}`);
-              }}
-            >
-              <div>
-                <StyledText
-                  level="h4"
-                  fontWeight={600}
-                  color={PALLETTE.cerise_dark}
-                  fontSize={24}
-                >
-                  {event.name}
-                </StyledText>
-                <StyledText
-                  level="body-sm"
-                  color={PALLETTE.charcoal}
-                  fontSize={15}
-                  startDecorator={<CalendarTodayIcon />}
-                >
-                  {formatEventDate(
-                    new Date(event.date),
-                    event.end_date ? new Date(event.end_date) : null
-                  )}
-                </StyledText>
-                <StyledText
-                  level="body-sm"
-                  fontSize={15}
-                  color={PALLETTE.charcoal}
-                  startDecorator={<LocationOnIcon />}
-                >
-                  {event.location}
-                </StyledText>
-                <StyledText
-                  level="body-sm"
-                  fontSize={10}
-                  color={PALLETTE.charcoal}
-                  style={{
-                    height: "100px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  <ReactMarkdown>{event.description}</ReactMarkdown>
-                </StyledText>
-              </div>
-            </Card>
-          </Grid>
-        );
-      })}
+                    {event.name}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    color={PALLETTE.charcoal}
+                    fontSize={15}
+                    startDecorator={<CalendarTodayIcon />}
+                  >
+                    {formatEventDate(
+                      new Date(event.date),
+                      event.end_date ? new Date(event.end_date) : null
+                    )}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={15}
+                    color={PALLETTE.charcoal}
+                    startDecorator={<LocationOnIcon />}
+                  >
+                    {event.location}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={10}
+                    color={PALLETTE.charcoal}
+                    style={{
+                      height: "100px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <ReactMarkdown>{event.description}</ReactMarkdown>
+                  </StyledText>
+                </div>
+              </Card>
+            </Grid>
+          );
+        })}
     </Grid>
   );
 };

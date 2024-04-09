@@ -48,18 +48,18 @@ const seTranslations = {
         "Beskriv vilken typ av biljetter du släpper. Vad kan deltagarna förvänta sig? Markdown stöds.",
       available_at: "Tillgänglig från",
       available_at_helperText:
-        "När släpps biljetterna? Detta är tidpunkten då användare kan börja begära biljetter.",
+        "När släpps biljetterna? Detta är tidpunkten då användare kan börja önska biljetter.",
       closes_at: "Stänger",
       closes_at_helperText:
-        "När stänger biljettsläppet? Detta är tidpunkten då användare inte längre kan begära biljetter.",
+        "När stänger biljettsläppet? Detta är tidpunkten då användare inte längre kan önska biljetter.",
       ticket_release_method: "Metod för biljettsläpp",
       ticket_release_method_helperText: "Hur vill du distribuera biljetter?",
       lottery_duration: "Lottningstid (minuter)",
       lottery_duration_helperText:
-        "För Först till kvarn, definierar lottningstiden inom hur många minuter efterfrågade biljetter kommer att ingå i en lottning. Om fler biljetter efterfrågas än tillgängligt, kommer alla deltagare som begär biljetter inom denna tidsram att delta i en lottning, övriga blir reserv.",
+        "För Först till kvarn, definierar lottningstiden inom hur många minuter efterfrågade biljetter kommer att ingå i en lottning. Om fler biljetter efterfrågas än tillgängligt, kommer alla deltagare som önskar biljetter inom denna tidsram att delta i en lottning, övriga blir reserv.",
       max_tickets_per_user: "Max biljetter per användare",
       max_tickets_per_user_helperText:
-        "Hur många biljetter kan en användare begära? Alltid 1 för nuvarande.",
+        "Hur många biljetter kan en användare önska? Alltid 1 för nuvarande.",
       tickets_available: "Antal biljetter",
       tickets_available_helperText:
         "Hur många biljetter kommer att vara tillgängliga?",
@@ -76,7 +76,10 @@ const seTranslations = {
         "Vilken promokod ska användas för att få tillgång till detta reserverade biljettsläpp?",
       allow_external: "Tillåt externa användare",
       allow_external_helperText:
-        "Ska externa användare tillåtas att begära biljetter till detta biljettsläpp?",
+        "Ska externa användare tillåtas att önska biljetter till detta biljettsläpp?",
+      selective_description: "Beskriv allokeringsmetoden",
+      selective_description_helperText:
+        "Ange hur ditt team planerar att allokera biljetter. Denna information kommer att visas för användaren när de begär en biljett.",
     },
     ticket_types: {
       name: "Namn",
@@ -106,7 +109,6 @@ const seTranslations = {
       team_name: "Grupp",
       team_helperText: "Vilken grupp kontaktar du?",
     },
-
     addon: {
       name: "Namn",
       name_helperText: "Vad är namnet på detta tillägg?",
@@ -123,11 +125,10 @@ const seTranslations = {
       contains_alcohol: "Innehåller alkohol",
       contains_alcohol_helperText: "Innehåller detta tillägg alkohol?",
     },
-
     event_fields: {
       title: "Anpassat formulär",
       subtitle:
-        "Här kan du lägga till och redigera formuläret för ditt event. Dessa fält kommer att visas för användaren när de begär en biljett.",
+        "Här kan du lägga till och redigera formuläret för ditt event. Dessa fält kommer att visas för användaren när de önskar en biljett.",
       label_name: "Namn",
       label_description: "Beskrivning",
       label_type: "Typ",
@@ -135,8 +136,9 @@ const seTranslations = {
       form_field_description: "Beskrivning",
       form_field_description_helperText:
         "Beskriv vilken ytterligare information du vill samla in från användaren, och varför. Markdown stöds.",
+      delete_field_confirm:
+        "Är du säker på att du vill radera detta fält? Denna åtgärd kan göra att användarens svar raderas. Du måste trycka på spara efter du utgört denna åtgärd!",
     },
-
     button_add_field: "Lägg till fält",
     button_clear: "Rensa",
     button_next: "Nästa",
@@ -151,7 +153,7 @@ const seTranslations = {
     button_submit: "Submit",
     button_manage: "Hantera",
     button_details: "Detaljer",
-    button_request: "Begär biljett(er)",
+    button_request: "Önska biljett(er)",
     button_delete: "Radera",
     button_send: "Skicka",
     button_check_in: "Checka in",
@@ -169,7 +171,7 @@ const seTranslations = {
       "Låt oss börja med grunderna. Vad är detaljerna för ditt evenemang?",
     ticket_release_title: "Skapa biljettsläpp",
     ticket_release_description:
-      "Vi fortsättar med biljettsläpp. Här kan du ange när en omgång biljetter blir tillgängliga för folk att begära. Du kan också skapa fler biljettsläpp senare, på sidan för att redigera evenemang.",
+      "Vi fortsättar med biljettsläpp. Här kan du ange när en omgång biljetter blir tillgängliga för folk att önska. Du kan också skapa fler biljettsläpp senare, på sidan för att redigera evenemang.",
     ticket_release: "Biljettsläpp",
     ticket_release_helperText:
       "Låt oss definiera detaljerna för detta biljettsläpp.",
@@ -293,8 +295,8 @@ const seTranslations = {
     ticket_release_method_title: "Biljettsläppsmetod",
     ticket_release_ticket_info_title: "Biljettinformation",
     ticket_requests: "Biljettförfrågningar",
-    lottery_entered_ticket_requests: "Begärdes under lotterifönstret",
-    not_lottery_entered_ticket_requests: "Begärdes utanför lotterifönstret",
+    lottery_entered_ticket_requests: "Önskades under lotterifönstret",
+    not_lottery_entered_ticket_requests: "Önskades utanför lotterifönstret",
     ticket_release_actions_title: "Biljettsläppsåtgärder",
     paid_tickets: "Betalda biljetter",
     not_yet_paid_tickets: "Ännu inte betalda biljetter",
@@ -352,7 +354,7 @@ const seTranslations = {
     send_out: {
       title: "Utskick (BETA)",
       description:
-        "Skicka ett e-postmeddelande till alla användare som har begärt en biljett till detta evenemang. Du kan använda detta för att meddela användare om biljettsläppet, eller för att meddela användare som har tilldelats en biljett.",
+        "Skicka ett e-postmeddelande till alla användare som har önskat en biljett till detta evenemang. Du kan använda detta för att meddela användare om biljettsläppet, eller för att meddela användare som har tilldelats en biljett.",
       preview: "Förhandsgranska",
       subject: "Ämne",
       subject_helperText: "Vad är ämnet för e-postmeddelandet?",
@@ -391,7 +393,6 @@ const seTranslations = {
 
         edit_addons: "Redigera tillägg",
       },
-
       addons: {
         title: "Redigera biljettillägg",
         subtitle:
@@ -410,6 +411,11 @@ const seTranslations = {
         ticket_details_helperText:
           "Ändra detaljerna för dina biljettyper och klicka sedan på 'Spara'.",
       },
+    },
+
+    form_field_responses: {
+      list_view: "Listvy",
+      table_view: "Tabellvy",
     },
   },
 
@@ -436,7 +442,7 @@ const seTranslations = {
       "Om du har några frågor, kan du kontakta <1>{{organization}}</1> <2>här</2>.",
     ticket_request_success_title: "Biljettförfrågan skickad!",
     ticket_request_success_description:
-      "Vänligen fyll i evenemangsformuläret som finns under biljettbegäran sidan, <1>här</1>. Detta är där du kan ge arrangören ytterligare information.",
+      "Du kan också fylla i denna information senare om du vill. Du kan göra det <1>här</1>.",
     check_in: {
       scan_ticket_instructions: "Skanna QR-koden för att checka in.",
       loading: "Laddar...",
@@ -461,7 +467,7 @@ const seTranslations = {
       reserved: "Reserverad",
       no_tickets: "Det finns inga biljetter tillgängliga.",
       information_processing_policy_info:
-        "Genom att begära en biljett godkänner du att dela dina matpreferenser och användaruppgifter med evenemangsarrangören tills evenemanget är över. Insamlad information kommer att behandlas i enlighet med sektionens informationsbehandlingspolicy, <1>Klicka här</1> för mer information.",
+        "Genom att önska en biljett godkänner du att dela dina matpreferenser och användaruppgifter med evenemangsarrangören tills evenemanget är över. Insamlad information kommer att behandlas i enlighet med sektionens informationsbehandlingspolicy, <1>Klicka här</1> för mer information.",
       checkout: {
         overview: "Översikt",
         what_is_a_request_title: "Vad är en biljettförfrågan?",
@@ -496,7 +502,7 @@ const seTranslations = {
   ticket_release_method: {
     first_come_first_served_title: "Först till kvarn",
     first_come_first_served_description:
-      "Först till kvarn-lotteriet är en metod för biljettsläpp där personer som begär en biljett inom en angiven tidsram deltar i ett lotteri. När biljetter tilldelas, placeras alla biljettförfråganden inom denna tidsram i ett lotteri och vinnarna väljs slumpmässigt. Vinnarna får en biljett och resten placeras på väntelistan. Alla som begär en biljett efter den angivna tidsramen placeras på väntelistan, om inte lotteriet är ofullständigt. Om lotteriet inte är fullt, ges de återstående biljetterna till personerna på väntelistan i den ordning de begärde biljetten.",
+      "Först till kvarn-lotteriet är en metod för biljettsläpp där personer som önskar en biljett inom en angiven tidsram deltar i ett lotteri. När biljetter tilldelas, placeras alla biljettförfråganden inom denna tidsram i ett lotteri och vinnarna väljs slumpmässigt. Vinnarna får en biljett och resten placeras på väntelistan. Alla som önskar en biljett efter den angivna tidsramen placeras på väntelistan, om inte lotteriet är ofullständigt. Om lotteriet inte är fullt, ges de återstående biljetterna till personerna på väntelistan i den ordning de önskade biljetten.",
   },
 
   tickets: {
@@ -590,6 +596,14 @@ const seTranslations = {
   },
 
   main_page: {
+    phrases: {
+      "1": "Biljettsläpp ska inte vara jobbiga!",
+      "2": "Biljettsläpp ska inte vara knepigt!",
+      "3": "Biljettsläpp ska inte vara krångliga!",
+      "4": "Eventhantering ska vara lätt!",
+      "5": "Eventhantering ska vara enkelt!",
+      "6": "Eventhantering ska vara rakt på sak!",
+    },
     not_a_pain: "Biljettsläpp ska inte vara jobbiga!",
     welcome: "{{name}}, välkommen till",
     learn_how_button: "Lär dig hur",
@@ -609,8 +623,15 @@ const seTranslations = {
             så trevlig som möjligt, utan krångel. Ditt konto är automatiskt knutet\
             till dina biljetter, så det finns inget behov av att konstant fylla i google-formulär\
             eller något sådant.",
+      in_beta_title: "Tessera BETA",
+      in_beta:
+        "Tessera är just nu i BETA. Detta innebär att Tessera fortfarande\
+        utvecklas och förbättras. Om du eller din organisation är intresserade\
+        av att använda Tessera BETA kan vi sätta upp en grupp för dig kostnadsfritt. På detta sätt kan du skapa\
+        evenemang och hantera biljettsläpp. Samtidigt kan du ge feedback\
+        och hjälpa oss att förbättra Tessera. Ta kontakt för att komma igång!",
       how_title: "Hur fungerar det?",
-      how: "För att skapa ett biljettsläpp till ditt evenemang måste du först bli en evenemangsarrangör genom att skapa ett team. För närvarande skapas team genom att kontakta oss. När du har skapat ett team kan du börja skapa och hantera biljettsläpp. Du kan bjuda in andra användare till ditt team så att de kan hjälpa till att hantera biljettsläppen. Som användare kan du se offentliga evenemang i evenemangsfliken. Tessera fungerar inte som andra biljettplattformar där du måste betala för en biljett direkt. Tessera erbjuder olika sätt att distribuera biljetter på, såsom ett lotterisystem eller ett först till kvarn system. Därför köper inte en användare en biljett, utan begär (Request) en biljett istället. När biljettsläppet stänger används den valda allokationsmetoden för att distribuera biljetter till användarna. Om du har några frågor, tveka inte att kontakta oss.",
+      how: "För att skapa ett biljettsläpp till ditt evenemang måste du först bli en evenemangsarrangör genom att skapa ett team. För närvarande skapas team genom att kontakta oss. När du har skapat ett team kan du börja skapa och hantera biljettsläpp. Du kan bjuda in andra användare till ditt team så att de kan hjälpa till att hantera biljettsläppen. Som användare kan du se offentliga evenemang i evenemangsfliken. Tessera fungerar inte som andra biljettplattformar där du måste betala för en biljett direkt. Tessera erbjuder olika sätt att distribuera biljetter på, såsom ett lotterisystem eller ett först till kvarn system. Därför köper inte en användare en biljett, utan önskar (Request) en biljett istället. När biljettsläppet stänger används den valda allokationsmetoden för att distribuera biljetter till användarna. Om du har några frågor, tveka inte att kontakta oss.",
     },
     get_in_touch: {
       quote1:
@@ -619,14 +640,14 @@ const seTranslations = {
         "Om din organisation eller ditt team letar efter ett lättanvänt evenemangs- och biljettadministrationssystem, kontakta mig.",
     },
     how_to_use: {
-      request_ticket_title: "Begär en biljett",
+      request_ticket_title: "Önska en biljett",
       request_ticket:
-        "Tesseras innovativa tillvägagångssätt för biljettdistribution gör att användare kan begära biljetter till evenemang genom metoder som ett lotterisystem eller först-till-kvarn, vilket gör processen rättvisare och mer tillgänglig; navigera helt enkelt till fliken för evenemang, hitta ditt evenemang och klicka på 'Begär' för att starta.",
+        "Tesserars nyskapande sätt att dela ut biljetter gör det möjligt för användare att få biljetter till evenemang genom olika metoder, som ett lotteri eller på en först-till-kvarn. Detta gör att alla har en rättvis chans att få biljetter. För att önska en biljett, gå bara till evenemangsfliken, sök upp ditt evenemang och klicka på 'Önska Biljett'.",
       fill_out_title: "Fyll i personuppgifter",
       fill_out:
-        "Efter att ha begärt en biljett måste du ange personuppgifter som matpreferenser och allergier. Denna information hjälper arrangörerna att anpassa evenemanget efter dina behov, vilket garanterar en personlig upplevelse. Tessera länkar ditt konto till dina biljetter, vilket förenklar processen och förbättrar din njutning av evenemanget.",
-      wait_title: "Vänta på biljettilldelning",
-      wait: "Det sista steget innebär att vänta på att biljettsläppet ska stängas och att biljetter ska tilldelas, antingen via lotteri eller på först-till-kvarn-basis. Tessera garanterar rättvis biljettdistribution, så övervaka din e-post eller Tessera-konto för uppdateringar om din begäranstatus. Om du lyckas får du ytterligare instruktioner, som t.ex betalningsintstruktioner.",
+        "När du har önskat en biljett behöver du fylla i personliga uppgifter, som dina matpreferenser och eventuella allergier. Detta gör att arrangörerna kan skräddarsy evenemanget för dig och säkerställer en mer personlig upplevelse. Tessera kopplar ditt konto till dina biljetter, vilket gör processen smidigare och hjälper dig att njuta mer av evenemanget.",
+      wait_title: "Vänta på din biljett",
+      wait: "Det sista steget är att vänta på att biljettsläppet stänger och biljetterna delas ut, antingen genom ett lotteri eller på en först-till-kvarn-basis. Tessera ser till att biljetterna fördelas rättvist. Håll ett öga på din e-post eller ditt Tessera-konto för att få uppdateringar om din begärans status. Om du får biljetter kommer du även att få vidare instruktioner, som hur du betalar.",
     },
   },
   faq: {

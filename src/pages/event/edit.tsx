@@ -35,6 +35,15 @@ const EditEventPage: React.FC = () => {
 
   const { t } = useTranslation();
 
+  const reFetchEvent = () => {
+    dispatch(
+      getEventRequest({
+        id: parseInt(eventID!),
+        secretToken: "",
+      })
+    );
+  };
+
   useEffect(() => {
     if (eventID) {
       dispatch(
@@ -108,7 +117,10 @@ const EditEventPage: React.FC = () => {
                 >
                   {t("form.event_fields.subtitle")}
                 </StyledText>
-                <EditEventFormFields event={event!} />
+                <EditEventFormFields
+                  event={event!}
+                  refetchEvent={reFetchEvent}
+                />
               </BorderBox>
             </Grid>
           </StandardGrid>

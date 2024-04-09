@@ -5,7 +5,7 @@ import IconButton from "@mui/joy/IconButton";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PALLETTE from "../../theme/pallette";
-import { Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
+import { Chip, Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
 
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
@@ -37,7 +37,7 @@ const lngs = [
 
 export const LanguageSelector: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { language: storedLanaguage } = useSelector(
+  const { language: storedLanguage } = useSelector(
     (state: RootState) => state.language
   );
   const dispatch: AppDispatch = useDispatch();
@@ -66,8 +66,8 @@ export const LanguageSelector: React.FC = () => {
   }, [i18n]);
 
   useEffect(() => {
-    setSelectedLanguage(storedLanaguage);
-    i18n.changeLanguage(storedLanaguage);
+    setSelectedLanguage(storedLanguage);
+    i18n.changeLanguage(storedLanguage);
   }, []);
 
   return (
@@ -161,16 +161,32 @@ function NavigationBar() {
             marginRight: "16px",
           }}
         >
-          <Typography
-            level="h4"
-            component="a"
-            href="/" // Link to the main page
-            fontFamily={"Josefin sans"}
-            fontSize={24}
-            sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
-          >
-            tessera
-          </Typography>
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+            <Typography
+              level="h4"
+              component="a"
+              href="/" // Link to the main page
+              fontFamily={"Josefin sans"}
+              fontSize={24}
+              sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
+            >
+              tessera
+            </Typography>
+            <Chip
+              sx={{
+                backgroundColor: PALLETTE.cerise_dark,
+              }}
+            >
+              <StyledText
+                level="body-sm"
+                fontSize={14}
+                fontWeight={800}
+                color={PALLETTE.offWhite}
+              >
+                BETA
+              </StyledText>
+            </Chip>
+          </Stack>
           {isLoggedIn && (
             <Stack
               direction="row"
@@ -184,48 +200,39 @@ function NavigationBar() {
                 level="body-sm"
                 color={""}
                 fontSize={18}
+                fontWeight={700}
                 style={{
                   margin: "0 16px",
+                  textTransform: "uppercase",
                 }}
               >
                 <StyledLink href={ROUTES.EVENTS}>
                   {t("navigation.events")}
                 </StyledLink>
               </StyledText>
-              {!currentUser?.is_external && (
-                <StyledText
-                  color={""}
-                  level="body-sm"
-                  fontSize={18}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                >
-                  <StyledLink href={ROUTES.CREATE_EVENT}>
-                    {t("navigation.create_event")}
-                  </StyledLink>
-                </StyledText>
-              )}
-              {!currentUser?.is_external && (
-                <StyledText
-                  color={""}
-                  level="body-sm"
-                  fontSize={18}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                >
-                  <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                    {t("navigation.teams")}
-                  </StyledLink>
-                </StyledText>
-              )}
+
+              <StyledText
+                color={""}
+                level="body-sm"
+                fontSize={18}
+                fontWeight={700}
+                style={{
+                  margin: "0 16px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+                  {t("navigation.teams")}
+                </StyledLink>
+              </StyledText>
               <StyledText
                 level="body-sm"
                 color={""}
                 fontSize={18}
+                fontWeight={700}
                 style={{
                   margin: "0 16px",
+                  textTransform: "uppercase",
                 }}
               >
                 <StyledLink href={ROUTES.CONTACT_PAGE}>

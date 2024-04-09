@@ -3,6 +3,9 @@ import { IUser } from "../../types";
 import UserInfoText from "../text/user_info_text";
 import { useTranslation } from "react-i18next";
 import UserEmail from "./user_email";
+import StyledButton from "../buttons/styled_button";
+import StyledText from "../text/styled_text";
+import PALLETTE from "../../theme/pallette";
 
 interface UserInfoProps {
   user: IUser;
@@ -38,23 +41,35 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
         <Grid xs={8}>
           <Box>
             <Stack direction="column" spacing={2}>
-              <Link href="/profile/ticket-requests">
-                <UserInfoText
-                  label={t("profile.links_and_buttons.your_ticket_requests")}
-                  value=""
-                />
+              <Link
+                href="/profile/ticket-requests"
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <StyledButton size="md">
+                  {t("profile.links_and_buttons.your_ticket_requests")}
+                </StyledButton>
               </Link>
-              <Link href="/profile/tickets">
-                <UserInfoText
-                  label={t("profile.links_and_buttons.your_tickets")}
-                  value=""
-                />
+              <Link
+                href="/profile/tickets"
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <StyledButton size="md">
+                  {t("profile.links_and_buttons.your_tickets")}
+                </StyledButton>
               </Link>
-              <Link href="/profile/organizations">
-                <UserInfoText
-                  label={t("profile.links_and_buttons.your_teams")}
-                  value=""
-                />
+              <Link
+                href="/profile/organizations"
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <StyledButton size="md">
+                  {t("profile.links_and_buttons.your_teams")}
+                </StyledButton>
               </Link>
             </Stack>
           </Box>

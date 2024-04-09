@@ -120,16 +120,6 @@ const ContactDetails = () => {
           <StyledText level="body2" color={PALLETTE.charcoal}>
             <Link href="mailto:lucdow7@gmail.com">lucdow7@gmail.com</Link>
           </StyledText>
-          <StyledText
-            level="body2"
-            color={PALLETTE.charcoal}
-            startDecorator={<PhoneIcon />}
-            style={{
-              justifyContent: isScreenSmall ? "center" : "flex-start",
-            }}
-          >
-            073 551 00 01
-          </StyledText>
           <Stack
             spacing={1}
             direction="row"
