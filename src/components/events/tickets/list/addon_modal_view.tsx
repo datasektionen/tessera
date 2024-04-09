@@ -9,9 +9,19 @@ interface AddonModalViewProps {
 }
 
 const AddonModalView: React.FC<AddonModalViewProps> = ({ ticket }) => {
+  const ticket_add_ons = ticket.ticket_request?.ticket_add_ons;
+
+  if (!ticket_add_ons) {
+    return (
+      <StyledText level="body-md" color={PALLETTE.charcoal}>
+        No add-ons
+      </StyledText>
+    );
+  }
+
   return (
     <Box>
-      {ticket.ticket_request?.ticket_add_ons?.map((addon: ITicketAddon) => {
+      {ticket_add_ons?.map((addon: ITicketAddon) => {
         const add_on = addon.add_on!;
         return (
           <Stack key={addon.id + "-manage-addon"} direction="row" spacing={3}>

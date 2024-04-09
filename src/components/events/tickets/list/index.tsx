@@ -508,6 +508,8 @@ const EventTicketsList: React.FC<{
   };
 
   const handleCloseModal = () => {
+    setSelectedTicket(null);
+    setSelectedUser(null);
     setIsModalOpen(false);
   };
 
@@ -578,6 +580,9 @@ const EventTicketsList: React.FC<{
           onClose={handleCloseModal}
           title="User Information"
           width="50%"
+          animationOptions={{
+            transition: { duration: 0.2 },
+          }}
         >
           <TicketsRowUserInfo user={selectedUser} />
         </InformationModal>
@@ -588,6 +593,9 @@ const EventTicketsList: React.FC<{
           onClose={handleCloseModal}
           title="Addons"
           width="50%"
+          animationOptions={{
+            transition: { duration: 0.2 },
+          }}
         >
           <AddonModalView ticket={selectedTicket} />
         </InformationModal>
