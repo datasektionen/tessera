@@ -96,7 +96,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
       ticketRequest.ticket_release_id!
     );
 
-    dispatch(getMyTicketRequestsRequest());
+    dispatch(getMyTicketRequestsRequest([]));
   };
 
   const { addons: allAddons } = ticketRequest.ticket_release!;
