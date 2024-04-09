@@ -25,7 +25,10 @@ import {
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import StyledButton from "../buttons/styled_button";
 import ConfirmModal from "../modal/confirm_modal";
-import { cancelTicketRequestRequest } from "../../redux/features/myTicketRequestsSlice";
+import {
+  cancelTicketRequestRequest,
+  getMyTicketRequestsRequest,
+} from "../../redux/features/myTicketRequestsSlice";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/def";
 import { useTranslation } from "react-i18next";
@@ -86,12 +89,14 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     }
   }, [ticketRequest]);
 
-  const handleUpdateAddons = () => {
-    updateTicketAddons(
+  const handleUpdateAddons = async () => {
+    await updateTicketAddons(
       selectedAddons,
       ticketRequest.id,
       ticketRequest.ticket_release_id!
     );
+
+    dispatch(getMyTicketRequestsRequest());
   };
 
   const { addons: allAddons } = ticketRequest.ticket_release!;
@@ -158,6 +163,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
 
             return (
               <Grid
+                key={addon.id + "-addon"}
                 container
                 flexDirection="row"
                 justifyContent="space-between"

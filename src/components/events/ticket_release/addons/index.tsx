@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import React from "react";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import StyledButton from "../../../buttons/styled_button";
+import { add } from "lodash";
 
 interface TicketReleaseAddonsProps {
   ticketRelease: ITicketRelease;
@@ -86,8 +87,7 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                       style={{
                         whiteSpace: "nowrap",
                         overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        maxWidth: "200px", // Adjust this value to suit your needs
+                        maxWidth: "500px", // Adjust this value to suit your needs
                       }}
                     >
                       {addon.name}
@@ -226,11 +226,9 @@ const TicketReleaseAddons: React.FC<TicketReleaseAddonsProps> = ({
                 fontSize={14}
                 fontWeight={600}
               >
-                ({t("event.ticket_release.addons.max_quantity")}{" "}
-                {addon.max_quantity}) (
+                ({t("event.ticket_release.addons.max_quantity")}){" "}
                 {addon.contains_alcohol &&
-                  t("event.ticket_release.addons.contains_alcohol")}
-                )
+                  "(" + t("event.ticket_release.addons.contains_alcohol") + ")"}
               </StyledText>
             </StyledText>
           </Box>

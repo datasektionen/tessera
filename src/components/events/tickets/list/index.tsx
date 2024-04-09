@@ -28,6 +28,7 @@ import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
 import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
+import AddonModelView from "./addon_model_view";
 
 interface CustomGridValueFormatterParams extends GridValueFormatterParams {
   // Extend the existing type to include the row property
@@ -192,6 +193,23 @@ const EventTicketsList: React.FC<{
           InputComponent: MyCustomInputComponent,
         },
       ],
+    },
+    {
+      field: "addons",
+      headerName: "Addons",
+      width: 100,
+      renderCell: (params) => (
+        <div
+          style={{
+            cursor: "pointer",
+            color: "blue",
+            textDecoration: "underline",
+          }}
+          onClick={() => handleAddonsModal(params)}
+        >
+          View
+        </div>
+      ),
     },
     createFoodPreferenceColumn("gluten_intolerant", "Gluten Intolerant"),
     createFoodPreferenceColumn("halal", "Halal"),
@@ -376,6 +394,7 @@ const EventTicketsList: React.FC<{
 
       const row = {
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
+        ticket_request_id: ticket.ticket_request?.id,
         ticket_release_id: ticket.ticket_request?.ticket_release?.id,
         ticket_release_name: ticket.ticket_request?.ticket_release?.name,
         type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
@@ -419,6 +438,21 @@ const EventTicketsList: React.FC<{
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<IUser | null>(null);
+  const [selectedTicket, setSelectedTicket] = React.useState<ITicket | null>(
+    null
+  );
+
+  const handleAddonsModal = (params: any) => {
+    const selectedTicketRequestId = params.row.ticket_request_id;
+
+    const filteredTickets = tickets.filter(
+      (ticket) => ticket.ticket_request?.id === selectedTicketRequestId
+    );
+
+    setSelectedTicket(filteredTickets[0]!);
+
+    setIsModalOpen(true);
+  };
 
   const handleOpenModal = (params: any) => {
     setSelectedUser(params.row.user); // Assuming the row contains user info
@@ -432,8 +466,10 @@ const EventTicketsList: React.FC<{
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
+      ticket_request_id: false,
       ticket_release_name: true,
       type: true,
+      addons: true,
       is_reserve: true,
       is_paid: true,
       ticket: true,
@@ -495,6 +531,16 @@ const EventTicketsList: React.FC<{
           width="50%"
         >
           <TicketsRowUserInfo user={selectedUser} />
+        </InformationModal>
+      )}
+      {selectedTicket && (
+        <InformationModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          title="Addons"
+          width="50%"
+        >
+          <AddonModelView ticket={selectedTicket} />
         </InformationModal>
       )}
     </Box>

@@ -55,8 +55,6 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
     ticket.ticket_request!
   );
 
-  console.log(ticketRequest);
-
   const { addons: allAddons } = ticket.ticket_request?.ticket_release!;
 
   useEffect(() => {
