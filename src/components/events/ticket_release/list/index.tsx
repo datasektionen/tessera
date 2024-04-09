@@ -132,6 +132,7 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
                 isOpen={openModal === ticketRelease.id}
                 onClose={handleClose}
                 width={"75%"}
+                animationOptions={{ transition: { duration: 0.2 } }}
               >
                 <TicketReleaseRowView
                   ticketRelease={ticketRelease}
