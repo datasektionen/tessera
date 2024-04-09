@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PALLETTE from "../../theme/pallette";
+import BlockIcon from "@mui/icons-material/Block";
 
 interface StatusIconProps {
   isValid: boolean;
@@ -84,4 +85,44 @@ const StatusIcon: React.FC<StatusIconProps> = ({ isValid }) => {
   );
 };
 
+const DisabledIcon: React.FC = () => {
+  const editVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: { scale: 1, opacity: 1 },
+    exit: { scale: 0, opacity: 0 },
+  };
+
+  const iconStyle = {
+    fontSize: "32px", // Makes the icon slightly bigger
+    padding: "10px", // Adds padding around the icon
+    borderRadius: "50%", // Makes the background round
+    backgroundColor: PALLETTE.charcoal,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Optional: Adds a subtle shadow
+  };
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        right: "5%",
+        top: "50%",
+        transform: "translateY(-50%)",
+      }}
+    >
+      <AnimatePresence mode="wait" onExitComplete={() => {}}>
+        <motion.div
+          key="edit"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={editVariants}
+        >
+          <BlockIcon style={iconStyle} />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
+
 export default StatusIcon;
+export { DisabledIcon };

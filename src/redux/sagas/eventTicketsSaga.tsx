@@ -7,10 +7,12 @@ import {
 import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
+  IAddon,
   IEvent,
   IEventFormField,
   IEventFormFieldResponse,
   ITicket,
+  ITicketAddon,
   ITicketRelease,
   ITicketReleaseMethodDetail,
   ITicketRequest,
@@ -141,6 +143,23 @@ function* fetchEventTickets(
                 ticket_request.ticket_release.method_description!,
             } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
+          ticket_add_ons: ticket_request.ticket_add_ons?.map((addon: any) => {
+            return {
+              id: addon.ID!,
+              ticket_request_id: addon.ticket_request_id!,
+              add_on_id: addon.add_on_id!,
+              quantity: addon.quantity!,
+              add_on: {
+                id: addon.add_on.ID!,
+                name: addon.add_on.name!,
+                description: addon.add_on.description!,
+                price: addon.add_on.price!,
+                max_quantity: addon.add_on.max_quantity!,
+                contains_alcohol: addon.add_on.contains_alcohol!,
+                is_enabled: addon.add_on.is_enabled!,
+              } as IAddon,
+            };
+          }) as ITicketAddon[],
         } as ITicketRequest,
         deleted_at: new Date(ticket.DeletedAt!).getTime(),
         updated_at: new Date(ticket.UpdatedAt!).getTime(),
@@ -246,6 +265,23 @@ function* fetchEventTickets(
             } as ITicketRelease,
             deleted_at: new Date(ticketRequest.DeletedAt!).getTime(),
             updated_at: new Date(ticketRequest.UpdatedAt!).getTime(),
+            ticket_add_ons: ticketRequest.ticket_add_ons?.map((addon: any) => {
+              return {
+                id: addon.ID!,
+                ticket_request_id: addon.ticket_request_id!,
+                add_on_id: addon.add_on_id!,
+                quantity: addon.quantity!,
+                add_on: {
+                  id: addon.add_on.ID!,
+                  name: addon.add_on.name!,
+                  description: addon.add_on.description!,
+                  price: addon.add_on.price!,
+                  max_quantity: addon.add_on.max_quantity!,
+                  contains_alcohol: addon.add_on.contains_alcohol!,
+                  is_enabled: addon.add_on.is_enabled!,
+                } as IAddon,
+              };
+            }) as ITicketAddon[],
           } as ITicketRequest,
         } as ITicket;
       }

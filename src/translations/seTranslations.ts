@@ -15,7 +15,8 @@ const seTranslations = {
     manage_tickets:
       "Tabellen visar alla biljettförfrågningar och biljetter för detta evenemang.",
     manage_tickets_custom_event_form_description:
-      "Här kan du se alla anpassade evenemangsfält som användare har fyllt i när de önskar biljetter.",
+      "Här kan du se alla anpassade evenemangsfält som användare har fyllt i när de begärde biljetter.",
+    must_be_edited: "Formuläret måste vara giltigt innan du kan fortsätta.",
   },
 
   form: {
@@ -107,6 +108,22 @@ const seTranslations = {
         "Om du har några frågor, problem eller förslag, tveka inte att kontakta oss. Vi kommer att återkomma till dig så snart som möjligt.",
       team_name: "Grupp",
       team_helperText: "Vilken grupp kontaktar du?",
+    },
+    addon: {
+      name: "Namn",
+      name_helperText: "Vad är namnet på detta tillägg?",
+      description: "Beskrivning",
+      description_helperText:
+        "Beskriv vad detta tillägg handlar om. Markdown stöds.",
+      price: "Pris (SEK)",
+      price_helperText: "Hur mycket kostar detta tillägg?",
+      max_quantity: "Max kvantitet",
+      max_quantity_helperText:
+        "Hur många av detta tillägg kan en användare köpa?",
+      is_enabled: "Aktiverad",
+      is_enabled_helperText: "Är detta tillägg aktiverat?",
+      contains_alcohol: "Innehåller alkohol",
+      contains_alcohol_helperText: "Innehåller detta tillägg alkohol?",
     },
     event_fields: {
       title: "Anpassat formulär",
@@ -377,10 +394,17 @@ const seTranslations = {
         edit_addons: "Redigera tillägg",
       },
       addons: {
-        title: "Redigera tillägg",
+        title: "Redigera biljettillägg",
         subtitle:
           "Lägg till tillägg till biljettsläppet. Du kan skapa så många du vill. Försök att vara specifik med namnet och beskrivningen av tillägget. Du kan också ange om tillägget kostar extra.",
+        form_title: "Formulär för tillägg",
+        form_subtitle:
+          "Definiera dina tillägg här. Du kan lägga till så många du vill.",
+        confirm_delete_title: "Bekräfta radering av tillägg",
+        confirm_delete_text:
+          "Är du säker på att du vill ta bort detta tillägg? Denna åtgärd kan inte ångras.",
       },
+
       ticket_types: {
         title: "Redigera biljettbatcher",
         ticket_details: "Biljettinformation",
@@ -451,6 +475,13 @@ const seTranslations = {
           "När du gör en biljettförfrågan är du inte garanterad att få de biljetter du vill ha. Tilldelningen av biljetterna görs enligt metoden för biljettsläpp, som beskrivs i biljettsläppbeskrivningen.",
         total: "Totalt",
         ticket: "Biljett",
+      },
+      addons: {
+        title: "Biljettillägg",
+        description: "Här kan du lägga till tillägg till din biljett.",
+        max_quantity: "Max kvantitet",
+        contains_alcohol: "Innehåller alkohol",
+        view_addons: "Visa biljettillägg",
       },
     },
   },
@@ -545,7 +576,8 @@ const seTranslations = {
     updated: "Uppdaterad",
     private_event: "Privat evenemang",
     mobile_warning:
-      "Välkommen till Tessera! Vi ser att du använder en mobil enhet. Vissa delar av webbplatsen kanske inte är optimerade för mobila enheter. Men att önska och visa biljetter bör fungera som förväntat. Om du är en evenemangsarrangör rekommenderar vi att du använder en skrivbordsenhet.",
+      "Välkommen till Tessera! Vi ser att du använder en mobil enhet. Vissa delar av webbplatsen kanske inte är optimerade för mobila enheter. Men att begära och visa biljetter bör fungera som förväntat. Om du är en evenemangsarrangör rekommenderar vi att du använder en skrivbordsenhet.",
+    show_more: "Visa mer",
   },
 
   footer: {

@@ -2,6 +2,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
+  IAddon,
   IEvent,
   IEventForm,
   IEventFormField,
@@ -102,6 +103,18 @@ function* eventSaga(
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           pay_within: ticketRelease.pay_within!,
+          addons: ticketRelease.add_ons?.map((addon: any) => {
+            return {
+              id: addon.ID!,
+              ticket_release_id: addon.ticket_release_id!,
+              name: addon.name!,
+              description: addon.description!,
+              contains_alcohol: addon.contains_alcohol!,
+              price: addon.price!,
+              max_quantity: addon.max_quantity!,
+              is_enabled: addon.is_enabled!,
+            } as IAddon;
+          }) as IAddon[],
           ticketTypes: ticketRelease.ticket_types?.map((ticketType: any) => {
             return {
               id: ticketType.ID!,

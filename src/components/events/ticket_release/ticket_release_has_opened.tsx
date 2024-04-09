@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ITicketRelease, ITicketType } from "../../../types";
+import { ISelectedAddon, ITicketRelease, ITicketType } from "../../../types";
 import {
   Box,
   Button,
@@ -37,6 +37,8 @@ import {
 } from "../../../utils/ticket_types";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
+import TicketReleaseAddons from "./addons";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -53,12 +55,17 @@ const TicketReleaseHasOpened: React.FC<{
       name: string;
       quantity: number;
       price: number;
+      type: "ticket" | "addon";
     }[]
   >();
 
   const [whatIsRequestOpen, setWhatIsRequestOpen] = React.useState(false);
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
+
+  const [selectedAddons, setSelectedAddons] = React.useState<ISelectedAddon[]>(
+    []
+  );
 
   useEffect(() => {
     // Create a summary of the ticket request items
@@ -69,6 +76,7 @@ const TicketReleaseHasOpened: React.FC<{
       name: string;
       quantity: number;
       price: number;
+      type: "ticket" | "addon";
     }[] = [];
 
     ticketRequestItems.forEach((item) => {
@@ -81,12 +89,31 @@ const TicketReleaseHasOpened: React.FC<{
           name: ticketType.name,
           quantity: item.quantity,
           price: ticketType.price,
+          type: "ticket",
+        });
+      }
+    });
+
+    selectedAddons.forEach((addon) => {
+      const addonType = ticketRelease.addons?.find((a) => a.id === addon.id);
+      if (addonType && addon.quantity > 0) {
+        summary += `${addon.quantity} x ${addonType.name}, `;
+        basketItems.push({
+          name: addonType.name,
+          quantity: addon.quantity,
+          price: addonType.price,
+          type: "addon",
         });
       }
     });
 
     setBasketItems(basketItems);
-  }, [ticketRequestItems, ticketRelease.ticketTypes]);
+  }, [
+    ticketRequestItems,
+    ticketRelease.ticketTypes,
+    selectedAddons,
+    ticketRelease.addons,
+  ]);
 
   const handleMakeRequest = () => {
     // Make request
@@ -116,10 +143,18 @@ const TicketReleaseHasOpened: React.FC<{
     dispatch(
       postTicketRequest({
         tickets,
+        addons: selectedAddons,
         eventId: ticketRelease.eventId,
         ticketReleaseId: ticketRelease.id,
       })
     );
+  };
+
+  const handleAddonChange = (
+    selectedAddons: { id: number; quantity: number }[]
+  ) => {
+    setSelectedAddons(selectedAddons);
+    // Should be able to add addons to the basket
   };
 
   return (
@@ -145,6 +180,11 @@ const TicketReleaseHasOpened: React.FC<{
           </Typography>
         )}
       </Stack>
+      <TicketReleaseAddons
+        ticketRelease={ticketRelease}
+        handleChange={handleAddonChange}
+        selectedAddons={selectedAddons}
+      />
       {basket! && (
         <>
           <Typography
@@ -171,7 +211,11 @@ const TicketReleaseHasOpened: React.FC<{
                   justifyContent={"flex-start"}
                   flexDirection={"row"}
                 >
-                  <LocalActivityIcon />
+                  {item.type === "ticket" ? (
+                    <LocalActivityIcon />
+                  ) : (
+                    <AddCircleOutlineIcon />
+                  )}
                   <Typography
                     level="body-sm"
                     fontFamily={"Josefin sans"}
@@ -197,7 +241,12 @@ const TicketReleaseHasOpened: React.FC<{
           >
             <Grid container justifyContent={"flex-start"} flexDirection={"row"}>
               <ShoppingCartIcon />
-              <Typography level="body-sm" fontFamily={"Josefin sans"} ml={2}>
+              <Typography
+                level="body-sm"
+                fontFamily={"Josefin sans"}
+                ml={2}
+                fontWeight={600}
+              >
                 {t("event.ticket_release.checkout.total")}
               </Typography>
             </Grid>

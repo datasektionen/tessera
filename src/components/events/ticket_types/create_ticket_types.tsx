@@ -27,7 +27,7 @@ import StatusIcon from "../../icons/status_icon";
 import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 import { ITicketTypeForm } from "../../../types";
 import { useTranslation } from "react-i18next";
-import RemoveTTButton from "./remove_ticket_type_button";
+import { RemoveTTButton } from "./remove_ticket_type_button";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",

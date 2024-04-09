@@ -1,7 +1,6 @@
 // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ITicketRequest, ITicketType } from "../../types";
-import { act } from "react-dom/test-utils";
+import { ISelectedAddon, ITicketRequest, ITicketType } from "../../types";
 import { TicketRequestData } from "../sagas/ticketRequestSaga";
 
 // Define the ShoppingCartItem interface
@@ -69,6 +68,7 @@ export const ticketRequestSlice = createSlice({
       state,
       action: PayloadAction<{
         tickets: TicketRequestData[];
+        addons: ISelectedAddon[];
         eventId: number;
         ticketReleaseId: number;
       }>

@@ -73,6 +73,7 @@ const enTranslations = {
       "The table shows all the ticket requests and tickets for this event.",
     manage_tickets_custom_event_form_description:
       "Here you can see all the form responses for this event. This is the information the user has submitted when requesting a ticket.",
+    must_be_edited: "This form must be valid before you can proceed.",
   },
   form: {
     required_description: "Fields marked with * are required",
@@ -176,6 +177,22 @@ const enTranslations = {
         "Describe what additional information you want to collect from the user, and why. Markdown is supported.",
       delete_field_confirm:
         "Are you sure you want to delete this field? Deleting this field might result in loss of response data. You will have to save after deleting!",
+    },
+
+    addon: {
+      name: "Name",
+      name_helperText: "What is the name of this addon?",
+      description: "Description",
+      description_helperText:
+        "Describe what this addon is about. Markdown is supported.",
+      price: "Price (SEK)",
+      price_helperText: "How much does this addon cost?",
+      max_quantity: "Max quantity",
+      max_quantity_helperText: "How many of this addon can a user buy?",
+      is_enabled: "Enabled",
+      is_enabled_helperText: "Is this addon enabled?",
+      contains_alcohol: "Contains alcohol",
+      contains_alcohol_helperText: "Does this addon involve alcohol?",
     },
 
     button_add_field: "Add field",
@@ -427,13 +444,19 @@ const enTranslations = {
         edit_ticket_types: "Edit tickets",
         add_helperText: "Please select a ticket release to edit.",
 
-        edit_addons: "Edit Addons",
+        edit_addons: "Edit Ticket Addons",
       },
 
       addons: {
-        title: "Edit Addons",
+        title: "Edit Ticket Addons",
         subtitle:
           "Add addons to the ticket release. You can create as many as you want. Try to be specific with the name and description of the addon. You can also specify if the addon costs extra.",
+        form_title: "Addon Form",
+        form_subtitle:
+          "Define your addons here. You can add as many as you want.",
+        confirm_delete_title: "Confirm addon deletion",
+        confirm_delete_text:
+          "Are you sure you want to delete this addon? This action cannot be undone.",
       },
 
       ticket_types: {
@@ -561,6 +584,13 @@ const enTranslations = {
         total: "Total",
         ticket: "Ticket",
       },
+      addons: {
+        title: "Ticket Addons",
+        description: "Here you can add addons to your ticket.",
+        max_quantity: "Max quantity",
+        contains_alcohol: "Contains alcohol",
+        view_addons: "View ticket addons",
+      },
     },
   },
 
@@ -606,6 +636,7 @@ const enTranslations = {
   common: {
     show_all: "Show all",
     show_less: "Show less",
+    show_more: "Show more",
     search: "Search",
     created: "Created",
     made_at: "Made at",

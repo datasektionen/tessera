@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import PALLETTE from "../../theme/pallette";
-import { ITicket } from "../../types";
+import { IAddon, ITicket, ITicketAddon } from "../../types";
 import StyledText from "../text/styled_text";
 import Title from "../text/title";
 import BorderBox from "../wrappers/border_box";
@@ -23,6 +23,8 @@ import { utcToZonedTime } from "date-fns-tz";
 import { Trans, useTranslation } from "react-i18next";
 import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
 import { canPayForTicket, mustPayBefore } from "../../utils/user_payment";
+import { useCosts } from "../events/payments/use_cost";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function convertPayWithinToString(
   payWithin: number,
@@ -48,6 +50,12 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const ticketRequest = ticket.ticket_request!;
+
+  const { totalTicketCost, totalAddonsCost, totalCost } = useCosts(
+    ticket.ticket_request!
+  );
+
+  const { addons: allAddons } = ticket.ticket_request?.ticket_release!;
 
   useEffect(() => {
     let updatedAt = new Date(ticket.updated_at);
@@ -265,6 +273,73 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
             </StyledText>
           </Grid>
           <Divider />
+          {ticketRequest.ticket_add_ons?.map((addon: ITicketAddon) => {
+            const a: IAddon | undefined = allAddons?.find(
+              (a) => a.id === addon.add_on_id
+            );
+
+            return (
+              <Grid
+                container
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid
+                  container
+                  justifyContent={"flex-start"}
+                  flexDirection={"row"}
+                >
+                  <AddCircleOutlineIcon />
+                  <StyledText
+                    level="body-sm"
+                    color={PALLETTE.charcoal}
+                    fontSize={18}
+                    style={{
+                      marginLeft: "8px",
+                    }}
+                  >
+                    {addon.quantity} x {a?.name}
+                  </StyledText>
+                </Grid>
+                <StyledText
+                  level="body-sm"
+                  color={PALLETTE.charcoal}
+                  fontSize={18}
+                >
+                  SEK {(a?.price! * addon.quantity).toFixed(2)}
+                </StyledText>
+              </Grid>
+            );
+          })}
+          <Divider />
+          <Grid
+            container
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <StyledText
+              level="body-sm"
+              color={PALLETTE.charcoal}
+              fontSize={18}
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              {t("event.ticket_release.checkout.total")}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              color={PALLETTE.charcoal}
+              fontSize={18}
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              SEK {totalCost.toFixed(2)}
+            </StyledText>
+          </Grid>
         </>
       </Box>
       {!ticket.is_reserve && (

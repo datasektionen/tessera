@@ -34,7 +34,7 @@ import LoadingOverlay from "../../../components/Loading";
 import { is } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import RemoveTTButton from "../../../components/events/ticket_types/remove_ticket_type_button";
+import { RemoveTTButton } from "../../../components/events/ticket_types/remove_ticket_type_button";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   cursor: "pointer",
