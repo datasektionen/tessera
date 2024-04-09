@@ -57,6 +57,8 @@ import InformationModal from "../../components/modal/information";
 import { getEventFormFields } from "../../redux/sagas/axios_calls/event_form_fields";
 import EditFormFieldResponse from "../../components/events/form_field_response/edit";
 import { ROUTES } from "../../routes/def";
+import TicketReleaseHasClosed from "../../components/events/ticket_release/ticket_release_has_closed";
+import { ticketReleaseHasClosed } from "../../utils/event_open_close";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -98,7 +100,7 @@ const EventDetail: React.FC = () => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
-  const [formFields, setFormFields] = useState<any>(null);
+  const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
   const { ticketRequests: madeTicketRequests } = useSelector(
     (state: RootState) => state.myTicketRequests
@@ -184,6 +186,10 @@ const EventDetail: React.FC = () => {
     console.error("No event found");
     return null;
   }
+
+  const ticketReleases = event.ticketReleases!.filter(
+    (ticketRelease) => !ticketReleaseHasClosed(ticketRelease, timestamp)
+  );
 
   return (
     <TesseraWrapper>
@@ -346,7 +352,7 @@ const EventDetail: React.FC = () => {
               {t("event.ticket_releases")}
             </Typography>
             <div>
-              {event.ticketReleases?.length === 0 && (
+              {ticketReleases.length === 0 && (
                 <StyledText
                   color={PALLETTE.charcoal}
                   level="body-sm"
@@ -360,7 +366,7 @@ const EventDetail: React.FC = () => {
                 </StyledText>
               )}
               <Stack spacing={2} sx={{ p: 0 }}>
-                {event.ticketReleases?.map((ticketRelease, i) => {
+                {ticketReleases.map((ticketRelease, i) => {
                   const key = `${event.name}-${i}`;
                   if (!userCanSeeTicketRelease(ticketRelease, currentUser!)) {
                     return null;
