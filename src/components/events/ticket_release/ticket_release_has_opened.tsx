@@ -26,9 +26,6 @@ import {
 } from "../../../redux/features/ticketRequestSlice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
-import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
-import ModalDialog from "@mui/joy/ModalDialog";
 import WhaIsTicketRequestModal from "./what_is_ticket_request";
 import LoadingOverlay from "../../Loading";
 import { TicketRequestData } from "../../../redux/sagas/ticketRequestSaga";
@@ -38,7 +35,6 @@ import {
   numberOfTicketRequestInBasket,
   numberOfTotalTicketRequestInBasket,
 } from "../../../utils/ticket_types";
-import ConfirmModal from "../../modal/confirm_modal";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
 

@@ -3,6 +3,7 @@ import {
   EventFormFieldsArray,
   IEvent,
   IEventFormField,
+  IEventFormFields,
   ITicket,
   ITicketRequest,
 } from "../../../types";
@@ -62,7 +63,7 @@ const createField = (field: IEventFormField) => {
   };
 
   return (
-    <Box key={field.id}>
+    <Box key={field.id} sx={{ width: "100%", position: "relative" }}>
       <StyledFormLabel>
         {field.name}
         {field.is_required ? "*" : ""}
@@ -278,24 +279,34 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
 interface EditFormFieldResponseProps {
   ticket?: ITicket;
   ticketRequest?: ITicketRequest;
+  formFields?: IEventFormField[];
 }
 
 const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
   ticket,
   ticketRequest,
+  formFields = undefined,
 }) => {
   if (ticket !== undefined) {
     return (
       <EditFormFieldResponseBase
         ticketRequest={ticket.ticket_request!}
-        formFields={ticket.ticket_request?.ticket_release?.event?.form_fields!}
+        formFields={
+          formFields
+            ? formFields
+            : ticket.ticket_request?.ticket_release?.event?.form_fields!
+        }
       />
     );
   } else if (ticketRequest !== undefined) {
     return (
       <EditFormFieldResponseBase
         ticketRequest={ticketRequest}
-        formFields={ticketRequest.ticket_release?.event?.form_fields!}
+        formFields={
+          formFields
+            ? formFields
+            : ticketRequest.ticket_release?.event?.form_fields!
+        }
       />
     );
   } else {

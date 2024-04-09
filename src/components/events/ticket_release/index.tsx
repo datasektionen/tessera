@@ -144,8 +144,6 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
     getUserTicketReleaseReminderStatus(ticketRelease);
   }, []);
 
-  console.log(ticketRelease);
-
   return (
     <Sheet
       variant="outlined"

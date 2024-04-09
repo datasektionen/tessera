@@ -418,7 +418,7 @@ const seTranslations = {
       "Om du har några frågor, kan du kontakta <1>{{organization}}</1> <2>här</2>.",
     ticket_request_success_title: "Biljettförfrågan skickad!",
     ticket_request_success_description:
-      "Vänligen fyll i evenemangsformuläret som finns under biljettförfrågningar sidan, <1>här</1>. Detta är där du kan ge arrangören ytterligare information.",
+      "Du kan också fylla i denna information senare om du vill. Du kan göra det <1>här</1>.",
     check_in: {
       scan_ticket_instructions: "Skanna QR-koden för att checka in.",
       loading: "Laddar...",

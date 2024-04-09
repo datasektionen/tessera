@@ -1,5 +1,6 @@
 import axios from "axios";
-import { IEventFormFieldInput } from "../../../types";
+import { IEventFormField, IEventFormFieldInput } from "../../../types";
+import { toast } from "react-toastify";
 
 interface ReturnValue {
   success?: boolean;
@@ -51,5 +52,36 @@ export const handleEventFormFieldResponseSubmit = async (
     return {
       error: errorMessage,
     } as ReturnValue;
+  }
+};
+
+export const getEventFormFields = async (
+  eventId: number
+): Promise<IEventFormField[]> => {
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/form-fields`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    const event_form_fields = response.data.map((formField: any) => {
+      return {
+        id: formField.ID,
+        name: formField.name,
+        description: formField.description,
+        type: formField.type,
+        is_required: formField.is_required,
+        event_id: formField.event_id,
+      } as IEventFormField;
+    });
+
+    return event_form_fields;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.error || error.message;
+
+    toast.error(errorMessage);
+    return [];
   }
 };

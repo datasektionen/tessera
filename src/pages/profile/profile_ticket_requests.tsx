@@ -40,7 +40,7 @@ const ProfileTicketRequestsPage: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(getMyTicketRequestsRequest());
+    dispatch(getMyTicketRequestsRequest([]));
   }, []);
 
   return (
@@ -64,8 +64,8 @@ const ProfileTicketRequestsPage: React.FC = () => {
                 Here you can see all the ticket requests you have made. You can
                 cancel a ticket request by selecting it and clicking the cancel
                 button. When the event organizer allocates tickets you will
-                receive either a ticket or a reserve status.
-                You can see all your tickets and reserve status
+                receive either a ticket or a reserve status. You can see all
+                your tickets and reserve status
                 <Link href={ROUTES.PROFILE_TICKETS}>here</Link>.
               </Trans>
             </StyledText>

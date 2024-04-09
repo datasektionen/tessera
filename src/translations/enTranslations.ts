@@ -527,7 +527,7 @@ const enTranslations = {
       "If you have any questions, you can contact <1>{{organization}}</1> <2>here</2>.",
     ticket_request_success_title: "Ticket request successful",
     ticket_request_success_description:
-      "Please fill in the event form which is located under the ticket request page, <1>here</1>. This is where you can provide the event organizer with additional information.",
+      "You can also fill out this information later if you want. You can do so <1>here</1>.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",

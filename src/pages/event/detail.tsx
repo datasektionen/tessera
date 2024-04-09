@@ -54,6 +54,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
 import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
 import InformationModal from "../../components/modal/information";
+import { getEventFormFields } from "../../redux/sagas/axios_calls/event_form_fields";
+import EditFormFieldResponse from "../../components/events/form_field_response/edit";
+import { ROUTES } from "../../routes/def";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -95,6 +98,11 @@ const EventDetail: React.FC = () => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
+  const [formFields, setFormFields] = useState<any>(null);
+
+  const { ticketRequests: madeTicketRequests } = useSelector(
+    (state: RootState) => state.myTicketRequests
+  );
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
     dispatch(
@@ -110,7 +118,18 @@ const EventDetail: React.FC = () => {
       setDisplayPostSuccess(true);
       dispatch(resetPostSuccess());
     }
-  }, [postSuccess]);
+  }, [dispatch, postSuccess]);
+
+  useEffect(() => {
+    if (displayPostSuccess) {
+      toast.success(
+        <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
+          Ticket request created! View it{" "}
+          <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
+        </StyledText>
+      );
+    }
+  }, [displayPostSuccess]);
 
   useEffect(() => {
     if (errorStatusCode === 404) {
@@ -169,29 +188,34 @@ const EventDetail: React.FC = () => {
   return (
     <TesseraWrapper>
       {promoCodeLoading && <LoadingOverlay />}
-      <InformationModal
-        isOpen={displayPostSuccess}
-        onClose={() => setDisplayPostSuccess(false)}
-        title={t("event.ticket_request_success_title")}
-      >
-        <StyledText
-          color={PALLETTE.charcoal}
-          level="body-sm"
-          fontSize={18}
-          fontWeight={500}
-          style={{
-            marginTop: "1rem",
-          }}
-        >
-          <Trans i18nKey="event.ticket_request_success_description">
-            hjdw
-            <Link href="/profile/ticket-requests" target="_blank">
-              here{" "}
-            </Link>
-            dwqd
-          </Trans>
-        </StyledText>
-      </InformationModal>
+      {madeTicketRequests[0] &&
+        madeTicketRequests[0].ticket_release!.event!.form_fields!.length >
+          0 && (
+          <InformationModal
+            isOpen={displayPostSuccess}
+            onClose={() => setDisplayPostSuccess(false)}
+            title={t("event.ticket_request_success_title")}
+            width="60%"
+          >
+            <EditFormFieldResponse ticketRequest={madeTicketRequests[0]} />
+            <StyledText
+              color={PALLETTE.charcoal}
+              level="body-sm"
+              fontSize={18}
+              fontWeight={500}
+              style={{
+                marginTop: "1rem",
+              }}
+            >
+              <Trans i18nKey="event.ticket_request_success_description">
+                hjdw
+                <Link href="/profile/ticket-requests" target="_blank">
+                  here{" "}
+                </Link>
+              </Trans>
+            </StyledText>
+          </InformationModal>
+        )}
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>
