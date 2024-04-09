@@ -28,7 +28,7 @@ import { MUItheme } from "./datagrid_utils/mui_theme";
 import { ticketIsEnteredIntoFCFCLottery } from "../../../../utils/event_open_close";
 import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
-import AddonModelView from "./addon_model_view";
+import AddonModalView from "./addon_modal_view";
 
 interface CustomGridValueFormatterParams extends GridValueFormatterParams {
   // Extend the existing type to include the row property
@@ -540,7 +540,7 @@ const EventTicketsList: React.FC<{
           title="Addons"
           width="50%"
         >
-          <AddonModelView ticket={selectedTicket} />
+          <AddonModalView ticket={selectedTicket} />
         </InformationModal>
       )}
     </Box>

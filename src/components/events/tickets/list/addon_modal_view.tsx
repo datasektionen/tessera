@@ -4,12 +4,11 @@ import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-interface AddonModelViewProps {
+interface AddonModalViewProps {
   ticket: ITicket;
 }
 
-const AddonModelView: React.FC<AddonModelViewProps> = ({ ticket }) => {
-  ticket;
+const AddonModalView: React.FC<AddonModalViewProps> = ({ ticket }) => {
   return (
     <Box>
       {ticket.ticket_request?.ticket_add_ons?.map((addon: ITicketAddon) => {
@@ -49,4 +48,4 @@ const AddonModelView: React.FC<AddonModelViewProps> = ({ ticket }) => {
   );
 };
 
-export default AddonModelView;
+export default AddonModalView;
