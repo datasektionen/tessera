@@ -418,26 +418,8 @@ const EventTicketsList: React.FC<{
       }
 
       let payBefore: Date | null = null;
-      if (
-        ticket.ticket_request?.ticket_release?.pay_within &&
-        ticket.purchasable_at !== null
-      ) {
-        payBefore = startOfHour(
-          add(ticket.purchasable_at as Date, {
-            hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
-          })
-        );
-      } else if (
-        ticket.ticket_request?.ticket_release?.pay_within &&
-        ticket.updated_at
-      ) {
-        // Add pay_within hours to updatedat
-
-        payBefore = startOfHour(
-          add(new Date(ticket.updated_at), {
-            hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
-          })
-        );
+      if (ticket.payment_deadline) {
+        payBefore = ticket.payment_deadline;
       }
 
       const row = {

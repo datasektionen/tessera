@@ -277,10 +277,18 @@ export interface ITicketRelease {
   promo_code?: string;
   event?: IEvent;
   tickets_available: number;
-  pay_within?: number;
   allow_external: boolean;
   addons?: IAddon[];
+  payment_deadline: ITicketReleasePaymentDeadline;
 }
+
+export interface ITicketReleasePaymentDeadline {
+  id: number;
+  ticket_release_id: number;
+  original_deadline: Date;
+  reserve_payment_duration: number;
+}
+
 export interface PromoCodeAccessForm {
   promo_code: string;
 }
@@ -342,6 +350,7 @@ export interface ITicket {
   purchasable_at?: Date | null;
   deleted_at: number | null;
   ticket_add_ons?: ITicketAddon[];
+  payment_deadline?: Date;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

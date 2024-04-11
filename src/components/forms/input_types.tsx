@@ -19,6 +19,7 @@ interface FormInputProps {
   readOnly?: boolean;
   clear?: () => void;
   required?: boolean;
+  afterChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const DefaultInputStyle = {
@@ -38,6 +39,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   overrideStyle = {},
   autoComplete = "on",
   required = true,
+  afterChange = () => {},
 }) => (
   <Field name={name}>
     {({ field, form }: { field: any; form: any }) => (
@@ -71,6 +73,8 @@ export const FormInput: React.FC<FormInputProps> = ({
           } catch (error) {
             console.error("Error processing input change:", error);
             // Optionally set an error state here
+          } finally {
+            afterChange(e);
           }
         }}
         placeholder={placeholder}

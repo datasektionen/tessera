@@ -15,6 +15,7 @@ import {
   ITicketAddon,
   ITicketRelease,
   ITicketReleaseMethodDetail,
+  ITicketReleasePaymentDeadline,
   ITicketRequest,
   ITicketType,
   ITransaction,
@@ -123,7 +124,18 @@ function* fetchEventTickets(
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,
-            pay_within: ticket_request.ticket_release.pay_within!,
+            payment_deadline: {
+              id: ticket_request.ticket_release.payment_deadline.ID!,
+              ticket_release_id:
+                ticket_request.ticket_release.payment_deadline
+                  .ticket_release_id!,
+              original_deadline: new Date(
+                ticket_request.ticket_release.payment_deadline.original_deadline!
+              ),
+              reserve_payment_duration:
+                ticket_request.ticket_release.payment_deadline
+                  .reserve_payment_duration!,
+            } as ITicketReleasePaymentDeadline,
             open: new Date(
               ticket_request.ticket_release.open! * 1000
             ).getTime(),

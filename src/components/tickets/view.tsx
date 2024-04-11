@@ -58,13 +58,10 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const { addons: allAddons } = ticket.ticket_request?.ticket_release!;
 
   useEffect(() => {
-    let updatedAt = new Date(ticket.updated_at);
-    if (ticketRequest.ticket_release?.pay_within) {
+    if (ticket.payment_deadline) {
       setPayBefore(
-        convertPayWithinToString(
-          ticketRequest.ticket_release.pay_within,
-          updatedAt
-        )
+        format(ticket.payment_deadline, "yyyy-MM-dd HH:mm:ss") +
+          " CET (or CEST in summer)"
       );
     } else {
       setPayBefore("the start of the event");
@@ -93,24 +90,13 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const { t } = useTranslation();
 
   const canPayForTicket = (ticket: ITicket) => {
-    const pay_within = ticket.ticket_request?.ticket_release?.pay_within;
-    if (!pay_within) {
+    if (!ticket.payment_deadline) {
       return isBefore(
         new Date(),
         new Date(ticket.ticket_request?.ticket_release?.event?.date!)
       );
-    }
-
-    if (ticket.purchasable_at) {
-      return isBefore(
-        new Date(),
-        mustPayBefore(pay_within, ticket.purchasable_at)
-      );
     } else {
-      return isBefore(
-        new Date(),
-        mustPayBefore(pay_within, new Date(ticket.updated_at))
-      );
+      return isBefore(new Date(), ticket.payment_deadline);
     }
   };
 

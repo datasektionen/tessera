@@ -40,6 +40,7 @@ import { ticketsEnteredIntoFCFSLottery } from "../../../../utils/event_open_clos
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteTicketReleaseModal from "../delete_ticket_release_modal";
 import handleDeleteTicketRelease from "../../../../redux/sagas/axios_calls/handle_delete_ticket_release";
+import ConfirmTicketAllocationModal from "./confirm_ticket_allocation_modal";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -67,54 +68,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const hasntOpenedYet = () => {
     const now = new Date();
     return new Date(ticketRelease.open) > now;
-  };
-
-  const handleAllocateTickets = async () => {
-    // Validate payWithinHours
-    if (payWithinHours < 1) {
-      toast.error("Hours must be greater than 0");
-      return;
-    }
-
-    setAllocationLoading(true);
-    try {
-      const response = await axios.post(
-        `${
-          process.env.REACT_APP_BACKEND_URL
-        }/events/${ticketRelease.eventId!}/ticket-release/${
-          ticketRelease.id
-        }/allocate-tickets`,
-        {
-          pay_within: payWithinHours,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.status === 200) {
-        setTimeout(() => {
-          toast.success("Tickets allocated successfully");
-        }, 500);
-        dispatch(
-          getEventRequest({
-            id: ticketRelease.eventId!,
-            secretToken: "",
-          })
-        );
-        dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
-      } else {
-        const errorMessage = response.data?.message || "Something went wrong";
-        toast.error(errorMessage);
-      }
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Something went wrong";
-      console.log(error);
-      toast.error(errorMessage);
-    }
-    setAllocationLoading(false);
-    setConfirmOpen(false);
   };
 
   const tryToAllocateReserveTickets = async () => {
@@ -412,96 +365,16 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             {t("manage_event.ticket_release_actions_title")}
           </StyledText>
           <Box mt={2}>
-            <ConfirmModal
-              isOpen={confirmOpen}
+            <ConfirmTicketAllocationModal
+              ticketRelease={ticketRelease}
+              open={confirmOpen}
               onClose={() => {
                 setConfirmOpen(false);
               }}
-              title={t("manage_event.allocate_tickets_confirm_title")}
-              actions={[
-                <StyledButton
-                  key="confirm"
-                  size="md"
-                  bgColor={PALLETTE.green}
-                  onClick={async () => {
-                    await handleAllocateTickets();
-                  }}
-                >
-                  {allocationLoading
-                    ? "Allocating..."
-                    : t("form.button_confirm")}
-                </StyledButton>,
-                <StyledButton
-                  key="cancel"
-                  size="md"
-                  bgColor={PALLETTE.red}
-                  onClick={() => {
-                    setConfirmOpen(false);
-                  }}
-                >
-                  {t("form.button_cancel")}
-                </StyledButton>,
-              ]}
-            >
-              <StyledText
-                level="body-md"
-                fontWeight={500}
-                color={PALLETTE.charcoal}
-                fontSize={18}
-              >
-                {isCurrentlyOpen() && (
-                  <StyledText
-                    level="body-md"
-                    fontWeight={700}
-                    color={PALLETTE.red}
-                    fontSize={18}
-                  >
-                    WARNING:{" "}
-                  </StyledText>
-                )}
-                {isCurrentlyOpen()
-                  ? t("manage_event.allocate_tickets_warning")
-                  : t("manage_event.allocate_tickets_confirm")}
-
-                <Divider sx={{ my: 2 }} />
-
-                <FormControl>
-                  <StyledFormLabel>
-                    {t("manage_event.pay_within_hours")}
-                  </StyledFormLabel>
-                  <Input
-                    value={payWithinHours}
-                    onChange={(e) => {
-                      // remove zeros at the start
-                      if (
-                        e.target.value.startsWith("0") &&
-                        e.target.value.length > 1
-                      ) {
-                        e.target.value = e.target.value.slice(1);
-                      }
-
-                      // check more than 0
-                      if (parseInt(e.target.value) < 1) {
-                        e.target.value = "1";
-                      }
-
-                      setPayWithinHours(parseInt(e.target.value));
-                    }}
-                    placeholder=""
-                    type="number"
-                    style={
-                      {
-                        ...DefaultInputStyle,
-                      } as any
-                    }
-                  />
-
-                  <StyledFormLabelWithHelperText>
-                    {t("manage_event.allocate_tickets_helperText")}
-                  </StyledFormLabelWithHelperText>
-                </FormControl>
-              </StyledText>
-            </ConfirmModal>
+              isCurrentlyOpen={isCurrentlyOpen}
+              payWithinHours={payWithinHours}
+              setPayWithinHours={setPayWithinHours}
+            />
             <Stack spacing={2} direction={"column"}>
               {!hasntOpenedYet() && (
                 <StyledButton

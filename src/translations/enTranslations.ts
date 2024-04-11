@@ -369,6 +369,14 @@ const enTranslations = {
       "Pressing this button will manually try to allocate reserve tickets. This is useful if you don't want to wait for the automatic allocation.",
     allocated_tickets: "Allocated tickets",
     pay_within_hours: "Users must pay within (hours)*",
+    payment_deadline: "Payment deadline",
+    payment_deadline_helperText:
+      "When is the payment deadline for users who initially got a ticket?",
+    reserve_payment_duration: "Reserve payment duration",
+    reserve_payment_duration_helperText:
+      "When a reserve recieves a ticket, how long do they have to pay for it before it is given to the next person in line?",
+    reserve_payment_duration_text:
+      "Allocated reserve tickets will have a default payment deadline of {{ days }} days, {{ hours }} hours, {{ minutes }} minutes, and {{ seconds }} seconds.",
     allocate_tickets_confirm_title: "Confirm ticket allocation",
     allocate_tickets_warning:
       "This ticket release is currently open. Allocating tickets now will automatically close the ticket release. Are you sure you want to allocate tickets now?",

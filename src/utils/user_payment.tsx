@@ -17,17 +17,12 @@ export function mustPayBefore(payWithin: number, ticketUpdatedAt: Date): Date {
 }
 
 export const canPayForTicket = (ticket: ITicket): boolean => {
-  if (ticket.ticket_request?.ticket_release?.pay_within !== undefined) {
-    const mustPayBeforeDate = mustPayBefore(
-      ticket.ticket_request.ticket_release.pay_within!,
-      new Date(ticket.updated_at)
-    );
-    return isBefore(new Date(), mustPayBeforeDate);
-  } else {
-    // Check if event.date is in the future
+  if (!ticket.payment_deadline) {
     return isBefore(
       new Date(),
       new Date(ticket.ticket_request?.ticket_release?.event?.date!)
     );
+  } else {
+    return isBefore(new Date(), ticket.payment_deadline);
   }
 };
