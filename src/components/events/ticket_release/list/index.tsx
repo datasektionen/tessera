@@ -1,91 +1,44 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionGroup,
-  AccordionSummary,
-  Box,
-  Grid,
-  Link,
-  Modal,
-  Stack,
-} from "@mui/joy";
-import { IEvent, ITicket, ITicketRelease } from "../../../../types";
-import Title from "../../../text/title";
+import { Autocomplete, Box, Divider, Input, Stack, TextField } from "@mui/joy";
+import { ITicketRelease } from "../../../../types";
 import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
-import TicketReleaseRowView from "./ticket_release_row_view";
 import { useEffect, useState } from "react";
 import {
   ticketReleaseHasClosed,
   ticketReleaseHasOpened,
 } from "../../../../utils/event_open_close";
-import InformationModal from "../../../modal/information";
-import BorderBox from "../../../wrappers/border_box";
-import StyledButton from "../../../buttons/styled_button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import Fuse from "fuse.js";
 
 interface ListEventTicketReleasesProps {
   ticketReleases: ITicketRelease[];
   setSelectedTicketRelease: (ticketRelease: ITicketRelease) => void;
 }
 
-// Component to view what status the ticket release is in and if an action is needed
-const TicketReleaseStatusIndicator: React.FC<{
-  ticketRelease: ITicketRelease;
-}> = ({ ticketRelease }) => {
-  const [status, setStatus] = useState<string>("");
-  const { timestamp } = useSelector((state: RootState) => state.timestamp);
-
-  useEffect(() => {
-    let status: string = "";
-    if (ticketReleaseHasOpened(ticketRelease, timestamp!)) {
-      status = "Open";
-    } else if (ticketReleaseHasClosed(ticketRelease, timestamp!)) {
-      status = "Closed, ";
-      if (!ticketRelease.has_allocated_tickets) {
-        status += "No tickets allocated";
-      } else {
-        status += "Tickets allocated";
-      }
-    }
-    setStatus(status);
-  }, [ticketRelease]);
-
-  return (
-    <StyledText
-      level="body-md"
-      fontSize={18}
-      color={PALLETTE.charcoal_see_through}
-      fontWeight={700}
-    >
-      {status}
-    </StyledText>
-  );
-};
-
 const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   ticketReleases,
   setSelectedTicketRelease,
 }) => {
-  const [groupedTickets, setGroupedTickets] = useState<
-    Record<string, ITicket[]>
-  >({});
-
-  const [openModal, setOpenModal] = useState<number | null>(null);
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
-
-  const handleOpen = (id: number) => {
-    setOpenModal(id);
-  };
-
-  const handleClose = () => {
-    setOpenModal(null);
-  };
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const isOpen = (ticketRelease: ITicketRelease) => {
     return ticketReleaseHasOpened(ticketRelease, timestamp!);
   };
+
+  const ticketReleasesWithStatus = ticketReleases.map((ticketRelease) => ({
+    ...ticketRelease,
+    status: isOpen(ticketRelease) ? "Open" : "Closed",
+  }));
+
+  const options = {
+    keys: ["name", "status"],
+    includeScore: true,
+    threshold: 0.3, // Adjust this value to control the "forgiveness" of the search
+  };
+
+  const fuse = new Fuse(ticketReleasesWithStatus, options);
 
   // Group tickets by ticket release
 
@@ -93,61 +46,89 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
     return null;
   }
 
+  let filteredTicketReleases = ticketReleases;
+
+  if (searchTerm) {
+    filteredTicketReleases = fuse
+      .search(searchTerm)
+      .map((result) => result.item);
+  }
+
   return (
-    <Stack direction="column" spacing={2}>
-      {[...ticketReleases]
-        .sort((a, b) => {
-          const dateA =
-            a.created_at instanceof Date
-              ? a.created_at
-              : new Date(a.created_at);
-          const dateB =
-            b.created_at instanceof Date
-              ? b.created_at
-              : new Date(b.created_at);
-          return dateA.getTime() - dateB.getTime();
-        })
-        .map((ticketRelease) => {
-          return (
-            <Box
-              sx={{
-                borderColor: PALLETTE.cerise,
-                borderWidth: "1px",
-                borderStyle: "solid",
-                pl: 2,
-                pt: 0.5,
-                "&:hover": {
-                  borderColor: PALLETTE.cerise_dark,
-                  cursor: "pointer",
-                },
-              }}
-              onClick={() => {
-                setSelectedTicketRelease(ticketRelease);
-              }}
-            >
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                color={PALLETTE.charcoal}
-                fontWeight={700}
+    <Box>
+      <Input
+        value={searchTerm}
+        onChange={(event) => {
+          setSearchTerm(event.target.value as string);
+        }}
+        placeholder="Search..."
+      />
+
+      <Divider sx={{ mt: 2, mb: 2 }} />
+
+      <Stack direction="column" spacing={2}>
+        {[...filteredTicketReleases]
+          .sort((a, b) => {
+            const dateA =
+              a.created_at instanceof Date
+                ? a.created_at
+                : new Date(a.created_at);
+            const dateB =
+              b.created_at instanceof Date
+                ? b.created_at
+                : new Date(b.created_at);
+            return dateA.getTime() - dateB.getTime();
+          })
+          .map((ticketRelease) => {
+            return (
+              <Box
+                sx={{
+                  borderColor: PALLETTE.cerise,
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  pt: 0.5,
+                  "&:hover": {
+                    borderColor: PALLETTE.cerise_dark,
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={() => {
+                  setSelectedTicketRelease(ticketRelease);
+                }}
               >
-                {ticketRelease.name}
-              </StyledText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={
-                  isOpen(ticketRelease)
-                    ? PALLETTE.dark_green
-                    : PALLETTE.dark_red
-                }
-              >
-                {isOpen(ticketRelease) ? "Open" : "Closed"}
-              </StyledText>
-            </Box>
-          );
-        })}
-    </Stack>
+                <StyledText
+                  level="body-md"
+                  fontSize={16}
+                  color={PALLETTE.charcoal}
+                  fontWeight={700}
+                  sx={{
+                    pl: 1,
+                  }}
+                  style={{
+                    wordWrap: "break-word",
+                  }}
+                >
+                  {ticketRelease.name}
+                </StyledText>
+                <StyledText
+                  level="body-md"
+                  fontSize={16}
+                  color={
+                    isOpen(ticketRelease)
+                      ? PALLETTE.dark_green
+                      : PALLETTE.dark_red
+                  }
+                  sx={{
+                    pl: 1,
+                  }}
+                >
+                  {isOpen(ticketRelease) ? "Open" : "Closed"}
+                </StyledText>
+              </Box>
+            );
+          })}
+      </Stack>
+    </Box>
   );
 };
 

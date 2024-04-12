@@ -34,6 +34,7 @@
     "formik": "^2.4.5",
     "framer-motion": "^10.18.0",
     "fs": "^0.0.1-security",
+    "fuse.js": "^7.0.0",
     "i": "^0.3.7",
     "i18next": "^23.7.19",
     "i18next-browser-languagedetector": "^7.2.0",
