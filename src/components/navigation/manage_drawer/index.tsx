@@ -1,6 +1,7 @@
 // DrawerComponent.tsx
 import React from "react";
 import {
+  Collapse,
   Drawer,
   List,
   ListItem,
@@ -9,6 +10,7 @@ import {
   ListItemText,
   Toolbar,
   useTheme,
+  Box,
 } from "@mui/material";
 import PALLETTE from "../../../theme/pallette";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +25,8 @@ import StyledText from "../../text/styled_text";
 import { useTranslation } from "react-i18next";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import AddIcon from "@mui/icons-material/Add";
+import SubButton from "./sub_button";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const drawerWidth = 230;
 
@@ -32,6 +36,7 @@ interface DrawerComponentProps {
 
 const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
   // Paste the Drawer related code here
+  const [isManageHovered, setIsManageHovered] = React.useState(false);
 
   const theme = useTheme();
   const [isHovered, setIsHovered] = React.useState(false);
@@ -42,29 +47,66 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
     <div>
       <Toolbar />
       <List>
-        <ListItem key="Manage" disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate(`/events/${eventID}/manage`);
+        <ListItem
+          key="Manage"
+          disablePadding
+          onMouseEnter={() => setIsManageHovered(true)}
+          onMouseLeave={() => setIsManageHovered(false)}
+        >
+          <Box
+            sx={{
+              width: "100%",
             }}
           >
-            <ListItemIcon>
-              <PanToolIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={PALLETTE.charcoal}
-                sx={{
-                  m: 0,
-                  p: 0,
-                }}
-              >
-                {t("form.button_manage")}
-              </StyledText>
-            </ListItemText>
-          </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                navigate(`/events/${eventID}/manage`);
+              }}
+            >
+              <ListItemIcon>
+                <PanToolIcon />
+              </ListItemIcon>
+              <ListItemText>
+                <StyledText
+                  level="body-md"
+                  fontSize={16}
+                  color={PALLETTE.charcoal}
+                  sx={{
+                    m: 0,
+                    p: 0,
+                  }}
+                >
+                  {t("form.button_manage")}
+                </StyledText>
+              </ListItemText>
+              <ListItemIcon>
+                <ExpandMoreIcon />
+              </ListItemIcon>
+            </ListItemButton>
+            <Collapse
+              in={isManageHovered}
+              sx={{
+                pb: 1,
+              }}
+            >
+              <List component="div" disablePadding>
+                <SubButton
+                  title="Ticket Releases"
+                  onClick={() => {
+                    navigate(`/events/${eventID}/manage/ticket-releases`);
+                  }}
+                  clickable={true}
+                />
+                <SubButton
+                  title="Tickets"
+                  onClick={() => {}}
+                  clickable={false}
+                />
+
+                {/* Add more sub-buttons here */}
+              </List>
+            </Collapse>
+          </Box>
         </ListItem>
         <ListItem key="Edit" disablePadding>
           <ListItemButton

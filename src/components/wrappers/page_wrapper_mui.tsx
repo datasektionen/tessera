@@ -31,7 +31,7 @@ const MUITesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
       {/* Same as */}
       <NavigationBar />
       <Box
-        sx={{ width: "100vw", minHeight: "100vh" }}
+        sx={{ minHeight: "100vh" }}
         id="tessera-wrapper"
         style={{
           backgroundColor: PALLETTE.offWhite,

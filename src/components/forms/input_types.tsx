@@ -19,6 +19,8 @@ interface FormInputProps {
   readOnly?: boolean;
   clear?: () => void;
   required?: boolean;
+  afterChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 export const DefaultInputStyle = {
@@ -37,7 +39,9 @@ export const FormInput: React.FC<FormInputProps> = ({
   readOnly = false,
   overrideStyle = {},
   autoComplete = "on",
+  disabled = false,
   required = true,
+  afterChange = () => {},
 }) => (
   <Field name={name}>
     {({ field, form }: { field: any; form: any }) => (
@@ -47,6 +51,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         required={required}
         readOnly={readOnly}
         autoComplete={autoComplete}
+        disabled={disabled}
         onChange={(e: any) => {
           try {
             if (type === "datetime-local") {
@@ -71,6 +76,8 @@ export const FormInput: React.FC<FormInputProps> = ({
           } catch (error) {
             console.error("Error processing input change:", error);
             // Optionally set an error state here
+          } finally {
+            afterChange(e);
           }
         }}
         placeholder={placeholder}

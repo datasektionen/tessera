@@ -7,6 +7,7 @@ import {
   Grid,
   Link,
   Modal,
+  Stack,
 } from "@mui/joy";
 import { IEvent, ITicket, ITicketRelease } from "../../../../types";
 import Title from "../../../text/title";
@@ -26,7 +27,7 @@ import { RootState } from "../../../../store";
 
 interface ListEventTicketReleasesProps {
   ticketReleases: ITicketRelease[];
-  tickets: ITicket[];
+  setSelectedTicketRelease: (ticketRelease: ITicketRelease) => void;
 }
 
 // Component to view what status the ticket release is in and if an action is needed
@@ -65,13 +66,14 @@ const TicketReleaseStatusIndicator: React.FC<{
 
 const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   ticketReleases,
-  tickets,
+  setSelectedTicketRelease,
 }) => {
   const [groupedTickets, setGroupedTickets] = useState<
     Record<string, ITicket[]>
   >({});
 
   const [openModal, setOpenModal] = useState<number | null>(null);
+  const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
   const handleOpen = (id: number) => {
     setOpenModal(id);
@@ -81,26 +83,18 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
     setOpenModal(null);
   };
 
-  // Group tickets by ticket release
-  useEffect(() => {
-    const grouped = tickets.reduce((groups, ticket) => {
-      const key = ticket?.ticket_request?.ticket_release?.id!;
-      if (!groups[key]) {
-        groups[key] = [];
-      }
-      groups[key].push(ticket);
-      return groups;
-    }, {} as Record<string, ITicket[]>);
+  const isOpen = (ticketRelease: ITicketRelease) => {
+    return ticketReleaseHasOpened(ticketRelease, timestamp!);
+  };
 
-    setGroupedTickets(grouped);
-  }, [tickets]);
+  // Group tickets by ticket release
 
   if (!ticketReleases || ticketReleases.length === 0) {
     return null;
   }
 
   return (
-    <Grid container alignItems="center" justifyContent="flex-start" spacing={2}>
+    <Stack direction="column" spacing={2}>
       {[...ticketReleases]
         .sort((a, b) => {
           const dateA =
@@ -115,34 +109,45 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
         })
         .map((ticketRelease) => {
           return (
-            <Grid key={"ticket-release-" + ticketRelease.id}>
-              <StyledButton
-                size="md"
-                bgColor={PALLETTE.offWhite}
-                onClick={() => {
-                  handleOpen(ticketRelease.id);
-                }}
+            <Box
+              sx={{
+                borderColor: PALLETTE.cerise,
+                borderWidth: "1px",
+                borderStyle: "solid",
+                pl: 2,
+                pt: 0.5,
+                "&:hover": {
+                  borderColor: PALLETTE.cerise_dark,
+                  cursor: "pointer",
+                },
+              }}
+              onClick={() => {
+                setSelectedTicketRelease(ticketRelease);
+              }}
+            >
+              <StyledText
+                level="body-md"
+                fontSize={18}
                 color={PALLETTE.charcoal}
-                style={{ width: "300px" }}
+                fontWeight={700}
               >
                 {ticketRelease.name}
-              </StyledButton>
-              <InformationModal
-                title={"Manage " + ticketRelease.name}
-                isOpen={openModal === ticketRelease.id}
-                onClose={handleClose}
-                width={"75%"}
-                animationOptions={{ transition: { duration: 0.2 } }}
+              </StyledText>
+              <StyledText
+                level="body-md"
+                fontSize={16}
+                color={
+                  isOpen(ticketRelease)
+                    ? PALLETTE.dark_green
+                    : PALLETTE.dark_red
+                }
               >
-                <TicketReleaseRowView
-                  ticketRelease={ticketRelease}
-                  ticketReleaseTickets={groupedTickets[ticketRelease.id] || []}
-                />
-              </InformationModal>
-            </Grid>
+                {isOpen(ticketRelease) ? "Open" : "Closed"}
+              </StyledText>
+            </Box>
           );
         })}
-    </Grid>
+    </Stack>
   );
 };
 

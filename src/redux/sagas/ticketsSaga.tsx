@@ -9,6 +9,7 @@ import {
   ITicketAddon,
   ITicketRelease,
   ITicketReleaseMethodDetail,
+  ITicketReleasePaymentDeadline,
   ITicketRequest,
   ITicketType,
   TicketRequestPostReq,
@@ -71,7 +72,6 @@ function* getMyTicketSaga(): Generator<any, void, any> {
               ).getTime(),
             } as IEvent,
             name: ticket_request.ticket_release.name!,
-            pay_within: ticket_request.ticket_release.pay_within!,
             description: ticket_request.ticket_release.description!,
             open:
               new Date(ticket_request.ticket_release.open!).getTime() * 1000,
@@ -100,6 +100,20 @@ function* getMyTicketSaga(): Generator<any, void, any> {
                 is_enabled: addon.is_enabled!,
               } as IAddon;
             }) as IAddon[],
+            payment_deadline:
+              ticket_request.ticket_release.payment_deadline &&
+              ({
+                id: ticket_request.ticket_release.payment_deadline.ID!,
+                ticket_release_id:
+                  ticket_request.ticket_release.payment_deadline
+                    .ticket_release_id!,
+                original_deadline: new Date(
+                  ticket_request.ticket_release.payment_deadline.original_deadline!
+                ),
+                reserve_payment_duration:
+                  ticket_request.ticket_release.payment_deadline
+                    .reserve_payment_duration!, // Nanoseconds, in go: time.Duration
+              } as ITicketReleasePaymentDeadline),
           } as ITicketRelease,
           ticket_add_ons: ticket.ticket_add_ons?.map((addon: any) => {
             return {
@@ -110,6 +124,9 @@ function* getMyTicketSaga(): Generator<any, void, any> {
             };
           }) as ITicketAddon[],
         } as ITicketRequest,
+        payment_deadline: ticket.payment_deadline
+          ? new Date(ticket.payment_deadline!)
+          : null,
       } as ITicket;
     });
 
@@ -121,6 +138,7 @@ function* getMyTicketSaga(): Generator<any, void, any> {
       yield put(getMyTicketsFailure(errorMessage));
     }
   } catch (error: any) {
+    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     toast.error(errorMessage);
     yield put(getMyTicketsFailure(errorMessage));

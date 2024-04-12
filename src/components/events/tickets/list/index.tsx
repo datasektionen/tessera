@@ -277,9 +277,13 @@ const EventTicketsList: React.FC<{
       renderCell: (params) => {
         const otherFieldValue = params.row.type;
 
-        if (otherFieldValue === "Ticket" && !params.value) {
-          // replace 'someValue' with the value you're checking for
-          // do something based on the value in the other field
+        if (
+          otherFieldValue === "Ticket" &&
+          !params.value &&
+          !params.row.is_reserve
+        ) {
+          // This means that there is no payment deadline for this ticket
+          // So we should show "Event Start" instead
           return "Event Start";
         } else if (params.value) {
           return format(params.value as Date, "dd/MM/yyyy HH:mm");
@@ -418,26 +422,8 @@ const EventTicketsList: React.FC<{
       }
 
       let payBefore: Date | null = null;
-      if (
-        ticket.ticket_request?.ticket_release?.pay_within &&
-        ticket.purchasable_at !== null
-      ) {
-        payBefore = startOfHour(
-          add(ticket.purchasable_at as Date, {
-            hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
-          })
-        );
-      } else if (
-        ticket.ticket_request?.ticket_release?.pay_within &&
-        ticket.updated_at
-      ) {
-        // Add pay_within hours to updatedat
-
-        payBefore = startOfHour(
-          add(new Date(ticket.updated_at), {
-            hours: ticket.ticket_request?.ticket_release?.pay_within + 1,
-          })
-        );
+      if (ticket.payment_deadline) {
+        payBefore = ticket.payment_deadline;
       }
 
       const row = {

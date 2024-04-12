@@ -313,6 +313,20 @@ const seTranslations = {
       "Genom att trycka på denna knapp kommer du manuellt försöka tilldela reserverade biljetter. Detta är användbart om du inte vill vänta på den automatiska tilldelningen.",
     reserve_tickets: "Reserverade biljetter",
     pay_within_hours: "Användare måste betala inom (timmar)*",
+    ticket_release_time_title: "Biljettsläppets öppen och stängningstid",
+    edit_payment_deadline: "Redigera betalningsfrist",
+    payment_deadline: "Betalningsfrist",
+    payment_deadline_description:
+      "Här kan du ange betalningsfristen för ditt evenemang. Observera att detta inte kommer att påverka biljetter som redan har tilldelats, dvs biljetter som redan har en betalningsfrist, detta kommer endast att påverka biljetter som tilldelas efter denna ändring.",
+    payment_deadline_not_editable:
+      "Betalningsfristen kan inte redigeras för denna biljettsläpp. Betalningsfristen ställs in när du tilldelar biljetterna.",
+    payment_deadline_helperText:
+      "När ska användare som fått ordinarie biljetter betala?",
+    reserve_payment_duration: "Reservbiljett betalningstid",
+    reserve_payment_duration_helperText:
+      "Hur lång tid har andvändare som tidigare haft en reservbiljett på sig att betala för sin biljett innan den tilldelas till nästa person i kön?",
+    reserve_payment_duration_text:
+      "Reserverade biljetter som tilldelats kommer att ha en standard betalningsfrist på {{ days }} dagar, {{ hours }} timmar, {{ minutes }} minuter och {{ seconds }} sekunder.",
     allocate_tickets_confirm_title: "Bekräfta tilldelning av biljetter",
     allocate_tickets_warning:
       "Detta biljettsläpp är för närvarande öppet. Att tilldela biljetter nu kommer automatiskt att stänga biljettsläppet. Är du säker på att du vill tilldela biljetter nu?",

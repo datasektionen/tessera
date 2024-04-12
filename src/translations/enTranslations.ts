@@ -369,6 +369,19 @@ const enTranslations = {
       "Pressing this button will manually try to allocate reserve tickets. This is useful if you don't want to wait for the automatic allocation.",
     allocated_tickets: "Allocated tickets",
     pay_within_hours: "Users must pay within (hours)*",
+    edit_payment_deadline: "Edit payment deadline",
+    payment_deadline: "Payment deadline",
+    payment_deadline_description:
+      "Here you can specify the payment deadline for your event. Note that this will not affect tickets that have already been allocated, i.e tickets that already has a payment deadline, this will only affect tickets that are allocated after this change.",
+    payment_deadline_not_editable:
+      "Payment deadline is not editable for this ticket release. The payment deadline is set when you allocate the tickets.",
+    payment_deadline_helperText:
+      "When is the payment deadline for users who initially got a ticket?",
+    reserve_payment_duration: "Reserve payment duration",
+    reserve_payment_duration_helperText:
+      "When a reserve recieves a ticket, how long do they have to pay for it before it is given to the next person in line?",
+    reserve_payment_duration_text:
+      "Allocated reserve tickets will have a default payment deadline of {{ days }} days, {{ hours }} hours, {{ minutes }} minutes, and {{ seconds }} seconds.",
     allocate_tickets_confirm_title: "Confirm ticket allocation",
     allocate_tickets_warning:
       "This ticket release is currently open. Allocating tickets now will automatically close the ticket release. Are you sure you want to allocate tickets now?",
@@ -386,6 +399,7 @@ const enTranslations = {
       "Are you sure you want to delete this ticket release? This action cannot be undone.",
     manage_tickets_custom_event_form: "Form Responses",
     add_ticket_release: "Add ticket release",
+    ticket_release_time_title: "Ticket release open and close",
 
     economy: {
       title: "Event Economy",
