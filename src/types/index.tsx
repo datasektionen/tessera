@@ -333,6 +333,18 @@ export interface ITicketRequest {
   ticket_add_ons?: ITicketAddon[];
 }
 
+export interface IDeadlineUnits {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export interface ITicketReleasePaymentDeadlineForm {
+  payment_deadline: string;
+  reserve_payment_duration: string;
+}
+
 export interface ITicket {
   id: number;
   created_at: number;

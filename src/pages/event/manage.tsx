@@ -202,10 +202,10 @@ const ManageEventPage: React.FC = () => {
             </Tooltip>
           </Grid>
 
-          <ListEventTicketReleases
+          {/* <ListEventTicketReleases
             ticketReleases={event.ticketReleases!}
             tickets={tickets}
-          />
+          /> */}
 
           <Grid
             container

@@ -103,16 +103,18 @@ function* eventSaga(
           has_allocated_tickets: ticketRelease.has_allocated_tickets!,
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
-          payment_deadline: {
-            id: ticketRelease.payment_deadline.ID!,
-            ticket_release_id:
-              ticketRelease.payment_deadline.ticket_release_id!,
-            original_deadline: new Date(
-              ticketRelease.payment_deadline.original_deadline!
-            ),
-            reserve_payment_duration:
-              ticketRelease.payment_deadline.reserve_payment_duration!,
-          } as ITicketReleasePaymentDeadline,
+          payment_deadline:
+            ticketRelease.payment_deadline &&
+            ({
+              id: ticketRelease.payment_deadline.ID!,
+              ticket_release_id:
+                ticketRelease.payment_deadline.ticket_release_id!,
+              original_deadline: new Date(
+                ticketRelease.payment_deadline.original_deadline!
+              ),
+              reserve_payment_duration:
+                ticketRelease.payment_deadline.reserve_payment_duration!,
+            } as ITicketReleasePaymentDeadline),
           addons: ticketRelease.add_ons?.map((addon: any) => {
             return {
               id: addon.ID!,

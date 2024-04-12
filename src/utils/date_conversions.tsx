@@ -47,8 +47,6 @@ export const parseDurationInput = (input: string): number => {
     (pattern as RegExp).test(input)
   );
 
-  console.log(anyMatch);
-
   // If no regex pattern matches the input, throw an error
   if (!anyMatch) {
     throw new Error("Invalid duration input");
@@ -56,6 +54,31 @@ export const parseDurationInput = (input: string): number => {
 
   return totalSeconds;
 };
+
+export function toGoDuration(
+  days: number,
+  hours: number,
+  minutes: number,
+  seconds: number
+): string {
+  let result = "";
+  let totalHours = 0;
+  if (days > 0) {
+    totalHours = days * 24;
+  }
+  if (hours) {
+    totalHours += hours;
+  }
+  if (totalHours) result += `${totalHours}h`;
+
+  if (minutes) {
+    result += `${minutes}m`;
+  }
+  if (seconds) {
+    result += `${seconds}s`;
+  }
+  return result;
+}
 
 export const getDurationUnits = (
   input: string
@@ -91,4 +114,27 @@ export const getDurationUnits = (
   parseUnit("seconds");
 
   return duration;
+};
+
+export const paymentDurationToString = (nanoseconds: number): string => {
+  // Convert nanoseconds to seconds
+  let totalSeconds = Math.floor(nanoseconds / 1e9);
+
+  // Calculate days, hours, minutes, and seconds
+  const days = Math.floor(totalSeconds / (24 * 60 * 60));
+  totalSeconds %= 24 * 60 * 60;
+  const hours = Math.floor(totalSeconds / (60 * 60));
+  totalSeconds %= 60 * 60;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  // Format the duration string
+  let durationStr = "";
+  if (days > 0) durationStr += `${days} days `;
+  if (hours > 0) durationStr += `${hours} hours `;
+  if (minutes > 0) durationStr += `${minutes} minutes `;
+  if (seconds > 0) durationStr += `${seconds} seconds `;
+
+  // Remove trailing space and return the duration string
+  return durationStr.trim();
 };

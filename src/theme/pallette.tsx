@@ -1,6 +1,8 @@
 interface IPallette {
   primary: string;
   red: string;
+  dark_red: string;
+  dark_green: string;
   charcoal: string;
   charcoal_see_through: string;
   offWhite: string;
@@ -17,6 +19,8 @@ interface IPallette {
 const PALLETTE: IPallette = {
   primary: "#011638",
   red: "#FF6961",
+  dark_red: "#a8091e",
+  dark_green: "#006822",
   charcoal: "#0D0B0F",
   charcoal_see_through: "#36415680",
   offWhite: "#CDCDCD",

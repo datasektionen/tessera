@@ -277,9 +277,13 @@ const EventTicketsList: React.FC<{
       renderCell: (params) => {
         const otherFieldValue = params.row.type;
 
-        if (otherFieldValue === "Ticket" && !params.value) {
-          // replace 'someValue' with the value you're checking for
-          // do something based on the value in the other field
+        if (
+          otherFieldValue === "Ticket" &&
+          !params.value &&
+          !params.row.is_reserve
+        ) {
+          // This means that there is no payment deadline for this ticket
+          // So we should show "Event Start" instead
           return "Event Start";
         } else if (params.value) {
           return format(params.value as Date, "dd/MM/yyyy HH:mm");

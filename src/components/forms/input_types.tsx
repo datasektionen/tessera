@@ -20,6 +20,7 @@ interface FormInputProps {
   clear?: () => void;
   required?: boolean;
   afterChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 export const DefaultInputStyle = {
@@ -38,6 +39,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   readOnly = false,
   overrideStyle = {},
   autoComplete = "on",
+  disabled = false,
   required = true,
   afterChange = () => {},
 }) => (
@@ -49,6 +51,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         required={required}
         readOnly={readOnly}
         autoComplete={autoComplete}
+        disabled={disabled}
         onChange={(e: any) => {
           try {
             if (type === "datetime-local") {
