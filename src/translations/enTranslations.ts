@@ -641,8 +641,7 @@ const enTranslations = {
     events: "Events",
     profile: "Profile",
     report_an_issue_title: "Report an issue",
-    made_by:
-      "Tessera is built by <1>Lucas Dow</1> and belongs to <2>Konglig Datasektionen</2>.",
+    made_by: "Tessera is built by <1>Lucas Dow</1>",
     report_an_issue_content:
       "If something isn't working, or you have a suggestion, You can <1>Create an issue on Github</1>.",
   },

@@ -133,9 +133,6 @@ const Footer: React.FC = () => {
             >
               Lucas Dow
             </Link>
-            <Link href="https://datasektionen.se" target="_blank">
-              Konglig Datasektionen
-            </Link>
           </Trans>
         </StyledText>
         <Link

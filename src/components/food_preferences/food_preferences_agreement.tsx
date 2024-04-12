@@ -44,11 +44,11 @@ const FoodPreferencesAgreement: React.FC = () => {
     <BaseText>
       <Title>GDPR Privacy Notice Regarding Food Preferences</Title> <br />{" "}
       <br />
-      <strong>Konglig Datasektionen</strong> is dedicated to protecting your
-      privacy in line with the EU General Data Protection Regulation (GDPR) and
-      our internal Information Handling Policy. This notice outlines our
-      practices regarding the collection, use, and protection of your food
-      preferences to ensure personalized and safe participation in our events.
+      We're dedicated to protecting your privacy in line with the EU General
+      Data Protection Regulation (GDPR) and our internal Information Handling
+      Policy. This notice outlines our practices regarding the collection, use,
+      and protection of your food preferences to ensure personalized and safe
+      participation in our events.
       <br />
       <SubTitle>About Us and Our Commitment</SubTitle>
       <br />

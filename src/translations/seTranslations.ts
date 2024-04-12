@@ -314,7 +314,7 @@ const seTranslations = {
     reserve_tickets: "Reserverade biljetter",
     pay_within_hours: "Användare måste betala inom (timmar)*",
     ticket_release_time_title: "Biljettsläppets öppen och stängningstid",
-    edit_payment_deadline: "Redigera betalningsfrist",
+    edit_payment_deadline: "Redigera betaldeadline",
     payment_deadline: "Betalningsfrist",
     payment_deadline_description:
       "Här kan du ange betalningsfristen för ditt evenemang. Observera att detta inte kommer att påverka biljetter som redan har tilldelats, dvs biljetter som redan har en betalningsfrist, detta kommer endast att påverka biljetter som tilldelas efter denna ändring.",
@@ -322,9 +322,9 @@ const seTranslations = {
       "Betalningsfristen kan inte redigeras för denna biljettsläpp. Betalningsfristen ställs in när du tilldelar biljetterna.",
     payment_deadline_helperText:
       "När ska användare som fått ordinarie biljetter betala?",
-    reserve_payment_duration: "Reservbiljett betalningstid",
+    reserve_payment_duration: "Reservbiljett betaldeadline",
     reserve_payment_duration_helperText:
-      "Hur lång tid har andvändare som tidigare haft en reservbiljett på sig att betala för sin biljett innan den tilldelas till nästa person i kön?",
+      "Hur lång tid har andvändare som tidigare haft en reservbiljett på sig att betala för sin biljett innan den tilldelas till nästa person i kön? Format exempel: 7d 12h, 7 days, 12 hours.",
     reserve_payment_duration_text:
       "Reserverade biljetter som tilldelats kommer att ha en standard betalningsfrist på {{ days }} dagar, {{ hours }} timmar, {{ minutes }} minuter och {{ seconds }} sekunder.",
     allocate_tickets_confirm_title: "Bekräfta tilldelning av biljetter",
@@ -603,8 +603,7 @@ const seTranslations = {
     events: "Evenemang",
     profile: "Profil",
     report_an_issue_title: "Rapportera ett problem",
-    made_by:
-      "Tessera är byggt av <1>Lucas Dow</1> och tillhör <2>Konglig Datasektionen</2>.",
+    made_by: "Tessera är byggt av <1>Lucas Dow</1>.",
     report_an_issue_content:
       "Om något inte fungerar, eller om du har ett förslag, kan du <1>Skapa ett problem på Github</1>.",
   },
