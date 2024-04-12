@@ -55,18 +55,32 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   }
 
   return (
-    <Box>
+    <Box
+      style={{
+        position: "relative",
+      }}
+    >
       <Input
         value={searchTerm}
         onChange={(event) => {
           setSearchTerm(event.target.value as string);
         }}
         placeholder="Search..."
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+        }}
       />
 
-      <Divider sx={{ mt: 2, mb: 2 }} />
-
-      <Stack direction="column" spacing={2}>
+      <Stack
+        direction="column"
+        spacing={2}
+        sx={{
+          pt: 6,
+        }}
+      >
         {[...filteredTicketReleases]
           .sort((a, b) => {
             const dateA =
