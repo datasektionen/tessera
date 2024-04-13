@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
   ThemeProvider,
   Typography,
@@ -34,8 +35,8 @@ import styles from "./list.module.css";
 import AddonModalView from "./addon_modal_view";
 import StyledButton from "../../../buttons/styled_button";
 import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
-import { useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 interface CustomGridValueFormatterParams extends GridValueFormatterParams {
   // Extend the existing type to include the row property
   row: any; // Consider using a more specific type based on your data structure
@@ -72,11 +73,33 @@ const MyCustomInputComponent: React.FC<{
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
-}> = ({ tickets }) => {
+  selectTicketRequest: (ticketRequestID: number) => void;
+}> = ({ tickets, selectTicketRequest }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
+  const navigate = useNavigate();
 
   const columns: GridColDef[] = [
+    {
+      field: "select",
+      headerName: "select",
+      width: 50,
+      renderCell: (params: GridRenderCellParams<any>) => {
+        return (
+          <IconButton
+            style={{
+              padding: "0 5px 5px 0",
+              backgroundColor: PALLETTE.light_pink,
+            }}
+            onClick={() => {
+              selectTicketRequest(params.row.ticket_request_id);
+            }}
+          >
+            <SubdirectoryArrowLeftIcon />
+          </IconButton>
+        );
+      },
+    },
     {
       field: "ticket_release_id",
       headerName: "Ticket Release ID",
@@ -154,7 +177,7 @@ const EventTicketsList: React.FC<{
     {
       field: "user",
       headerName: "User",
-      width: 100,
+      width: 125,
       sortComparator: (v1, v2, cellParams1, cellParams2) => {
         return cellParams1.value.username.localeCompare(
           cellParams2.value.username
@@ -173,7 +196,7 @@ const EventTicketsList: React.FC<{
           }}
           onClick={() => handleOpenModal(params)}
         >
-          {params.value.username}
+          {params.value.first_name} {params.value.last_name}
         </div>
       ),
       filterOperators: [

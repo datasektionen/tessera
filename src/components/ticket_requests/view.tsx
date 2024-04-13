@@ -290,40 +290,42 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledButton>
         )}
 
-        <AccordionGroup
-          sx={{
-            mt: 2,
-          }}
-        >
-          <Accordion>
-            <AccordionSummary>
-              <StyledText
-                level="body-sm"
-                fontSize={22}
-                color={PALLETTE.charcoal}
-              >
-                {t("event.ticket_release.addons.view_addons")}
-              </StyledText>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Box>
-                <TicketReleaseAddons
-                  ticketRelease={ticketRequest.ticket_release!}
-                  handleChange={setSelectedAddons}
-                  selectedAddons={selectedAddons}
-                />
-                <StyledButton
-                  size="sm"
-                  bgColor={PALLETTE.green}
-                  onClick={handleUpdateAddons}
-                  sx={{ mt: 2 }}
+        {!ticketRequest.is_handled && (
+          <AccordionGroup
+            sx={{
+              mt: 2,
+            }}
+          >
+            <Accordion>
+              <AccordionSummary>
+                <StyledText
+                  level="body-sm"
+                  fontSize={22}
+                  color={PALLETTE.charcoal}
                 >
-                  {t("form.button_save")}
-                </StyledButton>
-              </Box>
-            </AccordionDetails>
-          </Accordion>
-        </AccordionGroup>
+                  {t("event.ticket_release.addons.view_addons")}
+                </StyledText>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box>
+                  <TicketReleaseAddons
+                    ticketRelease={ticketRequest.ticket_release!}
+                    handleChange={setSelectedAddons}
+                    selectedAddons={selectedAddons}
+                  />
+                  <StyledButton
+                    size="sm"
+                    bgColor={PALLETTE.green}
+                    onClick={handleUpdateAddons}
+                    sx={{ mt: 2 }}
+                  >
+                    {t("form.button_save")}
+                  </StyledButton>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          </AccordionGroup>
+        )}
 
         <Divider sx={{ my: 1 }} />
 

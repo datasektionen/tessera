@@ -14,6 +14,7 @@ import {
   ITicket,
   ITicketAddon,
   ITicketRelease,
+  ITicketReleaseMethod,
   ITicketReleaseMethodDetail,
   ITicketReleasePaymentDeadline,
   ITicketRequest,
@@ -79,6 +80,8 @@ function* fetchEventTickets(
             payed_at: new Date(ticket.transaction.payed_at! * 1000).getTime(),
             refunded: ticket.transaction.refunded!,
             refunded_at: ticket.transaction.refunded_at || null,
+            payment_method: ticket.transaction.payment_method || null,
+            transaction_type: ticket.transaction.transaction_type!,
           } as ITransaction),
         ticket_request: {
           id: ticket_request.ID!,
@@ -155,6 +158,15 @@ function* fetchEventTickets(
                   .open_window_duration! / 60,
               method_description:
                 ticket_request.ticket_release.method_description!,
+              ticketReleaseMethod: {
+                id: ticket_request.ticket_release.ticket_release_method_detail
+                  .ticket_release_method.ID!,
+                name: ticket_request.ticket_release.ticket_release_method_detail
+                  .ticket_release_method.method_name!,
+                description:
+                  ticket_request.ticket_release.ticket_release_method_detail
+                    .ticket_release_method,
+              } as ITicketReleaseMethod,
             } as ITicketReleaseMethodDetail,
           } as ITicketRelease,
           ticket_add_ons: ticket_request.ticket_add_ons?.map((addon: any) => {
@@ -278,6 +290,16 @@ function* fetchEventTickets(
                 openWindowDuration:
                   ticketRequest.ticket_release.ticket_release_method_detail
                     .open_window_duration! / 60,
+                ticketReleaseMethod: {
+                  id: ticketRequest.ticket_release.ticket_release_method_detail
+                    .ticket_release_method.ID!,
+                  name: ticketRequest.ticket_release
+                    .ticket_release_method_detail.ticket_release_method
+                    .method_name!,
+                  description:
+                    ticketRequest.ticket_release.ticket_release_method_detail
+                      .ticket_release_method.description!,
+                } as ITicketReleaseMethod,
               } as ITicketReleaseMethodDetail,
             } as ITicketRelease,
             deleted_at: new Date(ticketRequest.DeletedAt!).getTime(),

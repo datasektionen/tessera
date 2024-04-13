@@ -31,7 +31,8 @@ const TicketsRowUserInfo: React.FC<TicketsRowUserInfoProps> = ({ user }) => {
           label="Email"
           value={<a href={`mailto:${user.email}`}>{user.email}</a>}
         />
-        <UserInfoText label="KTH ID" value={user.ug_kth_id} />
+        <UserInfoText label="kth-ug-id" value={user.ug_kth_id} />
+        <UserInfoText label="kth-id" value={user.username} />
       </Grid>
       <Grid xs={6}>
         <StyledText

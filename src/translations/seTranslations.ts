@@ -346,6 +346,14 @@ const seTranslations = {
     delete_ticket_release_confirmation:
       "Är du säker på att du vill radera detta biljettsläpp? Denna åtgärd kan inte ångras.",
 
+    ticket_releases: {
+      title: "Hantera biljettsläpp",
+    },
+
+    tickets: {
+      title: "Hantera biljetter",
+    },
+
     economy: {
       title: "Eventekonomi",
       subtitle:

@@ -401,6 +401,80 @@ const enTranslations = {
     add_ticket_release: "Add ticket release",
     ticket_release_time_title: "Ticket release open and close",
 
+    ticket_releases: {
+      title: "Manage ticket releases",
+    },
+
+    tickets: {
+      title: "Manage tickets",
+
+      user: {
+        info: "User info",
+        food_preferences: "Food preferences",
+        full_name: "Full name",
+        username: "Username",
+        id: "ID",
+        email: "Email",
+        is_external: "External user",
+      },
+
+      ticket_info: {
+        id: "ID",
+        title: "Ticket info",
+        ticket_batch: "Ticket batch",
+        ticket_release: "Ticket release",
+        requested_at: "Requested at",
+        is_paid: "Is paid",
+        allocated: "Allocated",
+        purchasable_at: "Purchasable at",
+        payment_deadline: "Payment deadline",
+        entered_into_lottery: "Entered into lottery",
+        is_reserve: "Is reserve",
+        paid_at: "Paid at",
+        checked_in: "Checked in",
+        deleted_at: "Deleted at",
+        ticket_type: "Ticket type",
+
+        ticket_types: {
+          ticket: "Ticket",
+          ticket_request: "Ticket request",
+        },
+
+        add_ons: {
+          title: "Addons",
+          name: "Name",
+          price: "Price",
+          quantity: "Quantity",
+          contains_alcohol: "Contains alcohol",
+        },
+
+        edit: {
+          title: "Edit ticket info",
+          checked_in_helperText: "Has the user checked in?",
+          payment_deadline_helperText:
+            "The user will recieve an email with the updated payment deadline.",
+        },
+      },
+
+      event_form: {
+        title: "Form responses",
+      },
+
+      ticket_actions: {
+        title: "Ticket actions",
+        allocate: "Allocate",
+      },
+
+      payment_info: {
+        title: "Payment info",
+        currency: "Currency",
+        amount: "Amount",
+        refunded: "Refunded",
+        refunded_at: "Refunded at",
+        payment_method: "Payment method",
+      },
+    },
+
     economy: {
       title: "Event Economy",
       subtitle:

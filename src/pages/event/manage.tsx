@@ -195,40 +195,6 @@ const ManageEventPage: React.FC = () => {
             mt={2}
           >
             <Title fontSize={22} color={PALLETTE.charcoal}>
-              {t("manage_event.manage_ticket_releases")}
-            </Title>
-            <Tooltip title={t("tooltips.manage_ticket_releases")}>
-              <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
-            </Tooltip>
-          </Grid>
-
-          {/* <ListEventTicketReleases
-            ticketReleases={event.ticketReleases!}
-            tickets={tickets}
-          /> */}
-
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="flex-start"
-            mt={2}
-          >
-            <Title fontSize={22} color={PALLETTE.charcoal}>
-              {t("manage_event.manage_tickets")}
-            </Title>
-            <Tooltip title={t("tooltips.manage_tickets")}>
-              <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
-            </Tooltip>
-          </Grid>
-          <EventTicketsList tickets={tickets} />
-
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="flex-start"
-            mt={2}
-          >
-            <Title fontSize={22} color={PALLETTE.charcoal}>
               {t("manage_event.manage_tickets_custom_event_form")}
             </Title>
             <Tooltip

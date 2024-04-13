@@ -407,6 +407,8 @@ export interface ITransaction {
   payed_at: number;
   refunded: boolean;
   refunded_at: number | null;
+  payment_method?: string;
+  transaction_type: string;
 }
 
 // External user

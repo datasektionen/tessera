@@ -99,8 +99,10 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
                 />
                 <SubButton
                   title="Tickets"
-                  onClick={() => {}}
-                  clickable={false}
+                  onClick={() => {
+                    window.location.href = `/events/${eventID}/manage/tickets`;
+                  }}
+                  clickable={true}
                 />
 
                 {/* Add more sub-buttons here */}
