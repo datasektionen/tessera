@@ -352,6 +352,72 @@ const seTranslations = {
 
     tickets: {
       title: "Hantera biljetter",
+
+      user: {
+        info: "Användarinfo",
+        food_preferences: "Matpreferenser",
+        full_name: "För- & efternamn",
+        username: "Användarnamn",
+        id: "ID",
+        email: "E-post",
+        is_external: "Extern användare",
+      },
+
+      ticket_info: {
+        id: "ID",
+        title: "Biljettinfo",
+        ticket_batch: "Biljettgrupp",
+        ticket_release: "Biljettsläpp",
+        requested_at: "Begärd vid",
+        is_paid: "Är betald",
+        allocated: "Tilldelad",
+        purchasable_at: "Kan köpas vid",
+        payment_deadline: "Betalningsdeadline",
+        entered_into_lottery: "Med i lotteri",
+        is_reserve: "Reserv",
+        paid_at: "Betald vid",
+        checked_in: "Incheckad",
+        deleted_at: "Raderad vid",
+        ticket_type: "Biljettyp",
+
+        ticket_types: {
+          ticket: "Biljett",
+          ticket_request: "Biljettförfrågan",
+        },
+
+        add_ons: {
+          title: "Tillägg",
+          name: "Namn",
+          price: "Pris",
+          quantity: "Antal",
+          contains_alcohol: "Innehåller alkohol",
+        },
+
+        edit: {
+          title: "Redigera biljettinfo",
+          checked_in_helperText: "Har användaren checkat in?",
+          payment_deadline_helperText:
+            "Användaren kommer att få ett e-postmeddelande med den uppdaterade betalningsfristen.",
+        },
+      },
+
+      event_form: {
+        title: "Formulärsvar",
+      },
+
+      ticket_actions: {
+        title: "Biljettåtgärder",
+        allocate: "Tilldela",
+      },
+
+      payment_info: {
+        title: "Betalningsinfo",
+        currency: "Valuta",
+        amount: "Belopp",
+        refunded: "Återbetalad",
+        refunded_at: "Återbetalad vid",
+        payment_method: "Betalningsmetod",
+      },
     },
 
     economy: {
