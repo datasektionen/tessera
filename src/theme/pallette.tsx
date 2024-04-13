@@ -14,10 +14,13 @@ interface IPallette {
   yellow: string;
   orange: string;
   offBlack: string;
+  beige: string;
+  light_pink: string;
 }
 
 const PALLETTE: IPallette = {
   primary: "#011638",
+  beige: "#F5F5DC",
   red: "#FF6961",
   dark_red: "#a8091e",
   dark_green: "#006822",
@@ -32,6 +35,7 @@ const PALLETTE: IPallette = {
   yellow: "#FDE74C",
   orange: "#F06449",
   offBlack: "#1E1E1E",
+  light_pink: "#feeaf7",
 };
 
 export default PALLETTE;

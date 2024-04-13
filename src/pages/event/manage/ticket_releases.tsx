@@ -76,6 +76,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
             }}
           >
             <ListEventTicketReleases
+              selectedTicketRelease={selectedTicketRelease}
               ticketReleases={event?.ticketReleases!}
               setSelectedTicketRelease={setSelectedTicketRelease}
             />

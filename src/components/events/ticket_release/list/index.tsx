@@ -13,12 +13,14 @@ import Fuse from "fuse.js";
 
 interface ListEventTicketReleasesProps {
   ticketReleases: ITicketRelease[];
+  selectedTicketRelease: ITicketRelease | null;
   setSelectedTicketRelease: (ticketRelease: ITicketRelease) => void;
 }
 
 const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   ticketReleases,
   setSelectedTicketRelease,
+  selectedTicketRelease,
 }) => {
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -26,6 +28,10 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   const isOpen = (ticketRelease: ITicketRelease) => {
     return ticketReleaseHasOpened(ticketRelease, timestamp!);
   };
+
+  if (!ticketReleases || ticketReleases.length === 0) {
+    return null;
+  }
 
   const ticketReleasesWithStatus = ticketReleases.map((ticketRelease) => ({
     ...ticketRelease,
@@ -41,10 +47,6 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
   const fuse = new Fuse(ticketReleasesWithStatus, options);
 
   // Group tickets by ticket release
-
-  if (!ticketReleases || ticketReleases.length === 0) {
-    return null;
-  }
 
   let filteredTicketReleases = ticketReleases;
 
@@ -94,14 +96,20 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
             return dateA.getTime() - dateB.getTime();
           })
           .map((ticketRelease) => {
+            const selected = selectedTicketRelease?.id === ticketRelease.id;
             return (
               <Box
                 sx={{
-                  borderColor: PALLETTE.cerise,
+                  borderColor: selected ? PALLETTE.dark_green : PALLETTE.cerise,
                   borderWidth: "1px",
                   borderStyle: "solid",
                   pt: 0.5,
+                  backgroundColor: PALLETTE.white,
+                  borderRadius: 4,
+                  transition: "all 0.2s",
                   "&:hover": {
+                    transform: "scale(1.01)",
+                    backgroundColor: PALLETTE.light_pink,
                     borderColor: PALLETTE.cerise_dark,
                     cursor: "pointer",
                   },
