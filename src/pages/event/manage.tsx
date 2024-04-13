@@ -27,6 +27,7 @@ import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
 import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
 
 import DrawerComponent from "../../components/navigation/manage_drawer";
+import { useEventDetails } from "../../hooks/use_event_details_hook";
 
 const drawerWidth = 200;
 
@@ -34,9 +35,6 @@ const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
   const navigate = useNavigate();
 
-  const { event, loading, error } = useSelector(
-    (state: RootState) => state.eventDetail
-  );
   const [canAccess, setCanAccess] = useState<boolean | null>(null);
   const [secretToken, setSecretToken] = useState<string>("");
 
@@ -63,8 +61,6 @@ const ManageEventPage: React.FC = () => {
   const [confirmDeleteTextIsValid, setConfirmDeleteTextIsValid] =
     useState<boolean>(false);
 
-  const { tickets } = useSelector((state: RootState) => state.eventTickets);
-
   const dispatch: AppDispatch = useDispatch();
 
   const { t } = useTranslation();
@@ -74,17 +70,10 @@ const ManageEventPage: React.FC = () => {
     navigate("/events");
   };
 
-  useEffect(() => {
-    if (eventID) {
-      dispatch(
-        getEventRequest({
-          id: parseInt(eventID),
-          secretToken: "",
-        })
-      );
-      dispatch(fetchEventTicketsStart(parseInt(eventID)));
-    }
-  }, [dispatch, eventID]);
+  const {
+    eventDetail: { event, loading, error },
+    eventTickets: { tickets },
+  } = useEventDetails(eventID!);
 
   const [isHovered, setIsHovered] = useState(false);
 
