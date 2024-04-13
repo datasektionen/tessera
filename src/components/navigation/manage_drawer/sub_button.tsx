@@ -32,7 +32,7 @@ const SubButton: React.FC<SubButtonProps> = ({
       <ListItemText>
         <StyledText
           level="body-md"
-          fontSize={16}
+          fontSize={17}
           color={clickable ? PALLETTE.charcoal : PALLETTE.charcoal_see_through}
           onClick={clickable ? onClick : () => {}}
           sx={{

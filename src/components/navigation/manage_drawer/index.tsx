@@ -27,6 +27,9 @@ import PanToolIcon from "@mui/icons-material/PanTool";
 import AddIcon from "@mui/icons-material/Add";
 import SubButton from "./sub_button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DrawerListItem from "./drawer_list_item";
+import CollapsibleDrawerSection from "./collapsible_drawer_section";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const drawerWidth = 230;
 
@@ -40,216 +43,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
 
   const theme = useTheme();
   const [isHovered, setIsHovered] = React.useState(false);
-  const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const drawer = (
-    <div>
-      <Toolbar />
-      <List>
-        <ListItem
-          key="Manage"
-          disablePadding
-          onMouseEnter={() => setIsManageHovered(true)}
-          onMouseLeave={() => setIsManageHovered(false)}
-        >
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
-            <ListItemButton
-              onClick={() => {
-                navigate(`/events/${eventID}/manage`);
-              }}
-            >
-              <ListItemIcon>
-                <PanToolIcon />
-              </ListItemIcon>
-              <ListItemText>
-                <StyledText
-                  level="body-md"
-                  fontSize={16}
-                  color={PALLETTE.charcoal}
-                  sx={{
-                    m: 0,
-                    p: 0,
-                  }}
-                >
-                  {t("form.button_manage")}
-                </StyledText>
-              </ListItemText>
-              <ListItemIcon>
-                <ExpandMoreIcon />
-              </ListItemIcon>
-            </ListItemButton>
-            <Collapse
-              in={isManageHovered}
-              sx={{
-                pb: 1,
-              }}
-            >
-              <List component="div" disablePadding>
-                <SubButton
-                  title="Ticket Releases"
-                  onClick={() => {
-                    navigate(`/events/${eventID}/manage/ticket-releases`);
-                  }}
-                  clickable={true}
-                />
-                <SubButton
-                  title="Tickets"
-                  onClick={() => {
-                    window.location.href = `/events/${eventID}/manage/tickets`;
-                  }}
-                  clickable={true}
-                />
-
-                {/* Add more sub-buttons here */}
-              </List>
-            </Collapse>
-          </Box>
-        </ListItem>
-        <ListItem key="Edit" disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate(`/events/${eventID}/edit`);
-            }}
-          >
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={PALLETTE.charcoal}
-                sx={{
-                  m: 0,
-                  p: 0,
-                }}
-              >
-                {t("form.button_edit")}
-              </StyledText>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-        <ListItem key="CheckIn" disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate(`/events/${eventID}/manage/scan`);
-            }}
-          >
-            <ListItemIcon>
-              <QrCodeScannerIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={PALLETTE.charcoal}
-                sx={{
-                  m: 0,
-                  p: 0,
-                }}
-                style={{
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t("form.button_check_in")}
-              </StyledText>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-        <ListItem key="SendOut" disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate(`/events/${eventID}/send-out`);
-            }}
-          >
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={PALLETTE.charcoal}
-                sx={{
-                  m: 0,
-                  p: 0,
-                }}
-                style={{
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t("form.button_send_out")}
-              </StyledText>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-        <ListItem key="Economy" disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate(`/events/${eventID}/economy`);
-            }}
-          >
-            <ListItemIcon>
-              <AttachMoneyIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={PALLETTE.charcoal}
-                sx={{
-                  m: 0,
-                  p: 0,
-                }}
-                style={{
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t("form.button_economy")}
-              </StyledText>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-      </List>
-      <Divider />
-
-      <List>
-        <ListItem key="AddTicketRelease" disablePadding>
-          <ListItemButton
-            onClick={() => {
-              navigate(`/events/${eventID}/edit/add-ticket-release`);
-            }}
-          >
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <StyledText
-                level="body-md"
-                fontSize={16}
-                color={PALLETTE.charcoal}
-                sx={{
-                  m: 0,
-                  p: 0,
-                }}
-                style={{
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t("manage_event.add_ticket_release")}
-              </StyledText>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </div>
-  );
-
   return (
     <Drawer
       variant="permanent"
@@ -278,7 +72,91 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
         },
       }}
     >
-      {drawer}
+      <Toolbar />
+      <List>
+        <CollapsibleDrawerSection
+          title={t("manage_event.drawer.manage.title")}
+          icon={<PanToolIcon />}
+          mainNavigateTo={`/events/${eventID}/manage`}
+          subItems={[
+            {
+              title: t("manage_event.drawer.manage.ticket_releases"),
+              navigateTo: `/events/${eventID}/manage/ticket-releases`,
+              clickable: true,
+            },
+            {
+              title: t("manage_event.drawer.manage.tickets"),
+              navigateTo: `/events/${eventID}/manage/tickets`,
+              clickable: true,
+            },
+            {
+              title: t("manage_event.drawer.manage.check_in"),
+              navigateTo: `/events/${eventID}/manage/scan`,
+              clickable: true,
+            },
+          ]}
+        />
+        <DrawerListItem
+          icon={<EditIcon />}
+          text={t("form.button_edit")}
+          navigateTo={`/events/${eventID}/edit`}
+        />
+
+        <CollapsibleDrawerSection
+          icon={<MailIcon />}
+          title={t("manage_event.drawer.send_outs.title")}
+          mainNavigateTo={`/events/${eventID}/send-out`}
+          subItems={[
+            {
+              title: t("manage_event.drawer.send_outs.list"),
+              navigateTo: `/events/${eventID}/send-outs`,
+              clickable: false,
+            },
+            {
+              title: t("manage_event.drawer.send_outs.new"),
+              navigateTo: `/events/${eventID}/send-outs/new`,
+              clickable: false,
+            },
+          ]}
+        />
+        <DrawerListItem
+          icon={<AttachMoneyIcon />}
+          text={t("form.button_economy")}
+          navigateTo={`/events/${eventID}/economy`}
+        />
+        <CollapsibleDrawerSection
+          title={t("manage_event.drawer.settings.title")}
+          icon={<SettingsIcon />}
+          subItems={[
+            {
+              title: t("manage_event.drawer.settings.financial"),
+              navigateTo: `/events/${eventID}/manage/financial`,
+              clickable: false,
+            },
+            {
+              title: t("manage_event.drawer.settings.emails"),
+              navigateTo: `/events/${eventID}/manage/emails`,
+              clickable: false,
+            },
+            {
+              title: t("manage_event.drawer.settings.landing_page"),
+              navigateTo: `/events/${eventID}/manage/landing-page`,
+              clickable: false,
+            },
+            {
+              title: t("manage_event.drawer.settings.domains"),
+              navigateTo: `/events/${eventID}/manage/domains`,
+              clickable: false,
+            },
+          ]}
+        />
+        <Divider sx={{ my: 1 }} />
+        <DrawerListItem
+          icon={<AddIcon />}
+          text={t("manage_event.add_ticket_release")}
+          navigateTo={`/events/${eventID}/edit/add-ticket-release`}
+        />
+      </List>
     </Drawer>
   );
 };

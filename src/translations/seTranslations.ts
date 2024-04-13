@@ -350,6 +350,29 @@ const seTranslations = {
       title: "Hantera biljettsläpp",
     },
 
+    drawer: {
+      setting: {
+        title: "Inställningar",
+        financial: "Finansiell",
+        emails: "E-post",
+        landing_page: "Landingssida",
+        domains: "Domäner",
+      },
+
+      send_outs: {
+        title: "Utskick",
+        list: "Lista",
+        new: "Nytt utskick",
+      },
+
+      manage: {
+        title: "Hantera",
+        tickets: "Biljetter",
+        ticket_releases: "Biljettsläpp",
+        check_in: "Checka in",
+      },
+    },
+
     tickets: {
       title: "Hantera biljetter",
 

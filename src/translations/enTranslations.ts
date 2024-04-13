@@ -405,6 +405,29 @@ const enTranslations = {
       title: "Manage ticket releases",
     },
 
+    drawer: {
+      settings: {
+        title: "Settings",
+        financial: "Financial",
+        emails: "Emails",
+        landing_page: "Landing page",
+        domains: "Domains",
+      },
+
+      send_outs: {
+        title: "Send outs",
+        list: "List",
+        new: "New",
+      },
+
+      manage: {
+        title: "Manage",
+        tickets: "Tickets",
+        ticket_releases: "Ticket releases",
+        check_in: "Check in",
+      },
+    },
+
     tickets: {
       title: "Manage tickets",
 
