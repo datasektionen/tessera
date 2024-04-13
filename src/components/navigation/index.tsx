@@ -5,7 +5,16 @@ import IconButton from "@mui/joy/IconButton";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PALLETTE from "../../theme/pallette";
-import { Chip, Grid, Link, MenuItem, Option, Select, Stack } from "@mui/joy";
+import {
+  Button,
+  Chip,
+  Grid,
+  Link,
+  MenuItem,
+  Option,
+  Select,
+  Stack,
+} from "@mui/joy";
 
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
@@ -114,6 +123,66 @@ export const LanguageSelector: React.FC = () => {
   );
 };
 
+const MaintenanceMessage: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const savedState = localStorage.getItem("maintenanceMessageDismissed");
+    if (!savedState) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(JSON.parse(savedState) ? false : true);
+    }
+
+    setIsLoading(false);
+  }, []);
+
+  const handleDismiss = () => {
+    setIsVisible(false);
+    localStorage.setItem("maintenanceMessageDismissed", JSON.stringify(true));
+  };
+
+  if (isLoading || !isVisible) {
+    return null;
+  }
+
+  return (
+    <Box
+      sx={{
+        backgroundColor: PALLETTE.orange,
+        padding: "16px",
+        textAlign: "center",
+      }}
+    >
+      <StyledText
+        level="body-md"
+        fontSize={20}
+        color={PALLETTE.charcoal}
+        fontWeight={600}
+        sx={{
+          width: "80%",
+          margin: "0 auto",
+        }}
+      >
+        Scheduled maintenance: Between the 21 of May and 1 of June, we will be
+        performing maintenance of tessera. During this time, the website might
+        be unavailable. We apologize for any inconvenience this may cause.
+      </StyledText>
+
+      <StyledButton
+        size="sm"
+        onClick={handleDismiss}
+        style={{
+          margin: "16px auto",
+        }}
+      >
+        Dismiss
+      </StyledButton>
+    </Box>
+  );
+};
+
 export const StyledLink = (props: any) => (
   <Link
     {...props}
@@ -137,57 +206,113 @@ function NavigationBar() {
     return <MobileNavigationBar />;
   } else
     return (
-      <Box
-        sx={{
-          margin: 0,
-          padding: 0,
-          backgroundColor: PALLETTE.cerise,
-          color: "white",
-          width: "100%",
-          height: "64px",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000, // Ensure it stays on top of other elements
-        }}
-      >
-        {/* Left-aligned "tessera" text */}
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="space-between"
+      <>
+        <MaintenanceMessage />
+        <Box
           sx={{
-            padding: "16px",
-            marginLeft: "16px",
-            marginRight: "16px",
+            margin: 0,
+            padding: 0,
+            backgroundColor: PALLETTE.cerise,
+            color: "white",
+            width: "100%",
+            height: "64px",
+            position: "sticky",
+            top: 0,
+            zIndex: 1000, // Ensure it stays on top of other elements
           }}
         >
-          <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            <Typography
-              level="h4"
-              component="a"
-              href="/" // Link to the main page
-              fontFamily={"Josefin sans"}
-              fontSize={24}
-              sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
-            >
-              tessera
-            </Typography>
-            <Chip
-              sx={{
-                backgroundColor: PALLETTE.cerise_dark,
-              }}
-            >
-              <StyledText
-                level="body-sm"
-                fontSize={14}
-                fontWeight={800}
-                color={PALLETTE.offWhite}
+          {/* Left-aligned "tessera" text */}
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{
+              padding: "16px",
+              marginLeft: "16px",
+              marginRight: "16px",
+            }}
+          >
+            <Stack direction={"row"} alignItems={"center"} spacing={1}>
+              <Typography
+                level="h4"
+                component="a"
+                href="/" // Link to the main page
+                fontFamily={"Josefin sans"}
+                fontSize={24}
+                sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
               >
-                BETA
-              </StyledText>
-            </Chip>
-          </Stack>
-          {isLoggedIn && (
+                tessera
+              </Typography>
+              <Chip
+                sx={{
+                  backgroundColor: PALLETTE.cerise_dark,
+                }}
+              >
+                <StyledText
+                  level="body-sm"
+                  fontSize={14}
+                  fontWeight={800}
+                  color={PALLETTE.offWhite}
+                >
+                  BETA
+                </StyledText>
+              </Chip>
+            </Stack>
+            {isLoggedIn && (
+              <Stack
+                direction="row"
+                spacing={2}
+                alignItems="center"
+                style={{
+                  padding: 0,
+                }}
+              >
+                <StyledText
+                  level="body-sm"
+                  color={""}
+                  fontSize={18}
+                  fontWeight={700}
+                  style={{
+                    margin: "0 16px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  <StyledLink href={ROUTES.EVENTS}>
+                    {t("navigation.events")}
+                  </StyledLink>
+                </StyledText>
+
+                <StyledText
+                  color={""}
+                  level="body-sm"
+                  fontSize={18}
+                  fontWeight={700}
+                  style={{
+                    margin: "0 16px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
+                    {t("navigation.teams")}
+                  </StyledLink>
+                </StyledText>
+                <StyledText
+                  level="body-sm"
+                  color={""}
+                  fontSize={18}
+                  fontWeight={700}
+                  style={{
+                    margin: "0 16px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  <StyledLink href={ROUTES.CONTACT_PAGE}>
+                    {t("navigation.contact")}
+                  </StyledLink>
+                </StyledText>
+              </Stack>
+            )}
+            {/* Right-aligned profile icon */}
             <Stack
               direction="row"
               spacing={2}
@@ -196,104 +321,51 @@ function NavigationBar() {
                 padding: 0,
               }}
             >
-              <StyledText
-                level="body-sm"
-                color={""}
-                fontSize={18}
-                fontWeight={700}
-                style={{
-                  margin: "0 16px",
-                  textTransform: "uppercase",
-                }}
-              >
-                <StyledLink href={ROUTES.EVENTS}>
-                  {t("navigation.events")}
-                </StyledLink>
-              </StyledText>
+              <LanguageSelector />
 
-              <StyledText
-                color={""}
-                level="body-sm"
-                fontSize={18}
-                fontWeight={700}
-                style={{
-                  margin: "0 16px",
-                  textTransform: "uppercase",
-                }}
-              >
-                <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                  {t("navigation.teams")}
-                </StyledLink>
-              </StyledText>
-              <StyledText
-                level="body-sm"
-                color={""}
-                fontSize={18}
-                fontWeight={700}
-                style={{
-                  margin: "0 16px",
-                  textTransform: "uppercase",
-                }}
-              >
-                <StyledLink href={ROUTES.CONTACT_PAGE}>
-                  {t("navigation.contact")}
-                </StyledLink>
-              </StyledText>
+              {isLoggedIn ? (
+                [
+                  <IconButton
+                    component="a"
+                    key="profile"
+                    href="/profile" // Link to the profile page
+                  >
+                    <PersonIcon
+                      style={{
+                        color: PALLETTE.charcoal,
+                      }}
+                    />
+                  </IconButton>,
+                  <IconButton
+                    component="a"
+                    key="logout"
+                    href="/logout" // Link to the logout page
+                  >
+                    <LogoutIcon
+                      style={{
+                        color: PALLETTE.charcoal,
+                      }}
+                    />
+                  </IconButton>,
+                ]
+              ) : (
+                <StyledButton
+                  color={PALLETTE.charcoal}
+                  size="sm"
+                  style={{
+                    margin: "0 16px",
+                  }}
+                  onClick={() => {
+                    navigate(ROUTES.LOGIN);
+                  }}
+                >
+                  {t("navigation.login")}
+                </StyledButton>
+              )}
             </Stack>
-          )}
-          {/* Right-aligned profile icon */}
-          <Stack
-            direction="row"
-            spacing={2}
-            alignItems="center"
-            style={{
-              padding: 0,
-            }}
-          >
-            <LanguageSelector />
-
-            {isLoggedIn ? (
-              [
-                <IconButton
-                  component="a"
-                  key="profile"
-                  href="/profile" // Link to the profile page
-                >
-                  <PersonIcon
-                    style={{
-                      color: PALLETTE.charcoal,
-                    }}
-                  />
-                </IconButton>,
-                <IconButton
-                  component="a"
-                  key="logout"
-                  href="/logout" // Link to the logout page
-                >
-                  <LogoutIcon
-                    style={{
-                      color: PALLETTE.charcoal,
-                    }}
-                  />
-                </IconButton>,
-              ]
-            ) : (
-              <StyledButton
-                color={PALLETTE.charcoal}
-                size="sm"
-                style={{
-                  margin: "0 16px",
-                }}
-                onClick={() => {
-                  navigate(ROUTES.LOGIN);
-                }}
-              >
-                {t("navigation.login")}
-              </StyledButton>
-            )}
-          </Stack>
-        </Grid>
-      </Box>
+          </Grid>
+        </Box>
+      </>
     );
 }
 
