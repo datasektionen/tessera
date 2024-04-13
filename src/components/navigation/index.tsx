@@ -165,9 +165,9 @@ const MaintenanceMessage: React.FC = () => {
           margin: "0 auto",
         }}
       >
-        Scheduled maintenance: Between the 21 of May and 1 of June, we will be
-        performing maintenance of tessera. During this time, the website might
-        be unavailable. We apologize for any inconvenience this may cause.
+        Scheduled maintenance: Between May 21 and June 1, we will be performing
+        maintenance on Tessera. During this time, the website might be
+        unavailable. We apologize for any inconvenience this may cause.
       </StyledText>
 
       <StyledButton
