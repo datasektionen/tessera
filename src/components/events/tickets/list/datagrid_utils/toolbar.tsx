@@ -1,31 +1,18 @@
-import React from "react";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { Box, Grid, Sheet, Stack, Tab, TabList, Table, Tabs } from "@mui/joy";
 import {
-  GridColDef,
-  DataGrid,
-  GridRowsProp,
-  GridToolbar,
   GridToolbarContainer,
-  GridCsvExportMenuItem,
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
-  GridColumnVisibilityModel,
   useGridApiContext,
-  useGridSelector,
-  GridCsvExportOptions,
-  gridFilteredSortedRowIdsSelector,
   GridToolbarExportContainer,
   GridCsvGetRowsToExportParams,
   gridExpandedSortedRowIdsSelector,
-  GridExportMenuItemProps,
   gridDataRowIdsSelector,
 } from "@mui/x-data-grid";
 import Button, { ButtonProps } from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { createSvgIcon } from "@mui/material/utils";
-import { ITicket } from "../../../../../types";
+import * as XLSX from "xlsx";
 
 // Custom toolbar
 const getAllRows = ({ apiRef }: GridCsvGetRowsToExportParams) =>
@@ -75,8 +62,40 @@ const ExportIcon = createSvgIcon(
   "SaveAlt"
 );
 
-function CustomToolbar() {
+function downloadCSVAsExcel(csv: any, fileName: any) {
+  const data = XLSX.read(csv, { type: "string" });
+  const ws = data.Sheets[data.SheetNames[0]];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Data");
+  XLSX.writeFile(wb, `${fileName}.xlsx`);
+}
+
+function convertDataToCSV(data: any) {
+  if (!data || data.length === 0) return "";
+  const headers = Object.keys(data[0]);
+  const csvContent = [headers.join(",")]
+    .concat(
+      data.map((row: any) =>
+        headers
+          .map((header) =>
+            JSON.stringify(row[header], (_, value) =>
+              value == null ? "" : value
+            )
+          )
+          .join(",")
+      )
+    )
+    .join("\n");
+  return csvContent;
+}
+
+function CustomToolbar({ rows }: any) {
   const apiRef = useGridApiContext();
+
+  const handleDownloadExcel = () => {
+    const csvData = convertDataToCSV(rows);
+    downloadCSVAsExcel(csvData, "DataGrid-Export");
+  };
 
   const buttonBaseProps: ButtonProps = {
     color: "primary",
@@ -92,6 +111,9 @@ function CustomToolbar() {
       <GridToolbarExportContainer>
         <ExportAllDataButton {...buttonBaseProps} />
         <ExportFilterDataButton {...buttonBaseProps} />
+        <Button {...buttonBaseProps} onClick={handleDownloadExcel}>
+          Export as Excel
+        </Button>
       </GridToolbarExportContainer>
     </GridToolbarContainer>
   );

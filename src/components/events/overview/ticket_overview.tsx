@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import BorderBox from "../../wrappers/border_box";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
 import { useTranslation } from "react-i18next";
 import { ITicket } from "../../../types";
 import { OverviewBorderBoxWrapper } from "./overvier_borde_box_wrapper";
