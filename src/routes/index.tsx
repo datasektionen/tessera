@@ -41,6 +41,7 @@ import EventEconomyPage from "../pages/event/economy";
 import EditTicketReleaseAddonsPage from "../pages/event/edit_addons";
 import ManageEventTicketReleasesPage from "../pages/event/manage/ticket_releases";
 import ManageEventTicketsPage from "../pages/event/manage/tickets";
+import ManageEventFormResponsesPage from "../pages/event/manage/ticket_form_reponse_list_page";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -102,6 +103,10 @@ const ManageEventTicketReleasesWithCurrentUser = withCurrentUserRequest(
 
 const ManageEventTicketsWithCurrentUser = withCurrentUserRequest(
   ManageEventTicketsPage
+);
+
+const ManageEventFormResponsesWithCurrentUser = withCurrentUserRequest(
+  ManageEventFormResponsesPage
 );
 
 function AppRoutes() {
@@ -186,6 +191,11 @@ function AppRoutes() {
           <Route
             path={ROUTES.MANAGE_EVENT_TICKETS}
             element={<ManageEventTicketsWithCurrentUser />}
+          />
+
+          <Route
+            path={ROUTES.MANAGE_EVENT_RESPONSES}
+            element={<ManageEventFormResponsesWithCurrentUser />}
           />
 
           <Route path={ROUTES.SEND_OUT} element={<SendOut />} />

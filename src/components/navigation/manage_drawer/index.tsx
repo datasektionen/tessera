@@ -90,6 +90,11 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
               clickable: true,
             },
             {
+              title: t("manage_event.drawer.manage.form_responses"),
+              navigateTo: `/events/${eventID}/manage/event-form-responses`,
+              clickable: true,
+            },
+            {
               title: t("manage_event.drawer.manage.check_in"),
               navigateTo: `/events/${eventID}/manage/scan`,
               clickable: true,

@@ -434,6 +434,7 @@ const enTranslations = {
         tickets: "Tickets",
         ticket_releases: "Ticket releases",
         check_in: "Check in",
+        form_responses: "Form responses",
       },
 
       economy: {

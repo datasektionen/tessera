@@ -1,4 +1,4 @@
-import { ITicket, IUser } from "../../../../types";
+import { IEventFormFieldResponse, ITicket, IUser } from "../../../../types";
 import React from "react";
 import LoadingOverlay from "../../../Loading";
 import {
@@ -37,10 +37,10 @@ import StyledButton from "../../../buttons/styled_button";
 import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
-interface CustomGridValueFormatterParams extends GridValueFormatterParams {
-  // Extend the existing type to include the row property
-  row: any; // Consider using a more specific type based on your data structure
-}
+import {
+  getEventFormFieldsColumns,
+  getEventFormFieldsRow,
+} from "../ticket_form_response/ticket_form_reponse_helpers";
 
 const MyCustomInputComponent: React.FC<{
   item: any;
@@ -78,6 +78,8 @@ const EventTicketsList: React.FC<{
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
   const navigate = useNavigate();
+
+  const customColumns = getEventFormFieldsColumns(tickets);
 
   const columns: GridColDef[] = [
     {
@@ -406,6 +408,7 @@ const EventTicketsList: React.FC<{
         );
       },
     },
+    ...customColumns,
   ];
 
   const isTicketRequest = (ticket: ITicket) => {
@@ -449,6 +452,8 @@ const EventTicketsList: React.FC<{
         payBefore = ticket.payment_deadline;
       }
 
+      const customRows = getEventFormFieldsRow(ticket || {});
+
       const row = {
         id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
         ticket_request_id: ticket.ticket_request?.id,
@@ -485,6 +490,7 @@ const EventTicketsList: React.FC<{
           ticket,
           ticket.ticket_request?.ticket_release!
         ),
+        ...customRows,
       };
 
       return row;

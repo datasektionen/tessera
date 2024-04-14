@@ -12,14 +12,13 @@ import StyledButton from "../../components/buttons/styled_button";
 import PALLETTE from "../../theme/pallette";
 
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useTranslation } from "react-i18next";
 import ConfirmModal from "../../components/modal/confirm_modal";
 import { deleteEventStart } from "../../redux/features/editEventSlice";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
-import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
+import TicketEventFormResponseTable from "./manage/ticket_form_reponse_list_page";
 
 import DrawerComponent from "../../components/navigation/manage_drawer";
 import {
@@ -168,24 +167,7 @@ const ManageEventPage: React.FC = () => {
             tickets={tickets}
           />
 
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="flex-start"
-            mt={2}
-          >
-            <Title fontSize={22} color={PALLETTE.charcoal}>
-              {t("manage_event.manage_tickets_custom_event_form")}
-            </Title>
-            <Tooltip
-              title={t("tooltips.manage_tickets_custom_event_form_description")}
-            >
-              <HelpOutlineIcon fontSize="inherit" sx={{ marginLeft: 2 }} />
-            </Tooltip>
-          </Grid>
-          <TicketEventFormResponseTable tickets={tickets} />
-
-          <Stack spacing={2} direction={"row"}>
+          <Stack spacing={2} direction={"row"} mt={5}>
             <StyledButton
               size="md"
               bgColor={PALLETTE.orange}
