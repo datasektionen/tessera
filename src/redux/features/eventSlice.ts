@@ -17,6 +17,7 @@ const eventSlice = createSlice({
       action: PayloadAction<{
         id: number;
         secretToken: string;
+        countSiteVisit?: boolean;
       }>
     ) => {
       state.loading = true;

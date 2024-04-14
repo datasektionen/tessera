@@ -71,6 +71,8 @@ const MyCustomInputComponent: React.FC<{
   );
 };
 
+
+
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
   selectTicketRequest: (ticketRequestID: number) => void;
@@ -560,6 +562,11 @@ const EventTicketsList: React.FC<{
       can_be_selectively_allocated: false,
     });
 
+  const CustomToolbarWithProps = () => {
+    // Pass the rows directly to the CustomToolbar
+    return <CustomToolbar rows={rows} />;
+  };
+
   if (!tickets || rows.length === 0) {
     return null;
   }
@@ -573,7 +580,7 @@ const EventTicketsList: React.FC<{
           columns={columns}
           pageSizeOptions={[25, 50, 100]}
           slots={{
-            toolbar: CustomToolbar,
+            toolbar: CustomToolbarWithProps,
           }}
           columnVisibilityModel={columnVisibilityModel}
           onColumnVisibilityModelChange={(newModel) =>

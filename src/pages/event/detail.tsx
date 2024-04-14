@@ -159,22 +159,10 @@ const EventDetail: React.FC = () => {
       getEventRequest({
         id: intid,
         secretToken: secretToken || "",
+        countSiteVisit: promoCodeSuccess ? false : true,
       })
     );
-  }, []);
-
-  useEffect(() => {
-    const intid: number = validateAndConvertEventID(eventID!);
-    // Get id param :eventID
-    if (promoCodeSuccess) {
-      dispatch(
-        getEventRequest({
-          id: intid,
-          secretToken: secretToken || "",
-        })
-      );
-    }
-  }, [promoCodeSuccess]);
+  }, [dispatch, eventID, promoCodeSuccess]);
 
   if (loading || error) {
     console.error(error);
