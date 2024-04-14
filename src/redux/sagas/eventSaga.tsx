@@ -35,6 +35,7 @@ function* eventSaga(
   action: PayloadAction<{
     id: number;
     secretToken: string;
+    countSiteVisit?: boolean;
   }>
 ): Generator<any, void, any> {
   try {
@@ -43,13 +44,22 @@ function* eventSaga(
     const secretTokenParam =
       secretToken !== "" ? "?secret_token=" + secretToken : "";
 
-    const response = yield call(
-      axios.get,
-      process.env.REACT_APP_BACKEND_URL + "/events/" + id + secretTokenParam,
-      {
-        withCredentials: true, // This ensures cookies are sent with the request
-      }
-    );
+    const countSiteVisitQuery = !action.payload.countSiteVisit
+      ? "?dont_count_site_visit=true"
+      : "";
+
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      "/events/" +
+      id +
+      secretTokenParam +
+      countSiteVisitQuery;
+
+    console.log(url);
+
+    const response = yield call(axios.get, url, {
+      withCredentials: true, // This ensures cookies are sent with the request
+    });
 
     const eventData = response.data.event;
 

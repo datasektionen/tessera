@@ -22,10 +22,7 @@ import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
 import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
 
 import DrawerComponent from "../../components/navigation/manage_drawer";
-import {
-  useEventDetails,
-  useEventSiteVisits,
-} from "../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../hooks/use_event_details_hook";
 
 const drawerWidth = 200;
 
