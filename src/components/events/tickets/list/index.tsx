@@ -37,7 +37,10 @@ import StyledButton from "../../../buttons/styled_button";
 import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
-import { getEventFormFieldsColumns, getEventFormFieldsRow } from "../ticket_form_response/ticket_form_reponse_helpers";
+import {
+  getEventFormFieldsColumns,
+  getEventFormFieldsRow,
+} from "../ticket_form_response/ticket_form_reponse_helpers";
 
 const MyCustomInputComponent: React.FC<{
   item: any;
