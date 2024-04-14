@@ -288,7 +288,9 @@ const seTranslations = {
   },
 
   manage_event: {
-    title: "Hantera evenemang",
+    title: "Hantera {{event_name}}",
+    delete_button: "Radera {{event_name}}",
+    overview: "Översikt",
     manage_ticket_releases: "Hantera biljettsläpp",
     allocate_tickets_button: "Tilldela biljetter",
     allocated_tickets: "Tilldelade biljetter",

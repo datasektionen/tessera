@@ -1,20 +1,24 @@
 import { Divider, Grid, IconButton, Link, Stack, Typography } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
-import { IEvent } from "../../types";
+import { IEvent, IEventSiteVisit, ITicket } from "../../types";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import StyledText from "../text/styled_text";
 import ReactMarkdown from "react-markdown";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useTranslation } from "react-i18next";
+import EventSiteVisit from "./overview/event_site_visits";
+import EventTicketOverview from "./overview/ticket_overview";
 interface EventDetailInfoProps {
   event: IEvent;
   secret_token?: string;
+  tickets?: ITicket[];
 }
 
 const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
   event,
   secret_token,
+  tickets,
 }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(
@@ -28,16 +32,26 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
     <Grid container spacing={2} columns={12}>
       <Grid xs={12}>
         <StyledText
-          color={PALLETTE.charcoal}
           level="body-lg"
-          fontSize={32}
+          color={PALLETTE.cerise_dark}
+          fontSize={28}
           fontWeight={600}
-          sx={{ mt: 1 }}
+          sx={{
+            my: 2,
+          }}
         >
-          {event.name}
+          {t("manage_event.overview.title")}
         </StyledText>
-
-        <Divider sx={{ my: 2 }} />
+        {/* Overview boxes */}
+        <Grid
+          container
+          spacing={2}
+          flexDirection={"row"}
+          justifyContent={"flex-start"}
+        >
+          <EventSiteVisit eventID={event.id!} />
+          <EventTicketOverview eventID={event.id!} tickets={tickets!} />
+        </Grid>
         {event.is_private && (
           <>
             <StyledText

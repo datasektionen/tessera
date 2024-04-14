@@ -95,11 +95,6 @@ const SendOut: React.FC = () => {
   const { event, loading, error, canAccess, t } = useEventAccess(eventID!);
 
   const [markdownInput, setMarkdownInput] = useState(""); // State to store markdown input
-  const handleMarkdownChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setMarkdownInput(event.target.value);
-  };
 
   const [selectedTicketReleases, setSelectedTicketReleases] = useState([]);
   const initialTicketFilters: {

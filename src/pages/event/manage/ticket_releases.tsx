@@ -34,7 +34,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
   const {
     eventDetail: { event },
     eventTickets: { tickets },
-  } = useEventDetails(eventID!);
+  } = useEventDetails(parseInt(eventID!));
 
   const handleSetSelectedTicketRelease = (ticketRelease: ITicketRelease) => {
     setSelectedTicketRelease(ticketRelease);

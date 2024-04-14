@@ -344,7 +344,8 @@ const enTranslations = {
   },
 
   manage_event: {
-    title: "Manage event",
+    title: "Manage {{event_name}}",
+    delete_button: "Delete {{event_name}}",
     manage_ticket_releases: "Manage ticket releases",
     ticket_release_method_title: "Ticket release method",
     ticket_release_ticket_info_title: "Tickets info",
@@ -400,6 +401,14 @@ const enTranslations = {
     manage_tickets_custom_event_form: "Form Responses",
     add_ticket_release: "Add ticket release",
     ticket_release_time_title: "Ticket release open and close",
+
+    overview: {
+      title: "Overview",
+      site_visits: "Site visits",
+      unique_visitors: "Unique visitors",
+      num_ticket_requests: "Ticket requests",
+      total_income: "Income",
+    },
 
     ticket_releases: {
       title: "Manage ticket releases",

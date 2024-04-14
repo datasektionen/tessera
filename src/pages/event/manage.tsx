@@ -5,29 +5,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getEventRequest } from "../../redux/features/eventSlice";
 import LoadingOverlay from "../../components/Loading";
 import EventDetailInfo from "../../components/events/detail_info";
 import StyledText from "../../components/text/styled_text";
 import StyledButton from "../../components/buttons/styled_button";
 import PALLETTE from "../../theme/pallette";
-import { fetchEventTicketsStart } from "../../redux/features/eventTicketsSlice";
-import TicketsList from "../../components/tickets/list_tickets";
-import EventTicketsList from "../../components/events/tickets/list";
+
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import ListEventTicketReleases from "../../components/events/ticket_release/list";
 import { useTranslation } from "react-i18next";
 import ConfirmModal from "../../components/modal/confirm_modal";
 import { deleteEventStart } from "../../redux/features/editEventSlice";
-import axios from "axios";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
 import TicketEventFormResponseTable from "../../components/events/tickets/ticket_form_response/table";
 
 import DrawerComponent from "../../components/navigation/manage_drawer";
-import { useEventDetails } from "../../hooks/use_event_details_hook";
+import {
+  useEventDetails,
+  useEventSiteVisits,
+} from "../../hooks/use_event_details_hook";
 
 const drawerWidth = 200;
 
@@ -73,7 +71,7 @@ const ManageEventPage: React.FC = () => {
   const {
     eventDetail: { event, loading, error },
     eventTickets: { tickets },
-  } = useEventDetails(eventID!);
+  } = useEventDetails(parseInt(eventID!));
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -81,7 +79,7 @@ const ManageEventPage: React.FC = () => {
     navigate("/events");
   }
 
-  if (!event) {
+  if (!event || loading) {
     return <LoadingOverlay />;
   }
 
@@ -107,7 +105,7 @@ const ManageEventPage: React.FC = () => {
               width: "90%",
             }}
           >
-            {t("manage_event.title")}
+            {t("manage_event.title", { event_name: event.name })}
           </Title>
           <ConfirmModal
             isOpen={showDeleteModal}
@@ -163,19 +161,12 @@ const ManageEventPage: React.FC = () => {
               style={DefaultInputStyle}
             />
           </ConfirmModal>
-          <Stack spacing={2} direction={"row"}>
-            <StyledButton
-              size="md"
-              bgColor={PALLETTE.orange}
-              onClick={() => {
-                setShowDeleteModal(true);
-              }}
-              style={{ width: "150px" }}
-            >
-              {t("form.button_delete")}
-            </StyledButton>
-          </Stack>
-          <EventDetailInfo event={event} secret_token={secretToken || ""} />
+
+          <EventDetailInfo
+            event={event}
+            secret_token={secretToken || ""}
+            tickets={tickets}
+          />
 
           <Grid
             container
@@ -193,6 +184,19 @@ const ManageEventPage: React.FC = () => {
             </Tooltip>
           </Grid>
           <TicketEventFormResponseTable tickets={tickets} />
+
+          <Stack spacing={2} direction={"row"}>
+            <StyledButton
+              size="md"
+              bgColor={PALLETTE.orange}
+              onClick={() => {
+                setShowDeleteModal(true);
+              }}
+              style={{ width: "fit-content", maxWidth: "350px" }}
+            >
+              {t("manage_event.delete_button", { event_name: event.name })}
+            </StyledButton>
+          </Stack>
         </Box>
       </Box>
     </MUITesseraWrapper>

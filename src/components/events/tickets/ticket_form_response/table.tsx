@@ -118,7 +118,6 @@ const TicketEventFormResponseTable: React.FC<
   TicketEventFormResponseTableProps
 > = ({ tickets }) => {
   const [rows, setRows] = React.useState<any[]>([]);
-  const [view, setView] = React.useState<"grid" | "accordion">("grid"); // Add state variable for view
 
   const customColumns = getEventFormFieldsColumns(tickets);
 

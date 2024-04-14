@@ -29,7 +29,7 @@ const ManageEventTicketsPage: React.FC = () => {
 
   const {
     eventTickets: { tickets, loading: ticketsLoading },
-  } = useEventDetails(eventID!);
+  } = useEventDetails(parseInt(eventID!));
 
   const handleSetSelectedTicket = useCallback(() => {
     if (!ticketsLoading) {

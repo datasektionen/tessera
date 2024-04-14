@@ -386,6 +386,13 @@ export interface IFoodPreference {
   checked?: boolean;
 }
 
+export interface IEventSiteVisit {
+  total_site_visits: number;
+  unique_visitors: number;
+  difference_from_last_week: number;
+  last_week_date: Date;
+}
+
 export interface IUserFoodPreference {
   gluten_intolerant: boolean;
   lactose_intolerant: boolean;
