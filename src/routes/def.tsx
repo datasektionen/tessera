@@ -29,6 +29,7 @@ export const ROUTES = {
   MANAGE_EVENT: "/events/:eventID/manage",
   MANAGE_EVENT_TICKET_RELEASES: "/events/:eventID/manage/ticket-releases",
   MANAGE_EVENT_TICKETS: "/events/:eventID/manage/tickets",
+  MANAGE_EVENT_RESPONSES: "/events/:eventID/manage/event-form-responses",
   EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",

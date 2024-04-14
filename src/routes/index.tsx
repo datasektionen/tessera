@@ -42,6 +42,7 @@ import EditTicketReleaseAddonsPage from "../pages/event/edit_addons";
 import ManageEventTicketReleasesPage from "../pages/event/manage/ticket_releases";
 import ManageEventTicketsPage from "../pages/event/manage/tickets";
 import PrivacyPolicy from "../components/legal/privacy";
+import ManageEventFormResponsesPage from "../pages/event/manage/ticket_form_reponse_list_page";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -103,6 +104,10 @@ const ManageEventTicketReleasesWithCurrentUser = withCurrentUserRequest(
 
 const ManageEventTicketsWithCurrentUser = withCurrentUserRequest(
   ManageEventTicketsPage
+);
+
+const ManageEventFormResponsesWithCurrentUser = withCurrentUserRequest(
+  ManageEventFormResponsesPage
 );
 
 function AppRoutes() {
@@ -189,6 +194,11 @@ function AppRoutes() {
             element={<ManageEventTicketsWithCurrentUser />}
           />
 
+          <Route
+            path={ROUTES.MANAGE_EVENT_RESPONSES}
+            element={<ManageEventFormResponsesWithCurrentUser />}
+          />
+
           <Route path={ROUTES.SEND_OUT} element={<SendOut />} />
           <Route
             path={ROUTES.EVENT_ECONOMY}
@@ -198,7 +208,6 @@ function AppRoutes() {
             path={ROUTES.TICKET_SCANNER}
             element={<TicketScannerPageWithCurrentUser />}
           />
-          
         </Route>
         <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
         <Route path="*" element={<FourOFour404 />} />

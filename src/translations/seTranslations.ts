@@ -379,6 +379,7 @@ const seTranslations = {
         tickets: "Biljetter",
         ticket_releases: "Biljettsläpp",
         check_in: "Checka in",
+        form_responses: "Formulärsvar",
       },
 
       economy: {
