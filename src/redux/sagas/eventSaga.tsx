@@ -55,8 +55,6 @@ function* eventSaga(
       secretTokenParam +
       countSiteVisitQuery;
 
-    console.log(url);
-
     const response = yield call(axios.get, url, {
       withCredentials: true, // This ensures cookies are sent with the request
     });
