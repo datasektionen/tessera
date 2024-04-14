@@ -7,7 +7,7 @@ import PALLETTE from "../../../theme/pallette";
 import { format } from "date-fns";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { OverviewBorderBoxWrapper } from "./overvier_borde_box_wrapper";
+import { OverviewBorderBoxWrapper } from "./overview_borde_box_wrapper";
 import OverviewStatisticDisplay from "./overview_stat_display";
 
 interface IEventSiteVisitProps {
@@ -58,14 +58,35 @@ const EventSiteVisit: React.FC<IEventSiteVisitProps> = ({ eventID }) => {
         title="manage_event.overview.site_visits"
         value={eventSiteVisits.total_site_visits}
         changeText={`+ ${
-          eventSiteVisits.total_site_visits
+          eventSiteVisits.total_site_visits -
+          eventSiteVisits.total_site_visits_last_week
         } ${getLastWeekDate()}`}
         color="cerise_dark"
       />
       <OverviewStatisticDisplay
         title="manage_event.overview.unique_visitors"
         value={eventSiteVisits.unique_visitors}
-        changeText={`+ ${eventSiteVisits.unique_visitors} ${getLastWeekDate()}`}
+        changeText={`+ ${
+          eventSiteVisits.unique_visitors -
+          eventSiteVisits.unique_visitors_last_week
+        } ${getLastWeekDate()}`}
+        color="cerise_dark"
+      />
+      <OverviewStatisticDisplay
+        title="manage_event.overview.num_ticket_requests"
+        value={eventSiteVisits.num_ticket_requests}
+        changeText={`+ ${
+          eventSiteVisits.num_ticket_requests -
+          eventSiteVisits.num_ticket_requests_last_week
+        } ${getLastWeekDate()}`}
+        color="cerise_dark"
+      />
+      <OverviewStatisticDisplay
+        title="manage_event.overview.total_income"
+        value={eventSiteVisits.total_income}
+        changeText={`+ ${
+          eventSiteVisits.total_income - eventSiteVisits.total_income_last_week
+        } ${getLastWeekDate()}`}
         color="cerise_dark"
       />
     </>

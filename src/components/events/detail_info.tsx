@@ -8,7 +8,6 @@ import ReactMarkdown from "react-markdown";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useTranslation } from "react-i18next";
 import EventSiteVisit from "./overview/event_site_visits";
-import EventTicketOverview from "./overview/ticket_overview";
 interface EventDetailInfoProps {
   event: IEvent;
   secret_token?: string;
@@ -50,7 +49,6 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
           justifyContent={"flex-start"}
         >
           <EventSiteVisit eventID={event.id!} />
-          <EventTicketOverview eventID={event.id!} tickets={tickets!} />
         </Grid>
         {event.is_private && (
           <>

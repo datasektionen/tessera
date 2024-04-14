@@ -3,7 +3,7 @@ import { Grid, Stack } from "@mui/joy";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { useTranslation } from "react-i18next";
-import { OverviewBorderBoxWrapper } from "./overvier_borde_box_wrapper";
+import { OverviewBorderBoxWrapper } from "./overview_borde_box_wrapper";
 
 interface OverviewStatisticDisplayProps {
   title: string;

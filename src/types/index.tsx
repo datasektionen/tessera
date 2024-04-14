@@ -388,9 +388,14 @@ export interface IFoodPreference {
 
 export interface IEventSiteVisit {
   total_site_visits: number;
+  total_site_visits_last_week: number;
   unique_visitors: number;
-  difference_from_last_week: number;
+  unique_visitors_last_week: number;
   last_week_date: Date;
+  num_ticket_requests: number;
+  num_ticket_requests_last_week: number;
+  total_income: number;
+  total_income_last_week: number;
 }
 
 export interface IUserFoodPreference {
