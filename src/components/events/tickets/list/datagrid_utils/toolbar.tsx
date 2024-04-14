@@ -1,31 +1,17 @@
-import React from "react";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { Box, Grid, Sheet, Stack, Tab, TabList, Table, Tabs } from "@mui/joy";
 import {
-  GridColDef,
-  DataGrid,
-  GridRowsProp,
-  GridToolbar,
   GridToolbarContainer,
-  GridCsvExportMenuItem,
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
-  GridColumnVisibilityModel,
   useGridApiContext,
-  useGridSelector,
-  GridCsvExportOptions,
-  gridFilteredSortedRowIdsSelector,
   GridToolbarExportContainer,
   GridCsvGetRowsToExportParams,
   gridExpandedSortedRowIdsSelector,
-  GridExportMenuItemProps,
   gridDataRowIdsSelector,
 } from "@mui/x-data-grid";
 import Button, { ButtonProps } from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { createSvgIcon } from "@mui/material/utils";
-import { ITicket } from "../../../../../types";
 import * as XLSX from "xlsx";
 
 // Custom toolbar
