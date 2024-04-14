@@ -290,7 +290,6 @@ const seTranslations = {
   manage_event: {
     title: "Hantera {{event_name}}",
     delete_button: "Radera {{event_name}}",
-    overview: "Översikt",
     manage_ticket_releases: "Hantera biljettsläpp",
     allocate_tickets_button: "Tilldela biljetter",
     allocated_tickets: "Tilldelade biljetter",
@@ -352,19 +351,27 @@ const seTranslations = {
       title: "Hantera biljettsläpp",
     },
 
+    overview: {
+      title: "Översikt",
+      site_visits: "Webbplatsbesök",
+      unique_visitors: "Unika besökare",
+      num_ticket_requests: "Biljettförfrågningar",
+      total_income: "Inkomst",
+    },
+
     drawer: {
-      setting: {
+      settings: {
         title: "Inställningar",
         financial: "Finansiell",
         emails: "E-post",
-        landing_page: "Landingssida",
+        landing_page: "Startsida",
         domains: "Domäner",
       },
 
       send_outs: {
         title: "Utskick",
         list: "Lista",
-        new: "Nytt utskick",
+        new: "Ny",
       },
 
       manage: {
