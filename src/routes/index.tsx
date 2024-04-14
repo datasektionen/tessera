@@ -1,13 +1,12 @@
 // Import statements should be at the top
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ComponentType, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ROUTES } from "./def";
 import WelcomePage from "../pages/welcome";
 import MainPage from "../pages/main";
 import ProtectedRoute from "../components/login/PrivateRoute";
 import EventDetail from "../pages/event/detail";
-import { AppDispatch, RootState } from "../store";
 import { currentUserRequest } from "../redux/features/userSlice";
 import ProfilePage from "../pages/profile";
 import CreateOrganizationPage from "../pages/organization/create";
@@ -19,17 +18,11 @@ import EditEventPage from "../pages/event/edit";
 import ProfileTicketRequestsPage from "../pages/profile/profile_ticket_requests";
 import ProfileTicketsPage from "../pages/profile/profile_tickets";
 import EditEventAddTicketReleasePage from "../pages/event/edit_ticket_release";
-import EditTicketReleases from "../components/events/edit/ticket_release/edit_ticket_releases";
 import EditTicketTypes from "../pages/event/edit_ticket_types";
 import ManageEventPage from "../pages/event/manage";
-import { CssVarsProvider } from "@mui/joy";
-import theme from "../theme";
 import External from "../pages/external";
-import { resetFetchUser } from "../redux/features/authSlice";
 import HandleLoginCallback from "../pages/login/callback";
-import { ReactElement, ReactNode } from "react";
 import ExternalVerifyEmail from "../pages/external/verify-email";
-import { useTranslation } from "react-i18next";
 import ContactPage from "../pages/contact";
 import FourOFour404 from "../pages/errors/404";
 import TicketScannerPage from "../pages/event/ticket_scanner";
@@ -42,11 +35,6 @@ import EditTicketReleaseAddonsPage from "../pages/event/edit_addons";
 import ManageEventTicketReleasesPage from "../pages/event/manage/ticket_releases";
 import ManageEventTicketsPage from "../pages/event/manage/tickets";
 import ManageEventFormResponsesPage from "../pages/event/manage/ticket_form_reponse_list_page";
-
-type WithCurrentUserRequestProps = {
-  // define your props here, for example:
-  // someProp: string;
-};
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
