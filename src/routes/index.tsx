@@ -41,6 +41,7 @@ import EventEconomyPage from "../pages/event/economy";
 import EditTicketReleaseAddonsPage from "../pages/event/edit_addons";
 import ManageEventTicketReleasesPage from "../pages/event/manage/ticket_releases";
 import ManageEventTicketsPage from "../pages/event/manage/tickets";
+import PrivacyPolicy from "../components/legal/privacy";
 
 type WithCurrentUserRequestProps = {
   // define your props here, for example:
@@ -197,7 +198,9 @@ function AppRoutes() {
             path={ROUTES.TICKET_SCANNER}
             element={<TicketScannerPageWithCurrentUser />}
           />
+          
         </Route>
+        <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
         <Route path="*" element={<FourOFour404 />} />
         <Route path="/404" element={<FourOFour404 />} />
       </Routes>
