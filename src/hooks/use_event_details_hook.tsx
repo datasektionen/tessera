@@ -38,8 +38,8 @@ export function useEventSiteVisits(eventID: number) {
         )
         .then((response) => {
           setEventSiteVisits({
-            total_site_visits: response.data.total_site_visits,
-            unique_visitors: response.data.unique_visitors,
+            total_site_visits: response.data.total_site_visits || 0,
+            unique_visitors: response.data.unique_visitors || 0,
             difference_from_last_week: response.data.difference_from_last_week,
             last_week_date: new Date(response.data.last_week_date),
           });
