@@ -28,6 +28,11 @@ const EventSiteVisit: React.FC<IEventSiteVisitProps> = ({ eventID }) => {
       const diff = now.getTime() - lastWeek.getTime();
       const diffInDays = Math.floor(diff / (1000 * 60 * 60 * 24));
 
+      // If NaN diffInDays return ""
+      if (isNaN(diffInDays)) {
+        return "";
+      }
+
       if (diffInDays === 0) {
         return "Today";
       }
