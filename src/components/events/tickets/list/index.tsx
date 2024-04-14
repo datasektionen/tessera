@@ -1,5 +1,5 @@
 import { IEventFormFieldResponse, ITicket, IUser } from "../../../../types";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import LoadingOverlay from "../../../Loading";
 import {
   Button,
@@ -36,11 +36,91 @@ import AddonModalView from "./addon_modal_view";
 import StyledButton from "../../../buttons/styled_button";
 import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
-import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
 import {
   getEventFormFieldsColumns,
   getEventFormFieldsRow,
 } from "../ticket_form_response/ticket_form_reponse_helpers";
+import Fuse from "fuse.js";
+import InfoIcon from "@mui/icons-material/Info";
+import StyledText from "../../../text/styled_text";
+
+const isTicketRequest = (ticket: ITicket) => {
+  return ticket.id === 0;
+};
+
+function createRow(ticket: ITicket) {
+  const ufp = ticket.user!.food_preferences!;
+
+  let payed_at = "N/A";
+  let deleted_at = "N/A";
+  try {
+    payed_at = ticket.is_paid
+      ? ticket.ticket_request?.ticket_type?.price === 0
+        ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
+        : format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
+      : "N/A";
+  } catch (e) {
+    console.error(e);
+  }
+
+  try {
+    deleted_at = ticket.deleted_at
+      ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
+      : ticket.ticket_request?.deleted_at
+      ? format(ticket.ticket_request?.deleted_at as number, "dd/MM/yyyy HH:mm")
+      : "N/A";
+  } catch (e) {
+    console.error(e);
+  }
+
+  let payBefore: Date | null = null;
+  if (ticket.payment_deadline) {
+    payBefore = ticket.payment_deadline;
+  }
+
+  const customRows = getEventFormFieldsRow(ticket || {});
+
+  const row = {
+    id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
+    ticket_request_id: ticket.ticket_request?.id,
+    ticket_release_id: ticket.ticket_request?.ticket_release?.id,
+    ticket_release_name: ticket.ticket_request?.ticket_release?.name,
+    type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
+    is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
+    is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
+    ticket: ticket.ticket_request?.ticket_type?.name,
+    user: ticket?.user,
+    email: ticket?.user?.email,
+    payed_at: payed_at,
+    price: ticket?.ticket_request?.ticket_type?.price,
+    gluten_intolerant: ufp.gluten_intolerant,
+    halal: ufp.halal,
+    kosher: ufp.kosher,
+    lactose_intolerant: ufp.lactose_intolerant,
+    nut_allergy: ufp.nut_allergy,
+    shellfish_allergy: ufp.shellfish_allergy,
+    vegan: ufp.vegan,
+    vegetarian: ufp.vegetarian,
+    additional_info: ufp.additional,
+    checked_in: ticket.checked_in,
+    requseted_at: ticket?.ticket_request?.created_at,
+    prefer_meat: ufp.prefer_meat,
+    deleted_at,
+    pay_before: payBefore,
+    purchasable_at: ticket.deleted_at
+      ? null
+      : ticket.purchasable_at !== null
+      ? ticket.purchasable_at
+      : ticket.updated_at,
+    entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
+      ticket,
+      ticket.ticket_request?.ticket_release!
+    ),
+    ...customRows,
+  };
+
+  return row;
+}
 
 const MyCustomInputComponent: React.FC<{
   item: any;
@@ -71,35 +151,60 @@ const MyCustomInputComponent: React.FC<{
   );
 };
 
-
-
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
   selectTicketRequest: (ticketRequestID: number) => void;
 }> = ({ tickets, selectTicketRequest }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
-  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+
+  const [filteredRows, setFilteredRows] = useState<GridRowsProp>([]);
+
+  // Initialize Fuse with the appropriate options
+  const fuse = useMemo(() => {
+    return new Fuse(tickets, {
+      keys: [
+        "user.email",
+        "user.first_name",
+        "user.last_name",
+        "ticket_request.ticket_type.name",
+        "ticket_request.ticket_release.name",
+      ],
+      includeScore: true,
+      threshold: 0.3,
+    });
+  }, [tickets]);
+
+  useEffect(() => {
+    const results = searchText.trim()
+      ? fuse.search(searchText).map((result) => result.item)
+      : tickets; // Display all tickets if no search text
+    setFilteredRows(results.map(createRow)); // Transform results into row data
+  }, [searchText, fuse, tickets]);
+
+  const handleSearchChange = (event: any) => {
+    setSearchText(event.target.value);
+  };
 
   const customColumns = getEventFormFieldsColumns(tickets);
 
   const columns: GridColDef[] = [
     {
       field: "select",
-      headerName: "select",
+      headerName: "",
       width: 50,
       renderCell: (params: GridRenderCellParams<any>) => {
         return (
           <IconButton
             style={{
               padding: "0 5px 5px 0",
-              backgroundColor: PALLETTE.light_pink,
             }}
             onClick={() => {
               selectTicketRequest(params.row.ticket_request_id);
             }}
           >
-            <SubdirectoryArrowLeftIcon />
+            <InfoIcon />
           </IconButton>
         );
       },
@@ -168,7 +273,7 @@ const EventTicketsList: React.FC<{
         );
       },
     },
-    { field: "ticket", headerName: "Ticket", width: 200 },
+    { field: "ticket", headerName: "Ticket", width: 125 },
     {
       field: "price",
       headerName: "Price",
@@ -299,7 +404,7 @@ const EventTicketsList: React.FC<{
     },
     {
       field: "pay_before",
-      headerName: "Pay Before",
+      headerName: "Payment deadline",
       width: 150,
       renderCell: (params) => {
         const otherFieldValue = params.row.type;
@@ -413,90 +518,8 @@ const EventTicketsList: React.FC<{
     ...customColumns,
   ];
 
-  const isTicketRequest = (ticket: ITicket) => {
-    return ticket.id === 0;
-  };
-
   React.useEffect(() => {
-    const rows = tickets.map((ticket) => {
-      const ufp = ticket.user!.food_preferences!;
-
-      let payed_at = "N/A";
-      let deleted_at = "N/A";
-      try {
-        payed_at = ticket.is_paid
-          ? ticket.ticket_request?.ticket_type?.price === 0
-            ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
-            : format(
-                ticket?.transaction?.payed_at as number,
-                "dd/MM/yyyy HH:mm"
-              )
-          : "N/A";
-      } catch (e) {
-        console.error(e);
-      }
-
-      try {
-        deleted_at = ticket.deleted_at
-          ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
-          : ticket.ticket_request?.deleted_at
-          ? format(
-              ticket.ticket_request?.deleted_at as number,
-              "dd/MM/yyyy HH:mm"
-            )
-          : "N/A";
-      } catch (e) {
-        console.error(e);
-      }
-
-      let payBefore: Date | null = null;
-      if (ticket.payment_deadline) {
-        payBefore = ticket.payment_deadline;
-      }
-
-      const customRows = getEventFormFieldsRow(ticket || {});
-
-      const row = {
-        id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
-        ticket_request_id: ticket.ticket_request?.id,
-        ticket_release_id: ticket.ticket_request?.ticket_release?.id,
-        ticket_release_name: ticket.ticket_request?.ticket_release?.name,
-        type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
-        is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
-        is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
-        ticket: ticket.ticket_request?.ticket_type?.name,
-        user: ticket?.user,
-        email: ticket?.user?.email,
-        payed_at: payed_at,
-        price: ticket?.ticket_request?.ticket_type?.price,
-        gluten_intolerant: ufp.gluten_intolerant,
-        halal: ufp.halal,
-        kosher: ufp.kosher,
-        lactose_intolerant: ufp.lactose_intolerant,
-        nut_allergy: ufp.nut_allergy,
-        shellfish_allergy: ufp.shellfish_allergy,
-        vegan: ufp.vegan,
-        vegetarian: ufp.vegetarian,
-        additional_info: ufp.additional,
-        checked_in: ticket.checked_in,
-        requseted_at: ticket?.ticket_request?.created_at,
-        prefer_meat: ufp.prefer_meat,
-        deleted_at,
-        pay_before: payBefore,
-        purchasable_at: ticket.deleted_at
-          ? null
-          : ticket.purchasable_at !== null
-          ? ticket.purchasable_at
-          : ticket.updated_at,
-        entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
-          ticket,
-          ticket.ticket_request?.ticket_release!
-        ),
-        ...customRows,
-      };
-
-      return row;
-    });
+    const rows = tickets.map(createRow);
 
     setRows(rows);
   }, [tickets]);
@@ -536,7 +559,7 @@ const EventTicketsList: React.FC<{
       ticket_request_id: false,
       ticket_release_name: true,
       type: true,
-      addons: true,
+      addons: false,
       is_reserve: true,
       is_paid: true,
       ticket: true,
@@ -547,6 +570,7 @@ const EventTicketsList: React.FC<{
       entered_into_lottery: false,
       price: true,
       // Hide all the food preferences
+
       gluten_intolerant: false,
       halal: false,
       kosher: false,
@@ -560,6 +584,11 @@ const EventTicketsList: React.FC<{
       purchasable_at: true,
       prefer_meat: false,
       can_be_selectively_allocated: false,
+      // All custom columns are false by default
+      ...customColumns.reduce((acc: { [key: string]: boolean }, column) => {
+        acc[column.field as string] = false;
+        return acc;
+      }, {}),
     });
 
   const CustomToolbarWithProps = () => {
@@ -574,8 +603,22 @@ const EventTicketsList: React.FC<{
   return (
     <Box>
       <ThemeProvider theme={MUItheme}>
+        <Input
+          value={searchText}
+          onChange={handleSearchChange}
+          placeholder="Search tickets..."
+          style={{ marginBottom: 20 }}
+        />
+        <StyledText
+          color={PALLETTE.charcoal_see_through}
+          level="body-md"
+          fontWeight={500}
+          fontSize={16}
+        >
+          You can click the info-icon next to a ticket to view more information
+        </StyledText>
         <DataGrid
-          rows={rows}
+          rows={filteredRows}
           rowHeight={32}
           columns={columns}
           pageSizeOptions={[25, 50, 100]}
