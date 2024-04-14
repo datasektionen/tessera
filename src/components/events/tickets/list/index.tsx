@@ -37,10 +37,6 @@ import StyledButton from "../../../buttons/styled_button";
 import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
 import SubdirectoryArrowLeftIcon from "@mui/icons-material/SubdirectoryArrowLeft";
-interface CustomGridValueFormatterParams extends GridValueFormatterParams {
-  // Extend the existing type to include the row property
-  row: any; // Consider using a more specific type based on your data structure
-}
 
 const MyCustomInputComponent: React.FC<{
   item: any;
@@ -554,6 +550,11 @@ const EventTicketsList: React.FC<{
       can_be_selectively_allocated: false,
     });
 
+  const CustomToolbarWithProps = () => {
+    // Pass the rows directly to the CustomToolbar
+    return <CustomToolbar rows={rows} />;
+  };
+
   if (!tickets || rows.length === 0) {
     return null;
   }
@@ -567,7 +568,7 @@ const EventTicketsList: React.FC<{
           columns={columns}
           pageSizeOptions={[25, 50, 100]}
           slots={{
-            toolbar: CustomToolbar,
+            toolbar: CustomToolbarWithProps,
           }}
           columnVisibilityModel={columnVisibilityModel}
           onColumnVisibilityModelChange={(newModel) =>
