@@ -380,6 +380,11 @@ const seTranslations = {
         ticket_releases: "Biljettsläpp",
         check_in: "Checka in",
       },
+
+      economy: {
+        title: "Ekonomi",
+        pay_outs: "Utbetalningar",
+      },
     },
 
     tickets: {

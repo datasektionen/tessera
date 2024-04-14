@@ -435,6 +435,11 @@ const enTranslations = {
         ticket_releases: "Ticket releases",
         check_in: "Check in",
       },
+
+      economy: {
+        title: "Economy",
+        pay_outs: "Pay outs",
+      },
     },
 
     tickets: {

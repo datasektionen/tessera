@@ -119,10 +119,17 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
             },
           ]}
         />
-        <DrawerListItem
+        <CollapsibleDrawerSection
           icon={<AttachMoneyIcon />}
-          text={t("form.button_economy")}
-          navigateTo={`/events/${eventID}/economy`}
+          title={t("manage_event.drawer.economy.title")}
+          mainNavigateTo={`/events/${eventID}/economy`}
+          subItems={[
+            {
+              title: t("manage_event.drawer.economy.pay_outs"),
+              navigateTo: `/events/${eventID}/economy/pay-outs`,
+              clickable: false,
+            },
+          ]}
         />
         <CollapsibleDrawerSection
           title={t("manage_event.drawer.settings.title")}
