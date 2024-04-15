@@ -57,9 +57,10 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
   }, [initialValues.reserve_payment_duration, setReservePaymentDuration]);
 
   if (
-    ticketRelease &&
-    (ticketReleaseHasNotOpened(ticketRelease, timestamp) ||
-      ticketReleaseHasOpened(ticketRelease, timestamp))
+    (ticketRelease &&
+      (ticketReleaseHasNotOpened(ticketRelease, timestamp) ||
+        ticketReleaseHasOpened(ticketRelease, timestamp))) ||
+    !ticketRelease?.has_allocated_tickets
   ) {
     return (
       <StyledText
