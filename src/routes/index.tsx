@@ -48,6 +48,8 @@ import {
   SettingsFinancialPage,
 } from "./page_import";
 
+import SettingsLandingPage from "../pages/event/settings/landing_page";
+
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
 ): ComponentType<P & React.JSX.IntrinsicAttributes> {
@@ -114,6 +116,8 @@ const ManageEventFormResponsesWithCurrentUser = withCurrentUserRequest(
 const SettingsFinancialPageWithCurrentUser = withCurrentUserRequest(
   SettingsFinancialPage
 );
+
+const LandingPageWithCurrentUser = withCurrentUserRequest(SettingsLandingPage);
 
 function AppRoutes() {
   return (
@@ -228,6 +232,10 @@ function AppRoutes() {
               element={<SettingsFinancialPageWithCurrentUser />}
             />
           </Route>
+          <Route
+            path={ROUTES.SETTINGS_LANDING_PAGE}
+            element={<SettingsLandingPage />}
+          />
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
           <Route path="*" element={<FourOFour404 />} />
           <Route path="/404" element={<FourOFour404 />} />

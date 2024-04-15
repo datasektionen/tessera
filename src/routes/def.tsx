@@ -31,6 +31,7 @@ export const ROUTES = {
   MANAGE_EVENT_TICKETS: "/events/:eventID/manage/tickets",
   MANAGE_EVENT_RESPONSES: "/events/:eventID/manage/event-form-responses",
   SETTIGNS_FINANCIAL: "/events/:eventID/settings/financial",
+  SETTINGS_LANDING_PAGE: "/test-page",
   EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",

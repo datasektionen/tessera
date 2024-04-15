@@ -152,8 +152,8 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
             },
             {
               title: t("manage_event.drawer.settings.landing_page"),
-              navigateTo: `/events/${eventID}/manage/landing-page`,
-              clickable: false,
+              navigateTo: `/events/${eventID}/settings/landing-page`,
+              clickable: true,
             },
             {
               title: t("manage_event.drawer.settings.domains"),

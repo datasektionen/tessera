@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer";
 import { Box } from "@mui/joy";
-import Title from "../../../../components/text/title";
-import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import BankingDetailsForm from "../../../../components/events/settings/financial/bank_details_form";
-import { useBankingDetails } from "../../../../hooks/use_banking_details_hook";
+import Title from "../../../components/text/title";
+import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
+import BankingDetailsForm from "../../../components/events/settings/financial/bank_details_form";
+import { useBankingDetails } from "../../../hooks/use_banking_details_hook";
 import { useTranslation } from "react-i18next";
-import StyledText from "../../../../components/text/styled_text";
-import PALLETTE from "../../../../theme/pallette";
-import LoadingOverlay from "../../../../components/Loading";
+import StyledText from "../../../components/text/styled_text";
+import PALLETTE from "../../../theme/pallette";
+import LoadingOverlay from "../../../components/Loading";
 
 const SettingsFinancialPage: React.FC = () => {
   const { eventID } = useParams();
