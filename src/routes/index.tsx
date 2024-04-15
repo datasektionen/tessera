@@ -45,6 +45,7 @@ import {
   PrivacyPolicy,
   EventDetail,
   WelcomePage,
+  SettingsFinancialPage,
 } from "./page_import";
 
 function withCurrentUserRequest<P>(
@@ -108,6 +109,10 @@ const ManageEventTicketsWithCurrentUser = withCurrentUserRequest(
 
 const ManageEventFormResponsesWithCurrentUser = withCurrentUserRequest(
   ManageEventFormResponsesPage
+);
+
+const SettingsFinancialPageWithCurrentUser = withCurrentUserRequest(
+  SettingsFinancialPage
 );
 
 function AppRoutes() {
@@ -217,6 +222,10 @@ function AppRoutes() {
             <Route
               path={ROUTES.TICKET_SCANNER}
               element={<TicketScannerPageWithCurrentUser />}
+            />
+            <Route
+              path={ROUTES.SETTIGNS_FINANCIAL}
+              element={<SettingsFinancialPageWithCurrentUser />}
             />
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />

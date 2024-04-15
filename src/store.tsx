@@ -27,6 +27,7 @@ import salesReportSlice from "./redux/features/salesReportSlice";
 import languageSlice from "./redux/features/languageSlice";
 import addonCreationSlice from "./redux/features/addonCreationSlice";
 import addonSlice from "./redux/features/addonSlice";
+import bankingDetailsSlice from "./redux/features/bankingDetailsSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -68,6 +69,7 @@ const rootReducer = combineReducers({
   language: languageSlice,
   addonCreation: addonCreationSlice,
   addons: addonSlice,
+  bankingDetails: bankingDetailsSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

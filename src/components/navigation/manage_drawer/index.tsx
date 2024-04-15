@@ -91,7 +91,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
             },
             {
               title: t("manage_event.drawer.manage.form_responses"),
-              navigateTo: `/events/${eventID}/manage/event-form-responses`,
+              navigateTo: `/events/${eventID}/settings/financial`,
               clickable: true,
             },
             {
@@ -142,8 +142,8 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
           subItems={[
             {
               title: t("manage_event.drawer.settings.financial"),
-              navigateTo: `/events/${eventID}/manage/financial`,
-              clickable: false,
+              navigateTo: `/events/${eventID}/settings/financial`,
+              clickable: true,
             },
             {
               title: t("manage_event.drawer.settings.emails"),

@@ -195,6 +195,19 @@ const enTranslations = {
       contains_alcohol_helperText: "Does this addon involve alcohol?",
     },
 
+    banking_details: {
+      bank_name: "Bank Name",
+      bank_name_helperText: "Enter the name of the bank",
+      account_holder: "Account Holder",
+      account_holder_helperText: "Enter the name of the account holder",
+      clearing_number: "Clearing Number",
+      clearing_number_helperText: "Enter the clearing number (ex. 1234)",
+      account_number: "Account Number",
+      account_number_helperText: "Enter the account number (ex. 1234567890)",
+      button_save: "Save",
+      updated_at: "Last updated {{date}}",
+    },
+
     button_add_field: "Add field",
     button_clear: "Clear",
     button_next: "Next",
@@ -412,6 +425,14 @@ const enTranslations = {
 
     ticket_releases: {
       title: "Manage ticket releases",
+    },
+
+    settings: {
+      financial: {
+        title: "Financial settings",
+        description:
+          "Here you can manage the financial settings for your event. You can add your banking details, and view the financial status of your event.",
+      },
     },
 
     drawer: {

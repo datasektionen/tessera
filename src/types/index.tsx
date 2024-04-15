@@ -423,6 +423,24 @@ export interface ITransaction {
   transaction_type: string;
 }
 
+export interface IBankingDetails {
+  id: number;
+  organization_id: number;
+  bank_name: string;
+  account_number: string;
+  account_holder: string;
+  clearing_number: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface IBankingDetailsReq {
+  bank_name: string;
+  account_number: string;
+  account_holder: string;
+  clearing_number: string;
+}
+
 // External user
 export interface ISignupFormValues {
   first_name: string;
