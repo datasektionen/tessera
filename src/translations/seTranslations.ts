@@ -158,8 +158,8 @@ const seTranslations = {
     button_send: "Skicka",
     button_check_in: "Checka in",
     button_update_gdpr: "Spara och uppdatera GDPR samtycke",
-    button_send_out: "Utskick (BETA)",
-    button_economy: "Ekonomi (BETA)",
+    button_send_out: "Utskick",
+    button_economy: "Ekonomi",
     generate_sales_report: "Generera försäljningsrapport",
   },
   create_event: {
@@ -478,7 +478,7 @@ const seTranslations = {
         "Detta evenemang är privat. Dela länken nedan med de personer du vill bjuda in till evenemanget.",
     },
     send_out: {
-      title: "Utskick (BETA)",
+      title: "Utskick",
       description:
         "Skicka ett e-postmeddelande till alla användare som har önskat en biljett till detta evenemang. Du kan använda detta för att meddela användare om biljettsläppet, eller för att meddela användare som har tilldelats en biljett.",
       preview: "Förhandsgranska",

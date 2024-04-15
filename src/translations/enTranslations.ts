@@ -227,8 +227,8 @@ const enTranslations = {
     button_send: "Send",
     button_check_in: "Check in",
     button_update_gdpr: "Save and renew consent",
-    button_send_out: "Send out (BETA)",
-    button_economy: "Economy (BETA)",
+    button_send_out: "Send out",
+    button_economy: "Economy",
     generate_sales_report: "Generate sales report",
   },
   create_event: {
@@ -554,7 +554,7 @@ const enTranslations = {
         "This event is private. Share the link below with the people you want to invite to the event.",
     },
     send_out: {
-      title: "Send Out (BETA)",
+      title: "Send Out",
       description:
         "Send out an email to all users that have requested a ticket for this event. You can use this to notify users about the ticket release, or to notify users that have been allocated a ticket.",
       preview: "Preview",
