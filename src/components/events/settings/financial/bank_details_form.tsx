@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { IBankingDetails, IBankingDetailsReq } from "../../../../types";
+import { IBankingDetails, IBankingDetailsReq, IEvent } from "../../../../types";
 import BankingValidationSchema from "../../../../validation/banking_details_validation";
 import { FormControl } from "@mui/joy";
 import {
@@ -14,19 +14,18 @@ import PALLETTE from "../../../../theme/pallette";
 import { AppDispatch } from "../../../../store";
 import { useDispatch } from "react-redux";
 import { submitBankingDetailsRequest } from "../../../../redux/features/bankingDetailsSlice";
-import LoadingOverlay from "../../../Loading";
 import { useEffect, useState } from "react";
 import StyledText from "../../../text/styled_text";
 import { format } from "date-fns";
 
 interface BankingDetailsFormProps {
   bankingDetails: IBankingDetails;
-  loading: boolean;
+  organizationID: number;
 }
 
 export const BankingDetailsForm: React.FC<BankingDetailsFormProps> = ({
   bankingDetails,
-  loading,
+  organizationID,
 }) => {
   const [initialValues, setInitialValues] = useState<IBankingDetailsReq>({
     bank_name: bankingDetails.bank_name,
@@ -49,7 +48,7 @@ export const BankingDetailsForm: React.FC<BankingDetailsFormProps> = ({
   const onSubmit = (values: IBankingDetailsReq) => {
     dispatch(
       submitBankingDetailsRequest({
-        organizationID: bankingDetails.organization_id,
+        organizationID: organizationID,
         bankingDetails: values,
       })
     );

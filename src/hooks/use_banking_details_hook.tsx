@@ -26,5 +26,8 @@ export const useBankingDetails = (eventID: number) => {
     (state: RootState) => state.bankingDetails
   );
 
-  return bankingDetails;
+  return {
+    bankingDetails: bankingDetails,
+    event: event,
+  };
 };

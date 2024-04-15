@@ -13,7 +13,10 @@ import LoadingOverlay from "../../../../components/Loading";
 const SettingsFinancialPage: React.FC = () => {
   const { eventID } = useParams();
 
-  const { bankingDetails, loading } = useBankingDetails(parseInt(eventID!));
+  const {
+    bankingDetails: { bankingDetails, loading },
+    event,
+  } = useBankingDetails(parseInt(eventID!));
   const { t } = useTranslation();
 
   return (
@@ -29,7 +32,10 @@ const SettingsFinancialPage: React.FC = () => {
         >
           {t("manage_event.settings.financial.description")}
         </StyledText>
-        <BankingDetailsForm bankingDetails={bankingDetails} loading={loading} />
+        <BankingDetailsForm
+          bankingDetails={bankingDetails}
+          organizationID={event?.organizationId!}
+        />
       </Box>
     </MUITesseraWrapper>
   );
