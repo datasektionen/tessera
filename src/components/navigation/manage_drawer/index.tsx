@@ -91,7 +91,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
             },
             {
               title: t("manage_event.drawer.manage.form_responses"),
-              navigateTo: `/events/${eventID}/settings/financial`,
+              navigateTo: `/events/${eventID}/manage/event-form-responses`,
               clickable: true,
             },
             {
