@@ -12,6 +12,45 @@ export const generateEditTicketReleaseAddons = (
   return `/events/${eventId}/ticket-release/${ticketReleaseId}/addons`;
 };
 
+interface GenerateRouteParams {
+  eventId: number | string;
+  ticketReleaseId?: number;
+  token?: string;
+  ticketId?: number;
+  organizationId?: number;
+}
+
+export const generateRoute = (
+  route: string,
+  {
+    eventId,
+    ticketReleaseId,
+    token,
+    ticketId,
+    organizationId,
+  }: GenerateRouteParams
+) => {
+  let result = route.replace(":eventID", eventId.toString());
+
+  if (ticketReleaseId) {
+    result = result.replace(":ticketReleaseID", ticketReleaseId.toString());
+  }
+
+  if (token) {
+    result = result.replace(":token", token);
+  }
+
+  if (ticketId) {
+    result = result.replace(":ticketID", ticketId.toString());
+  }
+
+  if (organizationId) {
+    result = result.replace(":organizationID", organizationId.toString());
+  }
+
+  return result;
+};
+
 export const ROUTES = {
   MAIN: "/",
   LOGIN: "/login",
@@ -30,7 +69,8 @@ export const ROUTES = {
   MANAGE_EVENT_TICKET_RELEASES: "/events/:eventID/manage/ticket-releases",
   MANAGE_EVENT_TICKETS: "/events/:eventID/manage/tickets",
   MANAGE_EVENT_RESPONSES: "/events/:eventID/manage/event-form-responses",
-  SETTIGNS_FINANCIAL: "/events/:eventID/settings/financial",
+  EVENT_SEND_OUT_LIST: "/events/:eventID/manage/send-outs/list",
+  SETTIGNS_FINANCIAL: "/events/:eventID/manage/settings/financial",
   EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",
@@ -59,7 +99,7 @@ export const ROUTES = {
   CONTACT_PAGE: "/contact",
   TICKET_SCANNER: "/events/:eventID/manage/scan",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
-  SEND_OUT: "/events/:eventID/send-out",
-  EVENT_ECONOMY: "/events/:eventID/economy",
+  SEND_OUT: "/events/:eventID/manage/send-out",
+  EVENT_ECONOMY: "/events/:eventID/manage/economy",
   PRIVACY_POLICY: "/privacy-policy",
 };

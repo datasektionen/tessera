@@ -451,7 +451,7 @@ const enTranslations = {
       },
 
       manage: {
-        title: "Manage",
+        title: "Overview",
         tickets: "Tickets",
         ticket_releases: "Ticket releases",
         check_in: "Check in",

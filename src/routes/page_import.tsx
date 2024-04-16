@@ -88,3 +88,7 @@ export const PrivacyPolicy = React.lazy(
 export const SettingsFinancialPage = React.lazy(
   () => import("../pages/event/settings/financial")
 );
+
+export const EventSendOutsPage = React.lazy(
+  () => import("../pages/event/send_out/list_send_out")
+);

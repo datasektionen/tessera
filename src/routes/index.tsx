@@ -46,6 +46,7 @@ import {
   EventDetail,
   WelcomePage,
   SettingsFinancialPage,
+  EventSendOutsPage,
 } from "./page_import";
 
 function withCurrentUserRequest<P>(
@@ -114,6 +115,9 @@ const ManageEventFormResponsesWithCurrentUser = withCurrentUserRequest(
 const SettingsFinancialPageWithCurrentUser = withCurrentUserRequest(
   SettingsFinancialPage
 );
+
+const EventSendOutsPageWithCurrentUser =
+  withCurrentUserRequest(EventSendOutsPage);
 
 function AppRoutes() {
   return (
@@ -226,6 +230,11 @@ function AppRoutes() {
             <Route
               path={ROUTES.SETTIGNS_FINANCIAL}
               element={<SettingsFinancialPageWithCurrentUser />}
+            />
+
+            <Route
+              path={ROUTES.EVENT_SEND_OUT_LIST}
+              element={<EventSendOutsPageWithCurrentUser />}
             />
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
