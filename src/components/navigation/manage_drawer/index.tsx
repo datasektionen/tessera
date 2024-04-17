@@ -30,6 +30,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DrawerListItem from "./drawer_list_item";
 import CollapsibleDrawerSection from "./collapsible_drawer_section";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { ROUTES, generateRoute } from "../../../routes/def";
+import { parse } from "path";
 
 const drawerWidth = 230;
 
@@ -81,22 +83,30 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
           subItems={[
             {
               title: t("manage_event.drawer.manage.ticket_releases"),
-              navigateTo: `/events/${eventID}/manage/ticket-releases`,
+              navigateTo: generateRoute(ROUTES.MANAGE_EVENT_TICKET_RELEASES, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
             {
               title: t("manage_event.drawer.manage.tickets"),
-              navigateTo: `/events/${eventID}/manage/tickets`,
+              navigateTo: generateRoute(ROUTES.MANAGE_EVENT_TICKETS, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
             {
               title: t("manage_event.drawer.manage.form_responses"),
-              navigateTo: `/events/${eventID}/manage/event-form-responses`,
+              navigateTo: generateRoute(ROUTES.MANAGE_EVENT_RESPONSES, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
             {
               title: t("manage_event.drawer.manage.check_in"),
-              navigateTo: `/events/${eventID}/manage/scan`,
+              navigateTo: generateRoute(ROUTES.TICKET_SCANNER, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
           ]}
@@ -110,28 +120,27 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
         <CollapsibleDrawerSection
           icon={<MailIcon />}
           title={t("manage_event.drawer.send_outs.title")}
-          mainNavigateTo={`/events/${eventID}/send-out`}
+          mainNavigateTo={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
+            eventId: eventID,
+          })}
           subItems={[
             {
-              title: t("manage_event.drawer.send_outs.list"),
-              navigateTo: `/events/${eventID}/send-outs`,
-              clickable: false,
-            },
-            {
               title: t("manage_event.drawer.send_outs.new"),
-              navigateTo: `/events/${eventID}/send-outs/new`,
-              clickable: false,
+              navigateTo: generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
+                eventId: eventID,
+              }),
+              clickable: true,
             },
           ]}
         />
         <CollapsibleDrawerSection
           icon={<AttachMoneyIcon />}
           title={t("manage_event.drawer.economy.title")}
-          mainNavigateTo={`/events/${eventID}/economy`}
+          mainNavigateTo={`/events/${eventID}/manage/economy`}
           subItems={[
             {
               title: t("manage_event.drawer.economy.pay_outs"),
-              navigateTo: `/events/${eventID}/economy/pay-outs`,
+              navigateTo: `/events/${eventID}/manage/economy/pay-outs`,
               clickable: false,
             },
           ]}
@@ -142,22 +151,22 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
           subItems={[
             {
               title: t("manage_event.drawer.settings.financial"),
-              navigateTo: `/events/${eventID}/settings/financial`,
+              navigateTo: `/events/${eventID}/manage/settings/financial`,
               clickable: true,
             },
             {
               title: t("manage_event.drawer.settings.emails"),
-              navigateTo: `/events/${eventID}/manage/emails`,
+              navigateTo: `/events/${eventID}/manage/settings/emails`,
               clickable: false,
             },
             {
               title: t("manage_event.drawer.settings.landing_page"),
-              navigateTo: `/events/${eventID}/manage/landing-page`,
+              navigateTo: `/events/${eventID}/manage/settings/landing-page`,
               clickable: false,
             },
             {
               title: t("manage_event.drawer.settings.domains"),
-              navigateTo: `/events/${eventID}/manage/domains`,
+              navigateTo: `/events/${eventID}/manage/settings/domains`,
               clickable: false,
             },
           ]}

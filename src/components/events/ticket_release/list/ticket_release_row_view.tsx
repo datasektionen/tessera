@@ -369,7 +369,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
           >
             {`${numAllocatedTickets} ${t("manage_event.allocated_tickets")}`}
           </StyledText>
-          Th
           <StyledText
             level="body-sm"
             fontSize={18}

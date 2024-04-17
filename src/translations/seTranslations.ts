@@ -91,6 +91,19 @@ const seTranslations = {
       price_helperText: "Hur mycket kostar denna biljett?",
     },
 
+    banking_details: {
+      bank_name: "Banknamn",
+      bank_name_helperText: "Ange bankens namn",
+      account_holder: "Kontoinnehavare",
+      account_holder_helperText: "Ange kontoinnehavarens namn",
+      clearing_number: "Clearingnummer",
+      clearing_number_helperText: "Ange clearingnummer (t.ex. 1234)",
+      account_number: "Kontonummer",
+      account_number_helperText: "Ange kontonummer (t.ex. 1234567890)",
+      button_save: "Spara",
+      updated_at: "Senast uppdaterad {{date}}",
+    },
+
     contact: {
       title: "Kontakt",
       email: "Din E-post",
@@ -359,6 +372,14 @@ const seTranslations = {
       total_income: "Inkomst",
     },
 
+    settings: {
+      financial: {
+        title: "Finansiella inställningar",
+        description:
+          "Här kan du hantera de finansiella inställningarna för ditt evenemang. Du kan lägga till dina bankuppgifter och se den finansiella statusen för ditt evenemang.",
+      },
+    },
+
     drawer: {
       settings: {
         title: "Inställningar",
@@ -479,6 +500,7 @@ const seTranslations = {
     },
     send_out: {
       title: "Utskick",
+      new: "Nytt utskick",
       description:
         "Skicka ett e-postmeddelande till alla användare som har önskat en biljett till detta evenemang. Du kan använda detta för att meddela användare om biljettsläppet, eller för att meddela användare som har tilldelats en biljett.",
       preview: "Förhandsgranska",
@@ -497,6 +519,9 @@ const seTranslations = {
         "Filtrera biljetter baserat på deras status. Du kan välja flera statusar.",
       num_users:
         "E-postmeddelandet kommer att skickas till {{numUsers}} användare.",
+      recipients: "Mottagare",
+      status_message: "Statusmeddelande",
+      no_send_outs: "Det finns inga utskick för detta evenemang.",
     },
     edit: {
       title: "Redigera evenemang",
