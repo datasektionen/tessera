@@ -97,12 +97,16 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
             },
             {
               title: t("manage_event.drawer.manage.form_responses"),
-              navigateTo: `/events/${eventID}/manage/settings/financial`,
+              navigateTo: generateRoute(ROUTES.MANAGE_EVENT_RESPONSES, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
             {
               title: t("manage_event.drawer.manage.check_in"),
-              navigateTo: `/events/${eventID}/manage/scan`,
+              navigateTo: generateRoute(ROUTES.TICKET_SCANNER, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
           ]}
@@ -116,17 +120,16 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
         <CollapsibleDrawerSection
           icon={<MailIcon />}
           title={t("manage_event.drawer.send_outs.title")}
-          mainNavigateTo={`/events/${eventID}/manage/send-out`}
+          mainNavigateTo={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
+            eventId: eventID,
+          })}
           subItems={[
             {
-              title: t("manage_event.drawer.send_outs.list"),
-              navigateTo: `/events/${eventID}/manage/send-outs`,
-              clickable: false,
-            },
-            {
               title: t("manage_event.drawer.send_outs.new"),
-              navigateTo: `/events/${eventID}/manage/send-outs/new`,
-              clickable: false,
+              navigateTo: generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
+                eventId: eventID,
+              }),
+              clickable: true,
             },
           ]}
         />

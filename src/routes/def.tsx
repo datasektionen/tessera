@@ -69,7 +69,8 @@ export const ROUTES = {
   MANAGE_EVENT_TICKET_RELEASES: "/events/:eventID/manage/ticket-releases",
   MANAGE_EVENT_TICKETS: "/events/:eventID/manage/tickets",
   MANAGE_EVENT_RESPONSES: "/events/:eventID/manage/event-form-responses",
-  EVENT_SEND_OUT_LIST: "/events/:eventID/manage/send-outs/list",
+  MANAGE_SEND_OUT_LIST: "/events/:eventID/manage/send-outs",
+  MANAGE_SEND_OUT_NEW: "/events/:eventID/manage/send-outs/new",
   SETTIGNS_FINANCIAL: "/events/:eventID/manage/settings/financial",
   EDIT_EVENT: "/events/:eventID/edit",
   EVENT_TICKET_RELEASE_DETAIL:
@@ -99,7 +100,6 @@ export const ROUTES = {
   CONTACT_PAGE: "/contact",
   TICKET_SCANNER: "/events/:eventID/manage/scan",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
-  SEND_OUT: "/events/:eventID/manage/send-out",
   EVENT_ECONOMY: "/events/:eventID/manage/economy",
   PRIVACY_POLICY: "/privacy-policy",
 };

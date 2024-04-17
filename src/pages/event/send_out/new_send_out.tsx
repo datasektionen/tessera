@@ -1,5 +1,6 @@
 import {
   Box,
+  Breadcrumbs,
   Chip,
   Divider,
   FormControl,
@@ -14,12 +15,12 @@ import {
   TextField,
   Textarea,
 } from "@mui/joy";
-import Title from "../../text/title";
+import Title from "../../../components/text/title";
 import { useParams } from "react-router-dom";
-import LoadingOverlay from "../../Loading";
-import TesseraWrapper from "../../wrappers/page_wrapper";
-import { useEventAccess } from "../use_event_access";
-import StyledText from "../../text/styled_text";
+import LoadingOverlay from "../../../components/Loading";
+import TesseraWrapper from "../../../components/wrappers/page_wrapper";
+import { useEventAccess } from "../../../components/events/use_event_access";
+import StyledText from "../../../components/text/styled_text";
 import ReactMarkdown from "react-markdown";
 import { useEffect, useState } from "react";
 import PALLETTE from "../../../theme/pallette";
@@ -27,13 +28,13 @@ import {
   DefaultInputStyle,
   FormInput,
   FormTextarea,
-} from "../../forms/input_types";
+} from "../../../components/forms/input_types";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
-} from "../../forms/form_labels";
+} from "../../../components/forms/form_labels";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import * as Yup from "yup";
 import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
@@ -41,11 +42,13 @@ import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { FormControlLabel } from "@mui/material";
 import { ITicket, IUser } from "../../../types";
-import StyledButton from "../../buttons/styled_button";
+import StyledButton from "../../../components/buttons/styled_button";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { StyledErrorMessage } from "../../forms/messages";
-import DrawerComponent from "../../navigation/manage_drawer";
+import { StyledErrorMessage } from "../../../components/forms/messages";
+import DrawerComponent from "../../../components/navigation/manage_drawer";
+import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
+import { ROUTES, generateRoute } from "../../../routes/def";
 
 const SendOutValidationSchema = Yup.object().shape({
   subject: Yup.string().required("Subject is required").min(3),
@@ -90,7 +93,7 @@ const initialValues: SendOutFormValues = {
   message: "",
 };
 
-const SendOut: React.FC = () => {
+const NewSendOut: React.FC = () => {
   const { eventID } = useParams();
   const { event, loading, error, canAccess, t } = useEventAccess(eventID!);
 
@@ -248,11 +251,28 @@ const SendOut: React.FC = () => {
           }}
         >
           <Box mx="64px" mt={"16px"}>
-            <Title>{t("manage_event.send_out.title")}</Title>
-
+            <Title fontSize={36}>{t("manage_event.send_out.new")}</Title>
+            <Breadcrumbs sx={{ p: 0 }}>
+              <BreadCrumbLink to={`/events/${eventID}/manage`} label="Manage" />
+              <BreadCrumbLink
+                to={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
+                  eventId: eventID!,
+                })}
+                label="Send Outs"
+              />
+              <BreadCrumbLink
+                to={generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
+                  eventId: eventID!,
+                })}
+                label="New Send Out"
+              />
+            </Breadcrumbs>
             <StyledText
               level="body-lg"
               color="charcoal"
+              sx={{
+                textWrap: "balance",
+              }}
               style={{ marginBottom: "16px" }}
             >
               {t("manage_event.send_out.description")}
@@ -513,4 +533,4 @@ const SendOut: React.FC = () => {
   );
 };
 
-export default SendOut;
+export default NewSendOut;

@@ -1,54 +1,51 @@
-import {
-  Collapse,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  useTheme,
-  Box,
-} from "@mui/material";
+import { Link } from "react-router-dom";
+import { ListItem, ListItemText } from "@mui/material";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
-import { styled } from "@mui/joy";
 
 interface SubButtonProps {
   title: string;
   icon?: JSX.Element;
-  onClick: () => void;
   clickable: boolean;
+  navigateTo: string;
 }
 
 const SubButton: React.FC<SubButtonProps> = ({
   title,
   icon,
-  onClick,
   clickable,
+  navigateTo,
 }) => {
   return (
     <ListItem key={"subbutton-" + title}>
       <ListItemText>
-        <StyledText
-          level="body-md"
-          fontSize={17}
-          color={clickable ? PALLETTE.charcoal : PALLETTE.charcoal_see_through}
-          onClick={clickable ? onClick : () => {}}
-          sx={{
-            mb: -2.5,
-            pl: 2,
-            cursor: clickable ? "pointer" : "default",
-            "&:hover": {
-              color: clickable
-                ? PALLETTE.cerise_dark
-                : PALLETTE.charcoal_see_through,
-              textDecoration: clickable ? "underline" : "none",
-            },
+        <Link
+          to={navigateTo}
+          style={{
+            textDecoration: clickable ? "none" : "none",
           }}
         >
-          {title}
-        </StyledText>
+          <StyledText
+            level="body-md"
+            fontSize={17}
+            color={
+              clickable ? PALLETTE.charcoal : PALLETTE.charcoal_see_through
+            }
+            sx={{
+              mb: -2.5,
+              pl: 2,
+              cursor: clickable ? "pointer" : "default",
+              "&:hover": {
+                color: clickable
+                  ? PALLETTE.cerise_dark
+                  : PALLETTE.charcoal_see_through,
+                textDecoration: clickable ? "underline" : "none",
+              },
+            }}
+          >
+            {title}
+          </StyledText>
+        </Link>
       </ListItemText>
     </ListItem>
   );

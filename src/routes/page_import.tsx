@@ -75,7 +75,7 @@ export const PasswordReset = React.lazy(
   () => import("../pages/external/password_reset")
 );
 export const SendOut = React.lazy(
-  () => import("../components/events/send_out")
+  () => import("../pages/event/send_out/new_send_out")
 );
 export const VerifyPreferredEmail = React.lazy(
   () => import("../pages/user/preferred_email/verify")
@@ -90,5 +90,9 @@ export const SettingsFinancialPage = React.lazy(
 );
 
 export const EventSendOutsPage = React.lazy(
+  () => import("../pages/event/send_out/list_send_out")
+);
+
+export const ManageSendOutList = React.lazy(
   () => import("../pages/event/send_out/list_send_out")
 );
