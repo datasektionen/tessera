@@ -364,6 +364,17 @@ const seTranslations = {
       title: "Hantera biljettsläpp",
     },
 
+    breadcrumbs: {
+      manage: "Hantera",
+      edit: "Redigera",
+      ticket_releases: "Biljettsläpp",
+      event: "Evenemang",
+      addons: "Tillägg",
+      ticket_types: "Biljettbatcher",
+      form: "Formulär",
+      send_outs: "Utskick",
+    },
+
     overview: {
       title: "Översikt",
       site_visits: "Webbplatsbesök",
@@ -385,7 +396,6 @@ const seTranslations = {
         title: "Inställningar",
         financial: "Finansiell",
         emails: "E-post",
-        landing_page: "Startsida",
         domains: "Domäner",
       },
 
@@ -401,6 +411,14 @@ const seTranslations = {
         ticket_releases: "Biljettsläpp",
         check_in: "Checka in",
         form_responses: "Formulärsvar",
+      },
+
+      edit: {
+        event: "Evenemang",
+        ticket_releases: "Biljettsläpp",
+        ticket_types: "Biljettbatcher",
+        form: "Formulär",
+        landing_page: "Landningssida",
       },
 
       economy: {
@@ -531,6 +549,7 @@ const seTranslations = {
       },
       ticket_releases: {
         title: "Redigera biljettsläpp",
+        edit_name: "Redigera {{name}}",
         subtitle:
           "Skapa biljettsläpp för ditt evenemang. Du kan skapa så många du vill, och du kan redigera dem senare.",
         select: "Välj ett biljettsläpp för att redigera det.",
