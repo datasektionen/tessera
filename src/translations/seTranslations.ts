@@ -373,6 +373,7 @@ const seTranslations = {
       ticket_types: "Biljettbatcher",
       form: "Formulär",
       send_outs: "Utskick",
+      tickets: "Biljetter",
     },
 
     overview: {

@@ -424,6 +424,7 @@ const enTranslations = {
       ticket_types: "Ticket batches",
       form: "Form",
       send_outs: "Send outs",
+      tickets: "Tickets",
     },
 
     overview: {
