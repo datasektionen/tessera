@@ -21,7 +21,6 @@ const initialState: BankingDetailsState = {
     bank_name: "",
     account_holder: "",
     created_at: new Date(),
-    updated_at: new Date(),
   },
   loading: false,
   success: false,

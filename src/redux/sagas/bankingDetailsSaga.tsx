@@ -30,7 +30,7 @@ function* getBankingDetails(
       account_number: data.account_number,
       clearing_number: data.clearing_number,
       organization_id: data.organization_id,
-      updated_at: new Date(data.UpdatedAt),
+      updated_at: data.UpdatedAt ? new Date(data.UpdatedAt) : null,
       created_at: new Date(data.CreatedAt),
     };
 

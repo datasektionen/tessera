@@ -431,7 +431,7 @@ export interface IBankingDetails {
   account_holder: string;
   clearing_number: string;
   created_at: Date;
-  updated_at: Date;
+  updated_at?: Date | null;
 }
 
 export interface IBankingDetailsReq {
