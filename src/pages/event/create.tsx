@@ -78,7 +78,7 @@ const CreateEventPage = () => {
     }
   }, []);
 
-  const canCreateEvent = currentUser?.organizations?.length! > 0;
+  const canCreateEvent = currentUser?.teams?.length! > 0;
 
   const handleTTsSubmit = (ticketTypes: ITicketTypeForm[]) => {
     dispatch(setTicketTypes(ticketTypes));

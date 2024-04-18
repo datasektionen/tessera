@@ -1,22 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import PALLETTE from "../../theme/pallette";
-import {
-  IEvent,
-  IOrganization,
-  IOrganizationUser,
-  OrganizationUserRole,
-} from "../../types";
+import { IEvent, ITeam, ITeamUser, TeamUserRole } from "../../types";
 import StyledText from "../text/styled_text";
 import Title from "../text/title";
 import BorderBox from "../wrappers/border_box";
 import { useEffect, useState } from "react";
 import {
-  deleteOrganizationRequest,
-  getMyOrganizationsRequest,
-  getOrganizationEventsRequest,
-  getOrganizationUsersRequest,
-} from "../../redux/features/organizationSlice";
+  deleteTeamRequest,
+  getMyTeamsRequest,
+  getTeamEventsRequest,
+  getTeamUsersRequest,
+} from "../../redux/features/teamSlice";
 import LoadingOverlay from "../Loading";
 import {
   Accordion,
@@ -35,36 +30,34 @@ import {
   useTheme,
 } from "@mui/joy";
 import { getUserFullName } from "../../utils/user_utils";
-import OrganizationUserView from "./organization_user_view";
-import { removeUserSuccess } from "../../redux/sagas/organizationSaga";
-import AddOrganizationUser from "./add_organization_user";
-import OrganizationEventView from "./organization_event_view";
+import TeamUserView from "./team_user_view";
+import { removeUserSuccess } from "../../redux/sagas/teamSaga";
+import AddTeamUser from "./add_team_user";
+import TeamEventView from "./team_event_view";
 import { Trans, useTranslation } from "react-i18next";
 import ConfirmModal from "../modal/confirm_modal";
 import StyledButton from "../buttons/styled_button";
 import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import EditOrganization from "./edit";
+import EditTeam from "./edit";
 import InformationModal from "../modal/information";
 import { useMediaQuery } from "@mui/material";
 
-interface ViewOrganizationProps {
-  organization: IOrganization;
+interface ViewTeamProps {
+  team: ITeam;
 }
 
-const ViewOrganization: React.FC<ViewOrganizationProps> = ({
-  organization,
-}) => {
+const ViewTeam: React.FC<ViewTeamProps> = ({ team }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
 
-  const { organizationUsers, loading, organizationEvents } = useSelector(
-    (state: RootState) => state.organization
+  const { teamUsers, loading, teamEvents } = useSelector(
+    (state: RootState) => state.team
   ) as {
-    organizationUsers: IOrganizationUser[];
+    teamUsers: ITeamUser[];
     loading: boolean;
-    organizationEvents: IEvent[];
+    teamEvents: IEvent[];
   };
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,23 +68,23 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const reFetch = () => {
-    dispatch(getOrganizationUsersRequest(organization.id));
+    dispatch(getTeamUsersRequest(team.id));
   };
 
   useEffect(() => {
-    dispatch(getOrganizationUsersRequest(organization.id));
-    dispatch(getOrganizationEventsRequest(organization.id));
-  }, [dispatch, removeUserSuccess, organization]);
+    dispatch(getTeamUsersRequest(team.id));
+    dispatch(getTeamEventsRequest(team.id));
+  }, [dispatch, removeUserSuccess, team]);
 
-  const handleDeleteOrganization = () => {
-    // Delete the organization
-    dispatch(deleteOrganizationRequest(organization.id));
+  const handleDeleteTeam = () => {
+    // Delete the team
+    dispatch(deleteTeamRequest(team.id));
   };
 
-  const isOwner = organizationUsers?.find(
+  const isOwner = teamUsers?.find(
     (user) =>
       user.username === currentUser?.username &&
-      user.organization_role === OrganizationUserRole.OWNER
+      user.team_role === TeamUserRole.OWNER
   );
 
   const theme = useTheme();
@@ -106,10 +99,10 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
       }}
     >
       {loading && <LoadingOverlay />}
-      <Title fontSize={32}>{organization.name}</Title>
+      <Title fontSize={32}>{team.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
         {t("common.created") + " "}{" "}
-        {new Date(organization.created_at!).toLocaleDateString()}
+        {new Date(team.created_at!).toLocaleDateString()}
       </StyledText>
 
       {/* Users */}
@@ -137,7 +130,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
             </StyledText>
           </AccordionSummary>
           <AccordionDetails>
-            {organizationUsers?.length === 0 ? (
+            {teamUsers?.length === 0 ? (
               <StyledText
                 level="body-md"
                 fontSize={18}
@@ -146,11 +139,11 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
                 {t("profile.your_teams.no_users")}
               </StyledText>
             ) : (
-              organizationUsers?.map((user) => {
+              teamUsers?.map((user) => {
                 return (
-                  <OrganizationUserView
+                  <TeamUserView
                     user={user}
-                    organization={organization}
+                    team={team}
                     canManage={isOwner !== undefined}
                   />
                 );
@@ -160,7 +153,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
         </Accordion>
       </AccordionGroup>
       {/* Add new user */}
-      <AddOrganizationUser organization={organization} reFetch={reFetch} />
+      <AddTeamUser team={team} reFetch={reFetch} />
 
       <Divider sx={{ marginTop: "16px", marginBottom: "16px" }} />
       <Box sx={{ marginTop: "16px" }}>
@@ -185,7 +178,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
               </StyledText>
             </AccordionSummary>
             <AccordionDetails>
-              {organizationEvents?.length === 0 ? (
+              {teamEvents?.length === 0 ? (
                 <StyledText
                   level="body-md"
                   fontSize={18}
@@ -197,13 +190,8 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
                   </Trans>
                 </StyledText>
               ) : (
-                organizationEvents?.map((event) => {
-                  return (
-                    <OrganizationEventView
-                      event={event}
-                      organization={organization}
-                    />
-                  );
+                teamEvents?.map((event) => {
+                  return <TeamEventView event={event} team={team} />;
                 })
               )}
             </AccordionDetails>
@@ -224,7 +212,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
               key="confirm-delete"
               onClick={() => {
                 setShowDeleteModal(false);
-                handleDeleteOrganization();
+                handleDeleteTeam();
               }}
               bgColor={PALLETTE.offWhite}
               color={PALLETTE.charcoal}
@@ -257,7 +245,7 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
             setEditModalOpen(false);
           }}
         >
-          <EditOrganization organization={organization} />
+          <EditTeam team={team} />
         </InformationModal>
 
         <Stack spacing={2} direction={"row"}>
@@ -288,4 +276,4 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
   );
 };
 
-export default ViewOrganization;
+export default ViewTeam;

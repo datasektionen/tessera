@@ -17,18 +17,12 @@ interface GenerateRouteParams {
   ticketReleaseId?: number | string;
   token?: string;
   ticketId?: number;
-  organizationId?: number;
+  teamId?: number;
 }
 
 export const generateRoute = (
   route: string,
-  {
-    eventId,
-    ticketReleaseId,
-    token,
-    ticketId,
-    organizationId,
-  }: GenerateRouteParams
+  { eventId, ticketReleaseId, token, ticketId, teamId }: GenerateRouteParams
 ) => {
   let result = route.replace(":eventID", eventId.toString());
 
@@ -44,8 +38,8 @@ export const generateRoute = (
     result = result.replace(":ticketID", ticketId.toString());
   }
 
-  if (organizationId) {
-    result = result.replace(":organizationID", organizationId.toString());
+  if (teamId) {
+    result = result.replace(":teamID", teamId.toString());
   }
 
   return result;
@@ -85,16 +79,16 @@ export const ROUTES = {
   PROFILE_TICKETS: "/profile/tickets",
   TICKETS: "/events/:eventID/tickets",
   TICKET_DETAIL: "/events/:eventID/tickets/:ticketID",
-  ORGANIZATIONS: "/organizations",
-  ORGANIZATION_DETAIL: "/organizations/:organizationID",
-  ORGANIZATION_USERS: "/organizations/:organizationID/users",
-  CREATE_ORGANIZATION: "/organizations/create",
+  ORGANIZATIONS: "/teams",
+  ORGANIZATION_DETAIL: "/teams/:teamID",
+  ORGANIZATION_USERS: "/teams/:teamID/users",
+  CREATE_ORGANIZATION: "/teams/create",
   TICKET_RELEASE_METHODS: "/ticket-release-methods",
   TICKET_TYPES: "/ticket-types",
   USER_FOOD_PREFERENCES: "/user-food-preferences",
   TICKET_RELEASE_CONSTANTS: "/ticket-release/constants",
   PROFILE: "/profile",
-  PROFILE_ORGANIZATIONS: "/profile/organizations",
+  PROFILE_ORGANIZATIONS: "/profile/teams",
   EXTERNAL: "/external",
   FORGOT_PASSWORD: "/forgot-password",
   PASSWORD_RESET: "/reset-password/:token",

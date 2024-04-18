@@ -18,10 +18,7 @@ function* getBankingDetails(
   action: ReturnType<typeof getBankingDetailsRequest>
 ): Generator<any, void, any> {
   try {
-    const data: any = yield call(
-      api.getBankingDetails,
-      action.payload.organizationID
-    );
+    const data: any = yield call(api.getBankingDetails, action.payload.teamID);
 
     const bankingDetails: IBankingDetails = {
       id: data.ID,
@@ -29,7 +26,7 @@ function* getBankingDetails(
       bank_name: data.bank_name,
       account_number: data.account_number,
       clearing_number: data.clearing_number,
-      organization_id: data.organization_id,
+      team_id: data.team_id,
       updated_at: data.UpdatedAt ? new Date(data.UpdatedAt) : null,
       created_at: new Date(data.CreatedAt),
     };
@@ -49,7 +46,7 @@ function* submitBankingDetails(
   try {
     yield call(
       api.submitBankingDetails,
-      action.payload.organizationID,
+      action.payload.teamID,
       action.payload.bankingDetails
     );
     yield put(submitBankingDetailsSuccess());
@@ -67,7 +64,7 @@ function* deleteBankingDetails(
   try {
     const bankingDetails: IBankingDetails = yield call(
       api.deleteBankingDetails,
-      action.payload.organizationID
+      action.payload.teamID
     );
     yield put(deleteBankingDetailsSuccess(bankingDetails));
   } catch (error: any) {

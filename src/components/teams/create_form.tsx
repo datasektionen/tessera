@@ -13,27 +13,27 @@ import StyledButton from "../buttons/styled_button";
 import { useState } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrganizationRequest } from "../../redux/features/organizationSlice";
+import { createTeamRequest } from "../../redux/features/teamSlice";
 import { useTranslation } from "react-i18next";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
 } from "../forms/form_labels";
 
-const CreateOrganizationForm: React.FC = () => {
-  const [organizationName, setOrganizationName] = useState<string>("");
-  const [organizationEmail, setOrganizationEmail] = useState<string>("");
+const CreateTeamForm: React.FC = () => {
+  const [teamName, setTeamName] = useState<string>("");
+  const [teamEmail, setTeamEmail] = useState<string>("");
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
 
-  const handleCreateOrganization = () => {
-    // Create the organization
+  const handleCreateTeam = () => {
+    // Create the team
     dispatch(
-      createOrganizationRequest({
-        name: organizationName,
-        email: organizationEmail,
+      createTeamRequest({
+        name: teamName,
+        email: teamEmail,
       })
     );
   };
@@ -64,10 +64,10 @@ const CreateOrganizationForm: React.FC = () => {
         >
           <StyledFormLabel>{t("create_team.add_team_title")}</StyledFormLabel>
           <Input
-            value={organizationName}
+            value={teamName}
             placeholder="Lit Club"
             disabled={!canCreate}
-            onChange={(e) => setOrganizationName(e.target.value)}
+            onChange={(e) => setTeamName(e.target.value)}
             style={{
               color: PALLETTE.charcoal,
             }}
@@ -87,10 +87,10 @@ const CreateOrganizationForm: React.FC = () => {
         >
           <StyledFormLabel>{t("create_team.add_team_email")}</StyledFormLabel>
           <Input
-            value={organizationEmail}
+            value={teamEmail}
             placeholder="example@datasektionen.se"
             disabled={!canCreate}
-            onChange={(e) => setOrganizationEmail(e.target.value)}
+            onChange={(e) => setTeamEmail(e.target.value)}
             style={{
               color: PALLETTE.charcoal,
             }}
@@ -109,7 +109,7 @@ const CreateOrganizationForm: React.FC = () => {
             color: PALLETTE.cerise,
             borderColor: PALLETTE.cerise,
           }}
-          onClick={handleCreateOrganization}
+          onClick={handleCreateTeam}
         >
           {t("create_team.create_team_button")}
         </Button>
@@ -118,4 +118,4 @@ const CreateOrganizationForm: React.FC = () => {
   );
 };
 
-export default CreateOrganizationForm;
+export default CreateTeamForm;

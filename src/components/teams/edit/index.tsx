@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Formik } from "formik";
-import { IOrganization } from "../../../types";
+import { ITeam } from "../../../types";
 import { useEffect, useState } from "react";
 import { FormControl, FormLabel } from "@mui/joy";
 import {
@@ -15,48 +15,44 @@ import * as Yup from "yup";
 import PALLETTE from "../../../theme/pallette";
 import { StyledErrorMessage } from "../../forms/messages";
 import {
-  getMyOrganizationsRequest,
-  updateOrganizationStart,
-} from "../../../redux/features/organizationSlice";
+  getMyTeamsRequest,
+  updateTeamStart,
+} from "../../../redux/features/teamSlice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
 });
 
-interface EditOrganizationValues {
+interface EditTeamValues {
   name: string;
   email: string;
 }
 
-interface EditOrganizationProps {
-  organization: IOrganization;
+interface EditTeamProps {
+  team: ITeam;
 }
 
-const EditOrganization: React.FC<EditOrganizationProps> = ({
-  organization,
-}) => {
+const EditTeam: React.FC<EditTeamProps> = ({ team }) => {
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
-  const [initialValues, setInitialValues] = useState<EditOrganizationValues>({
-    name: organization.name,
-    email: organization.email,
+  const [initialValues, setInitialValues] = useState<EditTeamValues>({
+    name: team.name,
+    email: team.email,
   });
 
-  const { updateSuccess } = useSelector(
-    (state: RootState) => state.organization
-  );
+  const { updateSuccess } = useSelector((state: RootState) => state.team);
 
   useEffect(() => {
     if (updateSuccess) {
-      dispatch(getMyOrganizationsRequest());
+      dispatch(getMyTeamsRequest());
     }
   }, [dispatch, updateSuccess]);
 
-  const handleUpdateOrganization = (values: EditOrganizationValues) => {
+  const handleUpdateTeam = (values: EditTeamValues) => {
     dispatch(
-      updateOrganizationStart({
-        id: organization.id,
+      updateTeamStart({
+        id: team.id,
         name: values.name,
         email: values.email,
       })
@@ -69,7 +65,7 @@ const EditOrganization: React.FC<EditOrganizationProps> = ({
       validationSchema={validationSchema}
       validateOnChange={true}
       onSubmit={(values) => {
-        handleUpdateOrganization(values);
+        handleUpdateTeam(values);
       }}
     >
       {({ isSubmitting, isValid, dirty }) => (
@@ -122,4 +118,4 @@ const EditOrganization: React.FC<EditOrganizationProps> = ({
   );
 };
 
-export default EditOrganization;
+export default EditTeam;

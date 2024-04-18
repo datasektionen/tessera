@@ -14,12 +14,10 @@ export const ProfileTicketRequestsPage = React.lazy(
 export const ProfileTicketsPage = React.lazy(
   () => import("../pages/profile/profile_tickets")
 );
-export const ProfileOrganizationsPage = React.lazy(
-  () => import("../pages/profile/profile_organizations")
+export const ProfileTeamsPage = React.lazy(
+  () => import("../pages/profile/profile_teams")
 );
-export const CreateOrganizationPage = React.lazy(
-  () => import("../pages/organization/create")
-);
+export const CreateTeamPage = React.lazy(() => import("../pages/team/create"));
 export const ManageEventPage = React.lazy(
   () => import("../pages/event/manage")
 );

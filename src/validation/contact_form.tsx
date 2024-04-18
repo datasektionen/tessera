@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 const ContactFormSchema = Yup.object().shape({
-  organization_id: Yup.number().required("Organization is required").min(1),
+  team_id: Yup.number().required("Team is required").min(1),
   name: Yup.string()
     .required("Name is required")
     .min(3, "Too short")

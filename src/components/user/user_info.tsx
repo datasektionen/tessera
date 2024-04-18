@@ -33,7 +33,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
 
               <UserInfoText
                 label={t("profile.teams")}
-                value={user.organizations!.map((org) => org.name).join(", ")}
+                value={user.teams!.map((org) => org.name).join(", ")}
               />
             </Stack>
           </Box>
@@ -62,7 +62,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                 </StyledButton>
               </Link>
               <Link
-                href="/profile/organizations"
+                href="/profile/teams"
                 style={{
                   textDecoration: "none",
                 }}

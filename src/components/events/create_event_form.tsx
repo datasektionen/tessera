@@ -35,7 +35,7 @@ import { StyledErrorMessage } from "../forms/messages";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyOrganizationsRequest } from "../../redux/features/organizationSlice";
+import { getMyTeamsRequest } from "../../redux/features/teamSlice";
 import LoadingOverlay from "../Loading";
 import { EventFormInitialValues, IEventForm } from "../../types";
 import {
@@ -46,9 +46,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 const CreateEventForm: React.FC = () => {
-  const { organizations, loading } = useSelector(
-    (state: RootState) => state.organization
-  );
+  const { teams, loading } = useSelector((state: RootState) => state.team);
   const { t } = useTranslation();
 
   const {
@@ -59,7 +57,7 @@ const CreateEventForm: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMyOrganizationsRequest());
+    dispatch(getMyTeamsRequest());
   }, [dispatch]);
 
   const handleSubmission = (values: IEventForm) => {
@@ -188,7 +186,7 @@ const CreateEventForm: React.FC = () => {
             <Divider />
             <FormControl>
               <StyledFormLabel>{t("form.event_details.team")}*</StyledFormLabel>
-              <Field name="organization_id">
+              <Field name="team_id">
                 {({ field, form }: any) => {
                   return (
                     <Select
@@ -198,7 +196,7 @@ const CreateEventForm: React.FC = () => {
                       }}
                       style={DefaultInputStyle}
                     >
-                      {organizations?.map((org) => {
+                      {teams?.map((org) => {
                         return (
                           <Option key={org.id} value={org.id}>
                             {org.name}
@@ -209,10 +207,10 @@ const CreateEventForm: React.FC = () => {
                   );
                 }}
               </Field>
-              <StyledErrorMessage name="organization_id" />
+              <StyledErrorMessage name="team_id" />
               <StyledFormLabelWithHelperText>
                 {t("form.event_details.team_helperText") + " "}
-                <Link href="/organizations/create">here</Link>.
+                <Link href="/teams/create">here</Link>.
               </StyledFormLabelWithHelperText>
             </FormControl>
 

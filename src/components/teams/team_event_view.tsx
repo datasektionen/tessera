@@ -1,13 +1,7 @@
 import { Divider, Grid, Link, Option, Select, Sheet, Stack } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../text/styled_text";
-import {
-  IEvent,
-  IOrganization,
-  IOrganizationUser,
-  IUser,
-  OrganizationUserRole,
-} from "../../types";
+import { IEvent, ITeam, ITeamUser, IUser, TeamUserRole } from "../../types";
 import { getUserFullName } from "../../utils/user_utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -17,21 +11,18 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { makeStyles } from "@mui/material";
-import { removeUserRequest } from "../../redux/sagas/organizationSaga";
+import { removeUserRequest } from "../../redux/sagas/teamSaga";
 import StyledButton from "../buttons/styled_button";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-interface OrganizationEventViewProps {
-  organization: IOrganization;
+interface TeamEventViewProps {
+  team: ITeam;
   event: IEvent;
 }
 
-const OrganizationEventView: React.FC<OrganizationEventViewProps> = ({
-  event,
-  organization,
-}) => {
+const TeamEventView: React.FC<TeamEventViewProps> = ({ event, team }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -99,4 +90,4 @@ const OrganizationEventView: React.FC<OrganizationEventViewProps> = ({
   );
 };
 
-export default OrganizationEventView;
+export default TeamEventView;

@@ -10,7 +10,7 @@ import {
   Sheet,
   Stack,
 } from "@mui/joy";
-import { IOrganization, OrganizationUserRole } from "../../types";
+import { ITeam, TeamUserRole } from "../../types";
 import PALLETTE from "../../theme/pallette";
 import { TitleTwoTone } from "@mui/icons-material";
 import StyledText from "../text/styled_text";
@@ -21,22 +21,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
-interface AddOrganizationUserProps {
-  organization: IOrganization;
+interface AddTeamUserProps {
+  team: ITeam;
   reFetch: () => void;
 }
 
-const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
-  organization,
-  reFetch,
-}) => {
+const AddTeamUser: React.FC<AddTeamUserProps> = ({ team, reFetch }) => {
   const [username, setUsername] = useState<string>("");
   const { t } = useTranslation();
   const handleAddUser = async () => {
-    // Add the user to the organization
+    // Add the user to the team
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/organizations/${organization.id}/users/${username}`,
+        `${process.env.REACT_APP_BACKEND_URL}/teams/${team.id}/users/${username}`,
         {},
         {
           withCredentials: true,
@@ -108,4 +105,4 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
   );
 };
 
-export default AddOrganizationUser;
+export default AddTeamUser;

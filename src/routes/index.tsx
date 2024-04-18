@@ -21,8 +21,8 @@ import {
   EditTicketTypes,
   ProfileTicketRequestsPage,
   ProfileTicketsPage,
-  ProfileOrganizationsPage,
-  CreateOrganizationPage,
+  ProfileTeamsPage,
+  CreateTeamPage,
   ManageEventPage,
   TicketScannerPage,
   EventEconomyPage,
@@ -94,12 +94,9 @@ const ProfileTicketRequestsPageWithCurrentUser = withCurrentUserRequest(
 );
 const ProfileTicketsPageWithCurrentUser =
   withCurrentUserRequest(ProfileTicketsPage);
-const ProfileOrganizationsPageWithCurrentUser = withCurrentUserRequest(
-  ProfileOrganizationsPage
-);
-const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
-  CreateOrganizationPage
-);
+const ProfileTeamsPageWithCurrentUser =
+  withCurrentUserRequest(ProfileTeamsPage);
+const CreateTeamPageWithCurrentUser = withCurrentUserRequest(CreateTeamPage);
 const ManageEventPageWithCurrentUser = withCurrentUserRequest(ManageEventPage);
 const TicketScannerPageWithCurrentUser =
   withCurrentUserRequest(TicketScannerPage);
@@ -215,11 +212,11 @@ function AppRoutes() {
             />
             <Route
               path={ROUTES.PROFILE_ORGANIZATIONS}
-              element={<ProfileOrganizationsPageWithCurrentUser />}
+              element={<ProfileTeamsPageWithCurrentUser />}
             />
             <Route
               path={ROUTES.CREATE_ORGANIZATION}
-              element={<CreateOrganizationPageWithCurrentUser />}
+              element={<CreateTeamPageWithCurrentUser />}
             />
             <Route
               path={ROUTES.MANAGE_EVENT}

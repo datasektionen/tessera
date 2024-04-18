@@ -4,12 +4,12 @@ import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import PALLETTE from "../../theme/pallette";
 import Title from "../../components/text/title";
 import StandardGrid from "../../components/wrappers/standard_grid";
-import CreateOrganizationForm from "../../components/organizations/create_form";
+import CreateTeamForm from "../../components/teams/create_form";
 import StyledButton from "../../components/buttons/styled_button";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const CreateOrganizationPage: React.FC = () => {
+const CreateTeamPage: React.FC = () => {
   const nagivate = useNavigate();
   const { t } = useTranslation();
 
@@ -29,7 +29,7 @@ const CreateOrganizationPage: React.FC = () => {
             <StyledButton
               size="lg"
               onClick={() => {
-                nagivate("/profile/organizations");
+                nagivate("/profile/teams");
               }}
               color={PALLETTE.charcoal}
               bgColor={PALLETTE.offWhite}
@@ -39,11 +39,11 @@ const CreateOrganizationPage: React.FC = () => {
           </Box>
         </Grid>
         <Grid xs={8}>
-          <CreateOrganizationForm />
+          <CreateTeamForm />
         </Grid>
       </StandardGrid>
     </TesseraWrapper>
   );
 };
 
-export default CreateOrganizationPage;
+export default CreateTeamPage;

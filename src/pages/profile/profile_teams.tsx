@@ -5,21 +5,21 @@ import StandardGrid from "../../components/wrappers/standard_grid";
 import React, { useEffect } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyOrganizationsRequest } from "../../redux/features/organizationSlice";
+import { getMyTeamsRequest } from "../../redux/features/teamSlice";
 import LoadingOverlay from "../../components/Loading";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { Link, unstable_HistoryRouter } from "react-router-dom";
 import StyledButton from "../../components/buttons/styled_button";
 import { ROUTES } from "../../routes/def";
-import ViewOrganization from "../../components/organizations/view";
+import ViewTeam from "../../components/teams/view";
 import { Trans, useTranslation } from "react-i18next";
 import { use } from "i18next";
 import { useMediaQuery } from "@mui/material";
 
-const ProfileOrganizationsPage = () => {
-  const { organizations, loading, error } = useSelector(
-    (state: RootState) => state.organization
+const ProfileTeamsPage = () => {
+  const { teams, loading, error } = useSelector(
+    (state: RootState) => state.team
   );
 
   const dispatch: AppDispatch = useDispatch();
@@ -27,7 +27,7 @@ const ProfileOrganizationsPage = () => {
   const [selected, setSelected] = React.useState<number | null>(null);
 
   useEffect(() => {
-    dispatch(getMyOrganizationsRequest());
+    dispatch(getMyTeamsRequest());
   }, [dispatch, selected]);
 
   const { t } = useTranslation();
@@ -48,13 +48,13 @@ const ProfileOrganizationsPage = () => {
 
           <Divider sx={{ marginTop: "16px", marginBottom: "16px" }} />
 
-          {organizations?.length === 0 ? (
+          {teams?.length === 0 ? (
             <StyledText level="body-md" color={PALLETTE.charcoal} fontSize={18}>
               {t("profile.your_teams.not_part_of_any_teams")}
             </StyledText>
           ) : (
             <Grid container spacing={2} flexDirection="row">
-              {organizations!.map((org) => {
+              {teams!.map((org) => {
                 return (
                   <Grid>
                     <StyledButton
@@ -88,9 +88,7 @@ const ProfileOrganizationsPage = () => {
         </Grid>
         <Grid xs={16} lg={8}>
           {selected && (
-            <ViewOrganization
-              organization={organizations!.find((org) => org.id === selected)!}
-            />
+            <ViewTeam team={teams!.find((org) => org.id === selected)!} />
           )}
         </Grid>
       </StandardGrid>
@@ -98,4 +96,4 @@ const ProfileOrganizationsPage = () => {
   );
 };
 
-export default ProfileOrganizationsPage;
+export default ProfileTeamsPage;

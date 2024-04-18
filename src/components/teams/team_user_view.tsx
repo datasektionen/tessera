@@ -1,12 +1,7 @@
 import { Divider, Grid, Option, Select, Sheet, Stack } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../text/styled_text";
-import {
-  IOrganization,
-  IOrganizationUser,
-  IUser,
-  OrganizationUserRole,
-} from "../../types";
+import { ITeam, ITeamUser, IUser, TeamUserRole } from "../../types";
 import { getUserFullName } from "../../utils/user_utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -16,34 +11,34 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { makeStyles } from "@mui/material";
-import { removeUserRequest } from "../../redux/sagas/organizationSaga";
+import { removeUserRequest } from "../../redux/sagas/teamSaga";
 
-interface OrganizationUserViewProps {
-  organization: IOrganization;
-  user: IOrganizationUser;
+interface TeamUserViewProps {
+  team: ITeam;
+  user: ITeamUser;
   canManage: boolean;
 }
 
-const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
+const TeamUserView: React.FC<TeamUserViewProps> = ({
   user,
-  organization,
+  team,
   canManage,
 }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
-  const [selectedRole, setSelectedRole] = useState<OrganizationUserRole | null>(
-    user.organization_role as OrganizationUserRole
+  const [selectedRole, setSelectedRole] = useState<TeamUserRole | null>(
+    user.team_role as TeamUserRole
   );
   const [loading, setLoading] = useState(false);
 
   const handleRoleChange = useCallback(
-    async (event: any, newValue: OrganizationUserRole | null) => {
+    async (event: any, newValue: TeamUserRole | null) => {
       if (newValue !== null) {
         setLoading(true);
         try {
           const response = await axios.put(
-            `${process.env.REACT_APP_BACKEND_URL}/organizations/${organization.id}/users/${user.username}`,
+            `${process.env.REACT_APP_BACKEND_URL}/teams/${team.id}/users/${user.username}`,
             { role: newValue },
             {
               withCredentials: true,
@@ -63,12 +58,12 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
         }
       }
     },
-    [organization.id, user.username]
+    [team.id, user.username]
   );
 
   const handleRemove = useCallback(() => {
-    dispatch(removeUserRequest(organization.id, user.username));
-  }, [dispatch, organization.id, user.username]);
+    dispatch(removeUserRequest(team.id, user.username));
+  }, [dispatch, team.id, user.username]);
 
   const isMe: boolean = getUserFullName(currentUser!) === getUserFullName(user);
 
@@ -99,7 +94,7 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
             fontWeight={700}
             color={PALLETTE.charcoal}
           >
-            {user.organization_role}
+            {user.team_role}
           </StyledText>
           <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
             {user.email}
@@ -123,7 +118,7 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
                   backgroundColor: PALLETTE.offWhite,
                 }}
               >
-                {Object.values(OrganizationUserRole).map((role) => {
+                {Object.values(TeamUserRole).map((role) => {
                   return (
                     <Option key={role} value={role}>
                       {role}
@@ -151,4 +146,4 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
   );
 };
 
-export default OrganizationUserView;
+export default TeamUserView;

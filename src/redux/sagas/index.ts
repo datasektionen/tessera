@@ -5,7 +5,7 @@ import watchListEventSaga from "./listEventSaga";
 import watchEventSaga from "./eventSaga";
 import watchTicketRequestSaga from "./ticketRequestSaga";
 import { watchFoodPreferences } from "./userFoodPreferencesSaga";
-import { watchCreateOrganization } from "./organizationSaga";
+import { watchCreateTeam } from "./teamSaga";
 import { watchFetchTicketReleaseMethods } from "./ticketReleaseMethodSaga";
 import watchCreateEventSaga from "./createEventSaga";
 import watchPromoCodeAccessSaga from "./promoCodeAccessSaga";
@@ -14,7 +14,7 @@ import watchTicketReleaseSaga from "./ticketReleaseSaga";
 import watchFetchTicketTypes from "./ticketTypeSaga";
 import watchEventTicketsSaga from "./eventTicketsSaga";
 import watchExternalAuthSagas from "./externalAuthSaga";
-import { listOrganizationsSaga } from "./listOrganizationsSlice";
+import { listTeamsSaga } from "./listTeamsSlice";
 import watchSalesReportSaga from "./salesReportSaga";
 import watchGetAddonSaga from "./addonSaga";
 import bankingDetailsSaga from "./bankingDetailsSaga";
@@ -29,7 +29,7 @@ export default function* rootSaga() {
     watchTicketsSaga(),
     watchTicketReleaseSaga(),
     watchFoodPreferences(),
-    watchCreateOrganization(),
+    watchCreateTeam(),
     watchSalesReportSaga(),
     watchFetchTicketReleaseMethods(),
     watchCreateEventSaga(),
@@ -37,7 +37,7 @@ export default function* rootSaga() {
     watchFetchTicketTypes(),
     watchEventTicketsSaga(),
     watchExternalAuthSagas(),
-    listOrganizationsSaga(),
+    listTeamsSaga(),
     watchGetAddonSaga(),
     bankingDetailsSaga(),
     // add other sagas here

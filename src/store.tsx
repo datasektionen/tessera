@@ -9,7 +9,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import ticketRequestReducer from "./redux/features/ticketRequestSlice";
 import foodPreferenceReducer from "./redux/features/userFoodPreferences";
-import organizationReducer from "./redux/features/organizationSlice";
+import teamReducer from "./redux/features/teamSlice";
 import eventCreationSlice from "./redux/features/eventCreationSlice";
 import ticketReleaseMethodReducer from "./redux/features/ticketReleaseMethodsSlice";
 import ticketTypeCreationReducer from "./redux/features/ticketTypeCreationSlice";
@@ -21,7 +21,7 @@ import ticketTypeSlice from "./redux/features/ticketTypeSlice";
 import eventTicketsSlice from "./redux/features/eventTicketsSlice";
 import ticketReleaseSlice from "./redux/features/ticketReleaseSlice";
 import serverTimestampSlice from "./redux/features/serverTimestampSlice";
-import listOrganizationsSlice from "./redux/features/listOrganizationsSlice";
+import listTeamsSlice from "./redux/features/listTeamsSlice";
 import paymentSuccessReducer from "./redux/features/paymentSlice";
 import salesReportSlice from "./redux/features/salesReportSlice";
 import languageSlice from "./redux/features/languageSlice";
@@ -51,7 +51,7 @@ const rootReducer = combineReducers({
   eventDetail: eventReducer,
   ticketRequest: ticketRequestReducer,
   foodPreferences: foodPreferenceReducer,
-  organization: organizationReducer,
+  team: teamReducer,
   eventCreation: eventCreationSlice,
   ticketReleaseMethods: ticketReleaseMethodReducer,
   ticketTypeCreation: ticketTypeCreationReducer,
@@ -63,7 +63,7 @@ const rootReducer = combineReducers({
   eventTickets: eventTicketsSlice,
   ticketRelease: ticketReleaseSlice,
   timestamp: serverTimestampSlice,
-  organizations: listOrganizationsSlice,
+  teams: listTeamsSlice,
   payment: paymentSuccessReducer,
   salesReport: salesReportSlice,
   language: languageSlice,

@@ -20,12 +20,12 @@ import { format } from "date-fns";
 
 interface BankingDetailsFormProps {
   bankingDetails: IBankingDetails;
-  organizationID: number;
+  teamID: number;
 }
 
 export const BankingDetailsForm: React.FC<BankingDetailsFormProps> = ({
   bankingDetails,
-  organizationID,
+  teamID,
 }) => {
   const [initialValues, setInitialValues] = useState<IBankingDetailsReq>({
     bank_name: bankingDetails.bank_name,
@@ -48,7 +48,7 @@ export const BankingDetailsForm: React.FC<BankingDetailsFormProps> = ({
   const onSubmit = (values: IBankingDetailsReq) => {
     dispatch(
       submitBankingDetailsRequest({
-        organizationID: organizationID,
+        teamID: teamID,
         bankingDetails: values,
       })
     );

@@ -67,9 +67,9 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
         }) // Sorts events from earliest to latest
         .map((event: IEvent, index) => {
           const userCanManage =
-            currentUser?.organizations?.some(
+            currentUser?.teams?.some(
               // @ts-ignore
-              (org) => org.ID === event.organizationId
+              (org) => org.ID === event.teamId
             ) ?? currentUser?.ug_kth_id === event.createdById;
 
           if (eventIsInThePast(event)) {

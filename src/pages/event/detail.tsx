@@ -281,7 +281,7 @@ const EventDetail: React.FC = () => {
                     mt: 1,
                   }}
                 >
-                  {t("event.event_by")} {event.organization?.name}
+                  {t("event.event_by")} {event.team?.name}
                 </StyledText>
                 <Typography
                   level="body-md"
@@ -309,12 +309,10 @@ const EventDetail: React.FC = () => {
                   >
                     <Trans
                       i18nKey="event.contact_organizers"
-                      values={{ organization: event.organization?.name }}
+                      values={{ team: event.team?.name }}
                     >
                       Contact the organizers at <strong>hi</strong>
-                      <Link
-                        href={`/contact?organization_id=${event.organization?.id}`}
-                      >
+                      <Link href={`/contact?team_id=${event.team?.id}`}>
                         here
                       </Link>
                     </Trans>

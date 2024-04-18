@@ -42,7 +42,7 @@ const CreateEventFormSchema = Yup.object().shape({
       label: Yup.string().required("Location is required"),
     })
     .required("Location is required"),
-  organization_id: Yup.number()
+  team_id: Yup.number()
     .required("Team is required")
     .integer("Team must be a whole number"),
 

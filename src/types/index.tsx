@@ -79,18 +79,18 @@ export interface IUser {
   last_name: string;
   email: string;
   role?: IRole;
-  organizations?: IOrganization[];
+  teams?: ITeam[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
   preferred_email?: IPreferredEmail;
 }
 
-export interface IOrganizationUser extends IUser {
-  organization_role: string;
+export interface ITeamUser extends IUser {
+  team_role: string;
   added_at: number;
 }
 
-export interface IOrganization {
+export interface ITeam {
   id: number;
   name: string;
   email: string;
@@ -105,8 +105,8 @@ export interface IEvent {
   date: number;
   end_date?: number;
   location: string;
-  organizationId: number;
-  organization?: IOrganization;
+  teamId: number;
+  team?: ITeam;
   is_private: boolean;
   ticketReleases?: ITicketRelease[];
   createdById?: string;
@@ -120,7 +120,7 @@ export interface IEventForm {
   date: string;
   end_date?: string;
   location: PlaceOption | null;
-  organization_id: number;
+  team_id: number;
   is_private: boolean;
 }
 
@@ -130,7 +130,7 @@ export interface IEventPostReq {
   date: number;
   end_date?: number;
   location: string;
-  organization_id: number;
+  team_id: number;
   is_private: boolean;
 }
 
@@ -139,7 +139,7 @@ export const EventFormInitialValues: IEventForm = {
   description: "",
   date: "",
   location: null,
-  organization_id: 1,
+  team_id: 1,
   is_private: false,
 };
 
@@ -154,7 +154,7 @@ export const EventFormInitialTestValues: IEventForm = {
       lng: 18.073,
     },
   },
-  organization_id: 1,
+  team_id: 1,
   is_private: false,
 };
 
@@ -458,7 +458,7 @@ export interface ITransaction {
 
 export interface IBankingDetails {
   id: number;
-  organization_id: number;
+  team_id: number;
   bank_name: string;
   account_number: string;
   account_holder: string;
@@ -557,7 +557,7 @@ export interface IEventFormFieldResponse {
 export interface IContactFormValues {
   name: string;
   email: string;
-  organization_id: number | null;
+  team_id: number | null;
   subject: string;
   message: string;
 }
@@ -587,7 +587,7 @@ export interface ISelectedAddon {
   quantity: number;
 }
 
-export enum OrganizationUserRole {
+export enum TeamUserRole {
   OWNER = "owner",
   MEMBER = "member",
 }

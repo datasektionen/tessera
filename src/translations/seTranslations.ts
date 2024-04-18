@@ -609,7 +609,7 @@ const seTranslations = {
     promo_code_helperText:
       "Ange promokoden för att få tillgång till reserverade biljetter.",
     contact_organizers:
-      "Om du har några frågor, kan du kontakta <1>{{organization}}</1> <2>här</2>.",
+      "Om du har några frågor, kan du kontakta <1>{{team}}</1> <2>här</2>.",
     ticket_request_success_title: "Biljettförfrågan skickad!",
     ticket_request_success_description:
       "Du kan också fylla i denna information senare om du vill. Du kan göra det <1>här</1>.",

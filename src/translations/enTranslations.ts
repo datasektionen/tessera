@@ -41,7 +41,7 @@ const enTranslations = {
       in_beta_title: "Tessera BETA",
       in_beta:
         "Tessera is currently in BETA. This means that Tessera is still\
-        being developed and improved. If you or your organization are interested\
+        being developed and improved. If you or your team are interested\
         in using Tessera BETA, we will set up a team for you free of charge. This way, you can create\
         events and manage ticket releases. At the same time you can provide feedback\
         and help us improve Tessera. Get in touch to get started!",
@@ -52,7 +52,7 @@ const enTranslations = {
       quote1:
         "I'm very proud of Tessera because it's the first time that I've developed software that is being used by a large number of people.",
       quote2:
-        "If your organization or team is looking for an easy-to-use event and ticket management system, please contact me.",
+        "If your team or team is looking for an easy-to-use event and ticket management system, please contact me.",
     },
     how_to_use: {
       request_ticket_title: "Request a ticket",
@@ -718,7 +718,7 @@ const enTranslations = {
     promo_code_title: "Promo code",
     promo_code_helperText: "Enter the promo code to access reserved tickets.",
     contact_organizers:
-      "If you have any questions, you can contact <1>{{organization}}</1> <2>here</2>.",
+      "If you have any questions, you can contact <1>{{team}}</1> <2>here</2>.",
     ticket_request_success_title: "Ticket request successful",
     ticket_request_success_description:
       "You can also fill out this information later if you want. You can do so <1>here</1>.",

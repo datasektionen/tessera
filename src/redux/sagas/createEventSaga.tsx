@@ -51,7 +51,7 @@ function* createEventFullWorkflowSaga(
           ? new Date(event.end_date).getTime() / 1000
           : undefined,
         is_private: event.is_private,
-        organization_id: event.organization_id,
+        team_id: event.team_id,
       },
       ticket_release: {
         name: ticketRelease.name,

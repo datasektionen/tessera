@@ -9,7 +9,7 @@ import {
 import Title from "../../components/text/title";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { Field, Form, Formik } from "formik";
-import { IContactFormValues, IOrganization } from "../../types";
+import { IContactFormValues, ITeam } from "../../types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
@@ -30,20 +30,20 @@ import StyledButton from "../../components/buttons/styled_button";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { listOrganizationsStart } from "../../redux/features/listOrganizationsSlice";
+import { listTeamsStart } from "../../redux/features/listTeamsSlice";
 import LoadingOverlay from "../../components/Loading";
 import { useLocation } from "react-router-dom";
 
 const ContactPage: React.FC = () => {
   const { t } = useTranslation();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
-  const { organizations, loading: orgLoading } = useSelector(
-    (state: RootState) => state.organizations
+  const { teams, loading: orgLoading } = useSelector(
+    (state: RootState) => state.teams
   );
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const organization_id = queryParams.get("organization_id");
+  const team_id = queryParams.get("team_id");
   const dispatch: AppDispatch = useDispatch();
 
   const handleSubmit = async (values: IContactFormValues) => {
@@ -62,13 +62,13 @@ const ContactPage: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(listOrganizationsStart());
+    dispatch(listTeamsStart());
   }, []);
 
   const ContactFormInitialValues: IContactFormValues = {
     name: currentUser?.first_name + " " + currentUser?.last_name,
     email: currentUser?.email!,
-    organization_id: organization_id ? parseInt(organization_id) : 0,
+    team_id: team_id ? parseInt(team_id) : 0,
     subject: "",
     message: "",
   };
@@ -115,20 +115,20 @@ const ContactPage: React.FC = () => {
                   <StyledFormLabel>
                     {t("form.contact.team_name")}*
                   </StyledFormLabel>
-                  <Field name="organization_id">
+                  <Field name="team_id">
                     {({ field, form }: any) => {
-                      const selectedOrganization =
-                        organizations.find((org) => org.id === field.value) ||
+                      const selectedTeam =
+                        teams.find((org) => org.id === field.value) ||
                         ({
                           id: 0,
                           name: "",
                           email: "",
                           created_at: 0,
-                        } as IOrganization);
+                        } as ITeam);
                       return (
                         <Autocomplete
-                          value={selectedOrganization}
-                          options={organizations}
+                          value={selectedTeam}
+                          options={teams}
                           getOptionLabel={(option) => option.name}
                           style={DefaultInputStyle}
                           onChange={(_, newValue) => {
@@ -141,7 +141,7 @@ const ContactPage: React.FC = () => {
                       );
                     }}
                   </Field>
-                  <StyledErrorMessage name="organization_id" />
+                  <StyledErrorMessage name="team_id" />
                   <StyledText
                     level="body-sm"
                     fontSize={16}

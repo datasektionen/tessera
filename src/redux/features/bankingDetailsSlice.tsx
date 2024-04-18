@@ -15,7 +15,7 @@ interface BankingDetailsState {
 const initialState: BankingDetailsState = {
   bankingDetails: {
     id: 0,
-    organization_id: 0,
+    team_id: 0,
     clearing_number: "",
     account_number: "",
     bank_name: "",
@@ -34,7 +34,7 @@ const bankingDetailsSlice = createSlice({
     getBankingDetailsRequest: (
       state,
       action: PayloadAction<{
-        organizationID: number;
+        teamID: number;
       }>
     ) => {
       state.loading = true;
@@ -60,7 +60,7 @@ const bankingDetailsSlice = createSlice({
     submitBankingDetailsRequest: (
       state,
       action: PayloadAction<{
-        organizationID: number;
+        teamID: number;
         bankingDetails: IBankingDetailsReq;
       }>
     ) => {
@@ -83,7 +83,7 @@ const bankingDetailsSlice = createSlice({
     deleteBankingDetailsRequest: (
       state,
       action: PayloadAction<{
-        organizationID: number;
+        teamID: number;
       }>
     ) => {
       state.loading = true;

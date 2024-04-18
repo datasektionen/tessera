@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const api = {
-  getBankingDetails: async (organizationID: number) => {
+  getBankingDetails: async (teamID: number) => {
     const response = await axios.get(
-      `${API_URL}/organizations/${organizationID}/banking-details`,
+      `${API_URL}/teams/${teamID}/banking-details`,
       {
         withCredentials: true,
       }
@@ -16,11 +16,11 @@ const api = {
   },
 
   submitBankingDetails: async (
-    organizationID: number,
+    teamID: number,
     bankingDetails: IBankingDetailsReq
   ) => {
     const response = await axios.post(
-      `${API_URL}/organizations/${organizationID}/banking-details`,
+      `${API_URL}/teams/${teamID}/banking-details`,
       bankingDetails,
       {
         withCredentials: true,
@@ -37,9 +37,9 @@ const api = {
     return response.data;
   },
 
-  deleteBankingDetails: async (organizationID: number) => {
+  deleteBankingDetails: async (teamID: number) => {
     const response = await axios.delete(
-      `${API_URL}/organizations/${organizationID}/banking-details`,
+      `${API_URL}/teams/${teamID}/banking-details`,
       {
         withCredentials: true,
       }

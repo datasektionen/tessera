@@ -17,7 +17,7 @@ export function convertResponseToEvent(responseData: any): IEvent {
     description: responseData.description!,
     location: responseData.location!,
     date: new Date(responseData.date!).getTime(),
-    organizationId: responseData.organization_id!,
+    teamId: responseData.team_id!,
   };
 }
 

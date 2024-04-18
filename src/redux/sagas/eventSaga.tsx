@@ -7,7 +7,7 @@ import {
   IEventForm,
   IEventFormField,
   IEventPostReq,
-  IOrganization,
+  ITeam,
   ITicketRelease,
   ITicketReleaseMethod,
   ITicketReleaseMethodDetail,
@@ -73,15 +73,15 @@ function* eventSaga(
       end_date: eventData.end_date
         ? new Date(eventData.end_date).getTime()
         : undefined,
-      organizationId: eventData.organization_id!,
+      teamId: eventData.team_id!,
       createdById: eventData.created_by!,
-      organization: {
-        id: eventData.organization.ID!,
-        name: eventData.organization.name!,
+      team: {
+        id: eventData.team.ID!,
+        name: eventData.team.name!,
 
-        email: eventData.organization.email!,
-        updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
-      } as IOrganization,
+        email: eventData.team.email!,
+        updatedAt: new Date(eventData.team.UpdatedAt!).getTime(),
+      } as ITeam,
       form_field_description: eventData.form_field_description!,
       form_fields: eventData.form_fields?.map((formField: any) => {
         return {
@@ -205,7 +205,7 @@ function* editEventSaga(
         ? new Date(event.end_date).getTime() / 1000
         : undefined,
       is_private: event.is_private,
-      organization_id: event.organization_id,
+      team_id: event.team_id,
     };
 
     const response = yield call(

@@ -16,7 +16,7 @@ import {
 import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
 import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyOrganizationsRequest } from "../../../redux/features/organizationSlice";
+import { getMyTeamsRequest } from "../../../redux/features/teamSlice";
 import { useEffect, useState } from "react";
 import { EventFormInitialValues, IEvent, IEventForm } from "../../../types";
 import {
@@ -48,9 +48,7 @@ interface EditEventFormProps {
 }
 
 const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
-  const { organizations, loading } = useSelector(
-    (state: RootState) => state.organization
-  );
+  const { teams, loading } = useSelector((state: RootState) => state.team);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -61,7 +59,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    dispatch(getMyOrganizationsRequest());
+    dispatch(getMyTeamsRequest());
   }, [dispatch]);
 
   useEffect(() => {
@@ -77,7 +75,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
           label: event.location,
           value: event.location,
         },
-        organization_id: event.organizationId,
+        team_id: event.teamId,
         is_private: event.is_private,
       });
       setInitValueSet(true);
@@ -213,7 +211,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                   <StyledFormLabel>
                     {t("form.event_details.team")}*
                   </StyledFormLabel>
-                  <Field name="organization_id">
+                  <Field name="team_id">
                     {({ field, form }: any) => {
                       return (
                         <Select
@@ -223,7 +221,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                           }}
                           style={DefaultInputStyle}
                         >
-                          {organizations?.map((org) => {
+                          {teams?.map((org) => {
                             return (
                               <Option key={org.id} value={org.id}>
                                 {org.name}
@@ -234,7 +232,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                       );
                     }}
                   </Field>
-                  <StyledErrorMessage name="organization_id" />
+                  <StyledErrorMessage name="team_id" />
                   <StyledFormLabelWithHelperText>
                     {t("form.event_details.team_helperText")}
                   </StyledFormLabelWithHelperText>
