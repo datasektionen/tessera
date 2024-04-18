@@ -3,10 +3,10 @@ import React from "react";
 export const MainPage = React.lazy(() => import("../pages/main"));
 export const ProfilePage = React.lazy(() => import("../pages/profile"));
 export const EditEventAddTicketReleasePage = React.lazy(
-  () => import("../pages/event/edit_ticket_release")
+  () => import("../pages/event/edit/add_ticket_release")
 );
 export const EditTicketTypes = React.lazy(
-  () => import("../pages/event/edit_ticket_types")
+  () => import("../pages/event/edit/edit_ticket_types")
 );
 export const ProfileTicketRequestsPage = React.lazy(
   () => import("../pages/profile/profile_ticket_requests")
@@ -30,7 +30,7 @@ export const EventEconomyPage = React.lazy(
   () => import("../pages/event/economy")
 );
 export const EditTicketReleaseAddonsPage = React.lazy(
-  () => import("../pages/event/edit_addons")
+  () => import("../pages/event/edit/edit_addons")
 );
 export const ManageEventTicketReleasesPage = React.lazy(
   () => import("../pages/event/manage/ticket_releases")
@@ -51,7 +51,9 @@ export const CreateEventPage = React.lazy(
   () => import("../pages/event/create")
 );
 
-export const EditEventPage = React.lazy(() => import("../pages/event/edit"));
+export const EditEventPage = React.lazy(
+  () => import("../pages/event/edit/edit_event")
+);
 
 export const External = React.lazy(() => import("../pages/external"));
 export const WelcomePage = React.lazy(() => import("../pages/welcome"));
@@ -95,4 +97,12 @@ export const EventSendOutsPage = React.lazy(
 
 export const ManageSendOutList = React.lazy(
   () => import("../pages/event/send_out/list_send_out")
+);
+
+export const EditEventTicketReleasesPage = React.lazy(
+  () => import("../pages/event/edit/edit_ticket_releases")
+);
+
+export const EditEventFormPage = React.lazy(
+  () => import("../pages/event/edit/edit_event_form")
 );

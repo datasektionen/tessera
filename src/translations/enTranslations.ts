@@ -415,6 +415,17 @@ const enTranslations = {
     add_ticket_release: "Add ticket release",
     ticket_release_time_title: "Ticket release open and close",
 
+    breadcrumbs: {
+      manage: "Manage",
+      edit: "Edit",
+      ticket_releases: "Ticket releases",
+      event: "Event",
+      addons: "Addons",
+      ticket_types: "Ticket batches",
+      form: "Form",
+      send_outs: "Send outs",
+    },
+
     overview: {
       title: "Overview",
       site_visits: "Site visits",
@@ -440,8 +451,15 @@ const enTranslations = {
         title: "Settings",
         financial: "Financial",
         emails: "Emails",
-        landing_page: "Landing page",
         domains: "Domains",
+      },
+
+      edit: {
+        event: "Event",
+        ticket_releases: "Ticket releases",
+        ticket_types: "Ticket batches",
+        form: "Form",
+        landing_page: "Landing page",
       },
 
       send_outs: {
@@ -585,6 +603,7 @@ const enTranslations = {
       },
       ticket_releases: {
         title: "Edit Ticket Release",
+        edit_name: "Edit {{name}}",
         subtitle:
           "Create ticket releases for your event. You can create as many as you want, and you can edit them later.",
         select: "Select a ticket release to edit it.",

@@ -15,6 +15,7 @@ import { getEventRequest } from "../../../redux/features/eventSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
+import { generateRoute, ROUTES } from "../../../routes/def";
 
 const ManageEventTicketsPage: React.FC = () => {
   const { eventID } = useParams();
@@ -90,10 +91,15 @@ const ManageEventTicketsPage: React.FC = () => {
       <Box sx={{ marginLeft: `70px`, marginRight: `20px` }}>
         <Title fontSize={36}>{t("manage_event.tickets.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
-          <BreadCrumbLink to={`/events/${eventID}/manage`} label="Manage" />
           <BreadCrumbLink
-            to={`/events/${eventID}/manage/tickets`}
-            label="Tickets"
+            to={generateRoute(ROUTES.MANAGE_EVENT, { eventId: eventID! })}
+            label={t("manage_event.breadcrumbs.manage")}
+          />
+          <BreadCrumbLink
+            to={generateRoute(ROUTES.MANAGE_EVENT_TICKETS, {
+              eventId: eventID!,
+            })}
+            label={t("manage_event.breadcrumbs.tickets")}
           />
           {selectedTicket && (
             <BreadCrumbLink

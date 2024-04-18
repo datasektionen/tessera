@@ -14,7 +14,7 @@ export const generateEditTicketReleaseAddons = (
 
 interface GenerateRouteParams {
   eventId: number | string;
-  ticketReleaseId?: number;
+  ticketReleaseId?: number | string;
   token?: string;
   ticketId?: number;
   organizationId?: number;
@@ -64,6 +64,10 @@ export const ROUTES = {
     "/events/:eventID/ticket-release/:ticketReleaseID/ticket-types",
   EDIT_EVENT_TICKET_RELEASE_ADDONS:
     "/events/:eventID/ticket-release/:ticketReleaseID/addons",
+  EDIT_EVENT_TICKET_RELEASES: "/events/:eventID/edit/ticket-releases",
+  EDIT_EVENT_TICKET_TYPES: "/events/:eventID/edit/ticket-types",
+  EDIT_EVENT_FORM: "/events/:eventID/edit/form",
+  EDIT_EVENT_LANDING_PAGE: "/events/:eventID/edit/landing-page",
   CREATE_EVENT: "/create-event",
   MANAGE_EVENT: "/events/:eventID/manage",
   MANAGE_EVENT_TICKET_RELEASES: "/events/:eventID/manage/ticket-releases",
@@ -100,6 +104,6 @@ export const ROUTES = {
   CONTACT_PAGE: "/contact",
   TICKET_SCANNER: "/events/:eventID/manage/scan",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
-  EVENT_ECONOMY: "/events/:eventID/manage/economy",
+  MANAGE_EVENT_ECONOMY: "/events/:eventID/manage/economy",
   PRIVACY_POLICY: "/privacy-policy",
 };

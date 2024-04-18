@@ -79,10 +79,13 @@ const ListSendOutsPage: React.FC = () => {
           </IconButton>
         </Stack>
         <Breadcrumbs sx={{ p: 0 }}>
-          <BreadCrumbLink to={`/events/${eventID}/manage`} label="Manage" />
+          <BreadCrumbLink
+            to={`/events/${eventID}/manage`}
+            label={t("manage_event.breadcrumbs.manage")}
+          />
           <BreadCrumbLink
             to={`/events/${eventID}/send-outs/list`}
-            label="Send Outs"
+            label={t("manage_event.breadcrumbs.send_outs")}
           />
         </Breadcrumbs>
         <Grid container columns={12} spacing={5}>

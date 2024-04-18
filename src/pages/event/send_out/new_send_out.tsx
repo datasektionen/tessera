@@ -253,18 +253,21 @@ const NewSendOut: React.FC = () => {
           <Box mx="64px" mt={"16px"}>
             <Title fontSize={36}>{t("manage_event.send_out.new")}</Title>
             <Breadcrumbs sx={{ p: 0 }}>
-              <BreadCrumbLink to={`/events/${eventID}/manage`} label="Manage" />
+              <BreadCrumbLink
+                to={`/events/${eventID}/manage`}
+                label={t("manage_event.breadcrumbs.manage")}
+              />
               <BreadCrumbLink
                 to={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
                   eventId: eventID!,
                 })}
-                label="Send Outs"
+                label={t("manage_event.breadcrumbs.send_outs")}
               />
               <BreadCrumbLink
                 to={generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
                   eventId: eventID!,
                 })}
-                label="New Send Out"
+                label={t("manage_event.send_out.new")}
               />
             </Breadcrumbs>
             <StyledText

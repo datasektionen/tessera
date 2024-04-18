@@ -48,6 +48,8 @@ import {
   SettingsFinancialPage,
   EventSendOutsPage,
   ManageSendOutList,
+  EditEventTicketReleasesPage,
+  EditEventFormPage,
 } from "./page_import";
 
 function withCurrentUserRequest<P>(
@@ -80,6 +82,13 @@ const EditEventAddTicketReleasePageWithCurrentUser = withCurrentUserRequest(
   EditEventAddTicketReleasePage
 );
 const EditTicketTypesWithCurrentUser = withCurrentUserRequest(EditTicketTypes);
+const EditEventTicketReleasesPageWithCurrentUser = withCurrentUserRequest(
+  EditEventTicketReleasesPage
+);
+
+const EditEventFormPageWithCurrentUser =
+  withCurrentUserRequest(EditEventFormPage);
+
 const ProfileTicketRequestsPageWithCurrentUser = withCurrentUserRequest(
   ProfileTicketRequestsPage
 );
@@ -189,6 +198,14 @@ function AppRoutes() {
               element={<EditTicketReleaseAddonsWithCurrentUser />}
             />
             <Route
+              path={ROUTES.EDIT_EVENT_TICKET_RELEASES}
+              element={<EditEventTicketReleasesPageWithCurrentUser />}
+            />
+            <Route
+              path={ROUTES.EDIT_EVENT_FORM}
+              element={<EditEventFormPageWithCurrentUser />}
+            />
+            <Route
               path={ROUTES.PROFILE_TICKET_REQUESTS}
               element={<ProfileTicketRequestsPageWithCurrentUser />}
             />
@@ -232,7 +249,7 @@ function AppRoutes() {
               element={<ManageSendOutListWithCurrentUser />}
             />
             <Route
-              path={ROUTES.EVENT_ECONOMY}
+              path={ROUTES.MANAGE_EVENT_ECONOMY}
               element={<EventEconomyPageWithCurrentUser />}
             />
             <Route

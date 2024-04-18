@@ -1,27 +1,30 @@
-import { useEffect, useState } from "react";
-import TesseraWrapper from "../../../components/wrappers/page_wrapper";
 import { useNavigate, useParams } from "react-router-dom";
-import { getEventRequest } from "../../../redux/features/eventSlice";
-import { AppDispatch, RootState } from "../../../store";
-import { useDispatch } from "react-redux";
-import ListEventTicketReleases from "../../../components/events/ticket_release/list";
-import { useSelector } from "react-redux";
-import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
-import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
-import { Box, Breadcrumbs, Grid } from "@mui/joy";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
-import { ITicket, ITicketRelease } from "../../../types";
-import TicketReleaseRowView from "../../../components/events/ticket_release/list/ticket_release_row_view";
-import PALLETTE from "../../../theme/pallette";
-import Title from "../../../components/text/title";
+import { ITicket, ITicketRelease } from "../../../../types";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
-import { ScrollConfig } from "../../../components/constant/scroll_config";
+import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
+import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import { Box, Breadcrumbs, Grid, Stack } from "@mui/joy";
+import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
+import ListEventTicketReleases from "../../../../components/events/ticket_release/list";
+import { ScrollConfig } from "../../../../components/constant/scroll_config";
+import Title from "../../../../components/text/title";
+import EditTicketReleaseForm from "../../../../components/events/edit/ticket_release/edit_ticket_release_form";
+import StyledButton from "../../../../components/buttons/styled_button";
+import PALLETTE from "../../../../theme/pallette";
+import {
+  generateEditTicketReleaseAddons,
+  generateEditTicketReleaseTicketTypes,
+  generateRoute,
+  ROUTES,
+} from "../../../../routes/def";
+import StyledText from "../../../../components/text/styled_text";
+import EditTicketRelease from "../../../../components/events/edit/ticket_release/edit_ticket_release";
 
 const drawerWidth = 200;
 
-const ManageEventTicketReleasesPage: React.FC = () => {
+const EditTicketReleasesPage: React.FC = () => {
   const { eventID } = useParams();
   const navigate = useNavigate();
   const [selectedTicketRelease, setSelectedTicketRelease] =
@@ -40,7 +43,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
     setSelectedTicketRelease(ticketRelease);
 
     navigate(
-      `/events/${eventID}/manage/ticket-releases?ticket_release_id=${ticketRelease.id}`,
+      `/events/${eventID}/edit/ticket-releases?ticket_release_id=${ticketRelease.id}`,
       {
         replace: true,
       }
@@ -48,7 +51,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const grouped = tickets.reduce((groups, ticket) => {
+    const grouped = tickets.reduce((groups: any, ticket: ITicket) => {
       const key = ticket?.ticket_request?.ticket_release?.id!;
       if (!groups[key]) {
         groups[key] = [];
@@ -68,7 +71,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
       const parsedID = parseInt(ticketReleaseID);
       if (!isNaN(parsedID)) {
         const ticketRelease = event?.ticketReleases?.find(
-          (tr) => tr.id === parsedID
+          (tr: any) => tr.id === parsedID
         );
 
         if (!ticketRelease) {
@@ -92,16 +95,30 @@ const ManageEventTicketReleasesPage: React.FC = () => {
           width: `calc(100% - ${drawerWidth}px)`,
         }}
       >
-        <Title fontSize={36}>{t("manage_event.ticket_releases.title")}</Title>
+        <Title fontSize={36}>
+          {t("manage_event.edit.ticket_releases.title")}
+        </Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
             to={`/events/${eventID}/manage`}
             label={t("manage_event.breadcrumbs.manage")}
           />
           <BreadCrumbLink
-            to={`/events/${eventID}/manage/ticket-releases`}
-            label={t("manage_event.breadcrumbs.ticket_releases")}
+            to={generateRoute(ROUTES.EDIT_EVENT_TICKET_RELEASES, {
+              eventId: eventID!,
+            })}
+            label={
+              t("manage_event.breadcrumbs.edit") +
+              " " +
+              t("manage_event.breadcrumbs.ticket_releases")
+            }
           />
+          {selectedTicketRelease && (
+            <BreadCrumbLink
+              to={`/events/${eventID}/edit/ticket-releases?ticket_release_id=${selectedTicketRelease.id}`}
+              label={selectedTicketRelease.name}
+            />
+          )}
         </Breadcrumbs>
         <Grid container columns={12} spacing={5} sx={{ mt: 1 }}>
           <Grid
@@ -119,11 +136,9 @@ const ManageEventTicketReleasesPage: React.FC = () => {
           </Grid>
           <Grid xs={10}>
             {selectedTicketRelease !== null && (
-              <TicketReleaseRowView
-                ticketRelease={selectedTicketRelease!}
-                ticketReleaseTickets={
-                  groupedTickets[selectedTicketRelease.id] || []
-                }
+              <EditTicketRelease
+                ticketRelease={selectedTicketRelease}
+                event={event!}
               />
             )}
           </Grid>
@@ -132,4 +147,4 @@ const ManageEventTicketReleasesPage: React.FC = () => {
     </MUITesseraWrapper>
   );
 };
-export default ManageEventTicketReleasesPage;
+export default EditTicketReleasesPage;

@@ -111,10 +111,42 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
             },
           ]}
         />
-        <DrawerListItem
+        <CollapsibleDrawerSection
           icon={<EditIcon />}
-          text={t("form.button_edit")}
-          navigateTo={`/events/${eventID}/edit`}
+          title={t("form.button_edit")}
+          mainNavigateTo={generateRoute(ROUTES.EDIT_EVENT, {
+            eventId: eventID,
+          })}
+          subItems={[
+            {
+              title: t("manage_event.drawer.edit.event"),
+              navigateTo: generateRoute(ROUTES.EDIT_EVENT, {
+                eventId: eventID,
+              }),
+              clickable: true,
+            },
+            {
+              title: t("manage_event.drawer.edit.ticket_releases"),
+              navigateTo: generateRoute(ROUTES.EDIT_EVENT_TICKET_RELEASES, {
+                eventId: eventID,
+              }),
+              clickable: true,
+            },
+            {
+              title: t("manage_event.drawer.edit.form"),
+              navigateTo: generateRoute(ROUTES.EDIT_EVENT_FORM, {
+                eventId: eventID,
+              }),
+              clickable: true,
+            },
+            {
+              title: t("manage_event.drawer.edit.landing_page"),
+              navigateTo: generateRoute(``, {
+                eventId: eventID,
+              }),
+              clickable: false,
+            },
+          ]}
         />
 
         <CollapsibleDrawerSection
@@ -136,11 +168,15 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
         <CollapsibleDrawerSection
           icon={<AttachMoneyIcon />}
           title={t("manage_event.drawer.economy.title")}
-          mainNavigateTo={`/events/${eventID}/manage/economy`}
+          mainNavigateTo={generateRoute(ROUTES.MANAGE_EVENT_ECONOMY, {
+            eventId: eventID,
+          })}
           subItems={[
             {
               title: t("manage_event.drawer.economy.pay_outs"),
-              navigateTo: `/events/${eventID}/manage/economy/pay-outs`,
+              navigateTo: generateRoute(``, {
+                eventId: eventID,
+              }),
               clickable: false,
             },
           ]}
@@ -151,22 +187,23 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({ eventID }) => {
           subItems={[
             {
               title: t("manage_event.drawer.settings.financial"),
-              navigateTo: `/events/${eventID}/manage/settings/financial`,
+              navigateTo: generateRoute(ROUTES.SETTIGNS_FINANCIAL, {
+                eventId: eventID,
+              }),
               clickable: true,
             },
             {
               title: t("manage_event.drawer.settings.emails"),
-              navigateTo: `/events/${eventID}/manage/settings/emails`,
-              clickable: false,
-            },
-            {
-              title: t("manage_event.drawer.settings.landing_page"),
-              navigateTo: `/events/${eventID}/manage/settings/landing-page`,
+              navigateTo: generateRoute(``, {
+                eventId: eventID,
+              }),
               clickable: false,
             },
             {
               title: t("manage_event.drawer.settings.domains"),
-              navigateTo: `/events/${eventID}/manage/settings/domains`,
+              navigateTo: generateRoute(``, {
+                eventId: eventID,
+              }),
               clickable: false,
             },
           ]}

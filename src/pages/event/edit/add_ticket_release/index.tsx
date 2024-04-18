@@ -1,24 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store";
+import { AppDispatch, RootState } from "../../../../store";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { resetTicketTypes } from "../../../redux/features/ticketTypeCreationSlice";
+import { resetTicketTypes } from "../../../../redux/features/ticketTypeCreationSlice";
 
-import TesseraWrapper from "../../../components/wrappers/page_wrapper";
+import TesseraWrapper from "../../../../components/wrappers/page_wrapper";
 import { Box, Grid } from "@mui/joy";
-import EditEventAddTicketRelease from "../../../components/events/edit/edit_event_add_ticket_release";
+import EditEventAddTicketRelease from "../../../../components/events/edit/edit_event_add_ticket_release";
 import {
   ITicketReleaseForm,
   ITicketTypeForm,
   TicketReleaseFormInitialValues,
-} from "../../../types";
+} from "../../../../types";
 import { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
-import { getEventRequest } from "../../../redux/features/eventSlice";
-import LoadingOverlay from "../../../components/Loading";
-import { createTicketReleaseRequest } from "../../../redux/features/createTicketReleaseSlice";
+import { getEventRequest } from "../../../../redux/features/eventSlice";
+import LoadingOverlay from "../../../../components/Loading";
+import { createTicketReleaseRequest } from "../../../../redux/features/createTicketReleaseSlice";
 import { format } from "date-fns";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer";
 
 const EditEventAddTicketReleasePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
