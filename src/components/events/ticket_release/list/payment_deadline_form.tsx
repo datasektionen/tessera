@@ -32,6 +32,7 @@ interface PaymentDeadlineFormProps {
   setReservePaymentDuration: (values: any) => void;
   initialValues?: ITicketReleasePaymentDeadlineForm;
   ticketRelease?: ITicketRelease;
+  allocation?: boolean;
   enableReinitialize?: boolean;
 }
 
@@ -45,6 +46,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
   },
   ticketRelease,
   enableReinitialize = false,
+  allocation = false,
 }) => {
   const { t } = useTranslation();
 
@@ -57,10 +59,11 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
   }, [initialValues.reserve_payment_duration, setReservePaymentDuration]);
 
   if (
-    (ticketRelease &&
+    ((ticketRelease &&
       (ticketReleaseHasNotOpened(ticketRelease, timestamp) ||
         ticketReleaseHasOpened(ticketRelease, timestamp))) ||
-    !ticketRelease?.has_allocated_tickets
+      !ticketRelease?.has_allocated_tickets) &&
+    !allocation
   ) {
     return (
       <StyledText

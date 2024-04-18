@@ -147,6 +147,7 @@ const ConfirmTicketAllocationModal: React.FC<
           onSubmit={handleAllocateTickets}
           reservePaymentDuration={reservePaymentDuration}
           setReservePaymentDuration={setReservePaymentDuration}
+          allocation={true}
         />
       </StyledText>
     </ConfirmModal>
