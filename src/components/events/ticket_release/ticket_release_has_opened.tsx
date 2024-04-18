@@ -180,11 +180,13 @@ const TicketReleaseHasOpened: React.FC<{
           </Typography>
         )}
       </Stack>
-      <TicketReleaseAddons
-        ticketRelease={ticketRelease}
-        handleChange={handleAddonChange}
-        selectedAddons={selectedAddons}
-      />
+      {ticketRelease.addons && ticketRelease.addons.length > 0 && (
+        <TicketReleaseAddons
+          ticketRelease={ticketRelease}
+          handleChange={handleAddonChange}
+          selectedAddons={selectedAddons}
+        />
+      )}
       {basket! && (
         <>
           <Typography
