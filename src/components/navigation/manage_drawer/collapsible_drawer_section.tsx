@@ -71,12 +71,8 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
               <SubButton
                 key={item.title}
                 title={item.title}
-                onClick={() => {
-                  if (item.clickable) {
-                    navigate(item.navigateTo);
-                  }
-                }}
                 clickable={item.clickable}
+                navigateTo={item.navigateTo}
               />
             ))}
           </List>

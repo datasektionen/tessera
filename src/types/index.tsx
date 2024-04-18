@@ -250,6 +250,39 @@ export interface ITicketReleaseMethodDetail {
   ticketReleaseMethod?: ITicketReleaseMethod;
 }
 
+export enum NotificationType {
+  EMAIL = "email",
+}
+
+export enum NotificationStatus {
+  PENDING = "pending",
+  SENT = "sent",
+  FAILED = "failed",
+}
+
+export interface INotification {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  event_id?: number | null;
+  user?: IUser;
+  type: NotificationType;
+  status: NotificationStatus;
+  status_message?: string | null;
+  send_out_id?: number | null;
+  subject?: string | null;
+  content?: string | null;
+}
+export interface ISendOut {
+  id: number;
+  event_id: number;
+  notifications: INotification[];
+  subject: string;
+  content: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export interface ITicketType {
   id: number;
   ticketReleaseId: number;

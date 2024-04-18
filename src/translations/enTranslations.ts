@@ -451,7 +451,7 @@ const enTranslations = {
       },
 
       manage: {
-        title: "Manage",
+        title: "Overview",
         tickets: "Tickets",
         ticket_releases: "Ticket releases",
         check_in: "Check in",
@@ -554,7 +554,8 @@ const enTranslations = {
         "This event is private. Share the link below with the people you want to invite to the event.",
     },
     send_out: {
-      title: "Send Out",
+      title: "Send Outs",
+      new: "New Send Out",
       description:
         "Send out an email to all users that have requested a ticket for this event. You can use this to notify users about the ticket release, or to notify users that have been allocated a ticket.",
       preview: "Preview",
@@ -571,6 +572,10 @@ const enTranslations = {
       filter_tickets_helperText:
         "Filter tickets based on their status. You can select multiple statuses.",
       num_users: "The email will be sent to {{numUsers}} users.",
+
+      recipients: "Recipients",
+      status_message: "Status message",
+      no_send_outs: "There are no send outs for this event.",
     },
     edit: {
       title: "Edit event",

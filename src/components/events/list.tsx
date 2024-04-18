@@ -1,16 +1,12 @@
 import React from "react";
 import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import Typography from "@mui/joy/Typography";
 import Grid from "@mui/joy/Grid";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import InfoIcon from "@mui/icons-material/Info";
 import { IEvent } from "../../types";
 import PALLETTE from "../../theme/pallette";
-import { Box, Button, Chip, IconButton, Link, Stack } from "@mui/joy";
+import { Box, Chip, IconButton, Link, Stack } from "@mui/joy";
 import StyledText from "../text/styled_text";
-import StyledButton from "../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
