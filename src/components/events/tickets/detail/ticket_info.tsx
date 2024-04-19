@@ -9,8 +9,8 @@ import {
   ModalDialog,
   Stack,
 } from "@mui/joy";
-import { ITicket } from "../../../../types";
-import { LabelValue } from "./ticket_utils";
+import { IEvent, ITicket, ITicketType } from "../../../../types";
+import { LabelValue, TicketBatchLabelValue } from "./ticket_utils";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { Label } from "@mui/icons-material";
@@ -25,10 +25,16 @@ import {
   ticketsEnteredIntoFCFSLottery,
 } from "../../../../utils/event_open_close";
 import { ScrollConfig } from "../../../constant/scroll_config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StyledButton from "../../../buttons/styled_button";
 import TicketEditForm from "./edit_ticket_info";
 import { sendTicketUpdateRequest } from "../../../../redux/sagas/axios_calls/manage/tickets/edit_ticket";
+import axios from "axios";
+import { AppDispatch, RootState } from "../../../../store";
+import { useDispatch } from "react-redux";
+import { fetchTicketTypesRequest } from "../../../../redux/features/ticketTypeSlice";
+import { useSelector } from "react-redux";
+import useChangeTicketBatch from "../../../../hooks/use_change_ticket_batch_hook";
 interface TicketInfoProps {
   ticket: ITicket;
 }
@@ -45,6 +51,16 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
   const ticket_add_ons = ticket_request?.ticket_add_ons || [];
 
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+
+  const {
+    onSave: onTicketChangeSave,
+    ticketTypes,
+    loading: ticketBatchLoading,
+  } = useChangeTicketBatch(
+    ticket_release?.eventId!,
+    ticket_release?.id!,
+    ticket.id
+  );
 
   const onSave = (values: any) => {
     setOpenEditModal(false);
@@ -101,7 +117,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
         justifyContent="flex-start"
         alignItems="flex-start"
       >
-        <Box sx={{ width: "400px" }}>
+        <Box sx={{ width: "550px" }}>
           <StyledText
             level="body-sm"
             color={PALLETTE.cerise}
@@ -110,7 +126,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
           >
             {t("manage_event.tickets.ticket_info.title")}
           </StyledText>
-          {ticket_request?.deleted_at && (
+          {ticket_request?.deleted_at ? (
             <LabelValue
               label={t("manage_event.tickets.ticket_info.deleted_at")}
               value={format(
@@ -118,8 +134,8 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
                 "dd MMMM, yyyy, HH:mm"
               )}
             />
-          )}
-          {ticket.deleted_at && (
+          ) : null}
+          {ticket.deleted_at ? (
             <LabelValue
               label={t("manage_event.tickets.ticket_info.deleted_at")}
               value={format(
@@ -127,7 +143,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
                 "dd MMMM, yyyy, HH:mm"
               )}
             />
-          )}
+          ) : null}
           <LabelValue
             label={t("manage_event.tickets.ticket_info.ticket_type")}
             value={
@@ -152,11 +168,23 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
             />
           )}
 
-          <LabelValue
-            label={t("manage_event.tickets.ticket_info.ticket_batch")}
-            value={ticket_type?.name}
-            tooltip={ticket_type?.description}
-          />
+          {!ticketBatchLoading &&
+            (ticket.is_paid ? (
+              <LabelValue
+                label={t("manage_event.tickets.ticket_info.ticket_batch")}
+                value={ticket_type?.name}
+              />
+            ) : (
+              <TicketBatchLabelValue
+                label={t("manage_event.tickets.ticket_info.ticket_batch")}
+                value={ticketTypes.find(
+                  (ticketType: ITicketType) =>
+                    ticketType.id === ticket.ticket_request?.ticket_type_id!
+                )}
+                options={ticketTypes}
+                onSave={onTicketChangeSave}
+              />
+            ))}
 
           <LabelValue
             label={t("manage_event.tickets.ticket_info.ticket_release")}
