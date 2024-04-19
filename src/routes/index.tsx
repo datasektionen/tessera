@@ -1,5 +1,5 @@
 // Import statements should be at the top
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import React, {
   ComponentType,
   startTransition,
@@ -133,9 +133,21 @@ const ManageSendOutListWithCurrentUser =
 const EventSendOutsPageWithCurrentUser =
   withCurrentUserRequest(EventSendOutsPage);
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function AppRoutes() {
   return (
     <BrowserRouter basename="/">
+      <ScrollToTop />
+
       <Suspense
         fallback={
           <TesseraWrapper>
