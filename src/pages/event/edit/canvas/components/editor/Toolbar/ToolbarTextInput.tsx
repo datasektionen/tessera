@@ -1,35 +1,6 @@
 import { TextField, InputAdornment } from "@mui/material";
-import { styled } from "@mui/system";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChromePicker } from "react-color";
-
-const StyledTextField = styled(TextField)({
-  "& .MuiInputBase-root": {
-    padding: 0,
-    width: "100%",
-    borderRadius: "100px",
-    border: "none",
-    margin: 0,
-    marginTop: 7,
-    position: "relative",
-    background: "#efeff1",
-    fontSize: "12px",
-    paddingLeft: "28px",
-    paddingBottom: "8px",
-    paddingTop: "8px",
-  },
-  "& .MuiInputLabel-root": {
-    color: "rgb(128,128,128)",
-    fontSize: "18px",
-    borderRadius: "100px",
-    paddingLeft: "0px",
-    paddingTop: "3px",
-    marginBottom: "3px",
-    position: "relative",
-    left: "-12px",
-  },
-});
 
 export type ToolbarTextInputProps = {
   prefix?: string;
@@ -65,15 +36,22 @@ export const ToolbarTextInput = ({
     >
       {(type === "color" || type === "bg") && active ? (
         <div
-          className="absolute"
           style={{
+            position: "absolute",
             zIndex: 99999,
             top: "calc(100% + 10px)",
             left: "-5%",
           }}
         >
           <div
-            className="fixed top-0 left-0 w-full h-full cursor-pointer"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              cursor: "pointer",
+            }}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -88,7 +66,7 @@ export const ToolbarTextInput = ({
           />
         </div>
       ) : null}
-      <StyledTextField
+      <TextField
         label={label}
         style={{ margin: 0, width: "100%" }}
         value={internalValue || ""}
@@ -114,8 +92,12 @@ export const ToolbarTextInput = ({
               }}
             >
               <div
-                className="w-2 h-2 inline-block rounded-full relative"
                 style={{
+                  width: "2px",
+                  height: "2px",
+                  display: "inline-block",
+                  borderRadius: "50%",
+                  position: "relative",
                   left: "15px",
                   background: internalValue,
                 }}
@@ -125,6 +107,32 @@ export const ToolbarTextInput = ({
         }}
         InputLabelProps={{
           shrink: true,
+        }}
+        sx={{
+          "& .MuiInputBase-root": {
+            padding: 0,
+            width: "100%",
+            borderRadius: "100px",
+            border: "none",
+            margin: 0,
+            marginTop: 7,
+            position: "relative",
+            background: "#efeff1",
+            fontSize: "12px",
+            paddingLeft: "28px",
+            paddingBottom: "8px",
+            paddingTop: "8px",
+          },
+          "& .MuiInputLabel-root": {
+            color: "rgb(128,128,128)",
+            fontSize: "18px",
+            borderRadius: "100px",
+            paddingLeft: "0px",
+            paddingTop: "3px",
+            marginBottom: "3px",
+            position: "relative",
+            left: "-12px",
+          },
         }}
         {...props}
       />

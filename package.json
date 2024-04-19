@@ -82,6 +82,7 @@
     "redux-devtools-extension": "^2.13.9"
   },
   "scripts": {
+    "build:css": "tailwindcss build src/index.css -o src/tailwind.css",
     "start": "PORT=5000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

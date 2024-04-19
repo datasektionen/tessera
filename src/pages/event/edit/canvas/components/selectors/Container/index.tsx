@@ -3,6 +3,7 @@ import React from "react";
 import { ContainerSettings } from "./ContainerSettings";
 
 import { Resizer } from "../Resizer";
+import { he } from "date-fns/locale";
 
 export type ContainerProps = {
   background: Record<"r" | "g" | "b" | "a", number>;

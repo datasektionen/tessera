@@ -1,37 +1,13 @@
 import { useNode, useEditor } from "@craftjs/core";
 import { ROOT_NODE } from "@craftjs/utils";
-import React, { useEffect, useRef, useCallback, RefObject } from "react";
+import React, { useEffect, useRef, useCallback, useLayoutEffect } from "react";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
 
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-
-const IndicatorDiv = styled.div`
-  height: 30px;
-  margin-top: -29px;
-  font-size: 12px;
-  line-height: 12px;
-
-  svg {
-    fill: #fff;
-    width: 15px;
-    height: 15px;
-  }
-`;
-
-const Btn = styled.a`
-  padding: 0 0px;
-  opacity: 0.9;
-  display: flex;
-  align-items: center;
-  > div {
-    position: relative;
-    top: -50%;
-    left: -50%;
-  }
-`;
 
 export const RenderNode = ({ render }: any) => {
   const { id } = useNode();
@@ -51,13 +27,13 @@ export const RenderNode = ({ render }: any) => {
     isHover: node.events.hovered,
     dom: node.dom,
     name: node.data.custom.displayName || node.data.displayName,
-    moveable: query.node(node.id).isDraggable(),
+    moveable: true,
     deletable: query.node(node.id).isDeletable(),
     parent: node.data.parent,
     props: node.data.props,
   }));
 
-  const currentRef = useRef<HTMLDivElement>();
+  const currentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (dom) {
@@ -67,25 +43,26 @@ export const RenderNode = ({ render }: any) => {
   }, [dom, isActive, isHover]);
 
   const getPos = useCallback((dom: HTMLElement) => {
-    const { top, left, bottom } = dom
-      ? dom.getBoundingClientRect()
-      : { top: 0, left: 0, bottom: 0 };
+    if (!dom) return { top: "0px", left: "0px" };
+
+    const { top, left } = dom.getBoundingClientRect();
+    const offsetTop = 40; // Height of the overlay to avoid overlapping.
     return {
-      top: `${top > 0 ? top : bottom}px`,
+      top: `${top - offsetTop > 0 ? top - offsetTop : 0}px`, // Adjusted to avoid negative values
       left: `${left}px`,
     };
   }, []);
 
   const scroll = useCallback(() => {
     const { current: currentDOM } = currentRef;
+    if (!currentDOM || !dom) return;
 
-    if (!currentDOM) return;
-    const { top, left } = dom ? getPos(dom) : { top: 0, left: 0 };
-    currentDOM.style.top = `${top}px`;
-    currentDOM.style.left = `${left}px`;
+    const { top, left } = getPos(dom);
+    currentDOM.style.top = top;
+    currentDOM.style.left = left;
   }, [dom, getPos]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const pageContainer = document.querySelector(".page-container");
     if (pageContainer) {
       pageContainer.addEventListener("scroll", scroll);
@@ -100,49 +77,55 @@ export const RenderNode = ({ render }: any) => {
 
   return (
     <>
-      {isHover || isActive
-        ? ReactDOM.createPortal(
-            <IndicatorDiv
-              ref={currentRef as any}
-              className="px-2 py-2 text-white bg-primary fixed flex items-center"
-              style={{
-                left: dom ? getPos(dom).left : 0,
-                top: dom ? getPos(dom).top : 0,
-                zIndex: 9999,
-              }}
-            >
-              <h2 className="flex-1 mr-4">{name}</h2>
-              {moveable ? (
-                <Btn className="mr-2 cursor-move" ref={drag as any}>
-                  <DragIndicatorIcon />
-                </Btn>
-              ) : null}
-              {id !== ROOT_NODE && parent && (
-                <Btn
-                  className="mr-2 cursor-pointer"
-                  onClick={() => {
-                    actions.selectNode(parent);
-                  }}
-                >
-                  <ArrowUpwardIcon />
-                </Btn>
-              )}
-              {deletable ? (
-                <Btn
-                  className="cursor-pointer"
-                  onMouseDown={(e: React.MouseEvent) => {
-                    e.stopPropagation();
-                    actions.delete(id);
-                  }}
-                >
-                  <DeleteIcon />
-                </Btn>
-              ) : null}
-            </IndicatorDiv>,
-            document.querySelector(".page-container") ||
-              document.createDocumentFragment()
-          )
-        : null}
+      {(isHover || isActive) &&
+        ReactDOM.createPortal(
+          <Box
+            ref={currentRef}
+            sx={{
+              px: 2,
+              py: 2,
+              height: 40,
+              color: "white",
+              bgcolor: "primary.main",
+              position: "fixed",
+              display: "flex",
+              alignItems: "center",
+              left: dom ? getPos(dom).left : 0,
+              top: dom ? getPos(dom).top : 0,
+              zIndex: 9999,
+            }}
+          >
+            <Box component="h2" sx={{ flex: 1, mr: 4 }}>
+              {name}
+            </Box>
+            {moveable ? (
+              <IconButton className="cursor-move" ref={drag as any}>
+                <DragIndicatorIcon />
+              </IconButton>
+            ) : null}
+            {id !== ROOT_NODE && parent && (
+              <IconButton
+                onClick={() => {
+                  actions.selectNode(parent);
+                }}
+              >
+                <ArrowUpwardIcon />
+              </IconButton>
+            )}
+            {deletable ? (
+              <IconButton
+                onMouseDown={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  actions.delete(id);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            ) : null}
+          </Box>,
+          (document.querySelector(".page-container") as HTMLElement) ||
+            document.createDocumentFragment()
+        )}
       {render}
     </>
   );

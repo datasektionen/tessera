@@ -1,7 +1,6 @@
 import { Element, useEditor } from "@craftjs/core";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Box } from "@mui/material";
 import React from "react";
-import styled from "styled-components";
 
 import ButtonIcon from "@mui/icons-material/Apps";
 import SquareIcon from "@mui/icons-material/AspectRatio";
@@ -12,25 +11,7 @@ import { Button } from "../../selectors/Button";
 import { Container } from "../../selectors/Container";
 import { Text } from "../../selectors";
 import { Video } from "../../selectors/Video";
-
-const ToolboxDiv = styled.div<{ enabled: boolean }>`
-  transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  ${(props) => (!props.enabled ? `width: 0;` : "")}
-  ${(props) => (!props.enabled ? `opacity: 0;` : "")}
-`;
-
-const Item = styled.a<{ move?: boolean }>`
-  svg {
-    width: 22px;
-    height: 22px;
-    fill: #707070;
-  }
-  ${(props) =>
-    props.move &&
-    `
-    cursor: move;
-  `}
-`;
+import PALLETTE from "../../../../../../../theme/pallette";
 
 export const Toolbox = () => {
   const {
@@ -41,12 +22,27 @@ export const Toolbox = () => {
   }));
 
   return (
-    <ToolboxDiv
-      enabled={enabled && enabled}
-      className="toolbox transition w-12 h-full flex flex-col bg-white"
+    <Box
+      sx={{
+        transition: "0.4s cubic-bezier(0.19, 1, 0.22, 1)",
+        width: enabled ? "3rem" : 0,
+        opacity: enabled ? 1 : 0,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: PALLETTE.beige,
+      }}
     >
-      <div className="flex flex-1 flex-col items-center pt-3">
-        <div
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "1rem",
+        }}
+      >
+        <Box
           ref={(ref) =>
             create(
               ref as any,
@@ -62,12 +58,21 @@ export const Toolbox = () => {
           }
         >
           <Tooltip title="Container" placement="right">
-            <Item className="m-2 pb-2 cursor-pointer block" move>
-              <SquareIcon />
-            </Item>
+            <Box
+              sx={{
+                margin: "0.5rem",
+                paddingBottom: "0.5rem",
+                cursor: "pointer",
+                display: "block",
+              }}
+            >
+              <SquareIcon
+                sx={{ width: "1.375rem", height: "1.375rem", fill: "#707070" }}
+              />
+            </Box>
           </Tooltip>
-        </div>
-        <div
+        </Box>
+        <Box
           ref={(ref) =>
             create(
               ref as any,
@@ -76,26 +81,53 @@ export const Toolbox = () => {
           }
         >
           <Tooltip title="Text" placement="right">
-            <Item className="m-2 pb-2 cursor-pointer block" move>
-              <TypeIcon />
-            </Item>
+            <Box
+              sx={{
+                margin: "0.5rem",
+                paddingBottom: "0.5rem",
+                cursor: "pointer",
+                display: "block",
+              }}
+            >
+              <TypeIcon
+                sx={{ width: "1.375rem", height: "1.375rem", fill: "#707070" }}
+              />
+            </Box>
           </Tooltip>
-        </div>
-        <div ref={(ref) => create(ref as any, <Button />)}>
+        </Box>
+        <Box ref={(ref) => create(ref as any, <Button />)}>
           <Tooltip title="Button" placement="right">
-            <Item className="m-2 pb-2 cursor-pointer block" move>
-              <ButtonIcon />
-            </Item>
+            <Box
+              sx={{
+                margin: "0.5rem",
+                paddingBottom: "0.5rem",
+                cursor: "pointer",
+                display: "block",
+              }}
+            >
+              <ButtonIcon
+                sx={{ width: "1.375rem", height: "1.375rem", fill: "#707070" }}
+              />
+            </Box>
           </Tooltip>
-        </div>
-        <div ref={(ref) => create(ref as any, <Video />)}>
+        </Box>
+        <Box ref={(ref) => create(ref as any, <Video />)}>
           <Tooltip title="Video" placement="right">
-            <Item className="m-2 pb-2 cursor-pointer block" move>
-              <YoutubeIcon />
-            </Item>
+            <Box
+              sx={{
+                margin: "0.5rem",
+                paddingBottom: "0.5rem",
+                cursor: "pointer",
+                display: "block",
+              }}
+            >
+              <YoutubeIcon
+                sx={{ width: "1.375rem", height: "1.375rem", fill: "#707070" }}
+              />
+            </Box>
           </Tooltip>
-        </div>
-      </div>
-    </ToolboxDiv>
+        </Box>
+      </Box>
+    </Box>
   );
 };

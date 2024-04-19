@@ -1,7 +1,6 @@
 import { useEditor } from "@craftjs/core";
-import cx from "classnames";
 import React, { useEffect } from "react";
-
+import { Box } from "@mui/system";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { Toolbox } from "./Toolbox";
@@ -40,31 +39,56 @@ export const Viewport: React.FC<{ children?: React.ReactNode }> = ({
   }, [setOptions]);
 
   return (
-    <div className="viewport">
-      <div
-        className={cx(["flex h-full overflow-hidden flex-row w-full fixed"])}
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        overflow: "hidden",
+        position: "fixed",
+        width: "100%",
+      }}
+    >
+      <Toolbox />
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "column",
+          height: "100%",
+        }}
       >
-        <Toolbox />
-        <div className="page-container flex flex-1 h-full flex-col">
-          <Header />
-          <div
-            className={cx([
-              "craftjs-renderer flex-1 h-full w-full transition pb-8 overflow-auto",
-              {
-                "bg-renderer-gray": enabled,
-              },
-            ])}
-            ref={(ref: HTMLElement | null) =>
-              connectors.select(connectors.hover(ref as any, ""), "")
-            }
+        <Header />
+        <Box
+          sx={{
+            display: "flex",
+            flex: 1,
+            height: "100%",
+            width: "100%",
+            overflow: "auto",
+            transition: "all 0.3s",
+            backgroundColor: enabled ? "grey.200" : "white",
+            padding: "0 0 8px 0",
+          }}
+          ref={(ref: HTMLElement | null) =>
+            connectors.select(connectors.hover(ref as any, ""), "")
+          }
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              position: "relative",
+              paddingTop: "8px",
+              width: "100%",
+            }}
+            className="page-container"
           >
-            <div className="relative flex-col flex items-center pt-8">
-              {children}
-            </div>
-          </div>
-        </div>
-        <Sidebar />
-      </div>
-    </div>
+            {children}
+          </Box>
+        </Box>
+      </Box>
+      <Sidebar />
+    </Box>
   );
 };
