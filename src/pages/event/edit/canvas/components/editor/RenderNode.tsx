@@ -27,7 +27,7 @@ export const RenderNode = ({ render }: any) => {
     isHover: node.events.hovered,
     dom: node.dom,
     name: node.data.custom.displayName || node.data.displayName,
-    moveable: true,
+    moveable: query.node(node.id).isDraggable(),
     deletable: query.node(node.id).isDeletable(),
     parent: node.data.parent,
     props: node.data.props,
@@ -99,7 +99,14 @@ export const RenderNode = ({ render }: any) => {
               {name}
             </Box>
             {moveable ? (
-              <IconButton className="cursor-move" ref={drag as any}>
+              <IconButton
+                className="cursor-move"
+                ref={drag as any}
+                onMouseDown={(e: React.MouseEvent) => {
+                  e.stopPropagation(); // Prevent event from propagating further
+                  // Potentially other logic to initiate drag
+                }}
+              >
                 <DragIndicatorIcon />
               </IconButton>
             ) : null}

@@ -4,6 +4,8 @@ import { ContainerSettings } from "./ContainerSettings";
 
 import { Resizer } from "../Resizer";
 import { he } from "date-fns/locale";
+import { useEditor } from "@craftjs/core";
+import { Box } from "@mui/material";
 
 export type ContainerProps = {
   background: Record<"r" | "g" | "b" | "a", number>;
@@ -40,7 +42,7 @@ const defaultProps = {
   height: "auto",
 };
 
-export const Container = (props: Partial<ContainerProps>) => {
+export const Container = ({ ...props }: Partial<ContainerProps>) => {
   props = {
     ...defaultProps,
     ...props,
@@ -58,6 +60,7 @@ export const Container = (props: Partial<ContainerProps>) => {
     radius,
     children,
   } = props;
+
   return (
     <Resizer
       propKey={{ width: "width", height: "height" }}

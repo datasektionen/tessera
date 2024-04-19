@@ -1,5 +1,5 @@
 import { useEditor } from "@craftjs/core";
-import { Layers } from "@craftjs/layers";
+import { DefaultLayerHeader, Layers, EditableLayerName } from "@craftjs/layers";
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 

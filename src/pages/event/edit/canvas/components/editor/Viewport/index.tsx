@@ -4,6 +4,8 @@ import { Box } from "@mui/system";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { Toolbox } from "./Toolbox";
+import StyledButton from "../../../../../../../components/buttons/styled_button";
+import { Button } from "@mui/material";
 
 export const Viewport: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -38,6 +40,16 @@ export const Viewport: React.FC<{ children?: React.ReactNode }> = ({
     });
   }, [setOptions]);
 
+  const { query } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
+
+  const save = () => {
+    const json = query.serialize();
+    console.log(json);
+    // Here you can send `json` to your server and save it in your database
+  };
+
   return (
     <Box
       sx={{
@@ -48,6 +60,9 @@ export const Viewport: React.FC<{ children?: React.ReactNode }> = ({
         width: "100%",
       }}
     >
+      <Button onClick={save} variant="contained" sx={{ zIndex: 9999 }}>
+        Save
+      </Button>
       <Toolbox />
       <Box
         sx={{
@@ -81,6 +96,7 @@ export const Viewport: React.FC<{ children?: React.ReactNode }> = ({
               position: "relative",
               paddingTop: "8px",
               width: "100%",
+              mt: 4,
             }}
             className="page-container"
           >

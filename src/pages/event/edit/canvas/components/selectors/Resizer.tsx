@@ -105,10 +105,16 @@ export const Resizer = ({ propKey, children, ...props }: ResizerProps) => {
           )}%`
         : `${height}px`;
       setProp((props: any) => {
-        props[propKey.width] = newWidth;
+        if (!isRootNode) {
+          props[propKey.width] = newWidth;
+        }
         props[propKey.height] = newHeight;
       });
-      setDimensions({ width: newWidth, height: newHeight });
+      if (isRootNode) {
+        setDimensions({ width: width, height: newHeight });
+      } else {
+        setDimensions({ width: newWidth, height: newHeight });
+      }
     },
     [setProp, propKey]
   );
@@ -134,14 +140,16 @@ export const Resizer = ({ propKey, children, ...props }: ResizerProps) => {
       {...props}
     >
       {children}
-      <Indicators
-        bound={fillSpace ? (parentDirection as "row" | "column") : undefined}
-      >
-        <span />
-        <span />
-        <span />
-        <span />
-      </Indicators>
+      {!isRootNode && (
+        <Indicators
+          bound={fillSpace ? (parentDirection as "row" | "column") : undefined}
+        >
+          <span />
+          <span />
+          <span />
+          <span />
+        </Indicators>
+      )}
     </Resizable>
   );
 };

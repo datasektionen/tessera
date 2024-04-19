@@ -14,6 +14,8 @@ export const Header = () => {
     canRedo: query.history.canRedo(),
   }));
 
+  console.log(enabled);
+
   return (
     <Box
       sx={{
