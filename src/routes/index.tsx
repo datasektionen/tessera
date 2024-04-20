@@ -51,6 +51,7 @@ import {
   EditEventTicketReleasesPage,
   EditEventFormPage,
 } from "./page_import";
+import GrapesJSEditor from "../pages/event/edit/editor";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
@@ -279,6 +280,7 @@ function AppRoutes() {
             />
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
+          <Route path={ROUTES.CANVAS} element={<GrapesJSEditor />} />
           <Route path="*" element={<FourOFour404 />} />
           <Route path="/404" element={<FourOFour404 />} />
         </Routes>
