@@ -310,22 +310,22 @@ function NavigationBar() {
                     {t("navigation.contact")}
                   </StyledLink>
                 </StyledText>
-                <StyledText
-                  level="body-sm"
-                  color={""}
-                  fontSize={18}
-                  fontWeight={700}
-                  style={{
-                    margin: "0 16px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  <StyledLink href={generateRoute(ROUTES.PRICING, {})}>
-                    {t("navigation.pricing")}
-                  </StyledLink>
-                </StyledText>
               </Stack>
             )}
+            <StyledText
+              level="body-sm"
+              color={""}
+              fontSize={18}
+              fontWeight={700}
+              style={{
+                margin: "0 16px",
+                textTransform: "uppercase",
+              }}
+            >
+              <StyledLink href={generateRoute(ROUTES.PRICING, {})}>
+                {t("navigation.pricing")}
+              </StyledLink>
+            </StyledText>
             {/* Right-aligned profile icon */}
             <Stack
               direction="row"
