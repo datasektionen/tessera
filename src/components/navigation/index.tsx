@@ -18,7 +18,7 @@ import {
 
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
-import { ROUTES } from "../../routes/def";
+import { generateRoute, ROUTES } from "../../routes/def";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import styles from "./nav.module.css";
@@ -308,6 +308,20 @@ function NavigationBar() {
                 >
                   <StyledLink href={ROUTES.CONTACT_PAGE}>
                     {t("navigation.contact")}
+                  </StyledLink>
+                </StyledText>
+                <StyledText
+                  level="body-sm"
+                  color={""}
+                  fontSize={18}
+                  fontWeight={700}
+                  style={{
+                    margin: "0 16px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  <StyledLink href={generateRoute(ROUTES.PRICING, {})}>
+                    {t("navigation.pricing")}
                   </StyledLink>
                 </StyledText>
               </Stack>

@@ -50,6 +50,7 @@ import {
   ManageSendOutList,
   EditEventTicketReleasesPage,
   EditEventFormPage,
+  PricingPage,
 } from "./page_import";
 
 function withCurrentUserRequest<P>(
@@ -173,6 +174,7 @@ function AppRoutes() {
             element={<VerifyPreferredEmail />}
           />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
+          <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
