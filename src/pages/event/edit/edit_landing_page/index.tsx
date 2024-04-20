@@ -1,4 +1,4 @@
-import grapesjs, { Editor, EditorConfig } from "grapesjs";
+import grapesjs, { Editor, EditorConfig, ProjectData } from "grapesjs";
 import GjsEditor from "@grapesjs/react";
 import ReactDOMServer from "react-dom/server";
 import { Box, ThemeProvider } from "@mui/joy";
@@ -12,6 +12,12 @@ import "grapesjs-blocks-basic";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import { addHeroComponent } from "./components/hero-section";
+import { useParams } from "react-router-dom";
+import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { parse } from "path";
+import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
+import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import { useEffect } from "react";
 
 const theme = createTheme({
   // Your theme goes here
@@ -19,7 +25,13 @@ const theme = createTheme({
 
 const gjsOptions: EditorConfig = {
   height: "100vh",
-  storageManager: false, // Disable the storage manager
+  storageManager: {
+    id: "gjs-", // Local Storage prefix
+    type: "local",
+    autosave: true, // Enable auto-saving
+    autoload: true, // Enable auto-loading
+    stepsBeforeSave: 1,
+  },
   fromElement: true, // Load the HTML from the element
   canvas: {
     styles: [
@@ -58,14 +70,75 @@ const gjsOptions: EditorConfig = {
   },
 };
 
-export default function DefaultEditor() {
+function EditEventLandingPage() {
+  const { eventID } = useParams();
+
+  const { eventDetail: event } = useEventDetails(parseInt(eventID!));
+
+  const load = async (editor: Editor) => {
+    const storageManager = editor.StorageManager;
+    const data = await storageManager.load();
+    editor.loadProjectData(data);
+  };
+
+  const save = async (editor: Editor) => {
+    const storageManager = editor.StorageManager;
+    const data = editor.store();
+    await storageManager.store(data);
+  };
+
   const onEditor = (editor: Editor) => {
     // Inject external CSS into the iframe of the GrapesJS editor
     addHeroComponent(editor);
+
+    setTimeout(() => {
+      editor.load();
+    }, 500);
+
+    editor.Panels.addButton("options", {
+      id: "save-btn",
+      className: "fa fa-save",
+      command: "save-command",
+      attributes: { title: "Save" },
+    });
+
+    // Define the command to save
+    editor.Commands.add("save-command", {
+      run: function (editor) {
+        console.log("Saving...");
+        save(editor); // Manually trigger a save
+      },
+    });
+
+    // Add a load button in the panel
+    editor.Panels.addButton("options", {
+      id: "load-btn",
+      className: "fa fa-upload",
+      command: "load-command",
+      attributes: { title: "Load" },
+    });
+
+    // Define the command to load
+    editor.Commands.add("load-command", {
+      run: function (editor) {
+        editor.load(); // Manually trigger a load
+      },
+    });
+
+    // Listen to storage-related events
+    editor.on("editor:start", () => {
+      console.log("Storage start store");
+    });
+
+    editor.on("storage:load", (data) => console.log("Loaded data:", data));
   };
 
   return (
     <GjsEditor
+      style={{
+        margin: 0,
+        padding: 0,
+      }}
       // Pass the core GrapesJS library to the wrapper (required).
       // You can also pass the CDN url (eg. "https://unpkg.com/grapesjs")
       grapesjs="https://unpkg.com/grapesjs"
@@ -112,3 +185,5 @@ export default function DefaultEditor() {
     />
   );
 }
+
+export default EditEventLandingPage;

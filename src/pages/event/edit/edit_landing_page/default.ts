@@ -1,10 +1,12 @@
-const defaultHTML = `       <section class="hero-section" style="height: 100vh; width: 100%; display: block; background-image: url('path/to/default-image.jpg'); background-size: cover; background-position: center;">
-<div class="overlay" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background-color: rgba(0, 0, 0, 0.5);">
+const defaultHTML = `       <section class="hero-section" style="position: relative; height: 100vh; width: 100%; overflow: hidden; display: block;">
+<img src="${process.env.REACT_APP_BASE_URL}/assets/default-landing-page-image.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+<div class="overlay" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background-color: rgba(0, 0, 0, 0.5);">
   <h1 style="color: white; font-size: 48px; font-weight: bold;">Welcome to The Annual Tech Conference</h1>
   <p style="color: white; font-size: 24px; margin-top: 20px;">Join us for a day of innovation and inspiration at TechCon 2024</p>
   <button class="btn btn-primary btn-lg" style="margin-top: 30px;">Buy Tickets Now!</button>
 </div>
 </section>
+
 
 <div class="container my-5">
 <section id="event-details">

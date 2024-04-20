@@ -106,3 +106,7 @@ export const EditEventTicketReleasesPage = React.lazy(
 export const EditEventFormPage = React.lazy(
   () => import("../pages/event/edit/edit_event_form")
 );
+
+export const EditEventLandingPage = React.lazy(
+  () => import("../pages/event/edit/edit_landing_page")
+);
