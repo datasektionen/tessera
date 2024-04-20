@@ -1,6 +1,4 @@
 const defaultCss = `
-
-
 .overlay {
     pointer-events: none; /* Allows click events to pass through to the image below */
   }
