@@ -55,8 +55,9 @@ import {
   BecomeAManagerPage,
   ManagerPage,
   ManagerTeamsPage,
+  EditEventLandingPage,
 } from "./page_import";
-import GrapesJSEditor from "../pages/event/edit/editor";
+import GrapesJSEditor from "../pages/event/edit/edit_landing_page";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
@@ -115,6 +116,9 @@ const EventEconomyPageWithCurrentUser =
 const EditTicketReleaseAddonsWithCurrentUser = withCurrentUserRequest(
   EditTicketReleaseAddonsPage
 );
+
+const EditEventLandingPageWithCurrentUser =
+  withCurrentUserRequest(EditEventLandingPage);
 
 const ManageEventTicketReleasesWithCurrentUser = withCurrentUserRequest(
   ManageEventTicketReleasesPage
@@ -258,6 +262,11 @@ function AppRoutes() {
               element={<EditEventFormPageWithCurrentUser />}
             />
             <Route
+              path={ROUTES.EDIT_EVENT_LANDING_PAGE}
+              element={<EditEventLandingPageWithCurrentUser />}
+            />
+
+            <Route
               path={ROUTES.PROFILE_TICKET_REQUESTS}
               element={<ProfileTicketRequestsPageWithCurrentUser />}
             />
@@ -312,7 +321,6 @@ function AppRoutes() {
             />
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
-          <Route path={ROUTES.CANVAS} element={<GrapesJSEditor />} />
           <Route path="*" element={<FourOFour404 />} />
           <Route path="/404" element={<FourOFour404 />} />
         </Routes>
