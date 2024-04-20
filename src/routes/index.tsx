@@ -56,6 +56,7 @@ import {
   ManagerPage,
   ManagerTeamsPage,
 } from "./page_import";
+import GrapesJSEditor from "../pages/event/edit/editor";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
@@ -311,6 +312,7 @@ function AppRoutes() {
             />
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
+          <Route path={ROUTES.CANVAS} element={<GrapesJSEditor />} />
           <Route path="*" element={<FourOFour404 />} />
           <Route path="/404" element={<FourOFour404 />} />
         </Routes>

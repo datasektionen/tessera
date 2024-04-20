@@ -146,4 +146,5 @@ export const ROUTES = {
   // Post login routes
   POST_LOGIN: "/post-login",
   BECOME_A_MANAGER: "/become-a-manager",
+  CANVAS: "/canvas",
 };
