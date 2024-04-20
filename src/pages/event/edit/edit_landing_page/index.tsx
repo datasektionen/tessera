@@ -18,6 +18,8 @@ import { parse } from "path";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
 import DrawerComponent from "../../../../components/navigation/manage_drawer";
 import { useEffect } from "react";
+import { addEventDescriptionComponent } from "./components/event-description-section";
+import LoadingOverlay from "../../../../components/Loading";
 
 const theme = createTheme({
   // Your theme goes here
@@ -73,7 +75,9 @@ const gjsOptions: EditorConfig = {
 function EditEventLandingPage() {
   const { eventID } = useParams();
 
-  const { eventDetail: event } = useEventDetails(parseInt(eventID!));
+  const {
+    eventDetail: { event, loading },
+  } = useEventDetails(parseInt(eventID!));
 
   const load = async (editor: Editor) => {
     const storageManager = editor.StorageManager;
@@ -90,10 +94,11 @@ function EditEventLandingPage() {
   const onEditor = (editor: Editor) => {
     // Inject external CSS into the iframe of the GrapesJS editor
     addHeroComponent(editor);
+    addEventDescriptionComponent(editor, event!);
 
     setTimeout(() => {
       editor.load();
-    }, 500);
+    }, 50);
 
     editor.Panels.addButton("options", {
       id: "save-btn",
@@ -125,6 +130,20 @@ function EditEventLandingPage() {
       },
     });
 
+    editor.Panels.addButton("options", {
+      id: "reset-btn",
+      className: "fa fa-refresh",
+      command: "reset-command",
+      attributes: { title: "Reset" },
+    });
+
+    // Define the command to reset
+    editor.Commands.add("reset-command", {
+      run: function (editor) {
+        editor.setComponents(defaultHTML);
+      },
+    });
+
     // Listen to storage-related events
     editor.on("editor:start", () => {
       console.log("Storage start store");
@@ -132,6 +151,10 @@ function EditEventLandingPage() {
 
     editor.on("storage:load", (data) => console.log("Loaded data:", data));
   };
+
+  if (loading) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <GjsEditor
