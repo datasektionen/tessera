@@ -8,7 +8,20 @@ import { PackageTierList } from "./components/packageTiers/packate_tier_list";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { PricingPackageList } from "./components/pricingPackage/pricing_package_list";
-import { PricingPackageCreate, PricingPackageEdit } from "./components/pricingPackage/pricing_package_update_create";
+import {
+  PricingPackageCreate,
+  PricingPackageEdit,
+} from "./components/pricingPackage/pricing_package_update_create";
+import { FeatureList } from "./components/features/features_list";
+import {
+  FeatureCreate,
+  FeatureEdit,
+} from "./components/features/features_update_create";
+import { FeatureGroupList } from "./components/featureGroup/feature_group_list";
+import {
+  FeatureGroupCreate,
+  FeatureGroupEdit,
+} from "./components/featureGroup/feature_group_update_create";
 
 const Dashboard = () => (
   <div>
@@ -32,6 +45,20 @@ const AdminPage = () => (
       list={PricingPackageList}
       edit={PricingPackageEdit}
       create={PricingPackageCreate}
+    />
+
+    <Resource
+      name="features"
+      list={FeatureList}
+      create={FeatureCreate}
+      edit={FeatureEdit}
+    />
+
+    <Resource
+      name="feature-groups"
+      list={FeatureGroupList}
+      create={FeatureGroupCreate}
+      edit={FeatureGroupEdit}
     />
 
     {/* Add other resources similarly */}
