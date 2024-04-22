@@ -115,7 +115,6 @@ const dataProvider = {
   },
   create: async (resource: string, params: CreateParams) => {
     try {
-      console.log(params.data);
       const { data } = await axiosInstance.post(`/${resource}`, params.data);
       return {
         data: { ...data, id: data.ID },

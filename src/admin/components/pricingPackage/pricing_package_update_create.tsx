@@ -37,7 +37,6 @@ const PricingPackageEdit = (props: any) => {
         <TextInput disabled source="id" />
         <TextInput source="name" />
         <SelectInput source="tier" choices={tierChoices} />
-        <NumberInput source="standard_price" label="Standard Price" />
       </SimpleForm>
     </Edit>
   );

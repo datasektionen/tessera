@@ -14,7 +14,6 @@ export const PricingPackageList = (props: any) => (
       <TextField source="id" />
       <TextField source="name" />
       <TextField source="tier" />
-      <TextField source="standard_price" label="Standard Price" />
       <EditButton />
       <DeleteButton />
     </Datagrid>

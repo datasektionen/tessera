@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 
 export const PackageTierList = (props: any) => (
-  <List {...props}>
+  <List {...props} sort={{ field: "id", order: "ASC" }}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="name" />

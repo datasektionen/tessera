@@ -6,6 +6,7 @@ import {
   TextField,
   EditButton,
   DeleteButton,
+  ReferenceField,
 } from "react-admin";
 
 export const FeatureList = () => (
@@ -14,8 +15,10 @@ export const FeatureList = () => (
       <TextField source="id" />
       <TextField source="name" />
       <TextField source="description" />
-      <TextField source="group" />
-      <TextField source="isAvailable" label="Is Available" />
+      <ReferenceField source="feature_group_id" reference="feature-groups">
+        <TextField source="name" />
+      </ReferenceField>
+      <TextField source="is_available" name="Is Available" />
       <EditButton />
       <DeleteButton />
     </Datagrid>

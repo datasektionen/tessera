@@ -1,5 +1,13 @@
 // src/components/packageTiers/PackageTierEditCreate.tsx
-import { Edit, SimpleForm, TextInput, Create, NumberInput } from "react-admin";
+import {
+  Edit,
+  SimpleForm,
+  TextInput,
+  Create,
+  NumberInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
+} from "react-admin";
 
 export const PackageTierEdit = (props: any) => (
   <Edit {...props}>
@@ -16,6 +24,15 @@ export const PackageTierEdit = (props: any) => (
         source="standard_yearly_price"
         label="Standard Yearly Price"
       />
+      <ReferenceArrayInput
+        source="default_features"
+        reference="features"
+        label="Default Features"
+        perPage={100}
+        sort={{ field: "name", order: "ASC" }}
+      >
+        <SelectArrayInput optionText="name" optionValue="id" />
+      </ReferenceArrayInput>
     </SimpleForm>
   </Edit>
 );
@@ -34,6 +51,15 @@ export const PackageTierCreate = (props: any) => (
         source="standard_yearly_price"
         label="Standard Yearly Price"
       />
+      <ReferenceArrayInput
+        source="default_features"
+        reference="features"
+        label="Default Features"
+        perPage={100}
+        sort={{ field: "name", order: "ASC" }}
+      >
+        <SelectArrayInput optionText="name" optionValue="id" />
+      </ReferenceArrayInput>
     </SimpleForm>
   </Create>
 );
