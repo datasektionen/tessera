@@ -18,6 +18,7 @@ import { listOrganizationsSaga } from "./listOrganizationsSlice";
 import watchSalesReportSaga from "./salesReportSaga";
 import watchGetAddonSaga from "./addonSaga";
 import bankingDetailsSaga from "./bankingDetailsSaga";
+import watchViewCustomerEventSaga from "./customerViewEventSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -40,6 +41,7 @@ export default function* rootSaga() {
     listOrganizationsSaga(),
     watchGetAddonSaga(),
     bankingDetailsSaga(),
+    watchViewCustomerEventSaga(),
     // add other sagas here
   ]);
 }

@@ -9,13 +9,13 @@ const initialState: EventState = {
 };
 
 const eventSlice = createSlice({
-  name: "event",
+  name: "customViewEvent",
   initialState,
   reducers: {
-    getEventRequest: (
+    getCustomerEventRequest: (
       state,
       action: PayloadAction<{
-        id: number;
+        refID: string;
         secretToken: string;
         countSiteVisit?: boolean;
         promoCodes?: string[];
@@ -23,11 +23,11 @@ const eventSlice = createSlice({
     ) => {
       state.loading = true;
     },
-    getEventSuccess: (state, action: PayloadAction<IEvent>) => {
+    getCustomerEventSuccess: (state, action: PayloadAction<IEvent>) => {
       state.loading = false;
       state.event = action.payload;
     },
-    getEventFailure: (
+    getCustomerEventFailure: (
       state,
       action: PayloadAction<{
         error: string;
@@ -41,7 +41,10 @@ const eventSlice = createSlice({
   },
 });
 
-export const { getEventRequest, getEventSuccess, getEventFailure } =
-  eventSlice.actions;
+export const {
+  getCustomerEventRequest,
+  getCustomerEventSuccess,
+  getCustomerEventFailure,
+} = eventSlice.actions;
 
 export default eventSlice.reducer;
