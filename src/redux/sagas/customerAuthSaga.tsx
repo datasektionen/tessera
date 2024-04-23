@@ -1,64 +1,75 @@
 // signupSaga.ts
 import { call, put, takeLatest } from "redux-saga/effects";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { ILoginFormValues, ISignupFormValues } from "../../types";
 import {
-  externalLoginFailure,
-  externalLoginRequest,
-  externalSignupFailure,
-  externalSignupRequest,
-  externalSignupSuccess,
+  ICustomerLoginValues,
+  ICustomerSignupValues,
+  ILoginFormValues,
+  ISignupFormValues,
+} from "../../types";
+import {
+  customerLoginFailure,
+  customerLoginRequest,
+  customerSignupFailure,
+  customerSignupRequest,
+  customerSignupSuccess,
 } from "../features/authSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ROUTES } from "../../routes/def";
 import ResendVerificationLinkToast from "../../components/toasts/ResendSignupVerificationEmail";
+import { currentUserRequest } from "../features/userSlice";
 
-function* externalSignupSaga(
-  action: PayloadAction<ISignupFormValues>
+function* customerSignupSaga(
+  action: PayloadAction<ICustomerSignupValues>
 ): Generator<any, void, any> {
   try {
-    const url = `${process.env.REACT_APP_BACKEND_URL}/external/signup`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/customer/signup`;
     const response = yield call(axios.post, url, action.payload, {
       withCredentials: true,
     });
 
     if (response.status === 201) {
-      yield put(externalSignupSuccess());
+      yield put(customerSignupSuccess());
       setTimeout(() => {
-        toast.success(
-          "Signup successful, please verify your email before logging in!"
-        );
+        if (action.payload.is_saved) {
+          toast.success(
+            "Signup successful, please verify your email before logging in!"
+          );
+        } else {
+          toast.info("Continuing as guest...");
+        }
       }, 500);
     } else {
       const errorMessage = response.data.error || "Something went wrong!";
       toast.error(errorMessage);
 
-      yield put(externalSignupFailure(response.data.error));
+      yield put(customerSignupFailure(response.data.error));
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "Something went wrong!";
     toast.error(errorMessage);
-    yield put(externalLoginFailure(error.message));
+    yield put(customerLoginFailure(error.message));
   }
 }
 
-function* externalLoginSaga(
-  action: PayloadAction<ILoginFormValues>
+function* customerLoginSaga(
+  action: PayloadAction<ICustomerLoginValues>
 ): Generator<any, void, any> {
   try {
-    const url = `${process.env.REACT_APP_BACKEND_URL}/external/login`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/customer/login`;
     const response = yield call(axios.post, url, action.payload, {
       withCredentials: true,
     });
 
     if (response.status === 200) {
-      yield put(externalSignupSuccess());
-      window.location.href = ROUTES.HANDLE_LOGIN_CALLBACK;
+      toast.success("Login successful!");
+      yield put(customerSignupSuccess());
+      yield put(currentUserRequest());
     } else {
       const errorMessage = response.data.error || "Something went wrong!";
       toast.error(errorMessage);
-      yield put(externalSignupFailure(response.data.error));
+      yield put(customerSignupFailure(response.data.error));
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "Something went wrong!";
@@ -68,11 +79,11 @@ function* externalLoginSaga(
       toast.error(errorMessage);
     }
 
-    yield put(externalLoginFailure(error.message));
+    yield put(customerLoginFailure(error.message));
   }
 }
 
-export default function* watchExternalAuthSagas() {
-  yield takeLatest(externalSignupRequest.type, externalSignupSaga);
-  yield takeLatest(externalLoginRequest.type, externalLoginSaga);
+export default function* watchCustomerAuthSagas() {
+  yield takeLatest(customerSignupRequest.type, customerSignupSaga);
+  yield takeLatest(customerLoginRequest.type, customerLoginSaga);
 }

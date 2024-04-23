@@ -5,6 +5,8 @@ import {
   IUser,
   ISignupFormValues,
   ILoginFormValues,
+  ICustomerSignupValues,
+  ICustomerLoginValues,
 } from "../../types";
 import { REHYDRATE } from "redux-persist";
 
@@ -16,6 +18,8 @@ const initialState: AuthState = {
   isLoggedIn: false,
   fetchUser: false,
   onLoginRedirect: null,
+  customerSignupSucess: false,
+  customerLoginSucess: false,
 };
 
 const authSlice = createSlice({
@@ -60,36 +64,47 @@ const authSlice = createSlice({
     clearLoginRedirect: (state) => {
       state.onLoginRedirect = null;
     },
-    externalSignupRequest: (
+    customerSignupRequest: (
       state,
-      action: PayloadAction<ISignupFormValues>
+      action: PayloadAction<ICustomerSignupValues>
     ) => {
       state.loading = true;
     },
-    externalSignupSuccess: (state) => {
+    customerSignupSuccess: (state) => {
       state.loading = false;
+      state.customerSignupSucess = true;
     },
-    externalSignupFailure: (state, action: PayloadAction<string>) => {
+    customerSignupFailure: (state, action: PayloadAction<string>) => {
       state.isLoggedIn = false;
       state.loading = false;
       state.error = action.payload;
     },
-    externalLoginRequest: (state, action: PayloadAction<ILoginFormValues>) => {
+    customerLoginRequest: (
+      state,
+      action: PayloadAction<ICustomerLoginValues>
+    ) => {
       state.loading = true;
+      state.customerLoginSucess = false;
     },
-    externalLoginSuccess: (state, action: PayloadAction<{ user: IUser }>) => {
+    customerLoginSuccess: (state, action: PayloadAction<{ user: IUser }>) => {
       state.loading = false;
       state.user = action.payload.user;
       state.isLoggedIn = true;
       state.fetchUser = true;
     },
-    externalLoginFailure: (state, action: PayloadAction<string>) => {
+    customerLoginFailure: (state, action: PayloadAction<string>) => {
       state.isLoggedIn = false;
       state.loading = false;
       state.error = action.payload;
     },
     resetFetchUser: (state) => {
       state.fetchUser = false;
+    },
+    resetSignupSuccess: (state) => {
+      state.customerSignupSucess = false;
+    },
+    resetLoginSuccess: (state) => {
+      state.customerLoginSucess = false;
     },
   },
   extraReducers: {
@@ -117,12 +132,14 @@ export const {
   logoutFailure,
   setLoginRedirect,
   clearLoginRedirect,
-  externalSignupRequest,
-  externalSignupSuccess,
-  externalSignupFailure,
-  externalLoginRequest,
-  externalLoginSuccess,
-  externalLoginFailure,
+  customerSignupRequest,
+  customerSignupSuccess,
+  customerSignupFailure,
+  customerLoginRequest,
+  customerLoginSuccess,
+  customerLoginFailure,
   resetFetchUser,
+  resetSignupSuccess,
+  resetLoginSuccess,
 } = authSlice.actions;
 export default authSlice.reducer;

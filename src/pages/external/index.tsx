@@ -17,9 +17,7 @@ import {
 import LoginButton from "../../components/login/LoginButton";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
-import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
-import LoginForm from "./login_form";
 import { ToastContainer } from "react-toastify";
 import NavigationBar from "../../components/navigation";
 import { Trans, useTranslation } from "react-i18next";
@@ -147,12 +145,6 @@ const External: React.FC = () => {
                 {t("external.signup")}
               </Tab>
             </TabList>
-            <TabPanel value={0}>
-              <LoginForm />
-            </TabPanel>
-            <TabPanel value={1}>
-              <SignupForm />
-            </TabPanel>
           </Tabs>
           <StyledText
             fontSize={14}

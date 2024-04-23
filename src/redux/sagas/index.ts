@@ -13,7 +13,7 @@ import watchTicketsSaga from "./ticketsSaga";
 import watchTicketReleaseSaga from "./ticketReleaseSaga";
 import watchFetchTicketTypes from "./ticketTypeSaga";
 import watchEventTicketsSaga from "./eventTicketsSaga";
-import watchExternalAuthSagas from "./externalAuthSaga";
+import watchCustomerAuthSagas from "./customerAuthSaga";
 import { listOrganizationsSaga } from "./listOrganizationsSlice";
 import watchSalesReportSaga from "./salesReportSaga";
 import watchGetAddonSaga from "./addonSaga";
@@ -37,7 +37,7 @@ export default function* rootSaga() {
     watchPromoCodeAccessSaga(),
     watchFetchTicketTypes(),
     watchEventTicketsSaga(),
-    watchExternalAuthSagas(),
+    watchCustomerAuthSagas(),
     listOrganizationsSaga(),
     watchGetAddonSaga(),
     bankingDetailsSaga(),

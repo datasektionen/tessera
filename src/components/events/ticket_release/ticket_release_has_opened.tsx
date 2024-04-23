@@ -42,6 +42,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import InformationModal from "../../modal/information";
 import { useMediaQuery, useTheme } from "@mui/material";
 import MakeTicketRequestUserDetails from "./ticket_request/make_ticket_request_user_details";
+import MakeTicketRequestWorkflow from "./ticket_request/make_ticket_request_work_flow";
 
 const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -185,7 +186,7 @@ const TicketReleaseHasOpened: React.FC<{
         width={isScreenSmall ? "100%" : "60%"}
       >
         <Box>
-          <MakeTicketRequestUserDetails ticketRelease={ticketRelease} />
+          <MakeTicketRequestWorkflow ticketRelease={ticketRelease} />
         </Box>
       </InformationModal>
 

@@ -23,6 +23,8 @@ export interface AuthState {
   error: string | null;
   fetchUser: boolean;
   onLoginRedirect: string | null;
+  customerSignupSucess: boolean;
+  customerLoginSucess: boolean;
 }
 
 export interface UserState {
@@ -69,6 +71,32 @@ export interface IPreferredEmail {
   email: string;
   requested_change_email: string;
   is_verified: boolean;
+}
+
+export interface ICustomerSignupValues {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+
+  is_saved?: boolean;
+  password?: string;
+  password_repeat?: string;
+}
+
+export interface ICustomerLoginValues {
+  email: string;
+  password: string;
+}
+
+export interface ICustomer {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  verifiedEmail: boolean;
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface IUser {
