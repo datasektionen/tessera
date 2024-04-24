@@ -43,6 +43,7 @@ import InformationModal from "../../modal/information";
 import { useMediaQuery, useTheme } from "@mui/material";
 import MakeTicketRequestUserDetails from "./ticket_request/make_ticket_request_user_details";
 import MakeTicketRequestWorkflow from "./ticket_request/make_ticket_request_work_flow";
+import { createGuestTicketRequest } from "../../../redux/features/guestCustomerSlice";
 
 const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -76,6 +77,8 @@ const TicketReleaseHasOpened: React.FC<{
   const [selectedAddons, setSelectedAddons] = React.useState<ISelectedAddon[]>(
     []
   );
+
+  const { guestCustomer } = useSelector((state: RootState) => state.auth);
 
   const [makeTicketRequestModalOpen, setMakeTicketRequestModalOpen] =
     React.useState(false);
@@ -168,6 +171,18 @@ const TicketReleaseHasOpened: React.FC<{
     );
   };
 
+  const onGuestSubmit = () => {
+    dispatch(
+      createGuestTicketRequest({
+        tickets: requestedTickets,
+        addons: selectedAddons,
+        eventId: ticketRelease.eventId,
+        ticketReleaseId: ticketRelease.id,
+        guestCustomer: guestCustomer!,
+      })
+    );
+  };
+
   const handleAddonChange = (
     selectedAddons: { id: number; quantity: number }[]
   ) => {
@@ -186,7 +201,11 @@ const TicketReleaseHasOpened: React.FC<{
         width={isScreenSmall ? "100%" : "60%"}
       >
         <Box>
-          <MakeTicketRequestWorkflow ticketRelease={ticketRelease} />
+          <MakeTicketRequestWorkflow
+            ticketRelease={ticketRelease}
+            onSubmitTicketRequest={onSubmit}
+            onSubmitGuestTicketRequest={onGuestSubmit}
+          />
         </Box>
       </InformationModal>
 

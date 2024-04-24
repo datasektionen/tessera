@@ -128,7 +128,6 @@ function* getMyTicketRequestsSaga(
       );
     }
 
-
     const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
       (ticket_request: any) => {
         return {
@@ -203,7 +202,7 @@ function* getMyTicketRequestsSaga(
               id: addon.ID!,
               ticket_request_id: addon.ticket_request_id!,
               add_on_id: addon.add_on_id!,
-              quantity: addon.quantity!, 
+              quantity: addon.quantity!,
             };
           }) as ITicketAddon[],
         } as ITicketRequest;

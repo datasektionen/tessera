@@ -32,6 +32,7 @@ interface InformationModalProps {
   children: React.ReactNode;
   width?: string;
   animationOptions?: AnimationOptions;
+  preventCloseReasons?: string[];
 }
 
 const InformationModal: React.FC<InformationModalProps> = ({
@@ -41,6 +42,7 @@ const InformationModal: React.FC<InformationModalProps> = ({
   children,
   width = "30%",
   animationOptions = {},
+  preventCloseReasons = [],
 }) => {
   const mergedAnimationOptions = {
     ...defaultAnimationOptions,
@@ -48,7 +50,15 @@ const InformationModal: React.FC<InformationModalProps> = ({
   };
 
   return (
-    <Modal open={isOpen} onClose={() => onClose()}>
+    <Modal
+      open={isOpen}
+      onClose={(event, reason: string) => {
+        if (!preventCloseReasons.includes(reason)) {
+          onClose();
+        }
+      }}
+      disableEscapeKeyDown={true}
+    >
       <MotionModalDialog
         color="primary"
         size="sm"

@@ -35,17 +35,20 @@ import {
 import InformationModal from "../modal/information";
 import FoodPreferencesAgreement from "./food_preferences_agreement";
 
-interface FoodPreferencesProps {}
+interface FoodPreferencesProps {
+  onSave?: () => void;
+}
 
 // Create a constant of all food preferences
 
-const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
+const FoodPreferences: React.FC<FoodPreferencesProps> = ({ onSave }) => {
   const {
     userFoodPreferences,
     additionalNotes,
     loading: loadingFoodPref,
     gdpr_agreed: initialGdprAgree,
     needs_to_renew_gdpr: initialNeedsToRenewGdpr,
+    save_success,
   } = useSelector((state: RootState) => state.foodPreferences);
 
   const dispatch: AppDispatch = useDispatch();
@@ -55,6 +58,10 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
   const [additonalNotes, setAdditionalNotes] = useState<string>("");
   const [gdprAgree, setGdprAgree] = useState<boolean>(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState<boolean>(false);
+
+  const { guestCustomer, loading } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const handleChange = (event: any, newValue: string[]) => {
     setValue(newValue);
@@ -70,13 +77,23 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({}) => {
         additionalNotes: additonalNotes,
         gdpr_agreed: gdprAgree,
         needs_to_renew_gdpr: initialNeedsToRenewGdpr,
+        guestCustomer: guestCustomer,
       })
     );
   };
 
   useEffect(() => {
-    dispatch(fetchUserFoodPreferencesStart());
-  }, [dispatch]);
+    if (loading) return;
+    dispatch(
+      fetchUserFoodPreferencesStart({
+        guestCustomer: guestCustomer,
+      })
+    );
+  }, [dispatch, loading]);
+
+  useEffect(() => {
+    if (save_success && onSave) onSave();
+  }, [onSave, save_success]);
 
   useEffect(() => {
     // setValue for all the food preferences that have checked: true

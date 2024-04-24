@@ -5,6 +5,8 @@ import MakeTicketRequestUserDetails from "./make_ticket_request_user_details";
 import {
   ICustomerLoginValues,
   ICustomerSignupValues,
+  IGuestCustomer,
+  IGuestCustomerForm,
   ITicketRelease,
   ITicketRequest,
 } from "../../../../types";
@@ -13,6 +15,8 @@ import { AppDispatch, RootState } from "../../../../store";
 import {
   customerLoginRequest,
   customerSignupRequest,
+  resetGuestCustomer,
+  resetLoginSuccess,
   resetSignupSuccess,
 } from "../../../../redux/features/authSlice";
 import { useSelector } from "react-redux";
@@ -21,18 +25,30 @@ import { ticketReleaseRequiresAccount } from "../../../../utils/manage_event/can
 
 interface MakeTicketRequestWorkflowProps {
   ticketRelease: ITicketRelease;
+  onSubmitGuestTicketRequest: () => void; // Logic managed in parent component
+  onSubmitTicketRequest: () => void; // Logic managed in parent component
 }
 
 const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   ticketRelease,
+  onSubmitTicketRequest,
+  onSubmitGuestTicketRequest,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [accountIsRequired, setAccountIsRequired] = useState<boolean>(false);
 
   const dispatch: AppDispatch = useDispatch();
 
-  const { customerSignupSucess, isLoggedIn } = useSelector(
-    (state: RootState) => state.auth
+  const {
+    customerSignupSuccess,
+    customerLoginSuccess,
+    isLoggedIn,
+    guestCustomer,
+    loading,
+  } = useSelector((state: RootState) => state.auth);
+
+  const { create_ticket_request_sucess } = useSelector(
+    (state: RootState) => state.guestCustomer
   );
 
   const handleNext = () => {
@@ -51,8 +67,8 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     dispatch(customerSignupRequest(values));
   };
 
-  const onLoginContinue = (values: ICustomerLoginValues) => {
-    dispatch(customerLoginRequest(values));
+  const onLoginContinue = () => {
+    handleNext();
   };
 
   useEffect(() => {
@@ -66,15 +82,43 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   }, [ticketRelease]);
 
   useEffect(() => {
-    if (customerSignupSucess) {
-      handleNext();
-      dispatch(resetSignupSuccess());
-    }
-  }, [customerSignupSucess, dispatch]);
+    dispatch(resetSignupSuccess());
+    dispatch(resetLoginSuccess());
+    dispatch(resetGuestCustomer());
+  }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    console.log(guestCustomer);
+    if (guestCustomer !== null && !create_ticket_request_sucess && !loading) {
+      onSubmitGuestTicketRequest();
+      // handleNext();
+    }
+  }, [guestCustomer]);
+
+  useEffect(() => {
+    if (create_ticket_request_sucess) {
       handleNext();
+    }
+  }, [create_ticket_request_sucess]);
+
+  useEffect(() => {
+    if (customerSignupSuccess) {
+      dispatch(resetSignupSuccess());
+    }
+    if (customerLoginSuccess) {
+      dispatch(resetLoginSuccess());
+
+      // Ticket request should be made
+      onSubmitTicketRequest();
+    }
+  }, [customerLoginSuccess, customerSignupSuccess, dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn && !loading) {
+      handleNext();
+
+      // Ticket request should be made
+      onSubmitTicketRequest();
     }
   }, []);
 

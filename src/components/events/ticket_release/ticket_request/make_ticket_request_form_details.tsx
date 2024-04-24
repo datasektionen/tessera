@@ -1,5 +1,9 @@
 import { Box } from "@mui/joy";
-import { ITicketRelease, ITicketRequest } from "../../../../types";
+import {
+  IGuestCustomer,
+  ITicketRelease,
+  ITicketRequest,
+} from "../../../../types";
 import UserFoodPreferences from "../../../../redux/features/userFoodPreferences";
 import FoodPreferences from "../../../food_preferences";
 
@@ -13,7 +17,7 @@ const MakeTicketRequestFormDetails: React.FC<
 > = ({ ticketRelease, onContinue }) => {
   return (
     <Box>
-      <FoodPreferences />
+      <FoodPreferences onSave={onContinue} />
     </Box>
   );
 };

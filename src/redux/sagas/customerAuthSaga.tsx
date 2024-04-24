@@ -4,12 +4,15 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import {
   ICustomerLoginValues,
   ICustomerSignupValues,
+  IGuestCustomer,
   ILoginFormValues,
+  IRole,
   ISignupFormValues,
 } from "../../types";
 import {
   customerLoginFailure,
   customerLoginRequest,
+  customerLoginSuccess,
   customerSignupFailure,
   customerSignupRequest,
   customerSignupSuccess,
@@ -30,7 +33,27 @@ function* customerSignupSaga(
     });
 
     if (response.status === 201) {
-      yield put(customerSignupSuccess());
+      console.log(response.data);
+      if (action.payload.is_saved) {
+        yield put(customerSignupSuccess());
+      } else {
+        const user: any = response.data.user;
+        const guestCustomer: IGuestCustomer = {
+          ug_kth_id: user.ug_kth_id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          phone_number: user.phone_number,
+          role: {
+            id: user.role.ID,
+            name: user.role.name,
+          } as IRole,
+          request_token: response.data.request_token || "",
+        };
+
+        yield put(customerSignupSuccess(guestCustomer));
+      }
+
       setTimeout(() => {
         if (action.payload.is_saved) {
           toast.success(
@@ -64,12 +87,12 @@ function* customerLoginSaga(
 
     if (response.status === 200) {
       toast.success("Login successful!");
-      yield put(customerSignupSuccess());
+      yield put(customerLoginSuccess(response.data));
       yield put(currentUserRequest());
     } else {
       const errorMessage = response.data.error || "Something went wrong!";
       toast.error(errorMessage);
-      yield put(customerSignupFailure(response.data.error));
+      yield put(customerLoginFailure(response.data.error));
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "Something went wrong!";

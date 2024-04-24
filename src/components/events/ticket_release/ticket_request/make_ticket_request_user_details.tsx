@@ -2,6 +2,8 @@ import { Form, Formik } from "formik";
 import {
   ICustomerLoginValues,
   ICustomerSignupValues,
+  IGuestCustomer,
+  IGuestCustomerForm,
   ITicketRelease,
 } from "../../../../types";
 import * as Yup from "yup";
@@ -19,7 +21,10 @@ import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../../../../store";
 import { useDispatch } from "react-redux";
 import CustomerLoginForm from "./customer_login_form";
-import { customerSignupRequest } from "../../../../redux/features/authSlice";
+import {
+  customerLoginRequest,
+  customerSignupRequest,
+} from "../../../../redux/features/authSlice";
 import { useSelector } from "react-redux";
 import {
   hasLottery,
@@ -30,7 +35,7 @@ interface MakeTicketRequestUserDetailsProps {
   accountIsRequired: boolean;
   ticketRelease: ITicketRelease;
   onSignupContinue: (values: ICustomerSignupValues) => void;
-  onLoginContinue: (values: ICustomerLoginValues) => void;
+  onLoginContinue: () => void;
 }
 
 const createValidationSchema = (accountIsRequired: boolean) => {
@@ -41,17 +46,29 @@ const createValidationSchema = (accountIsRequired: boolean) => {
     phone_number: Yup.string().optional(),
     is_saved: accountIsRequired ? Yup.boolean().required() : Yup.boolean(),
 
-    password: Yup.string()
-      .min(10, "Password must be at least 10 characters long")
-      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .matches(/[0-9]/, "Password must contain at least one number")
-      .required("Password cannot be empty"),
+    password: accountIsRequired
+      ? Yup.string()
+          .min(10, "Password must be at least 10 characters long")
+          .matches(
+            /[a-z]/,
+            "Password must contain at least one lowercase letter"
+          )
+          .matches(
+            /[A-Z]/,
+            "Password must contain at least one uppercase letter"
+          )
+          .matches(/[0-9]/, "Password must contain at least one number")
+          .required("Password cannot be empty")
+      : Yup.string().optional(),
 
-    password_confirmation: Yup.string()
-      .oneOf([Yup.ref("password"), undefined], "Passwords do not match")
-      .required("Password repeat cannot be empty"),
+    password_confirmation: accountIsRequired
+      ? Yup.string()
+          .oneOf([Yup.ref("password"), undefined], "Passwords do not match")
+          .required("Password repeat cannot be empty")
+      : Yup.string().optional(),
   });
+
+  return validationSchema;
 };
 
 const MakeTicketRequestUserDetails: React.FC<
@@ -74,6 +91,20 @@ const MakeTicketRequestUserDetails: React.FC<
     password: "",
     password_repeat: "",
   };
+
+  const onSignup = (values: ICustomerSignupValues) => {
+    dispatch(customerSignupRequest(values));
+
+    if (values.is_saved) {
+      setHasAccount(true);
+    }
+  };
+
+  const onLogin = (values: ICustomerLoginValues) => {
+    dispatch(customerLoginRequest(values));
+  };
+
+  const validatationSchema = createValidationSchema(accountIsRequired);
 
   return (
     <Box>
@@ -113,7 +144,7 @@ const MakeTicketRequestUserDetails: React.FC<
       {hasAccount ? (
         <CustomerLoginForm
           accountIsRequired={accountIsRequired}
-          onLoginContinue={onLoginContinue}
+          onLoginContinue={onLogin}
           goBack={() => {
             setHasAccount(false);
           }}
@@ -121,17 +152,31 @@ const MakeTicketRequestUserDetails: React.FC<
       ) : (
         <Formik
           initialValues={initialValues}
-          validationSchema={createValidationSchema(accountIsRequired)}
+          validationSchema={validatationSchema}
+          validateOnBlur={true}
+          validateOnChange={true}
+          validateOnMount={true}
           onSubmit={(values) => {}}
           enableReinitialize
         >
-          {({ values }) => (
+          {({ values, isValid }) => (
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
-                onSignupContinue(values);
+                onSignup(values);
               }}
             >
+              <StyledText
+                level="h4"
+                color={PALLETTE.cerise_dark}
+                fontSize={22}
+                fontWeight={700}
+                sx={{
+                  mb: 2,
+                }}
+              >
+                Continue as Guest
+              </StyledText>
               <Stack spacing={4} direction="row">
                 <FormControl>
                   <StyledFormLabel>First Name</StyledFormLabel>
@@ -234,11 +279,12 @@ const MakeTicketRequestUserDetails: React.FC<
                 size="md"
                 bgColor={PALLETTE.cerise}
                 color={PALLETTE.offBlack}
+                disabled={!isValid}
                 sx={{
                   mt: 2,
                 }}
               >
-                Continue
+                {values && values.is_saved ? "Sign Up" : "Continue as Guest"}
               </StyledButton>
             </Form>
           )}

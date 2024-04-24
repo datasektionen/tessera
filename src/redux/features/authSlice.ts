@@ -7,6 +7,7 @@ import {
   ILoginFormValues,
   ICustomerSignupValues,
   ICustomerLoginValues,
+  IGuestCustomer,
 } from "../../types";
 import { REHYDRATE } from "redux-persist";
 
@@ -18,8 +19,9 @@ const initialState: AuthState = {
   isLoggedIn: false,
   fetchUser: false,
   onLoginRedirect: null,
-  customerSignupSucess: false,
-  customerLoginSucess: false,
+  customerSignupSuccess: false,
+  customerLoginSuccess: false,
+  guestCustomer: null,
 };
 
 const authSlice = createSlice({
@@ -70,9 +72,13 @@ const authSlice = createSlice({
     ) => {
       state.loading = true;
     },
-    customerSignupSuccess: (state) => {
+    customerSignupSuccess: (
+      state,
+      action: PayloadAction<IGuestCustomer | undefined>
+    ) => {
       state.loading = false;
-      state.customerSignupSucess = true;
+      state.customerSignupSuccess = true;
+      state.guestCustomer = action.payload || null;
     },
     customerSignupFailure: (state, action: PayloadAction<string>) => {
       state.isLoggedIn = false;
@@ -84,13 +90,13 @@ const authSlice = createSlice({
       action: PayloadAction<ICustomerLoginValues>
     ) => {
       state.loading = true;
-      state.customerLoginSucess = false;
     },
     customerLoginSuccess: (state, action: PayloadAction<{ user: IUser }>) => {
       state.loading = false;
       state.user = action.payload.user;
       state.isLoggedIn = true;
       state.fetchUser = true;
+      state.customerLoginSuccess = true;
     },
     customerLoginFailure: (state, action: PayloadAction<string>) => {
       state.isLoggedIn = false;
@@ -101,10 +107,13 @@ const authSlice = createSlice({
       state.fetchUser = false;
     },
     resetSignupSuccess: (state) => {
-      state.customerSignupSucess = false;
+      state.customerSignupSuccess = false;
     },
     resetLoginSuccess: (state) => {
-      state.customerLoginSucess = false;
+      state.customerLoginSuccess = false;
+    },
+    resetGuestCustomer: (state) => {
+      state.guestCustomer = null;
     },
   },
   extraReducers: {
@@ -141,5 +150,6 @@ export const {
   resetFetchUser,
   resetSignupSuccess,
   resetLoginSuccess,
+  resetGuestCustomer,
 } = authSlice.actions;
 export default authSlice.reducer;

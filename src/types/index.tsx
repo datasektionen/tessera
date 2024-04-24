@@ -23,8 +23,26 @@ export interface AuthState {
   error: string | null;
   fetchUser: boolean;
   onLoginRedirect: string | null;
-  customerSignupSucess: boolean;
-  customerLoginSucess: boolean;
+  customerSignupSuccess: boolean;
+  customerLoginSuccess: boolean;
+  guestCustomer: IGuestCustomer | null;
+}
+
+export interface IGuestCustomerForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number?: string;
+}
+
+export interface IGuestCustomer {
+  ug_kth_id: string;
+  role?: IRole;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  request_token?: string;
 }
 
 export interface UserState {
