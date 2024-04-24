@@ -51,6 +51,7 @@ import {
   EditEventTicketReleasesPage,
   EditEventFormPage,
 } from "./page_import";
+import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
@@ -175,6 +176,11 @@ function AppRoutes() {
           <Route path={ROUTES.MAIN} element={<MainPage />} />
 
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
+
+          <Route
+            path={ROUTES.GUEST_TICKET_REQUEST}
+            element={<GuestTicketRequestPage />}
+          />
 
           <Route element={<ProtectedRoute />}>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />

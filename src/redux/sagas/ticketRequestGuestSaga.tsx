@@ -18,6 +18,7 @@ import {
   createGuestTicketRequest,
   createGuestTicketRequestFailure,
   createGuestTicketRequestSuccess,
+  setGuestCustomer,
 } from "../features/guestCustomerSlice";
 
 function* createTicketRequestSaga(
@@ -63,6 +64,11 @@ function* createTicketRequestSaga(
     if (response.status === 201) {
       toast.success("Ticket request successful!");
       yield put(createGuestTicketRequestSuccess());
+      yield put(
+        setGuestCustomer({
+          ...guestCustomer,
+        })
+      );
     } else {
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);

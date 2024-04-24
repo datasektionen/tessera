@@ -17,9 +17,14 @@ import { useCosts } from "../../events/payments/use_cost";
 interface CheckoutFormProps {
   ticket: ITicket;
   ticketType: ITicketType;
+  returnURL?: string;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  ticket,
+  ticketType,
+  returnURL = process.env.REACT_APP_BASE_URL! + "/profile/tickets",
+}) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const stripe = useStripe();
   const elements = useElements();
@@ -70,11 +75,14 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
 
     setIsLoading(true);
 
+    console.log(returnURL);
+    console.log(process.env.REACT_APP_BASE_URL + returnURL);
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: process.env.REACT_APP_BASE_URL + "/profile/tickets",
+        return_url: returnURL,
         receipt_email:
           process.env.NODE_ENV === "development"
             ? process.env.REACT_APP_TEST_EMAIL
@@ -87,6 +95,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
+    console.log(error);
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message!);
       toast.error(error.message!);

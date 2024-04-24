@@ -193,34 +193,7 @@ const EventDetail: React.FC = () => {
   return (
     <TesseraWrapper>
       {promoCodeLoading && <LoadingOverlay />}
-      {madeTicketRequests[0] &&
-        madeTicketRequests[0].ticket_release!.event!.form_fields!.length >
-          0 && (
-          <InformationModal
-            isOpen={displayPostSuccess}
-            onClose={() => setDisplayPostSuccess(false)}
-            title={t("event.ticket_request_success_title")}
-            width="60%"
-          >
-            <EditFormFieldResponse ticketRequest={madeTicketRequests[0]} />
-            <StyledText
-              color={PALLETTE.charcoal}
-              level="body-sm"
-              fontSize={18}
-              fontWeight={500}
-              style={{
-                marginTop: "1rem",
-              }}
-            >
-              <Trans i18nKey="event.ticket_request_success_description">
-                hjdw
-                <Link href="/profile/ticket-requests" target="_blank">
-                  here{" "}
-                </Link>
-              </Trans>
-            </StyledText>
-          </InformationModal>
-        )}
+
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>

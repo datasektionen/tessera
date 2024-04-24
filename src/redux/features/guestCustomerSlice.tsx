@@ -46,6 +46,32 @@ const guestCustomerSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    getGuestCustomerRequest: (
+      state,
+      action: PayloadAction<{
+        ugkthid: string;
+        request_token: string;
+      }>
+    ) => {
+      state.loading = true;
+    },
+    getGuestCustomerSuccess: (state, action: PayloadAction<IGuestCustomer>) => {
+      state.loading = false;
+      state.guestCustomer = action.payload;
+    },
+    getGuestCustomerFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    resetRequestSuccess: (state) => {
+      state.create_ticket_request_sucess = false;
+    },
+    resetGustCustomer: (state) => {
+      state.guestCustomer = null;
+      state.create_ticket_request_sucess = false;
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
@@ -55,6 +81,11 @@ export const {
   createGuestTicketRequest,
   createGuestTicketRequestSuccess,
   createGuestTicketRequestFailure,
+  getGuestCustomerRequest,
+  getGuestCustomerSuccess,
+  getGuestCustomerFailure,
+  resetRequestSuccess,
+  resetGustCustomer,
 } = guestCustomerSlice.actions;
 
 export default guestCustomerSlice.reducer;

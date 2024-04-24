@@ -60,7 +60,7 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({ onSave }) => {
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState<boolean>(false);
 
   const { guestCustomer, loading } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.guestCustomer
   );
 
   const handleChange = (event: any, newValue: string[]) => {
@@ -84,12 +84,14 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({ onSave }) => {
 
   useEffect(() => {
     if (loading) return;
+    console.log("fetching user food preferences");
+    console.log("guestCustomer", guestCustomer);
     dispatch(
       fetchUserFoodPreferencesStart({
         guestCustomer: guestCustomer,
       })
     );
-  }, [dispatch, loading]);
+  }, [dispatch, guestCustomer, loading]);
 
   useEffect(() => {
     if (save_success && onSave) onSave();

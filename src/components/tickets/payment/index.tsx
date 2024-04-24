@@ -9,7 +9,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios"; // Ensure axios is installed
-import { ITicket, ITicketType } from "../../../types";
+import { IGuestCustomer, ITicket, ITicketType } from "../../../types";
 import StyledButton from "../../buttons/styled_button";
 import { toast } from "react-toastify";
 import {
@@ -38,9 +38,15 @@ if (process.env.NODE_ENV === "production") {
 
 interface PaymentProps {
   ticket: ITicket;
+  isGuestCustomer?: boolean;
+  guestCustomer?: IGuestCustomer;
 }
 
-const Payment: React.FC<PaymentProps> = ({ ticket }) => {
+const Payment: React.FC<PaymentProps> = ({
+  ticket,
+  isGuestCustomer = false,
+  guestCustomer,
+}) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const ticketType = ticket.ticket_request?.ticket_type!;
 
@@ -49,14 +55,19 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
   const handlePay = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // if guest: /guest-customer/:ugkthid/tickets/:ticketID/create-payment-intent
+    // Else: /tickets/:ticketID/create-payment-intent
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      (isGuestCustomer
+        ? `/guest-customer/${guestCustomer?.ug_kth_id}/tickets/${ticket.id}/create-payment-intent?request_token=${guestCustomer?.request_token}`
+        : `/tickets/${ticket.id}/create-payment-intent`);
+
     // Request to create a payment intent
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/tickets/${ticket.id}/create-payment-intent`,
-        {
-          withCredentials: true, // This ensures cookies are sent with the request
-        }
-      );
+      const response = await axios.get(url, {
+        withCredentials: !isGuestCustomer, // This ensures cookies are sent with the request
+      });
       setClientSecret(response.data.client_secret);
 
       // You can now open a modal dialog with the payment details or proceed as below
@@ -68,6 +79,12 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
   };
 
   const { t } = useTranslation();
+
+  // Return URL depends on whether the user is a guest or not
+  // For guest is the exact same, with query param and everything
+  const returnUrl = isGuestCustomer
+    ? window.location.href
+    : process.env.REACT_APP_FRONTEND_URL + "/profile/tickets";
 
   return (
     <>
@@ -107,7 +124,11 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
                       },
                     }}
                   >
-                    <CheckoutForm ticket={ticket} ticketType={ticketType} />
+                    <CheckoutForm
+                      ticket={ticket}
+                      ticketType={ticketType}
+                      returnURL={returnUrl}
+                    />
                   </Elements>
                 </Box>
               </Box>

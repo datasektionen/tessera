@@ -1,4 +1,4 @@
-import { Box, Step, Stepper } from "@mui/joy";
+import { Box, Link, Step, Stepper } from "@mui/joy";
 import { StepLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import MakeTicketRequestUserDetails from "./make_ticket_request_user_details";
@@ -22,22 +22,36 @@ import {
 import { useSelector } from "react-redux";
 import MakeTicketRequestFormDetails from "./make_ticket_request_form_details";
 import { ticketReleaseRequiresAccount } from "../../../../utils/manage_event/can_edit_payment_deadline";
+import EditFormFieldResponse from "../../form_field_response/edit";
+import StyledText from "../../../text/styled_text";
+import { Trans } from "react-i18next";
+import PALLETTE from "../../../../theme/pallette";
+import { act } from "react-dom/test-utils";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  resetGustCustomer,
+  resetRequestSuccess,
+} from "../../../../redux/features/guestCustomerSlice";
 
 interface MakeTicketRequestWorkflowProps {
   ticketRelease: ITicketRelease;
   onSubmitGuestTicketRequest: () => void; // Logic managed in parent component
   onSubmitTicketRequest: () => void; // Logic managed in parent component
+  onClose: () => void;
 }
 
 const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   ticketRelease,
   onSubmitTicketRequest,
   onSubmitGuestTicketRequest,
+  onClose,
 }) => {
+  const { refID } = useParams();
   const [activeStep, setActiveStep] = useState(0);
   const [accountIsRequired, setAccountIsRequired] = useState<boolean>(false);
 
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     customerSignupSuccess,
@@ -49,6 +63,10 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
 
   const { create_ticket_request_sucess } = useSelector(
     (state: RootState) => state.guestCustomer
+  );
+
+  const { ticketRequests: madeTicketRequests } = useSelector(
+    (state: RootState) => state.myTicketRequests
   );
 
   const handleNext = () => {
@@ -88,7 +106,6 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   }, []);
 
   useEffect(() => {
-    console.log(guestCustomer);
     if (guestCustomer !== null && !create_ticket_request_sucess && !loading) {
       onSubmitGuestTicketRequest();
       // handleNext();
@@ -97,6 +114,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
 
   useEffect(() => {
     if (create_ticket_request_sucess) {
+      dispatch(resetRequestSuccess());
       handleNext();
     }
   }, [create_ticket_request_sucess]);
@@ -122,6 +140,37 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const isGuestCustomer = guestCustomer !== null;
+    if (activeStep === 1 && !isGuestCustomer) {
+      handleNext();
+    }
+
+    if (activeStep === 2 && isGuestCustomer) {
+      setTimeout(() => {
+        navigate(
+          `/events/${refID!}/guest/${guestCustomer.ug_kth_id}?request_token=${
+            guestCustomer.request_token
+          }`
+        );
+      }, 1000);
+    }
+
+    if (
+      activeStep === 2 &&
+      madeTicketRequests[0] &&
+      !(madeTicketRequests[0].ticket_release!.event!.form_fields!.length > 0)
+    ) {
+      onClose();
+      // Do nothing when the check passes
+    }
+  }, [guestCustomer, activeStep, madeTicketRequests, navigate, refID, onClose]);
+
+  // Initially reset
+  useEffect(() => {
+    dispatch(resetGustCustomer());
+  }, []);
+
   return (
     <Box>
       <Stepper>
@@ -144,7 +193,31 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
             onContinue={handleNext}
           />
         )}
-        {activeStep === 2 && <div></div>}
+
+        {activeStep === 2 &&
+          madeTicketRequests[0] &&
+          madeTicketRequests[0].ticket_release!.event!.form_fields!.length >
+            0 && (
+            <Box>
+              <EditFormFieldResponse ticketRequest={madeTicketRequests[0]} />
+              <StyledText
+                color={PALLETTE.charcoal}
+                level="body-sm"
+                fontSize={18}
+                fontWeight={500}
+                style={{
+                  marginTop: "1rem",
+                }}
+              >
+                <Trans i18nKey="event.ticket_request_success_description">
+                  hjdw
+                  <Link href="/profile/ticket-requests" target="_blank">
+                    here{" "}
+                  </Link>
+                </Trans>
+              </StyledText>
+            </Box>
+          )}
       </Box>
     </Box>
   );

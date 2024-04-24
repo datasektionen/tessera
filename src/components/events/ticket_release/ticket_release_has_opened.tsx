@@ -205,6 +205,9 @@ const TicketReleaseHasOpened: React.FC<{
             ticketRelease={ticketRelease}
             onSubmitTicketRequest={onSubmit}
             onSubmitGuestTicketRequest={onGuestSubmit}
+            onClose={() => {
+              setMakeTicketRequestModalOpen(false);
+            }}
           />
         </Box>
       </InformationModal>

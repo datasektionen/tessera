@@ -43,6 +43,10 @@ export interface IGuestCustomer {
   email: string;
   phone_number: string;
   request_token?: string;
+
+  ticket_request?: ITicketRequest;
+  ticket?: ITicket;
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface UserState {
@@ -145,6 +149,7 @@ export interface IOrganization {
 
 export interface IEvent {
   id: number;
+  reference_id: string;
   createdAt: number;
   name: string;
   description: string;

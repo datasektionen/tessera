@@ -127,6 +127,7 @@ const authSlice = createSlice({
         loading: false,
         // Reset error to ensure error states are cleared on app re-start
         error: null,
+        guestCustomer: null,
       };
     },
   },

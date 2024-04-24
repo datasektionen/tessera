@@ -65,6 +65,7 @@ function* eventSaga(
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
       id: eventData.ID!,
+      reference_id: eventData.reference_id!,
       is_private: eventData.is_private!,
       createdAt: new Date(eventData.CreatedAt!).getTime(),
       name: eventData.name!,
