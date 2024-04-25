@@ -21,6 +21,8 @@ import { isMobile } from "react-device-detect";
 import { ToastContainer } from "react-toastify";
 import NavigationBar from "../../components/navigation";
 import { Trans, useTranslation } from "react-i18next";
+import CustomerLoginForm from "../../components/customer/login_form";
+import { ICustomerLoginValues, ILoginFormValues } from "../../types";
 
 const External: React.FC = () => {
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
@@ -38,6 +40,10 @@ const External: React.FC = () => {
 
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleLogin = (values: ICustomerLoginValues) => {
+    // Submit form values
+  };
 
   if (isLoggedIn) {
     navigate("/");
@@ -145,6 +151,14 @@ const External: React.FC = () => {
                 {t("external.signup")}
               </Tab>
             </TabList>
+            <TabPanel value={0}>
+              <CustomerLoginForm
+                onLogin={() => {
+                  navigate("/");
+                }}
+              />
+            </TabPanel>
+            <TabPanel value={1}>{/* <SignupForm /> */}</TabPanel>
           </Tabs>
           <StyledText
             fontSize={14}

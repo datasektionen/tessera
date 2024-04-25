@@ -654,6 +654,25 @@ const seTranslations = {
         contains_alcohol: "Innehåller alkohol",
         view_addons: "Visa biljettillägg",
       },
+      request_process: {
+        complete_ticket_request: "Slutför önska biljetter",
+        account_required_description:
+          "För att begära en biljett till detta evenemang måste du ha ett konto. Vänligen logga in eller skapa ett konto.",
+        already_have_an_account: "Har du redan ett konto?",
+        form: {
+          first_name: "Förnamn",
+          last_name: "Efternamn",
+          email: "E-post",
+          phone_number: "Telefonnummer (valfritt)",
+          password: "Lösenord",
+          password_repeat: "Upprepa lösenord",
+          button_save_account: "Spara konto",
+          button_save_account_helperText:
+            "Vi kommer att spara dina uppgifter för framtida köp",
+          button_sign_up: "Registrera dig",
+          button_continue_as_guest: "Fortsätt som gäst",
+        },
+      },
     },
   },
 

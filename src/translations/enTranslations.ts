@@ -780,6 +780,7 @@ const enTranslations = {
           button_save_account_helperText:
             "We will save your details for future purchases",
           button_sign_up: "Sign up",
+          button_sign_in: "Sign in",
           button_continue_as_guest: "Continue as guest",
         },
       },

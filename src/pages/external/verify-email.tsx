@@ -36,7 +36,7 @@ const ExternalVerifyEmail: React.FC = () => {
   useEffect(() => {
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/external/verify-email`,
+        `${process.env.REACT_APP_BACKEND_URL}/customer/verify-email`,
         {
           token: token,
         },
