@@ -57,6 +57,8 @@ function* eventSaga(
       });
     }
 
+    console.log(queryParams);
+
     const queryString =
       queryParams.length > 0 ? "?" + queryParams.join("&") : "";
 
@@ -68,6 +70,8 @@ function* eventSaga(
     });
 
     const eventData = response.data.event;
+
+    console.log(eventData);
 
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp

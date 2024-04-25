@@ -84,7 +84,11 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   }, []);
 
   const handleCancelTicket = () => {
-    dispatch(cancelMyTicketStart(ticket));
+    dispatch(
+      cancelMyTicketStart({
+        ticket,
+      })
+    );
   };
 
   const { t } = useTranslation();

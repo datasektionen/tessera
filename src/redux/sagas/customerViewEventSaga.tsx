@@ -58,7 +58,9 @@ function* eventSaga(
       process.env.REACT_APP_BACKEND_URL + "/view/events/" + refID + queryString;
     console.log(url);
 
-    const response = yield call(axios.get, url);
+    const response = yield call(axios.get, url, {
+      withCredentials: true,
+    });
 
     const eventData = response.data.event;
 

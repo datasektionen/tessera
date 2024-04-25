@@ -7,6 +7,7 @@ import {
   IEvent,
   IEventFormField,
   IEventFormFieldResponse,
+  IGuestCustomer,
   ISelectedAddon,
   ITicketAddon,
   ITicketRelease,
@@ -224,20 +225,28 @@ function* getMyTicketRequestsSaga(
 }
 
 function* cancelTicketRequestSaga(
-  action: PayloadAction<ITicketRequest>
+  action: PayloadAction<{
+    ticket_request: ITicketRequest;
+    isGuestCustomer?: boolean;
+    guestCustomer?: IGuestCustomer | null;
+  }>
 ): Generator<any, void, any> {
   try {
-    const ticket_request = action.payload;
+    const { ticket_request, isGuestCustomer, guestCustomer } = action.payload;
+    // if guest: /guest-customer/:ugkthid/ticket-requests/:ticketRequestID
+    // if not guest: /events/:eventID/ticket-requests/:ticketRequestID
 
-    const response = yield call(
-      axios.delete,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${
-        ticket_request.ticket_release!.event!.id
-      }/ticket-requests/${ticket_request.id}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      (isGuestCustomer
+        ? `/guest-customer/${guestCustomer?.ug_kth_id}/ticket-requests/${ticket_request.id}?request_token=${guestCustomer?.request_token}`
+        : `/events/${
+            ticket_request.ticket_release!.event!.id
+          }/ticket-requests/${ticket_request.id}`);
+
+    const response = yield call(axios.delete, url, {
+      withCredentials: !isGuestCustomer,
+    });
 
     if (response.status === 200) {
       toast.success("Ticket request cancelled!");

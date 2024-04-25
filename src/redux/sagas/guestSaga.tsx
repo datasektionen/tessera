@@ -135,19 +135,21 @@ function* getGuestSaga(
         id: user.role.ID,
         name: user.role.name,
       },
-      ticket: {
-        id: ticket.ID!,
-        is_paid: ticket.is_paid!,
-        is_reserve: ticket.is_reserve!,
-        refunded: ticket.refunded!,
-        user_id: ticket.user_id!,
-        created_at: new Date(ticket.CreatedAt!).getTime(),
-        updated_at: new Date(ticket.UpdatedAt!).getTime(),
-        reserve_number: ticket.reserve_number!,
-        qr_code: ticket.qr_code!,
-        checked_in: ticket.checked_in!,
-        ticket_request: ticketRequestData,
-      } as ITicket,
+      ticket: ticket
+        ? ({
+            id: ticket.ID!,
+            is_paid: ticket.is_paid!,
+            is_reserve: ticket.is_reserve!,
+            refunded: ticket.refunded!,
+            user_id: ticket.user_id!,
+            created_at: new Date(ticket.CreatedAt!).getTime(),
+            updated_at: new Date(ticket.UpdatedAt!).getTime(),
+            reserve_number: ticket.reserve_number!,
+            qr_code: ticket.qr_code!,
+            checked_in: ticket.checked_in!,
+            ticket_request: ticketRequestData,
+          } as ITicket)
+        : undefined,
       ticket_request: ticketRequestData,
     };
 

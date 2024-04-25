@@ -129,7 +129,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
                 variant="outlined"
                 className={styles.card}
                 onClick={() => {
-                  navigate(`/events/${event.id}`);
+                  navigate(`/events/${event.reference_id}`);
                 }}
               >
                 <div>

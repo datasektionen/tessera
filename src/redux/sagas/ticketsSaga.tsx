@@ -5,6 +5,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import {
   IAddon,
   IEvent,
+  IGuestCustomer,
   ITicket,
   ITicketAddon,
   ITicketRelease,
@@ -146,19 +147,29 @@ function* getMyTicketSaga(): Generator<any, void, any> {
 }
 
 function* cancelMyTicketSaga(
-  action: PayloadAction<ITicket>
+  action: PayloadAction<{
+    ticket: ITicket;
+    isGuestCustomer?: boolean;
+    guestCustomer?: IGuestCustomer;
+  }>
 ): Generator<any, void, any> {
   try {
-    const response = yield call(
-      axios.delete,
-      `${process.env.REACT_APP_BACKEND_URL}/my-tickets/${action.payload.id}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const { ticket, isGuestCustomer, guestCustomer } = action.payload;
+    // if guest: /guest-customer/:ugkthid/my-tickets/:ticketID
+    // if not guest: /my-tickets/:ticketID
+
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      (isGuestCustomer
+        ? `/guest-customer/${guestCustomer?.ug_kth_id}/my-tickets/${ticket.id}`
+        : `/my-tickets/${ticket.id}`);
+
+    const response = yield call(axios.delete, url, {
+      withCredentials: !isGuestCustomer,
+    });
 
     if (response.status === 200) {
-      yield put(cancelMyTicketSuccess(action.payload.id));
+      yield put(cancelMyTicketSuccess(ticket.id));
       yield put(getMyTicketsRequest());
       setTimeout(() => {
         toast.success("Ticket cancelled successfully");

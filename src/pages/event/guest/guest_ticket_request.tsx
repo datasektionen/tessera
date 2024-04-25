@@ -1,6 +1,6 @@
-import { Box, Divider, Link } from "@mui/joy";
+import { Box, Divider, Link, Stack } from "@mui/joy";
 import TesseraWrapper from "../../../components/wrappers/page_wrapper";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import FoodPreferences from "../../../components/food_preferences";
@@ -14,13 +14,25 @@ import LoadingOverlay from "../../../components/Loading";
 import EditFormFieldResponse from "../../../components/events/form_field_response/edit";
 import { Trans } from "react-i18next";
 import Payment from "../../../components/tickets/payment";
+import { cancelTicketRequestRequest } from "../../../redux/features/myTicketRequestsSlice";
+import StyledButton from "../../../components/buttons/styled_button";
+import { cancelMyTicketStart } from "../../../redux/features/myTicketsSlice";
 
 const GuestTicketRequestPage: React.FC = () => {
   const { refID, ugkthid } = useParams();
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { guestCustomer, loading } = useSelector(
     (state: RootState) => state.guestCustomer
+  );
+
+  const { deleteSucess: ticketRequestDeleteSuccess } = useSelector(
+    (state: RootState) => state.myTicketRequests
+  );
+
+  const { deleteSucess: ticketDeleteSuccess } = useSelector(
+    (state: RootState) => state.myTickets
   );
 
   useEffect(() => {
@@ -41,7 +53,43 @@ const GuestTicketRequestPage: React.FC = () => {
     dispatch(getGuestCustomerRequest({ ugkthid, request_token: requestToken }));
   }, [refID, ugkthid]);
 
-  console.log(guestCustomer);
+  const cancelTicketRequest = () => {
+    dispatch(
+      cancelTicketRequestRequest({
+        ticket_request: guestCustomer?.ticket_request!,
+        isGuestCustomer: true,
+        guestCustomer,
+      })
+    );
+  };
+
+  const cancelTicket = () => {
+    dispatch(
+      cancelMyTicketStart({
+        ticket: guestCustomer?.ticket!,
+        isGuestCustomer: true,
+        guestCustomer: guestCustomer,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (ticketRequestDeleteSuccess) {
+      toast.info("Ticket request cancelled!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [navigate, ticketRequestDeleteSuccess]);
+
+  useEffect(() => {
+    if (ticketDeleteSuccess) {
+      toast.info("Ticket cancelled successfully");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [navigate, ticketDeleteSuccess]);
 
   if (loading) {
     return <LoadingOverlay />;
@@ -71,6 +119,40 @@ const GuestTicketRequestPage: React.FC = () => {
             ? "Ticket Request"
             : "Ticket"}
         </StyledText>
+        <Box>
+          <Stack spacing={2} direction={"row"}>
+            {guestCustomer?.ticket_request?.is_handled &&
+              guestCustomer.ticket && (
+                <Payment
+                  ticket={guestCustomer?.ticket!}
+                  isGuestCustomer={true}
+                  guestCustomer={guestCustomer}
+                />
+              )}
+            {!guestCustomer?.ticket_request?.is_handled && (
+              <StyledButton
+                size="md"
+                onClick={cancelTicketRequest}
+                bgColor={PALLETTE.red}
+              >
+                Cancel Ticket Request
+              </StyledButton>
+            )}
+            {guestCustomer?.ticket_request?.is_handled &&
+              guestCustomer.ticket && (
+                <StyledButton
+                  size="lg"
+                  onClick={cancelTicket}
+                  bgColor={PALLETTE.red}
+                >
+                  I no longer want to attend
+                </StyledButton>
+              )}
+          </Stack>
+        </Box>
+        {guestCustomer?.ticket_request?.is_handled && guestCustomer.ticket && (
+          <Divider sx={{ my: 2 }} />
+        )}
         <Box
           sx={{
             maxWidth: "800px",
@@ -110,16 +192,6 @@ const GuestTicketRequestPage: React.FC = () => {
         )}
         {guestCustomer?.ticket_request?.ticket_release?.event?.form_fields
           ?.length! > 0 && <Divider sx={{ my: 2 }} />}
-        <Box>
-          {guestCustomer?.ticket_request?.is_handled &&
-            guestCustomer.ticket && (
-              <Payment
-                ticket={guestCustomer?.ticket!}
-                isGuestCustomer={true}
-                guestCustomer={guestCustomer}
-              />
-            )}
-        </Box>
       </Box>
     </TesseraWrapper>
   );
