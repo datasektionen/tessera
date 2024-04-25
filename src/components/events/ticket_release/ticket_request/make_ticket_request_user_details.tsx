@@ -30,6 +30,7 @@ import {
   hasLottery,
   ticketReleaseRequiresAccount,
 } from "../../../../utils/manage_event/can_edit_payment_deadline";
+import { useTranslation } from "react-i18next";
 
 interface MakeTicketRequestUserDetailsProps {
   accountIsRequired: boolean;
@@ -61,7 +62,7 @@ const createValidationSchema = (accountIsRequired: boolean) => {
           .required("Password cannot be empty")
       : Yup.string().optional(),
 
-    password_confirmation: accountIsRequired
+    password_repeat: accountIsRequired
       ? Yup.string()
           .oneOf([Yup.ref("password"), undefined], "Passwords do not match")
           .required("Password repeat cannot be empty")
@@ -104,6 +105,9 @@ const MakeTicketRequestUserDetails: React.FC<
     dispatch(customerLoginRequest(values));
   };
 
+  // "event.ticket_release.request_process"
+  const { t } = useTranslation();
+
   const validatationSchema = createValidationSchema(accountIsRequired);
 
   return (
@@ -119,22 +123,26 @@ const MakeTicketRequestUserDetails: React.FC<
             my: 1,
           }}
         >
-          In order to request a ticket to this event, you must have an account.
-          Please sign in or create an account.
+          {t(
+            "event.ticket_release.request_process.account_required_description"
+          )}
         </StyledText>
       )}
       {!hasAccount && (
         <Box>
-          <StyledText level="h4" color={PALLETTE.offBlack}>
-            Already have a customer account?
+          <StyledText level="h4" color={PALLETTE.cerise_dark}>
+            {t("event.ticket_release.request_process.already_have_an_account")}
           </StyledText>
           <StyledButton
             onClick={() => setHasAccount(true)}
             size="md"
             bgColor={PALLETTE.cerise}
             color={PALLETTE.offBlack}
+            sx={{
+              mt: 1,
+            }}
           >
-            Sign In
+            {t("form.button_sign_in")}
           </StyledButton>
         </Box>
       )}
@@ -158,136 +166,174 @@ const MakeTicketRequestUserDetails: React.FC<
           validateOnMount={true}
           onSubmit={(values) => {}}
           enableReinitialize
+          validate={(values) => {
+            console.log("values", values);
+          }}
         >
-          {({ values, isValid }) => (
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                onSignup(values);
-              }}
-            >
-              <StyledText
-                level="h4"
-                color={PALLETTE.cerise_dark}
-                fontSize={22}
-                fontWeight={700}
-                sx={{
-                  mb: 2,
+          {({ values, isValid, errors }) => {
+            console.log(errors);
+            return (
+              <Form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onSignup(values);
                 }}
               >
-                Continue as Guest
-              </StyledText>
-              <Stack spacing={4} direction="row">
-                <FormControl>
-                  <StyledFormLabel>First Name</StyledFormLabel>
-                  <FormInput
-                    name="first_name"
-                    label="First Name"
-                    placeholder="First Name"
-                    required
-                  />
-                  <StyledErrorMessage name="first_name" />
-                </FormControl>
-                <FormControl>
-                  <StyledFormLabel>Last Name</StyledFormLabel>
-                  <FormInput
-                    name="last_name"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    required
-                  />
-                  <StyledErrorMessage name="last_name" />
-                </FormControl>
-              </Stack>
-              <FormControl
-                sx={{
-                  mt: 1,
-                }}
-              >
-                <StyledFormLabel>Email</StyledFormLabel>
-                <FormInput
-                  name="email"
-                  label="Email"
-                  placeholder="Email"
-                  required
-                />
-                <StyledErrorMessage name="email" />
-              </FormControl>
-              <FormControl
-                sx={{
-                  mt: 1,
-                }}
-              >
-                <StyledFormLabel>Phone Number (Optional)</StyledFormLabel>
-                <FormInput
-                  name="phone_number"
-                  label="Phone Number"
-                  placeholder="Phone Number"
-                  required={false}
-                />
-                <StyledErrorMessage name="phone_number" />
-              </FormControl>
-
-              <FormControl
-                sx={{
-                  mt: 1,
-                }}
-              >
-                <StyledFormLabel>Save Account</StyledFormLabel>
-                <FormCheckbox
-                  name="is_saved"
-                  label="Save my details for future purchases"
-                  disabled={accountIsRequired}
-                />
-                <StyledErrorMessage name="is_saved" />
-                <StyledFormLabelWithHelperText>
-                  We will save your details for future purchases
-                </StyledFormLabelWithHelperText>
-              </FormControl>
-
-              {values.is_saved && (
-                <Box>
+                <StyledText
+                  level="h4"
+                  color={PALLETTE.cerise_dark}
+                  fontSize={22}
+                  fontWeight={700}
+                  sx={{
+                    mb: 2,
+                  }}
+                >
+                  {values.is_saved ? "Sign Up" : "Continue as Guest"}
+                </StyledText>
+                <Stack spacing={4} direction="row">
                   <FormControl>
-                    <StyledFormLabel>Password</StyledFormLabel>
+                    <StyledFormLabel>
+                      {t(
+                        "event.ticket_release.request_process.form.first_name"
+                      )}
+                    </StyledFormLabel>
                     <FormInput
-                      name="password"
-                      label="Password"
-                      placeholder="Password"
-                      type="password"
+                      name="first_name"
+                      label="First Name"
+                      placeholder="First Name"
                       required
                     />
-                    <StyledErrorMessage name="password" />
+                    <StyledErrorMessage name="first_name" />
                   </FormControl>
                   <FormControl>
-                    <StyledFormLabel>Repat Password</StyledFormLabel>
+                    <StyledFormLabel>
+                      {t("event.ticket_release.request_process.form.last_name")}
+                    </StyledFormLabel>
                     <FormInput
-                      name="password_repeat"
-                      label="Password Repeat"
-                      placeholder="Repeat Password"
-                      type="password"
+                      name="last_name"
+                      label="Last Name"
+                      placeholder="Last Name"
                       required
                     />
-                    <StyledErrorMessage name="password_repeat" />
+                    <StyledErrorMessage name="last_name" />
                   </FormControl>
-                </Box>
-              )}
+                </Stack>
+                <FormControl
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  <StyledFormLabel>
+                    {t("event.ticket_release.request_process.form.email")}
+                  </StyledFormLabel>
+                  <FormInput
+                    name="email"
+                    label="Email"
+                    placeholder="Email"
+                    required
+                  />
+                  <StyledErrorMessage name="email" />
+                </FormControl>
+                <FormControl
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  <StyledFormLabel>
+                    {t(
+                      "event.ticket_release.request_process.form.phone_number"
+                    )}
+                  </StyledFormLabel>
+                  <FormInput
+                    name="phone_number"
+                    label="Phone Number"
+                    placeholder="Phone Number"
+                    required={false}
+                  />
+                  <StyledErrorMessage name="phone_number" />
+                </FormControl>
 
-              {/* TODO: Add GDPR compliance and other checkboxes */}
+                <FormControl
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  <StyledFormLabel>
+                    {t(
+                      "event.ticket_release.request_process.form.button_save_account"
+                    )}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="is_saved"
+                    label="Save my details for future purchases"
+                    disabled={accountIsRequired}
+                  />
+                  <StyledErrorMessage name="is_saved" />
+                  <StyledFormLabelWithHelperText>
+                    {t(
+                      "event.ticket_release.request_process.form.button_save_account_helperText"
+                    )}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
 
-              <StyledButton
-                type="submit"
-                size="md"
-                bgColor={PALLETTE.cerise}
-                color={PALLETTE.offBlack}
-                disabled={!isValid}
-                sx={{
-                  mt: 2,
-                }}
-              >
-                {values && values.is_saved ? "Sign Up" : "Continue as Guest"}
-              </StyledButton>
-            </Form>
-          )}
+                {values.is_saved && (
+                  <Box>
+                    <FormControl>
+                      <StyledFormLabel>
+                        {t(
+                          "event.ticket_release.request_process.form.password"
+                        )}
+                      </StyledFormLabel>
+                      <FormInput
+                        name="password"
+                        label="Password"
+                        placeholder="Password"
+                        type="password"
+                        required
+                      />
+                      <StyledErrorMessage name="password" />
+                    </FormControl>
+                    <FormControl>
+                      <StyledFormLabel>
+                        {t(
+                          "event.ticket_release.request_process.form.password_repeat"
+                        )}
+                      </StyledFormLabel>
+                      <FormInput
+                        name="password_repeat"
+                        label="Password Repeat"
+                        placeholder="Repeat Password"
+                        type="password"
+                        required
+                      />
+                      <StyledErrorMessage name="password_repeat" />
+                    </FormControl>
+                  </Box>
+                )}
+
+                {/* TODO: Add GDPR compliance and other checkboxes */}
+
+                <StyledButton
+                  type="submit"
+                  size="md"
+                  bgColor={PALLETTE.cerise}
+                  color={PALLETTE.offBlack}
+                  disabled={!isValid}
+                  sx={{
+                    mt: 2,
+                  }}
+                >
+                  {values && values.is_saved
+                    ? t(
+                        "event.ticket_release.request_process.form.button_sign_up"
+                      )
+                    : t(
+                        "event.ticket_release.request_process.form.button_continue_as_guest"
+                      )}
+                </StyledButton>
+              </Form>
+            );
+          }}
         </Formik>
       )}
     </Box>

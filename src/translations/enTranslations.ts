@@ -208,6 +208,7 @@ const enTranslations = {
       updated_at: "Last updated {{date}}",
     },
 
+    button_sign_in: "Sign in",
     button_add_field: "Add field",
     button_clear: "Clear",
     button_next: "Next",
@@ -762,6 +763,25 @@ const enTranslations = {
         max_quantity: "Max quantity",
         contains_alcohol: "Contains alcohol",
         view_addons: "View ticket addons",
+      },
+      request_process: {
+        complete_ticket_request: "Complete ticket request",
+        account_required_description:
+          "In order to request a ticket to this event, you must have an account. Please sign in or create an account.",
+        already_have_an_account: "Already have an account?",
+        form: {
+          first_name: "First name",
+          last_name: "Last name",
+          email: "Email",
+          phone_number: "Phone number (optional)",
+          password: "Password",
+          password_repeat: "Repeat password",
+          button_save_account: "Save account",
+          button_save_account_helperText:
+            "We will save your details for future purchases",
+          button_sign_up: "Sign up",
+          button_continue_as_guest: "Continue as guest",
+        },
       },
     },
   },

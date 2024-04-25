@@ -6,7 +6,7 @@ import {
   ISelectedAddon,
   TicketRequestPostReq,
 } from "../../types";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import { getMyTicketRequestsRequest } from "../features/myTicketRequestsSlice";
 import {
   postTicketRequestFailure,
@@ -20,9 +20,11 @@ import {
   createGuestTicketRequestSuccess,
   setGuestCustomer,
 } from "../features/guestCustomerSlice";
+import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
 
 function* createTicketRequestSaga(
   action: PayloadAction<{
+    promoCodes: string[];
     tickets: TicketRequestData[];
     addons: ISelectedAddon[];
     eventId: number;
@@ -31,8 +33,28 @@ function* createTicketRequestSaga(
   }>
 ): Generator<any, void, any> {
   try {
-    const { tickets, eventId, ticketReleaseId, addons, guestCustomer } =
-      action.payload;
+    const {
+      tickets,
+      eventId,
+      ticketReleaseId,
+      addons,
+      guestCustomer,
+      promoCodes,
+    } = action.payload;
+
+    const promoCodeRequests = promoCodes.map((promoCode) => {
+      return put(
+        getPromoCodeAccessRequest({
+          eventId: eventId,
+          promo_code: promoCode,
+          isGuestCustomer: true,
+          guestCustomer: guestCustomer,
+        })
+      );
+    });
+
+    yield all(promoCodeRequests);
+
     const ticket_body: TicketRequestPostReq[] = tickets.map((ticket) => {
       return {
         ticket_amount: ticket.ticket_amount,

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 
@@ -38,6 +38,7 @@ import StyledText from "../../components/text/styled_text";
 import { Link } from "@mui/joy";
 import { ROUTES } from "../../routes/def";
 import PALLETTE from "../../theme/pallette";
+import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
 
 export interface TicketRequestData {
   ticket_type_id: number;
@@ -46,6 +47,7 @@ export interface TicketRequestData {
 
 function* createTicketRequestSaga(
   action: PayloadAction<{
+    promoCodes: string[];
     tickets: TicketRequestData[];
     addons: ISelectedAddon[];
     eventId: number;
@@ -53,7 +55,21 @@ function* createTicketRequestSaga(
   }>
 ): Generator<any, void, any> {
   try {
-    const { tickets, eventId, ticketReleaseId, addons } = action.payload;
+    const { tickets, eventId, ticketReleaseId, addons, promoCodes } =
+      action.payload;
+
+    const promoCodeRequests = promoCodes.map((promoCode) => {
+      return put(
+        getPromoCodeAccessRequest({
+          eventId: eventId,
+          promo_code: promoCode,
+          isGuestCustomer: false,
+        })
+      );
+    });
+
+    yield all(promoCodeRequests);
+
     const ticket_body: TicketRequestPostReq[] = tickets.map((ticket) => {
       return {
         ticket_amount: ticket.ticket_amount,

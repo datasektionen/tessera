@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { getEventsRequest } from "../../redux/features/listEventsSlice";
-import { getEventRequest } from "../../redux/features/eventSlice";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { format } from "date-fns";
 import {
   Box,
-  Card,
-  CardContent,
   Divider,
   Grid,
-  Input,
   Link,
   Sheet,
   Stack,
@@ -25,16 +20,12 @@ import {
 } from "../../types";
 import LoadingOverlay from "../../components/Loading";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { validateAndConvertEventID } from "../../utils/id_validation";
 import PALLETTE from "../../theme/pallette";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import TicketRelease from "../../components/events/ticket_release";
 import StandardGrid from "../../components/wrappers/standard_grid";
-import {
-  DefaultInputStyle,
-  FormInput,
-} from "../../components/forms/input_types";
+import { FormInput } from "../../components/forms/input_types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
@@ -43,23 +34,16 @@ import StyledButton from "../../components/buttons/styled_button";
 import { Form, Formik } from "formik";
 import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
 import { StyledErrorMessage } from "../../components/forms/messages";
-import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessSlice";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
-import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
 import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
-import InformationModal from "../../components/modal/information";
-import { getEventFormFields } from "../../redux/sagas/axios_calls/event_form_fields";
-import EditFormFieldResponse from "../../components/events/form_field_response/edit";
 import { ROUTES } from "../../routes/def";
-import TicketReleaseHasClosed from "../../components/events/ticket_release/ticket_release_has_closed";
 import { ticketReleaseHasClosed } from "../../utils/event_open_close";
-import { ref } from "yup";
 import { getCustomerEventRequest } from "../../redux/features/customerViewEvent";
 
 const Item = styled(Sheet)(({ theme }) => ({
@@ -89,10 +73,6 @@ const EventDetail: React.FC = () => {
     errorStatusCode: number | null;
   };
 
-  const { success: promoCodeSuccess, loading: promoCodeLoading } = useSelector(
-    (state: RootState) => state.promoCodeAccess
-  ) as { success: boolean | null; loading: boolean };
-
   const { postSuccess } = useSelector(
     (state: RootState) => state.ticketRequest
   );
@@ -103,10 +83,6 @@ const EventDetail: React.FC = () => {
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
-
-  const { ticketRequests: madeTicketRequests } = useSelector(
-    (state: RootState) => state.myTicketRequests
-  );
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
     // A list of promo codes exists in the localstorage for the user, which are to be submitted when requesting details
@@ -124,6 +100,24 @@ const EventDetail: React.FC = () => {
     existingPromoCodes.push(values.promo_code);
 
     localStorage.setItem("promo_codes", JSON.stringify(existingPromoCodes));
+
+    setTimeout(() => {
+      toast.info("Promo code applied!");
+    }, 1000);
+
+    if (!refID) {
+      window.location.reload();
+      return;
+    }
+
+    dispatch(
+      getCustomerEventRequest({
+        refID,
+        secretToken: secretToken || "",
+        countSiteVisit: true,
+        promoCodes: existingPromoCodes,
+      })
+    );
   };
 
   useEffect(() => {
@@ -170,11 +164,11 @@ const EventDetail: React.FC = () => {
       getCustomerEventRequest({
         refID,
         secretToken: secretToken || "",
-        countSiteVisit: promoCodeSuccess ? false : true,
+        countSiteVisit: true,
         promoCodes,
       })
     );
-  }, [dispatch, refID, promoCodeSuccess, secretToken]);
+  }, [dispatch, refID, secretToken]);
 
   if (loading || error) {
     return <LoadingOverlay />;
@@ -192,8 +186,6 @@ const EventDetail: React.FC = () => {
 
   return (
     <TesseraWrapper>
-      {promoCodeLoading && <LoadingOverlay />}
-
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>

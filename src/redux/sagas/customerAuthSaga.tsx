@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import { ROUTES } from "../../routes/def";
 import ResendVerificationLinkToast from "../../components/toasts/ResendSignupVerificationEmail";
 import { currentUserRequest } from "../features/userSlice";
+import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
 
 function* customerSignupSaga(
   action: PayloadAction<ICustomerSignupValues>

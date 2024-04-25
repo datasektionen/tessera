@@ -160,9 +160,22 @@ const TicketReleaseHasOpened: React.FC<{
     setMakeTicketRequestModalOpen(true);
   };
 
+  const getPromoCodes = () => {
+    let existingPromoCodes: string[] = [];
+    if (existingPromoCodes) {
+      existingPromoCodes = JSON.parse(
+        localStorage.getItem("promo_codes") || "[]"
+      );
+    } else {
+      existingPromoCodes = [];
+    }
+    return existingPromoCodes ?? [];
+  };
+
   const onSubmit = () => {
     dispatch(
       postTicketRequest({
+        promoCodes: getPromoCodes(),
         tickets: requestedTickets,
         addons: selectedAddons,
         eventId: ticketRelease.eventId,
@@ -174,6 +187,7 @@ const TicketReleaseHasOpened: React.FC<{
   const onGuestSubmit = () => {
     dispatch(
       createGuestTicketRequest({
+        promoCodes: getPromoCodes(),
         tickets: requestedTickets,
         addons: selectedAddons,
         eventId: ticketRelease.eventId,
@@ -197,7 +211,9 @@ const TicketReleaseHasOpened: React.FC<{
         onClose={() => {
           setMakeTicketRequestModalOpen(false);
         }}
-        title={t("event.ticket_release.checkout.confirm_request_title")}
+        title={t(
+          "event.ticket_release.request_process.complete_ticket_request"
+        )}
         width={isScreenSmall ? "100%" : "60%"}
       >
         <Box>

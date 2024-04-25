@@ -29,6 +29,7 @@ const guestCustomerSlice = createSlice({
     createGuestTicketRequest: (
       state,
       action: PayloadAction<{
+        promoCodes: string[];
         tickets: TicketRequestData[];
         addons: ISelectedAddon[];
         eventId: number;

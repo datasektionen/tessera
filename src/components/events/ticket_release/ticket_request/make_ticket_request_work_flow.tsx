@@ -1,19 +1,10 @@
-import { Box, Link, Step, Stepper } from "@mui/joy";
-import { StepLabel } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/joy";
 import { useEffect, useState } from "react";
 import MakeTicketRequestUserDetails from "./make_ticket_request_user_details";
-import {
-  ICustomerLoginValues,
-  ICustomerSignupValues,
-  IGuestCustomer,
-  IGuestCustomerForm,
-  ITicketRelease,
-  ITicketRequest,
-} from "../../../../types";
+import { ICustomerSignupValues, ITicketRelease } from "../../../../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store";
 import {
-  customerLoginRequest,
   customerSignupRequest,
   resetGuestCustomer,
   resetLoginSuccess,
@@ -22,11 +13,8 @@ import {
 import { useSelector } from "react-redux";
 import MakeTicketRequestFormDetails from "./make_ticket_request_form_details";
 import { ticketReleaseRequiresAccount } from "../../../../utils/manage_event/can_edit_payment_deadline";
-import EditFormFieldResponse from "../../form_field_response/edit";
 import StyledText from "../../../text/styled_text";
-import { Trans } from "react-i18next";
 import PALLETTE from "../../../../theme/pallette";
-import { act } from "react-dom/test-utils";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   resetGustCustomer,
@@ -90,7 +78,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   };
 
   useEffect(() => {
-    const requiresAccount = ticketReleaseRequiresAccount(
+    let requiresAccount = ticketReleaseRequiresAccount(
       ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod!
     );
 
@@ -173,11 +161,6 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
 
   return (
     <Box>
-      <Stepper>
-        <Step completed={activeStep > 0}>Customer Details</Step>
-        <Step completed={activeStep > 1}>Request Items</Step>
-        <Step completed={activeStep > 2}>Review</Step>
-      </Stepper>
       <Box>
         {activeStep === 0 && (
           <MakeTicketRequestUserDetails
@@ -194,30 +177,33 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
           />
         )}
 
-        {activeStep === 2 &&
-          madeTicketRequests[0] &&
-          madeTicketRequests[0].ticket_release!.event!.form_fields!.length >
-            0 && (
-            <Box>
-              <EditFormFieldResponse ticketRequest={madeTicketRequests[0]} />
-              <StyledText
-                color={PALLETTE.charcoal}
-                level="body-sm"
-                fontSize={18}
-                fontWeight={500}
-                style={{
-                  marginTop: "1rem",
-                }}
-              >
-                <Trans i18nKey="event.ticket_request_success_description">
-                  hjdw
-                  <Link href="/profile/ticket-requests" target="_blank">
-                    here{" "}
-                  </Link>
-                </Trans>
+        {activeStep === 2 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "300px",
+              width: "100%",
+            }}
+          >
+            <Stack
+              spacing={2}
+              direction={"column"}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress color="success" size={"lg"} variant="plain" />
+
+              <StyledText color={PALLETTE.primary} level="h2" fontSize={28}>
+                Loading your ticket request...
               </StyledText>
-            </Box>
-          )}
+            </Stack>
+          </Box>
+        )}
       </Box>
     </Box>
   );

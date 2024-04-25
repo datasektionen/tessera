@@ -7,34 +7,43 @@ import {
   getPromoCodeAccessSuccess,
 } from "../features/promoCodeAccessSlice";
 import { toast } from "react-toastify";
+import { IGuestCustomer } from "../../types";
 
 const promoCodeAccessSaga = function* (
   action: PayloadAction<{
     eventId: number;
     promo_code: string;
+    isGuestCustomer?: boolean;
+    guestCustomer?: IGuestCustomer;
   }>
 ): Generator<any, void, any> {
   try {
-    const { eventId, promo_code } = action.payload;
-    const url: string = `${process.env.REACT_APP_BACKEND_URL}/activate-promo-code/${eventId}?promo_code=${promo_code}`;
+    // if guest: /guest-customer/:ugkthid/activate-promo-code/:eventID
+    // if not guest: /activate-promo-code/:eventID
+
+    const { eventId, promo_code, isGuestCustomer, guestCustomer } =
+      action.payload;
+
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      (isGuestCustomer
+        ? `/guest-customer/${guestCustomer?.ug_kth_id}/activate-promo-code/${eventId}?promo_code=${promo_code}&request_token=${guestCustomer?.request_token}`
+        : `/activate-promo-code/${eventId}?promo_code=${promo_code}`);
+
     const response = yield call(axios.get, url, {
-      withCredentials: true,
+      withCredentials: !isGuestCustomer,
     });
 
     if (response.status === 200) {
-      setTimeout(() => {
-        toast.success("Promo code applied successfully");
-      }, 300);
       yield put(getPromoCodeAccessSuccess(response.data));
     } else {
-      toast.error(response.data.message);
+      console.warn(response.data);
       yield put(getPromoCodeAccessFailure(response.data));
     }
   } catch (error: any) {
     console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
-    toast.error(errorMessage);
-    yield put(getPromoCodeAccessFailure(error));
+    yield put(getPromoCodeAccessFailure(errorMessage));
   }
 };
 
