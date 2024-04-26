@@ -152,6 +152,8 @@ const seTranslations = {
       delete_field_confirm:
         "Är du säker på att du vill radera detta fält? Denna åtgärd kan göra att användarens svar raderas. Du måste trycka på spara efter du utgört denna åtgärd!",
     },
+
+    button_sign_in: "Logga in",
     button_add_field: "Lägg till fält",
     button_clear: "Rensa",
     button_next: "Nästa",
@@ -669,6 +671,7 @@ const seTranslations = {
           button_save_account: "Spara konto",
           button_save_account_helperText:
             "Vi kommer att spara dina uppgifter för framtida köp",
+          button_sign_in: "Logga in",
           button_sign_up: "Registrera dig",
           button_continue_as_guest: "Fortsätt som gäst",
         },
@@ -741,8 +744,6 @@ const seTranslations = {
         "Om du inte är en KTH-student kan du fortfarande använda Tessera. Eftersom du dock inte har ett KTH-konto behöver du använda en annan inloggningsmetod. När du använder Tessera kommer du endast att kunna köpa biljetter från biljettsläpp som är specifika för externa användare. Dessa kan inkludera '+1'-biljetter, eller hedersbiljetter för speciella gäster.",
       forgot_password: "Glömt lösenord?",
       dont_have_an_account: "Har du inget konto? Registrera dig!",
-      i_have_kth_account:
-        "Men jag har ett KTH-konto! Då kan du logga in <1>här</1>.",
     },
     form: {
       first_name: "Förnamn",
