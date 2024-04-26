@@ -161,7 +161,7 @@ function* cancelMyTicketSaga(
     const url =
       process.env.REACT_APP_BACKEND_URL +
       (isGuestCustomer
-        ? `/guest-customer/${guestCustomer?.ug_kth_id}/my-tickets/${ticket.id}`
+        ? `/guest-customer/${guestCustomer?.ug_kth_id}/my-tickets/${ticket.id}?request_token=${guestCustomer?.request_token}`
         : `/my-tickets/${ticket.id}`);
 
     const response = yield call(axios.delete, url, {

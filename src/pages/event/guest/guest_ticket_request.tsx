@@ -17,6 +17,8 @@ import Payment from "../../../components/tickets/payment";
 import { cancelTicketRequestRequest } from "../../../redux/features/myTicketRequestsSlice";
 import StyledButton from "../../../components/buttons/styled_button";
 import { cancelMyTicketStart } from "../../../redux/features/myTicketsSlice";
+import QRCode from "qrcode.react";
+import TicketQRCode from "../../../components/events/tickets/qr_code";
 
 const GuestTicketRequestPage: React.FC = () => {
   const { refID, ugkthid } = useParams();
@@ -52,6 +54,26 @@ const GuestTicketRequestPage: React.FC = () => {
 
     dispatch(getGuestCustomerRequest({ ugkthid, request_token: requestToken }));
   }, [refID, ugkthid]);
+
+  useEffect(() => {
+    // get redirect_status query param
+    const searchParams = new URLSearchParams(window.location.search);
+
+    const redirect_status = searchParams.get("redirect_status");
+
+    if (redirect_status === "succeeded") {
+      // Toast and remove the redirect_status from the url using navigate replace true
+      toast.success("Payment successful");
+
+      // Remove the redirect_status parameter
+      searchParams.delete("redirect_status");
+
+      // Update the URL with the remaining parameters
+      navigate(`${window.location.pathname}?${searchParams.toString()}`, {
+        replace: true,
+      });
+    }
+  }, [dispatch]);
 
   const cancelTicketRequest = () => {
     dispatch(
@@ -122,7 +144,8 @@ const GuestTicketRequestPage: React.FC = () => {
         <Box>
           <Stack spacing={2} direction={"row"}>
             {guestCustomer?.ticket_request?.is_handled &&
-              guestCustomer.ticket && (
+              guestCustomer.ticket &&
+              !guestCustomer.ticket.is_paid && (
                 <Payment
                   ticket={guestCustomer?.ticket!}
                   isGuestCustomer={true}
@@ -139,7 +162,8 @@ const GuestTicketRequestPage: React.FC = () => {
               </StyledButton>
             )}
             {guestCustomer?.ticket_request?.is_handled &&
-              guestCustomer.ticket && (
+              guestCustomer.ticket &&
+              !guestCustomer.ticket.is_paid && (
                 <StyledButton
                   size="lg"
                   onClick={cancelTicket}
@@ -150,6 +174,11 @@ const GuestTicketRequestPage: React.FC = () => {
               )}
           </Stack>
         </Box>
+        {guestCustomer?.ticket_request?.is_handled &&
+          guestCustomer.ticket &&
+          guestCustomer.ticket.is_paid && (
+            <TicketQRCode ticket={guestCustomer.ticket!} />
+          )}
         {guestCustomer?.ticket_request?.is_handled && guestCustomer.ticket && (
           <Divider sx={{ my: 2 }} />
         )}

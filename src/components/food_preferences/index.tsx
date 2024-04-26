@@ -107,7 +107,12 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({ onSave }) => {
   }, [userFoodPreferences, additionalNotes]);
 
   return (
-    <>
+    <Box
+      sx={{
+        width: "99%",
+        overflow: "hidden",
+      }}
+    >
       {loadingFoodPref && <LoadingOverlay />}
       <Title fontSize={24}>{t("profile.food_preferences.title")}</Title>
       <Box>
@@ -226,7 +231,7 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({ onSave }) => {
             : t("form.button_save")}
         </StyledButton>
       </Box>
-    </>
+    </Box>
   );
 };
 
