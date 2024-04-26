@@ -1,27 +1,14 @@
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Divider,
-  Link,
-  Typography,
-  useTheme,
-} from "@mui/joy";
-import React, { useEffect } from "react";
+import { Box, Link, Typography } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import LoginButton from "../../components/login/LoginButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { currentUserRequest } from "../../redux/features/userSlice";
-import MainPage from "../main";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import LoadingOverlay from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import StyledText from "../../components/text/styled_text";
 import { ToastContainer } from "react-toastify";
 import { isMobile } from "react-device-detect";
-import { useMediaQuery } from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
-import { Navigation } from "@mui/icons-material";
 import NavigationBar from "../../components/navigation";
 
 const WelcomePage = () => {

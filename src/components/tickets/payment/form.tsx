@@ -75,9 +75,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
 
     setIsLoading(true);
 
-    console.log(returnURL);
-    console.log(process.env.REACT_APP_BASE_URL + returnURL);
-
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -95,7 +92,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    console.log(error);
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message!);
       toast.error(error.message!);

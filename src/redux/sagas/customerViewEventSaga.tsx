@@ -56,7 +56,6 @@ function* eventSaga(
 
     const url =
       process.env.REACT_APP_BACKEND_URL + "/view/events/" + refID + queryString;
-    console.log(url);
 
     const response = yield call(axios.get, url, {
       withCredentials: true,
@@ -180,7 +179,6 @@ function* eventSaga(
     yield put(getCustomerEventSuccess(event));
     yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
-    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(
       getCustomerEventFailure({

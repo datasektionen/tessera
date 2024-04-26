@@ -57,6 +57,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ isValid }) => {
         bgColor={PALLETTE.cerise}
         color={PALLETTE.offBlack}
         disabled={!isValid}
+        sx={{ mt: 2 }}
       >
         {t("event.ticket_release.request_process.form.button_sign_in")}
       </StyledButton>
@@ -69,8 +70,6 @@ interface CustomerLoginFormProps {
 }
 
 const CustomerLoginForm: React.FC<CustomerLoginFormProps> = ({ onLogin }) => {
-  const dispatch: AppDispatch = useDispatch();
-
   return (
     <Formik
       initialValues={{

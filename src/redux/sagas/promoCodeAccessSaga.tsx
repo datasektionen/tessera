@@ -41,7 +41,6 @@ const promoCodeAccessSaga = function* (
       yield put(getPromoCodeAccessFailure(response.data));
     }
   } catch (error: any) {
-    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(getPromoCodeAccessFailure(errorMessage));
   }

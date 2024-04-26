@@ -52,6 +52,7 @@ const MakeTicketRequestUserDetails: React.FC<
   const dispatch: AppDispatch = useDispatch();
 
   const [hasAccount, setHasAccount] = useState<boolean>(false);
+
   const initialValues = {
     first_name: "",
     last_name: "",

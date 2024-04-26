@@ -18,17 +18,13 @@ function* fetchUserFoodPreferences(
 ): Generator<any, void, any> {
   try {
     const { guestCustomer } = action.payload;
-    console.log("guestCustomer: ", guestCustomer);
     const isGuest = guestCustomer !== null;
-
-    console.log("isGuest: ", isGuest);
 
     const url =
       `${process.env.REACT_APP_BACKEND_URL}` +
       (isGuest
         ? `/guest-customer/${guestCustomer.ug_kth_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
         : "/user-food-preferences");
-    console.log("withCredentials: ", !isGuest);
 
     const response = yield call(axios.get, url, { withCredentials: !isGuest });
 

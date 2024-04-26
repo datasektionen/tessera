@@ -75,7 +75,7 @@ const ExternalVerifyEmail: React.FC = () => {
 
   if (hasVerified === true) {
     setTimeout(() => {
-      navigate("/external");
+      navigate("/?email-verified=true");
     }, 1000);
   }
 
@@ -115,7 +115,7 @@ const ExternalVerifyEmail: React.FC = () => {
               fontSize={22}
               fontWeight={700}
             >
-              Verified! Redirecting to login page...
+              Verified! Redirecting...
             </StyledText>
             <CircularProgress sx={{ mt: 2 }} />
           </>

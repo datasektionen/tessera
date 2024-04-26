@@ -2,8 +2,16 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { TicketRequestData } from "./ticketRequestSaga";
 import {
+  IAddon,
+  IEvent,
+  IEventFormField,
+  IEventFormFieldResponse,
   IGuestCustomer,
   ISelectedAddon,
+  ITicketAddon,
+  ITicketRelease,
+  ITicketRequest,
+  ITicketType,
   TicketRequestPostReq,
 } from "../../types";
 import { all, call, put, takeLatest } from "redux-saga/effects";

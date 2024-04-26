@@ -84,8 +84,6 @@ const FoodPreferences: React.FC<FoodPreferencesProps> = ({ onSave }) => {
 
   useEffect(() => {
     if (loading) return;
-    console.log("fetching user food preferences");
-    console.log("guestCustomer", guestCustomer);
     dispatch(
       fetchUserFoodPreferencesStart({
         guestCustomer: guestCustomer,

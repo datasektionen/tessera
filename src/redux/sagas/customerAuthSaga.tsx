@@ -34,7 +34,6 @@ function* customerSignupSaga(
     });
 
     if (response.status === 201) {
-      console.log(response.data);
       if (action.payload.is_saved) {
         yield put(customerSignupSuccess());
       } else {

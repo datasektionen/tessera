@@ -30,6 +30,7 @@ import HowToUse from "./how_to_use";
 import Bg1 from "../../assets/backgrounds/1.svg";
 import Bg2 from "../../assets/backgrounds/2.svg";
 import { TypeAnimation } from "react-type-animation";
+import { ToastContainer, toast } from "react-toastify";
 
 const MainPage: React.FC = () => {
   const { t } = useTranslation();
@@ -82,12 +83,37 @@ const MainPage: React.FC = () => {
   //   return null;
   // }
 
+  useEffect(() => {
+    // get email-verified query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailVerified = urlParams.get("email-verified");
+    if (emailVerified === "true") {
+      // Show toast
+      setTimeout(() => {
+        toast.success("Email verified successfully!");
+      }, 0);
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <div
       style={{
         overflow: "hidden",
       }}
     >
+      <ToastContainer
+        position={isMobile ? "top-center" : "bottom-right"}
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Navigation />
       <Box
         className={styles.divider}

@@ -35,7 +35,6 @@ function* getGuestSaga(
       `${process.env.REACT_APP_BACKEND_URL}/guest-customer/${ugkthid}?request_token=${request_token}`
     );
 
-    console.log(response);
     const user = response.data.user;
 
     if (user.ticket_requests.length > 1) {
@@ -155,7 +154,6 @@ function* getGuestSaga(
 
     yield put(getGuestCustomerSuccess(guest));
   } catch (error: any) {
-    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     toast.error(errorMessage);
     yield put(getGuestCustomerFailure(error));
