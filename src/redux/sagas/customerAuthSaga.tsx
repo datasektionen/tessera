@@ -54,15 +54,17 @@ function* customerSignupSaga(
         yield put(customerSignupSuccess(guestCustomer));
       }
 
-      setTimeout(() => {
-        if (action.payload.is_saved) {
+      if (action.payload.is_saved) {
+        setTimeout(() => {
           toast.success(
             "Signup successful, please verify your email before logging in!"
           );
-        } else {
+        }, 1000);
+      } else {
+        setTimeout(() => {
           toast.info("Continuing as guest...");
-        }
-      }, 500);
+        }, 500);
+      }
     } else {
       const errorMessage = response.data.error || "Something went wrong!";
       toast.error(errorMessage);
@@ -86,7 +88,9 @@ function* customerLoginSaga(
     });
 
     if (response.status === 200) {
-      toast.success("Login successful!");
+      setTimeout(() => {
+        toast.success("Login successful!");
+      }, 750);
       yield put(customerLoginSuccess(response.data));
       yield put(currentUserRequest());
     } else {

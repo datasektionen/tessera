@@ -114,7 +114,11 @@ const MainPage: React.FC = () => {
         pauseOnHover
         theme="light"
       />
-      <Navigation />
+      <Navigation
+        loginOptions={{
+          showLogin: true,
+        }}
+      />
       <Box
         className={styles.divider}
         sx={{

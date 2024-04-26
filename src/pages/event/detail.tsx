@@ -185,7 +185,11 @@ const EventDetail: React.FC = () => {
   );
 
   return (
-    <TesseraWrapper>
+    <TesseraWrapper
+      loginOptions={{
+        showLogin: true,
+      }}
+    >
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>

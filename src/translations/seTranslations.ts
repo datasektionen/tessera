@@ -732,7 +732,7 @@ const seTranslations = {
     },
   },
 
-  external: {
+  customer: {
     login: "Logga in",
     signup: "Registrera dig",
     info: {
@@ -754,6 +754,11 @@ const seTranslations = {
       button_signup: "Registrera dig",
       button_login: "Logga in",
       no_account: "Har du inget konto? Vänligen kontakta oss.", // TODO add email
+    },
+    forgot_password: {
+      title: "Begär nytt lösenord",
+      description:
+        "Ange den e-postadress som är kopplad till ditt konto och du kommer att få en länk för att återställa ditt lösenord.",
     },
   },
 

@@ -35,7 +35,6 @@ import {
   CreateEventPage,
   EditEventPage,
   HandleLoginCallback,
-  External,
   ForgotPassword,
   PasswordReset,
   ExternalVerifyEmail,
@@ -44,12 +43,12 @@ import {
   SendOut,
   PrivacyPolicy,
   EventDetail,
-  WelcomePage,
   SettingsFinancialPage,
   EventSendOutsPage,
   ManageSendOutList,
   EditEventTicketReleasesPage,
   EditEventFormPage,
+  LoginPage,
 } from "./page_import";
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 
@@ -157,12 +156,11 @@ function AppRoutes() {
         }
       >
         <Routes>
-          <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
           <Route
             path={ROUTES.HANDLE_LOGIN_CALLBACK}
             element={<HandleLoginCallback />}
           />
-          <Route path={ROUTES.EXTERNAL} element={<External />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
           <Route path={ROUTES.PASSWORD_RESET} element={<PasswordReset />} />
           <Route

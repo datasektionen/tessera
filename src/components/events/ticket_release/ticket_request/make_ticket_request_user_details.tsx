@@ -146,7 +146,7 @@ const MakeTicketRequestUserDetails: React.FC<
         </>
       ) : (
         <CustomerSignupForm
-          onSignupContinue={onSignup}
+          onSignup={onSignup}
           accountIsRequired={accountIsRequired}
         />
       )}

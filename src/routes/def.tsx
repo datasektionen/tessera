@@ -95,7 +95,6 @@ export const ROUTES = {
   TICKET_RELEASE_CONSTANTS: "/ticket-release/constants",
   PROFILE: "/profile",
   PROFILE_ORGANIZATIONS: "/profile/organizations",
-  EXTERNAL: "/external",
   FORGOT_PASSWORD: "/forgot-password",
   PASSWORD_RESET: "/reset-password/:token",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",

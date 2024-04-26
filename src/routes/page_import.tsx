@@ -55,8 +55,7 @@ export const EditEventPage = React.lazy(
   () => import("../pages/event/edit/edit_event")
 );
 
-export const External = React.lazy(() => import("../pages/external"));
-export const WelcomePage = React.lazy(() => import("../pages/welcome"));
+export const LoginPage = React.lazy(() => import("../pages/user_login"));
 export const ProtectedRoute = React.lazy(
   () => import("../components/login/PrivateRoute")
 );
@@ -66,15 +65,15 @@ export const HandleLoginCallback = React.lazy(
   () => import("../pages/login/callback")
 );
 export const ExternalVerifyEmail = React.lazy(
-  () => import("../pages/external/verify-email")
+  () => import("../pages/user_login/verify-email")
 );
 export const ContactPage = React.lazy(() => import("../pages/contact"));
 
 export const ForgotPassword = React.lazy(
-  () => import("../pages/external/forgot_password")
+  () => import("../pages/user_login/forgot_password")
 );
 export const PasswordReset = React.lazy(
-  () => import("../pages/external/password_reset")
+  () => import("../pages/user_login/password_reset")
 );
 export const SendOut = React.lazy(
   () => import("../pages/event/send_out/new_send_out")

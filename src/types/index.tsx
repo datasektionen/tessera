@@ -15,6 +15,9 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface INavigationLoginOptions {
+  showLogin: boolean;
+}
 export interface AuthState {
   isLoggedIn: boolean;
   loading: boolean;

@@ -787,16 +787,15 @@ const enTranslations = {
     },
   },
 
-  external: {
+  customer: {
     login: "Login",
     signup: "Sign up",
     info: {
-      subtitle: "External login and signup.",
+      subtitle: "Customer Login and Signup",
       description:
-        "If you're not a KTH student, you can still use Tessera. However, since you don't have a KTH account, you'll need to use a different login method. When using tessera, you will only be able to purchase tickets from ticket releases that are specific to external users. These may include '+1'-tickets, or honorary tickets for special guests.",
+        "Welcome to Tessera! By creating an account with tessera, all you information will be collected in one place. You can easily request tickets, manage your tickets and much more. Note that you don't need an account to request a ticket for some events.",
       forgot_password: "Forgot password?",
       dont_have_an_account: "Don't have an account? Sign up!",
-      i_have_kth_account: "But I have a KTH account! Then <1>Click Here</1>",
     },
     form: {
       first_name: "First name",
@@ -808,6 +807,11 @@ const enTranslations = {
       button_signup: "Sign up",
       button_login: "Login",
       no_account: "Don't have an account? Sign up!",
+    },
+    forgot_password: {
+      title: "Request new password",
+      description:
+        "Enter the email address associated with your account and you will recieve a link to reset your password.",
     },
   },
 

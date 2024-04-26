@@ -13,6 +13,7 @@ import PALLETTE from "../../theme/pallette";
 import { AppDispatch } from "../../store";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import StyledText from "../text/styled_text";
 
 // Validation schema remains unchanged
 const customerLoginValidationSchema = Yup.object().shape({
@@ -50,6 +51,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ isValid }) => {
         />
         <StyledErrorMessage name="password" />
       </FormControl>
+
+      <StyledText
+        level="body"
+        color={PALLETTE.charcoal_see_through}
+        fontSize={16}
+        sx={{
+          mt: 1,
+          textAlign: "left",
+        }}
+      >
+        <Link href="/forgot-password">Forgot your password?</Link>
+      </StyledText>
 
       <StyledButton
         type="submit"
