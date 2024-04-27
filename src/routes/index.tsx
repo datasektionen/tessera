@@ -52,6 +52,7 @@ import {
   ManageSendOutList,
   EditEventTicketReleasesPage,
   EditEventFormPage,
+  PricingPage,
 } from "./page_import";
 import AdminPage from "../admin";
 
@@ -176,6 +177,7 @@ function AppRoutes() {
             element={<VerifyPreferredEmail />}
           />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
+          <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route element={<SuperAdminProtectedRoute />}>

@@ -13,7 +13,7 @@ export const generateEditTicketReleaseAddons = (
 };
 
 interface GenerateRouteParams {
-  eventId: number | string;
+  eventId?: number | string;
   ticketReleaseId?: number | string;
   token?: string;
   ticketId?: number;
@@ -30,7 +30,10 @@ export const generateRoute = (
     organizationId,
   }: GenerateRouteParams
 ) => {
-  let result = route.replace(":eventID", eventId.toString());
+  let result = route;
+  if (eventId) {
+    result = route.replace(":eventID", eventId!.toString());
+  }
 
   if (ticketReleaseId) {
     result = result.replace(":ticketReleaseID", ticketReleaseId.toString());
@@ -57,6 +60,7 @@ export const ROUTES = {
   LOGIN_COMPLETE: "/login-complete/:token",
   LOGOUT: "/logout",
   EVENTS: "/events",
+  PRICING: "/pricing",
   EVENT_DETAIL: "/events/:eventID",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
   EDIT_EVENT_ADD_TICKET_RELEASE: "/events/:eventID/edit/add-ticket-release",

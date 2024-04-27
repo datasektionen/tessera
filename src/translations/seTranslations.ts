@@ -7,6 +7,7 @@ const seTranslations = {
     teams: "Grupper",
     contact: "Kontakt",
     login: "Logga in",
+    pricing: "Priser",
   },
 
   tooltips: {

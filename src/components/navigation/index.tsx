@@ -18,7 +18,7 @@ import {
 
 import { useTranslation, Trans } from "react-i18next";
 import StyledText from "../text/styled_text";
-import { ROUTES } from "../../routes/def";
+import { generateRoute, ROUTES } from "../../routes/def";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import styles from "./nav.module.css";
@@ -258,16 +258,17 @@ function NavigationBar() {
                 </StyledText>
               </Chip>
             </Stack>
-            {isLoggedIn && (
-              <Stack
-                direction="row"
-                spacing={2}
-                alignItems="center"
-                style={{
-                  padding: 0,
-                }}
-              >
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              style={{
+                padding: 0,
+              }}
+            >
+              {isLoggedIn && [
                 <StyledText
+                  key="events"
                   level="body-sm"
                   color={""}
                   fontSize={18}
@@ -280,9 +281,10 @@ function NavigationBar() {
                   <StyledLink href={ROUTES.EVENTS}>
                     {t("navigation.events")}
                   </StyledLink>
-                </StyledText>
+                </StyledText>,
 
                 <StyledText
+                  key="profile"
                   color={""}
                   level="body-sm"
                   fontSize={18}
@@ -295,8 +297,9 @@ function NavigationBar() {
                   <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
                     {t("navigation.teams")}
                   </StyledLink>
-                </StyledText>
+                </StyledText>,
                 <StyledText
+                  key="contact"
                   level="body-sm"
                   color={""}
                   fontSize={18}
@@ -309,9 +312,24 @@ function NavigationBar() {
                   <StyledLink href={ROUTES.CONTACT_PAGE}>
                     {t("navigation.contact")}
                   </StyledLink>
-                </StyledText>
-              </Stack>
-            )}
+                </StyledText>,
+              ]}
+              <StyledText
+                level="body-sm"
+                color={""}
+                fontSize={18}
+                fontWeight={700}
+                style={{
+                  margin: "0 16px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <StyledLink href={generateRoute(ROUTES.PRICING, {})}>
+                  {t("navigation.pricing")}
+                </StyledLink>
+              </StyledText>
+            </Stack>
+
             {/* Right-aligned profile icon */}
             <Stack
               direction="row"
