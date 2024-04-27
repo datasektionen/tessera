@@ -1,0 +1,30 @@
+.feature_table {
+    border-collapse: collapse;
+    width: 50%;
+    table-layout: fixed;
+}
+
+.feature_table th,
+.feature_table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    overflow: hidden; /* To make sure content doesn't overflow */
+}
+
+.feature_table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.feature_table th {
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Updated rule for first column width */
+.feature_table th:first-child,
+.feature_table td:first-child {
+    width: 30%; /* Adjust the percentage as needed */
+}
