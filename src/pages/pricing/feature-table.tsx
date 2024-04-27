@@ -1,6 +1,10 @@
 import * as React from "react";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import classes from "./feature-table.module.css";
+import StyledText from "../../components/text/styled_text";
+import PALLETTE from "../../theme/pallette";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 export interface Feature {
   id: number;
@@ -60,6 +64,49 @@ const sampleFeatures: Feature[] = [
   },
 ];
 
+const HeaderValue: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <th
+    style={{
+      backgroundColor: PALLETTE.light_pink,
+    }}
+  >
+    <StyledText level="h4" color={PALLETTE.charcoal} fontSize={18}>
+      {children}
+    </StyledText>
+  </th>
+);
+
+const RowValue: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <td>
+    <StyledText level="body" color={PALLETTE.charcoal} fontSize={16}>
+      {children}
+    </StyledText>
+  </td>
+);
+
+const BooleanValue: React.FC<{ value: boolean }> = ({ value }) => (
+  <td
+    style={{
+      backgroundColor: value ? PALLETTE.green : PALLETTE.red,
+    }}
+  >
+    <StyledText
+      level="body"
+      color={PALLETTE.charcoal}
+      fontSize={16}
+      sx={{
+        textAlign: "center",
+      }}
+    >
+      {value ? (
+        <CheckIcon style={{ color: PALLETTE.charcoal }} />
+      ) : (
+        <CloseIcon style={{ color: PALLETTE.charcoal }} />
+      )}
+    </StyledText>
+  </td>
+);
+
 interface FeatureTableProps {
   group_name: string;
 }
@@ -69,21 +116,21 @@ const FeatureTable: React.FC<FeatureTableProps> = ({ group_name }) => {
     <table className={classes.feature_table}>
       <thead>
         <tr>
-          <th>{group_name}</th>
-          <th>Free</th>
-          <th>Single</th>
-          <th>Proffessional</th>
-          <th>Enterprise</th>
+          <HeaderValue>{group_name}</HeaderValue>
+          <HeaderValue>Free</HeaderValue>
+          <HeaderValue>Single</HeaderValue>
+          <HeaderValue>Proffessional</HeaderValue>
+          <HeaderValue>Enterprise</HeaderValue>
         </tr>
       </thead>
       <tbody>
         {sampleFeatures.map((feature) => (
           <tr key={feature.id}>
-            <td>{feature.name}</td>
-            <td>{feature.materialUi ? "Yes" : "No"}</td>
-            <td>{feature.joyUi ? "Yes" : "No"}</td>
-            <td>{feature.baseUi ? "Yes" : "No"}</td>
-            <td>{feature.muiSystem ? "Yes" : "No"}</td>
+            <RowValue>{feature.name}</RowValue>
+            <BooleanValue value={feature.materialUi} />
+            <BooleanValue value={feature.joyUi} />
+            <BooleanValue value={feature.baseUi} />
+            <BooleanValue value={feature.muiSystem} />
           </tr>
         ))}
       </tbody>

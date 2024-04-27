@@ -6,7 +6,7 @@
 
 .feature_table th,
 .feature_table td {
-    border: 1px solid #ddd;
+    border: 1px solid #b8b8b8;
     padding: 8px;
     overflow: hidden; /* To make sure content doesn't overflow */
 }
@@ -19,7 +19,6 @@
     text-align: center;
     padding-top: 12px;
     padding-bottom: 12px;
-    background-color: #4caf50;
     color: white;
 }
 
