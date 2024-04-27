@@ -8,6 +8,7 @@ const enTranslations = {
     teams: "Teams",
     contact: "Contact",
     login: "Login",
+    pricing: "Pricing",
   },
 
   main_page: {

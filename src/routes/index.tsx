@@ -49,6 +49,7 @@ import {
   EditEventTicketReleasesPage,
   EditEventFormPage,
   LoginPage,
+  PricingPage,
 } from "./page_import";
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 
@@ -172,6 +173,7 @@ function AppRoutes() {
             element={<VerifyPreferredEmail />}
           />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
+          <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
 
