@@ -1,4 +1,4 @@
-// src/components/pricingPackages/PricingPackageList.tsx
+// src/components/PlanEnrollmentss/PlanEnrollmentsList.tsx
 import * as React from "react";
 import {
   List,
@@ -8,7 +8,7 @@ import {
   DeleteButton,
 } from "react-admin";
 
-export const PricingPackageList = (props: any) => (
+export const PlanEnrollmentsList = (props: any) => (
   <List {...props}>
     <Datagrid>
       <TextField source="id" />

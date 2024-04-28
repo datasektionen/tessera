@@ -7,11 +7,7 @@ import {
 import { PackageTierList } from "./components/packageTiers/packate_tier_list";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { PricingPackageList } from "./components/pricingPackage/pricing_package_list";
-import {
-  PricingPackageCreate,
-  PricingPackageEdit,
-} from "./components/pricingPackage/pricing_package_update_create";
+
 import { FeatureList } from "./components/features/features_list";
 import {
   FeatureCreate,
@@ -22,6 +18,11 @@ import {
   FeatureGroupCreate,
   FeatureGroupEdit,
 } from "./components/featureGroup/feature_group_update_create";
+import { PlanEnrollmentsList } from "./components/planEnrollments/plan_enrollments_list";
+import {
+  PlanEnrollmentsCreate,
+  PlanEnrollmentsEdit,
+} from "./components/planEnrollments/plan_enrollments_update_create";
 
 const Dashboard = () => (
   <div>
@@ -41,10 +42,10 @@ const AdminPage = () => (
     />
 
     <Resource
-      name="pricing-packages"
-      list={PricingPackageList}
-      edit={PricingPackageEdit}
-      create={PricingPackageCreate}
+      name="plan-enrollments"
+      list={PlanEnrollmentsList}
+      edit={PlanEnrollmentsEdit}
+      create={PlanEnrollmentsCreate}
     />
 
     <Resource

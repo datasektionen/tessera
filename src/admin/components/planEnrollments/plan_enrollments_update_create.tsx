@@ -14,7 +14,7 @@ import {
 import LoadingOverlay from "../../../components/Loading";
 import { Typography } from "@mui/material";
 
-const PricingPackageEdit = (props: any) => {
+const PlanEnrollmentsEdit = (props: any) => {
   const { data, error } = useGetList(
     "package-tiers",
     {
@@ -49,7 +49,7 @@ type TierChoice = {
   yearly_price: number;
 };
 
-const PricingPackageCreate = (props: any) => {
+const PlanEnrollmentsCreate = (props: any) => {
   const { data, error, isLoading } = useGetList(
     "package-tiers",
     {
@@ -122,4 +122,4 @@ const PricingPackageCreate = (props: any) => {
   );
 };
 
-export { PricingPackageEdit, PricingPackageCreate };
+export { PlanEnrollmentsEdit, PlanEnrollmentsCreate };
