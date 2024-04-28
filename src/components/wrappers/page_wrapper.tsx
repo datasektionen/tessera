@@ -7,11 +7,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import theme from "../../theme";
 import Footer from "./footer";
+import { INavigationLoginOptions } from "../../types";
+
 interface TesseraWrapperProps {
   children: React.ReactNode;
+  loginOptions?: INavigationLoginOptions;
 }
 
-const TesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
+const TesseraWrapper: React.FC<TesseraWrapperProps> = ({
+  children,
+  loginOptions,
+}) => {
   return (
     <CssVarsProvider theme={theme}>
       <ToastContainer
@@ -27,7 +33,7 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
         theme="light"
       />
       {/* Same as */}
-      <NavigationBar />
+      <NavigationBar loginOptions={loginOptions} />
       <Box
         sx={{ width: "100%", minHeight: "100vh" }}
         id="tessera-wrapper"

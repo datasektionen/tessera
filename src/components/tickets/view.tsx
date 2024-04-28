@@ -25,6 +25,7 @@ import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
 import { canPayForTicket, mustPayBefore } from "../../utils/user_payment";
 import { useCosts } from "../events/payments/use_cost";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import TicketQRCode from "../events/tickets/qr_code";
 
 function convertPayWithinToString(
   payWithin: number,
@@ -84,7 +85,11 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   }, []);
 
   const handleCancelTicket = () => {
-    dispatch(cancelMyTicketStart(ticket));
+    dispatch(
+      cancelMyTicketStart({
+        ticket,
+      })
+    );
   };
 
   const { t } = useTranslation();
@@ -165,66 +170,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         )}
       </Box>
 
-      {ticket.is_paid && (
-        <Box>
-          <Box
-            sx={{
-              backgroundColor: PALLETTE.cerise,
-              padding: "16px",
-              borderRadius: "8px",
-              width: "fit-content",
-              margin: "16px auto",
-            }}
-          >
-            {ticket.checked_in && (
-              <StyledText
-                level="body-sm"
-                fontSize={24}
-                color={PALLETTE.green}
-                fontWeight={700}
-                style={{
-                  position: "absolute",
-                  zIndex: 100,
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  textAlign: "center",
-                  width: "200px",
-                  textShadow: "0 0 8px black",
-                }}
-              >
-                {t("tickets.qr_code.already_checked_in")}
-              </StyledText>
-            )}
-
-            <QRCode
-              value={ticket.qr_code}
-              size={256}
-              style={{
-                filter: ticket.checked_in ? "blur(8px)" : "none",
-              }}
-            />
-          </Box>
-          <StyledText
-            level="body-sm"
-            fontSize={16}
-            color={PALLETTE.charcoal_see_through}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            ID: {ticket.id}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            color={PALLETTE.charcoal}
-            style={{ marginTop: "8px" }}
-          >
-            {t("tickets.qr_code.description")}
-          </StyledText>
-        </Box>
-      )}
+      <TicketQRCode ticket={ticket} />
 
       <Box mt={2}>
         <StyledText level="body-sm" fontSize={22} color={PALLETTE.charcoal}>

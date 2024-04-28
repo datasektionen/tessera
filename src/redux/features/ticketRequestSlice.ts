@@ -67,6 +67,7 @@ export const ticketRequestSlice = createSlice({
     postTicketRequest: (
       state,
       action: PayloadAction<{
+        promoCodes: string[];
         tickets: TicketRequestData[];
         addons: ISelectedAddon[];
         eventId: number;

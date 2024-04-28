@@ -5,7 +5,7 @@ export const resendVerificationEmail = async (
 ): Promise<string> => {
   try {
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/external/resend-verification-email`,
+      `${process.env.REACT_APP_BACKEND_URL}/customer/resend-verification-email`,
       { email }
     );
     if (response.status === 200) {

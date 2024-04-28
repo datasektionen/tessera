@@ -18,9 +18,7 @@ import {
 import LoginButton from "../../components/login/LoginButton";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
-import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
-import LoginForm from "./login_form";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 
@@ -38,7 +36,7 @@ const ExternalVerifyEmail: React.FC = () => {
   useEffect(() => {
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/external/verify-email`,
+        `${process.env.REACT_APP_BACKEND_URL}/customer/verify-email`,
         {
           token: token,
         },
@@ -77,7 +75,7 @@ const ExternalVerifyEmail: React.FC = () => {
 
   if (hasVerified === true) {
     setTimeout(() => {
-      navigate("/external");
+      navigate("/?email-verified=true");
     }, 1000);
   }
 
@@ -117,7 +115,7 @@ const ExternalVerifyEmail: React.FC = () => {
               fontSize={22}
               fontWeight={700}
             >
-              Verified! Redirecting to login page...
+              Verified! Redirecting...
             </StyledText>
             <CircularProgress sx={{ mt: 2 }} />
           </>

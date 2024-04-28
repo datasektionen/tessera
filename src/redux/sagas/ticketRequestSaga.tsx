@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 
@@ -7,6 +7,7 @@ import {
   IEvent,
   IEventFormField,
   IEventFormFieldResponse,
+  IGuestCustomer,
   ISelectedAddon,
   ITicketAddon,
   ITicketRelease,
@@ -37,6 +38,7 @@ import StyledText from "../../components/text/styled_text";
 import { Link } from "@mui/joy";
 import { ROUTES } from "../../routes/def";
 import PALLETTE from "../../theme/pallette";
+import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
 
 export interface TicketRequestData {
   ticket_type_id: number;
@@ -45,6 +47,7 @@ export interface TicketRequestData {
 
 function* createTicketRequestSaga(
   action: PayloadAction<{
+    promoCodes: string[];
     tickets: TicketRequestData[];
     addons: ISelectedAddon[];
     eventId: number;
@@ -52,7 +55,21 @@ function* createTicketRequestSaga(
   }>
 ): Generator<any, void, any> {
   try {
-    const { tickets, eventId, ticketReleaseId, addons } = action.payload;
+    const { tickets, eventId, ticketReleaseId, addons, promoCodes } =
+      action.payload;
+
+    const promoCodeRequests = promoCodes.map((promoCode) => {
+      return put(
+        getPromoCodeAccessRequest({
+          eventId: eventId,
+          promo_code: promoCode,
+          isGuestCustomer: false,
+        })
+      );
+    });
+
+    yield all(promoCodeRequests);
+
     const ticket_body: TicketRequestPostReq[] = tickets.map((ticket) => {
       return {
         ticket_amount: ticket.ticket_amount,
@@ -128,7 +145,6 @@ function* getMyTicketRequestsSaga(
       );
     }
 
-
     const ticket_requests: ITicketRequest[] = response.data.ticket_requests.map(
       (ticket_request: any) => {
         return {
@@ -203,7 +219,7 @@ function* getMyTicketRequestsSaga(
               id: addon.ID!,
               ticket_request_id: addon.ticket_request_id!,
               add_on_id: addon.add_on_id!,
-              quantity: addon.quantity!, 
+              quantity: addon.quantity!,
             };
           }) as ITicketAddon[],
         } as ITicketRequest;
@@ -225,20 +241,28 @@ function* getMyTicketRequestsSaga(
 }
 
 function* cancelTicketRequestSaga(
-  action: PayloadAction<ITicketRequest>
+  action: PayloadAction<{
+    ticket_request: ITicketRequest;
+    isGuestCustomer?: boolean;
+    guestCustomer?: IGuestCustomer | null;
+  }>
 ): Generator<any, void, any> {
   try {
-    const ticket_request = action.payload;
+    const { ticket_request, isGuestCustomer, guestCustomer } = action.payload;
+    // if guest: /guest-customer/:ugkthid/ticket-requests/:ticketRequestID
+    // if not guest: /events/:eventID/ticket-requests/:ticketRequestID
 
-    const response = yield call(
-      axios.delete,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${
-        ticket_request.ticket_release!.event!.id
-      }/ticket-requests/${ticket_request.id}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      (isGuestCustomer
+        ? `/guest-customer/${guestCustomer?.ug_kth_id}/ticket-requests/${ticket_request.id}?request_token=${guestCustomer?.request_token}`
+        : `/events/${
+            ticket_request.ticket_release!.event!.id
+          }/ticket-requests/${ticket_request.id}`);
+
+    const response = yield call(axios.delete, url, {
+      withCredentials: !isGuestCustomer,
+    });
 
     if (response.status === 200) {
       toast.success("Ticket request cancelled!");

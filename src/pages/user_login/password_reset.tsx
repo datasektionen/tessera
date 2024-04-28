@@ -20,9 +20,7 @@ import {
 import LoginButton from "../../components/login/LoginButton";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
-import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
-import LoginForm from "./login_form";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { Form, Formik } from "formik";

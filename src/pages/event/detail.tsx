@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { getEventsRequest } from "../../redux/features/listEventsSlice";
-import { getEventRequest } from "../../redux/features/eventSlice";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import { format } from "date-fns";
 import {
   Box,
-  Card,
-  CardContent,
   Divider,
   Grid,
-  Input,
   Link,
   Sheet,
   Stack,
@@ -25,16 +20,12 @@ import {
 } from "../../types";
 import LoadingOverlay from "../../components/Loading";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { validateAndConvertEventID } from "../../utils/id_validation";
 import PALLETTE from "../../theme/pallette";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import TicketRelease from "../../components/events/ticket_release";
 import StandardGrid from "../../components/wrappers/standard_grid";
-import {
-  DefaultInputStyle,
-  FormInput,
-} from "../../components/forms/input_types";
+import { FormInput } from "../../components/forms/input_types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
@@ -43,22 +34,17 @@ import StyledButton from "../../components/buttons/styled_button";
 import { Form, Formik } from "formik";
 import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
 import { StyledErrorMessage } from "../../components/forms/messages";
-import { getPromoCodeAccessRequest } from "../../redux/features/promoCodeAccessSlice";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
-import { userCanSeeTicketRelease } from "../../utils/ticket_release_access";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
 import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
-import InformationModal from "../../components/modal/information";
-import { getEventFormFields } from "../../redux/sagas/axios_calls/event_form_fields";
-import EditFormFieldResponse from "../../components/events/form_field_response/edit";
 import { ROUTES } from "../../routes/def";
-import TicketReleaseHasClosed from "../../components/events/ticket_release/ticket_release_has_closed";
 import { ticketReleaseHasClosed } from "../../utils/event_open_close";
+import { getCustomerEventRequest } from "../../redux/features/customerViewEvent";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -72,14 +58,14 @@ const Item = styled(Sheet)(({ theme }) => ({
 }));
 
 const EventDetail: React.FC = () => {
-  const { eventID } = useParams();
+  const { refID } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const secretToken = queryParams.get("secret_token");
 
   const { loading, error, event, errorStatusCode } = useSelector(
-    (state: RootState) => state.eventDetail
+    (state: RootState) => state.customerViewEvent
   ) as {
     loading: boolean;
     error: string | null;
@@ -87,10 +73,6 @@ const EventDetail: React.FC = () => {
     errorStatusCode: number | null;
   };
 
-  const { success: promoCodeSuccess, loading: promoCodeLoading } = useSelector(
-    (state: RootState) => state.promoCodeAccess
-  ) as { success: boolean | null; loading: boolean };
-  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { postSuccess } = useSelector(
     (state: RootState) => state.ticketRequest
   );
@@ -102,15 +84,38 @@ const EventDetail: React.FC = () => {
   const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
-  const { ticketRequests: madeTicketRequests } = useSelector(
-    (state: RootState) => state.myTicketRequests
-  );
-
   const submitPromoCode = (values: PromoCodeAccessForm) => {
+    // A list of promo codes exists in the localstorage for the user, which are to be submitted when requesting details
+    // To the event
+
+    let existingPromoCodes: string[] = [];
+    if (existingPromoCodes) {
+      existingPromoCodes = JSON.parse(
+        localStorage.getItem("promo_codes") || "[]"
+      );
+    } else {
+      existingPromoCodes = [];
+    }
+
+    existingPromoCodes.push(values.promo_code);
+
+    localStorage.setItem("promo_codes", JSON.stringify(existingPromoCodes));
+
+    setTimeout(() => {
+      toast.info("Promo code applied!");
+    }, 1000);
+
+    if (!refID) {
+      window.location.reload();
+      return;
+    }
+
     dispatch(
-      getPromoCodeAccessRequest({
-        promo_code: values.promo_code,
-        eventId: event!.id,
+      getCustomerEventRequest({
+        refID,
+        secretToken: secretToken || "",
+        countSiteVisit: true,
+        promoCodes: existingPromoCodes,
       })
     );
   };
@@ -140,32 +145,32 @@ const EventDetail: React.FC = () => {
       setTimeout(() => {
         toast.error(error);
       }, 1000);
-      navigate("/events");
+      navigate("/");
     } else if (errorStatusCode) {
       setTimeout(() => {
         toast.error(error);
       }, 1000);
-      navigate("/events");
+      navigate("/");
     }
   }, [errorStatusCode, error]);
 
   useEffect(() => {
-    if (!eventID) {
+    if (!refID) {
       console.error("No event id found");
       return;
     }
-    const intid: number = validateAndConvertEventID(eventID);
+    const promoCodes = JSON.parse(localStorage.getItem("promo_codes") || "[]");
     dispatch(
-      getEventRequest({
-        id: intid,
+      getCustomerEventRequest({
+        refID,
         secretToken: secretToken || "",
-        countSiteVisit: promoCodeSuccess ? false : true,
+        countSiteVisit: true,
+        promoCodes,
       })
     );
-  }, [dispatch, eventID, promoCodeSuccess]);
+  }, [dispatch, refID, secretToken]);
 
   if (loading || error) {
-    console.error(error);
     return <LoadingOverlay />;
   }
 
@@ -180,36 +185,11 @@ const EventDetail: React.FC = () => {
   );
 
   return (
-    <TesseraWrapper>
-      {promoCodeLoading && <LoadingOverlay />}
-      {madeTicketRequests[0] &&
-        madeTicketRequests[0].ticket_release!.event!.form_fields!.length >
-          0 && (
-          <InformationModal
-            isOpen={displayPostSuccess}
-            onClose={() => setDisplayPostSuccess(false)}
-            title={t("event.ticket_request_success_title")}
-            width="60%"
-          >
-            <EditFormFieldResponse ticketRequest={madeTicketRequests[0]} />
-            <StyledText
-              color={PALLETTE.charcoal}
-              level="body-sm"
-              fontSize={18}
-              fontWeight={500}
-              style={{
-                marginTop: "1rem",
-              }}
-            >
-              <Trans i18nKey="event.ticket_request_success_description">
-                hjdw
-                <Link href="/profile/ticket-requests" target="_blank">
-                  here{" "}
-                </Link>
-              </Trans>
-            </StyledText>
-          </InformationModal>
-        )}
+    <TesseraWrapper
+      loginOptions={{
+        showLogin: true,
+      }}
+    >
       <StandardGrid>
         <Grid xs={16} md={8}>
           <Item>
@@ -356,9 +336,6 @@ const EventDetail: React.FC = () => {
               <Stack spacing={2} sx={{ p: 0 }}>
                 {ticketReleases.map((ticketRelease, i) => {
                   const key = `${event.name}-${i}`;
-                  if (!userCanSeeTicketRelease(ticketRelease, currentUser!)) {
-                    return null;
-                  }
 
                   return (
                     <TicketRelease ticketRelease={ticketRelease} key={key} />

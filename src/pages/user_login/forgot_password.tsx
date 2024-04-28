@@ -20,9 +20,7 @@ import {
 import LoginButton from "../../components/login/LoginButton";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
-import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
-import LoginForm from "./login_form";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { Form, Formik } from "formik";
@@ -33,6 +31,8 @@ import { useTranslation } from "react-i18next";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import * as Yup from "yup";
 import { StyledFormLabel } from "../../components/forms/form_labels";
+import NavigationBar from "../../components/navigation";
+import { ROUTES } from "../../routes/def";
 
 const initialValues = {
   email: "",
@@ -84,17 +84,21 @@ const ForgotPassword: React.FC = () => {
   }
 
   return (
-    <div
+    <Box
       style={{
         width: "100vw",
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
         backgroundColor: PALLETTE.offWhite,
-        paddingTop: "2em",
         paddingBottom: "10em",
       }}
     >
+      <NavigationBar
+        loginOptions={{
+          showLogin: true,
+        }}
+      />
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -107,14 +111,23 @@ const ForgotPassword: React.FC = () => {
         pauseOnHover
         theme="light"
       />
-      <Box sx={{ width: "80%", textAlign: "center" }}>
-        <Typography level="h1" color="primary" fontSize={72}>
+      <Box sx={{ width: "80%", textAlign: "center", paddingTop: "2em" }}>
+        <StyledText level="h1" color={PALLETTE.cerise} fontSize={72}>
           Tessera
-        </Typography>
+        </StyledText>
+        <StyledText level="h4" color={PALLETTE.cerise_dark} fontSize={28}>
+          {t("customer.forgot_password.title")}
+        </StyledText>
 
-        <StyledText level="body-md" fontSize={20} color="charcoal">
-          Enter the email address associated with your account and we'll send
-          you a link to reset your password.
+        <StyledText
+          level="body-md"
+          fontSize={18}
+          color={PALLETTE.charcoal}
+          sx={{
+            textWrap: "balance",
+          }}
+        >
+          {t("customer.forgot_password.description")}
         </StyledText>
 
         <Box
@@ -157,8 +170,7 @@ const ForgotPassword: React.FC = () => {
 
                 <StyledButton
                   size="md"
-                  bgColor="cerise"
-                  textColor="charcoal"
+                  bgColor={PALLETTE.cerise}
                   disabled={!isValid}
                   type="submit"
                   style={{ width: "200px", marginTop: "20px" }}
@@ -177,10 +189,10 @@ const ForgotPassword: React.FC = () => {
         >
           {" "}
           Done or don't need to reset your password?{" "}
-          <Link href="/external">Back to login</Link>
+          <Link href={ROUTES.LOGIN}>Back to login</Link>
         </StyledText>
       </Box>
-    </div>
+    </Box>
   );
 };
 

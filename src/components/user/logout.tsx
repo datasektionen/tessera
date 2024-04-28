@@ -13,6 +13,7 @@ const Logout: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    localStorage.removeItem("promo_codes");
     dispatch(logoutRequest());
   }, []);
 

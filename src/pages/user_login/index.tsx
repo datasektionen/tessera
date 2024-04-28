@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import MainPage from "../main";
 import LoadingOverlay from "../../components/Loading";
@@ -17,14 +17,25 @@ import {
 import LoginButton from "../../components/login/LoginButton";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
-import SignupForm from "./signup_form";
 import { isMobile } from "react-device-detect";
-import LoginForm from "./login_form";
 import { ToastContainer } from "react-toastify";
 import NavigationBar from "../../components/navigation";
 import { Trans, useTranslation } from "react-i18next";
+import CustomerLoginForm from "../../components/customer/login_form";
+import {
+  ICustomerLoginValues,
+  ICustomerSignupValues,
+  ILoginFormValues,
+} from "../../types";
+import CustomerSignupForm from "../../components/customer/signup_form";
+import { useDispatch } from "react-redux";
+import {
+  customerLoginRequest,
+  customerSignupRequest,
+} from "../../redux/features/authSlice";
 
-const External: React.FC = () => {
+const LoginPage: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user
@@ -41,6 +52,14 @@ const External: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const handleLogin = (values: ICustomerLoginValues) => {
+    dispatch(customerLoginRequest(values));
+  };
+
+  const handleSignup = (values: ICustomerSignupValues) => {
+    dispatch(customerSignupRequest(values));
+  };
+
   if (isLoggedIn) {
     navigate("/");
   }
@@ -51,10 +70,14 @@ const External: React.FC = () => {
 
   return (
     <>
-      <NavigationBar />
-      <div
+      <NavigationBar
+        loginOptions={{
+          showLogin: true,
+        }}
+      />
+      <Box
         style={{
-          width: "100vw",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
@@ -76,35 +99,38 @@ const External: React.FC = () => {
           pauseOnHover
           theme="light"
         />
-        <Box sx={{ width: !isMobile ? "50%" : "80%", textAlign: "center" }}>
+        <Box sx={{ width: "95%", textAlign: "center" }}>
           {orLoading ? <LoadingOverlay /> : null}
-          <Typography level="h1" color="primary" fontSize={72}>
+          <StyledText level="h1" color={PALLETTE.cerise} fontSize={72}>
             Tessera
-          </Typography>
+          </StyledText>
           <Typography level="h4" color="neutral">
-            {t("external.info.subtitle")}
+            {t("customer.info.subtitle")}
           </Typography>
 
           <StyledText
             level="h4"
             color={PALLETTE.charcoal}
-            fontSize={16}
+            fontSize={18}
             fontWeight={500}
             style={{
               width: "100%",
               margin: "0 auto",
               marginTop: "1em",
             }}
+            sx={{
+              textWrap: "balance",
+            }}
           >
-            {t("external.info.description")}
+            {t("customer.info.description")}
           </StyledText>
 
           <Tabs
             orientation="horizontal"
             defaultValue={0}
             sx={{
-              width: "100%",
-              maxWidth: "400px",
+              minWidth: "300px",
+              width: "fit-content",
               borderRadius: "lg",
               boxShadow: "sm",
               overflow: "auto",
@@ -136,7 +162,7 @@ const External: React.FC = () => {
                 disableIndicator
                 sx={{ flexGrow: 1 }}
               >
-                {t("external.login")}
+                {t("customer.login")}
               </Tab>
               <Tab
                 variant="outlined"
@@ -144,31 +170,24 @@ const External: React.FC = () => {
                 disableIndicator
                 sx={{ flexGrow: 1 }}
               >
-                {t("external.signup")}
+                {t("customer.signup")}
               </Tab>
             </TabList>
             <TabPanel value={0}>
-              <LoginForm />
+              <CustomerLoginForm onLogin={handleLogin} />
             </TabPanel>
             <TabPanel value={1}>
-              <SignupForm />
+              <CustomerSignupForm
+                onSignup={handleSignup}
+                includeIsSaved={false}
+                accountIsRequired={true}
+              />
             </TabPanel>
           </Tabs>
-          <StyledText
-            fontSize={14}
-            color={PALLETTE.charcoal_see_through}
-            level="body-sm"
-            sx={{ mt: 3 }}
-          >
-            <Trans i18nKey="external.info.i_have_kth_account">
-              but ifwjidjqwoidqjwdi
-              <Link href="/login">Click here</Link>
-            </Trans>
-          </StyledText>
         </Box>
-      </div>
+      </Box>
     </>
   );
 };
 
-export default External;
+export default LoginPage;

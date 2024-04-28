@@ -24,10 +24,13 @@ import { handleEventFormFieldResponseSubmit } from "../../../redux/sagas/axios_c
 import { toast } from "react-toastify";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface EditFormFieldResponsePropsBase {
   formFields: IEventFormField[];
   ticketRequest: ITicketRequest;
+  isGuestCustomer?: boolean;
 }
 
 const createField = (field: IEventFormField) => {
@@ -82,8 +85,13 @@ const createField = (field: IEventFormField) => {
 const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
   formFields,
   ticketRequest,
+  isGuestCustomer,
 }) => {
   const { t } = useTranslation();
+
+  const { guestCustomer } = useSelector(
+    (state: RootState) => state.guestCustomer
+  );
 
   const createValidationSchema = () => {
     let schema: any = {};
@@ -138,7 +146,9 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
     handleEventFormFieldResponseSubmit(
       formFieldValues,
       event_id,
-      ticketRequest.id
+      ticketRequest.id,
+      isGuestCustomer,
+      isGuestCustomer ? guestCustomer! : undefined
     ).then((response) => {
       if (response.success) {
         toast.success("Form field response submitted");
@@ -280,12 +290,14 @@ interface EditFormFieldResponseProps {
   ticket?: ITicket;
   ticketRequest?: ITicketRequest;
   formFields?: IEventFormField[];
+  isGuestCustomer?: boolean;
 }
 
 const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
   ticket,
   ticketRequest,
   formFields = undefined,
+  isGuestCustomer = false,
 }) => {
   if (ticket !== undefined) {
     return (
@@ -296,6 +308,7 @@ const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
             ? formFields
             : ticket.ticket_request?.ticket_release?.event?.form_fields!
         }
+        isGuestCustomer={isGuestCustomer}
       />
     );
   } else if (ticketRequest !== undefined) {
@@ -307,6 +320,7 @@ const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
             ? formFields
             : ticketRequest.ticket_release?.event?.form_fields!
         }
+        isGuestCustomer={isGuestCustomer}
       />
     );
   } else {

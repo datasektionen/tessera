@@ -30,6 +30,7 @@ import { setLanguage } from "../../redux/features/languageSlice";
 import { use } from "i18next";
 import StyledButton from "../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
+import { INavigationLoginOptions } from "../../types";
 
 const lngs = [
   {
@@ -192,8 +193,16 @@ export const StyledLink = (props: any) => (
     }}
   />
 );
-function NavigationBar() {
+
+interface NavigationBarProps {
+  loginOptions?: INavigationLoginOptions;
+}
+
+const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
   const { t } = useTranslation();
+  const { showLogin } = loginOptions || {
+    showLogin: true,
+  };
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -341,50 +350,50 @@ function NavigationBar() {
             >
               <LanguageSelector />
 
-              {isLoggedIn ? (
-                [
-                  <IconButton
-                    component="a"
-                    key="profile"
-                    href="/profile" // Link to the profile page
-                  >
-                    <PersonIcon
+              {isLoggedIn
+                ? [
+                    <IconButton
+                      component="a"
+                      key="profile"
+                      href="/profile" // Link to the profile page
+                    >
+                      <PersonIcon
+                        style={{
+                          color: PALLETTE.charcoal,
+                        }}
+                      />
+                    </IconButton>,
+                    <IconButton
+                      component="a"
+                      key="logout"
+                      href="/logout" // Link to the logout page
+                    >
+                      <LogoutIcon
+                        style={{
+                          color: PALLETTE.charcoal,
+                        }}
+                      />
+                    </IconButton>,
+                  ]
+                : showLogin && (
+                    <StyledButton
+                      color={PALLETTE.charcoal}
+                      size="sm"
                       style={{
-                        color: PALLETTE.charcoal,
+                        margin: "0 16px",
                       }}
-                    />
-                  </IconButton>,
-                  <IconButton
-                    component="a"
-                    key="logout"
-                    href="/logout" // Link to the logout page
-                  >
-                    <LogoutIcon
-                      style={{
-                        color: PALLETTE.charcoal,
+                      onClick={() => {
+                        navigate(ROUTES.LOGIN);
                       }}
-                    />
-                  </IconButton>,
-                ]
-              ) : (
-                <StyledButton
-                  color={PALLETTE.charcoal}
-                  size="sm"
-                  style={{
-                    margin: "0 16px",
-                  }}
-                  onClick={() => {
-                    navigate(ROUTES.LOGIN);
-                  }}
-                >
-                  {t("navigation.login")}
-                </StyledButton>
-              )}
+                    >
+                      {t("navigation.login")}
+                    </StyledButton>
+                  )}
             </Stack>
           </Grid>
         </Box>
       </>
     );
-}
+};
 
 export default NavigationBar;

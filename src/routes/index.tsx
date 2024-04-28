@@ -37,7 +37,6 @@ import {
   CreateEventPage,
   EditEventPage,
   HandleLoginCallback,
-  External,
   ForgotPassword,
   PasswordReset,
   ExternalVerifyEmail,
@@ -46,14 +45,16 @@ import {
   SendOut,
   PrivacyPolicy,
   EventDetail,
-  WelcomePage,
   SettingsFinancialPage,
   EventSendOutsPage,
   ManageSendOutList,
   EditEventTicketReleasesPage,
   EditEventFormPage,
+  LoginPage,
   PricingPage,
 } from "./page_import";
+
+import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
 
 function withCurrentUserRequest<P>(
@@ -160,12 +161,11 @@ function AppRoutes() {
         }
       >
         <Routes>
-          <Route path={ROUTES.LOGIN} element={<WelcomePage />} />
           <Route
             path={ROUTES.HANDLE_LOGIN_CALLBACK}
             element={<HandleLoginCallback />}
           />
-          <Route path={ROUTES.EXTERNAL} element={<External />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
           <Route path={ROUTES.PASSWORD_RESET} element={<PasswordReset />} />
           <Route
@@ -179,16 +179,20 @@ function AppRoutes() {
           <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
+          <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
+
+          <Route
+            path={ROUTES.GUEST_TICKET_REQUEST}
+            element={<GuestTicketRequestPage />}
+          />
+
           <Route element={<ProtectedRoute />}>
             <Route element={<SuperAdminProtectedRoute />}>
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />
             </Route>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
             <Route path={ROUTES.CONTACT_PAGE} element={<ContactPage />} />
-            <Route
-              path={ROUTES.EVENT_DETAIL}
-              element={<EventDetailWithCurrentUser />}
-            />
+
             <Route
               path={ROUTES.PROFILE}
               element={<ProfilePageWithCurrentUser />}

@@ -118,14 +118,9 @@ const Footer: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        <StyledText
-          level="body-sm"
-          fontSize={isScreenSmall ? 14 : 20}
-          fontWeight={600}
-          color={PALLETTE.charcoal}
-        >
-          <Trans i18nKey="footer.made_by">
-            Made with ❤️ by
+        <StyledText fontSize={20} color={PALLETTE.charcoal} level="body-sm">
+          <Trans i18nKey="main_page.login_page.for_business_inquiries">
+            For business-related inquiries, please contact
             <Link
               href="https://www.linkedin.com/in/lucas-dow-1315a61b5/"
               target="_blank"
@@ -133,6 +128,7 @@ const Footer: React.FC = () => {
             >
               Lucas Dow
             </Link>
+            , the creator of Tessera.
           </Trans>
         </StyledText>
         <Link

@@ -13,6 +13,7 @@ interface UserInfoProps {
 
 const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const { t } = useTranslation();
+  console.log(user);
   return (
     <>
       <Grid container spacing={1} columns={16} sx={{ flexGrow: 1 }}>
@@ -24,12 +25,11 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                 value={`${user.first_name} ${user.last_name}`}
               />
               <UserEmail user={user} />
-              <UserInfoText
-                label={t("profile.username")}
-                value={user.username}
-              />
 
-              <UserInfoText label={t("profile.role")} value={user.role!.name} />
+              <UserInfoText
+                label={t("profile.roles")}
+                value={user.roles!.map((role) => role.name).join(", ")}
+              />
 
               <UserInfoText
                 label={t("profile.teams")}

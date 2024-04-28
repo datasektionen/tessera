@@ -32,6 +32,7 @@ function* listEventSaga(): Generator<any, void, any> {
       .map((event: any) => {
         return {
           id: event.ID!,
+          reference_id: event.reference_id!,
           createdAt: event.CreatedAt!,
           name: event.name!,
           description: event.description!,

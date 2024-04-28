@@ -15,6 +15,9 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface INavigationLoginOptions {
+  showLogin: boolean;
+}
 export interface AuthState {
   isLoggedIn: boolean;
   loading: boolean;
@@ -23,6 +26,30 @@ export interface AuthState {
   error: string | null;
   fetchUser: boolean;
   onLoginRedirect: string | null;
+  customerSignupSuccess: boolean;
+  customerLoginSuccess: boolean;
+  guestCustomer: IGuestCustomer | null;
+}
+
+export interface IGuestCustomerForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number?: string;
+}
+
+export interface IGuestCustomer {
+  ug_kth_id: string;
+  role?: IRole;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  request_token?: string;
+
+  ticket_request?: ITicketRequest;
+  ticket?: ITicket;
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface UserState {
@@ -59,16 +86,43 @@ export interface LoginFailureAction {
   payload: string;
 }
 
+// Differeny types of roles
+export enum RoleType {
+  SUPER_ADMIN = "super_admin",
+  CUSTOMER = "customer",
+  CUSTOMER_GUEST = "customer_guest",
+  USER = "user",
+}
+
 export interface IRole {
   id: number;
   name: string;
 }
 
-export interface IPreferredEmail {
-  ID: number;
+export interface ICustomerSignupValues {
+  first_name: string;
+  last_name: string;
   email: string;
-  requested_change_email: string;
-  is_verified: boolean;
+  phone_number: string;
+
+  is_saved?: boolean;
+  password?: string;
+  password_repeat?: string;
+}
+
+export interface ICustomerLoginValues {
+  email: string;
+  password: string;
+}
+
+export interface ICustomer {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  verifiedEmail: boolean;
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface IUser {
@@ -78,11 +132,10 @@ export interface IUser {
   first_name: string;
   last_name: string;
   email: string;
-  role?: IRole;
+  roles?: IRole[];
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
-  preferred_email?: IPreferredEmail;
 }
 
 export interface IOrganizationUser extends IUser {
@@ -99,6 +152,7 @@ export interface IOrganization {
 
 export interface IEvent {
   id: number;
+  reference_id: string;
   createdAt: number;
   name: string;
   description: string;

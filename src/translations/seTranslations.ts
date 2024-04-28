@@ -153,6 +153,8 @@ const seTranslations = {
       delete_field_confirm:
         "Är du säker på att du vill radera detta fält? Denna åtgärd kan göra att användarens svar raderas. Du måste trycka på spara efter du utgört denna åtgärd!",
     },
+
+    button_sign_in: "Logga in",
     button_add_field: "Lägg till fält",
     button_clear: "Rensa",
     button_next: "Nästa",
@@ -209,14 +211,9 @@ const seTranslations = {
     title: "Profil",
     full_name: "För- och efternamn",
     username: "Användarnamn",
-    role: "Roll",
+    roles: "Roller",
     teams: "Grupper",
-    internal_email: "KTH E-post",
-    external_email: "E-post",
-    preferred_email: "Föredragen e-post",
-    edit_preferred_email: "Redigera föredragen e-post",
-    edit_preferred_email_description:
-      "Här kan du redigera din föredragen e-post. Detta är e-postadressen som du kommer att få alla meddelanden till.",
+    email: "E-post",
 
     links_and_buttons: {
       your_ticket_requests: "Mina biljettförfrågningar",
@@ -655,6 +652,26 @@ const seTranslations = {
         contains_alcohol: "Innehåller alkohol",
         view_addons: "Visa biljettillägg",
       },
+      request_process: {
+        complete_ticket_request: "Slutför önska biljetter",
+        account_required_description:
+          "För att begära en biljett till detta evenemang måste du ha ett konto. Vänligen logga in eller skapa ett konto.",
+        already_have_an_account: "Har du redan ett konto?",
+        form: {
+          first_name: "Förnamn",
+          last_name: "Efternamn",
+          email: "E-post",
+          phone_number: "Telefonnummer (valfritt)",
+          password: "Lösenord",
+          password_repeat: "Upprepa lösenord",
+          button_save_account: "Spara konto",
+          button_save_account_helperText:
+            "Vi kommer att spara dina uppgifter för framtida köp",
+          button_sign_in: "Logga in",
+          button_sign_up: "Registrera dig",
+          button_continue_as_guest: "Fortsätt som gäst",
+        },
+      },
     },
   },
 
@@ -714,7 +731,7 @@ const seTranslations = {
     },
   },
 
-  external: {
+  customer: {
     login: "Logga in",
     signup: "Registrera dig",
     info: {
@@ -723,8 +740,6 @@ const seTranslations = {
         "Om du inte är en KTH-student kan du fortfarande använda Tessera. Eftersom du dock inte har ett KTH-konto behöver du använda en annan inloggningsmetod. När du använder Tessera kommer du endast att kunna köpa biljetter från biljettsläpp som är specifika för externa användare. Dessa kan inkludera '+1'-biljetter, eller hedersbiljetter för speciella gäster.",
       forgot_password: "Glömt lösenord?",
       dont_have_an_account: "Har du inget konto? Registrera dig!",
-      i_have_kth_account:
-        "Men jag har ett KTH-konto! Då kan du logga in <1>här</1>.",
     },
     form: {
       first_name: "Förnamn",
@@ -736,6 +751,11 @@ const seTranslations = {
       button_signup: "Registrera dig",
       button_login: "Logga in",
       no_account: "Har du inget konto? Vänligen kontakta oss.", // TODO add email
+    },
+    forgot_password: {
+      title: "Begär nytt lösenord",
+      description:
+        "Ange den e-postadress som är kopplad till ditt konto och du kommer att få en länk för att återställa ditt lösenord.",
     },
   },
 

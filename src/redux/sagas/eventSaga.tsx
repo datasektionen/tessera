@@ -36,24 +36,32 @@ function* eventSaga(
     id: number;
     secretToken: string;
     countSiteVisit?: boolean;
+    promoCodes?: string[];
   }>
 ): Generator<any, void, any> {
   try {
     const { id, secretToken } = action.payload;
+    const queryParams = [];
 
-    const secretTokenParam =
-      secretToken !== "" ? "?secret_token=" + secretToken : "";
+    if (secretToken !== "") {
+      queryParams.push("secret_token=" + secretToken);
+    }
 
-    const countSiteVisitQuery = !action.payload.countSiteVisit
-      ? "?dont_count_site_visit=true"
-      : "";
+    if (!action.payload.countSiteVisit) {
+      queryParams.push("dont_count_site_visit=true");
+    }
+
+    if (action.payload.promoCodes) {
+      action.payload.promoCodes.forEach((promoCode: string) => {
+        queryParams.push("promo_codes=" + promoCode);
+      });
+    }
+
+    const queryString =
+      queryParams.length > 0 ? "?" + queryParams.join("&") : "";
 
     const url =
-      process.env.REACT_APP_BACKEND_URL +
-      "/events/" +
-      id +
-      secretTokenParam +
-      countSiteVisitQuery;
+      process.env.REACT_APP_BACKEND_URL + "/events/" + id + queryString;
 
     const response = yield call(axios.get, url, {
       withCredentials: true, // This ensures cookies are sent with the request
@@ -64,6 +72,7 @@ function* eventSaga(
     const event: IEvent = {
       // Convert from ISO 8601 to Unix timestamp
       id: eventData.ID!,
+      reference_id: eventData.reference_id!,
       is_private: eventData.is_private!,
       createdAt: new Date(eventData.CreatedAt!).getTime(),
       name: eventData.name!,
@@ -176,7 +185,6 @@ function* eventSaga(
     yield put(getEventSuccess(event));
     yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
-    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(
       getEventFailure({

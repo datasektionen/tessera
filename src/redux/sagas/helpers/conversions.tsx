@@ -11,6 +11,7 @@ import {
 export function convertResponseToEvent(responseData: any): IEvent {
   return {
     id: responseData.ID!,
+    reference_id: responseData.reference_id!,
     is_private: responseData.is_private!,
     createdAt: new Date(responseData.CreatedAt!).getTime(),
     name: responseData.name!,

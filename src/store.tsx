@@ -28,6 +28,8 @@ import languageSlice from "./redux/features/languageSlice";
 import addonCreationSlice from "./redux/features/addonCreationSlice";
 import addonSlice from "./redux/features/addonSlice";
 import bankingDetailsSlice from "./redux/features/bankingDetailsSlice";
+import viewCustomerEventSlice from "./redux/features/customerViewEvent";
+import guestCustomerSlice from "./redux/features/guestCustomerSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -70,6 +72,8 @@ const rootReducer = combineReducers({
   addonCreation: addonCreationSlice,
   addons: addonSlice,
   bankingDetails: bankingDetailsSlice,
+  customerViewEvent: viewCustomerEventSlice,
+  guestCustomer: guestCustomerSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

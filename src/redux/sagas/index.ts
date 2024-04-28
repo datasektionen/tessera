@@ -13,11 +13,14 @@ import watchTicketsSaga from "./ticketsSaga";
 import watchTicketReleaseSaga from "./ticketReleaseSaga";
 import watchFetchTicketTypes from "./ticketTypeSaga";
 import watchEventTicketsSaga from "./eventTicketsSaga";
-import watchExternalAuthSagas from "./externalAuthSaga";
+import watchCustomerAuthSagas from "./customerAuthSaga";
 import { listOrganizationsSaga } from "./listOrganizationsSlice";
 import watchSalesReportSaga from "./salesReportSaga";
 import watchGetAddonSaga from "./addonSaga";
 import bankingDetailsSaga from "./bankingDetailsSaga";
+import watchViewCustomerEventSaga from "./customerViewEventSaga";
+import { watchGuestCustomerCreateTicketRequestSaga } from "./ticketRequestGuestSaga";
+import { watchGuestSaga } from "./guestSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -36,10 +39,13 @@ export default function* rootSaga() {
     watchPromoCodeAccessSaga(),
     watchFetchTicketTypes(),
     watchEventTicketsSaga(),
-    watchExternalAuthSagas(),
+    watchCustomerAuthSagas(),
     listOrganizationsSaga(),
     watchGetAddonSaga(),
     bankingDetailsSaga(),
+    watchViewCustomerEventSaga(),
+    watchGuestCustomerCreateTicketRequestSaga(),
+    watchGuestSaga(),
     // add other sagas here
   ]);
 }

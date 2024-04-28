@@ -37,6 +37,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       redirectUrl = `${redirectPath}?redirect=${urlAfterLogin}`;
     }
 
+    // Clear promo_codes local storage
+    localStorage.removeItem("promo_codes");
+
     return <Navigate to={redirectUrl} replace />;
   }
 

@@ -9,17 +9,24 @@ import {
   updateUserFoodPreferencesSuccess,
 } from "../features/userFoodPreferences";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { FoodPreferences, IFoodPreference } from "../../types";
+import { FoodPreferences, IFoodPreference, IGuestCustomer } from "../../types";
 import { toast } from "react-toastify";
 import { mapUserFoodPreferences } from "../../utils/food_preferences_conversions";
 
-function* fetchUserFoodPreferences(): Generator<any, void, any> {
+function* fetchUserFoodPreferences(
+  action: PayloadAction<{ guestCustomer: IGuestCustomer | null }>
+): Generator<any, void, any> {
   try {
-    const response = yield call(
-      axios.get,
-      `${process.env.REACT_APP_BACKEND_URL}/user-food-preferences`,
-      { withCredentials: true }
-    );
+    const { guestCustomer } = action.payload;
+    const isGuest = guestCustomer !== null;
+
+    const url =
+      `${process.env.REACT_APP_BACKEND_URL}` +
+      (isGuest
+        ? `/guest-customer/${guestCustomer.ug_kth_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
+        : "/user-food-preferences");
+
+    const response = yield call(axios.get, url, { withCredentials: !isGuest });
 
     const data = response.data.user_food_preference;
 
@@ -37,6 +44,7 @@ function* fetchUserFoodPreferences(): Generator<any, void, any> {
       })
     );
   } catch (error: any) {
+    console.log(error);
     yield put(fetchUserFoodPreferencesFailure(error.message));
   }
 }
@@ -47,6 +55,7 @@ function* updateUserFoodPreferences(
     additionalNotes: string;
     gdpr_agreed: boolean;
     needs_to_renew_gdpr: boolean;
+    guestCustomer: IGuestCustomer | null;
   }>
 ): Generator<any, void, any> {
   try {
@@ -55,7 +64,10 @@ function* updateUserFoodPreferences(
       additionalNotes,
       gdpr_agreed,
       needs_to_renew_gdpr,
+      guestCustomer,
     } = action.payload;
+    const isGuest = guestCustomer !== null;
+
     // Each of the values in the array should be true in  the new object
     let userFoodPreferences: { [key: string]: boolean | string } =
       FoodPreferences.reduce(
@@ -71,12 +83,15 @@ function* updateUserFoodPreferences(
     userFoodPreferences.gdpr_agreed = gdpr_agreed;
     userFoodPreferences.needs_to_renew_gdpr = needs_to_renew_gdpr;
 
-    const response = yield call(
-      axios.put,
-      `${process.env.REACT_APP_BACKEND_URL}/user-food-preferences`,
-      userFoodPreferences,
-      { withCredentials: true }
-    );
+    const url =
+      `${process.env.REACT_APP_BACKEND_URL}` +
+      (isGuest
+        ? `/guest-customer/${guestCustomer.ug_kth_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
+        : "/user-food-preferences");
+
+    const response = yield call(axios.put, url, userFoodPreferences, {
+      withCredentials: !isGuest,
+    });
 
     if (response.status === 200) {
       const newUserFoodPreferences: IFoodPreference[] = mapUserFoodPreferences(
@@ -111,6 +126,7 @@ function* updateUserFoodPreferences(
       yield put(updateUserFoodPreferencesFailure(response.data.error));
     }
   } catch (error: any) {
+    console.log(error);
     const errorMessage: string = error.response.data.error || error.message;
     toast.error(errorMessage);
     yield put(updateUserFoodPreferencesFailure(error.message));

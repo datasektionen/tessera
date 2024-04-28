@@ -60,8 +60,8 @@ export const ROUTES = {
   LOGIN_COMPLETE: "/login-complete/:token",
   LOGOUT: "/logout",
   EVENTS: "/events",
+  EVENT_DETAIL: "/events/:refID",
   PRICING: "/pricing",
-  EVENT_DETAIL: "/events/:eventID",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
   EDIT_EVENT_ADD_TICKET_RELEASE: "/events/:eventID/edit/add-ticket-release",
   EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES:
@@ -99,7 +99,6 @@ export const ROUTES = {
   TICKET_RELEASE_CONSTANTS: "/ticket-release/constants",
   PROFILE: "/profile",
   PROFILE_ORGANIZATIONS: "/profile/organizations",
-  EXTERNAL: "/external",
   FORGOT_PASSWORD: "/forgot-password",
   PASSWORD_RESET: "/reset-password/:token",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",
@@ -110,7 +109,8 @@ export const ROUTES = {
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
   MANAGE_EVENT_ECONOMY: "/events/:eventID/manage/economy",
   PRIVACY_POLICY: "/privacy-policy",
-
+  //Guest
+  GUEST_TICKET_REQUEST: "/events/:refID/guest/:ugkthid",
   // Admin
   ADMIN: "/admin/*",
 };
