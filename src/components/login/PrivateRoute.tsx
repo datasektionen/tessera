@@ -11,9 +11,11 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectPath = "/login",
 }) => {
-  const { isLoggedIn, loading: authLoading } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    user,
+    isLoggedIn,
+    loading: authLoading,
+  } = useSelector((state: RootState) => state.auth);
   const location = useLocation();
   const dispatch: AppDispatch = useDispatch();
 
@@ -39,6 +41,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     localStorage.removeItem("promo_codes");
 
     return <Navigate to={redirectUrl} replace />;
+  }
+
+  return <Outlet />;
+};
+
+export const SuperAdminProtectedRoute: React.FC = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  if (user?.role!.ID !== 1 && user?.role!.name !== "super_admin") {
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

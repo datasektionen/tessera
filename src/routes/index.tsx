@@ -8,7 +8,9 @@ import React, {
 } from "react";
 import { useDispatch } from "react-redux";
 import { ROUTES } from "./def";
-import ProtectedRoute from "../components/login/PrivateRoute";
+import ProtectedRoute, {
+  SuperAdminProtectedRoute,
+} from "../components/login/PrivateRoute";
 import { currentUserRequest } from "../redux/features/userSlice";
 import Logout from "../components/user/logout";
 import TesseraWrapper from "../components/wrappers/page_wrapper";
@@ -51,7 +53,9 @@ import {
   LoginPage,
   PricingPage,
 } from "./page_import";
+
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
+import AdminPage from "../admin";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
@@ -183,6 +187,9 @@ function AppRoutes() {
           />
 
           <Route element={<ProtectedRoute />}>
+            <Route element={<SuperAdminProtectedRoute />}>
+              <Route path={ROUTES.ADMIN} element={<AdminPage />} />
+            </Route>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
             <Route path={ROUTES.CONTACT_PAGE} element={<ContactPage />} />
 

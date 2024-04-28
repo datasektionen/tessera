@@ -109,7 +109,8 @@ export const ROUTES = {
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
   MANAGE_EVENT_ECONOMY: "/events/:eventID/manage/economy",
   PRIVACY_POLICY: "/privacy-policy",
-
   //Guest
   GUEST_TICKET_REQUEST: "/events/:refID/guest/:ugkthid",
+  // Admin
+  ADMIN: "/admin/*",
 };
