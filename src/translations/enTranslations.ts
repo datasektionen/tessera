@@ -265,14 +265,9 @@ const enTranslations = {
   profile: {
     title: "Profile",
     full_name: "Full name",
-    internal_email: "KTH Email",
-    external_email: "Email",
-    preferred_email: "Preferred email",
-    edit_preferred_email: "Edit preferred email",
-    edit_preferred_email_description:
-      "Here you can edit your preferred email. This is the email you will receive all notifications at.",
+    email: "Email",
     username: "Username",
-    role: "Role",
+    roles: "Roles",
     teams: "Teams",
 
     links_and_buttons: {

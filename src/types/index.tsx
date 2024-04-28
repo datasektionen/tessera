@@ -86,16 +86,17 @@ export interface LoginFailureAction {
   payload: string;
 }
 
+// Differeny types of roles
+export enum RoleType {
+  SUPER_ADMIN = "super_admin",
+  CUSTOMER = "customer",
+  CUSTOMER_GUEST = "customer_guest",
+  USER = "user",
+}
+
 export interface IRole {
   id: number;
   name: string;
-}
-
-export interface IPreferredEmail {
-  ID: number;
-  email: string;
-  requested_change_email: string;
-  is_verified: boolean;
 }
 
 export interface ICustomerSignupValues {
@@ -131,11 +132,10 @@ export interface IUser {
   first_name: string;
   last_name: string;
   email: string;
-  role?: IRole;
+  roles?: IRole[];
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
-  preferred_email?: IPreferredEmail;
 }
 
 export interface IOrganizationUser extends IUser {

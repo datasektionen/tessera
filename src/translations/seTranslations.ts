@@ -211,14 +211,9 @@ const seTranslations = {
     title: "Profil",
     full_name: "För- och efternamn",
     username: "Användarnamn",
-    role: "Roll",
+    roles: "Roller",
     teams: "Grupper",
-    internal_email: "KTH E-post",
-    external_email: "E-post",
-    preferred_email: "Föredragen e-post",
-    edit_preferred_email: "Redigera föredragen e-post",
-    edit_preferred_email_description:
-      "Här kan du redigera din föredragen e-post. Detta är e-postadressen som du kommer att få alla meddelanden till.",
+    email: "E-post",
 
     links_and_buttons: {
       your_ticket_requests: "Mina biljettförfrågningar",
