@@ -23,6 +23,12 @@ import {
   PlanEnrollmentsCreate,
   PlanEnrollmentsEdit,
 } from "./components/planEnrollments/plan_enrollments_update_create";
+import { UserEdit, UserList } from "./components/users/users_list_edit";
+import { NetworkList } from "./components/network/network_list";
+import {
+  NetworkCreate,
+  NetworkEdit,
+} from "./components/network/network_edit_create";
 
 const Dashboard = () => (
   <div>
@@ -39,6 +45,13 @@ const AdminPage = () => (
       list={PackageTierList}
       edit={PackageTierEdit}
       create={PackageTierCreate}
+    />
+
+    <Resource
+      name="networks"
+      list={NetworkList}
+      create={NetworkCreate}
+      edit={NetworkEdit}
     />
 
     <Resource
@@ -61,6 +74,8 @@ const AdminPage = () => (
       create={FeatureGroupCreate}
       edit={FeatureGroupEdit}
     />
+
+    <Resource name="users" list={UserList} edit={UserEdit} />
 
     {/* Add other resources similarly */}
   </Admin>

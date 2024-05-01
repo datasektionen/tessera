@@ -6,14 +6,36 @@ import {
   TextField,
   EditButton,
   DeleteButton,
+  ReferenceInput,
+  ReferenceField,
+  FunctionField,
 } from "react-admin";
 
 export const PlanEnrollmentsList = (props: any) => (
   <List {...props}>
     <Datagrid>
       <TextField source="id" />
+      <FunctionField
+        label="Creator"
+        render={(record: any) =>
+          `${record.creator.first_name} ${record.creator.last_name}`
+        }
+      />
       <TextField source="name" />
-      <TextField source="tier" />
+      <ReferenceField source="network_id" reference="networks" label="Network">
+        <TextField source="name" />
+      </ReferenceField>
+      <ReferenceField
+        source="package_tier_id"
+        reference="package-tiers"
+        label="Package"
+      >
+        <TextField source="name" />
+      </ReferenceField>
+
+      <TextField source="monthly_price" />
+      <TextField source="yearly_price" />
+      <TextField source="plan" />
       <EditButton />
       <DeleteButton />
     </Datagrid>
