@@ -55,12 +55,7 @@ const dataProvider = {
     const url = `${resource}?${fetchUtils.queryParameters(query)}`;
 
     const { data, headers } = await axiosInstance.get(url);
-    console.log(
-      data.map((item: any) => ({
-        ...item,
-        id: item.ID !== undefined ? item.ID : item.id,
-      }))
-    );
+
     return {
       data: data.map((item: any) => ({
         ...item,
@@ -124,7 +119,6 @@ const dataProvider = {
   },
   create: async (resource: string, params: CreateParams) => {
     try {
-      console.log(params.data);
       const { data } = await axiosInstance.post(`/${resource}`, params.data);
       return {
         data: { ...data, id: data.ID },

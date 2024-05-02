@@ -56,6 +56,7 @@ import {
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
+import BecomeAManagerPage from "../pages/organizer/become_an_manager";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
@@ -135,6 +136,9 @@ const ManageSendOutNewWithCurrentUser = withCurrentUserRequest(SendOut);
 const ManageSendOutListWithCurrentUser =
   withCurrentUserRequest(ManageSendOutList);
 
+const BecomeAManagerPageWithCurrentUser =
+  withCurrentUserRequest(BecomeAManagerPage);
+
 const EventSendOutsPageWithCurrentUser =
   withCurrentUserRequest(EventSendOutsPage);
 
@@ -187,6 +191,12 @@ function AppRoutes() {
           />
 
           <Route element={<ProtectedRoute />}>
+            {/* Become and Manager */}
+            <Route
+              path={ROUTES.BECOME_A_MANAGER}
+              element={<BecomeAManagerPageWithCurrentUser />}
+            />
+
             <Route element={<SuperAdminProtectedRoute />}>
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />
             </Route>

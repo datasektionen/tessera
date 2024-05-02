@@ -31,6 +31,7 @@ import { use } from "i18next";
 import StyledButton from "../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
 import { INavigationLoginOptions, RoleType } from "../../types";
+import { isEventManager } from "../../utils/roles/manager";
 
 const lngs = [
   {
@@ -337,26 +338,28 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                   {t("navigation.pricing")}
                 </StyledLink>
               </StyledText>
-              {currentUser?.roles!.some(
-                (role) => role.name !== RoleType.ORGANIZER
-              ) && (
-                <StyledText
-                  level="body-sm"
-                  color={""}
-                  fontSize={18}
-                  fontWeight={700}
-                  style={{
-                    margin: "0 16px",
-                    textTransform: "uppercase",
-                  }}
+
+              <StyledText
+                level="body-sm"
+                color={""}
+                fontSize={18}
+                fontWeight={700}
+                style={{
+                  margin: "0 16px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <StyledLink
+                  href={generateRoute(
+                    isEventManager(currentUser!)
+                      ? ROUTES.MANAGER_DASHBOARD
+                      : ROUTES.BECOME_A_MANAGER,
+                    {}
+                  )}
                 >
-                  <StyledLink
-                    href={generateRoute(ROUTES.BECOME_AN_ORGANIZER, {})}
-                  >
-                    {t("navigation.organizer")}
-                  </StyledLink>
-                </StyledText>
-              )}
+                  {t("navigation.organizer")}
+                </StyledLink>
+              </StyledText>
             </Stack>
 
             {/* Right-aligned profile icon */}
