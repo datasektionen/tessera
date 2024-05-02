@@ -115,6 +115,7 @@ export const ROUTES = {
   ADMIN: "/admin/*",
 
   // Become a member
+  POST_LOGIN: "/post-login",
   BECOME_A_MANAGER: "/become-a-manager",
   MANAGER_DASHBOARD: "/manager-dashboard",
 };

@@ -108,10 +108,11 @@ const seTranslations = {
     contact: {
       title: "Kontakt",
       email: "Din E-post",
+      plan: "Paket",
       email_helperText: "Vad är kontakt-e-posten för denna biljett?",
       subject: "Ämne",
       subject_helperText: "Vad är ämnet för denna biljett?",
-      name: "Namn",
+      name: "Ditt Namn",
 
       name_helperText: "Vad är namnet på kontaktpersonen?",
       message: "Meddelande",

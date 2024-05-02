@@ -9,7 +9,15 @@ const enTranslations = {
     contact: "Contact",
     login: "Login",
     pricing: "Pricing",
-    organizer: "Organizer",
+    manager: "Manager",
+  },
+
+  become_a_manager: {
+    welcome: "Welcome to tessera!",
+    proceed: "Who are you?",
+    customer: "Customer",
+    manager: "Event Manager",
+    skip: "Skip",
   },
 
   main_page: {
@@ -151,10 +159,11 @@ const enTranslations = {
     contact: {
       title: "Contact",
       email: "Your Email",
+      plan: "Plan",
       email_helperText: "What is the contact email for this ticket?",
       subject: "Subject",
       subject_helperText: "What is the subject for this ticket?",
-      name: "Name",
+      name: "Your Name",
       name_helperText: "What is the name of the contact person?",
       message: "Message",
       message_helperText: "What is the message for this ticket?",
