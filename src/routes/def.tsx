@@ -113,4 +113,7 @@ export const ROUTES = {
   GUEST_TICKET_REQUEST: "/events/:refID/guest/:ugkthid",
   // Admin
   ADMIN: "/admin/*",
+
+  // Become a member
+  BECOME_AN_ORGANIZER: "/become-a-organizer",
 };

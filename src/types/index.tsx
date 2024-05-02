@@ -89,9 +89,9 @@ export interface LoginFailureAction {
 // Differeny types of roles
 export enum RoleType {
   SUPER_ADMIN = "super_admin",
-  CUSTOMER = "customer",
+  ORGANIZER = "organizer",
   CUSTOMER_GUEST = "customer_guest",
-  USER = "user",
+  CUSTOMER = "customer",
 }
 
 export interface IRole {

@@ -9,6 +9,7 @@ const enTranslations = {
     contact: "Contact",
     login: "Login",
     pricing: "Pricing",
+    organizer: "Organizer",
   },
 
   main_page: {
