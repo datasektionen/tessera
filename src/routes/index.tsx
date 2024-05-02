@@ -56,7 +56,7 @@ import {
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
-import BecomeAManagerPage from "../pages/organizer/become_an_manager";
+import BecomeAManagerPage from "../pages/manager/become_an_manager";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>

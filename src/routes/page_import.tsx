@@ -109,5 +109,5 @@ export const EditEventFormPage = React.lazy(
 export const PricingPage = React.lazy(() => import("../pages/pricing"));
 
 export const BecomeAnManagerPage = React.lazy(
-  () => import("../pages/organizer/become_an_manager")
+  () => import("../pages/manager/become_an_manager")
 );
