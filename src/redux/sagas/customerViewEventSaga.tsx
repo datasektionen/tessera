@@ -15,32 +15,26 @@ import {
   ITicketType,
   LoginCredentials,
 } from "../../types";
-import {
-  getEventFailure,
-  getEventRequest,
-  getEventSuccess,
-} from "../features/eventSlice";
+
 import { toast } from "react-toastify";
-import {
-  deleteEventFailure,
-  deleteEventStart,
-  deleteEventSuccess,
-  editEventFailure,
-  editEventRequest,
-  editEventSuccess,
-} from "../features/editEventSlice";
+
 import { setTimestamp } from "../features/serverTimestampSlice";
+import {
+  getCustomerEventFailure,
+  getCustomerEventRequest,
+  getCustomerEventSuccess,
+} from "../features/customerViewEvent";
 
 function* eventSaga(
   action: PayloadAction<{
-    id: number;
+    refID: string;
     secretToken: string;
     countSiteVisit?: boolean;
     promoCodes?: string[];
   }>
 ): Generator<any, void, any> {
   try {
-    const { id, secretToken } = action.payload;
+    const { refID, secretToken } = action.payload;
     const queryParams = [];
 
     if (secretToken !== "") {
@@ -61,11 +55,10 @@ function* eventSaga(
       queryParams.length > 0 ? "?" + queryParams.join("&") : "";
 
     const url =
-      process.env.REACT_APP_BACKEND_URL + "/events/" + id + queryString;
+      process.env.REACT_APP_BACKEND_URL + "/view/events/" + refID + queryString;
+    console.log(url);
 
-    const response = yield call(axios.get, url, {
-      withCredentials: true, // This ensures cookies are sent with the request
-    });
+    const response = yield call(axios.get, url);
 
     const eventData = response.data.event;
 
@@ -181,13 +174,13 @@ function* eventSaga(
       }),
     };
 
-    yield put(getEventSuccess(event));
+    yield put(getCustomerEventSuccess(event));
     yield put(setTimestamp(new Date(response.data.timestamp * 1000).getTime()));
   } catch (error: any) {
     console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(
-      getEventFailure({
+      getCustomerEventFailure({
         error: errorMessage,
         errorStatusCode: error.response.status,
       })
@@ -195,80 +188,8 @@ function* eventSaga(
   }
 }
 
-function* editEventSaga(
-  action: PayloadAction<{
-    id: number;
-    event: IEventForm;
-  }>
-): Generator<any, void, any> {
-  try {
-    const { event, id } = action.payload;
-
-    const data: IEventPostReq = {
-      name: event.name,
-      description: event.description,
-      location: event.location!.label,
-      date: new Date(event.date).getTime() / 1000,
-      end_date: event.end_date
-        ? new Date(event.end_date).getTime() / 1000
-        : undefined,
-      is_private: event.is_private,
-      organization_id: event.organization_id,
-    };
-
-    const response = yield call(
-      axios.put,
-      process.env.REACT_APP_BACKEND_URL + "/events/" + id,
-      data,
-      {
-        withCredentials: true, // This ensures cookies are sent with the request
-      }
-    );
-
-    if (response.status === 200) {
-      toast.success("Event updated successfully!");
-      yield put(editEventSuccess(response.data));
-    } else {
-      const errorMessage = response.data.error || "An error occurred";
-      yield put(editEventFailure(errorMessage));
-    }
-  } catch (error: any) {
-    const errorMessage = error.response.data.error || "An error occurred";
-    toast.error(errorMessage);
-    yield put(editEventFailure(errorMessage));
-  }
+function* watchViewCustomerEventSaga() {
+  yield takeLatest(getCustomerEventRequest.type, eventSaga);
 }
 
-function* deleteEventSaga(
-  action: PayloadAction<number>
-): Generator<any, void, any> {
-  try {
-    const response = yield call(
-      axios.delete,
-      process.env.REACT_APP_BACKEND_URL + "/events/" + action.payload,
-      {
-        withCredentials: true, // This ensures cookies are sent with the request
-      }
-    );
-
-    if (response.status === 200) {
-      toast.success("Event deleted successfully!");
-      yield put(deleteEventSuccess(response.data));
-    } else {
-      const errorMessage = response.data.error || "An error occurred";
-      yield put(deleteEventFailure(errorMessage));
-    }
-  } catch (error: any) {
-    const errorMessage = error.response.data.error || "An error occurred";
-    toast.error(errorMessage);
-    yield put(deleteEventFailure(errorMessage));
-  }
-}
-
-function* watchEventSaga() {
-  yield takeLatest(deleteEventStart.type, deleteEventSaga);
-  yield takeLatest(editEventRequest.type, editEventSaga);
-  yield takeLatest(getEventRequest.type, eventSaga);
-}
-
-export default watchEventSaga;
+export default watchViewCustomerEventSaga;

@@ -39,6 +39,9 @@ import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
 import TicketReleaseAddons from "./addons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import InformationModal from "../../modal/information";
+import { useMediaQuery, useTheme } from "@mui/material";
+import MakeTicketRequestUserDetails from "./ticket_request/make_ticket_request_user_details";
 
 const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -60,12 +63,21 @@ const TicketReleaseHasOpened: React.FC<{
   >();
 
   const [whatIsRequestOpen, setWhatIsRequestOpen] = React.useState(false);
+  const [requestedTickets, setRequestedTickets] = React.useState<
+    TicketRequestData[]
+  >([]);
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
 
   const [selectedAddons, setSelectedAddons] = React.useState<ISelectedAddon[]>(
     []
   );
+
+  const [makeTicketRequestModalOpen, setMakeTicketRequestModalOpen] =
+    React.useState(false);
 
   useEffect(() => {
     // Create a summary of the ticket request items
@@ -140,9 +152,14 @@ const TicketReleaseHasOpened: React.FC<{
       return;
     }
 
+    setRequestedTickets(tickets);
+    setMakeTicketRequestModalOpen(true);
+  };
+
+  const onSubmit = () => {
     dispatch(
       postTicketRequest({
-        tickets,
+        tickets: requestedTickets,
         addons: selectedAddons,
         eventId: ticketRelease.eventId,
         ticketReleaseId: ticketRelease.id,
@@ -159,6 +176,19 @@ const TicketReleaseHasOpened: React.FC<{
 
   return (
     <>
+      <InformationModal
+        isOpen={makeTicketRequestModalOpen}
+        onClose={() => {
+          setMakeTicketRequestModalOpen(false);
+        }}
+        title={t("event.ticket_release.checkout.confirm_request_title")}
+        width={isScreenSmall ? "100%" : "60%"}
+      >
+        <Box>
+          <MakeTicketRequestUserDetails ticketRelease={ticketRelease} />
+        </Box>
+      </InformationModal>
+
       {/* {makingRequest && <LoadingOverlay />} */}
       <Stack spacing={2} sx={{ p: 0 }} mt={2}>
         {ticketRelease.ticketTypes!.length > 0 ? (
