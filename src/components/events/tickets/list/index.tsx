@@ -293,7 +293,7 @@ const EventTicketsList: React.FC<{
         );
       },
       valueFormatter: (params) => {
-        return `${params.value.first_name} ${params.value.last_name}`;
+        return params.value.username;
       },
       valueGetter: (params) => params.value,
       renderCell: (params) => (

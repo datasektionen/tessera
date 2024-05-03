@@ -18,7 +18,6 @@ const eventSlice = createSlice({
         id: number;
         secretToken: string;
         countSiteVisit?: boolean;
-        promoCodes?: string[];
       }>
     ) => {
       state.loading = true;

@@ -59,8 +59,6 @@ import EditFormFieldResponse from "../../components/events/form_field_response/e
 import { ROUTES } from "../../routes/def";
 import TicketReleaseHasClosed from "../../components/events/ticket_release/ticket_release_has_closed";
 import { ticketReleaseHasClosed } from "../../utils/event_open_close";
-import { ref } from "yup";
-import { getCustomerEventRequest } from "../../redux/features/customerViewEvent";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -74,14 +72,14 @@ const Item = styled(Sheet)(({ theme }) => ({
 }));
 
 const EventDetail: React.FC = () => {
-  const { refID } = useParams();
+  const { eventID } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const secretToken = queryParams.get("secret_token");
 
   const { loading, error, event, errorStatusCode } = useSelector(
-    (state: RootState) => state.customerViewEvent
+    (state: RootState) => state.eventDetail
   ) as {
     loading: boolean;
     error: string | null;
@@ -92,7 +90,7 @@ const EventDetail: React.FC = () => {
   const { success: promoCodeSuccess, loading: promoCodeLoading } = useSelector(
     (state: RootState) => state.promoCodeAccess
   ) as { success: boolean | null; loading: boolean };
-
+  const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { postSuccess } = useSelector(
     (state: RootState) => state.ticketRequest
   );
@@ -109,21 +107,12 @@ const EventDetail: React.FC = () => {
   );
 
   const submitPromoCode = (values: PromoCodeAccessForm) => {
-    // A list of promo codes exists in the localstorage for the user, which are to be submitted when requesting details
-    // To the event
-
-    let existingPromoCodes: string[] = [];
-    if (existingPromoCodes) {
-      existingPromoCodes = JSON.parse(
-        localStorage.getItem("promo_codes") || "[]"
-      );
-    } else {
-      existingPromoCodes = [];
-    }
-
-    existingPromoCodes.push(values.promo_code);
-
-    localStorage.setItem("promo_codes", JSON.stringify(existingPromoCodes));
+    dispatch(
+      getPromoCodeAccessRequest({
+        promo_code: values.promo_code,
+        eventId: event!.id,
+      })
+    );
   };
 
   useEffect(() => {
@@ -151,32 +140,32 @@ const EventDetail: React.FC = () => {
       setTimeout(() => {
         toast.error(error);
       }, 1000);
-      navigate("/");
+      navigate("/events");
     } else if (errorStatusCode) {
       setTimeout(() => {
         toast.error(error);
       }, 1000);
-      navigate("/");
+      navigate("/events");
     }
   }, [errorStatusCode, error]);
 
   useEffect(() => {
-    if (!refID) {
+    if (!eventID) {
       console.error("No event id found");
       return;
     }
-    const promoCodes = JSON.parse(localStorage.getItem("promo_codes") || "[]");
+    const intid: number = validateAndConvertEventID(eventID);
     dispatch(
-      getCustomerEventRequest({
-        refID,
+      getEventRequest({
+        id: intid,
         secretToken: secretToken || "",
         countSiteVisit: promoCodeSuccess ? false : true,
-        promoCodes,
       })
     );
-  }, [dispatch, refID, promoCodeSuccess, secretToken]);
+  }, [dispatch, eventID, promoCodeSuccess]);
 
   if (loading || error) {
+    console.error(error);
     return <LoadingOverlay />;
   }
 
@@ -367,6 +356,9 @@ const EventDetail: React.FC = () => {
               <Stack spacing={2} sx={{ p: 0 }}>
                 {ticketReleases.map((ticketRelease, i) => {
                   const key = `${event.name}-${i}`;
+                  if (!userCanSeeTicketRelease(ticketRelease, currentUser!)) {
+                    return null;
+                  }
 
                   return (
                     <TicketRelease ticketRelease={ticketRelease} key={key} />

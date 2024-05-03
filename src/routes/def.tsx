@@ -57,7 +57,7 @@ export const ROUTES = {
   LOGIN_COMPLETE: "/login-complete/:token",
   LOGOUT: "/logout",
   EVENTS: "/events",
-  EVENT_DETAIL: "/events/:refID",
+  EVENT_DETAIL: "/events/:eventID",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
   EDIT_EVENT_ADD_TICKET_RELEASE: "/events/:eventID/edit/add-ticket-release",
   EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES:

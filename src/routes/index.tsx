@@ -174,12 +174,13 @@ function AppRoutes() {
           />
           <Route path={ROUTES.MAIN} element={<MainPage />} />
 
-          <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
-
           <Route element={<ProtectedRoute />}>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
             <Route path={ROUTES.CONTACT_PAGE} element={<ContactPage />} />
-
+            <Route
+              path={ROUTES.EVENT_DETAIL}
+              element={<EventDetailWithCurrentUser />}
+            />
             <Route
               path={ROUTES.PROFILE}
               element={<ProfilePageWithCurrentUser />}

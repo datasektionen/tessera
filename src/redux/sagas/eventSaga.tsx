@@ -36,32 +36,24 @@ function* eventSaga(
     id: number;
     secretToken: string;
     countSiteVisit?: boolean;
-    promoCodes?: string[];
   }>
 ): Generator<any, void, any> {
   try {
     const { id, secretToken } = action.payload;
-    const queryParams = [];
 
-    if (secretToken !== "") {
-      queryParams.push("secret_token=" + secretToken);
-    }
+    const secretTokenParam =
+      secretToken !== "" ? "?secret_token=" + secretToken : "";
 
-    if (!action.payload.countSiteVisit) {
-      queryParams.push("dont_count_site_visit=true");
-    }
-
-    if (action.payload.promoCodes) {
-      action.payload.promoCodes.forEach((promoCode: string) => {
-        queryParams.push("promo_codes=" + promoCode);
-      });
-    }
-
-    const queryString =
-      queryParams.length > 0 ? "?" + queryParams.join("&") : "";
+    const countSiteVisitQuery = !action.payload.countSiteVisit
+      ? "?dont_count_site_visit=true"
+      : "";
 
     const url =
-      process.env.REACT_APP_BACKEND_URL + "/events/" + id + queryString;
+      process.env.REACT_APP_BACKEND_URL +
+      "/events/" +
+      id +
+      secretTokenParam +
+      countSiteVisitQuery;
 
     const response = yield call(axios.get, url, {
       withCredentials: true, // This ensures cookies are sent with the request
