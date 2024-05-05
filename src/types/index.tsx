@@ -94,6 +94,12 @@ export enum RoleType {
   CUSTOMER = "customer",
 }
 
+export interface IFreeRegisterFormValues {
+  name: string;
+  referral_source: string;
+  referral_source_specific: string;
+}
+
 export interface IRole {
   id: number;
   name: string;

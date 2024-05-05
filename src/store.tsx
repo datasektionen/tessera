@@ -30,6 +30,7 @@ import addonSlice from "./redux/features/addonSlice";
 import bankingDetailsSlice from "./redux/features/bankingDetailsSlice";
 import viewCustomerEventSlice from "./redux/features/customerViewEvent";
 import guestCustomerSlice from "./redux/features/guestCustomerSlice";
+import planeEnrollmentCreationSlice from "./redux/features/createPlanEnrollmentSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -74,6 +75,7 @@ const rootReducer = combineReducers({
   bankingDetails: bankingDetailsSlice,
   customerViewEvent: viewCustomerEventSlice,
   guestCustomer: guestCustomerSlice,
+  planEnrollmentCreation: planeEnrollmentCreationSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

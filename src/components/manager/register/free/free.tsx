@@ -11,11 +11,7 @@ const GetStartedFreePlanEnrollment: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <Box
-      sx={{
-        minHeight: "1000px",
-      }}
-    >
+    <Box sx={{}}>
       <StandardToastContainer />
       <Box
         sx={{
