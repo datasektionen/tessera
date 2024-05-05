@@ -22,6 +22,7 @@ import { ITicket } from "../../../types";
 import { useEventDetails } from "../../../hooks/use_event_details_hook";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 import LoadingOverlay from "../../../components/Loading";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const getAccordionDetails = (ticket: ITicket) => {
   return (
@@ -79,8 +80,7 @@ const ManageEventFormResponsesPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-      <Box sx={{ marginLeft: `70px`, marginRight: `20px` }}>
+      <DrawerBoxWrapper eventID={eventID!}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Title fontSize={22} color={PALLETTE.charcoal}>
             {t("manage_event.manage_tickets_custom_event_form")}
@@ -120,7 +120,7 @@ const ManageEventFormResponsesPage: React.FC = () => {
             ))}
           </AccordionGroup>
         </CssVarsProvider>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

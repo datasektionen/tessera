@@ -16,6 +16,7 @@ import LoadingOverlay from "../../../../components/Loading";
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const EditEventFormPage: React.FC = () => {
   const { eventID } = useParams();
@@ -42,13 +43,7 @@ const EditEventFormPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("form.event_fields.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -73,7 +68,7 @@ const EditEventFormPage: React.FC = () => {
           <Divider sx={{ my: 1 }} />
           <EditEventFormFields event={event!} refetchEvent={reFetchEvent} />
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

@@ -21,6 +21,7 @@ import {
 } from "../../../../routes/def";
 import StyledText from "../../../../components/text/styled_text";
 import EditTicketRelease from "../../../../components/events/edit/ticket_release/edit_ticket_release";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const drawerWidth = 200;
 
@@ -87,14 +88,7 @@ const EditTicketReleasesPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-          width: `calc(100% - ${drawerWidth}px)`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>
           {t("manage_event.edit.ticket_releases.title")}
         </Title>
@@ -143,7 +137,7 @@ const EditTicketReleasesPage: React.FC = () => {
             )}
           </Grid>
         </Grid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

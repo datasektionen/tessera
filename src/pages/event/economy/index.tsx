@@ -22,6 +22,7 @@ import salesReportSlice, {
 import downloadSalesReport from "../../../redux/sagas/axios_calls/download_sales_report";
 import { format } from "date-fns";
 import DrawerComponent from "../../../components/navigation/manage_drawer";
+import usePinnedDrawer from "../../../hooks/drawer_pinned_hook";
 
 const EventEconomyPage: React.FC = () => {
   const { eventID } = useParams();
@@ -59,6 +60,8 @@ const EventEconomyPage: React.FC = () => {
     }
   }, [dispatch]);
 
+  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
+
   if (!event || loading || salesLoading) {
     return <LoadingOverlay />;
   }
@@ -68,8 +71,14 @@ const EventEconomyPage: React.FC = () => {
 
   return (
     <>
-      <DrawerComponent eventID={eventID!} />
-      <Box component="main">
+      <DrawerComponent eventID={eventID!} handlePinned={handlePinned} />
+      <Box
+        component="main"
+        sx={{
+          ml: marginLeft,
+          mr: 1.5,
+        }}
+      >
         <TesseraWrapper>
           <StandardGrid>
             <Grid xs={16}>

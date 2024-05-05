@@ -40,6 +40,7 @@ import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
 import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const EditTicketReleaseAddonsPage: React.FC = () => {
   const { eventID, ticketReleaseID } = useParams();
@@ -142,13 +143,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}> {t("manage_event.edit.addons.title")}</Title>
 
         <Breadcrumbs sx={{ p: 0 }}>
@@ -335,7 +330,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
             </BorderBox>
           </Grid>
         </StandardGrid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

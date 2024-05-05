@@ -18,6 +18,7 @@ import Title from "../../../components/text/title";
 import { useTranslation } from "react-i18next";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
 import { ScrollConfig } from "../../../components/constant/scroll_config";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const drawerWidth = 200;
 
@@ -84,14 +85,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-          width: `calc(100% - ${drawerWidth}px)`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("manage_event.ticket_releases.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -128,7 +122,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
             )}
           </Grid>
         </Grid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

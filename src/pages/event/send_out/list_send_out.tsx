@@ -16,6 +16,7 @@ import DetailSendOut from "../../../components/events/send_out/detail";
 import { ROUTES, generateRoute } from "../../../routes/def";
 import { AddCircleOutline } from "@mui/icons-material";
 import PALLETTE from "../../../theme/pallette";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const drawerWidth = 200;
 
@@ -50,14 +51,7 @@ const ListSendOutsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-          width: `calc(100% - ${drawerWidth}px)`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Stack direction="row" spacing={2}>
           <Title fontSize={36}>{t("manage_event.send_out.title")}</Title>
 
@@ -110,7 +104,7 @@ const ListSendOutsPage: React.FC = () => {
             {selectedSendOut && <DetailSendOut sendOut={selectedSendOut} />}
           </Grid>
         </Grid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

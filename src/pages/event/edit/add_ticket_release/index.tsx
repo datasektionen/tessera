@@ -19,6 +19,7 @@ import LoadingOverlay from "../../../../components/Loading";
 import { createTicketReleaseRequest } from "../../../../redux/features/createTicketReleaseSlice";
 import { format } from "date-fns";
 import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import usePinnedDrawer from "../../../../hooks/drawer_pinned_hook";
 
 const EditEventAddTicketReleasePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -59,6 +60,8 @@ const EditEventAddTicketReleasePage: React.FC = () => {
     }
   };
 
+  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
+
   if (!event) return <LoadingOverlay />;
 
   const initialValues: ITicketReleaseForm = {
@@ -68,8 +71,14 @@ const EditEventAddTicketReleasePage: React.FC = () => {
 
   return (
     <>
-      <DrawerComponent eventID={eventID!} />
-      <Box component={"main"}>
+      <DrawerComponent eventID={eventID!} handlePinned={handlePinned} />
+      <Box
+        component={"main"}
+        sx={{
+          ml: marginLeft,
+          mr: 1.5,
+        }}
+      >
         <TesseraWrapper>
           <Box sx={{ padding: "16px 32px" }}>
             <EditEventAddTicketRelease

@@ -14,12 +14,14 @@ import PALLETTE from "../../../theme/pallette";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubButton from "./sub_button";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 interface CollapsibleDrawerSectionProps {
   title: string;
   icon: React.ReactNode;
   mainNavigateTo?: string;
   subItems: { title: string; navigateTo: string; clickable: boolean }[];
+  drawerExtended: boolean;
 }
 
 const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
@@ -27,21 +29,30 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
   icon,
   mainNavigateTo = "",
   subItems,
+  drawerExtended,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <ListItem
       disablePadding
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      onClick={handleClick}
+      sx={{
+        mb: 1,
+      }}
     >
       <Box sx={{ width: "100%" }}>
         <ListItemButton
           onClick={() => {
-            if (mainNavigateTo) navigate(mainNavigateTo);
+            // if (mainNavigateTo) navigate(mainNavigateTo);
+          }}
+          sx={{
+            height: "38px",
           }}
         >
           <ListItemIcon>{icon}</ListItemIcon>
@@ -62,10 +73,15 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
             </StyledText>
           </ListItemText>
           <ListItemIcon>
-            <ExpandMoreIcon />
+            <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ExpandMoreIcon />
+            </motion.div>
           </ListItemIcon>
         </ListItemButton>
-        <Collapse in={isOpen} sx={{ pb: 0 }}>
+        <Collapse in={isOpen && drawerExtended} sx={{ pb: 0 }}>
           <List component="div" disablePadding>
             {subItems.map((item) => (
               <SubButton

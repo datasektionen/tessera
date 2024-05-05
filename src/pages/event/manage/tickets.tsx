@@ -16,6 +16,7 @@ import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 import { generateRoute, ROUTES } from "../../../routes/def";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const ManageEventTicketsPage: React.FC = () => {
   const { eventID } = useParams();
@@ -86,9 +87,8 @@ const ManageEventTicketsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
       {ticketsLoading && <LoadingOverlay />}
-      <Box sx={{ marginLeft: `70px`, marginRight: `20px` }}>
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("manage_event.tickets.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -118,7 +118,7 @@ const ManageEventTicketsPage: React.FC = () => {
             />
           )}
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

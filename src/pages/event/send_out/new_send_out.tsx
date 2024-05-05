@@ -49,6 +49,7 @@ import { StyledErrorMessage } from "../../../components/forms/messages";
 import DrawerComponent from "../../../components/navigation/manage_drawer";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
 import { ROUTES, generateRoute } from "../../../routes/def";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const SendOutValidationSchema = Yup.object().shape({
   subject: Yup.string().required("Subject is required").min(3),
@@ -241,297 +242,298 @@ const NewSendOut: React.FC = () => {
   // Rest of your component
   return (
     <>
-      <DrawerComponent eventID={eventID!} />
-      <TesseraWrapper>
-        <Box
-          component="main"
-          style={{
-            marginLeft: "16px",
-            marginRight: "16px",
-          }}
-        >
-          <Box mx="64px" mt={"16px"}>
-            <Title fontSize={36}>{t("manage_event.send_out.new")}</Title>
-            <Breadcrumbs sx={{ p: 0 }}>
-              <BreadCrumbLink
-                to={`/events/${eventID}/manage`}
-                label={t("manage_event.breadcrumbs.manage")}
-              />
-              <BreadCrumbLink
-                to={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
-                  eventId: eventID!,
-                })}
-                label={t("manage_event.breadcrumbs.send_outs")}
-              />
-              <BreadCrumbLink
-                to={generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
-                  eventId: eventID!,
-                })}
-                label={t("manage_event.send_out.new")}
-              />
-            </Breadcrumbs>
-            <StyledText
-              level="body-lg"
-              color="charcoal"
-              sx={{
-                textWrap: "balance",
-              }}
-              style={{ marginBottom: "16px" }}
-            >
-              {t("manage_event.send_out.description")}
-            </StyledText>
+      <DrawerBoxWrapper eventID={eventID!}>
+        <TesseraWrapper>
+          <Box
+            component="main"
+            style={{
+              marginLeft: "16px",
+              marginRight: "16px",
+            }}
+          >
+            <Box mx="64px" mt={"16px"}>
+              <Title fontSize={36}>{t("manage_event.send_out.new")}</Title>
+              <Breadcrumbs sx={{ p: 0 }}>
+                <BreadCrumbLink
+                  to={`/events/${eventID}/manage`}
+                  label={t("manage_event.breadcrumbs.manage")}
+                />
+                <BreadCrumbLink
+                  to={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
+                    eventId: eventID!,
+                  })}
+                  label={t("manage_event.breadcrumbs.send_outs")}
+                />
+                <BreadCrumbLink
+                  to={generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
+                    eventId: eventID!,
+                  })}
+                  label={t("manage_event.send_out.new")}
+                />
+              </Breadcrumbs>
+              <StyledText
+                level="body-lg"
+                color="charcoal"
+                sx={{
+                  textWrap: "balance",
+                }}
+                style={{ marginBottom: "16px" }}
+              >
+                {t("manage_event.send_out.description")}
+              </StyledText>
 
-            <Formik
-              initialValues={initialValues}
-              validationSchema={SendOutValidationSchema}
-              onSubmit={(values, { setSubmitting }) => {
-                handleSubmit(values);
-                setSubmitting(false);
-              }}
-            >
-              {({ values }) => (
-                <Form>
-                  <FormControl>
-                    <StyledFormLabel>
-                      {t("manage_event.send_out.subject")}*
-                    </StyledFormLabel>
-                    <FormInput
-                      placeholder="Subject"
-                      name="subject"
-                      label="subject"
-                      overrideStyle={{
-                        ...DefaultInputStyle,
-                      }}
-                    />
-                    <StyledFormLabelWithHelperText>
-                      {t("manage_event.send_out.subject_helperText")}
-                    </StyledFormLabelWithHelperText>
-                  </FormControl>
-                  <FormControl>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="flex-start"
-                      alignItems="flex-start"
-                      spacing={2}
-                    >
-                      <Grid xs={12} md={6}>
-                        <StyledFormLabel>
-                          {t("manage_event.send_out.message")}*
-                        </StyledFormLabel>
-                        <FormTextarea
-                          placeholder="Message"
-                          name="message"
-                          label="message"
-                          overrideStyle={{
-                            ...DefaultInputStyle,
-                            width: "95%",
-                          }}
-                        />
-                        <StyledErrorMessage name="message" />
+              <Formik
+                initialValues={initialValues}
+                validationSchema={SendOutValidationSchema}
+                onSubmit={(values, { setSubmitting }) => {
+                  handleSubmit(values);
+                  setSubmitting(false);
+                }}
+              >
+                {({ values }) => (
+                  <Form>
+                    <FormControl>
+                      <StyledFormLabel>
+                        {t("manage_event.send_out.subject")}*
+                      </StyledFormLabel>
+                      <FormInput
+                        placeholder="Subject"
+                        name="subject"
+                        label="subject"
+                        overrideStyle={{
+                          ...DefaultInputStyle,
+                        }}
+                      />
+                      <StyledFormLabelWithHelperText>
+                        {t("manage_event.send_out.subject_helperText")}
+                      </StyledFormLabelWithHelperText>
+                    </FormControl>
+                    <FormControl>
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                        spacing={2}
+                      >
+                        <Grid xs={12} md={6}>
+                          <StyledFormLabel>
+                            {t("manage_event.send_out.message")}*
+                          </StyledFormLabel>
+                          <FormTextarea
+                            placeholder="Message"
+                            name="message"
+                            label="message"
+                            overrideStyle={{
+                              ...DefaultInputStyle,
+                              width: "95%",
+                            }}
+                          />
+                          <StyledErrorMessage name="message" />
 
-                        <StyledFormLabelWithHelperText>
-                          {t("manage_event.send_out.message_helperText")}
-                        </StyledFormLabelWithHelperText>
+                          <StyledFormLabelWithHelperText>
+                            {t("manage_event.send_out.message_helperText")}
+                          </StyledFormLabelWithHelperText>
+                        </Grid>
+                        <Grid xs={12} md={6}>
+                          {/* Rendered Markdown */}
+                          <StyledFormLabel>
+                            {t("manage_event.send_out.preview")}*
+                          </StyledFormLabel>
+                          <Box
+                            sx={{
+                              border: "1px solid #ddd",
+                              padding: "10px",
+                              borderRadius: "4px",
+                              ...DefaultInputStyle,
+                              width: "95%",
+                            }}
+                          >
+                            <ReactMarkdown>{values.message}</ReactMarkdown>
+                          </Box>
+                          <StyledFormLabelWithHelperText>
+                            {t("manage_event.send_out.preview_helperText")}
+                          </StyledFormLabelWithHelperText>
+                        </Grid>
                       </Grid>
-                      <Grid xs={12} md={6}>
-                        {/* Rendered Markdown */}
-                        <StyledFormLabel>
-                          {t("manage_event.send_out.preview")}*
-                        </StyledFormLabel>
-                        <Box
-                          sx={{
-                            border: "1px solid #ddd",
-                            padding: "10px",
-                            borderRadius: "4px",
-                            ...DefaultInputStyle,
-                            width: "95%",
-                          }}
-                        >
-                          <ReactMarkdown>{values.message}</ReactMarkdown>
-                        </Box>
-                        <StyledFormLabelWithHelperText>
-                          {t("manage_event.send_out.preview_helperText")}
-                        </StyledFormLabelWithHelperText>
-                      </Grid>
-                    </Grid>
-                  </FormControl>
-                  <Divider sx={{ margin: "16px 0" }} />
-                  <FormControl>
-                    <StyledFormLabel>
-                      {t("manage_event.send_out.ticket_releases")}
-                    </StyledFormLabel>
-                    {event.ticketReleases!.length > 0 && (
-                      <div style={{ width: "100px" }}>
-                        <Select
-                          multiple
-                          sx={{
-                            width: "400px",
-                            height: "fit-content",
-                            backgroundColor: (theme) => {
-                              if (selectedTicketReleases.length === 0) {
-                                return PALLETTE.red;
-                              } else {
-                                return PALLETTE.green;
-                              }
-                            },
-                          }}
-                          placeholder="Select a ticket release"
-                          value={selectedTicketReleases}
-                          onChange={(event, newValue) => {
-                            setSelectedTicketReleases(newValue as never[]);
-                          }}
-                          renderValue={(selected: any) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: "0.25rem",
-                              }}
-                            >
-                              {selected.map((selectedOption: any) => (
-                                <Chip
-                                  variant="soft"
-                                  color="primary"
-                                  key={selectedOption.id}
-                                >
-                                  {selectedOption.label}
-                                </Chip>
-                              ))}
-                            </Box>
-                          )}
-                        >
-                          {event.ticketReleases!.map((release) => {
-                            return (
-                              <Option
-                                key={release.id}
-                                value={release.id}
+                    </FormControl>
+                    <Divider sx={{ margin: "16px 0" }} />
+                    <FormControl>
+                      <StyledFormLabel>
+                        {t("manage_event.send_out.ticket_releases")}
+                      </StyledFormLabel>
+                      {event.ticketReleases!.length > 0 && (
+                        <div style={{ width: "100px" }}>
+                          <Select
+                            multiple
+                            sx={{
+                              width: "400px",
+                              height: "fit-content",
+                              backgroundColor: (theme) => {
+                                if (selectedTicketReleases.length === 0) {
+                                  return PALLETTE.red;
+                                } else {
+                                  return PALLETTE.green;
+                                }
+                              },
+                            }}
+                            placeholder="Select a ticket release"
+                            value={selectedTicketReleases}
+                            onChange={(event, newValue) => {
+                              setSelectedTicketReleases(newValue as never[]);
+                            }}
+                            renderValue={(selected: any) => (
+                              <Box
                                 sx={{
-                                  maxWidth: "400px",
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: "0.25rem",
                                 }}
                               >
-                                {release.name}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      </div>
-                    )}
-                    <StyledFormLabelWithHelperText>
-                      {t("manage_event.send_out.ticket_releases_helperText")}
-                    </StyledFormLabelWithHelperText>
-                  </FormControl>
-                  <Box mt={1}></Box>
-                  <StyledFormLabel>
-                    {t("manage_event.send_out.filter_tickets")}
-                  </StyledFormLabel>
-                  <Stack direction={"column"} spacing={2} ml={2}>
-                    {Object.entries(TicketFilterValues).map(
-                      ([filter, filterLabel]) => (
-                        <Box key={filter + "-filter"}>
-                          <FormControlLabel
-                            label={
-                              <StyledText
-                                level="body-sm"
-                                color={PALLETTE.charcoal}
-                                sx={{ ml: 1 }}
-                              >
-                                {filterLabel}
-                              </StyledText>
-                            }
-                            control={
-                              <Box sx={{ display: "flex", gap: 2 }}>
-                                {["yes", "ignore", "no"].map((value) => (
-                                  <Box
-                                    sx={{
-                                      width: 75,
-                                      height: 30,
-                                      borderRadius: 2,
-                                      border: "1px solid " + PALLETTE.cerise,
-                                      backgroundColor:
-                                        ticketFilters![
-                                          filter as keyof typeof ticketFilters
-                                        ] === value
-                                          ? value === "yes"
-                                            ? PALLETTE.green
-                                            : value === "ignore"
-                                            ? PALLETTE.cerise_dark
-                                            : PALLETTE.red
-                                          : PALLETTE.charcoal_see_through,
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={() =>
-                                      handleFilterChange(
-                                        filter as keyof typeof TicketFilterValues,
-                                        value as TicketFilterValuesTypes
-                                      )
-                                    }
+                                {selected.map((selectedOption: any) => (
+                                  <Chip
+                                    variant="soft"
+                                    color="primary"
+                                    key={selectedOption.id}
                                   >
-                                    <StyledText
-                                      level="body-sm"
-                                      fontWeight={600}
-                                      fontSize={16}
-                                      color={
-                                        ticketFilters![
-                                          filter as keyof typeof ticketFilters
-                                        ] === value
-                                          ? PALLETTE.white
-                                          : PALLETTE.charcoal
-                                      }
-                                    >
-                                      {value.toLocaleUpperCase()}
-                                    </StyledText>
-                                  </Box>
+                                    {selectedOption.label}
+                                  </Chip>
                                 ))}
                               </Box>
-                            }
-                          />
-                        </Box>
-                      )
-                    )}
-                  </Stack>
-                  <StyledFormLabelWithHelperText>
-                    {t("manage_event.send_out.filter_tickets_helperText")}
-                  </StyledFormLabelWithHelperText>
-                  <StyledText
-                    level="body-sm"
-                    color={PALLETTE.orange}
-                    fontSize={20}
-                    fontWeight={600}
-                  >
-                    {t("manage_event.send_out.num_users", {
-                      numUsers: users.length,
-                    })}
-                  </StyledText>
-                  <StyledText
-                    level="body-sm"
-                    color={PALLETTE.charcoal_see_through}
-                    fontSize={16}
-                  >
-                    {users
-                      .map((user) => user.first_name + " " + user.last_name)
-                      .join(", ")}
-                  </StyledText>
-                  <StyledButton
-                    sx={{
-                      mt: 4,
-                    }}
-                    type="submit"
-                    size="lg"
-                    bgColor={PALLETTE.green}
-                    style={{ width: "150px" }}
-                  >
-                    {t("form.button_send")}
-                  </StyledButton>
-                </Form>
-              )}
-            </Formik>
+                            )}
+                          >
+                            {event.ticketReleases!.map((release) => {
+                              return (
+                                <Option
+                                  key={release.id}
+                                  value={release.id}
+                                  sx={{
+                                    maxWidth: "400px",
+                                  }}
+                                >
+                                  {release.name}
+                                </Option>
+                              );
+                            })}
+                          </Select>
+                        </div>
+                      )}
+                      <StyledFormLabelWithHelperText>
+                        {t("manage_event.send_out.ticket_releases_helperText")}
+                      </StyledFormLabelWithHelperText>
+                    </FormControl>
+                    <Box mt={1}></Box>
+                    <StyledFormLabel>
+                      {t("manage_event.send_out.filter_tickets")}
+                    </StyledFormLabel>
+                    <Stack direction={"column"} spacing={2} ml={2}>
+                      {Object.entries(TicketFilterValues).map(
+                        ([filter, filterLabel]) => (
+                          <Box key={filter + "-filter"}>
+                            <FormControlLabel
+                              label={
+                                <StyledText
+                                  level="body-sm"
+                                  color={PALLETTE.charcoal}
+                                  sx={{ ml: 1 }}
+                                >
+                                  {filterLabel}
+                                </StyledText>
+                              }
+                              control={
+                                <Box sx={{ display: "flex", gap: 2 }}>
+                                  {["yes", "ignore", "no"].map((value) => (
+                                    <Box
+                                      sx={{
+                                        width: 75,
+                                        height: 30,
+                                        borderRadius: 2,
+                                        border: "1px solid " + PALLETTE.cerise,
+                                        backgroundColor:
+                                          ticketFilters![
+                                            filter as keyof typeof ticketFilters
+                                          ] === value
+                                            ? value === "yes"
+                                              ? PALLETTE.green
+                                              : value === "ignore"
+                                              ? PALLETTE.cerise_dark
+                                              : PALLETTE.red
+                                            : PALLETTE.charcoal_see_through,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() =>
+                                        handleFilterChange(
+                                          filter as keyof typeof TicketFilterValues,
+                                          value as TicketFilterValuesTypes
+                                        )
+                                      }
+                                    >
+                                      <StyledText
+                                        level="body-sm"
+                                        fontWeight={600}
+                                        fontSize={16}
+                                        color={
+                                          ticketFilters![
+                                            filter as keyof typeof ticketFilters
+                                          ] === value
+                                            ? PALLETTE.white
+                                            : PALLETTE.charcoal
+                                        }
+                                      >
+                                        {value.toLocaleUpperCase()}
+                                      </StyledText>
+                                    </Box>
+                                  ))}
+                                </Box>
+                              }
+                            />
+                          </Box>
+                        )
+                      )}
+                    </Stack>
+                    <StyledFormLabelWithHelperText>
+                      {t("manage_event.send_out.filter_tickets_helperText")}
+                    </StyledFormLabelWithHelperText>
+                    <StyledText
+                      level="body-sm"
+                      color={PALLETTE.orange}
+                      fontSize={20}
+                      fontWeight={600}
+                    >
+                      {t("manage_event.send_out.num_users", {
+                        numUsers: users.length,
+                      })}
+                    </StyledText>
+                    <StyledText
+                      level="body-sm"
+                      color={PALLETTE.charcoal_see_through}
+                      fontSize={16}
+                    >
+                      {users
+                        .map((user) => user.first_name + " " + user.last_name)
+                        .join(", ")}
+                    </StyledText>
+                    <StyledButton
+                      sx={{
+                        mt: 4,
+                      }}
+                      type="submit"
+                      size="lg"
+                      bgColor={PALLETTE.green}
+                      style={{ width: "150px" }}
+                    >
+                      {t("form.button_send")}
+                    </StyledButton>
+                  </Form>
+                )}
+              </Formik>
+            </Box>
           </Box>
-        </Box>
-      </TesseraWrapper>
+        </TesseraWrapper>
+      </DrawerBoxWrapper>
     </>
   );
 };

@@ -22,8 +22,7 @@ import TicketEventFormResponseTable from "./manage/ticket_form_reponse_list_page
 
 import DrawerComponent from "../../components/navigation/manage_drawer";
 import { useEventDetails } from "../../hooks/use_event_details_hook";
-
-const drawerWidth = 200;
+import usePinnedDrawer from "../../hooks/drawer_pinned_hook";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -71,6 +70,8 @@ const ManageEventPage: React.FC = () => {
 
   const [isHovered, setIsHovered] = useState(false);
 
+  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
+
   if (error) {
     navigate("/events");
   }
@@ -85,11 +86,11 @@ const ManageEventPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
+      <DrawerComponent eventID={eventID!} handlePinned={handlePinned} />
       <Box
         component="main"
         sx={{
-          marginLeft: isHovered ? `${drawerWidth + 32}px` : `70px`,
+          marginLeft: marginLeft,
           marginRight: 1.5,
         }}
       >

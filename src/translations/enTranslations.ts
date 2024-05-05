@@ -487,6 +487,9 @@ const enTranslations = {
         title: "Economy",
         pay_outs: "Pay outs",
       },
+
+      is_not_pinned: "Pin menu",
+      is_pinned: "Unpin menu",
     },
 
     tickets: {

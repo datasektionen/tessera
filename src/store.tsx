@@ -31,6 +31,7 @@ import bankingDetailsSlice from "./redux/features/bankingDetailsSlice";
 import viewCustomerEventSlice from "./redux/features/customerViewEvent";
 import guestCustomerSlice from "./redux/features/guestCustomerSlice";
 import planeEnrollmentCreationSlice from "./redux/features/createPlanEnrollmentSlice";
+import drawerPinnedSlice from "./redux/features/drawerPinnedSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -42,6 +43,7 @@ const persistConfig = {
     "ticketTypeCreation",
     "timestamp",
     "language",
+    "drawerPinned",
   ],
   key: "root",
   storage,
@@ -76,6 +78,7 @@ const rootReducer = combineReducers({
   customerViewEvent: viewCustomerEventSlice,
   guestCustomer: guestCustomerSlice,
   planEnrollmentCreation: planeEnrollmentCreationSlice,
+  drawerPinned: drawerPinnedSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
