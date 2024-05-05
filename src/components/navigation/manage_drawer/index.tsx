@@ -1,5 +1,5 @@
 // DrawerComponent.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Collapse,
   Drawer,
@@ -33,43 +33,60 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { ROUTES, generateRoute } from "../../../routes/def";
 import PinIcon from "@mui/icons-material/Pin";
 import { parse } from "path";
-import { Stack, Switch } from "@mui/joy";
+import { ListDivider, Stack, Switch } from "@mui/joy";
 import { DRAWER_WIDTH } from "../../../hooks/drawer_pinned_hook";
+import { is } from "date-fns/locale";
+import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface DrawerComponentProps {
   eventID: string;
-  initialIsPinned: boolean;
   handlePinned: (isPinned: boolean) => void;
 }
 
 const DrawerComponent: React.FC<DrawerComponentProps> = ({
   eventID,
-  initialIsPinned,
   handlePinned,
 }) => {
   // Paste the Drawer related code here
+  const { isPinned: initialIsPinned } = useSelector(
+    (state: RootState) => state.drawerPinned
+  );
 
-  const [isPinned, setIsPinned] = React.useState(initialIsPinned);
+  const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
   const theme = useTheme();
   const [isHovered, setIsHovered] = React.useState(false);
   const { t } = useTranslation();
 
+  useEffect(() => {
+    if (isPinned === null && initialIsPinned !== null) {
+      setIsPinned(initialIsPinned);
+    }
+  }, [initialIsPinned, isPinned]);
+
+  if (isPinned === null) {
+    return null;
+  }
+
+  const isExtended = isHovered || isPinned;
+
   return (
     <Drawer
+      open={isExtended}
       variant="permanent"
       onMouseEnter={() => !isPinned && setIsHovered(true)}
       onMouseLeave={() => !isPinned && setIsHovered(false)}
       sx={{
         position: "relative",
         top: "64px", // replace this with the height of your navbar
-        width: isHovered || isPinned ? DRAWER_WIDTH : theme.spacing(7),
         flexShrink: 0,
         transition: theme.transitions.create("width", {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
         }),
         [`& .MuiDrawer-paper`]: {
-          width: isHovered ? DRAWER_WIDTH : theme.spacing(7),
+          width: isExtended ? DRAWER_WIDTH : theme.spacing(7),
           marginTop: "64px",
           backgroundColor: PALLETTE.cerise,
           transition: theme.transitions.create("width", {
@@ -106,9 +123,15 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           <CollapsibleDrawerSection
             title={t("manage_event.drawer.manage.title")}
             icon={<PanToolIcon />}
-            mainNavigateTo={`/events/${eventID}/manage`}
-            drawerExtended={isHovered}
+            drawerExtended={isExtended}
             subItems={[
+              {
+                title: t("manage_event.drawer.manage.title"),
+                navigateTo: generateRoute(ROUTES.MANAGE_EVENT, {
+                  eventId: eventID,
+                }),
+                clickable: true,
+              },
               {
                 title: t("manage_event.drawer.manage.ticket_releases"),
                 navigateTo: generateRoute(ROUTES.MANAGE_EVENT_TICKET_RELEASES, {
@@ -139,10 +162,11 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />
+          <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
             icon={<EditIcon />}
             title={t("form.button_edit")}
-            drawerExtended={isHovered}
+            drawerExtended={isExtended}
             mainNavigateTo={generateRoute(ROUTES.EDIT_EVENT, {
               eventId: eventID,
             })}
@@ -177,15 +201,19 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />
-
+          <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
             icon={<MailIcon />}
             title={t("manage_event.drawer.send_outs.title")}
-            drawerExtended={isHovered}
-            mainNavigateTo={generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
-              eventId: eventID,
-            })}
+            drawerExtended={isExtended}
             subItems={[
+              {
+                title: t("manage_event.drawer.send_outs.list"),
+                navigateTo: generateRoute(ROUTES.MANAGE_SEND_OUT_LIST, {
+                  eventId: eventID,
+                }),
+                clickable: true,
+              },
               {
                 title: t("manage_event.drawer.send_outs.new"),
                 navigateTo: generateRoute(ROUTES.MANAGE_SEND_OUT_NEW, {
@@ -194,15 +222,20 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                 clickable: true,
               },
             ]}
-          />
+          />{" "}
+          <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
             icon={<AttachMoneyIcon />}
             title={t("manage_event.drawer.economy.title")}
-            drawerExtended={isHovered}
-            mainNavigateTo={generateRoute(ROUTES.MANAGE_EVENT_ECONOMY, {
-              eventId: eventID,
-            })}
+            drawerExtended={isExtended}
             subItems={[
+              {
+                title: t("manage_event.drawer.economy.sales_report"),
+                navigateTo: generateRoute(ROUTES.MANAGE_EVENT_ECONOMY, {
+                  eventId: eventID,
+                }),
+                clickable: true,
+              },
               {
                 title: t("manage_event.drawer.economy.pay_outs"),
                 navigateTo: generateRoute(``, {
@@ -211,11 +244,12 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                 clickable: false,
               },
             ]}
-          />
+          />{" "}
+          <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
             title={t("manage_event.drawer.settings.title")}
             icon={<SettingsIcon />}
-            drawerExtended={isHovered}
+            drawerExtended={isExtended}
             subItems={[
               {
                 title: t("manage_event.drawer.settings.financial"),
@@ -240,14 +274,32 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />
-          <Divider sx={{ my: 1 }} />
+          <Divider sx={{ mb: 1, mt: 3 }} textAlign="center">
+            {isExtended ? (
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ type: "spring", stiffness: 100 }}
+              >
+                <StyledText
+                  level="body-sm"
+                  color={PALLETTE.charcoal}
+                  fontSize={16}
+                  fontWeight={700}
+                >
+                  Quick Actions
+                </StyledText>
+              </motion.div>
+            ) : null}
+          </Divider>
           <DrawerListItem
             icon={<AddIcon />}
             text={t("manage_event.add_ticket_release")}
             navigateTo={`/events/${eventID}/edit/add-ticket-release`}
           />
         </List>
-        {(isHovered || isPinned) && (
+        {isExtended && (
           <Box
             sx={{
               position: "absolute",

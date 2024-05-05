@@ -1,5 +1,5 @@
 // CollapsibleDrawerSection.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Collapse,
@@ -15,6 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubButton from "./sub_button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { sub } from "date-fns";
 
 interface CollapsibleDrawerSectionProps {
   title: string;
@@ -32,9 +33,24 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
   drawerExtended,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+  const [isCollapsing, setIsCollapsing] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen && isCollapsing) {
+      const timeoutId = setTimeout(() => {
+        setIsCollapsing(false);
+      }, 1000); // Adjust this value to match the duration of the drawer closing animation
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [isOpen, isCollapsing]);
 
   const handleClick = () => {
+    if (isOpen) {
+      setIsCollapsing(true);
+    }
     setIsOpen(!isOpen);
   };
 
@@ -44,6 +60,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
       onClick={handleClick}
       sx={{
         mb: 1,
+        overflow: "hidden",
       }}
     >
       <Box sx={{ width: "100%" }}>
@@ -81,8 +98,21 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
             </motion.div>
           </ListItemIcon>
         </ListItemButton>
-        <Collapse in={isOpen && drawerExtended} sx={{ pb: 0 }}>
-          <List component="div" disablePadding>
+        <Collapse
+          key={"collapse-section-" + title}
+          in={isOpen && drawerExtended}
+          sx={{
+            pb: 0,
+          }}
+          easing={"ease-in-out"}
+          timeout={{ enter: 300, exit: 100 }}
+        >
+          <List
+            component="div"
+            sx={{
+              height: `${subItems.length * 30}px`,
+            }}
+          >
             {subItems.map((item) => (
               <SubButton
                 key={item.title}

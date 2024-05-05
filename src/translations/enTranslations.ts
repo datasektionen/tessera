@@ -485,6 +485,7 @@ const enTranslations = {
 
       economy: {
         title: "Economy",
+        sales_report: "Sales report",
         pay_outs: "Pay outs",
       },
 

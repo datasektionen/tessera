@@ -23,6 +23,7 @@ import TicketEventFormResponseTable from "./manage/ticket_form_reponse_list_page
 import DrawerComponent from "../../components/navigation/manage_drawer";
 import { useEventDetails } from "../../hooks/use_event_details_hook";
 import usePinnedDrawer from "../../hooks/drawer_pinned_hook";
+import DrawerBoxWrapper from "../../components/wrappers/manager_wrapper";
 
 const ManageEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -86,14 +87,7 @@ const ManageEventPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} handlePinned={handlePinned} />
-      <Box
-        component="main"
-        sx={{
-          marginLeft: marginLeft,
-          marginRight: 1.5,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Box mt={"16px"}>
           <Title
             style={{
@@ -178,7 +172,7 @@ const ManageEventPage: React.FC = () => {
             </StyledButton>
           </Stack>
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

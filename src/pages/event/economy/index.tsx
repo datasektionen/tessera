@@ -23,6 +23,8 @@ import downloadSalesReport from "../../../redux/sagas/axios_calls/download_sales
 import { format } from "date-fns";
 import DrawerComponent from "../../../components/navigation/manage_drawer";
 import usePinnedDrawer from "../../../hooks/drawer_pinned_hook";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
+import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 
 const EventEconomyPage: React.FC = () => {
   const { eventID } = useParams();
@@ -70,135 +72,111 @@ const EventEconomyPage: React.FC = () => {
     navigate("/events", { replace: true });
 
   return (
-    <>
-      <DrawerComponent eventID={eventID!} handlePinned={handlePinned} />
-      <Box
-        component="main"
-        sx={{
-          ml: marginLeft,
-          mr: 1.5,
-        }}
-      >
-        <TesseraWrapper>
-          <StandardGrid>
-            <Grid xs={16}>
-              <Box sx={{ padding: "16px 16px" }}>
-                <Title>{t("manage_event.economy.title")}</Title>
-                <StyledText color={PALLETTE.charcoal} level="body-sm">
-                  {t("manage_event.economy.subtitle")}
-                </StyledText>
-                <StyledButton
-                  size="lg"
-                  bgColor={PALLETTE.green}
-                  onClick={handleGenerateSalesReport}
-                  sx={{
-                    mt: 2,
-                  }}
-                >
-                  {t("form.generate_sales_report")}
-                </StyledButton>
-              </Box>
-            </Grid>
-            <Grid
-              xs={16}
-              sx={{
-                my: 1,
-              }}
-            >
-              {eventSalesReports.length > 0 ? (
-                <BorderBox>
-                  <Title>{t("manage_event.economy.sales_reports")}</Title>
-                  {eventSalesReports.map((report) => {
-                    return (
-                      <Grid
-                        container
-                        justifyContent={"space-between"}
-                        key={report.id}
-                        my={1}
-                      >
-                        <Grid xs={10}>
-                          <Stack key={report.id} spacing={2} direction={"row"}>
-                            <StyledText
-                              color={PALLETTE.charcoal}
-                              level="body-sm"
-                            >
-                              <b>ID:</b> {report.id}
-                            </StyledText>
-                            <StyledText
-                              color={PALLETTE.charcoal}
-                              level="body-sm"
-                            >
-                              <b>{t("manage_event.economy.total_sales")}:</b>{" "}
-                              {report.total_sales}
-                            </StyledText>
-                            <StyledText
-                              color={PALLETTE.charcoal}
-                              level="body-sm"
-                            >
-                              <b>{t("manage_event.economy.tickets_sold")}:</b>{" "}
-                              {report.tickets_sold}
-                            </StyledText>
-                            <StyledText
-                              color={PALLETTE.charcoal}
-                              level="body-sm"
-                            >
-                              <b>{t("manage_event.economy.status")}:</b>{" "}
-                              {report.status}
-                            </StyledText>
+    <MUITesseraWrapper>
+      <DrawerBoxWrapper eventID={eventID!}>
+        <StandardGrid>
+          <Grid xs={16}>
+            <Box sx={{ padding: "16px 16px" }}>
+              <Title>{t("manage_event.economy.title")}</Title>
+              <StyledText color={PALLETTE.charcoal} level="body-sm">
+                {t("manage_event.economy.subtitle")}
+              </StyledText>
+              <StyledButton
+                size="lg"
+                bgColor={PALLETTE.green}
+                onClick={handleGenerateSalesReport}
+                sx={{
+                  mt: 2,
+                }}
+              >
+                {t("form.generate_sales_report")}
+              </StyledButton>
+            </Box>
+          </Grid>
+          <Grid
+            xs={16}
+            sx={{
+              my: 1,
+            }}
+          >
+            {eventSalesReports.length > 0 ? (
+              <BorderBox>
+                <Title>{t("manage_event.economy.sales_reports")}</Title>
+                {eventSalesReports.map((report) => {
+                  return (
+                    <Grid
+                      container
+                      justifyContent={"space-between"}
+                      key={report.id}
+                      my={1}
+                    >
+                      <Grid xs={10}>
+                        <Stack key={report.id} spacing={2} direction={"row"}>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>ID:</b> {report.id}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.total_sales")}:</b>{" "}
+                            {report.total_sales}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.tickets_sold")}:</b>{" "}
+                            {report.tickets_sold}
+                          </StyledText>
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.status")}:</b>{" "}
+                            {report.status}
+                          </StyledText>
 
-                            <StyledText
-                              color={PALLETTE.charcoal}
-                              level="body-sm"
-                              sx={{
-                                width: "250px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                              }}
+                          <StyledText
+                            color={PALLETTE.charcoal}
+                            level="body-sm"
+                            sx={{
+                              width: "250px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            <b>{t("manage_event.economy.message")}:</b>
+                            <Tooltip
+                              title={report.message}
+                              placement="top-start"
                             >
-                              <b>{t("manage_event.economy.message")}:</b>
-                              <Tooltip
-                                title={report.message}
-                                placement="top-start"
-                              >
-                                <span style={{ pointerEvents: "auto" }}>
-                                  {report.message || " -"}
-                                </span>
-                              </Tooltip>
-                            </StyledText>
+                              <span style={{ pointerEvents: "auto" }}>
+                                {report.message || " -"}
+                              </span>
+                            </Tooltip>
+                          </StyledText>
 
-                            <StyledText
-                              color={PALLETTE.charcoal}
-                              level="body-sm"
-                            >
-                              <b>{t("manage_event.economy.created_at")}:</b>{" "}
-                              {format(report.updated_at, "dd/MM/yyyy HH:mm")}
-                            </StyledText>
-                          </Stack>
-                        </Grid>
-
-                        <Grid xs={2}>
-                          <StyledButton size="sm">
-                            <Link href={report.url} target="_blank">
-                              {t("manage_event.economy.download")}
-                            </Link>
-                          </StyledButton>
-                        </Grid>
-                        <Divider sx={{ my: 1 }} />
+                          <StyledText color={PALLETTE.charcoal} level="body-sm">
+                            <b>{t("manage_event.economy.created_at")}:</b>{" "}
+                            {format(report.updated_at, "dd/MM/yyyy HH:mm")}
+                          </StyledText>
+                        </Stack>
                       </Grid>
-                    );
-                  })}
-                </BorderBox>
-              ) : (
-                <StyledText color={PALLETTE.charcoal} level="body-sm">
-                  {t("manage_event.economy.no_reports")}
-                </StyledText>
-              )}
-            </Grid>
-          </StandardGrid>
-        </TesseraWrapper>
-      </Box>
-    </>
+
+                      <Grid xs={2}>
+                        <StyledButton size="sm">
+                          <Link href={report.url} target="_blank">
+                            {t("manage_event.economy.download")}
+                          </Link>
+                        </StyledButton>
+                      </Grid>
+                      <Divider sx={{ my: 1 }} />
+                    </Grid>
+                  );
+                })}
+              </BorderBox>
+            ) : (
+              <StyledText color={PALLETTE.charcoal} level="body-sm">
+                {t("manage_event.economy.no_reports")}
+              </StyledText>
+            )}
+          </Grid>
+        </StandardGrid>
+      </DrawerBoxWrapper>
+    </MUITesseraWrapper>
   );
 };
 

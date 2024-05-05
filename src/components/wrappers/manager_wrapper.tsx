@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import usePinnedDrawer from "../../hooks/drawer_pinned_hook";
 import DrawerComponent from "../navigation/manage_drawer";
 import TesseraWrapper from "./page_wrapper";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface DrawerBoxWrapperProps {
   eventID: string;
@@ -14,18 +16,11 @@ const DrawerBoxWrapper: React.FC<DrawerBoxWrapperProps> = ({
   eventID,
   children,
 }) => {
-  const drawerWidth = 240; // replace with your drawer width
-  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
-
-  console.log("DrawerBoxWrapper", marginLeft);
+  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("75px");
 
   return (
     <>
-      <DrawerComponent
-        eventID={eventID}
-        handlePinned={handlePinned}
-        initialIsPinned={isPinned}
-      />
+      <DrawerComponent eventID={eventID} handlePinned={handlePinned} />
       <Box
         component={"main"}
         sx={{

@@ -20,6 +20,8 @@ import { createTicketReleaseRequest } from "../../../../redux/features/createTic
 import { format } from "date-fns";
 import DrawerComponent from "../../../../components/navigation/manage_drawer";
 import usePinnedDrawer from "../../../../hooks/drawer_pinned_hook";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
+import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
 
 const EditEventAddTicketReleasePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -60,8 +62,6 @@ const EditEventAddTicketReleasePage: React.FC = () => {
     }
   };
 
-  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
-
   if (!event) return <LoadingOverlay />;
 
   const initialValues: ITicketReleaseForm = {
@@ -70,27 +70,16 @@ const EditEventAddTicketReleasePage: React.FC = () => {
   };
 
   return (
-    <>
-      <DrawerComponent eventID={eventID!} handlePinned={handlePinned} />
-      <Box
-        component={"main"}
-        sx={{
-          ml: marginLeft,
-          mr: 1.5,
-        }}
-      >
-        <TesseraWrapper>
-          <Box sx={{ padding: "16px 32px" }}>
-            <EditEventAddTicketRelease
-              eventId={parseInt(eventID!)}
-              submit={handleTicketReleaseSubmit}
-              initialValues={ticketReleaseForm || initialValues}
-              createOnSubmit={true}
-            />
-          </Box>
-        </TesseraWrapper>
-      </Box>
-    </>
+    <MUITesseraWrapper>
+      <DrawerBoxWrapper eventID={eventID!}>
+        <EditEventAddTicketRelease
+          eventId={parseInt(eventID!)}
+          submit={handleTicketReleaseSubmit}
+          initialValues={ticketReleaseForm || initialValues}
+          createOnSubmit={true}
+        />
+      </DrawerBoxWrapper>
+    </MUITesseraWrapper>
   );
 };
 

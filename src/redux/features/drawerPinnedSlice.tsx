@@ -20,13 +20,11 @@ const drawerSlice = createSlice({
   extraReducers: {
     // Handle the rehydration action
     [REHYDRATE]: (state, action) => {
-      console.log("REHYDRATE", action.payload.drawerPinned);
       if (action.payload) {
         return {
           isPinned: action.payload.drawerPinned.isPinned,
         };
       }
-      console.log("REHYDRATE", state);
       return state;
     },
   },
