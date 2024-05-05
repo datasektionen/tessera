@@ -51,6 +51,7 @@ import {
   EditEventTicketReleasesPage,
   EditEventFormPage,
 } from "./page_import";
+import Canvas from "../pages/event/edit/canvas/pages";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
@@ -278,6 +279,7 @@ function AppRoutes() {
               element={<EventSendOutsPageWithCurrentUser />}
             />
           </Route>
+          <Route path="/canvas" element={<Canvas />} />
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
           <Route path="*" element={<FourOFour404 />} />
           <Route path="/404" element={<FourOFour404 />} />

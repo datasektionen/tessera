@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import "@fontsource/inter";
 
 import "./translations/i18n";
+import "./tailwind.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
