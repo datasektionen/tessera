@@ -1,7 +1,11 @@
 import { Box, FormControl, Link } from "@mui/joy";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
-import { IPricingOption, pricingOptions } from "../pricing/features";
+import {
+  IPricingOption,
+  PackageTiers,
+  pricingOptions,
+} from "../pricing/features";
 import PricingCard from "../../components/pricing/pricing_card";
 
 import Footer from "../../components/wrappers/footer";
@@ -10,12 +14,15 @@ import StandardToastContainer from "../../components/wrappers/toast_container";
 import ManagerContactForm from "./plan_contact_form";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import GetStartedFreePlanEnrollment from "../../components/manager/register/free/free";
+import { useNavigate } from "react-router-dom";
 
 const MotionBox = motion(Box);
 
 const BecomeAManagerPage: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<IPricingOption | null>(null);
   const contactFormRef = useRef<HTMLFormElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedPlan && contactFormRef.current) {
@@ -25,6 +32,20 @@ const BecomeAManagerPage: React.FC = () => {
       });
     }
   }, [selectedPlan]);
+
+  useEffect(() => {
+    // Read plan from query params
+    const urlParams = new URLSearchParams(window.location.search);
+    const plan = urlParams.get("plan");
+
+    if (plan === PackageTiers.Free) {
+      setSelectedPlan(pricingOptions[0]);
+    }
+  }, []);
+
+  if (selectedPlan?.plan === PackageTiers.Free) {
+    return <GetStartedFreePlanEnrollment />;
+  }
 
   return (
     <Box sx={{}}>

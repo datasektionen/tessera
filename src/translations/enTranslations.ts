@@ -1,4 +1,3 @@
-import { title } from "process";
 import gbFaq from "../assets/faq/gb_faq.json";
 
 const enTranslations = {

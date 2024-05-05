@@ -13,6 +13,7 @@ import {
   useGetList,
   ArrayInput,
   SimpleFormIterator,
+  NumberInput,
 } from "react-admin";
 
 type PackageTierType = {
@@ -65,6 +66,10 @@ export const FeatureCreate = () => {
           return (
             <div key={index}>
               <TextInput
+                label="Description"
+                source={`feature_limits[${index}].limit_description`}
+              />
+              <NumberInput
                 source={`feature_limits[${index}].limit`}
                 label="Limit"
               />
@@ -104,7 +109,8 @@ export const FeatureEdit = () => {
 
         <ArrayInput source="feature_limits">
           <SimpleFormIterator>
-            <TextInput source="limit" label="Limit" />
+            <TextInput source="limit_description" label="Description" />
+            <NumberInput source="limit" label="Limit" />
             <ReferenceInput source="package_tier_id" reference="package-tiers">
               <SelectInput optionText="name" />
             </ReferenceInput>
