@@ -9,6 +9,8 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { useNavigate } from "react-router-dom";
 import { use } from "i18next";
 import { generateRoute, ROUTES } from "../../routes/def";
+import axios from "axios";
+import { useEffect } from "react";
 interface CardComponentProps {
   title: string;
   imgSrc: string;
@@ -57,6 +59,23 @@ const CardComponent: React.FC<CardComponentProps> = ({
 const PostLoginPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  async function updateShowedPostLogin() {
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/showed-post-login-screen`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    updateShowedPostLogin();
+  }, []);
+
   return (
     <Box
       sx={{

@@ -14,7 +14,7 @@ import StyledText from "../../../components/text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import theme from "../../../theme";
 import { useTranslation } from "react-i18next";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { useParams } from "react-router-dom";
 import Title from "../../../components/text/title";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";

@@ -8,7 +8,7 @@ import ListEventTicketReleases from "../../../components/events/ticket_release/l
 import { useSelector } from "react-redux";
 import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid } from "@mui/joy";
 import { useEventDetails } from "../../../hooks/use_event_details_hook";
 import { ITicket, ITicketRelease } from "../../../types";

@@ -362,6 +362,24 @@ const enTranslations = {
       "This will be the email of your team. This is used to contact the team.",
   },
 
+  manager: {
+    dashboard: {},
+
+    drawer: {
+      events: "Events",
+      teams: "Teams",
+      profile: "Profile",
+      contact: "Contact",
+      pricing: "Pricing",
+      login: "Login",
+      logout: "Logout",
+      create_event: "Create event",
+      manage_teams: "Manage teams",
+      manage_events: "Manage events",
+      manage_profile: "Manage profile",
+    },
+  },
+
   manage_event: {
     title: "Manage {{event_name}}",
     delete_button: "Delete {{event_name}}",

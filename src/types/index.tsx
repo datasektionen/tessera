@@ -142,6 +142,7 @@ export interface IUser {
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
+  showed_post_login?: boolean;
 }
 
 export interface IOrganizationUser extends IUser {

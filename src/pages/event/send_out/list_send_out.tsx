@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid, IconButton, Stack } from "@mui/joy";
 import { ISendOut } from "../../../types";
 import Title from "../../../components/text/title";

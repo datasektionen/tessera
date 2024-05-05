@@ -54,6 +54,7 @@ import {
   PricingPage,
   PostLoginPage,
   BecomeAManagerPage,
+  ManagerPage,
 } from "./page_import";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
@@ -142,6 +143,8 @@ const EventSendOutsPageWithCurrentUser =
 
 const PostLoginPageWithCurrentUser = withCurrentUserRequest(PostLoginPage);
 
+const ManagerPageWithCurrentUser = withCurrentUserRequest(ManagerPage);
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -162,7 +165,7 @@ function AppRoutes() {
           <TesseraWrapper>
             <LoadingOverlay />
           </TesseraWrapper>
-        } 
+        }
       >
         <Routes>
           <Route
@@ -203,6 +206,12 @@ function AppRoutes() {
             />
 
             {/* --------- */}
+
+            {/* Manager related rotues */}
+            <Route
+              path={ROUTES.MANAGER}
+              element={<ManagerPageWithCurrentUser />}
+            />
 
             <Route element={<SuperAdminProtectedRoute />}>
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />

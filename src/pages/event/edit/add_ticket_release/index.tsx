@@ -18,7 +18,7 @@ import { getEventRequest } from "../../../../redux/features/eventSlice";
 import LoadingOverlay from "../../../../components/Loading";
 import { createTicketReleaseRequest } from "../../../../redux/features/createTicketReleaseSlice";
 import { format } from "date-fns";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import usePinnedDrawer from "../../../../hooks/drawer_pinned_hook";
 import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";

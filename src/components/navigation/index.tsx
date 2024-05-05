@@ -350,12 +350,15 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 }}
               >
                 <StyledLink
-                  href={generateRoute(
-                    isEventManager(currentUser!)
-                      ? ROUTES.MANAGER_DASHBOARD
-                      : ROUTES.BECOME_A_MANAGER,
-                    {}
-                  )}
+                  href={
+                    currentUser &&
+                    generateRoute(
+                      isEventManager(currentUser!)
+                        ? ROUTES.MANAGER_DASHBOARD
+                        : ROUTES.BECOME_A_MANAGER,
+                      {}
+                    )
+                  }
                 >
                   {t("navigation.organizer")}
                 </StyledLink>

@@ -46,7 +46,7 @@ import StyledButton from "../../../components/buttons/styled_button";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { StyledErrorMessage } from "../../../components/forms/messages";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
 import { ROUTES, generateRoute } from "../../../routes/def";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";

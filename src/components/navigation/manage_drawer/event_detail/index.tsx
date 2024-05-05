@@ -12,7 +12,7 @@ import {
   useTheme,
   Box,
 } from "@mui/material";
-import PALLETTE from "../../../theme/pallette";
+import PALLETTE from "../../../../theme/pallette";
 import { useNavigate } from "react-router-dom";
 
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -21,24 +21,24 @@ import EditIcon from "@mui/icons-material/Edit";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Divider } from "@mui/material";
-import StyledText from "../../text/styled_text";
+import StyledText from "../../../text/styled_text";
 import { useTranslation } from "react-i18next";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import AddIcon from "@mui/icons-material/Add";
-import SubButton from "./sub_button";
+import SubButton from "../sub_button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DrawerListItem from "./drawer_list_item";
-import CollapsibleDrawerSection from "./collapsible_drawer_section";
+import DrawerListItem from "../drawer_list_item";
+import CollapsibleDrawerSection from "../collapsible_drawer_section";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { ROUTES, generateRoute } from "../../../routes/def";
+import { ROUTES, generateRoute } from "../../../../routes/def";
 import PinIcon from "@mui/icons-material/Pin";
 import { parse } from "path";
 import { ListDivider, Stack, Switch } from "@mui/joy";
-import { DRAWER_WIDTH } from "../../../hooks/drawer_pinned_hook";
+import { DRAWER_WIDTH } from "../../../../hooks/drawer_pinned_hook";
 import { is } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../../../store";
 
 interface DrawerComponentProps {
   eventID: string;

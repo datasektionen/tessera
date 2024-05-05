@@ -115,3 +115,5 @@ export const PostLoginPage = React.lazy(
 export const BecomeAManagerPage = React.lazy(
   () => import("../pages/manager/become_a_manager")
 );
+
+export const ManagerPage = React.lazy(() => import("../pages/manager"));

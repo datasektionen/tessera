@@ -7,22 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCanAccessEvent } from "../../../utils/event_access";
 import { useEffect, useState } from "react";
-import TesseraWrapper from "../../../components/wrappers/page_wrapper";
 import StandardGrid from "../../../components/wrappers/standard_grid";
 import Title from "../../../components/text/title";
 import StyledText from "../../../components/text/styled_text";
 import BorderBox from "../../../components/wrappers/border_box";
 import PALLETTE from "../../../theme/pallette";
-import EditEventForm from "../../../components/events/edit/edit_event_form";
 import StyledButton from "../../../components/buttons/styled_button";
-import salesReportSlice, {
+import {
   generateSalesReportRequest,
   getEventSalesReportsRequest,
 } from "../../../redux/features/salesReportSlice";
-import downloadSalesReport from "../../../redux/sagas/axios_calls/download_sales_report";
 import { format } from "date-fns";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
-import usePinnedDrawer from "../../../hooks/drawer_pinned_hook";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 
@@ -61,8 +56,6 @@ const EventEconomyPage: React.FC = () => {
       dispatch(getEventSalesReportsRequest(parseInt(eventID)));
     }
   }, [dispatch]);
-
-  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
 
   if (!event || loading || salesLoading) {
     return <LoadingOverlay />;

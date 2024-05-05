@@ -1,8 +1,9 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginRedirect } from "../../redux/features/authSlice";
+import { ROUTES } from "../../routes/def";
 
 interface ProtectedRouteProps {
   redirectPath?: string;
@@ -18,6 +19,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   } = useSelector((state: RootState) => state.auth);
   const location = useLocation();
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user

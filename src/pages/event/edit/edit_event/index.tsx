@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 import { Box, Breadcrumbs } from "@mui/joy";
 
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import { useEventDetails } from "../../../../hooks/use_event_details_hook";
 import StyledText from "../../../../components/text/styled_text";
 import PALLETTE from "../../../../theme/pallette";

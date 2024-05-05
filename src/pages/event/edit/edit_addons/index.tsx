@@ -35,7 +35,7 @@ import { updateAddons } from "../../../../redux/sagas/axios_calls/addons";
 import { getAddonsRequest } from "../../../../redux/features/addonSlice";
 import LoadingOverlay from "../../../../components/Loading";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";

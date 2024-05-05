@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEventDetails } from "../../../../hooks/use_event_details_hook";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid, Stack } from "@mui/joy";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import ListEventTicketReleases from "../../../../components/events/ticket_release/list";
