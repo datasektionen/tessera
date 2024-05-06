@@ -65,7 +65,10 @@ export const ROUTES = {
   MANAGER_DASHBOARD: "/manager/dashboard",
   MANAGER_EVENTS: "/manager/events",
   MANAGER_TEAMS: "/manager/teams",
-  MANAGER_SETTINGS: "/manager/settings",
+  MANAGER_SETTINGS_GENERAL: "/manager/settings/general",
+  MANAGER_SETTINGS_SUBSCRIPTION: "/manager/settings/subscription",
+  MANAGER_SETTINGS_FINANCIAL: "/manager/settings/financial",
+  MANAGER_SETTINGS_USERS: "/manager/settings/users",
 
   // Event related routes
   EVENTS: "/events",

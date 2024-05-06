@@ -116,6 +116,12 @@ export interface ICustomerSignupValues {
   password_repeat?: string;
 }
 
+export enum NetworkRoleType {
+  NetworkSuperAdmin = "network_super_admin",
+  NetworkAdmin = "network_admin",
+  NetworkMember = "network_member",
+}
+
 export type FeatureGroupType =
   | "event_management"
   | "ticket_management"
@@ -239,8 +245,27 @@ export interface ICustomer {
   food_preferences?: IUserFoodPreference;
 }
 
+export interface IOrganizationUserRole {
+  id: string;
+  user_ug_kth_id: string;
+  organization_id: number;
+  organization_role_name: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface INetworkUserRole {
+  id: string;
+  user_ug_kth_id: string;
+  network_id: number;
+  network_role_name: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export interface IUser {
   // Define user properties based on your backend response
+  id?: string;
   ug_kth_id: string;
   username: string;
   first_name: string;
@@ -251,6 +276,8 @@ export interface IUser {
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
   showed_post_login?: boolean;
+  network_user_roles?: INetworkUserRole[];
+  organization_user_roles?: IOrganizationUserRole[];
 }
 
 export interface IOrganizationUser extends IUser {
@@ -263,6 +290,8 @@ export interface IOrganization {
   name: string;
   email: string;
   created_at?: number;
+  organization_user_roles?: IOrganizationUserRole[];
+  users?: IUser[];
 }
 
 export interface IEvent {
@@ -756,7 +785,7 @@ export interface ISelectedAddon {
   quantity: number;
 }
 
-export enum OrganizationUserRole {
+export enum OrganizationUserRoleType {
   OWNER = "owner",
   MEMBER = "member",
 }

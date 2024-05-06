@@ -86,13 +86,7 @@ const ProfileOrganizationsPage = () => {
             </Grid>
           )}
         </Grid>
-        <Grid xs={16} lg={8}>
-          {selected && (
-            <ViewOrganization
-              organization={organizations!.find((org) => org.id === selected)!}
-            />
-          )}
-        </Grid>
+        <Grid xs={16} lg={8}></Grid>
       </StandardGrid>
     </TesseraWrapper>
   );

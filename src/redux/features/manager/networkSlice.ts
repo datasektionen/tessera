@@ -9,7 +9,7 @@ interface NetworkState {
 
 const initialState: NetworkState = {
   network: null,
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -18,8 +18,8 @@ const networkSlice = createSlice({
   initialState,
   reducers: {
     getNetworkRequest: (state) => {
-      if (state.loading) return;
       state.loading = true;
+      state.network = null;
     },
     getNetworkSuccess: (state, action: PayloadAction<INetwork>) => {
       state.loading = false;

@@ -55,6 +55,7 @@ import {
   PostLoginPage,
   BecomeAManagerPage,
   ManagerPage,
+  ManagerTeamsPage,
 } from "./page_import";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
@@ -212,6 +213,10 @@ function AppRoutes() {
               path={ROUTES.MANAGER_DASHBOARD}
               element={<ManagerPageWithCurrentUser />}
             />
+
+            <Route path={ROUTES.MANAGER_TEAMS} element={<ManagerTeamsPage />} />
+
+            {/* ---------- */}
 
             <Route element={<SuperAdminProtectedRoute />}>
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />

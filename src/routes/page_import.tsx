@@ -117,3 +117,7 @@ export const BecomeAManagerPage = React.lazy(
 );
 
 export const ManagerPage = React.lazy(() => import("../pages/manager"));
+
+export const ManagerTeamsPage = React.lazy(
+  () => import("../pages/manager/teams")
+);

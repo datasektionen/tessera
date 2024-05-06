@@ -89,15 +89,34 @@ const ManageEventPage: React.FC = () => {
     <MUITesseraWrapper>
       <DrawerBoxWrapper eventID={eventID!}>
         <Box mt={"16px"}>
-          <Title
-            style={{
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              width: "90%",
-            }}
+          <Stack
+            justifyContent={"space-between"}
+            direction={"row"}
+            alignItems={"center"}
           >
-            {t("manage_event.title", { event_name: event.name })}
-          </Title>
+            <Title
+              style={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                width: "90%",
+              }}
+            >
+              {t("manage_event.title", { event_name: event.name })}
+            </Title>
+            <StyledButton
+              size="md"
+              bgColor={PALLETTE.offWhite}
+              style={{
+                width: "220px",
+                height: "40px",
+              }}
+              onClick={() => {
+                navigate("/events/" + event.reference_id);
+              }}
+            >
+              {t("manage_event.view_button", { event_name: event.name })}
+            </StyledButton>
+          </Stack>
           <ConfirmModal
             isOpen={showDeleteModal}
             onClose={() => {

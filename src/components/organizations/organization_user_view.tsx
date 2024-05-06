@@ -4,8 +4,9 @@ import StyledText from "../text/styled_text";
 import {
   IOrganization,
   IOrganizationUser,
+  IOrganizationUserRole,
   IUser,
-  OrganizationUserRole,
+  OrganizationUserRoleType,
 } from "../../types";
 import { getUserFullName } from "../../utils/user_utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +21,7 @@ import { removeUserRequest } from "../../redux/sagas/organizationSaga";
 
 interface OrganizationUserViewProps {
   organization: IOrganization;
-  user: IOrganizationUser;
+  user: IUser;
   canManage: boolean;
 }
 
@@ -32,19 +33,30 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
-  const [selectedRole, setSelectedRole] = useState<OrganizationUserRole | null>(
-    user.organization_role as OrganizationUserRole
-  );
+  const orgRole = user.organization_user_roles?.find(
+    (role: IOrganizationUserRole) => role.organization_id === organization.id
+  )?.organization_role_name;
+
+  const [selectedRole, setSelectedRole] =
+    useState<OrganizationUserRoleType | null>(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const orgRole = organization.organization_user_roles?.find(
+      (role: IOrganizationUserRole) => role.id === user.id
+    )?.organization_role_name;
+
+    if (orgRole) setSelectedRole(orgRole as OrganizationUserRoleType);
+  }, [organization.organization_user_roles, user.id]);
+
   const handleRoleChange = useCallback(
-    async (event: any, newValue: OrganizationUserRole | null) => {
+    async (event: any, newValue: OrganizationUserRoleType | null) => {
       if (newValue !== null) {
         setLoading(true);
         try {
           const response = await axios.put(
-            `${process.env.REACT_APP_BACKEND_URL}/organizations/${organization.id}/users/${user.username}`,
-            { role: newValue },
+            `${process.env.REACT_APP_BACKEND_URL}/organizations/${organization.id}/users`,
+            { role: newValue, email: user.email },
             {
               withCredentials: true,
             }
@@ -70,7 +82,7 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
     dispatch(removeUserRequest(organization.id, user.username));
   }, [dispatch, organization.id, user.username]);
 
-  const isMe: boolean = getUserFullName(currentUser!) === getUserFullName(user);
+  const isMe: boolean = currentUser?.id === user.id;
 
   return (
     <Sheet
@@ -79,7 +91,7 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
       }}
     >
       {loading && <LoadingOverlay />}
-      <Grid container spacing={2} columns={16}>
+      <Grid container spacing={1} columns={16}>
         <Grid xs={4}>
           <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
             {isMe ? (
@@ -88,8 +100,13 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
               <span>{getUserFullName(user)}</span>
             )}
           </StyledText>
-          <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
-            {user.username}
+          <StyledText
+            level="body-sm"
+            fontSize={16}
+            color={PALLETTE.charcoal}
+            sx
+          >
+            <span>{user.email}</span>
           </StyledText>
         </Grid>
         <Grid xs={6} justifyContent="flex-end" flexDirection="row">
@@ -99,10 +116,7 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
             fontWeight={700}
             color={PALLETTE.charcoal}
           >
-            {user.organization_role}
-          </StyledText>
-          <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-            {user.email}
+            {selectedRole as string}
           </StyledText>
         </Grid>
         <Grid
@@ -123,7 +137,7 @@ const OrganizationUserView: React.FC<OrganizationUserViewProps> = ({
                   backgroundColor: PALLETTE.offWhite,
                 }}
               >
-                {Object.values(OrganizationUserRole).map((role) => {
+                {Object.values(OrganizationUserRoleType).map((role) => {
                   return (
                     <Option key={role} value={role}>
                       {role}

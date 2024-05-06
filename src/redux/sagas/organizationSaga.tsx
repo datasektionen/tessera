@@ -72,7 +72,7 @@ function* getMyOrganizationsSaga(): Generator<any, void, any> {
       }
     );
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       yield put(getMyOrganizationsSuccess(organizations));
     } else {
       toast.error("Something went wrong!");
@@ -110,7 +110,7 @@ function* getOrganizationUsersSaga(
       };
     });
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       yield put(getOrganizationUsersSuccess(users));
     } else {
       toast.error("Something went wrong!");

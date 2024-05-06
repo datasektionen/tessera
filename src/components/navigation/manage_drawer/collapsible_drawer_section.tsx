@@ -76,7 +76,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
           <ListItemText>
             <StyledText
               level="body-md"
-              fontSize={18}
+              fontSize={17}
               color={PALLETTE.charcoal}
               sx={{
                 m: 0,

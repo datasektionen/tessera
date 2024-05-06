@@ -12,28 +12,44 @@ import { eventIsInThePast } from "../../utils/date_conversions";
 import { Grid } from "@mui/joy";
 import Title from "../../components/text/title";
 import { getNetworkRequest } from "../../redux/features/manager/networkSlice";
+import StyledText from "../../components/text/styled_text";
+import PALLETTE from "../../theme/pallette";
+import { useTranslation } from "react-i18next";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
+import LoadingOverlay from "../../components/Loading";
 
 const ManagerPage: React.FC = () => {
   const { events: networkEvents, error } = useSelector(
     (state: RootState) => state.networkEvents
   );
 
-  const { network } = useSelector((state: RootState) => state.network);
+  const { network, loading } = useNetworkDetails();
 
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(getNetworkEventsRequest());
-    dispatch(getNetworkRequest());
   }, []);
-
-  console.log(network);
 
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>
         {error && <div>{error}</div>}
-        <Title fontSize={38}>Network Events</Title>
+        {loading && <LoadingOverlay />}
+        <Title
+          fontSize={38}
+          style={{
+            textTransform: "capitalize",
+          }}
+        >
+          {network?.name}'s Events
+        </Title>
+        {networkEvents.length === 0 && (
+          <StyledText fontSize={24} color={PALLETTE.charcoal} level="h4">
+            No events found
+          </StyledText>
+        )}
         <Grid container spacing={2}>
           {[...networkEvents]
             .sort((a, b) => {

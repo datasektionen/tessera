@@ -17,8 +17,6 @@ const Logout: React.FC = () => {
     dispatch(logoutRequest());
   }, []);
 
-  console.log("Logout page");
-
   return (
     <div
       style={{

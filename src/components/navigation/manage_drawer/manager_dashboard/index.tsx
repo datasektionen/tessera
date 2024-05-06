@@ -29,7 +29,6 @@ import SubButton from "../sub_button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DrawerListItem from "../drawer_list_item";
 import CollapsibleDrawerSection from "../collapsible_drawer_section";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { ROUTES, generateRoute } from "../../../../routes/def";
 import PinIcon from "@mui/icons-material/Pin";
 import { parse } from "path";
@@ -39,7 +38,9 @@ import { is } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-
+import SettingsIcon from "@mui/icons-material/Settings";
+import GroupsIcon from "@mui/icons-material/Groups";
+import EventIcon from "@mui/icons-material/Event";
 interface ManagerDashboardDrawerComponentProps {
   handlePinned: (isPinned: boolean) => void;
 }
@@ -120,10 +121,67 @@ const ManagerDashboardDrawerComponent: React.FC<
         >
           <DrawerListItem
             text={t("manager.drawer.events")}
-            icon={<PanToolIcon />}
-            navigateTo={ROUTES.MANAGER_EVENTS}
+            icon={<EventIcon />}
+            navigateTo={ROUTES.MANAGER_DASHBOARD}
           />
           <Divider sx={{ my: 1 }} light={true} />
+          <DrawerListItem
+            text={t("manager.drawer.teams")}
+            icon={<GroupsIcon />}
+            navigateTo={ROUTES.MANAGER_TEAMS}
+          />
+          <Divider sx={{ my: 1 }} light={true} />
+          <CollapsibleDrawerSection
+            title={t("manager.drawer.settings.title")}
+            icon={<SettingsIcon />}
+            drawerExtended={isExtended}
+            subItems={[
+              {
+                title: t("manager.drawer.settings.general"),
+                clickable: false,
+                navigateTo: ROUTES.MANAGER_SETTINGS_GENERAL,
+              },
+              {
+                title: t("manager.drawer.settings.subscription"),
+                clickable: false,
+                navigateTo: ROUTES.MANAGER_SETTINGS_SUBSCRIPTION,
+              },
+              {
+                title: t("manager.drawer.settings.financial"),
+                clickable: false,
+                navigateTo: ROUTES.MANAGER_SETTINGS_FINANCIAL,
+              },
+              {
+                title: t("manager.drawer.settings.users"),
+                clickable: false,
+                navigateTo: ROUTES.MANAGER_SETTINGS_USERS,
+              },
+            ]}
+          />
+          <Divider sx={{ mb: 1, mt: 3 }} textAlign="center">
+            {isExtended ? (
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ type: "spring", stiffness: 100 }}
+              >
+                <StyledText
+                  level="body-sm"
+                  color={PALLETTE.charcoal}
+                  fontSize={16}
+                  fontWeight={700}
+                >
+                  Actions
+                </StyledText>
+              </motion.div>
+            ) : null}
+          </Divider>
+          <DrawerListItem
+            icon={<AddIcon />}
+            text={t("manager.drawer.create_event")}
+            navigateTo={generateRoute(ROUTES.CREATE_EVENT, {})}
+          />
         </List>
         {isExtended && (
           <Box
