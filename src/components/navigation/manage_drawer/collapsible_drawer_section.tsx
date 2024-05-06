@@ -13,9 +13,7 @@ import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubButton from "./sub_button";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { sub } from "date-fns";
 
 interface CollapsibleDrawerSectionProps {
   title: string;

@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import GetStartedFreePlanEnrollment from "../../components/manager/register/free/free";
 import { useNavigate } from "react-router-dom";
+import TesseraWrapper from "../../components/wrappers/page_wrapper";
 
 const MotionBox = motion(Box);
 
@@ -24,12 +25,18 @@ const BecomeAManagerPage: React.FC = () => {
   const contactFormRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (selectedPlan && contactFormRef.current) {
+  const scrollToContactForm = () => {
+    if (contactFormRef.current) {
       window.scrollTo({
         top: contactFormRef.current.offsetTop - 200,
         behavior: "smooth",
       });
+    }
+  };
+
+  useEffect(() => {
+    if (selectedPlan && contactFormRef.current) {
+      scrollToContactForm();
     }
   }, [selectedPlan]);
 
@@ -38,8 +45,22 @@ const BecomeAManagerPage: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const plan = urlParams.get("plan");
 
-    if (plan === PackageTiers.Free) {
-      setSelectedPlan(pricingOptions[0]);
+    switch (plan) {
+      case PackageTiers.Free:
+        setSelectedPlan(pricingOptions[0]);
+        break;
+      case PackageTiers.SingleEvent:
+        setSelectedPlan(pricingOptions[1]);
+        scrollToContactForm();
+        break;
+      case PackageTiers.Professional:
+        setSelectedPlan(pricingOptions[2]);
+        scrollToContactForm();
+        break;
+      case PackageTiers.Network:
+        setSelectedPlan(pricingOptions[3]);
+        scrollToContactForm();
+        break;
     }
   }, []);
 
@@ -48,8 +69,7 @@ const BecomeAManagerPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{}}>
-      <StandardToastContainer />
+    <TesseraWrapper>
       <Box
         sx={{
           mt: 10,
@@ -139,8 +159,7 @@ const BecomeAManagerPage: React.FC = () => {
           </MotionBox>
         </Box>
       )}
-      <Footer />
-    </Box>
+    </TesseraWrapper>
   );
 };
 

@@ -61,15 +61,15 @@ const PostLoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   async function updateShowedPostLogin() {
-    try {
-      const response = await axios.put(
+    axios
+      .put(
         `${process.env.REACT_APP_BACKEND_URL}/user/showed-post-login-screen`,
         {},
         { withCredentials: true }
-      );
-    } catch (error) {
-      console.error(error);
-    }
+      )
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   useEffect(() => {

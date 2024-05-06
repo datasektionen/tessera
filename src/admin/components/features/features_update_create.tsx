@@ -1,4 +1,5 @@
 // src/features/FeatureCreate.tsx
+import { Stack } from "@mui/material";
 import * as React from "react";
 import {
   Create,
@@ -14,7 +15,9 @@ import {
   ArrayInput,
   SimpleFormIterator,
   NumberInput,
+  useRecordContext,
 } from "react-admin";
+import StyledText from "../../../components/text/styled_text";
 
 type PackageTierType = {
   id: string;
@@ -69,10 +72,20 @@ export const FeatureCreate = () => {
                 label="Description"
                 source={`feature_limits[${index}].limit_description`}
               />
-              <NumberInput
-                source={`feature_limits[${index}].limit`}
-                label="Limit"
-              />
+              <Stack spacing={2} direction="row">
+                <NumberInput
+                  source={`feature_limits[${index}].limit`}
+                  label="Limit"
+                />
+                <NumberInput
+                  source={`feature_limits[${index}].monthly_limit`}
+                  label="Monthly Limit"
+                />
+                <NumberInput
+                  source={`feature_limits[${index}].yearly_limit`}
+                  label="Yearly Limit"
+                />
+              </Stack>
               <ReferenceInput
                 source={`feature_limits[${index}].package_tier_id`}
                 reference="package-tiers"
@@ -109,11 +122,13 @@ export const FeatureEdit = () => {
 
         <ArrayInput source="feature_limits">
           <SimpleFormIterator>
-            <TextInput source="limit_description" label="Description" />
-            <NumberInput source="limit" label="Limit" />
             <ReferenceInput source="package_tier_id" reference="package-tiers">
               <SelectInput optionText="name" />
             </ReferenceInput>
+            <TextInput source="limit_description" label="Description" />
+            <NumberInput source="limit" label="Limit" />
+            <NumberInput source="monthly_limit" label="Monthly Limit" />
+            <NumberInput source="yearly_limit" label="Yearly Limit" />
           </SimpleFormIterator>
         </ArrayInput>
       </SimpleForm>

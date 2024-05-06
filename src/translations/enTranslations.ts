@@ -375,6 +375,7 @@ const enTranslations = {
         subscription: "Subscription",
         financial: "Financial",
         users: "Users",
+        customize: "Customization",
       },
     },
   },

@@ -22,9 +22,7 @@ export const PlanEnrollmentsList = (props: any) => (
         }
       />
       <TextField source="name" />
-      <ReferenceField source="network_id" reference="networks" label="Network">
-        <TextField source="name" />
-      </ReferenceField>
+
       <ReferenceField
         source="package_tier_id"
         reference="package-tiers"

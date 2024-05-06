@@ -8,6 +8,15 @@ const seTranslations = {
     contact: "Kontakt",
     login: "Logga in",
     pricing: "Priser",
+    manager: "Arrangör",
+  },
+
+  become_a_manager: {
+    welcome: "Välkommen till tessera!",
+    proceed: "Vem är du?",
+    customer: "Kund",
+    manager: "Arrangör",
+    skip: "Hoppa över",
   },
 
   tooltips: {
@@ -299,9 +308,28 @@ const seTranslations = {
       "Detta kommer att vara gruppens e-post. Detta måste vara en giltig e-postadress.",
   },
 
+  manager: {
+    dashboard: {},
+
+    drawer: {
+      events: "Evenemang",
+      teams: "Lag",
+      create_event: "Skapa evenemang",
+      settings: {
+        title: "Inställningar",
+        general: "Allmänt",
+        subscription: "Prenumeration",
+        financial: "Ekonomi",
+        users: "Användare",
+        customize: "Anpassa",
+      },
+    },
+  },
+
   manage_event: {
     title: "Hantera {{event_name}}",
     delete_button: "Radera {{event_name}}",
+    view_button: "Visa eventsida",
     manage_ticket_releases: "Hantera biljettsläpp",
     allocate_tickets_button: "Tilldela biljetter",
     allocated_tickets: "Tilldelade biljetter",
@@ -424,7 +452,11 @@ const seTranslations = {
       economy: {
         title: "Ekonomi",
         pay_outs: "Utbetalningar",
+        sales_report: "Försäljningsrapport",
       },
+
+      is_not_pinned: "Fäst meny",
+      is_pinned: "Lossa meny",
     },
 
     tickets: {

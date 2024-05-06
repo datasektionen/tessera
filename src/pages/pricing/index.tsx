@@ -24,15 +24,22 @@ import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import AsteriskIcon from "../../components/icons/asterisk";
 import TicketFees from "./ticket_fees";
 import FeatureTable, { Feature } from "./feature-table";
-import { IPricingOption, PaymentPlanOption, pricingOptions } from "./features";
+import {
+  IPricingOption,
+  PackageTiers,
+  PaymentPlanOption,
+  pricingOptions,
+} from "./features";
 import StyledButton from "../../components/buttons/styled_button";
 import { getPriceText } from "./get_price_text";
 import PricingCard from "../../components/pricing/pricing_card";
+import { useNavigate } from "react-router-dom";
 
 // In your component render method:
 
 const PricingPage: React.FC = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [billingCycle, setBillingCycle] =
     useState<PaymentPlanOption>("monthly");
@@ -44,6 +51,10 @@ const PricingPage: React.FC = () => {
     if (billingCycle === null) return;
 
     setBillingCycle(billingCycle as keyof IPricingOption["price"]);
+  };
+
+  const handleSelect = (plan: PackageTiers) => {
+    navigate("/become-a-manager?plan=" + plan);
   };
 
   return (
@@ -177,6 +188,9 @@ const PricingPage: React.FC = () => {
             key={index}
             option={option}
             billingCycle={billingCycle}
+            onSelect={() => {
+              handleSelect(option.plan);
+            }}
           />
         ))}
       </Box>

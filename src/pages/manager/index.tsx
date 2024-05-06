@@ -43,7 +43,11 @@ const ManagerPage: React.FC = () => {
             textTransform: "capitalize",
           }}
         >
-          {network?.name}'s Events
+          {(network?.name ?? "") +
+            (network?.name?.charAt(network?.name.length - 1) === "s"
+              ? "'"
+              : "'s")}{" "}
+          Events
         </Title>
         {networkEvents.length === 0 && (
           <StyledText fontSize={24} color={PALLETTE.charcoal} level="h4">

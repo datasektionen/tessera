@@ -69,6 +69,7 @@ export const ROUTES = {
   MANAGER_SETTINGS_SUBSCRIPTION: "/manager/settings/subscription",
   MANAGER_SETTINGS_FINANCIAL: "/manager/settings/financial",
   MANAGER_SETTINGS_USERS: "/manager/settings/users",
+  MANAGER_SETTINGS_CONFIGURATION: "/manager/settings/configuration",
 
   // Event related routes
   EVENTS: "/events",

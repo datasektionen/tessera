@@ -14,7 +14,7 @@ import {
   AutocompleteInput,
 } from "react-admin";
 import LoadingOverlay from "../../../components/Loading";
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 
 type TierChoice = {
   id: string;
@@ -51,22 +51,23 @@ const PlanEnrollmentsEdit: React.FC<any> = (props) => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <TextInput source="reference_name" label="Reference Name" />
         <ReferenceInput
-          source="creator_id"
-          reference="users"
-          label="Creator"
-          disabled
-          optionText={(record: any) =>
-            `${record.first_name} ${record.last_name}`
-          }
+          source="creator_id" // The name of the foreign key in the record
+          reference="users" // The name of the resource you're referencing
+          label="Creator" // The label to display for this field
+          disabled // Makes the input field non-interactive
+          optionText={(record: any) => {
+            // Function to determine the text to display for each option
+            // TODO: Dont understand why this doesnt work
+            if (!record) {
+              return "";
+            }
+            return `${record.first_name} ${record.last_name}`; // Returns the first and last name of the user
+          }}
         />
         <TextInput source="name" />
 
-        <SelectInput
-          source="network_id"
-          choices={networkData}
-          optionText="name"
-        />
         <SelectInput
           source="package_tier_id"
           choices={tierData}
@@ -79,6 +80,8 @@ const PlanEnrollmentsEdit: React.FC<any> = (props) => {
           choices={[
             { id: "monthly", name: "Monthly" },
             { id: "yearly", name: "Yearly" },
+            { id: "no_payment", name: "No Payment" },
+            { id: "one_time", name: "One Time" },
           ]}
         />
       </SimpleForm>
@@ -132,6 +135,7 @@ const PlanEnrollmentsCreate: React.FC = (props) => {
   return (
     <Create {...props}>
       <SimpleForm>
+        <TextInput source="reference_name" label="Reference Name" />
         <ReferenceInput source="creator_id" reference="users" label="Creator">
           <AutocompleteInput
             optionText={(record: any) =>
@@ -140,11 +144,7 @@ const PlanEnrollmentsCreate: React.FC = (props) => {
           />
         </ReferenceInput>
         <TextInput source="name" />
-        <SelectInput
-          source="network_id"
-          choices={networkData}
-          optionText="name"
-        />
+
         <SelectInput
           source="package_tier_id"
           choices={tierData}

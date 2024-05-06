@@ -20,7 +20,7 @@ const SubButton: React.FC<SubButtonProps> = ({
     <ListItem key={"subbutton-" + title}>
       <ListItemText>
         <Link
-          to={navigateTo}
+          to={clickable ? navigateTo : "#"}
           style={{
             textDecoration: clickable ? "none" : "none",
           }}
