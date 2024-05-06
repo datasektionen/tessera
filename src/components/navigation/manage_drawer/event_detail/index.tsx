@@ -20,6 +20,7 @@ import { DRAWER_WIDTH } from "../../../../hooks/drawer_pinned_hook";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import { useNetworkDetails } from "../../../../hooks/manager/network_details_hook";
 
 interface DrawerComponentProps {
   eventID: string;
@@ -30,26 +31,35 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
   eventID,
   handlePinned,
 }) => {
-  // Paste the Drawer related code here
+  // Variables
+  const { t } = useTranslation();
+  const theme = useTheme();
+
+  // State Variables
+  const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  // Redux State
   const { isPinned: initialIsPinned } = useSelector(
     (state: RootState) => state.drawerPinned
   );
 
-  const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
-  const theme = useTheme();
-  const [isHovered, setIsHovered] = React.useState(false);
-  const { t } = useTranslation();
+  // Custom Hooks
+  const { network, loading } = useNetworkDetails();
 
+  // Effects
   useEffect(() => {
     if (isPinned === null && initialIsPinned !== null) {
       setIsPinned(initialIsPinned);
     }
   }, [initialIsPinned, isPinned]);
 
+  // Conditional rendering
   if (isPinned === null) {
     return null;
   }
 
+  // Derived state
   const isExtended = isHovered || isPinned;
 
   return (
@@ -102,6 +112,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           }}
         >
           <CollapsibleDrawerSection
+            planEnrollment={network?.plan_enrollment!}
             title={t("manage_event.drawer.manage.title")}
             icon={<PanToolIcon />}
             drawerExtended={isExtended}
@@ -140,11 +151,13 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                   eventId: eventID,
                 }),
                 clickable: true,
+                requiredFeature: "check_in",
               },
             ]}
           />
           <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
+            planEnrollment={network?.plan_enrollment!}
             icon={<EditIcon />}
             title={t("form.button_edit")}
             drawerExtended={isExtended}
@@ -184,6 +197,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           />
           <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
+            planEnrollment={network?.plan_enrollment!}
             icon={<MailIcon />}
             title={t("manage_event.drawer.send_outs.title")}
             drawerExtended={isExtended}
@@ -206,6 +220,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           />{" "}
           <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
+            planEnrollment={network?.plan_enrollment!}
             icon={<AttachMoneyIcon />}
             title={t("manage_event.drawer.economy.title")}
             drawerExtended={isExtended}
@@ -228,6 +243,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           />{" "}
           <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
+            planEnrollment={network?.plan_enrollment!}
             title={t("manage_event.drawer.settings.title")}
             icon={<SettingsIcon />}
             drawerExtended={isExtended}

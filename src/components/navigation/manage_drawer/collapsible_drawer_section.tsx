@@ -14,13 +14,27 @@ import PALLETTE from "../../../theme/pallette";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubButton from "./sub_button";
 import { motion } from "framer-motion";
+import { IPlanEnrollment } from "../../../types";
+import {
+  getFeaturesPackageTier,
+  isFeatureAvailable,
+} from "../../../utils/manager/require_feature";
+import { Chip, Stack } from "@mui/joy";
+
+interface SubItem {
+  title: string;
+  navigateTo: string;
+  clickable: boolean;
+  requiredFeature?: string;
+}
 
 interface CollapsibleDrawerSectionProps {
   title: string;
   icon: React.ReactNode;
   mainNavigateTo?: string;
-  subItems: { title: string; navigateTo: string; clickable: boolean }[];
+  subItems: SubItem[];
   drawerExtended: boolean;
+  planEnrollment?: IPlanEnrollment; // From network
 }
 
 const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
@@ -29,6 +43,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
   mainNavigateTo = "",
   subItems,
   drawerExtended,
+  planEnrollment,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
@@ -111,14 +126,41 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
               height: `${subItems.length * 30}px`,
             }}
           >
-            {subItems.map((item) => (
-              <SubButton
-                key={item.title}
-                title={item.title}
-                clickable={item.clickable}
-                navigateTo={item.navigateTo}
-              />
-            ))}
+            {subItems.map((item) => {
+              let hasFeatureAccess = false;
+              let requiredPlan = "";
+              if (item.requiredFeature) {
+                if (isFeatureAvailable(item.requiredFeature, planEnrollment)) {
+                  hasFeatureAccess = true;
+                } else {
+                  requiredPlan = getFeaturesPackageTier(
+                    item.requiredFeature,
+                    planEnrollment
+                  ) as string;
+                }
+              } else {
+                hasFeatureAccess = true;
+              }
+
+              return (
+                <Stack
+                  key={item.title}
+                  spacing={1}
+                  direction="row"
+                  alignItems={"center"}
+                  justifyContent={"flex-start"}
+                >
+                  <SubButton
+                    key={item.title}
+                    title={item.title}
+                    clickable={item.clickable}
+                    navigateTo={item.navigateTo}
+                    hasFeatureAccess={hasFeatureAccess}
+                    requiredPlan={requiredPlan}
+                  />
+                </Stack>
+              );
+            })}
           </List>
         </Collapse>
       </Box>

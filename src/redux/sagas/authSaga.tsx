@@ -10,6 +10,7 @@ import {
   logoutSuccess,
 } from "../features/authSlice";
 import { toast } from "react-toastify";
+import { PURGE } from "redux-persist";
 
 function* loginSaga(): Generator<any, void, any> {
   try {
@@ -41,6 +42,7 @@ function* logoutSaga(): Generator<any, void, any> {
     if (response.status === 200 || response.status === 401) {
       toast.info("Logged out!");
       yield put(logoutSuccess());
+      yield put({ type: PURGE, result: () => null });
     } else {
       toast.error("Something went wrong!");
       yield put(logoutFailure("Something went wrong!"));
@@ -51,6 +53,7 @@ function* logoutSaga(): Generator<any, void, any> {
     if (error.response.status === 401) {
       toast.info("Logged out!");
       yield put(logoutSuccess());
+      yield put({ type: PURGE, result: () => null });
     } else {
       toast.error(error.response.data.error);
       yield put(logoutFailure(error.message));

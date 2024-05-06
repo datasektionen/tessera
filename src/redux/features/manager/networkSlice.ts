@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IEvent, INetwork, ListEventState } from "../../../types";
+import { REHYDRATE } from "redux-persist";
 
 interface NetworkState {
   network: INetwork | null;
@@ -28,6 +29,20 @@ const networkSlice = createSlice({
     getNetworkFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
+    },
+  },
+  extraReducers: {
+    // Handle the rehydration action
+    [REHYDRATE]: (state, action) => {
+      // Customize the rehydrated state as needed
+      if (action.payload) {
+        return {
+          ...state,
+          ...action.payload.network, // Update this slice only
+          loading: false,
+        };
+      }
+      return state;
     },
   },
 });

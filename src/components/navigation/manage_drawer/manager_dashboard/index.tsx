@@ -8,7 +8,6 @@ import StyledText from "../../../text/styled_text";
 import { useTranslation } from "react-i18next";
 import AddIcon from "@mui/icons-material/Add";
 import DrawerListItem from "../drawer_list_item";
-import CollapsibleDrawerSection from "../collapsible_drawer_section";
 import { ROUTES, generateRoute } from "../../../../routes/def";
 import { Stack, Switch } from "@mui/joy";
 import { DRAWER_WIDTH } from "../../../../hooks/drawer_pinned_hook";
@@ -18,6 +17,7 @@ import { RootState } from "../../../../store";
 import SettingsIcon from "@mui/icons-material/Settings";
 import GroupsIcon from "@mui/icons-material/Groups";
 import EventIcon from "@mui/icons-material/Event";
+import CollapsibleDrawerSection from "../collapsible_drawer_section";
 interface ManagerDashboardDrawerComponentProps {
   handlePinned: (isPinned: boolean) => void;
 }
@@ -26,25 +26,33 @@ const ManagerDashboardDrawerComponent: React.FC<
   ManagerDashboardDrawerComponentProps
 > = ({ handlePinned }) => {
   // Paste the Drawer related code here
+  // Redux State
   const { isPinned: initialIsPinned } = useSelector(
     (state: RootState) => state.drawerPinned
   );
+  const { network } = useSelector((state: RootState) => state.network);
 
+  // State Variables
   const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
-  const theme = useTheme();
   const [isHovered, setIsHovered] = React.useState(false);
+
+  // Other Variables
+  const theme = useTheme();
   const { t } = useTranslation();
 
+  // Effects
   useEffect(() => {
     if (isPinned === null && initialIsPinned !== null) {
       setIsPinned(initialIsPinned);
     }
   }, [initialIsPinned, isPinned]);
 
+  // Conditional rendering
   if (isPinned === null) {
     return null;
   }
 
+  // Derived state
   const isExtended = isHovered || isPinned;
 
   return (
@@ -109,6 +117,7 @@ const ManagerDashboardDrawerComponent: React.FC<
           />
           <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
+            planEnrollment={network?.plan_enrollment}
             title={t("manager.drawer.settings.title")}
             icon={<SettingsIcon />}
             drawerExtended={isExtended}

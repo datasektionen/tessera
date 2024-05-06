@@ -9,19 +9,20 @@ import {
   ReferenceInput,
   ReferenceField,
   FunctionField,
+  NumberField,
 } from "react-admin";
 
 export const PlanEnrollmentsList = (props: any) => (
   <List {...props}>
     <Datagrid>
       <TextField source="id" />
+      <TextField source="reference_name" />
       <FunctionField
         label="Creator"
         render={(record: any) =>
           `${record.creator.first_name} ${record.creator.last_name}`
         }
       />
-      <TextField source="name" />
 
       <ReferenceField
         source="package_tier_id"
@@ -31,8 +32,27 @@ export const PlanEnrollmentsList = (props: any) => (
         <TextField source="name" />
       </ReferenceField>
 
-      <TextField source="monthly_price" />
-      <TextField source="yearly_price" />
+      <NumberField
+        source="one_time_price"
+        options={{
+          style: "currency",
+          currency: "SEK",
+        }}
+      />
+      <NumberField
+        source="monthly_price"
+        options={{
+          style: "currency",
+          currency: "SEK",
+        }}
+      />
+      <NumberField
+        source="yearly_price"
+        options={{
+          style: "currency",
+          currency: "SEK",
+        }}
+      />
       <TextField source="plan" />
       <EditButton />
       <DeleteButton />

@@ -164,6 +164,11 @@ export interface IPackageTier {
   default_features: IFeature[];
 }
 
+export interface IRequiredPlanFeatures {
+  feature_name: string;
+  plans: PackageTierType[];
+}
+
 export interface IPlanEnrollment {
   id: number;
   created_at: Date;
@@ -180,6 +185,7 @@ export interface IPlanEnrollment {
   one_time_price: number;
   plan: PaymentPlanType;
   features_usages: IFeatureUsage[];
+  required_plan_features: IRequiredPlanFeatures[];
 }
 
 export interface IFeatureUsage {

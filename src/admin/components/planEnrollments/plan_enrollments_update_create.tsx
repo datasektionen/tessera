@@ -12,6 +12,12 @@ import {
   SelectInput,
   ReferenceInput,
   AutocompleteInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
+  AutocompleteArrayInput,
+  ArrayField,
+  SingleFieldList,
+  ChipField,
 } from "react-admin";
 import LoadingOverlay from "../../../components/Loading";
 import { TextField, Typography } from "@mui/material";
@@ -51,12 +57,18 @@ const PlanEnrollmentsEdit: React.FC<any> = (props) => {
   return (
     <Edit {...props}>
       <SimpleForm>
-        <TextInput source="reference_name" label="Reference Name" />
+        <TextInput
+          source="reference_name"
+          label="Reference Name"
+          sx={{
+            width: 300,
+          }}
+        />
         <ReferenceInput
           source="creator_id" // The name of the foreign key in the record
           reference="users" // The name of the resource you're referencing
           label="Creator" // The label to display for this field
-          disabled // Makes the input field non-interactive
+          readOnly
           optionText={(record: any) => {
             // Function to determine the text to display for each option
             // TODO: Dont understand why this doesnt work
@@ -66,8 +78,6 @@ const PlanEnrollmentsEdit: React.FC<any> = (props) => {
             return `${record.first_name} ${record.last_name}`; // Returns the first and last name of the user
           }}
         />
-        <TextInput source="name" />
-
         <SelectInput
           source="package_tier_id"
           choices={tierData}
@@ -84,6 +94,11 @@ const PlanEnrollmentsEdit: React.FC<any> = (props) => {
             { id: "one_time", name: "One Time" },
           ]}
         />
+        <ArrayField source="features">
+          <SingleFieldList>
+            <ChipField source="name" />
+          </SingleFieldList>
+        </ArrayField>
       </SimpleForm>
     </Edit>
   );
@@ -143,7 +158,6 @@ const PlanEnrollmentsCreate: React.FC = (props) => {
             }
           />
         </ReferenceInput>
-        <TextInput source="name" />
 
         <SelectInput
           source="package_tier_id"

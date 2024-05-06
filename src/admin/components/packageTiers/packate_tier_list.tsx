@@ -19,10 +19,18 @@ export const PackageTierList = (props: any) => (
       <NumberField
         source="standard_monthly_price"
         label="Standard Monthly Price"
+        options={{
+          style: "currency",
+          currency: "SEK",
+        }}
       />
       <NumberField
         source="standard_yearly_price"
         label="Standard Yearly Price"
+        options={{
+          style: "currency",
+          currency: "SEK",
+        }}
       />
       <EditButton />
       <DeleteButton />

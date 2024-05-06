@@ -24,55 +24,56 @@ import DrawerComponent from "../../components/navigation/manage_drawer/event_det
 import { useEventDetails } from "../../hooks/use_event_details_hook";
 import usePinnedDrawer from "../../hooks/drawer_pinned_hook";
 import DrawerBoxWrapper from "../../components/wrappers/manager_wrapper";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
 
 const ManageEventPage: React.FC = () => {
+  // Variables
   const { eventID } = useParams();
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
+  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
+  const {
+    eventDetail: { event, loading, error },
+    eventTickets: { tickets },
+  } = useEventDetails(parseInt(eventID!));
 
+  // State Variables
   const [canAccess, setCanAccess] = useState<boolean | null>(null);
   const [secretToken, setSecretToken] = useState<string>("");
-
-  const canAccessEvent = useCanAccessEvent(eventID!);
-
-  useEffect(() => {
-    const fetchCanAccess = () => {
-      if (canAccessEvent) {
-        fetchSecretToken();
-      } else {
-      }
-    };
-
-    const fetchSecretToken = async () => {
-      const token = await GetSecretToken(parseInt(eventID!));
-      setSecretToken(token);
-    };
-
-    fetchCanAccess();
-  }, [canAccessEvent, eventID]); // Make sure to include all dependencies here
-
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [confirmDeleteText, setConfirmDeleteText] = useState<string>("");
   const [confirmDeleteTextIsValid, setConfirmDeleteTextIsValid] =
     useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const dispatch: AppDispatch = useDispatch();
+  // Callbacks
+  const canAccessEvent = useCanAccessEvent(eventID!);
+  const { network } = useNetworkDetails();
 
-  const { t } = useTranslation();
+  // Functions
+  const fetchSecretToken = async () => {
+    const token = await GetSecretToken(parseInt(eventID!));
+    setSecretToken(token);
+  };
+
+  const fetchCanAccess = () => {
+    if (canAccessEvent) {
+      fetchSecretToken();
+    }
+  };
 
   const handleEventDelete = () => {
     dispatch(deleteEventStart(parseInt(eventID!)));
     navigate("/events");
   };
 
-  const {
-    eventDetail: { event, loading, error },
-    eventTickets: { tickets },
-  } = useEventDetails(parseInt(eventID!));
+  // Effects
+  useEffect(() => {
+    fetchCanAccess();
+  }, [canAccessEvent, eventID]); // Make sure to include all dependencies here
 
-  const [isHovered, setIsHovered] = useState(false);
-
-  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
-
+  // Conditional navigation
   if (error) {
     navigate("/events");
   }
@@ -84,6 +85,8 @@ const ManageEventPage: React.FC = () => {
   if (canAccess !== null && canAccess === false) {
     navigate("/events/" + eventID);
   }
+
+  console.log(network);
 
   return (
     <MUITesseraWrapper>
