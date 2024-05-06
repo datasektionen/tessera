@@ -209,7 +209,7 @@ function AppRoutes() {
 
             {/* Manager related rotues */}
             <Route
-              path={ROUTES.MANAGER}
+              path={ROUTES.MANAGER_DASHBOARD}
               element={<ManagerPageWithCurrentUser />}
             />
 

@@ -17,6 +17,10 @@ import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/joy";
 import { useMediaQuery } from "@mui/material";
 import { compareAsc } from "date-fns";
+import {
+  eventIsInThePast,
+  formatEventDate,
+} from "../../utils/date_conversions";
 
 interface EventListProps {
   events: IEvent[];
@@ -29,35 +33,6 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const eventIsInThePast = (event: IEvent) => {
-    // If the event is more than 1 day in the past
-    const eventDate = new Date(event.date);
-    const endDate = event.end_date ? new Date(event.end_date) : null;
-    const now = new Date();
-
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-
-    if (endDate) {
-      return endDate.getTime() + oneDay < now.getTime();
-    }
-
-    return eventDate.getTime() + oneDay < now.getTime();
-  };
-
-  const formatEventDate = (date: Date, end_date: Date | null) => {
-    if (end_date) {
-      if (date.toDateString() === end_date.toDateString()) {
-        // Same date, only include the time part of the end date
-        return `${date.toLocaleString()} - ${end_date.toLocaleTimeString()}`;
-      } else {
-        // Different dates, include both date and time for both
-        return `${date.toLocaleString()} - ${end_date.toLocaleString()}`;
-      }
-    } else {
-      return date.toLocaleString();
-    }
-  };
 
   return (
     <Grid container spacing={2}>

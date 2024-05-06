@@ -32,6 +32,8 @@ import viewCustomerEventSlice from "./redux/features/customerViewEvent";
 import guestCustomerSlice from "./redux/features/guestCustomerSlice";
 import planeEnrollmentCreationSlice from "./redux/features/createPlanEnrollmentSlice";
 import drawerPinnedSlice from "./redux/features/drawerPinnedSlice";
+import listNetworkEventsSlice from "./redux/features/manager/listNetworkEventsSlice";
+import networkSlice from "./redux/features/manager/networkSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -53,6 +55,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   events: listEventsReducer,
+  networkEvents: listNetworkEventsSlice,
   eventDetail: eventReducer,
   ticketRequest: ticketRequestReducer,
   foodPreferences: foodPreferenceReducer,
@@ -79,6 +82,7 @@ const rootReducer = combineReducers({
   guestCustomer: guestCustomerSlice,
   planEnrollmentCreation: planeEnrollmentCreationSlice,
   drawerPinned: drawerPinnedSlice,
+  network: networkSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -116,6 +116,114 @@ export interface ICustomerSignupValues {
   password_repeat?: string;
 }
 
+export type FeatureGroupType =
+  | "event_management"
+  | "ticket_management"
+  | "api_integration"
+  | "support"
+  | "landing_page"
+  | "financial_management"
+  | "email_management"
+  | "other";
+
+export type PaymentPlanType = "monthly" | "yearly" | "one_time" | "no_payment";
+
+export type PackageTierType =
+  | "free"
+  | "single_event"
+  | "professional"
+  | "network";
+
+export interface IFeatureGroup {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: FeatureGroupType;
+  description: string;
+}
+
+export interface IPackageTier {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  tier: PackageTierType;
+  description: string;
+  standard_monthly_price: number;
+  standard_yearly_price: number;
+  plan_enrollments: IPlanEnrollment[];
+  default_feature_ids: number[];
+  default_features: IFeature[];
+}
+
+export interface IPlanEnrollment {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  creator_email: string;
+  creator_id: string;
+  creator: IUser; // You would need to define a User interface
+  network_id: number;
+  package_tier_id: number;
+  features: IFeature[];
+  monthly_price: number;
+  yearly_price: number;
+  one_time_price: number;
+  plan: PaymentPlanType;
+  features_usages: IFeatureUsage[];
+}
+
+export interface IFeatureUsage {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  feature_id: number;
+  plan_enrollment_id: number;
+  usage: number;
+}
+
+export interface IFeature {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  description: string;
+  feature_group_id: number;
+  feature_group: IFeatureGroup;
+  is_available: boolean;
+  package_tiers: IPackageTier[];
+  package_tiers_ids: number[];
+  feature_limits: IFeatureLimit[];
+}
+
+export interface IFeatureLimit {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  feature_id: number;
+  package_tier_id: number;
+  limit_description: string;
+  limit: number | null;
+}
+
+export interface INetwork {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  plan_enrollment_id: number;
+  plan_enrollment: IPlanEnrollment;
+  users: IUser[]; // You would need to define a User interface
+  organizations: IOrganization[]; // You would need to define an Organization interface
+}
+
 export interface ICustomerLoginValues {
   email: string;
   password: string;

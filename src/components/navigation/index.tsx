@@ -360,7 +360,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                     )
                   }
                 >
-                  {t("navigation.organizer")}
+                  {t("navigation.manager")}
                 </StyledLink>
               </StyledText>
             </Stack>

@@ -62,7 +62,7 @@ export const ROUTES = {
   LOGOUT: "/logout",
 
   // Manager related routes
-  MANAGER: "/manager",
+  MANAGER_DASHBOARD: "/manager/dashboard",
   MANAGER_EVENTS: "/manager/events",
   MANAGER_TEAMS: "/manager/teams",
   MANAGER_SETTINGS: "/manager/settings",
@@ -142,5 +142,4 @@ export const ROUTES = {
   // Post login routes
   POST_LOGIN: "/post-login",
   BECOME_A_MANAGER: "/become-a-manager",
-  MANAGER_DASHBOARD: "/manager-dashboard",
 };
