@@ -17,6 +17,7 @@ import { ROUTES, generateRoute } from "../../../routes/def";
 import { AddCircleOutline } from "@mui/icons-material";
 import PALLETTE from "../../../theme/pallette";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
+import { useRequiredFeatureAccess } from "../../../hooks/manager/required_feature_access_hook";
 
 const drawerWidth = 200;
 
@@ -24,6 +25,8 @@ const ListSendOutsPage: React.FC = () => {
   const { eventID } = useParams();
   const [selectedSendOut, setSelectedSendOut] = useState<ISendOut | null>(null);
   const navigate = useNavigate();
+
+  const { hasFeatAccess } = useRequiredFeatureAccess("send_outs", true);
 
   const { t } = useTranslation();
 
@@ -52,6 +55,7 @@ const ListSendOutsPage: React.FC = () => {
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper eventID={eventID!}>
+        {!hasFeatAccess && <LoadingOverlay />}
         <Stack direction="row" spacing={2}>
           <Title fontSize={36}>{t("manage_event.send_out.title")}</Title>
 

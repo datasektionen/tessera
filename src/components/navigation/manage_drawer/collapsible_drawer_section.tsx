@@ -17,9 +17,10 @@ import { motion } from "framer-motion";
 import { IPlanEnrollment } from "../../../types";
 import {
   getFeaturesPackageTier,
-  isFeatureAvailable,
+  hasFeatureAccess,
 } from "../../../utils/manager/require_feature";
 import { Chip, Stack } from "@mui/joy";
+import RequiredPlanChip from "../../features/required_plan_chip";
 
 interface SubItem {
   title: string;
@@ -35,6 +36,7 @@ interface CollapsibleDrawerSectionProps {
   subItems: SubItem[];
   drawerExtended: boolean;
   planEnrollment?: IPlanEnrollment; // From network
+  requiredFeature?: string;
 }
 
 const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
@@ -44,6 +46,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
   subItems,
   drawerExtended,
   planEnrollment,
+  requiredFeature,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
@@ -66,6 +69,10 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
     }
     setIsOpen(!isOpen);
   };
+
+  const featureAccess = requiredFeature
+    ? hasFeatureAccess(requiredFeature, planEnrollment)
+    : true;
 
   return (
     <ListItem
@@ -102,18 +109,30 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
               {title}
             </StyledText>
           </ListItemText>
-          <ListItemIcon>
-            <motion.div
-              animate={{ rotate: isOpen ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ExpandMoreIcon />
-            </motion.div>
-          </ListItemIcon>
+          {requiredFeature && !featureAccess ? (
+            <RequiredPlanChip
+              requiredPlan={
+                getFeaturesPackageTier(
+                  requiredFeature,
+                  planEnrollment
+                ) as string
+              }
+            />
+          ) : (
+            <ListItemIcon>
+              <motion.div
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ExpandMoreIcon />
+              </motion.div>
+            </ListItemIcon>
+          )}
         </ListItemButton>
+
         <Collapse
           key={"collapse-section-" + title}
-          in={isOpen && drawerExtended}
+          in={isOpen && drawerExtended && featureAccess}
           sx={{
             pb: 0,
           }}
@@ -127,11 +146,11 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
             }}
           >
             {subItems.map((item) => {
-              let hasFeatureAccess = false;
+              let subFeatAcess = false;
               let requiredPlan = "";
               if (item.requiredFeature) {
-                if (isFeatureAvailable(item.requiredFeature, planEnrollment)) {
-                  hasFeatureAccess = true;
+                if (hasFeatureAccess(item.requiredFeature, planEnrollment)) {
+                  subFeatAcess = true;
                 } else {
                   requiredPlan = getFeaturesPackageTier(
                     item.requiredFeature,
@@ -139,7 +158,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
                   ) as string;
                 }
               } else {
-                hasFeatureAccess = true;
+                subFeatAcess = true;
               }
 
               return (
@@ -155,7 +174,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
                     title={item.title}
                     clickable={item.clickable}
                     navigateTo={item.navigateTo}
-                    hasFeatureAccess={hasFeatureAccess}
+                    hasFeatureAccess={subFeatAcess}
                     requiredPlan={requiredPlan}
                   />
                 </Stack>

@@ -196,6 +196,7 @@ export interface IFeatureUsage {
   feature_id: number;
   plan_enrollment_id: number;
   usage: number;
+  object_reference?: string;
 }
 
 export interface IFeature {
@@ -211,6 +212,7 @@ export interface IFeature {
   package_tiers: IPackageTier[];
   package_tiers_ids: number[];
   feature_limits: IFeatureLimit[];
+  has_limit_access?: boolean;
 }
 
 export interface IFeatureLimit {

@@ -18,6 +18,7 @@ import CreateTicketReleaseForm from "../ticket_release/ticket_release_form";
 import { useNavigate } from "react-router-dom";
 import { FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
+import { useFeatureLimitAccess } from "../../../hooks/manager/required_feature_access_hook";
 
 interface EditEventAddTicketReleaseProps {
   eventId: number;
@@ -37,6 +38,8 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+
+  // const { network } = useFeatureLimitAccess("max_ticket_releases")
 
   const { t } = useTranslation();
 

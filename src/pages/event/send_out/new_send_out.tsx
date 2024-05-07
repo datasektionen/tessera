@@ -51,6 +51,7 @@ import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
 import { ROUTES, generateRoute } from "../../../routes/def";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
+import { useRequiredFeatureAccess } from "../../../hooks/manager/required_feature_access_hook";
 
 const SendOutValidationSchema = Yup.object().shape({
   subject: Yup.string().required("Subject is required").min(3),
@@ -99,7 +100,7 @@ const NewSendOut: React.FC = () => {
   const { eventID } = useParams();
   const { event, loading, error, canAccess, t } = useEventAccess(eventID!);
 
-  const [markdownInput, setMarkdownInput] = useState(""); // State to store markdown input
+  const { hasFeatAccess } = useRequiredFeatureAccess("send_outs", true);
 
   const [selectedTicketReleases, setSelectedTicketReleases] = useState([]);
   const initialTicketFilters: {
@@ -131,7 +132,6 @@ const NewSendOut: React.FC = () => {
   };
 
   const theme = useTheme();
-  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { tickets } = useSelector((state: RootState) => state.eventTickets);
   const dispatch: AppDispatch = useDispatch();
@@ -244,6 +244,7 @@ const NewSendOut: React.FC = () => {
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper eventID={eventID!}>
+        {!hasFeatAccess && <LoadingOverlay />}
         <Title fontSize={36}>{t("manage_event.send_out.new")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink

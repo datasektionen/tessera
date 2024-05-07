@@ -1,7 +1,7 @@
 import { PackageTiers } from "../../pages/pricing/features";
 import { IPlanEnrollment } from "../../types";
 
-export function isFeatureAvailable(
+export function hasFeatureAccess(
   featureName: string,
   planEnrollment: IPlanEnrollment | undefined
 ) {

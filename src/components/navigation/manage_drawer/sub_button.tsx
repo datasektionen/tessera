@@ -4,6 +4,7 @@ import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { Chip, Stack } from "@mui/joy";
 import { generateRoute, ROUTES } from "../../../routes/def";
+import RequiredPlanChip from "../../features/required_plan_chip";
 
 interface SubButtonProps {
   title: string;
@@ -71,28 +72,7 @@ const SubButton: React.FC<SubButtonProps> = ({
             </StyledText>
           </Link>
           {!hasFeatureAccess && (
-            <Chip
-              size="sm"
-              sx={{
-                backgroundColor: PALLETTE.cerise_dark,
-              }}
-            >
-              <StyledText
-                level="body-sm"
-                color={PALLETTE.white}
-                fontSize={14}
-                fontWeight={600}
-                onClick={() => {
-                  navigate(generateRoute(ROUTES.PRICING, {}));
-                }}
-                sx={{
-                  textTransform: "capitalize",
-                  cursor: "pointer",
-                }}
-              >
-                {requiredPlan?.replaceAll("_", " ")}
-              </StyledText>
-            </Chip>
+            <RequiredPlanChip requiredPlan={requiredPlan || ""} />
           )}
         </Stack>
       </ListItemText>
