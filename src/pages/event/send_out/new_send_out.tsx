@@ -52,6 +52,7 @@ import { ROUTES, generateRoute } from "../../../routes/def";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 import { useRequiredFeatureAccess } from "../../../hooks/manager/required_feature_access_hook";
+import ApiRoutes from "../../../routes/backend_routes";
 
 const SendOutValidationSchema = Yup.object().shape({
   subject: Yup.string().required("Subject is required").min(3),
@@ -220,7 +221,9 @@ const NewSendOut: React.FC = () => {
 
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/events/${eventID}/send-out`,
+        ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_SEND_OUT, {
+          eventID: eventID,
+        }),
         data,
         {
           withCredentials: true,

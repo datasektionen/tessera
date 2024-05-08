@@ -24,6 +24,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { IEvent, IOrganization, IOrganizationUser } from "../../types";
 import ReloadToastContent from "../../components/toasts/ReloadToast";
+import ApiRoutes from "../../routes/backend_routes";
 
 function* createOrganizationSaga(
   action: PayloadAction<{ name: string; email: string }>
@@ -31,7 +32,7 @@ function* createOrganizationSaga(
   try {
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/organizations`,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_ORGANIZATIONS, {}),
       action.payload,
       {
         withCredentials: true,

@@ -1,12 +1,14 @@
 import axios from "axios";
 import { INotification, ISendOut } from "../../../../types";
+import ApiRoutes from "../../../../routes/backend_routes";
 
 export const getEventSendOuts = async (
   event_id: string
 ): Promise<ISendOut[]> => {
-  // /events/:eventID/send-outs
   const response = await axios.get(
-    process.env.REACT_APP_BACKEND_URL + `/events/${event_id}/send-outs`,
+    ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_SEND_OUT, {
+      eventID: event_id,
+    }),
     {
       withCredentials: true,
     }

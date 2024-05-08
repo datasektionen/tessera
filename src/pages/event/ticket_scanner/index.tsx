@@ -20,12 +20,16 @@ import { Button, ThemeProvider } from "@mui/material";
 import StyledButton from "../../../components/buttons/styled_button";
 import { useTranslation } from "react-i18next";
 import Footer from "../../../components/wrappers/footer";
+import { useRequiredFeatureAccess } from "../../../hooks/manager/required_feature_access_hook";
+import ApiRoutes from "../../../routes/backend_routes";
 
 const EventTicketsListScannerView: React.FC<{
   tickets: ITicket[];
   handleScan: (data: string | null) => void;
 }> = ({ tickets, handleScan }) => {
   const [rows, setRows] = useState<GridRowsProp>([]);
+
+  const { hasFeatAccess } = useRequiredFeatureAccess("check_in", true);
 
   const columns: GridColDef[] = [
     {
@@ -124,7 +128,9 @@ const TicketScannerPage = () => {
   const makeCheckInRequest = async (qrCode: string) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/events/${eventID}/tickets/qr-check-in`,
+        ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_TICKET_CHECK_IN, {
+          eventID: eventID,
+        }),
         {
           qr_code: qrCode,
         },

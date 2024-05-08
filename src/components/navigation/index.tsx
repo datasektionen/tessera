@@ -294,21 +294,6 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 </StyledText>,
 
                 <StyledText
-                  key="profile"
-                  color={""}
-                  level="body-sm"
-                  fontSize={18}
-                  fontWeight={700}
-                  style={{
-                    margin: "0 16px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                    {t("navigation.teams")}
-                  </StyledLink>
-                </StyledText>,
-                <StyledText
                   key="contact"
                   level="body-sm"
                   color={""}

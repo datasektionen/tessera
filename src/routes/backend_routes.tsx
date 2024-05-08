@@ -14,6 +14,10 @@ class ApiRoutes {
   static MANAGER_COMPLETE_EVENT_WORKFLOW = `${ApiRoutes.baseUrl}/manager/complete-event-workflow`;
   static MANAGER_EVENT_TICKET_RELEASE = `${ApiRoutes.baseUrl}/manager/events/:eventID/ticket-release`;
   static MANAGER_NETWORK = `${ApiRoutes.baseUrl}/manager/network`;
+  static MANAGER_EVENT_TICKET_CHECK_IN = `${ApiRoutes.baseUrl}/manager/events/:eventID/tickets/qr-check-in`;
+  static MANAGER_EVENT_SALES_REPORT = `${ApiRoutes.baseUrl}/manager/events/:eventID/sales-report`;
+  static MANAGER_EVENT_SEND_OUT = `${ApiRoutes.baseUrl}/manager/events/:eventID/send-outs`;
+  static MANAGER_ORGANIZATIONS = `${ApiRoutes.baseUrl}/manager/organizations`;
 
   // Method to generate routes with dynamic parameters
   static generateRoute(route: string, params: GenerateRouteParams): string {

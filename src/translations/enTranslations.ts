@@ -17,6 +17,11 @@ const enTranslations = {
     customer: "Customer",
     manager: "Event Manager",
     skip: "Skip",
+    select_plan: "Select Plan",
+    choose_plan:
+      "Choose the plan that works best for you. When contacting us, please let us know which plan you are interested in and what you would like to know more about.",
+    full_list_of_features: "Full list of features",
+    selected_plan: "Selected Plan",
   },
 
   main_page: {
@@ -364,6 +369,10 @@ const enTranslations = {
 
   manager: {
     dashboard: {},
+
+    teams: {
+      title: "{{name}} Teams",
+    },
 
     drawer: {
       events: "Events",

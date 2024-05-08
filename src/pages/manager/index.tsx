@@ -17,8 +17,11 @@ import PALLETTE from "../../theme/pallette";
 import { useTranslation } from "react-i18next";
 import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
 import LoadingOverlay from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const ManagerPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const { events: networkEvents, error } = useSelector(
     (state: RootState) => state.networkEvents
   );
