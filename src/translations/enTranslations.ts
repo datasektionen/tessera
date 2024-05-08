@@ -380,6 +380,11 @@ const enTranslations = {
     },
   },
 
+  features: {
+    limit_description:
+      "You have exceeded the limit of {{feature}}, upgrade your plan to get more.",
+  },
+
   manage_event: {
     title: "Manage {{event_name}}",
     delete_button: "Delete {{event_name}}",

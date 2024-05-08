@@ -134,6 +134,13 @@ export type FeatureGroupType =
 
 export type PaymentPlanType = "monthly" | "yearly" | "one_time" | "no_payment";
 
+export enum PaymentPlanOption {
+  Monthly = "monthly",
+  Yearly = "yearly",
+  OneTime = "one_time",
+  NoPayment = "no_payment",
+}
+
 export type PackageTierType =
   | "free"
   | "single_event"
@@ -223,7 +230,9 @@ export interface IFeatureLimit {
   feature_id: number;
   package_tier_id: number;
   limit_description: string;
-  limit: number | null;
+  limit: number | null; // This is a hard limit
+  monthly_limit: number | null;
+  yearly_limit: number | null;
 }
 
 export interface INetwork {

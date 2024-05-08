@@ -28,6 +28,7 @@ import { ITicketReleaseForm, ITicketTypeForm } from "../../types";
 import { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useFeatureLimitAccess } from "../../hooks/manager/required_feature_access_hook";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
@@ -37,6 +38,8 @@ const CreateEventPage = () => {
   const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { canUseFeature } = useFeatureLimitAccess("max_events");
+
   // Only run when the component mounts
   useEffect(() => {
     if (success) {

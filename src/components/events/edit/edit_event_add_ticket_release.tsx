@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { previousStep } from "../../../redux/features/eventCreationSlice";
 import RestartEventCreationButton from "../../buttons/restart_event_creation_button";
 import CreateTicketReleaseForm from "../ticket_release/ticket_release_form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { useFeatureLimitAccess } from "../../../hooks/manager/required_feature_access_hook";
@@ -36,10 +36,14 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
   initialValues,
   createOnSubmit = false,
 }) => {
+  const { eventID } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const { network } = useFeatureLimitAccess("max_ticket_releases")
+  const { canUseFeature } = useFeatureLimitAccess(
+    "max_ticket_releases_per_event",
+    eventID!
+  );
 
   const { t } = useTranslation();
 
@@ -55,30 +59,35 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
             {t("manage_event.edit.ticket_releases.add_subtitle")}
           </StyledText>
-        </Box>
-        <Stack mt={2} spacing={2} direction="row">
-          <StyledButton
-            size="md"
-            color="primary"
-            onClick={() => {
-              navigate(`/events/${eventId}/edit`);
+          <StyledText
+            level="body-md"
+            fontSize={18}
+            color={PALLETTE.charcoal}
+            fontWeight={600}
+            sx={{
+              textWrap: "balance",
             }}
           >
-            {t("form.button_back")}
-          </StyledButton>
-        </Stack>
+            {canUseFeature === false &&
+              t("features.limit_description", {
+                feature: "max_ticket_releases_per_event",
+              })}
+          </StyledText>
+        </Box>
       </Grid>
       <Grid xs={8}>
-        <BorderBox>
-          <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-            {t("create_event.ticket_release")}
-          </StyledText>
-          <CreateTicketReleaseForm
-            submit={submit}
-            initialValues={initialValues}
-            createOnSubmit={createOnSubmit}
-          />
-        </BorderBox>
+        {canUseFeature === true && (
+          <BorderBox>
+            <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
+              {t("create_event.ticket_release")}
+            </StyledText>
+            <CreateTicketReleaseForm
+              submit={submit}
+              initialValues={initialValues}
+              createOnSubmit={createOnSubmit}
+            />
+          </BorderBox>
+        )}
       </Grid>
     </StandardGrid>
   );

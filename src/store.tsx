@@ -46,7 +46,6 @@ const persistConfig = {
     "timestamp",
     "language",
     "drawerPinned",
-    "network",
   ],
   key: "root",
   storage,

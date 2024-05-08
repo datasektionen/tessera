@@ -4,6 +4,7 @@ import { hasFeatureAccess } from "../../utils/manager/require_feature";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { canUseLimitedFeature } from "../../utils/manager/use_limited_feature";
 
 export const useRequiredFeatureAccess = (
   feature: string,
@@ -34,6 +35,7 @@ export const useRequiredFeatureAccess = (
 
 export const useFeatureLimitAccess = (
   featureName: string,
+  objectReference?: string,
   redirectBackOnFail: boolean = true
 ) => {
   const { network, loading } = useSelector((state: RootState) => state.network);
@@ -42,16 +44,13 @@ export const useFeatureLimitAccess = (
 
   useEffect(() => {
     if (!loading) {
-      const feature = network?.plan_enrollment?.features.find(
-        (feature) => feature.name === featureName
+      setcanUseFeature(
+        canUseLimitedFeature(
+          featureName,
+          objectReference,
+          network?.plan_enrollment
+        )
       );
-
-      if (!feature) {
-        throw new Error(
-          `Feature ${featureName} not found in required_plan_features.`
-        );
-      }
-      setcanUseFeature(feature?.has_limit_access ?? false);
     }
   }, [network, loading, featureName]);
 

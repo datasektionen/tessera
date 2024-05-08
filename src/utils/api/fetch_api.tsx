@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
 interface ConvertibleKeys {
+  created_at?: string;
   CreatedAt?: string;
   DeletedAt?: string | null;
   ID?: number;
@@ -29,6 +30,7 @@ function convertKeysAndParseDates<T>(
 
     // Map of old keys to new keys
     const keysToConvert: { [key in keyof ConvertibleKeys]: string } = {
+      created_at: "created_at",
       CreatedAt: "created_at",
       DeletedAt: "deleted_at",
       ID: "id",
