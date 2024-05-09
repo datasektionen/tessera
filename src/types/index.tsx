@@ -39,8 +39,8 @@ export interface IGuestCustomerForm {
 }
 
 export interface IGuestCustomer {
-  ug_kth_id: string;
-  role?: IRole;
+  user_id: string;
+  roles: IRole[];
   first_name: string;
   last_name: string;
   email: string;

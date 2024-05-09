@@ -255,7 +255,7 @@ function* cancelTicketRequestSaga(
     const url =
       process.env.REACT_APP_BACKEND_URL +
       (isGuestCustomer
-        ? `/guest-customer/${guestCustomer?.ug_kth_id}/ticket-requests/${ticket_request.id}?request_token=${guestCustomer?.request_token}`
+        ? `/guest-customer/${guestCustomer?.user_id}/ticket-requests/${ticket_request.id}?request_token=${guestCustomer?.request_token}`
         : `/events/${
             ticket_request.ticket_release!.event!.id
           }/ticket-requests/${ticket_request.id}`);

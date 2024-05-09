@@ -92,42 +92,55 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
             height: "38px",
           }}
         >
-          <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText>
-            <StyledText
-              level="body-md"
-              fontSize={17}
-              color={PALLETTE.charcoal}
-              sx={{
-                m: 0,
-                p: 0,
-              }}
-              style={{
-                whiteSpace: "nowrap",
-              }}
-            >
-              {title}
-            </StyledText>
-          </ListItemText>
-          {requiredFeature && !featureAccess ? (
-            <RequiredPlanChip
-              requiredPlan={
-                getFeaturesPackageTier(
-                  requiredFeature,
-                  planEnrollment
-                ) as string
-              }
-            />
-          ) : (
-            <ListItemIcon>
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ExpandMoreIcon />
-              </motion.div>
-            </ListItemIcon>
-          )}
+          <Stack
+            direction={"row"}
+            justifyContent="space-between"
+            alignItems={"center"}
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Box display="flex" alignItems="center">
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText>
+                <StyledText
+                  level="body-md"
+                  fontSize={16}
+                  color={PALLETTE.charcoal}
+                  sx={{
+                    m: 0,
+                    p: 0,
+                  }}
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {title}
+                </StyledText>
+              </ListItemText>
+            </Box>
+            <Box>
+              {requiredFeature && !featureAccess ? (
+                <RequiredPlanChip
+                  requiredPlan={
+                    getFeaturesPackageTier(
+                      requiredFeature,
+                      planEnrollment
+                    ) as string
+                  }
+                />
+              ) : (
+                <ListItemIcon>
+                  <motion.div
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ExpandMoreIcon />
+                  </motion.div>
+                </ListItemIcon>
+              )}
+            </Box>
+          </Stack>
         </ListItemButton>
 
         <Collapse

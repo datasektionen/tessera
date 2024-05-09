@@ -52,8 +52,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 export const SuperAdminProtectedRoute: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  console.log(user.roles);
-
   if (!user?.roles.map((role: IRole) => role.name).includes("super_admin")) {
     return <Navigate to="/" replace />;
   }

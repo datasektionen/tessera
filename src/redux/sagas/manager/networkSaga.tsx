@@ -17,8 +17,6 @@ function* getNetworkSaga(): Generator<any, void, any> {
       "/manager/network"
     );
 
-    console.log(response.data);
-
     yield put(getNetworkSuccess(response.data));
   } catch (error: any) {
     const errorMessage =

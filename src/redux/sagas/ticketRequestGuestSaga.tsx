@@ -84,7 +84,7 @@ function* createTicketRequestSaga(
 
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/guest-customer/${guestCustomer.ug_kth_id}/events/${eventId}/guest-customer/ticket-requests`,
+      `${process.env.REACT_APP_BACKEND_URL}/guest-customer/${guestCustomer.user_id}/events/${eventId}/guest-customer/ticket-requests`,
       body,
       {
         withCredentials: false, // This ensures cookies are sent with the request

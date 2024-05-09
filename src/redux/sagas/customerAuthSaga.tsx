@@ -17,21 +17,34 @@ import {
   customerSignupRequest,
   customerSignupSuccess,
 } from "../features/authSlice";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ROUTES } from "../../routes/def";
 import ResendVerificationLinkToast from "../../components/toasts/ResendSignupVerificationEmail";
 import { currentUserRequest } from "../features/userSlice";
 import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
+import { fetchApi, postApi } from "../../utils/api/fetch_api";
+
+interface Response {
+  request_token: string;
+  user: IGuestCustomer;
+}
 
 function* customerSignupSaga(
   action: PayloadAction<ICustomerSignupValues>
 ): Generator<any, void, any> {
   try {
     const url = `${process.env.REACT_APP_BACKEND_URL}/customer/signup`;
-    const response = yield call(axios.post, url, action.payload, {
-      withCredentials: true,
-    });
+    // const response = yield call(axios.post, url, action.payload, {
+    //   withCredentials: true,
+    // });
+
+    const response: AxiosResponse<Response> = yield call(
+      postApi,
+      "/customer/signup",
+      action.payload,
+      false
+    );
 
     if (response.status === 201) {
       if (action.payload.is_saved) {
@@ -39,15 +52,12 @@ function* customerSignupSaga(
       } else {
         const user: any = response.data.user;
         const guestCustomer: IGuestCustomer = {
-          ug_kth_id: user.ug_kth_id,
+          user_id: user.id,
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
           phone_number: user.phone_number,
-          role: {
-            id: user.role.ID,
-            name: user.role.name,
-          } as IRole,
+          roles: user.roles,
           request_token: response.data.request_token || "",
         };
 
@@ -65,13 +75,9 @@ function* customerSignupSaga(
           toast.info("Continuing as guest...");
         }, 500);
       }
-    } else {
-      const errorMessage = response.data.error || "Something went wrong!";
-      toast.error(errorMessage);
-
-      yield put(customerSignupFailure(response.data.error));
     }
   } catch (error: any) {
+    console.log(error);
     const errorMessage = error.response.data.error || "Something went wrong!";
     toast.error(errorMessage);
     yield put(customerLoginFailure(error.message));

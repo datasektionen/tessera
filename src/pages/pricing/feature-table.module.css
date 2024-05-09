@@ -1,7 +1,9 @@
 .feature_table {
     border-collapse: collapse;
     width: 50%;
+    max-width: 900px;
     table-layout: fixed;
+    margin: 0 auto;
 }
 
 .feature_table th,

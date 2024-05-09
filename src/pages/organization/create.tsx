@@ -25,8 +25,6 @@ const CreateOrganizationPage: React.FC = () => {
     network?.id!.toString()
   );
 
-  console.log(canUseFeature);
-
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>

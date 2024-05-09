@@ -60,7 +60,7 @@ const Payment: React.FC<PaymentProps> = ({
     const url =
       process.env.REACT_APP_BACKEND_URL +
       (isGuestCustomer
-        ? `/guest-customer/${guestCustomer?.ug_kth_id}/tickets/${ticket.id}/create-payment-intent?request_token=${guestCustomer?.request_token}`
+        ? `/guest-customer/${guestCustomer?.user_id}/tickets/${ticket.id}/create-payment-intent?request_token=${guestCustomer?.request_token}`
         : `/tickets/${ticket.id}/create-payment-intent`);
 
     // Request to create a payment intent

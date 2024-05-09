@@ -68,11 +68,24 @@ function convertKeysAndParseDates<T>(
 }
 
 export function fetchApi<T extends { [key: string]: any }>(
-  endpoint: string
+  endpoint: string,
+  withCredentials: boolean = true
 ): Promise<AxiosResponse<T>> {
   return axios
     .get(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
-      withCredentials: true,
+      withCredentials,
+    })
+    .then(convertKeysAndParseDates);
+}
+
+export function postApi<T extends { [key: string]: any }>(
+  endpoint: string,
+  data: any,
+  withCredentials: boolean = true
+): Promise<AxiosResponse<T>> {
+  return axios
+    .post(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, data, {
+      withCredentials,
     })
     .then(convertKeysAndParseDates);
 }

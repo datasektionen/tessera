@@ -1,140 +1,178 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import classes from "./feature-table.module.css";
+import { IPricingFeature, IPricingFeaturePlanDetails } from "./features/types";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import classes from "./feature-table.module.css"; // Ensure your CSS module supports MUI class overrides
+import { IconButton, Stack, Tooltip } from "@mui/joy";
+import InfoIcon from "@mui/icons-material/Info";
 
-export interface Feature {
-  id: number;
-  name: string;
-  featureGroup: string;
-  materialUi: boolean;
-  joyUi: boolean;
-  baseUi: boolean;
-  muiSystem: boolean;
+interface StyledTableCellProps {
+  children: React.ReactNode;
+  isHeader?: boolean;
+  isFeatureName?: boolean;
+  featureDescription?: string;
+  bgColor?: string;
+  textColor?: string;
+  width?: string;
+  align?: string;
 }
 
-const sampleFeatures: Feature[] = [
-  {
-    id: 1,
-    name: "Event Creation",
-    featureGroup: "Event Management",
-    materialUi: true,
-    joyUi: false,
-    baseUi: true,
-    muiSystem: true,
-  },
-  {
-    id: 2,
-    name: "Event Deletion",
-    featureGroup: "Event Management",
-    materialUi: true,
-    joyUi: true,
-    baseUi: false,
-    muiSystem: true,
-  },
-  {
-    id: 3,
-    name: "Event Update",
-    featureGroup: "Event Management",
-    materialUi: true,
-    joyUi: true,
-    baseUi: true,
-    muiSystem: false,
-  },
-  {
-    id: 4,
-    name: "User Registration",
-    featureGroup: "User Management",
-    materialUi: true,
-    joyUi: true,
-    baseUi: true,
-    muiSystem: true,
-  },
-  {
-    id: 5,
-    name: "User Deletion",
-    featureGroup: "User Management",
-    materialUi: true,
-    joyUi: false,
-    baseUi: true,
-    muiSystem: false,
-  },
-];
-
-const HeaderValue: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <th
+const StyledTableCell: React.FC<StyledTableCellProps> = ({
+  children,
+  isHeader = false,
+  isFeatureName = false,
+  featureDescription,
+  bgColor = PALLETTE.white,
+  textColor = PALLETTE.charcoal,
+  width,
+  align = "left",
+}) => (
+  <TableCell
     style={{
-      backgroundColor: PALLETTE.light_pink,
+      backgroundColor: isHeader ? PALLETTE.light_pink : bgColor,
+      color: textColor,
+      width: width,
+      textAlign: align as any,
     }}
+    component={isHeader ? "th" : "td"}
   >
-    <StyledText level="h4" color={PALLETTE.charcoal} fontSize={18}>
-      {children}
-    </StyledText>
-  </th>
+    {isFeatureName ? (
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
+        <StyledText
+          level={isHeader ? "h4" : "body"}
+          color={textColor}
+          fontSize={isHeader ? 20 : 18}
+        >
+          {children}
+        </StyledText>
+        <Tooltip title={featureDescription}>
+          <IconButton>
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
+      </Stack>
+    ) : (
+      <StyledText
+        level={isHeader ? "h4" : "body"}
+        color={textColor}
+        fontSize={isHeader ? 20 : 18}
+      >
+        {children}
+      </StyledText>
+    )}
+  </TableCell>
 );
 
-const RowValue: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <td>
-    <StyledText level="body" color={PALLETTE.charcoal} fontSize={16}>
-      {children}
-    </StyledText>
-  </td>
-);
-
-const BooleanValue: React.FC<{ value: boolean }> = ({ value }) => (
-  <td
-    style={{
-      backgroundColor: value ? PALLETTE.green : PALLETTE.red,
-    }}
+const BooleanValue: React.FC<{ value: boolean; description: string }> = ({
+  value,
+  description,
+}) => (
+  <StyledTableCell
+    bgColor={value ? PALLETTE.vibrant_green : PALLETTE.red}
+    textColor={PALLETTE.charcoal}
+    align="center"
   >
-    <StyledText
-      level="body"
-      color={PALLETTE.charcoal}
-      fontSize={16}
-      sx={{
-        textAlign: "center",
-      }}
-    >
-      {value ? (
-        <CheckIcon style={{ color: PALLETTE.charcoal }} />
-      ) : (
-        <CloseIcon style={{ color: PALLETTE.charcoal }} />
-      )}
-    </StyledText>
-  </td>
+    {description !== "" ? (
+      <div>{description}</div>
+    ) : value ? (
+      <CheckIcon style={{ color: PALLETTE.charcoal }} />
+    ) : (
+      <CloseIcon style={{ color: PALLETTE.charcoal }} />
+    )}
+  </StyledTableCell>
 );
 
 interface FeatureTableProps {
   group_name: string;
+  features: IPricingFeature[];
 }
 
-const FeatureTable: React.FC<FeatureTableProps> = ({ group_name }) => {
+const sortFeaturesByAvailability = (features: IPricingFeature[]) => {
+  return features.sort((a, b) => {
+    const countPlans = (feature: IPricingFeature) =>
+      ["free", "single_event", "professional", "network"].reduce(
+        (acc, plan) =>
+          acc +
+          ((
+            feature[plan as keyof IPricingFeature] as IPricingFeaturePlanDetails
+          ).has
+            ? 1
+            : 0),
+        0
+      );
+
+    return countPlans(b) - countPlans(a); // Sort in descending order
+  });
+};
+
+const FeatureTable: React.FC<FeatureTableProps> = ({
+  group_name,
+  features,
+}) => {
+  const sortedFeatures = sortFeaturesByAvailability(features); // Sort features before rendering
+
   return (
-    <table className={classes.feature_table}>
-      <thead>
-        <tr>
-          <HeaderValue>{group_name}</HeaderValue>
-          <HeaderValue>Free</HeaderValue>
-          <HeaderValue>Single</HeaderValue>
-          <HeaderValue>Proffessional</HeaderValue>
-          <HeaderValue>Enterprise</HeaderValue>
-        </tr>
-      </thead>
-      <tbody>
-        {sampleFeatures.map((feature) => (
-          <tr key={feature.id}>
-            <RowValue>{feature.name}</RowValue>
-            <BooleanValue value={feature.materialUi} />
-            <BooleanValue value={feature.joyUi} />
-            <BooleanValue value={feature.baseUi} />
-            <BooleanValue value={feature.muiSystem} />
-          </tr>
+    <Table className={classes.feature_table}>
+      <TableHead>
+        <TableRow>
+          <StyledTableCell isHeader width="300px">
+            <span
+              style={{
+                textTransform: "capitalize",
+              }}
+            >
+              {group_name.replace("api", "API")}
+            </span>
+          </StyledTableCell>
+          <StyledTableCell isHeader>Free</StyledTableCell>
+          <StyledTableCell isHeader>Single Event</StyledTableCell>
+          <StyledTableCell isHeader>Professional</StyledTableCell>
+          <StyledTableCell isHeader>Network</StyledTableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {sortedFeatures.map((feature) => (
+          <TableRow key={feature.name}>
+            <StyledTableCell
+              isFeatureName
+              featureDescription={feature.description}
+            >
+              {feature.name}
+            </StyledTableCell>
+            <BooleanValue
+              value={feature.free.has}
+              description={feature.free.description}
+            />
+            <BooleanValue
+              value={feature.single_event.has}
+              description={feature.single_event.description}
+            />
+            <BooleanValue
+              value={feature.professional.has}
+              description={feature.professional.description}
+            />
+            <BooleanValue
+              value={feature.network.has}
+              description={feature.network.description}
+            />
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 };
 

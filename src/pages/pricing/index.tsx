@@ -1,45 +1,48 @@
-import TesseraWrapper from "../../components/wrappers/page_wrapper";
-import {
-  Box,
-  Card,
-  Typography,
-  CardContent,
-  Button,
-  Divider,
-  Sheet,
-  Switch,
-  Grid,
-  Stack,
-} from "@mui/joy";
+import { Box, Grid } from "@mui/joy";
 import { useTheme } from "@mui/joy/styles";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 import classes from "./pricing.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
-import AsteriskIcon from "../../components/icons/asterisk";
 import TicketFees from "./ticket_fees";
-import FeatureTable, { Feature } from "./feature-table";
+import FeatureTable from "./feature-table";
 import {
   IPricingOption,
   PackageTiers,
   PaymentPlanOption,
   pricingOptions,
 } from "./features";
-import StyledButton from "../../components/buttons/styled_button";
-import { getPriceText } from "./get_price_text";
 import PricingCard from "../../components/pricing/pricing_card";
 import { useNavigate } from "react-router-dom";
-
+import featuresJSON from "./features/features.json";
+import { IPricingFeature } from "./features/types";
 // In your component render method:
 
 const PricingPage: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [featuresGroups, setFeaturesGroups] = useState<{
+    [key: string]: IPricingFeature[];
+  }>({});
+
+  useEffect(() => {
+    // Group the features by group
+    const features = featuresJSON as IPricingFeature[];
+    const groups: { [key: string]: IPricingFeature[] } = {};
+
+    features.forEach((feature) => {
+      if (!groups[feature.group]) {
+        groups[feature.group] = [];
+      }
+
+      groups[feature.group].push(feature);
+    });
+
+    setFeaturesGroups(groups);
+  }, []);
 
   const [billingCycle, setBillingCycle] =
     useState<PaymentPlanOption>("monthly");
@@ -211,12 +214,38 @@ const PricingPage: React.FC = () => {
       <TicketFees />
       <Box
         sx={{
-          mt: 4,
-          display: "flex",
-          justifyContent: "center",
+          mt: 8,
         }}
       >
-        <FeatureTable group_name="Features" />
+        <StyledText
+          level="h4"
+          color={PALLETTE.cerise_dark}
+          fontSize={32}
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          List of Features
+        </StyledText>
+
+        <Grid
+          justifyContent={"center"}
+          container
+          spacing={5}
+          sx={{
+            mt: 2,
+          }}
+        >
+          {Object.entries(featuresGroups).map(([group, features]) => (
+            <Grid xs={12}>
+              <FeatureTable
+                group_name={group.replace("_", " ")}
+                features={features}
+              />
+            </Grid>
+          ))}
+        </Grid>
+        {/* Group by feature group */}
       </Box>
     </MUITesseraWrapper>
   );
