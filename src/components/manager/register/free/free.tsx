@@ -2,16 +2,16 @@ import { Box } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import StandardToastContainer from "../../../wrappers/toast_container";
-import Footer from "../../../wrappers/footer";
 import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import FreeRegisterForm from "./free_register_form";
+import TesseraWrapper from "../../../wrappers/page_wrapper";
 
 const GetStartedFreePlanEnrollment: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <Box sx={{}}>
+    <TesseraWrapper>
       <StandardToastContainer />
       <Box
         sx={{
@@ -45,8 +45,7 @@ const GetStartedFreePlanEnrollment: React.FC = () => {
       >
         <FreeRegisterForm />
       </Box>
-      <Footer />
-    </Box>
+    </TesseraWrapper>
   );
 };
 

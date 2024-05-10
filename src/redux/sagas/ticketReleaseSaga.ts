@@ -34,6 +34,7 @@ import {
   updateTicketReleaseStart,
   updateTicketReleaseSuccess,
 } from "../features/ticketReleaseSlice";
+import ApiRoutes from "../../routes/backend_routes";
 
 function* createTicketReleaseSaga(
   action: PayloadAction<{
@@ -64,7 +65,9 @@ function* createTicketReleaseSaga(
 
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/ticket-release`,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_TICKET_RELEASE, {
+        eventID: eventId,
+      }),
       data,
       {
         withCredentials: true, // This ensures cookies are sent with the request

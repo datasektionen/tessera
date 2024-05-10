@@ -23,7 +23,6 @@ import {
   EditTicketTypes,
   ProfileTicketRequestsPage,
   ProfileTicketsPage,
-  ProfileOrganizationsPage,
   CreateOrganizationPage,
   ManageEventPage,
   TicketScannerPage,
@@ -103,9 +102,6 @@ const ProfileTicketRequestsPageWithCurrentUser = withCurrentUserRequest(
 );
 const ProfileTicketsPageWithCurrentUser =
   withCurrentUserRequest(ProfileTicketsPage);
-const ProfileOrganizationsPageWithCurrentUser = withCurrentUserRequest(
-  ProfileOrganizationsPage
-);
 const CreateOrganizationPageWithCurrentUser = withCurrentUserRequest(
   CreateOrganizationPage
 );
@@ -268,10 +264,7 @@ function AppRoutes() {
               path={ROUTES.PROFILE_TICKETS}
               element={<ProfileTicketsPageWithCurrentUser />}
             />
-            <Route
-              path={ROUTES.PROFILE_ORGANIZATIONS}
-              element={<ProfileOrganizationsPageWithCurrentUser />}
-            />
+
             <Route
               path={ROUTES.CREATE_ORGANIZATION}
               element={<CreateOrganizationPageWithCurrentUser />}

@@ -30,6 +30,7 @@ import {
   editEventSuccess,
 } from "../features/editEventSlice";
 import { setTimestamp } from "../features/serverTimestampSlice";
+import ApiRoutes from "../../routes/backend_routes";
 
 function* eventSaga(
   action: PayloadAction<{
@@ -245,7 +246,9 @@ function* deleteEventSaga(
   try {
     const response = yield call(
       axios.delete,
-      process.env.REACT_APP_BACKEND_URL + "/events/" + action.payload,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT, {
+        eventID: action.payload,
+      }),
       {
         withCredentials: true, // This ensures cookies are sent with the request
       }

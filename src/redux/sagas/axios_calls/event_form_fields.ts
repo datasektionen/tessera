@@ -46,7 +46,7 @@ export const handleEventFormFieldResponseSubmit = async (
     let url = `${process.env.REACT_APP_BACKEND_URL}`;
     url += isGuestCustomer
       ? `/guest-customer/${
-          guestCustomer?.ug_kth_id
+          guestCustomer?.user_id
         }/events/${event_id}/ticket-requests/${ticketRequestId}/form-fields?request_token=${guestCustomer?.request_token!}`
       : `/events/${event_id}/ticket-requests/${ticketRequestId}/form-fields`;
 

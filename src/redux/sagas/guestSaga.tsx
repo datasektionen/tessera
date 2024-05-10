@@ -124,16 +124,13 @@ function* getGuestSaga(
     } as ITicketRequest;
 
     const guest: IGuestCustomer = {
-      ug_kth_id: user.ug_kth_id,
+      user_id: user.id,
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
       phone_number: user.phone_number,
       request_token: request_token,
-      role: {
-        id: user.role.ID,
-        name: user.role.name,
-      },
+      roles: user.roles,
       ticket: ticket
         ? ({
             id: ticket.ID!,

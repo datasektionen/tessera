@@ -16,6 +16,7 @@ import ViewOrganization from "../../../components/organizations/view";
 import LoadingOverlay from "../../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/def";
+import TitleWithAddIcon from "../../../components/icons/title_with_add_icon";
 
 const ManagerTeamsPage: React.FC = () => {
   const [selected, setSelected] = useState<number | null>(null);
@@ -36,16 +37,13 @@ const ManagerTeamsPage: React.FC = () => {
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>
-        {loading && <LoadingOverlay />}
         {error && <div>{error}</div>}
-        <Title
-          fontSize={38}
-          style={{
-            textTransform: "capitalize",
-          }}
-        >
-          {network?.name ?? "Unknowns"}'s Teams
-        </Title>
+        <TitleWithAddIcon
+          title={t("manager.teams.title", {
+            name: network?.name ?? "Unknowns",
+          })}
+          route={ROUTES.CREATE_ORGANIZATION}
+        />
 
         <Grid
           container
@@ -53,6 +51,7 @@ const ManagerTeamsPage: React.FC = () => {
           columns={16}
           sx={{
             mr: 4,
+            mt: 2,
           }}
         >
           <Grid xs={16} lg={4}>

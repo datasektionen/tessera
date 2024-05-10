@@ -86,8 +86,6 @@ const ManageEventPage: React.FC = () => {
     navigate("/events/" + eventID);
   }
 
-  console.log(network);
-
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper eventID={eventID!}>

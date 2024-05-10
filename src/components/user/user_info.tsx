@@ -13,7 +13,6 @@ interface UserInfoProps {
 
 const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const { t } = useTranslation();
-  console.log(user);
   return (
     <>
       <Grid container spacing={1} columns={16} sx={{ flexGrow: 1 }}>

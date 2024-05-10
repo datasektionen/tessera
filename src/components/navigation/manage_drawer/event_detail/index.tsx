@@ -201,6 +201,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             icon={<MailIcon />}
             title={t("manage_event.drawer.send_outs.title")}
             drawerExtended={isExtended}
+            requiredFeature="send_outs"
             subItems={[
               {
                 title: t("manage_event.drawer.send_outs.list"),
@@ -231,13 +232,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                   eventId: eventID,
                 }),
                 clickable: true,
-              },
-              {
-                title: t("manage_event.drawer.economy.pay_outs"),
-                navigateTo: generateRoute(``, {
-                  eventId: eventID,
-                }),
-                clickable: false,
+                requiredFeature: "sales_reports",
               },
             ]}
           />{" "}
@@ -261,6 +256,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                   eventId: eventID,
                 }),
                 clickable: false,
+                requiredFeature: "custom_emails",
               },
               {
                 title: t("manage_event.drawer.settings.domains"),
@@ -268,6 +264,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                   eventId: eventID,
                 }),
                 clickable: false,
+                requiredFeature: "custom_domains",
               },
             ]}
           />

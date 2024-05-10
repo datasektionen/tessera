@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginRedirect } from "../../redux/features/authSlice";
 import { ROUTES } from "../../routes/def";
+import { IRole } from "../../types";
 
 interface ProtectedRouteProps {
   redirectPath?: string;
@@ -51,8 +52,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 export const SuperAdminProtectedRoute: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
-  if (user?.roles.includes("super_admin")) {
-    return <Navigate to="/login" replace />;
+  if (!user?.roles.map((role: IRole) => role.name).includes("super_admin")) {
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

@@ -27,7 +27,7 @@ const promoCodeAccessSaga = function* (
     const url =
       process.env.REACT_APP_BACKEND_URL +
       (isGuestCustomer
-        ? `/guest-customer/${guestCustomer?.ug_kth_id}/activate-promo-code/${eventId}?promo_code=${promo_code}&request_token=${guestCustomer?.request_token}`
+        ? `/guest-customer/${guestCustomer?.user_id}/activate-promo-code/${eventId}?promo_code=${promo_code}&request_token=${guestCustomer?.request_token}`
         : `/activate-promo-code/${eventId}?promo_code=${promo_code}`);
 
     const response = yield call(axios.get, url, {

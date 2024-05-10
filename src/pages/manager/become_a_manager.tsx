@@ -17,13 +17,14 @@ import { motion } from "framer-motion";
 import GetStartedFreePlanEnrollment from "../../components/manager/register/free/free";
 import { useNavigate } from "react-router-dom";
 import TesseraWrapper from "../../components/wrappers/page_wrapper";
+import { useTranslation } from "react-i18next";
 
 const MotionBox = motion(Box);
 
 const BecomeAManagerPage: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<IPricingOption | null>(null);
   const contactFormRef = useRef<HTMLFormElement>(null);
-  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const scrollToContactForm = () => {
     if (contactFormRef.current) {
@@ -72,12 +73,12 @@ const BecomeAManagerPage: React.FC = () => {
     <TesseraWrapper>
       <Box
         sx={{
-          mt: 10,
+          mt: 5,
           textAlign: "center",
         }}
       >
         <StyledText level="h1" color={PALLETTE.cerise_dark} fontSize={48}>
-          Select Plan
+          {t("become_a_manager.select_plan")}
         </StyledText>
         <StyledText
           level="body-md"
@@ -89,9 +90,7 @@ const BecomeAManagerPage: React.FC = () => {
             margin: "0 auto",
           }}
         >
-          Choose the plan that works best for you. When contacting us, please
-          let us know which plan you are interested in and what you would like
-          to know more about.
+          {t("become_a_manager.choose_plan")}
         </StyledText>
       </Box>
       <Box
@@ -129,7 +128,7 @@ const BecomeAManagerPage: React.FC = () => {
               },
             }}
           >
-            Full list of features
+            {t("become_a_manager.full_list_of_features")}
           </Link>
         </StyledText>
       </Box>
@@ -153,7 +152,7 @@ const BecomeAManagerPage: React.FC = () => {
             transition={{ duration: 1.2 }}
           >
             <StyledText level="h2" color={PALLETTE.cerise_dark} fontSize={24}>
-              Selected Plan
+              {t("become_a_manager.selected_plan")}
             </StyledText>
             <PricingCard option={selectedPlan} billingCycle={"monthly"} />
           </MotionBox>

@@ -5,6 +5,8 @@ import {
   CardContent,
   CardOverflow,
   Grid,
+  Stack,
+  Tooltip,
   Typography,
 } from "@mui/joy";
 import { ITicketType } from "../../../types";
@@ -25,6 +27,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import StyledText from "../../text/styled_text";
+import InfoIcon from "@mui/icons-material/Info";
 
 interface TicketTypeProps {
   ticketType: ITicketType;
@@ -100,6 +103,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
         borderColor: PALLETTE.cerise,
         maxHeight: isScreenSmall ? "100px" : "150px",
         minWidth: isScreenSmall ? "80%" : "fit-content",
+        maxWidth: "600px",
         width: "90%",
       }}
     >
@@ -114,37 +118,30 @@ const TicketType: React.FC<TicketTypeProps> = ({
             }}
           >
             <div>
-              <StyledText
-                level="body-md"
-                color={PALLETTE.cerise_dark}
-                fontWeight={700}
-                fontSize={
-                  isScreenSmall ? 14 : calculateFontSize(ticketType.name)
-                }
-                style={{
-                  overflow: "break-word",
-                  lineHeight: "1",
-                  textOverflow: "wrap",
-                  maxWidth: isScreenSmall ? "100px" : "inherit",
-                  width: isScreenSmall ? "fit-content" : "150px",
-                }}
-              >
-                {ticketType.name}
-              </StyledText>
-              <Typography
-                level="body-sm"
-                fontSize={10}
-                fontFamily={"Josefin sans"}
-                textColor={PALLETTE.charcoal}
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  width: isScreenSmall ? "fit-content" : "150px",
-                }}
-              >
-                {ticketType.description}
-              </Typography>
+              <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                {!isScreenSmall && (
+                  <Tooltip title={ticketType.description}>
+                    <InfoIcon />
+                  </Tooltip>
+                )}
+                <StyledText
+                  level="body-md"
+                  color={PALLETTE.cerise_dark}
+                  fontWeight={700}
+                  fontSize={
+                    isScreenSmall ? 14 : calculateFontSize(ticketType.name)
+                  }
+                  style={{
+                    overflow: "break-word",
+                    lineHeight: "1",
+                    textOverflow: "wrap",
+                    maxWidth: isScreenSmall ? "100px" : "inherit",
+                    width: isScreenSmall ? "60px" : "150px",
+                  }}
+                >
+                  {ticketType.name}
+                </StyledText>
+              </Stack>
             </div>
             <Typography
               level="body-md"

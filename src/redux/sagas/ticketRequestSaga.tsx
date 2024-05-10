@@ -112,7 +112,9 @@ function* createTicketRequestSaga(
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
-    toast.error(errorMessage);
+    if (error.response.status !== 401) {
+      toast.error(errorMessage);
+    }
     yield put(postTicketRequestFailure(errorMessage));
   }
 }
@@ -255,7 +257,7 @@ function* cancelTicketRequestSaga(
     const url =
       process.env.REACT_APP_BACKEND_URL +
       (isGuestCustomer
-        ? `/guest-customer/${guestCustomer?.ug_kth_id}/ticket-requests/${ticket_request.id}?request_token=${guestCustomer?.request_token}`
+        ? `/guest-customer/${guestCustomer?.user_id}/ticket-requests/${ticket_request.id}?request_token=${guestCustomer?.request_token}`
         : `/events/${
             ticket_request.ticket_release!.event!.id
           }/ticket-requests/${ticket_request.id}`);

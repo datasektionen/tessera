@@ -124,34 +124,6 @@ function MobileNavigationBar() {
                   {t("navigation.events")}
                 </StyledLink>
               </StyledText>
-              {!currentUser?.is_external && (
-                <StyledText
-                  color={""}
-                  level="body-sm"
-                  fontSize={18}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                >
-                  <StyledLink href={ROUTES.CREATE_EVENT}>
-                    {t("navigation.create_event")}
-                  </StyledLink>
-                </StyledText>
-              )}
-              {!currentUser?.is_external && (
-                <StyledText
-                  color={""}
-                  level="body-sm"
-                  fontSize={18}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                >
-                  <StyledLink href={ROUTES.PROFILE_ORGANIZATIONS}>
-                    {t("navigation.teams")}
-                  </StyledLink>
-                </StyledText>
-              )}
               <StyledText
                 color={""}
                 level="body-sm"

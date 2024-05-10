@@ -23,7 +23,7 @@ function* fetchUserFoodPreferences(
     const url =
       `${process.env.REACT_APP_BACKEND_URL}` +
       (isGuest
-        ? `/guest-customer/${guestCustomer.ug_kth_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
+        ? `/guest-customer/${guestCustomer.user_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
         : "/user-food-preferences");
 
     const response = yield call(axios.get, url, { withCredentials: !isGuest });
@@ -86,7 +86,7 @@ function* updateUserFoodPreferences(
     const url =
       `${process.env.REACT_APP_BACKEND_URL}` +
       (isGuest
-        ? `/guest-customer/${guestCustomer.ug_kth_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
+        ? `/guest-customer/${guestCustomer.user_id}/user-food-preferences?request_token=${guestCustomer.request_token}`
         : "/user-food-preferences");
 
     const response = yield call(axios.put, url, userFoodPreferences, {

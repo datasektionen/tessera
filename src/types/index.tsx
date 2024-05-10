@@ -39,8 +39,8 @@ export interface IGuestCustomerForm {
 }
 
 export interface IGuestCustomer {
-  ug_kth_id: string;
-  role?: IRole;
+  user_id: string;
+  roles: IRole[];
   first_name: string;
   last_name: string;
   email: string;
@@ -134,6 +134,13 @@ export type FeatureGroupType =
 
 export type PaymentPlanType = "monthly" | "yearly" | "one_time" | "no_payment";
 
+export enum PaymentPlanOption {
+  Monthly = "monthly",
+  Yearly = "yearly",
+  OneTime = "one_time",
+  NoPayment = "no_payment",
+}
+
 export type PackageTierType =
   | "free"
   | "single_event"
@@ -196,6 +203,7 @@ export interface IFeatureUsage {
   feature_id: number;
   plan_enrollment_id: number;
   usage: number;
+  object_reference?: string;
 }
 
 export interface IFeature {
@@ -211,6 +219,7 @@ export interface IFeature {
   package_tiers: IPackageTier[];
   package_tiers_ids: number[];
   feature_limits: IFeatureLimit[];
+  has_limit_access?: boolean;
 }
 
 export interface IFeatureLimit {
@@ -221,7 +230,9 @@ export interface IFeatureLimit {
   feature_id: number;
   package_tier_id: number;
   limit_description: string;
-  limit: number | null;
+  limit: number | null; // This is a hard limit
+  monthly_limit: number | null;
+  yearly_limit: number | null;
 }
 
 export interface INetwork {

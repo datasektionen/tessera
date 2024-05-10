@@ -14,9 +14,7 @@ export const ProfileTicketRequestsPage = React.lazy(
 export const ProfileTicketsPage = React.lazy(
   () => import("../pages/profile/profile_tickets")
 );
-export const ProfileOrganizationsPage = React.lazy(
-  () => import("../pages/profile/profile_organizations")
-);
+
 export const CreateOrganizationPage = React.lazy(
   () => import("../pages/organization/create")
 );

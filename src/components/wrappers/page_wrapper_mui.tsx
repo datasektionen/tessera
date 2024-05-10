@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 import Footer from "./footer";
+import { motion } from "framer-motion";
 
 interface TesseraWrapperProps {
   children: React.ReactNode;
@@ -30,6 +31,7 @@ const MUITesseraWrapper: React.FC<TesseraWrapperProps> = ({ children }) => {
       />
       {/* Same as */}
       <NavigationBar />
+
       <Box
         sx={{ minHeight: "100vh" }}
         id="tessera-wrapper"

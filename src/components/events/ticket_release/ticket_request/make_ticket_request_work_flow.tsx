@@ -163,7 +163,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
       }, 1000);
       dispatch(
         getGuestCustomerRequest({
-          ugkthid: guestCustomer?.ug_kth_id!,
+          ugkthid: guestCustomer?.user_id!,
           request_token: guestCustomer?.request_token!,
         })
       );
@@ -185,7 +185,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     if (activeStep === 4 && isGuestCustomer) {
       setTimeout(() => {
         navigate(
-          `/events/${refID!}/guest/${guestCustomer.ug_kth_id}?request_token=${
+          `/events/${refID!}/guest/${guestCustomer.user_id}?request_token=${
             guestCustomer.request_token
           }`
         );

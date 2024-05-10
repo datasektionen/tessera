@@ -80,7 +80,7 @@ function* createEventFullWorkflowSaga(
 
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/complete-event-workflow`,
+      `${process.env.REACT_APP_BACKEND_URL}/manager/complete-event-workflow`,
       data,
       {
         withCredentials: true,

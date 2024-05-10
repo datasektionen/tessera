@@ -17,6 +17,11 @@ const seTranslations = {
     customer: "Kund",
     manager: "Arrangör",
     skip: "Hoppa över",
+    select_plan: "Välj paket",
+    choose_plan:
+      "Välj det paket som passar dig bäst. När du kontaktar oss, vänligen låt oss veta vilken paket du är intresserad av och vad du skulle vilja veta mer om.",
+    full_list_of_features: "Fullständig lista över funktioner",
+    selected_plan: "Vald paket",
   },
 
   tooltips: {
@@ -311,6 +316,10 @@ const seTranslations = {
   manager: {
     dashboard: {},
 
+    teams: {
+      title: "{{name}} Grupper",
+    },
+
     drawer: {
       events: "Evenemang",
       teams: "Lag",
@@ -324,6 +333,11 @@ const seTranslations = {
         customize: "Anpassa",
       },
     },
+  },
+
+  features: {
+    limit_description:
+      "Du har överskridit gränsen för {{feature}}, uppgradera ditt abonnemang för att få mer.",
   },
 
   manage_event: {
