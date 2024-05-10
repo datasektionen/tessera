@@ -316,6 +316,10 @@ const seTranslations = {
   manager: {
     dashboard: {},
 
+    teams: {
+      title: "{{name}} Grupper",
+    },
+
     drawer: {
       events: "Evenemang",
       teams: "Lag",
@@ -329,6 +333,11 @@ const seTranslations = {
         customize: "Anpassa",
       },
     },
+  },
+
+  features: {
+    limit_description:
+      "Du har överskridit gränsen för {{feature}}, uppgradera ditt abonnemang för att få mer.",
   },
 
   manage_event: {
