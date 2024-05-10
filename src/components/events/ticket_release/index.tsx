@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { ShoppingCartItem } from "../../../redux/features/ticketRequestSlice";
 import React, { useEffect } from "react";
-import { ListItemText } from "@mui/material";
+import { ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import {
   ticketReleaseHasClosed,
   ticketReleaseHasNotOpened,
@@ -59,12 +59,15 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const { t } = useTranslation();
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Sheet
       variant="outlined"
       sx={{
-        p: 2,
+        p: isScreenSmall ? 0.5 : 2,
+        width: isScreenSmall ? "100%" : "inherit",
       }}
       style={{
         borderColor: PALLETTE.cerise,

@@ -191,7 +191,7 @@ const EventDetail: React.FC = () => {
       }}
     >
       <StandardGrid>
-        <Grid xs={16} md={8}>
+        <Grid xs={16} md={7}>
           <Item>
             <Typography
               level="h1"
@@ -304,7 +304,7 @@ const EventDetail: React.FC = () => {
             </Grid>
           </Item>
         </Grid>
-        <Grid xs={16} md={8} mt={1}>
+        <Grid xs={16} md={9} mt={1}>
           <Item>
             <Typography
               level="h2"
@@ -319,7 +319,7 @@ const EventDetail: React.FC = () => {
             >
               {t("event.ticket_releases")}
             </Typography>
-            <div>
+            <Box>
               {ticketReleases.length === 0 && (
                 <StyledText
                   color={PALLETTE.charcoal}
@@ -333,7 +333,12 @@ const EventDetail: React.FC = () => {
                   {t("event.no_ticket_releases")}
                 </StyledText>
               )}
-              <Stack spacing={2} sx={{ p: 0 }}>
+              <Stack
+                spacing={2}
+                sx={{
+                  p: 0,
+                }}
+              >
                 {ticketReleases.map((ticketRelease, i) => {
                   const key = `${event.name}-${i}`;
 
@@ -342,7 +347,7 @@ const EventDetail: React.FC = () => {
                   );
                 })}
               </Stack>
-            </div>
+            </Box>
           </Item>
           <Divider sx={{ mt: 2, mb: 2 }} />
           <Box>

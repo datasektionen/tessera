@@ -112,7 +112,9 @@ function* createTicketRequestSaga(
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
-    toast.error(errorMessage);
+    if (error.response.status !== 401) {
+      toast.error(errorMessage);
+    }
     yield put(postTicketRequestFailure(errorMessage));
   }
 }

@@ -37,7 +37,6 @@ const ManagerTeamsPage: React.FC = () => {
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>
-        {loading && <LoadingOverlay />}
         {error && <div>{error}</div>}
         <TitleWithAddIcon
           title={t("manager.teams.title", {

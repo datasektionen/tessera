@@ -2,7 +2,7 @@ import { Box, Grid } from "@mui/joy";
 import { useTheme } from "@mui/joy/styles";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
@@ -19,14 +19,24 @@ import PricingCard from "../../components/pricing/pricing_card";
 import { useNavigate } from "react-router-dom";
 import featuresJSON from "./features/features.json";
 import { IPricingFeature } from "./features/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import InformationModal from "../../components/modal/information";
+import ManagerContactForm from "../manager/plan_contact_form";
+import { MotionBox } from "../../components/misc/motion_box";
+import { useTranslation } from "react-i18next";
 // In your component render method:
 
 const PricingPage: React.FC = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const [featuresGroups, setFeaturesGroups] = useState<{
     [key: string]: IPricingFeature[];
   }>({});
+  const [selectedPlan, setSelectedPlan] = useState<IPricingOption | null>(null);
+  const [showContactModal, setShowContactModal] = useState<boolean>(false);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const contactFormRef = React.useRef<HTMLFormElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Group the features by group
@@ -57,11 +67,42 @@ const PricingPage: React.FC = () => {
   };
 
   const handleSelect = (plan: PackageTiers) => {
-    navigate("/become-a-manager?plan=" + plan);
+    if (isLoggedIn) {
+      navigate("/become-a-manager?plan=" + plan);
+    } else {
+      setSelectedPlan(
+        pricingOptions.find((option) => option.plan === plan) || null
+      );
+      setShowContactModal(true);
+    }
   };
 
   return (
     <MUITesseraWrapper>
+      <InformationModal
+        title="Contact Us"
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+        width="60%"
+      >
+        <Box
+          ref={contactFormRef}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            // spacing, bettwen the two components
+            gap: 12,
+          }}
+        >
+          <ManagerContactForm plan={selectedPlan?.plan!} />
+          <Box>
+            <StyledText level="h2" color={PALLETTE.cerise_dark} fontSize={24}>
+              {t("become_a_manager.selected_plan")}
+            </StyledText>
+            <PricingCard option={selectedPlan!} billingCycle={"monthly"} />
+          </Box>
+        </Box>
+      </InformationModal>
       <Box
         sx={{
           minHeight: 260,

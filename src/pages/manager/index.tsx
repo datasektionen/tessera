@@ -39,7 +39,6 @@ const ManagerPage: React.FC = () => {
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>
         {error && <div>{error}</div>}
-        {loading && <LoadingOverlay />}
         <Title
           fontSize={38}
           style={{

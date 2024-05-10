@@ -18,7 +18,14 @@ const TitleWithAddIcon: React.FC<TitleWithAddIconProps> = ({
   const navigate = useNavigate();
   return (
     <Stack direction="row" spacing={2}>
-      <Title>{title}</Title>
+      <Title
+        fontSize={38}
+        style={{
+          textTransform: "capitalize",
+        }}
+      >
+        {title}
+      </Title>
       <IconButton onClick={() => navigate(route)}>
         <AddCircleOutlineIcon
           style={{
