@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getCustomerEventRequest } from '../../../redux/features/customerViewEvent';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../../store';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { IEvent } from '../../../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Box, DialogTitle, Modal, ModalClose, ModalDialog, Stack } from '@mui/joy';
+import { Box, DialogTitle, Divider, Modal, ModalClose, ModalDialog, Stack } from '@mui/joy';
 import { useMediaQuery, useTheme } from '@mui/material';
 import StyledText from '../../../components/text/styled_text';
 import PALLETTE from '../../../theme/pallette';
@@ -16,6 +16,14 @@ import { ticketReleaseHasClosed } from '../../../utils/event_open_close';
 import { useTranslation } from 'react-i18next';
 import TicketRelease from '../../../components/events/ticket_release';
 import LandingPageFooter from './landing_page_footer';
+import { toast } from 'react-toastify';
+import usePromoCodes from '../../../hooks/event/use_event_promo_code_hook';
+import { useEventEffects } from '../../../hooks/event/event_detail_hook';
+import { motion } from 'framer-motion'; // Import Framer Motion
+import LoadingOverlay from '../../../components/Loading';
+import { PromoCodeForm } from './promo_code_form';
+import { ScrollConfig } from '../../../components/constant/scroll_config';
+import ShowEventsTicketReleases from './show_events_ticket_releases';
 
 
 const EventLandingPage = () => {
@@ -23,9 +31,15 @@ const EventLandingPage = () => {
     const [loadingEditor, setLoadingEditor] = useState(true);
     const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
     const theme = useTheme();
-    const isScreenSmall = useMediaQuery(theme.breakpoints.down('sm'));
+    const isScreenSmall = useMediaQuery(theme.breakpoints.down('md'));
     const { t } = useTranslation();
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const secretToken = queryParams.get("secret_token");
+
+    const { submitPromoCode, promoCodes } = usePromoCodes(refID!, secretToken || "");
 
     const { loading, error, event, errorStatusCode } = useSelector(
         (state: RootState) => state.customerViewEvent
@@ -36,24 +50,11 @@ const EventLandingPage = () => {
         errorStatusCode: number | null;
     };
     const { timestamp } = useSelector((state: RootState) => state.timestamp);
+    const { postSuccess } = useSelector(
+        (state: RootState) => state.ticketRequest
+    );
 
-
-    useEffect(() => {
-        if (!refID) {
-            window.location.reload();
-            return;
-        }
-
-
-        dispatch(
-            getCustomerEventRequest({
-                refID,
-                secretToken: "",
-                countSiteVisit: true,
-                promoCodes: [],
-            })
-        );
-    }, []);
+    useEventEffects(postSuccess, errorStatusCode, refID!, secretToken, error);
 
     useEffect(() => {
         const buyTicketsButton = document.querySelector('#buy-tickets');
@@ -79,62 +80,53 @@ const EventLandingPage = () => {
         return null;
     }
 
+    if (loading) {
+        return <LoadingOverlay />;
+    }
+
     const ticketReleases = event!.ticketReleases!.filter(
         (ticketRelease) => !ticketReleaseHasClosed(ticketRelease, timestamp)
     );
 
-
-    if (loading) {
-        return null
-    }
-
+    const modalVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { type: 'spring', stiffness: 300, damping: 30 },
+        }
+    };
     return (
         <div>
             <StandardToastContainer />
             <Modal open={isTicketModalOpen} onClose={() => setIsTicketModalOpen(false)} >
-                <ModalDialog variant='outlined' sx={{
-                    width: isScreenSmall ? '100%' : '65%',
-                    backgroundColor: PALLETTE.offWhite,
-                }}>
+                <motion.div
+                    variants={modalVariants}
+                    initial="hidden"
+                    animate={isTicketModalOpen ? "visible" : "hidden"}
+                >
+                    <ModalDialog variant='outlined' sx={{
+                        width: isScreenSmall ? '100%' : '65%',
+                        backgroundColor: PALLETTE.offWhite,
 
-                    <DialogTitle>
-                        <Title color={PALLETTE.primary} style={{
-                            margin: "0 auto"
-                        }}>Tickets</Title>
-                    </DialogTitle>
-                    <Box mt={2}>
-                        <Box>
-                            {ticketReleases.length === 0 && (
-                                <StyledText
-                                    color={PALLETTE.charcoal}
-                                    level="body-sm"
-                                    fontSize={22}
-                                    fontWeight={500}
-                                    style={{
-                                        marginTop: "1rem",
-                                    }}
-                                >
-                                    {t("event.no_ticket_releases")}
-                                </StyledText>
-                            )}
-                            <Stack
-                                spacing={2}
-                                sx={{
-                                    p: 0,
-                                }}
-                            >
-                                {ticketReleases.map((ticketRelease, i) => {
-                                    const key = `${event!.name}-${i}`;
+                    }}>
+                        <Box sx={{ maxHeight: "800px", ...ScrollConfig, overflow: "scroll" }} pb={4}>
 
-                                    return (
-                                        <TicketRelease ticketRelease={ticketRelease} key={key} />
-                                    );
-                                })}
-                            </Stack>
+                            <DialogTitle>
+                                <Title color={PALLETTE.primary} style={{
+                                    margin: "0 auto"
+                                }}>Tickets</Title>
+                            </DialogTitle>
+                            <Box mt={2}>
+                                <ShowEventsTicketReleases ticketReleases={ticketReleases} event={event} />
+                            </Box>
+                            <Divider sx={{ mt: 2, mb: 2 }} />
+                            <Box>
+                                <PromoCodeForm onSubmit={submitPromoCode} />
+                            </Box>
+                            <ModalClose />
                         </Box>
-                    </Box>
-                    <ModalClose />
-                </ModalDialog>
+                    </ModalDialog>
+                </motion.div>
             </Modal>
             <style dangerouslySetInnerHTML={{ __html: event?.landing_page!.css! }}></style>
             <div dangerouslySetInnerHTML={{ __html: event?.landing_page!.html! }}></div>

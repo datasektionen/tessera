@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import TesseraWrapper from "../../../components/wrappers/page_wrapper";
@@ -46,6 +46,9 @@ import { ROUTES } from "../../../routes/def";
 import { ticketReleaseHasClosed } from "../../../utils/event_open_close";
 import { getCustomerEventRequest } from "../../../redux/features/customerViewEvent";
 import usePromoCodes from "../../../hooks/event/use_event_promo_code_hook";
+import { useEventEffects } from "../../../hooks/event/event_detail_hook";
+import { PromoCodeForm } from "./promo_code_form";
+import ShowEventsTicketReleases from "./show_events_ticket_releases";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -77,65 +80,17 @@ const EventDetail: React.FC = () => {
   const { postSuccess } = useSelector(
     (state: RootState) => state.ticketRequest
   );
+
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
 
   const { submitPromoCode, promoCodes } = usePromoCodes(refID!, secretToken || "");
 
-  useEffect(() => {
-    if (postSuccess) {
-      setDisplayPostSuccess(true);
-      dispatch(resetPostSuccess());
-    }
-  }, [dispatch, postSuccess]);
-
-  useEffect(() => {
-    if (displayPostSuccess) {
-      toast.success(
-        <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
-          Ticket request created! View it{" "}
-          <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
-        </StyledText>
-      );
-    }
-  }, [displayPostSuccess]);
-
-  useEffect(() => {
-    if (errorStatusCode === 404) {
-      navigate("/404");
-    } else if (errorStatusCode === 403) {
-      setTimeout(() => {
-        toast.error(error);
-      }, 1000);
-      navigate("/");
-    } else if (errorStatusCode) {
-      setTimeout(() => {
-        toast.error(error);
-      }, 1000);
-      navigate("/");
-    }
-  }, [errorStatusCode, error]);
-
-  useEffect(() => {
-    if (!refID) {
-      console.error("No event id found");
-      return;
-    }
-    const promoCodes = JSON.parse(localStorage.getItem("promo_codes") || "[]");
-    dispatch(
-      getCustomerEventRequest({
-        refID,
-        secretToken: secretToken || "",
-        countSiteVisit: true,
-        promoCodes,
-      })
-    );
-  }, [dispatch, refID, secretToken]);
+  useEventEffects(postSuccess, errorStatusCode, refID!, secretToken, error);
 
   if (loading || error) {
     return <LoadingOverlay />;
@@ -273,96 +228,11 @@ const EventDetail: React.FC = () => {
         </Grid>
         <Grid xs={16} md={9} mt={1}>
           <Item>
-            <Typography
-              level="h2"
-              fontFamily={"Josefin sans"}
-              fontSize={34}
-              fontWeight={700}
-              style={{
-                color: PALLETTE.cerise_dark,
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-              }}
-            >
-              {t("event.ticket_releases")}
-            </Typography>
-            <Box>
-              {ticketReleases.length === 0 && (
-                <StyledText
-                  color={PALLETTE.charcoal}
-                  level="body-sm"
-                  fontSize={22}
-                  fontWeight={500}
-                  style={{
-                    marginTop: "1rem",
-                  }}
-                >
-                  {t("event.no_ticket_releases")}
-                </StyledText>
-              )}
-              <Stack
-                spacing={2}
-                sx={{
-                  p: 0,
-                }}
-              >
-                {ticketReleases.map((ticketRelease, i) => {
-                  const key = `${event.name}-${i}`;
-
-                  return (
-                    <TicketRelease ticketRelease={ticketRelease} key={key} />
-                  );
-                })}
-              </Stack>
-            </Box>
+            <ShowEventsTicketReleases ticketReleases={ticketReleases} event={event} />
           </Item>
           <Divider sx={{ mt: 2, mb: 2 }} />
           <Box>
-            <Formik
-              initialValues={PromoCodeAccessFormInitialValues}
-              onSubmit={(values: PromoCodeAccessForm, actions) => {
-                submitPromoCode(values);
-                // Clear
-                actions.resetForm();
-              }}
-              validationSchema={PromoCodeValidationSchema}
-            >
-              {({ handleChange, setFieldValue }) => (
-                <Form>
-                  <StyledFormLabel>
-                    {t("event.promo_code_title")}
-                  </StyledFormLabel>
-
-                  <Stack spacing={2} sx={{ p: 0 }} direction="row">
-                    <FormInput
-                      label={t("event.promo_code_title")}
-                      name={"promo_code"}
-                      placeholder={"Enter Promo Code"}
-                      type={"text"}
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>
-                      ) => {
-                        const { value } = event.currentTarget;
-                        setFieldValue("promo_code", value.toUpperCase());
-                      }}
-                    />
-
-                    <StyledButton
-                      type="submit"
-                      size="md"
-                      color={PALLETTE.charcoal}
-                    >
-                      {t("form.button_submit")}
-                    </StyledButton>
-                  </Stack>
-                  <StyledErrorMessage name="promo_code" />
-
-                  <StyledFormLabelWithHelperText>
-                    {t("event.promo_code_helperText")}
-                  </StyledFormLabelWithHelperText>
-                </Form>
-              )}
-            </Formik>
+            <PromoCodeForm onSubmit={submitPromoCode} />
           </Box>
         </Grid>
       </StandardGrid>

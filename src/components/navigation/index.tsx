@@ -32,6 +32,7 @@ import StyledButton from "../buttons/styled_button";
 import { useNavigate } from "react-router-dom";
 import { INavigationLoginOptions, RoleType } from "../../types";
 import { isEventManager } from "../../utils/roles/manager";
+import { userHasRole } from "../../utils/roles/has_role";
 
 const lngs = [
   {
@@ -92,9 +93,8 @@ export const LanguageSelector: React.FC = () => {
       renderValue={(selected) => (
         <img
           alt={i18n.language}
-          src={`https://flagcdn.com/16x12/${
-            i18n.language === "en-GB" ? "gb" : i18n.language
-          }.png`}
+          src={`https://flagcdn.com/16x12/${i18n.language === "en-GB" ? "gb" : i18n.language
+            }.png`}
         />
       )}
       sx={{
@@ -110,9 +110,8 @@ export const LanguageSelector: React.FC = () => {
           <Option value={lng.code} key={index}>
             <img
               alt={lng.nativeName}
-              src={`https://flagcdn.com/16x12/${
-                lng.code === "en-GB" ? "gb" : lng.code
-              }.png`}
+              src={`https://flagcdn.com/16x12/${lng.code === "en-GB" ? "gb" : lng.code
+                }.png`}
               style={{
                 marginRight: 8,
               }}
@@ -276,7 +275,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 padding: 0,
               }}
             >
-              {isLoggedIn && [
+              {isLoggedIn && currentUser && userHasRole(currentUser, RoleType.SUPER_ADMIN) && [
                 <StyledText
                   key="events"
                   level="body-sm"
@@ -338,11 +337,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                   href={
                     currentUser
                       ? generateRoute(
-                          isEventManager(currentUser!)
-                            ? ROUTES.MANAGER_DASHBOARD
-                            : ROUTES.BECOME_A_MANAGER,
-                          {}
-                        )
+                        isEventManager(currentUser!)
+                          ? ROUTES.MANAGER_DASHBOARD
+                          : ROUTES.BECOME_A_MANAGER,
+                        {}
+                      )
                       : ROUTES.LOGIN
                   }
                 >
@@ -364,43 +363,43 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
 
               {isLoggedIn
                 ? [
-                    <IconButton
-                      component="a"
-                      key="profile"
-                      href="/profile" // Link to the profile page
-                    >
-                      <PersonIcon
-                        style={{
-                          color: PALLETTE.charcoal,
-                        }}
-                      />
-                    </IconButton>,
-                    <IconButton
-                      component="a"
-                      key="logout"
-                      href="/logout" // Link to the logout page
-                    >
-                      <LogoutIcon
-                        style={{
-                          color: PALLETTE.charcoal,
-                        }}
-                      />
-                    </IconButton>,
-                  ]
-                : showLogin && (
-                    <StyledButton
-                      color={PALLETTE.charcoal}
-                      size="sm"
+                  <IconButton
+                    component="a"
+                    key="profile"
+                    href="/profile" // Link to the profile page
+                  >
+                    <PersonIcon
                       style={{
-                        margin: "0 16px",
+                        color: PALLETTE.charcoal,
                       }}
-                      onClick={() => {
-                        navigate(ROUTES.LOGIN);
+                    />
+                  </IconButton>,
+                  <IconButton
+                    component="a"
+                    key="logout"
+                    href="/logout" // Link to the logout page
+                  >
+                    <LogoutIcon
+                      style={{
+                        color: PALLETTE.charcoal,
                       }}
-                    >
-                      {t("navigation.login")}
-                    </StyledButton>
-                  )}
+                    />
+                  </IconButton>,
+                ]
+                : showLogin && (
+                  <StyledButton
+                    color={PALLETTE.charcoal}
+                    size="sm"
+                    style={{
+                      margin: "0 16px",
+                    }}
+                    onClick={() => {
+                      navigate(ROUTES.LOGIN);
+                    }}
+                  >
+                    {t("navigation.login")}
+                  </StyledButton>
+                )}
             </Stack>
           </Grid>
         </Box>

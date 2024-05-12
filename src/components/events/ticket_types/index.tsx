@@ -99,7 +99,8 @@ const TicketType: React.FC<TicketTypeProps> = ({
       orientation="horizontal"
       variant="outlined"
       style={{
-        backgroundColor: "transparent",
+        backgroundColor: PALLETTE.white,
+        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.25)",
         borderColor: PALLETTE.cerise,
         maxHeight: isScreenSmall ? "100px" : "150px",
         minWidth: isScreenSmall ? "80%" : "fit-content",

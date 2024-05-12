@@ -66,14 +66,13 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
     <Sheet
       variant="outlined"
       sx={{
+        background: "transparent",
         p: isScreenSmall ? 0.5 : 2,
         width: isScreenSmall ? "100%" : "inherit",
-        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.25)",
       }}
       style={{
         border: "2.5px solid",
         borderColor: PALLETTE.cerise,
-        backgroundColor: PALLETTE.white,
         borderRadius: 4,
       }}
     >
@@ -105,8 +104,8 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       </Stack>
 
       <StyledText
-        level="h4"
-        fontSize={24}
+        level="h3"
+        fontSize={32}
         color={PALLETTE.charcoal}
         style={{
           color: PALLETTE.charcoal,

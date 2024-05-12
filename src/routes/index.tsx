@@ -223,6 +223,10 @@ function AppRoutes() {
             {/* ---------- */}
 
             <Route element={<SuperAdminProtectedRoute />}>
+              <Route
+                path={ROUTES.EVENTS}
+                element={<EventsPageWithCurrentUser />}
+              />
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />
             </Route>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
@@ -232,10 +236,7 @@ function AppRoutes() {
               path={ROUTES.PROFILE}
               element={<ProfilePageWithCurrentUser />}
             />
-            <Route
-              path={ROUTES.EVENTS}
-              element={<EventsPageWithCurrentUser />}
-            />
+
             <Route
               path={ROUTES.CREATE_EVENT}
               element={<CreateEventPageWithCurrentUser />}

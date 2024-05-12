@@ -767,6 +767,8 @@ const enTranslations = {
     ticket_request_success_title: "Ticket request successful",
     ticket_request_success_description:
       "You can also fill out this information later if you want. You can do so <1>here</1>.",
+    ticket_releases_description:
+      "Here you can see all the ticket releases for this event. You can request tickets for each ticket release. If you have a promo code, scroll to the bottom of the page to enter it.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",
