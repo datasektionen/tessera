@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
-import { getEventRequest } from "../redux/features/eventSlice";
-import { fetchEventTicketsStart } from "../redux/features/eventTicketsSlice";
+import { RootState } from "../../store";
+import { getEventRequest } from "../../redux/features/eventSlice";
+import { fetchEventTicketsStart } from "../../redux/features/eventTicketsSlice";
 import axios from "axios";
-import { IEventSiteVisit } from "../types";
+import { IEventSiteVisit } from "../../types";
 
 export function useEventDetails(eventID: number) {
   const dispatch = useDispatch();

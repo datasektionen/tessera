@@ -52,7 +52,7 @@ import DrawerComponent from "../../../../components/navigation/manage_drawer/eve
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({

@@ -870,6 +870,8 @@ const enTranslations = {
     made_by: "Tessera is built by <1>Lucas Dow</1>",
     report_an_issue_content:
       "If something isn't working, or you have a suggestion, You can <1>Create an issue on Github</1>.",
+    contact_title: "Contact",
+    follow_us: "Follow us",
   },
 
   common: {

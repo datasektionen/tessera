@@ -9,6 +9,7 @@ class ApiRoutes {
   private static baseUrl: string = process.env.REACT_APP_BACKEND_URL || "";
 
   // Static properties for API endpoints
+  static VIEW_EVENT_LANDING_PAGE = `${ApiRoutes.baseUrl}/view/events/:refID/landing-page`;
   static MANAGER_EVENTS = `${ApiRoutes.baseUrl}/manager/events`;
   static MANAGER_EVENT = `${ApiRoutes.baseUrl}/manager/events/:eventID`;
   static MANAGER_COMPLETE_EVENT_WORKFLOW = `${ApiRoutes.baseUrl}/manager/complete-event-workflow`;
@@ -18,6 +19,8 @@ class ApiRoutes {
   static MANAGER_EVENT_SALES_REPORT = `${ApiRoutes.baseUrl}/manager/events/:eventID/sales-report`;
   static MANAGER_EVENT_SEND_OUT = `${ApiRoutes.baseUrl}/manager/events/:eventID/send-outs`;
   static MANAGER_ORGANIZATIONS = `${ApiRoutes.baseUrl}/manager/organizations`;
+  static MANAGER_EVENT_LANDING_PAGE = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page`;
+  static MANAGER_EVENT_LANDING_PAGE_EDITOR = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/editor`;
 
   // Method to generate routes with dynamic parameters
   static generateRoute(route: string, params: GenerateRouteParams): string {

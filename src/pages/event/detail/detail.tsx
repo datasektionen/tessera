@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import TesseraWrapper from "../../components/wrappers/page_wrapper";
+import { AppDispatch, RootState } from "../../../store";
+import TesseraWrapper from "../../../components/wrappers/page_wrapper";
 import { format } from "date-fns";
 import {
   Box,
@@ -17,34 +17,35 @@ import {
   IEvent,
   PromoCodeAccessForm,
   PromoCodeAccessFormInitialValues,
-} from "../../types";
-import LoadingOverlay from "../../components/Loading";
+} from "../../../types";
+import LoadingOverlay from "../../../components/Loading";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import PALLETTE from "../../theme/pallette";
+import PALLETTE from "../../../theme/pallette";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import TicketRelease from "../../components/events/ticket_release";
-import StandardGrid from "../../components/wrappers/standard_grid";
-import { FormInput } from "../../components/forms/input_types";
+import TicketRelease from "../../../components/events/ticket_release";
+import StandardGrid from "../../../components/wrappers/standard_grid";
+import { FormInput } from "../../../components/forms/input_types";
 import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
-} from "../../components/forms/form_labels";
-import StyledButton from "../../components/buttons/styled_button";
+} from "../../../components/forms/form_labels";
+import StyledButton from "../../../components/buttons/styled_button";
 import { Form, Formik } from "formik";
-import { PromoCodeValidationSchema } from "../../validation/create_ticket_release_form";
-import { StyledErrorMessage } from "../../components/forms/messages";
+import { PromoCodeValidationSchema } from "../../../validation/create_ticket_release_form";
+import { StyledErrorMessage } from "../../../components/forms/messages";
 import { Trans, useTranslation } from "react-i18next";
-import StyledText from "../../components/text/styled_text";
+import StyledText from "../../../components/text/styled_text";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
-import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
-import { ROUTES } from "../../routes/def";
-import { ticketReleaseHasClosed } from "../../utils/event_open_close";
-import { getCustomerEventRequest } from "../../redux/features/customerViewEvent";
+import { resetPostSuccess } from "../../../redux/features/ticketRequestSlice";
+import { ROUTES } from "../../../routes/def";
+import { ticketReleaseHasClosed } from "../../../utils/event_open_close";
+import { getCustomerEventRequest } from "../../../redux/features/customerViewEvent";
+import usePromoCodes from "../../../hooks/event/use_event_promo_code_hook";
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -76,49 +77,15 @@ const EventDetail: React.FC = () => {
   const { postSuccess } = useSelector(
     (state: RootState) => state.ticketRequest
   );
+  const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [displayPostSuccess, setDisplayPostSuccess] = useState<boolean>(false);
-  const { timestamp } = useSelector((state: RootState) => state.timestamp);
 
-  const submitPromoCode = (values: PromoCodeAccessForm) => {
-    // A list of promo codes exists in the localstorage for the user, which are to be submitted when requesting details
-    // To the event
-
-    let existingPromoCodes: string[] = [];
-    if (existingPromoCodes) {
-      existingPromoCodes = JSON.parse(
-        localStorage.getItem("promo_codes") || "[]"
-      );
-    } else {
-      existingPromoCodes = [];
-    }
-
-    existingPromoCodes.push(values.promo_code);
-
-    localStorage.setItem("promo_codes", JSON.stringify(existingPromoCodes));
-
-    setTimeout(() => {
-      toast.info("Promo code applied!");
-    }, 1000);
-
-    if (!refID) {
-      window.location.reload();
-      return;
-    }
-
-    dispatch(
-      getCustomerEventRequest({
-        refID,
-        secretToken: secretToken || "",
-        countSiteVisit: true,
-        promoCodes: existingPromoCodes,
-      })
-    );
-  };
+  const { submitPromoCode, promoCodes } = usePromoCodes(refID!, secretToken || "");
 
   useEffect(() => {
     if (postSuccess) {

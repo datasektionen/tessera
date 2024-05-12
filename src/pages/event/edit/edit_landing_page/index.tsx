@@ -11,110 +11,68 @@ import "grapesjs-preset-webpage";
 import "grapesjs-blocks-basic";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import { addHeroComponent } from "./components/hero-section";
+import { addHeroComponent } from "./components/blocks/hero-section";
 import { useParams } from "react-router-dom";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import { parse } from "path";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
-import { useEffect } from "react";
-import { addEventDescriptionComponent } from "./components/event-description-section";
+import React, { useEffect, useRef } from "react";
+import { addEventDescriptionComponent } from "./components/blocks/event-description-section";
 import LoadingOverlay from "../../../../components/Loading";
-<<<<<<< HEAD
 import { _editorCustomHtml } from "./components/editor/_editor_custom_html";
 import { _editorCustomCSS } from "./components/editor/_editor_custom_css";
-=======
->>>>>>> 41d9e69f12d0be71ed44611f8bf55f62fae56f84
+import { onLoad, onSave } from "./components/state/_editor_state";
+import ApiRoutes from "../../../../routes/backend_routes";
+import { addBuyTicketsButtonComponent } from "./components/blocks/buy_button";
+import { generateGjsEditorConfig } from "./config";
+import 'grapesjs-component-code-editor'
+import { addPredefinedLocationMapComponent } from "./components/blocks/custom_map";
+
 
 const theme = createTheme({
   // Your theme goes here
 });
 
-const gjsOptions: EditorConfig = {
-  height: "100vh",
-  storageManager: {
-    id: "gjs-", // Local Storage prefix
-    type: "local",
-    autosave: true, // Enable auto-saving
-    autoload: true, // Enable auto-loading
-    stepsBeforeSave: 1,
-  },
-  fromElement: true, // Load the HTML from the element
-  canvas: {
-    styles: [
-      "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-      "http://localhost:5000/test.css",
-    ],
-  },
-  undoManager: { trackSelection: false },
-  selectorManager: { componentFirst: true },
-  styleManager: {
-    sectors: [
-      {
-        name: "General",
-        open: true,
-        buildProps: ["background-color", "padding", "margin", "color"],
-      },
-    ],
-  },
-  projectData: {
-    assets: [],
-    pages: [
-      {
-        name: "Home page",
-        component: defaultHTML,
-      },
-    ],
-  },
-  pluginsOpts: {
-    "grapesjs-tui-image-editor": {
-      config: {
-        includeUI: {
-          initMenu: "filter",
-        },
-      },
-    },
-  },
-};
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 41d9e69f12d0be71ed44611f8bf55f62fae56f84
 function EditEventLandingPage() {
   const { eventID } = useParams();
+  const [loadingEditor, setLoadingEditor] = React.useState(true);
+
+  const loadingEditorRef = useRef(loadingEditor);
+
+  useEffect(() => {
+    loadingEditorRef.current = loadingEditor;
+  }, [loadingEditor]);
 
   const {
     eventDetail: { event, loading },
   } = useEventDetails(parseInt(eventID!));
 
-  const load = async (editor: Editor) => {
-    const storageManager = editor.StorageManager;
-    const data = await storageManager.load();
-    editor.loadProjectData(data);
-  };
 
-  const save = async (editor: Editor) => {
-    const storageManager = editor.StorageManager;
-    const data = editor.store();
-    await storageManager.store(data);
-  };
+
 
   const onEditor = (editor: Editor) => {
     // Inject external CSS into the iframe of the GrapesJS editor
     addHeroComponent(editor);
     addEventDescriptionComponent(editor, event!);
+    addBuyTicketsButtonComponent(editor);
+    addPredefinedLocationMapComponent(editor, event?.location!);
 
-    setTimeout(() => {
-      editor.load();
-    }, 50);
 
-    editor.on('storage:store', () => {
-      console.log('Autosave triggered');
-    });
 
     _editorCustomHtml(editor);
     _editorCustomCSS(editor);
+
+    editor.on('component:remove', (component) => {
+      if (loadingEditorRef.current) return;
+
+      if (component.attributes.type === "buy-tickets-button" && !loadingEditorRef.current) {
+        window.alert("You are removing the buy tickets button. This way users won't be able to buy tickets for your event.");
+      }
+    });
+
+    editor.on("component:selected", (component) => {
+      component.set("resizable", true);
+    });
 
     editor.Panels.addButton("options", {
       id: "save-btn",
@@ -123,11 +81,12 @@ function EditEventLandingPage() {
       attributes: { title: "Save" },
     });
 
+
     // Define the command to save
     editor.Commands.add("save-command", {
       run: function (editor) {
-        console.log("Saving...");
-        save(editor); // Manually trigger a save
+        onSave(eventID!, editor);
+        editor.store();
       },
     });
 
@@ -139,10 +98,12 @@ function EditEventLandingPage() {
       attributes: { title: "Load" },
     });
 
+
     // Define the command to load
     editor.Commands.add("load-command", {
       run: function (editor) {
-        editor.load(); // Manually trigger a load
+        editor.load();
+        onLoad(eventID!, editor);
       },
     });
 
@@ -160,12 +121,13 @@ function EditEventLandingPage() {
       },
     });
 
-    // Listen to storage-related events
-    editor.on("editor:start", () => {
-      console.log("Storage start store");
-    });
 
-    editor.on("storage:load", (data) => console.log("Loaded data:", data));
+
+    // On initial load, load the content from the server
+    editor.load();
+    editor.on("load", () => {
+      setLoadingEditor(false);
+    });
   };
 
   if (loading) {
@@ -185,7 +147,7 @@ function EditEventLandingPage() {
       // This is an optional prop, you can always import the CSS directly in your JS if you wish.
       grapesjsCss="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
       // GrapesJS init options
-      options={gjsOptions}
+      options={generateGjsEditorConfig(eventID!)}
       plugins={[
         {
           id: "gjs-blocks-basic",
@@ -218,6 +180,10 @@ function EditEventLandingPage() {
         {
           id: "grapesjs-tui-image-editor",
           src: "https://unpkg.com/grapesjs-tui-image-editor",
+        },
+        {
+          id: "grapesjs-component-code-editor",
+          src: "https://unpkg.com/grapesjs-component-code-editor",
         },
       ]}
       onEditor={onEditor}

@@ -56,6 +56,7 @@ import {
   ManagerPage,
   ManagerTeamsPage,
   EditEventLandingPage,
+  EventDetailLandingPage,
 } from "./page_import";
 import GrapesJSEditor from "../pages/event/edit/edit_landing_page";
 
@@ -189,6 +190,8 @@ function AppRoutes() {
           <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
+
+          <Route path={ROUTES.EVENT_DETAIL_LANDING_PAGE} element={<EventDetailLandingPage />} />
 
           <Route
             path={ROUTES.GUEST_TICKET_REQUEST}

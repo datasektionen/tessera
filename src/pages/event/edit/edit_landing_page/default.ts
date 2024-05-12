@@ -1,9 +1,9 @@
 const defaultHTML = `       <section class="hero-section" style="position: relative; height: 100vh; width: 100%; overflow: hidden; display: block;">
-<img src="${process.env.REACT_APP_BASE_URL}/assets/default-landing-page-image.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+<img src="${process.env.REACT_APP_BASE_URL}/assets/default-landing-page-image.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
 <div class="overlay" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; background-color: rgba(0, 0, 0, 0.5);">
   <h1 style="color: white; font-size: 48px; font-weight: bold;">Welcome to The Annual Tech Conference</h1>
   <p style="color: white; font-size: 24px; margin-top: 20px;">Join us for a day of innovation and inspiration at TechCon 2024</p>
-  <button class="btn btn-primary btn-lg" style="margin-top: 30px;">Buy Tickets Now!</button>
+  <button id="buy-tickets" class="btn btn-primary btn-lg" style="margin-top: 30px;">Buy Tickets Now!</button>
 </div>
 </section>
 
@@ -34,10 +34,6 @@ const defaultHTML = `       <section class="hero-section" style="position: relat
     <a href="#" class="btn btn-success btn-lg">Purchase Tickets</a>
 </section>
 </div>
-
-<footer class="text-center bg-dark text-light py-4">
-<p>&copy; 2024 TechCon Events. All Rights Reserved.</p>
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 `;

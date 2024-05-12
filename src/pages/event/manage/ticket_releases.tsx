@@ -10,7 +10,7 @@ import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlic
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid } from "@mui/joy";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import { ITicket, ITicketRelease } from "../../../types";
 import TicketReleaseRowView from "../../../components/events/ticket_release/list/ticket_release_row_view";
 import PALLETTE from "../../../theme/pallette";

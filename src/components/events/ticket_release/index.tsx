@@ -68,10 +68,13 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       sx={{
         p: isScreenSmall ? 0.5 : 2,
         width: isScreenSmall ? "100%" : "inherit",
+        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.25)",
       }}
       style={{
+        border: "2.5px solid",
         borderColor: PALLETTE.cerise,
-        backgroundColor: "transparent",
+        backgroundColor: PALLETTE.white,
+        borderRadius: 4,
       }}
     >
       <Stack
@@ -111,10 +114,10 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       >
         {ticketRelease.name}
       </StyledText>
-      <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16}>
-        <div>
-          <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
-        </div>
+      <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16} sx={{
+        mt: -1,
+      }}>
+        <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
       </StyledText>
       {!ticketReleaseHasClosed(ticketRelease, timestamp!) && [
         <StyledText
@@ -145,21 +148,21 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           {" - "}
           {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.id ===
             4 && (
-            <StyledText
-              level="body-sm"
-              key="ticket_release_method"
-              color={PALLETTE.charcoal}
-              fontSize={16}
-              style={{
-                textDecoration: "italic",
-              }}
-              sx={{
-                mb: 1,
-              }}
-            >
-              {ticketRelease.ticketReleaseMethodDetail.method_description}
-            </StyledText>
-          )}
+              <StyledText
+                level="body-sm"
+                key="ticket_release_method"
+                color={PALLETTE.charcoal}
+                fontSize={16}
+                style={{
+                  textDecoration: "italic",
+                }}
+                sx={{
+                  mb: 1,
+                }}
+              >
+                {ticketRelease.ticketReleaseMethodDetail.method_description}
+              </StyledText>
+            )}
         </StyledText>,
 
         <InformationModal

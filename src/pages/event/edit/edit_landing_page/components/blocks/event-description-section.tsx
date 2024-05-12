@@ -1,9 +1,8 @@
 import { Editor } from "grapesjs";
-import { IEvent } from "../../../../../types";
+import { IEvent } from "../../../../../../types";
 import { marked } from "marked"; // Import marked
 
 export const addEventDescriptionComponent = (editor: Editor, event: IEvent) => {
-  console.log(event?.description);
 
   const descriptionHTML = event?.description
     ? marked(event.description)

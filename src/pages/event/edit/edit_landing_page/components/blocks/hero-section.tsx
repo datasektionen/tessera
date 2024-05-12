@@ -39,6 +39,7 @@ export const addHeroComponent = (editor: Editor) => {
               },
               {
                 type: "button",
+                id: "buy-tickets",
                 tagName: "button",
                 classes: ["btn", "btn-primary", "btn-lg"],
                 content: "Buy Tickets Now!",

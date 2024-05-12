@@ -74,6 +74,7 @@ export const ROUTES = {
   // Event related routes
   EVENTS: "/events",
   EVENT_DETAIL: "/events/:refID",
+  EVENT_DETAIL_LANDING_PAGE: "/events/:refID/landing-page",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",
