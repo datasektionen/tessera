@@ -20,8 +20,11 @@ import DrawerComponent from "../../../../components/navigation/manage_drawer";
 import { useEffect } from "react";
 import { addEventDescriptionComponent } from "./components/event-description-section";
 import LoadingOverlay from "../../../../components/Loading";
+<<<<<<< HEAD
 import { _editorCustomHtml } from "./components/editor/_editor_custom_html";
 import { _editorCustomCSS } from "./components/editor/_editor_custom_css";
+=======
+>>>>>>> 41d9e69f12d0be71ed44611f8bf55f62fae56f84
 
 const theme = createTheme({
   // Your theme goes here
@@ -74,7 +77,10 @@ const gjsOptions: EditorConfig = {
   },
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 41d9e69f12d0be71ed44611f8bf55f62fae56f84
 function EditEventLandingPage() {
   const { eventID } = useParams();
 
