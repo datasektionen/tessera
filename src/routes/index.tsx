@@ -304,10 +304,6 @@ function AppRoutes() {
               path={ROUTES.TICKET_SCANNER}
               element={<TicketScannerPageWithCurrentUser />}
             />
-            <Route
-              path={ROUTES.SETTIGNS_FINANCIAL}
-              element={<SettingsFinancialPageWithCurrentUser />}
-            />
 
             <Route
               path={ROUTES.MANAGE_SEND_OUT_NEW}

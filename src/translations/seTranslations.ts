@@ -322,6 +322,7 @@ const seTranslations = {
 
     drawer: {
       events: "Evenemang",
+      all_events: "Alla evenemang",
       teams: "Lag",
       create_event: "Skapa evenemang",
       settings: {

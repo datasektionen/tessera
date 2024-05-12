@@ -376,6 +376,7 @@ const enTranslations = {
 
     drawer: {
       events: "Events",
+      all_events: "All events",
       teams: "Teams",
       create_event: "Create event",
       settings: {

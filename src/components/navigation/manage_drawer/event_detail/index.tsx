@@ -21,6 +21,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { useNetworkDetails } from "../../../../hooks/manager/network_details_hook";
+import EventIcon from "@mui/icons-material/Event";
 
 interface DrawerComponentProps {
   eventID: string;
@@ -34,6 +35,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
   // Variables
   const { t } = useTranslation();
   const theme = useTheme();
+
 
   // State Variables
   const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
@@ -111,6 +113,12 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             pb: "128px",
           }}
         >
+          <DrawerListItem
+            text={t("manager.drawer.all_events")}
+            icon={<EventIcon />}
+            navigateTo={ROUTES.MANAGER_DASHBOARD}
+          />
+          <Divider sx={{ my: 1 }} light={true} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             title={t("manage_event.drawer.manage.title")}
@@ -243,13 +251,6 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             icon={<SettingsIcon />}
             drawerExtended={isExtended}
             subItems={[
-              {
-                title: t("manage_event.drawer.settings.financial"),
-                navigateTo: generateRoute(ROUTES.SETTIGNS_FINANCIAL, {
-                  eventId: eventID,
-                }),
-                clickable: true,
-              },
               {
                 title: t("manage_event.drawer.settings.emails"),
                 navigateTo: generateRoute(``, {
