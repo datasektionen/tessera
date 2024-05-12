@@ -20,6 +20,8 @@ import DrawerComponent from "../../../../components/navigation/manage_drawer";
 import { useEffect } from "react";
 import { addEventDescriptionComponent } from "./components/event-description-section";
 import LoadingOverlay from "../../../../components/Loading";
+import { _editorCustomHtml } from "./components/editor/_editor_custom_html";
+import { _editorCustomCSS } from "./components/editor/_editor_custom_css";
 
 const theme = createTheme({
   // Your theme goes here
@@ -72,6 +74,7 @@ const gjsOptions: EditorConfig = {
   },
 };
 
+
 function EditEventLandingPage() {
   const { eventID } = useParams();
 
@@ -99,6 +102,13 @@ function EditEventLandingPage() {
     setTimeout(() => {
       editor.load();
     }, 50);
+
+    editor.on('storage:store', () => {
+      console.log('Autosave triggered');
+    });
+
+    _editorCustomHtml(editor);
+    _editorCustomCSS(editor);
 
     editor.Panels.addButton("options", {
       id: "save-btn",
