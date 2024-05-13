@@ -416,6 +416,7 @@ const seTranslations = {
       form: "Formulär",
       send_outs: "Utskick",
       tickets: "Biljetter",
+      event_page: "Eventsida",
     },
 
     overview: {
@@ -461,7 +462,7 @@ const seTranslations = {
         ticket_releases: "Biljettsläpp",
         ticket_types: "Biljettbatcher",
         form: "Formulär",
-        landing_page: "Landningssida",
+        event_page: "Eventsida",
       },
 
       economy: {
@@ -628,6 +629,19 @@ const seTranslations = {
         ticket_details_helperText:
           "Ändra detaljerna för dina biljettyper och klicka sedan på 'Spara'.",
       },
+
+      event_page: {
+        title: "Redigera eventsida",
+        description:
+          "Välj mellan en enkel eventsida eller anpassa den efter dina önskemål.",
+        enable: "Använd anpassad eventsida",
+        enabled: "Aktiverad",
+        disabled: "Inaktiverad",
+        editor_title: "Redigeraren",
+        editor_description:
+          "Eventsidans redigerare är ett kraftfullt verktyg som hjälper dig att skapa en anpassad eventsida för ditt evenemang. Du kan lägga till text, bilder, videoklipp och mer. Du designar sidan precis som du vill att den ska se ut, och vi tar hand om resten.",
+        editor_button: "Gå till redigeraren",
+      },
     },
 
     form_field_responses: {
@@ -660,6 +674,8 @@ const seTranslations = {
     ticket_request_success_title: "Biljettförfrågan skickad!",
     ticket_request_success_description:
       "Du kan också fylla i denna information senare om du vill. Du kan göra det <1>här</1>.",
+    ticket_releases_description:
+      "Här kan du se alla biljettsläpp för eventet. Du kan begära biljetter för varje biljettsläpp. Om du har en kampanjkod, bläddra till botten av vyn för att ange den.",
     check_in: {
       scan_ticket_instructions: "Skanna QR-koden för att checka in.",
       loading: "Laddar...",
@@ -832,6 +848,8 @@ const seTranslations = {
     made_by: "Tessera är byggt av <1>Lucas Dow</1>.",
     report_an_issue_content:
       "Om något inte fungerar, eller om du har ett förslag, kan du <1>Skapa ett problem på Github</1>.",
+    contact_title: "Kontakt",
+    follow_us: "Följ oss",
   },
 
   main_page: {

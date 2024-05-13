@@ -465,7 +465,7 @@ const enTranslations = {
       form: "Form",
       send_outs: "Send outs",
       tickets: "Tickets",
-      landing_page: "Landing page",
+      event_page: "Event Page",
     },
 
     overview: {
@@ -501,7 +501,7 @@ const enTranslations = {
         ticket_releases: "Ticket releases",
         ticket_types: "Ticket batches",
         form: "Form",
-        landing_page: "Landing page",
+        event_page: "Event Page",
       },
 
       send_outs: {
@@ -683,16 +683,16 @@ const enTranslations = {
           "Modify the details of your ticket types and then click 'Save'.",
       },
 
-      landing_page: {
-        title: "Edit landing page",
+      event_page: {
+        title: "Edit event page",
         description:
-          "Choose betweeen a default landing page or customize it to your liking.",
-        enable: "Use custom landing page",
+          "Choose betweeen a default event page or customize it to your liking.",
+        enable: "Use custom event page",
         enabled: "Enabled",
         disabled: "Disabled",
         editor_title: "The Editor",
         editor_description:
-          "The landing page editor is a powerful tool to help you create a custom landing page for your event. You can add text, images, videos, and more. You design the page exactly how you want it to look, and we will take care of the rest.",
+          "The event page editor is a powerful tool to help you create a custom event page for your event. You can add text, images, videos, and more. You design the page exactly how you want it to look, and we will take care of the rest.",
         editor_button: "Go to editor",
       },
     },
