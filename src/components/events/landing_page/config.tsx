@@ -1,5 +1,5 @@
 import { EditorConfig, ProjectData } from "grapesjs";
-import ApiRoutes from "../../../../routes/backend_routes";
+import ApiRoutes from "../../../routes/backend_routes";
 import defaultHTML from "./default";
 
 
@@ -46,7 +46,8 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
         canvas: {
             styles: [
                 "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-                `${process.env.REACT_APP_BASE_URL}/test.css`
+                `${process.env.REACT_APP_BASE_URL}/test.css`,
+                'https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400;600;700&display=swap',
             ],
         },
         undoManager: { trackSelection: false },
@@ -57,6 +58,32 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
                     name: "General",
                     open: true,
                     buildProps: ["background-color", "padding", "margin", "color"],
+                },
+                {
+                    name: "Typography",
+                    open: false,
+                    buildProps: ["font-family", "font-size", "font-weight", "letter-spacing", "color"],
+                    properties: [
+                        {
+                            property: 'font-family',
+                            name: 'Font',
+                            list: [
+                                { id: 'arial', name: 'Arial, sans-serif', value: 'Arial, sans-serif' },
+                                { id: "jos", name: "Josefin Sans", value: "Josefin Sans, sans-serif" },
+                            ]
+                        },
+                        // Other properties...
+                    ]
+                },
+                {
+                    name: "Decorations",
+                    open: false,
+                    buildProps: ["border-radius-c", "background-color", "border-radius", "border"],
+                },
+                {
+                    name: "Extra",
+                    open: false,
+                    buildProps: ["transition", "perspective", "transform"],
                 },
             ],
         },

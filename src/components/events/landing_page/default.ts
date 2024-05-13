@@ -36,6 +36,17 @@ const defaultHTML = `       <section class="hero-section" style="position: relat
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function parallax() {
+    alert('Scrolling');
+    var scrollPosition = window.pageYOffset;
+    var parallaxImage = document.querySelector('.hero-section img');
+    var offset = scrollPosition * 0.5; // Adjust the parallax speed
+    parallaxImage.style.transform = 'translateY(' + offset + 'px)';
+  }
+
+  window.addEventListener('scroll', parallax);
+</script>
 `;
 
 export default defaultHTML;

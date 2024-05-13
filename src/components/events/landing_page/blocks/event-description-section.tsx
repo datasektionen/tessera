@@ -1,6 +1,6 @@
 import { Editor } from "grapesjs";
-import { IEvent } from "../../../../../../types";
 import { marked } from "marked"; // Import marked
+import { IEvent } from "../../../../types";
 
 export const addEventDescriptionComponent = (editor: Editor, event: IEvent) => {
 

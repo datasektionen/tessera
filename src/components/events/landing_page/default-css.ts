@@ -11,8 +11,6 @@ const defaultCss = `
     border-color: #000;
     border-width: 2px;
   }
-
-
     `;
 
 export default defaultCss;

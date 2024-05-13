@@ -102,7 +102,9 @@ export const ROUTES = {
   EDIT_EVENT_TICKET_RELEASES: "/events/:eventID/edit/ticket-releases",
   EDIT_EVENT_TICKET_TYPES: "/events/:eventID/edit/ticket-types",
   EDIT_EVENT_FORM: "/events/:eventID/edit/form",
-  EDIT_EVENT_LANDING_PAGE: "/events/:eventID/edit/landing-page",
+  EDIT_EVENT_LANDING_PAGE_EDTIOR: "/events/:eventID/edit/landing-page/editor",
+  EDIT_EVENT_LANDING_PAGE_SETTINGS: "/events/:eventID/edit/landing-page/",
+
 
   // Event creation routes
   CREATE_EVENT: "/create-event",

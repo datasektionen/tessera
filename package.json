@@ -44,6 +44,8 @@
     "fuse.js": "^7.0.0",
     "grapesjs": "^0.21.10",
     "grapesjs-blocks-basic": "^1.0.2",
+    "grapesjs-component-code-editor": "^1.0.20",
+    "grapesjs-component-countdown": "^1.0.2",
     "grapesjs-preset-webpage": "^1.0.3",
     "i": "^0.3.7",
     "i18next": "^23.7.19",

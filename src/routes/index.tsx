@@ -55,10 +55,11 @@ import {
   BecomeAManagerPage,
   ManagerPage,
   ManagerTeamsPage,
-  EditEventLandingPage,
+  EditEventLandingEditorPage,
+  EditLandingPageSettingsPage,
   EventDetailLandingPage,
 } from "./page_import";
-import GrapesJSEditor from "../pages/event/edit/edit_landing_page";
+import GrapesJSEditor from "../pages/event/edit/edit_landing_page/edit_page";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
@@ -119,7 +120,9 @@ const EditTicketReleaseAddonsWithCurrentUser = withCurrentUserRequest(
 );
 
 const EditEventLandingPageWithCurrentUser =
-  withCurrentUserRequest(EditEventLandingPage);
+  withCurrentUserRequest(EditEventLandingEditorPage);
+const EditLandingPageSettingsPageWithCurrentUser =
+  withCurrentUserRequest(EditLandingPageSettingsPage);
 
 const ManageEventTicketReleasesWithCurrentUser = withCurrentUserRequest(
   ManageEventTicketReleasesPage
@@ -265,10 +268,16 @@ function AppRoutes() {
               path={ROUTES.EDIT_EVENT_FORM}
               element={<EditEventFormPageWithCurrentUser />}
             />
+
+            {/* Landing page editor */}
+
             <Route
-              path={ROUTES.EDIT_EVENT_LANDING_PAGE}
+              path={ROUTES.EDIT_EVENT_LANDING_PAGE_EDTIOR}
               element={<EditEventLandingPageWithCurrentUser />}
             />
+            <Route path={ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS} element={<EditLandingPageSettingsPageWithCurrentUser />} />
+
+            {/* ---------------*/}
 
             <Route
               path={ROUTES.PROFILE_TICKET_REQUESTS}

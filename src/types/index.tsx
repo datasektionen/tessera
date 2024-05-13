@@ -808,6 +808,8 @@ export interface IEventLandingPage {
   event_id: number;
   html: string;
   css: string;
+  js: string;
+  enabled: boolean;
   created_at?: Date;
   updated_at?: Date;
 }

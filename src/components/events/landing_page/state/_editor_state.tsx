@@ -5,14 +5,17 @@
 
 import axios, { AxiosResponse } from "axios";
 import { Editor } from "grapesjs";
-import ApiRoutes from "../../../../../../routes/backend_routes";
-import { IEventLandingPage } from "../../../../../../types";
-import { fetchApi } from "../../../../../../utils/api/fetch_api";
-import defaultCss from "../../default-css";
+import { IEventLandingPage } from "../../../../types";
+import { fetchApi } from "../../../../utils/api/fetch_api";
+import ApiRoutes from "../../../../routes/backend_routes";
+import defaultCss from "../default-css";
+import DOMPurify from "dompurify";
+
 
 interface IContent {
     html: string;
     css: string;
+    js: string;
 }
 
 export const loadContentFromServer = async (eventID: string) => {
@@ -46,11 +49,15 @@ const saveContentToServer = async (eventID: string, content: IContent) => {
 export const onSave = async (eventID: string, editor: Editor) => {
     const html = editor.getHtml();
     const css = editor.getCss();
+    const js = editor.getJs();
 
+
+    const sanitizedJs = DOMPurify.sanitize(js);
 
     const content: IContent = {
         html: html,
         css: css || '',
+        js: sanitizedJs || '',
     };
 
     // Call your API to save the content

@@ -275,8 +275,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 padding: 0,
               }}
             >
-              {isLoggedIn && currentUser && userHasRole(currentUser, RoleType.SUPER_ADMIN) && [
-                <StyledText
+              {isLoggedIn && [
+                currentUser && userHasRole(currentUser, RoleType.SUPER_ADMIN) && (<StyledText
                   key="events"
                   level="body-sm"
                   color={""}
@@ -290,7 +290,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                   <StyledLink href={ROUTES.EVENTS}>
                     {t("navigation.events")}
                   </StyledLink>
-                </StyledText>,
+                </StyledText>),
 
                 <StyledText
                   key="contact"

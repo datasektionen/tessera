@@ -1,6 +1,15 @@
 import { Editor } from "grapesjs";
 
 export const addHeroComponent = (editor: Editor) => {
+  const parallaxScript = function (this: any) {
+    const image = this.querySelector('img');
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      var offset = scrollPosition * 0.3;  // Adjust parallax speed here
+      image.style.transform = 'translateY(' + offset + 'px)';
+    });
+  };
+
   editor.DomComponents.addType("hero-section", {
     isComponent: (el) =>
       el.tagName === "SECTION" && el.classList.contains("hero-section"),
@@ -10,8 +19,8 @@ export const addHeroComponent = (editor: Editor) => {
         classes: ["hero-section"],
         components: [
           {
-            type: "image", // Use GrapesJS's built-in image type
-            src: `${process.env.REACT_APP_BASE_URL}/assets/default-landing-page-image.jpg`, // Default src
+            type: "image",
+            src: `${process.env.REACT_APP_BASE_URL}/assets/default-landing-page-image.jpg`,
             style: {
               position: "absolute",
               top: 0,
@@ -34,8 +43,7 @@ export const addHeroComponent = (editor: Editor) => {
               {
                 type: "text",
                 tagName: "p",
-                content:
-                  "Join us for a day of innovation and inspiration at TechCon 2024",
+                content: "Join us for a day of innovation and inspiration at TechCon 2024",
               },
               {
                 type: "button",
@@ -63,6 +71,7 @@ export const addHeroComponent = (editor: Editor) => {
           width: "100%",
           overflow: "hidden",
         },
+        script: parallaxScript,  // Attach the script to the component
       },
     },
   });

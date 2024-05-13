@@ -82,7 +82,9 @@ function* eventSaga(
         id: eventData.landing_page.ID!,
         event_id: eventData.landing_page.event_id!,
         html: eventData.landing_page.html!,
+        enabled: eventData.landing_page.enabled!,
         css: eventData.landing_page.css!,
+        js: eventData.landing_page.js!,
       },
       organization: {
         id: eventData.organization.ID!,

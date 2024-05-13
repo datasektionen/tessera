@@ -21,6 +21,7 @@ class ApiRoutes {
   static MANAGER_ORGANIZATIONS = `${ApiRoutes.baseUrl}/manager/organizations`;
   static MANAGER_EVENT_LANDING_PAGE = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page`;
   static MANAGER_EVENT_LANDING_PAGE_EDITOR = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/editor`;
+  static MANAGER_EVENT_LANDING_PAGE_SET_ENABLED = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/set-enabled`;
 
   // Method to generate routes with dynamic parameters
   static generateRoute(route: string, params: GenerateRouteParams): string {

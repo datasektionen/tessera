@@ -74,6 +74,17 @@ const EventLandingPage = () => {
         };
     }, [event]);
 
+    useEffect(() => {
+        if (event?.landing_page?.html) {
+            const script = document.createElement('script');
+            let jsCode = event?.landing_page?.js!;
+            jsCode = jsCode.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+            script.innerHTML = jsCode;
+            console.log(script.innerHTML)
+            document.body.appendChild(script);
+        }
+    }, [event]);
 
     if (!event) {
         // TODO: 404 page
@@ -95,6 +106,8 @@ const EventLandingPage = () => {
             transition: { type: 'spring', stiffness: 300, damping: 30 },
         }
     };
+    console.log(event?.landing_page!.js!)
+
     return (
         <div>
             <StandardToastContainer />
@@ -131,6 +144,7 @@ const EventLandingPage = () => {
             <style dangerouslySetInnerHTML={{ __html: event?.landing_page!.css! }}></style>
             <div dangerouslySetInnerHTML={{ __html: event?.landing_page!.html! }}></div>
             <LandingPageFooter />
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
         </div>
     );
 }

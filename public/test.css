@@ -13,3 +13,8 @@
     align-items: center;
     text-align: center;
 }
+
+.hero-section img {
+    transition: transform 0.2s ease-out;
+  }
+
