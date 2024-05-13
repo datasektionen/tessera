@@ -196,10 +196,10 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
               {
                 title: t("manage_event.drawer.edit.landing_page"),
-                navigateTo: generateRoute(``, {
+                navigateTo: generateRoute(ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS, {
                   eventId: eventID,
                 }),
-                clickable: false,
+                clickable: true,
               },
             ]}
           />

@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ITicket, ITicketRelease } from "../../../../types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
 import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid, Stack } from "@mui/joy";

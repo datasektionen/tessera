@@ -327,6 +327,7 @@ export interface IEvent {
   createdById?: string;
   form_field_description?: string;
   form_fields?: IEventFormField[];
+  landing_page?: IEventLandingPage;
 }
 
 export interface IEventForm {
@@ -801,6 +802,18 @@ export interface ISelectedAddon {
   id: number;
   quantity: number;
 }
+
+export interface IEventLandingPage {
+  id?: number;
+  event_id: number;
+  html: string;
+  css: string;
+  js: string;
+  enabled: boolean;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
 
 export enum OrganizationUserRoleType {
   OWNER = "owner",

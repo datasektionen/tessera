@@ -465,6 +465,7 @@ const enTranslations = {
       form: "Form",
       send_outs: "Send outs",
       tickets: "Tickets",
+      event_page: "Event Page",
     },
 
     overview: {
@@ -500,7 +501,7 @@ const enTranslations = {
         ticket_releases: "Ticket releases",
         ticket_types: "Ticket batches",
         form: "Form",
-        landing_page: "Landing page",
+        event_page: "Event Page",
       },
 
       send_outs: {
@@ -681,6 +682,19 @@ const enTranslations = {
         ticket_details_helperText:
           "Modify the details of your ticket types and then click 'Save'.",
       },
+
+      event_page: {
+        title: "Edit event page",
+        description:
+          "Choose betweeen a default event page or customize it to your liking.",
+        enable: "Use custom event page",
+        enabled: "Enabled",
+        disabled: "Disabled",
+        editor_title: "The Editor",
+        editor_description:
+          "The event page editor is a powerful tool to help you create a custom event page for your event. You can add text, images, videos, and more. You design the page exactly how you want it to look, and we will take care of the rest.",
+        editor_button: "Go to editor",
+      },
     },
 
     form_field_responses: {
@@ -767,6 +781,8 @@ const enTranslations = {
     ticket_request_success_title: "Ticket request successful",
     ticket_request_success_description:
       "You can also fill out this information later if you want. You can do so <1>here</1>.",
+    ticket_releases_description:
+      "Here you can see all the ticket releases for this event. You can request tickets for each ticket release. If you have a promo code, scroll to the bottom of the page to enter it.",
     check_in: {
       scan_ticket_instructions: "Scan the QR code on the ticket to check in",
       loading: "Loading...",
@@ -870,6 +886,8 @@ const enTranslations = {
     made_by: "Tessera is built by <1>Lucas Dow</1>",
     report_an_issue_content:
       "If something isn't working, or you have a suggestion, You can <1>Create an issue on Github</1>.",
+    contact_title: "Contact",
+    follow_us: "Follow us",
   },
 
   common: {

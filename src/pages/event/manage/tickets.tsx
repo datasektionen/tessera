@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs } from "@mui/joy";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import { useTranslation } from "react-i18next";
 import EventTicketsList from "../../../components/events/tickets/list";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";

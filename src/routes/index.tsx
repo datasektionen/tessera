@@ -55,7 +55,11 @@ import {
   BecomeAManagerPage,
   ManagerPage,
   ManagerTeamsPage,
+  EditEventLandingEditorPage,
+  EditLandingPageSettingsPage,
+  EventDetailLandingPage,
 } from "./page_import";
+import GrapesJSEditor from "../pages/event/edit/edit_landing_page/edit_page";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
@@ -114,6 +118,11 @@ const EventEconomyPageWithCurrentUser =
 const EditTicketReleaseAddonsWithCurrentUser = withCurrentUserRequest(
   EditTicketReleaseAddonsPage
 );
+
+const EditEventLandingPageWithCurrentUser =
+  withCurrentUserRequest(EditEventLandingEditorPage);
+const EditLandingPageSettingsPageWithCurrentUser =
+  withCurrentUserRequest(EditLandingPageSettingsPage);
 
 const ManageEventTicketReleasesWithCurrentUser = withCurrentUserRequest(
   ManageEventTicketReleasesPage
@@ -185,6 +194,8 @@ function AppRoutes() {
 
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
 
+          <Route path={ROUTES.EVENT_DETAIL_LANDING_PAGE} element={<EventDetailLandingPage />} />
+
           <Route
             path={ROUTES.GUEST_TICKET_REQUEST}
             element={<GuestTicketRequestPage />}
@@ -215,6 +226,10 @@ function AppRoutes() {
             {/* ---------- */}
 
             <Route element={<SuperAdminProtectedRoute />}>
+              <Route
+                path={ROUTES.EVENTS}
+                element={<EventsPageWithCurrentUser />}
+              />
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />
             </Route>
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
@@ -224,10 +239,7 @@ function AppRoutes() {
               path={ROUTES.PROFILE}
               element={<ProfilePageWithCurrentUser />}
             />
-            <Route
-              path={ROUTES.EVENTS}
-              element={<EventsPageWithCurrentUser />}
-            />
+
             <Route
               path={ROUTES.CREATE_EVENT}
               element={<CreateEventPageWithCurrentUser />}
@@ -256,6 +268,17 @@ function AppRoutes() {
               path={ROUTES.EDIT_EVENT_FORM}
               element={<EditEventFormPageWithCurrentUser />}
             />
+
+            {/* Landing page editor */}
+
+            <Route
+              path={ROUTES.EDIT_EVENT_LANDING_PAGE_EDTIOR}
+              element={<EditEventLandingPageWithCurrentUser />}
+            />
+            <Route path={ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS} element={<EditLandingPageSettingsPageWithCurrentUser />} />
+
+            {/* ---------------*/}
+
             <Route
               path={ROUTES.PROFILE_TICKET_REQUESTS}
               element={<ProfileTicketRequestsPageWithCurrentUser />}

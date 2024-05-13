@@ -125,7 +125,6 @@ export function canUseLimitedFeature(
     );
   }
 
-  console.log(featureUsages);
 
   const latestUsage = getLatestFeatureUsage(
     featureUsages,

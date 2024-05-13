@@ -6,7 +6,7 @@ import { Box, Breadcrumbs, Divider } from "@mui/joy";
 
 import { getEventRequest } from "../../../../redux/features/eventSlice";
 import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import StyledText from "../../../../components/text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import { useTranslation } from "react-i18next";

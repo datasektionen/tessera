@@ -74,6 +74,7 @@ export const ROUTES = {
   // Event related routes
   EVENTS: "/events",
   EVENT_DETAIL: "/events/:refID",
+  EVENT_DETAIL_LANDING_PAGE: "/events/:refID/landing-page",
   EVENT_TICKET_RELEASE: "/events/:eventID/ticket-release",
   EVENT_TICKET_RELEASE_DETAIL:
     "/events/:eventID/ticket-release/:ticketReleaseID",
@@ -101,7 +102,9 @@ export const ROUTES = {
   EDIT_EVENT_TICKET_RELEASES: "/events/:eventID/edit/ticket-releases",
   EDIT_EVENT_TICKET_TYPES: "/events/:eventID/edit/ticket-types",
   EDIT_EVENT_FORM: "/events/:eventID/edit/form",
-  EDIT_EVENT_LANDING_PAGE: "/events/:eventID/edit/landing-page",
+  EDIT_EVENT_LANDING_PAGE_EDTIOR: "/events/:eventID/edit/landing-page/editor",
+  EDIT_EVENT_LANDING_PAGE_SETTINGS: "/events/:eventID/edit/landing-page/",
+
 
   // Event creation routes
   CREATE_EVENT: "/create-event",
@@ -146,4 +149,5 @@ export const ROUTES = {
   // Post login routes
   POST_LOGIN: "/post-login",
   BECOME_A_MANAGER: "/become-a-manager",
+  CANVAS: "/canvas",
 };

@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 import Title from "../../../components/text/title";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { ITicket } from "../../../types";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 import LoadingOverlay from "../../../components/Loading";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";

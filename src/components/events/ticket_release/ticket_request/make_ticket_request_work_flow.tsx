@@ -20,7 +20,7 @@ import {
   resetGustCustomer,
   resetRequestSuccess,
 } from "../../../../redux/features/guestCustomerSlice";
-import { resetPostSuccess } from "../../../../redux/features/ticketRequestSlice";
+import { resetError, resetPostSuccess } from "../../../../redux/features/ticketRequestSlice";
 import EditFormFieldResponse from "../../form_field_response/edit";
 import { Trans } from "react-i18next";
 import StyledButton from "../../../buttons/styled_button";
@@ -53,7 +53,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     loading,
   } = useSelector((state: RootState) => state.auth);
 
-  const { postSuccess } = useSelector(
+  const { postSuccess, error: postError } = useSelector(
     (state: RootState) => state.ticketRequest
   );
 
@@ -137,6 +137,14 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (postError) {
+      dispatch(resetError());
+      dispatch(resetPostSuccess());
+      handleClose();
+    }
+  }, [postError]);
+
   // Handle customer signup and login success
   useEffect(() => {
     if (customerSignupSuccess) {
@@ -148,10 +156,6 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     }
   }, [customerLoginSuccess, customerSignupSuccess, dispatch]);
 
-  useEffect(() => {
-    if (customerSignupSuccess) {
-    }
-  }, [customerSignupSuccess]);
 
   // Handle navigation and state reset based on active step
   useEffect(() => {
@@ -185,8 +189,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     if (activeStep === 4 && isGuestCustomer) {
       setTimeout(() => {
         navigate(
-          `/events/${refID!}/guest/${guestCustomer.user_id}?request_token=${
-            guestCustomer.request_token
+          `/events/${refID!}/guest/${guestCustomer.user_id}?request_token=${guestCustomer.request_token
           }`
         );
       }, 1000);
