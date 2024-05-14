@@ -70,6 +70,7 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
             "display",
             "justify-content",
             "align-items",
+            "background-image",
           ],
           properties: [
             {

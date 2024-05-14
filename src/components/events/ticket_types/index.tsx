@@ -113,7 +113,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: isScreenSmall ? "column" : "row",
               justifyContent: "flex-start",
               alignItems: "center",
             }}
@@ -174,7 +174,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
             alignItems="center"
             justifyContent="flex-start"
             style={{
-              minWidth: "128px",
+              minWidth: "80px",
             }}
           >
             <Button

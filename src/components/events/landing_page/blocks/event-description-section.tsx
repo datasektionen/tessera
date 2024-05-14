@@ -3,7 +3,6 @@ import { marked } from "marked"; // Import marked
 import { IEvent } from "../../../../types";
 
 export const addEventDescriptionComponent = (editor: Editor, event: IEvent) => {
-
   const descriptionHTML = event?.description
     ? marked(event.description)
     : "This is a description of the event.";
