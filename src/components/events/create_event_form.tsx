@@ -12,6 +12,8 @@ import {
   Select,
   Stack,
   Textarea,
+  Chip,
+  Box,
 } from "@mui/joy";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import PALLETTE from "../../theme/pallette";
@@ -67,6 +69,8 @@ const CreateEventForm: React.FC = () => {
     dispatch(setEventForm(values));
   };
 
+  console.log(organizations)
+
   if (loading || initialLoading) {
     return <LoadingOverlay />;
   }
@@ -83,7 +87,7 @@ const CreateEventForm: React.FC = () => {
       }}
       enableReinitialize
     >
-      {({ values, isValid, errors }) => {
+      {({ values, isValid, errors, setFieldValue }) => {
         return (
           <Form>
             <StyledText
@@ -183,6 +187,27 @@ const CreateEventForm: React.FC = () => {
               <StyledFormLabelWithHelperText>
                 {t("form.event_details.location_helperText")}
               </StyledFormLabelWithHelperText>
+              {organizations?.length! > 0 && organizations![0].common_event_locations?.length! > 0 && (
+                <Box sx={{ mt: 2 }}>
+                  <StyledText level="body-sm" color={PALLETTE.charcoal}>
+                    {t("form.event_details.popular_locations")}
+                  </StyledText>
+                  <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', mt: 1 }}>
+                    {organizations!
+                      .flatMap(org => org.common_event_locations || [])
+                      .slice(0, 5)
+                      .map((location, index) => (
+                        <Chip
+                          key={index}
+                          onClick={() => setFieldValue("location", location.name)}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          {location.name.length > 20 ? `${location.name.substring(0, 20)}...` : location.name}
+                        </Chip>
+                      ))}
+                  </Stack>
+                </Box>
+              )}
             </FormControl>
 
             <Divider />

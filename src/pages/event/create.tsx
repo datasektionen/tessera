@@ -32,6 +32,8 @@ import { useFeatureLimitAccess } from "../../hooks/manager/required_feature_acce
 import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
 import ManagerDashboardDrawerComponent from "../../components/navigation/manage_drawer/manager_dashboard";
 import DrawerBoxWrapper from "../../components/wrappers/manager_wrapper";
+import { ROUTES } from "../../routes/def";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
@@ -42,13 +44,14 @@ const CreateEventPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { canUseFeature } = useFeatureLimitAccess("max_events");
+  const {network} = useNetworkDetails();
 
   // Only run when the component mounts
   useEffect(() => {
     if (success) {
       dispatch(resetTicketTypes());
       dispatch(resetCurrentStep());
-      navigate(`/events`);
+      navigate(ROUTES.MANAGER_DASHBOARD);
     }
     dispatch(resetSuccess());
   }, [dispatch, navigate, success]);

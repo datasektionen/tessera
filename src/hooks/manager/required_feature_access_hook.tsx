@@ -33,6 +33,7 @@ export const useRequiredFeatureAccess = (
   return { hasFeatAccess };
 };
 
+
 export const useFeatureLimitAccess = (
   featureName: string,
   objectReference?: string,
@@ -40,19 +41,14 @@ export const useFeatureLimitAccess = (
 ) => {
   const { network, loading } = useSelector((state: RootState) => state.network);
 
-  const [canUseFeature, setcanUseFeature] = useState<boolean | null>(null);
+  const [canUseFeature, setCanUseFeature] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (!loading) {
-      setcanUseFeature(
-        canUseLimitedFeature(
-          featureName,
-          objectReference,
-          network?.plan_enrollment
-        )
-      );
+    if (!loading && network) {
+      const canUse = canUseLimitedFeature(featureName, objectReference, network?.plan_enrollment);
+      setCanUseFeature(canUse);
     }
-  }, [network, loading, featureName]);
+  }, [network, loading, featureName, objectReference]);
 
   return { canUseFeature };
 };

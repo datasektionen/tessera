@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ import { useDispatch } from "react-redux";
 import {
   customerLoginRequest,
   customerSignupRequest,
+  resetSignupStatusSuccess,
 } from "../../redux/features/authSlice";
 
 const LoginPage: React.FC = () => {
@@ -40,6 +41,8 @@ const LoginPage: React.FC = () => {
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user
   );
+
+  const { authSignupSuccess } = useSelector((state: RootState) => state.authStatus);
 
   const [tabIndex, setTabIndex] = React.useState(
     Number(localStorage.getItem("tabIndex")) || 0
@@ -59,6 +62,13 @@ const LoginPage: React.FC = () => {
   const handleSignup = (values: ICustomerSignupValues) => {
     dispatch(customerSignupRequest(values));
   };
+
+  useEffect(() => {
+    if (authSignupSuccess) {
+      setTabIndex(0);
+      dispatch(resetSignupStatusSuccess());
+    }
+  }, [authSignupSuccess]);
 
   if (isLoggedIn) {
     navigate("/");

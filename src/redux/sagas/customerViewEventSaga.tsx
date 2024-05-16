@@ -89,8 +89,8 @@ function* eventSaga(
       organization: {
         id: eventData.organization.ID!,
         name: eventData.organization.name!,
-
         email: eventData.organization.email!,
+        common_event_locations: eventData.organization.common_event_locations!,
         updatedAt: new Date(eventData.organization.UpdatedAt!).getTime(),
       } as IOrganization,
       form_field_description: eventData.form_field_description!,

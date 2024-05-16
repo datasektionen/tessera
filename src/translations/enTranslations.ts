@@ -13,10 +13,12 @@ const enTranslations = {
 
   become_a_manager: {
     welcome: "Welcome to tessera!",
-    proceed: "Who are you?",
+    proceed:
+      "Are you an event manager? Complete your manager profile and start creating events.",
+    continue_as_manager: "Continue as manager",
     customer: "Customer",
     manager: "Event Manager",
-    skip: "Skip",
+    skip: "Im here to buy tickets, Skip",
     select_plan: "Select Plan",
     choose_plan:
       "Choose the plan that works best for you. When contacting us, please let us know which plan you are interested in and what you would like to know more about.",

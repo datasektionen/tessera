@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import AddIcon from "@mui/icons-material/Add";
 import DrawerListItem from "../drawer_list_item";
 import { ROUTES, generateRoute } from "../../../../routes/def";
-import { Stack, Switch } from "@mui/joy";
+import { IconButton, Stack, Switch, Tooltip } from "@mui/joy";
 import { DRAWER_WIDTH } from "../../../../hooks/drawer_pinned_hook";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -18,6 +18,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import GroupsIcon from "@mui/icons-material/Groups";
 import EventIcon from "@mui/icons-material/Event";
 import CollapsibleDrawerSection from "../collapsible_drawer_section";
+import PushPinIcon from "@mui/icons-material/PushPin";
+
 interface ManagerDashboardDrawerComponentProps {
   handlePinned: (isPinned: boolean) => void;
 }
@@ -99,6 +101,40 @@ const ManagerDashboardDrawerComponent: React.FC<
           height: "100%",
         }}
       >
+        <Box
+          sx={{
+            padding: theme.spacing(2),
+            color: theme.palette.primary.contrastText,
+            textAlign: "left",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
+            width: !isExtended ? "0px" : "100%",
+            height: "64px",
+          }}
+        >
+          <div style={{
+            display: isExtended ? "block" : "none",
+            // display word wrap
+            whiteSpace: "nowrap",
+          }}>
+            <StyledText
+              level="h3"
+              color={PALLETTE.cerise_dark}
+              fontSize={24}
+              fontWeight={600}
+            >
+              {network?.name || "Network Name"}
+            </StyledText>
+            <StyledText
+              level="h3"
+              color={PALLETTE.charcoal}
+              fontSize={16}
+              fontWeight={500}
+            >
+              Manager Dashboard
+            </StyledText>
+          </div>
+        </Box>
         <List
           sx={{
             pb: "128px",
@@ -109,13 +145,13 @@ const ManagerDashboardDrawerComponent: React.FC<
             icon={<EventIcon />}
             navigateTo={ROUTES.MANAGER_DASHBOARD}
           />
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <DrawerListItem
             text={t("manager.drawer.teams")}
             icon={<GroupsIcon />}
             navigateTo={ROUTES.MANAGER_TEAMS}
           />
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment}
             title={t("manager.drawer.settings.title")}
@@ -149,25 +185,7 @@ const ManagerDashboardDrawerComponent: React.FC<
               },
             ]}
           />
-          <Divider sx={{ mb: 1, mt: 3 }} textAlign="center">
-            {isExtended ? (
-              <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ type: "spring", stiffness: 100 }}
-              >
-                <StyledText
-                  level="body-sm"
-                  color={PALLETTE.charcoal}
-                  fontSize={16}
-                  fontWeight={700}
-                >
-                  Actions
-                </StyledText>
-              </motion.div>
-            ) : null}
-          </Divider>
+          <Divider sx={{ my: 0.25 }} />
           <DrawerListItem
             icon={<AddIcon />}
             text={t("manager.drawer.create_event")}
@@ -178,29 +196,23 @@ const ManagerDashboardDrawerComponent: React.FC<
           <Box
             sx={{
               position: "absolute",
-              bottom: "10%",
+              top: "8px",
+              right: "8px",
             }}
           >
-            {/* ...existing list items... */}
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              sx={{ ml: 2 }}
-              spacing={2}
+            <IconButton
+              onClick={() => {
+                setIsPinned(!isPinned);
+                handlePinned(!isPinned);
+              }}
             >
-              <Switch
-                checked={isPinned}
-                onChange={() => {
-                  setIsPinned(!isPinned);
-                  handlePinned(!isPinned);
-                }}
-              />
-              <StyledText level="body-sm" color={PALLETTE.charcoal}>
-                {isPinned
-                  ? t("manage_event.drawer.is_pinned")
-                  : t("manage_event.drawer.is_not_pinned")}
-              </StyledText>
-            </Stack>
+              <Tooltip title={isPinned ? "Unpin" : "Pin"}>
+                <PushPinIcon
+                  color={isPinned ? "inherit" : "action"}
+                  style={{ transform: "rotate(45deg)" }}
+                />
+              </Tooltip>
+            </IconButton>
           </Box>
         )}
       </Box>

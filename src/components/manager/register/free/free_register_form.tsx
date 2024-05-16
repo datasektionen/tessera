@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingOverlay from "../../../Loading";
 import { toast } from "react-toastify";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { ROUTES } from "../../../../routes/def";
 
 const referralSources = [
   { id: 1, name: "Facebook", description: "Facebook" },
@@ -53,13 +54,21 @@ const FreeRegisterForm: React.FC = () => {
   );
 
   useEffect(() => {
+    // Scroll to top
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const redirect = async () => {
       if (createSuccess) {
         toast.success("Event manager account created successfully");
         await new Promise((resolve) => setTimeout(resolve, 3000));
-        toast.info("Redirecting to home page...");
+        toast.info("Redirecting to manager dashboard...");
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        navigate("/"); // Redirect to home page
+        setTimeout(() => {
+          toast.info("Welcome to the manager dashboard!");
+        }, 1000);
+        navigate(ROUTES.MANAGER_DASHBOARD); // Redirect to home page
       }
     };
 

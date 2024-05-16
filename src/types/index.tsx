@@ -308,6 +308,9 @@ export interface IOrganization {
   email: string;
   created_at?: number;
   organization_user_roles?: IOrganizationUserRole[];
+  common_event_locations: {
+    name: string;
+  }[],
   users?: IUser[];
 }
 

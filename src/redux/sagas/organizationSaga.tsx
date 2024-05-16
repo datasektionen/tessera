@@ -62,14 +62,17 @@ function* getMyOrganizationsSaga(): Generator<any, void, any> {
       }
     );
 
+    console.log(response.data)
+
     const organizations: IOrganization[] = response.data.organizations.map(
       (organization: any) => {
         return {
           id: organization.ID!,
           name: organization.name!,
           email: organization.email!,
+          common_event_locations: organization.common_event_locations!,
           created_at: new Date(organization.CreatedAt!).getTime(),
-        };
+        } as IOrganization;
       }
     );
 
@@ -250,6 +253,7 @@ function* updateOrganizationSaga(
       id: response.data.organization.ID!,
       name: response.data.organization.name!,
       email: response.data.organization.email!,
+      common_event_locations: response.data.organization.common_event_locations!,
       created_at: new Date(response.data.organization.CreatedAt!).getTime(),
     };
 

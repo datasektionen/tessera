@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 const ManagerContactFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -36,6 +37,7 @@ interface IManagerContactFormProps {
 const ManagerContactForm: React.FC<IManagerContactFormProps> = ({ plan }) => {
   const { t } = useTranslation();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
 
   const onSubmit = async (values: IManagerContactFormValues) => {
     try {
@@ -48,7 +50,9 @@ const ManagerContactForm: React.FC<IManagerContactFormProps> = ({ plan }) => {
       );
 
       if (response.status === 200) {
-        toast.success("Plan enrollment request sent successfully");
+        setTimeout(() => {
+          toast.success("Plan enrollment request sent successfully");
+        }, 100);
       }
     } catch (error) {
       toast.error("There was an error sending the plan enrollment request");

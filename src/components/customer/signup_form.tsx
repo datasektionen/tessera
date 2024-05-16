@@ -1,10 +1,10 @@
 import { Box, Divider, FormControl, Link, Stack } from "@mui/joy";
-import { Form, Formik, useFormikContext } from "formik";
+import { Form, Formik, FormikContext, useFormik, useFormikContext } from "formik";
 import { ICustomerSignupValues, ITicketRelease } from "../../types";
 import { useTranslation } from "react-i18next";
 import StyledButton from "../buttons/styled_button";
 import PALLETTE from "../../theme/pallette";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createSignupValidationSchema } from "../../validation/customer_signup_validation";
 import StyledText from "../text/styled_text";
 import {
@@ -14,6 +14,8 @@ import {
 import { FormCheckbox, FormInput } from "../forms/input_types";
 import { StyledErrorMessage } from "../forms/messages";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface SignupFormProps {
   accountIsRequired: boolean;
@@ -177,8 +179,8 @@ const SignupForm: React.FC<SignupFormProps> = ({
         {values && values.is_saved
           ? t("event.ticket_release.request_process.form.button_sign_up")
           : t(
-              "event.ticket_release.request_process.form.button_continue_as_guest"
-            )}
+            "event.ticket_release.request_process.form.button_continue_as_guest"
+          )}
       </StyledButton>
     </Form>
   );
@@ -207,18 +209,23 @@ const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
 
   const validationSchema = createSignupValidationSchema(accountIsRequired);
 
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      onSignup(values);
+    },
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+    enableReinitialize: true,
+  });
+
+
   return (
     <Box>
       {/* Other UI components remain the same */}
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values) => onSignup(values)}
-        validateOnBlur={true}
-        validateOnChange={true}
-        validateOnMount={true}
-        enableReinitialize
-      >
+      <FormikContext.Provider value={formik}>
         <SignupForm
           accountIsRequired={accountIsRequired}
           onSignup={onSignup}
@@ -226,7 +233,7 @@ const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           validationSchema={validationSchema}
           includeIsSaved={includeIsSaved}
         />
-      </Formik>
+      </FormikContext.Provider>
     </Box>
   );
 };

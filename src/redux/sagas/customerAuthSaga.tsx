@@ -16,6 +16,7 @@ import {
   customerSignupFailure,
   customerSignupRequest,
   customerSignupSuccess,
+  setSignupSuccess,
 } from "../features/authSlice";
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
@@ -49,6 +50,7 @@ function* customerSignupSaga(
     if (response.status === 201) {
       if (action.payload.is_saved) {
         yield put(customerSignupSuccess());
+        yield put(setSignupSuccess());
       } else {
         const user: any = response.data.user;
         const guestCustomer: IGuestCustomer = {
@@ -62,6 +64,7 @@ function* customerSignupSaga(
         };
 
         yield put(customerSignupSuccess(guestCustomer));
+        yield put(setSignupSuccess());
       }
 
       if (action.payload.is_saved) {
@@ -69,7 +72,7 @@ function* customerSignupSaga(
           toast.success(
             "Signup successful, please verify your email before logging in!"
           );
-        }, 1000);
+        }, 500);
       } else {
         setTimeout(() => {
           toast.info("Continuing as guest...");

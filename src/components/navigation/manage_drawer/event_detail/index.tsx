@@ -1,8 +1,6 @@
-// DrawerComponent.tsx
 import React, { useEffect } from "react";
-import { Drawer, List, useTheme, Box } from "@mui/material";
+import { Drawer, List, useTheme, Box, IconButton } from "@mui/material";
 import PALLETTE from "../../../../theme/pallette";
-
 import MailIcon from "@mui/icons-material/Mail";
 import EditIcon from "@mui/icons-material/Edit";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -15,13 +13,15 @@ import DrawerListItem from "../drawer_list_item";
 import CollapsibleDrawerSection from "../collapsible_drawer_section";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { ROUTES, generateRoute } from "../../../../routes/def";
-import { Stack, Switch } from "@mui/joy";
 import { DRAWER_WIDTH } from "../../../../hooks/drawer_pinned_hook";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import { useNetworkDetails } from "../../../../hooks/manager/network_details_hook";
 import EventIcon from "@mui/icons-material/Event";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import { Tooltip } from "@mui/joy";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 
 interface DrawerComponentProps {
   eventID: string;
@@ -36,10 +36,11 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
 
-
   // State Variables
   const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
   const [isHovered, setIsHovered] = React.useState(false);
+
+  const { event } = useSelector((state: RootState) => state.eventDetail);
 
   // Redux State
   const { isPinned: initialIsPinned } = useSelector(
@@ -89,16 +90,9 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           overflowX: "hidden",
           boxSizing: "border-box",
           "&::-webkit-scrollbar": {
-            width: "0.4em",
+            width: "0px", // Hide scrollbar for Webkit browsers
           },
-          "&::-webkit-scrollbar-track": {
-            boxShadow: "inset 0 0 6px rgba(0, 0, 0, 0.3)",
-            borderRadius: "4px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "darkgrey",
-            borderRadius: "4px",
-          },
+          scrollbarWidth: "none", // Hide scrollbar for Firefox
         },
       }}
     >
@@ -108,6 +102,40 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           height: "100%",
         }}
       >
+        <Box
+          sx={{
+            padding: theme.spacing(2),
+            color: theme.palette.primary.contrastText,
+            textAlign: "left",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
+            width: !isExtended ? "0px" : "100%",
+            height: "64px",
+          }}
+        >
+          <div style={{
+            display: isExtended ? "block" : "none",
+            // display word wrap
+            whiteSpace: "nowrap",
+          }}>
+            <StyledText
+              level="h3"
+              color={PALLETTE.cerise_dark}
+              fontSize={24}
+              fontWeight={600}
+            >
+              {event?.name || "Event Name"}
+            </StyledText>
+            <StyledText
+              level="h3"
+              color={PALLETTE.charcoal}
+              fontSize={16}
+              fontWeight={500}
+            >
+              Event Dashboard
+            </StyledText>
+          </div>
+        </Box>
         <List
           sx={{
             pb: "128px",
@@ -118,7 +146,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             icon={<EventIcon />}
             navigateTo={ROUTES.MANAGER_DASHBOARD}
           />
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             title={t("manage_event.drawer.manage.title")}
@@ -163,7 +191,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             icon={<EditIcon />}
@@ -203,7 +231,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             icon={<MailIcon />}
@@ -227,7 +255,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />{" "}
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             icon={<AttachMoneyIcon />}
@@ -244,7 +272,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />{" "}
-          <Divider sx={{ my: 1 }} light={true} />
+          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             title={t("manage_event.drawer.settings.title")}
@@ -269,25 +297,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
             ]}
           />
-          <Divider sx={{ mb: 1, mt: 3 }} textAlign="center">
-            {isExtended ? (
-              <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ type: "spring", stiffness: 100 }}
-              >
-                <StyledText
-                  level="body-sm"
-                  color={PALLETTE.charcoal}
-                  fontSize={16}
-                  fontWeight={700}
-                >
-                  Quick Actions
-                </StyledText>
-              </motion.div>
-            ) : null}
-          </Divider>
+          <Divider sx={{ my: 0.25 }} />
           <DrawerListItem
             icon={<AddIcon />}
             text={t("manage_event.add_ticket_release")}
@@ -298,29 +308,23 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           <Box
             sx={{
               position: "absolute",
-              bottom: "10%",
+              top: "8px",
+              right: "8px",
             }}
           >
-            {/* ...existing list items... */}
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              sx={{ ml: 2 }}
-              spacing={2}
+            <IconButton
+              onClick={() => {
+                setIsPinned(!isPinned);
+                handlePinned(!isPinned);
+              }}
             >
-              <Switch
-                checked={isPinned}
-                onChange={() => {
-                  setIsPinned(!isPinned);
-                  handlePinned(!isPinned);
-                }}
-              />
-              <StyledText level="body-sm" color={PALLETTE.charcoal}>
-                {isPinned
-                  ? t("manage_event.drawer.is_pinned")
-                  : t("manage_event.drawer.is_not_pinned")}
-              </StyledText>
-            </Stack>
+              <Tooltip title={isPinned ? "Unpin" : "Pin"}>
+                <PushPinIcon
+                  color={isPinned ? "inherit" : "action"}
+                  style={{ transform: "rotate(45deg)" }}
+                />
+              </Tooltip>
+            </IconButton>
           </Box>
         )}
       </Box>

@@ -133,6 +133,25 @@ const authSlice = createSlice({
   },
 });
 
+const authStatusSlice = createSlice({
+  name: "authStatus",
+  initialState: {
+    authSignupSuccess: false,
+  },
+  reducers: {
+    setSignupSuccess: (state) => {
+      state.authSignupSuccess = true;
+    },
+    resetSignupStatusSuccess: (state) => {
+      state.authSignupSuccess = false;
+    },
+  },
+});
+
+export const { setSignupSuccess, resetSignupStatusSuccess } =
+  authStatusSlice.actions;
+export const authStatusReducer = authStatusSlice.reducer;
+
 export const {
   loginRequest,
   loginSuccess,

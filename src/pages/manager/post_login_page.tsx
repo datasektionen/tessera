@@ -26,30 +26,24 @@ const CardComponent: React.FC<CardComponentProps> = ({
 }) => (
   <Card
     onClick={onClick}
-    variant="soft"
+    variant="outlined"
     sx={{
-      width: 250,
-      height: 300,
+      margin: "0 auto",
+      width: 300,
+      height: 60,
       cursor: "pointer",
-      transition: "transform 0.3s ease-in-out",
-      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+      transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+      boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.3)",
       "&:hover": {
+        transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
         borderColor: "neutral.outlinedHoverBorder",
         transform: "translateY(-10px)",
+        boxShadow: "0px 8px 5px rgba(0, 0, 0, 0.3)",
       },
     }}
   >
-    <CardCover>
-      <img src={imgSrc} alt={altText} style={{ width: "100%" }} />
-    </CardCover>
-    <CardCover
-      sx={{
-        background:
-          "linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)",
-      }}
-    />
-    <CardContent sx={{ justifyContent: "flex-end" }}>
-      <StyledText level="h1" color={PALLETTE.white} fontSize={30}>
+    <CardContent sx={{ justifyContent: "center", textAlign: "center" }}>
+      <StyledText level="h1" color={PALLETTE.charcoal} fontSize={30}>
         {title}
       </StyledText>
     </CardContent>
@@ -60,7 +54,7 @@ const PostLoginPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  async function updateShowedPostLogin() {
+  function updateShowedPostLogin() {
     axios
       .put(
         `${process.env.REACT_APP_BACKEND_URL}/user/showed-post-login-screen`,
@@ -99,37 +93,21 @@ const PostLoginPage: React.FC = () => {
           {t("become_a_manager.proceed")}
         </StyledText>
       </Box>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems={"center"}
-        spacing={5}
+      <Box
         sx={{
           width: "100%",
           mt: 10,
         }}
       >
-        <Grid>
-          <CardComponent
-            title={t("become_a_manager.customer")}
-            imgSrc={JoinSVG}
-            altText="Join"
-            onClick={() => {
-              navigate("/");
-            }}
-          />
-        </Grid>
-        <Grid>
-          <CardComponent
-            title={t("become_a_manager.manager")}
-            imgSrc={FestivitiesSVG}
-            altText="Festivities"
-            onClick={() => {
-              navigate(generateRoute(ROUTES.BECOME_A_MANAGER, {}));
-            }}
-          />
-        </Grid>
-      </Grid>
+        <CardComponent
+          title={t("become_a_manager.continue_as_manager")}
+          imgSrc={FestivitiesSVG}
+          altText="Festivities"
+          onClick={() => {
+            navigate(generateRoute(ROUTES.BECOME_A_MANAGER, {}));
+          }}
+        />
+      </Box>
       <Box
         sx={{
           mt: 10,
@@ -154,7 +132,7 @@ const PostLoginPage: React.FC = () => {
               },
             }}
           >
-            Skip <SkipNextIcon />
+            {t("become_a_manager.skip")} <SkipNextIcon />
           </Link>
         </StyledText>
       </Box>

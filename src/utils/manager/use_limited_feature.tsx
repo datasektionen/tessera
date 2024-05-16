@@ -121,10 +121,9 @@ export function canUseLimitedFeature(
   if (objectReference) {
     featureUsages = featureUsages.filter(
       (featureUsage: IFeatureUsage) =>
-        featureUsage.object_reference! === objectReference
+        featureUsage.object_reference === objectReference
     );
   }
-
 
   const latestUsage = getLatestFeatureUsage(
     featureUsages,

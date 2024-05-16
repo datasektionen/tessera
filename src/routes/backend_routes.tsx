@@ -1,6 +1,7 @@
 // Define the interface for the route parameters
 interface GenerateRouteParams {
   eventID?: number | string;
+  organizationID?: number | string;
 }
 
 // Define the API routes class
@@ -22,6 +23,8 @@ class ApiRoutes {
   static MANAGER_EVENT_LANDING_PAGE = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page`;
   static MANAGER_EVENT_LANDING_PAGE_EDITOR = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/editor`;
   static MANAGER_EVENT_LANDING_PAGE_SET_ENABLED = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/set-enabled`;
+
+  static ORGANIZATION = `${ApiRoutes.baseUrl}/organizations/:organizationID`;
 
   // Method to generate routes with dynamic parameters
   static generateRoute(route: string, params: GenerateRouteParams): string {
