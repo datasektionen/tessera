@@ -20,11 +20,13 @@ import { formatEventDate } from "../../utils/date_conversions";
 interface EventCardProps {
   event: IEvent;
   isForCustomers?: boolean;
+  inThePast?: boolean;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
   event,
   isForCustomers = true,
+  inThePast = false,
 }) => {
   const navigate = useNavigate();
   const { user: currentUser } = useSelector((state: RootState) => state.user);
@@ -49,6 +51,9 @@ const EventCard: React.FC<EventCardProps> = ({
         } else {
           navigate(`/events/${event.id}/manage`);
         }
+      }}
+      sx={{
+        backgroundColor: inThePast ? PALLETTE.charcoal_see_through : PALLETTE.white,
       }}
     >
       <Box

@@ -77,7 +77,7 @@ const ManagerPage: React.FC = () => {
                     position: "relative",
                   }}
                 >
-                  <EventCard event={event} isForCustomers={false} />
+                  <EventCard event={event} isForCustomers={false} inThePast={eventIsInThePast(event)} />
                 </Grid>
               );
             })}

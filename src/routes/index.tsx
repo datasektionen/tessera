@@ -1,5 +1,5 @@
 // Import statements should be at the top
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 import React, {
   ComponentType,
   startTransition,
@@ -63,6 +63,8 @@ import GrapesJSEditor from "../pages/event/edit/edit_landing_page/edit_page";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
+import { useEventAccess } from "../components/events/use_event_access";
+import { useCanAccessEvent } from "../utils/event_access";
 
 function withCurrentUserRequest<P>(
   Component: ComponentType<P>
@@ -161,6 +163,22 @@ function ScrollToTop() {
   return null;
 }
 
+const ProtectedEventRoutes: React.FC = () => {
+  const { eventID } = useParams(); // Required for the eventID
+  const navigate = useNavigate();
+
+  const canAccess = useCanAccessEvent(eventID!);
+
+  if (!canAccess) {
+    navigate(-1)
+    return null;
+  } else {
+    return (
+      <Outlet />
+    );
+  }
+}
+
 function AppRoutes() {
   return (
     <BrowserRouter basename="/">
@@ -232,6 +250,87 @@ function AppRoutes() {
               />
               <Route path={ROUTES.ADMIN} element={<AdminPage />} />
             </Route>
+
+            {/* Event check route */}
+            <Route element={<ProtectedEventRoutes />} >
+              {/* Edit event */}
+              <Route
+                path={ROUTES.EDIT_EVENT}
+                element={<EditEventPageWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.EDIT_EVENT_ADD_TICKET_RELEASE}
+                element={<EditEventAddTicketReleasePageWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES}
+                element={<EditTicketTypesWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.EDIT_EVENT_TICKET_RELEASE_ADDONS}
+                element={<EditTicketReleaseAddonsWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.EDIT_EVENT_TICKET_RELEASES}
+                element={<EditEventTicketReleasesPageWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.EDIT_EVENT_FORM}
+                element={<EditEventFormPageWithCurrentUser />}
+              />
+
+              {/* Landing page editor */}
+
+
+              <Route
+                path={ROUTES.EDIT_EVENT_LANDING_PAGE_EDTIOR}
+                element={<EditEventLandingPageWithCurrentUser />}
+              />
+              <Route path={ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS} element={<EditLandingPageSettingsPageWithCurrentUser />} />
+
+              {/* Manage */}
+              <Route
+                path={ROUTES.MANAGE_EVENT}
+                element={<ManageEventPageWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.MANAGE_EVENT_TICKET_RELEASES}
+                element={<ManageEventTicketReleasesWithCurrentUser />}
+              />
+
+              <Route
+                path={ROUTES.MANAGE_EVENT_TICKETS}
+                element={<ManageEventTicketsWithCurrentUser />}
+              />
+
+              <Route
+                path={ROUTES.MANAGE_EVENT_RESPONSES}
+                element={<ManageEventFormResponsesWithCurrentUser />}
+              />
+
+              <Route
+                path={ROUTES.MANAGE_SEND_OUT_NEW}
+                element={<ManageSendOutNewWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.MANAGE_SEND_OUT_LIST}
+                element={<ManageSendOutListWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.MANAGE_EVENT_ECONOMY}
+                element={<EventEconomyPageWithCurrentUser />}
+              />
+              <Route
+                path={ROUTES.TICKET_SCANNER}
+                element={<TicketScannerPageWithCurrentUser />}
+              />
+
+              <Route
+                path={ROUTES.MANAGE_SEND_OUT_NEW}
+                element={<EventSendOutsPageWithCurrentUser />}
+              />
+            </Route>
+
             <Route path={ROUTES.LOGOUT} element={<Logout />} />
             <Route path={ROUTES.CONTACT_PAGE} element={<ContactPage />} />
 
@@ -244,38 +343,6 @@ function AppRoutes() {
               path={ROUTES.CREATE_EVENT}
               element={<CreateEventPageWithCurrentUser />}
             />
-            <Route
-              path={ROUTES.EDIT_EVENT}
-              element={<EditEventPageWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.EDIT_EVENT_ADD_TICKET_RELEASE}
-              element={<EditEventAddTicketReleasePageWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES}
-              element={<EditTicketTypesWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.EDIT_EVENT_TICKET_RELEASE_ADDONS}
-              element={<EditTicketReleaseAddonsWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.EDIT_EVENT_TICKET_RELEASES}
-              element={<EditEventTicketReleasesPageWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.EDIT_EVENT_FORM}
-              element={<EditEventFormPageWithCurrentUser />}
-            />
-
-            {/* Landing page editor */}
-
-            <Route
-              path={ROUTES.EDIT_EVENT_LANDING_PAGE_EDTIOR}
-              element={<EditEventLandingPageWithCurrentUser />}
-            />
-            <Route path={ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS} element={<EditLandingPageSettingsPageWithCurrentUser />} />
 
             {/* ---------------*/}
 
@@ -292,46 +359,7 @@ function AppRoutes() {
               path={ROUTES.CREATE_ORGANIZATION}
               element={<CreateOrganizationPageWithCurrentUser />}
             />
-            <Route
-              path={ROUTES.MANAGE_EVENT}
-              element={<ManageEventPageWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.MANAGE_EVENT_TICKET_RELEASES}
-              element={<ManageEventTicketReleasesWithCurrentUser />}
-            />
 
-            <Route
-              path={ROUTES.MANAGE_EVENT_TICKETS}
-              element={<ManageEventTicketsWithCurrentUser />}
-            />
-
-            <Route
-              path={ROUTES.MANAGE_EVENT_RESPONSES}
-              element={<ManageEventFormResponsesWithCurrentUser />}
-            />
-
-            <Route
-              path={ROUTES.MANAGE_SEND_OUT_NEW}
-              element={<ManageSendOutNewWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.MANAGE_SEND_OUT_LIST}
-              element={<ManageSendOutListWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.MANAGE_EVENT_ECONOMY}
-              element={<EventEconomyPageWithCurrentUser />}
-            />
-            <Route
-              path={ROUTES.TICKET_SCANNER}
-              element={<TicketScannerPageWithCurrentUser />}
-            />
-
-            <Route
-              path={ROUTES.MANAGE_SEND_OUT_NEW}
-              element={<EventSendOutsPageWithCurrentUser />}
-            />
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
           <Route path="*" element={<FourOFour404 />} />

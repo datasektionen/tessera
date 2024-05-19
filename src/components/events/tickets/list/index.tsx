@@ -1,4 +1,3 @@
-import { IEventFormFieldResponse, ITicket, IUser } from "../../../../types";
 import React, { useEffect, useMemo, useState } from "react";
 import LoadingOverlay from "../../../Loading";
 import {
@@ -9,7 +8,6 @@ import {
   Input,
   ThemeProvider,
   Typography,
-  createTheme,
 } from "@mui/material";
 import PALLETTE from "../../../../theme/pallette";
 import { Box } from "@mui/joy";
@@ -18,12 +16,10 @@ import {
   DataGrid,
   GridRowsProp,
   GridColumnVisibilityModel,
-  GridValueFormatterParams,
   GridRenderCellParams,
 } from "@mui/x-data-grid";
-
 import { Cancel, CheckCircle } from "@mui/icons-material";
-import { add, compareAsc, format, parse, startOfHour } from "date-fns";
+import { add, compareAsc, format, parse } from "date-fns";
 import InformationModal from "../../../modal/information";
 import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
@@ -43,6 +39,9 @@ import {
 import Fuse from "fuse.js";
 import InfoIcon from "@mui/icons-material/Info";
 import StyledText from "../../../text/styled_text";
+import Cookies from "js-cookie";
+import { ITicket, IUser } from "../../../../types";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const isTicketRequest = (ticket: ITicket) => {
   return ticket.id === 0;
@@ -67,8 +66,8 @@ function createRow(ticket: ITicket) {
     deleted_at = ticket.deleted_at
       ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
       : ticket.ticket_request?.deleted_at
-      ? format(ticket.ticket_request?.deleted_at as number, "dd/MM/yyyy HH:mm")
-      : "N/A";
+        ? format(ticket.ticket_request?.deleted_at as number, "dd/MM/yyyy HH:mm")
+        : "N/A";
   } catch (e) {
     console.error(e);
   }
@@ -110,8 +109,8 @@ function createRow(ticket: ITicket) {
     purchasable_at: ticket.deleted_at
       ? null
       : ticket.purchasable_at !== null
-      ? ticket.purchasable_at
-      : ticket.updated_at,
+        ? ticket.purchasable_at
+        : ticket.updated_at,
     entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
       ticket,
       ticket.ticket_request?.ticket_release!
@@ -157,9 +156,15 @@ const EventTicketsList: React.FC<{
 }> = ({ tickets, selectTicketRequest }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
-  const [searchText, setSearchText] = useState("");
-
+  const [searchText, setSearchText] = useState(
+    Cookies.get("searchText") || ""
+  );
   const [filteredRows, setFilteredRows] = useState<GridRowsProp>([]);
+  const [filterModel, setFilterModel] = useState(() => {
+    const savedFilterModel = Cookies.get('filterModel');
+    return savedFilterModel ? JSON.parse(savedFilterModel) : { items: [] };
+  });
+
 
   // Initialize Fuse with the appropriate options
   const fuse = useMemo(() => {
@@ -183,8 +188,21 @@ const EventTicketsList: React.FC<{
     setFilteredRows(results.map(createRow)); // Transform results into row data
   }, [searchText, fuse, tickets]);
 
+  useEffect(() => {
+    const savedColumnVisibilityModel = Cookies.get("columnVisibilityModel");
+    if (savedColumnVisibilityModel) {
+      setColumnVisibilityModel(JSON.parse(savedColumnVisibilityModel));
+    }
+  }, []);
+
+  useEffect(() => {
+    Cookies.set('filterModel', JSON.stringify(filterModel), { expires: 2 / 24 });
+  }, [filterModel]);
+
+
   const handleSearchChange = (event: any) => {
     setSearchText(event.target.value);
+    Cookies.set("searchText", event.target.value, { expires: 2 / 24 }); // 2 hours
   };
 
   const customColumns = getEventFormFieldsColumns(tickets);
@@ -518,9 +536,8 @@ const EventTicketsList: React.FC<{
     ...customColumns,
   ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const rows = tickets.map(createRow);
-
     setRows(rows);
   }, [tickets]);
 
@@ -570,7 +587,6 @@ const EventTicketsList: React.FC<{
       entered_into_lottery: false,
       price: true,
       // Hide all the food preferences
-
       gluten_intolerant: false,
       halal: false,
       kosher: false,
@@ -596,6 +612,12 @@ const EventTicketsList: React.FC<{
     return <CustomToolbar rows={rows} />;
   };
 
+  useEffect(() => {
+    Cookies.set("columnVisibilityModel", JSON.stringify(columnVisibilityModel), {
+      expires: 1 / 24, // 2 hours
+    });
+  }, [columnVisibilityModel]);
+
   if (!tickets || rows.length === 0) {
     return null;
   }
@@ -603,12 +625,25 @@ const EventTicketsList: React.FC<{
   return (
     <Box>
       <ThemeProvider theme={MUItheme}>
-        <Input
-          value={searchText}
-          onChange={handleSearchChange}
-          placeholder="Search tickets..."
-          style={{ marginBottom: 20 }}
-        />
+        <div style={{ position: 'relative', marginBottom: 20, width: "fit-content" }}>
+          <Input
+            value={searchText}
+            onChange={handleSearchChange}
+            placeholder="Search tickets..."
+          />
+          {searchText && (
+            <ClearIcon
+              style={{
+                position: 'absolute',
+                right: 10,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+              }}
+              onClick={() => handleSearchChange({ target: { value: '' } } as any)}
+            />
+          )}
+        </div>
         <StyledText
           color={PALLETTE.charcoal_see_through}
           level="body-md"
@@ -626,12 +661,10 @@ const EventTicketsList: React.FC<{
             toolbar: CustomToolbarWithProps,
           }}
           columnVisibilityModel={columnVisibilityModel}
-          onColumnVisibilityModelChange={(newModel) =>
-            setColumnVisibilityModel(newModel)
-          }
-          getRowClassName={(params) =>
-            params.row.deleted_at !== "N/A" ? styles.rowDeleted : ""
-          }
+          onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
+          filterModel={filterModel}
+          onFilterModelChange={(newModel) => setFilterModel(newModel)}
+          getRowClassName={(params) => params.row.deleted_at !== "N/A" ? styles.rowDeleted : ""}
           initialState={{
             sorting: {
               sortModel: [{ field: "requseted_at", sort: "desc" }],

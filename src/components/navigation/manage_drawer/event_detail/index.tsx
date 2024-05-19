@@ -164,12 +164,6 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             pb: "128px",
           }}
         >
-          <DrawerListItem
-            text={t("manager.drawer.all_events")}
-            icon={<EventIcon />}
-            navigateTo={ROUTES.MANAGER_DASHBOARD}
-          />
-          <Divider sx={{ my: 0.25 }} />
           <CollapsibleDrawerSection
             planEnrollment={network?.plan_enrollment!}
             title={t("manage_event.drawer.manage.title")}

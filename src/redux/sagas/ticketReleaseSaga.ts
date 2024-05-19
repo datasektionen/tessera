@@ -13,17 +13,7 @@ import {
   ITicketType,
   LoginCredentials,
 } from "../../types";
-import {
-  getEventFailure,
-  getEventRequest,
-  getEventSuccess,
-} from "../features/eventSlice";
 import { toast } from "react-toastify";
-import {
-  editEventFailure,
-  editEventRequest,
-  editEventSuccess,
-} from "../features/editEventSlice";
 import {
   createTicketReleaseFailure,
   createTicketReleaseRequest,
