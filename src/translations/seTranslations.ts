@@ -18,6 +18,7 @@ const seTranslations = {
     manager: "Arrangör",
     skip: "Hoppa över",
     select_plan: "Välj paket",
+    continue_as_manager: "Fortsätt som arrangör",
     choose_plan:
       "Välj det paket som passar dig bäst. När du kontaktar oss, vänligen låt oss veta vilken paket du är intresserad av och vad du skulle vilja veta mer om.",
     full_list_of_features: "Fullständig lista över funktioner",
@@ -54,6 +55,7 @@ const seTranslations = {
       private_event: "Privat evenemang",
       private_event_helperText:
         "Är ditt evenemang privat? Om så är fallet kan bara personer med länken se det.",
+      common_locations: "Vanligt Använda Platser",
     },
     ticket_release: {
       name: "Namn",
@@ -89,9 +91,7 @@ const seTranslations = {
       promo_code: "Promokod",
       promo_code_helperText:
         "Vilken promokod ska användas för att få tillgång till detta reserverade biljettsläpp?",
-      allow_external: "Tillåt externa användare",
-      allow_external_helperText:
-        "Ska externa användare tillåtas att önska biljetter till detta biljettsläpp?",
+
       selective_description: "Beskriv allokeringsmetoden",
       selective_description_helperText:
         "Ange hur ditt team planerar att allokera biljetter. Denna information kommer att visas för användaren när de begär en biljett.",
@@ -150,7 +150,8 @@ const seTranslations = {
       max_quantity_helperText:
         "Hur många av detta tillägg kan en användare köpa?",
       is_enabled: "Aktiverad",
-      is_enabled_helperText: "Är detta tillägg aktiverat?",
+      is_enabled_helperText:
+        "Om tilläget är aktiverat kommer det att visas för användaren.",
       contains_alcohol: "Innehåller alkohol",
       contains_alcohol_helperText: "Innehåller detta tillägg alkohol?",
     },

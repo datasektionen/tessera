@@ -12,7 +12,7 @@ const CreateTicketTypeFormSchema = Yup.object().shape({
   description: Yup.string()
     .required("Description is required")
     .min(5, "Too short")
-    .max(500, "Too long"),
+    .max(501, "Too long"),
   price: Yup.number()
     .required("Price is required")
     .test(

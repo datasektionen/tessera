@@ -62,8 +62,6 @@ function* getMyOrganizationsSaga(): Generator<any, void, any> {
       }
     );
 
-    console.log(response.data)
-
     const organizations: IOrganization[] = response.data.organizations.map(
       (organization: any) => {
         return {

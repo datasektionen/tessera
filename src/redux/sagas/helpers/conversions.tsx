@@ -36,7 +36,6 @@ export function convertResponseToTicketRelease(
     close: new Date(responseData.close! * 1000).getTime(),
     ticketReleaseMethodDetailId: responseData.ticket_release_method_detail_id!,
     tickets_available: responseData.tickets_available!,
-    allow_external: responseData.allow_external!,
     payment_deadline: {
       id: responseData.payment_deadline.ID!,
       ticket_release_id: responseData.payment_deadline.ticket_release_id!,

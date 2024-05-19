@@ -1,3 +1,4 @@
+import { addHours, addWeeks, format } from "date-fns";
 import { PlaceOption } from "../components/forms/input_types";
 import { formatDateToDateTimeLocal } from "../utils/date_conversions";
 
@@ -398,7 +399,7 @@ export interface ITicketReleaseForm {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
-  allow_external: boolean;
+  is_saved?: boolean;
 }
 
 export interface ITicketReleasePostReq {
@@ -415,15 +416,14 @@ export interface ITicketReleasePostReq {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
-  allow_external: boolean;
   method_description?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   name: "",
   description: "",
-  open: formatDateToDateTimeLocal(new Date()),
-  close: formatDateToDateTimeLocal(new Date()),
+  open: format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm"),
+  close: format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm"),
   ticket_release_method_id: 0,
   open_window_duration: 0,
   method_description: "",
@@ -433,7 +433,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   tickets_available: 0,
   is_reserved: false,
   promo_code: "",
-  allow_external: false,
+  is_saved: false,
 };
 
 export interface ITicketTypeForm {
@@ -529,7 +529,6 @@ export interface ITicketRelease {
   promo_code?: string;
   event?: IEvent;
   tickets_available: number;
-  allow_external: boolean;
   addons?: IAddon[];
   payment_deadline: ITicketReleasePaymentDeadline;
 }

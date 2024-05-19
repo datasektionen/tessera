@@ -302,31 +302,45 @@ const TicketReleaseHasOpened: React.FC<{
               <Divider />
             </>
           ))}
-          <Divider />
+          <Divider sx={{
+            mb: 1,
+            maxWidth: "500px"
+          }} />
           {/* Total */}
           <Grid
             container
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center"
+            sx={{
+              maxWidth: "500px"
+            }}
           >
             <Grid container justifyContent={"flex-start"} flexDirection={"row"}>
               <ShoppingCartIcon />
-              <Typography
+              <StyledText
                 level="body-sm"
-                fontFamily={"Josefin sans"}
-                ml={2}
-                fontWeight={600}
+                fontSize={16}
+                color={PALLETTE.charcoal}
+                sx={{
+                  ml: 2
+                }}
               >
                 {t("event.ticket_release.checkout.total")}
-              </Typography>
+              </StyledText>
             </Grid>
-            <Typography level="body-sm" fontFamily={"Josefin sans"}>
+            <StyledText
+              level="body-sm"
+              fontSize={16}
+              color={PALLETTE.charcoal}
+
+            >
               SEK{" "}
               {basket
                 ?.reduce((acc, item) => acc + item.price * item.quantity, 0)
                 .toFixed(2)}
-            </Typography>
+
+            </StyledText>
           </Grid>
 
           <Box mt={2}>
@@ -395,7 +409,8 @@ const TicketReleaseHasOpened: React.FC<{
             }}
           />
         </>
-      )}
+      )
+      }
       <div
         style={{
           marginTop: "1rem",

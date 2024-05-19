@@ -20,8 +20,11 @@ import { RootState } from "../../../../store";
 import { useNetworkDetails } from "../../../../hooks/manager/network_details_hook";
 import EventIcon from "@mui/icons-material/Event";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import { Tooltip } from "@mui/joy";
+import { Stack, Tooltip } from "@mui/joy";
 import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
+import { text } from "stream/consumers";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from "react-router-dom";
 
 interface DrawerComponentProps {
   eventID: string;
@@ -35,6 +38,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
   // Variables
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // State Variables
   const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
@@ -118,11 +122,30 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             // display word wrap
             whiteSpace: "nowrap",
           }}>
+            <Box>
+              <IconButton onClick={() => {
+                navigate(ROUTES.MANAGER_DASHBOARD)
+              }}>
+                <ArrowBackIcon
+                  style={{
+                    margin: 0,
+                    color: PALLETTE.charcoal_see_through,
+                    fontSize: 18,
+                  }}
+                />
+              </IconButton>
+            </Box>
             <StyledText
               level="h3"
               color={PALLETTE.cerise_dark}
               fontSize={24}
               fontWeight={600}
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                width: "75%",
+              }}
             >
               {event?.name || "Event Name"}
             </StyledText>
@@ -223,7 +246,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                 clickable: true,
               },
               {
-                title: t("manage_event.drawer.edit.landing_page"),
+                title: t("manage_event.drawer.edit.event_page"),
                 navigateTo: generateRoute(ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS, {
                   eventId: eventID,
                 }),

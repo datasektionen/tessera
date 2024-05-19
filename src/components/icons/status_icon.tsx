@@ -58,7 +58,7 @@ const StatusIcon: React.FC<StatusIconProps> = ({ isValid }) => {
         transform: "translateY(-50%)",
       }}
     >
-      <AnimatePresence mode="wait" onExitComplete={() => {}}>
+      <AnimatePresence mode="wait" onExitComplete={() => { }}>
         {isValid ? (
           <motion.div
             key="check"
@@ -96,7 +96,7 @@ const DisabledIcon: React.FC = () => {
     fontSize: "32px", // Makes the icon slightly bigger
     padding: "10px", // Adds padding around the icon
     borderRadius: "50%", // Makes the background round
-    backgroundColor: PALLETTE.charcoal,
+    backgroundColor: PALLETTE.charcoal_see_through,
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)", // Optional: Adds a subtle shadow
   };
 
@@ -109,7 +109,7 @@ const DisabledIcon: React.FC = () => {
         transform: "translateY(-50%)",
       }}
     >
-      <AnimatePresence mode="wait" onExitComplete={() => {}}>
+      <AnimatePresence mode="wait" onExitComplete={() => { }}>
         <motion.div
           key="edit"
           initial="hidden"

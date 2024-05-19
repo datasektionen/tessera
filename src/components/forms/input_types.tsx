@@ -3,8 +3,9 @@ import { Field } from "formik";
 import PALLETTE from "../../theme/pallette";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { formatDateToDateTimeLocal } from "../../utils/date_conversions";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "react-markdown-editor-lite/lib/index.css";
+import StyledText from "../text/styled_text";
 
 // Initialize a markdown parser
 
@@ -41,57 +42,69 @@ export const FormInput: React.FC<FormInputProps> = ({
   autoComplete = "on",
   disabled = false,
   required = true,
-  afterChange = () => {},
-}) => (
-  <Field name={name}>
-    {({ field, form }: { field: any; form: any }) => (
-      <Input
-        {...field}
-        label={label}
-        required={required}
-        readOnly={readOnly}
-        autoComplete={autoComplete}
-        disabled={disabled}
-        onChange={(e: any) => {
-          try {
-            if (type === "datetime-local") {
-              if (!e.target.value) {
-                return;
-              }
-              // Optional: Validate the datetime-local value here before setting it
-            }
+  afterChange = () => { },
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
-            if (type === "number") {
-              if (e.target.value.length > 1) {
-                e.target.value = e.target.value.replace(/^0+/, "");
-              }
-            }
 
-            // Proceed with onChange logic
-            if (onChange) {
-              onChange(e);
-            } else {
-              field.onChange(e);
+  return (
+    <Field name={name}>
+      {({ field, form }: { field: any; form: any }) => (
+        <Input
+          {...field}
+          onWheel={(event: any) => {
+            if (type === 'number') {
+              event.preventDefault();
+              event.target.blur()
             }
-          } catch (error) {
-            console.error("Error processing input change:", error);
-            // Optionally set an error state here
-          } finally {
-            afterChange(e);
+          }}
+          ref={inputRef}
+          label={label}
+          required={required}
+          readOnly={readOnly}
+          autoComplete={autoComplete}
+          disabled={disabled}
+          onChange={(e: any) => {
+            try {
+              if (type === "datetime-local") {
+                if (!e.target.value) {
+                  return;
+                }
+                // Optional: Validate the datetime-local value here before setting it
+              }
+
+              if (type === "number") {
+                if (e.target.value.length > 1) {
+                  e.target.value = e.target.value.replace(/^0+/, "");
+                }
+              }
+
+              // Proceed with onChange logic
+              if (onChange) {
+                onChange(e);
+              } else {
+                field.onChange(e);
+              }
+            } catch (error) {
+              console.error("Error processing input change:", error);
+              // Optionally set an error state here
+            } finally {
+              afterChange(e);
+            }
+          }}
+          placeholder={placeholder}
+          type={type}
+          style={
+            {
+              ...DefaultInputStyle,
+              ...overrideStyle,
+            } as any
           }
-        }}
-        placeholder={placeholder}
-        type={type}
-        style={
-          {
-            ...DefaultInputStyle,
-            ...overrideStyle,
-          } as any
-        }
-      />
-    )}
-  </Field>
-);
+        />
+      )}
+    </Field>
+  );
+};
 
 export interface FormTextareaProps {
   name: string;
@@ -101,6 +114,7 @@ export interface FormTextareaProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   overrideStyle?: Object;
   required?: boolean;
+  maxChars?: number;
 }
 
 export const FormTextarea: React.FC<FormTextareaProps> = ({
@@ -111,25 +125,64 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   onChange = undefined,
   overrideStyle = {},
   required = true,
-}) => (
-  <Field name={name}>
-    {({ field }: any) => (
-      <Textarea
-        {...field}
-        minRows={minRows}
-        onChange={onChange ? onChange : field.onChange}
-        label={label}
-        required={required}
-        placeholder={placeholder}
-        style={{
-          ...DefaultInputStyle,
-          width: "350px",
-          ...overrideStyle,
-        }}
-      />
-    )}
-  </Field>
-);
+  maxChars = 2000, // Default max characters
+}) => {
+  const [content, setContent] = useState<string>("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = event.target.value;
+    if (newText.length <= maxChars) { // Ensure the text does not exceed the max characters
+      setContent(newText);
+      if (onChange) {
+        onChange(event as any);
+      }
+    }
+  };
+
+  return (
+    <Field name={name}>
+      {({ field }: any) => {
+        setContent(field.value);
+
+        return (
+          <div style={{ position: 'relative', width: "97%" }}>
+            <Textarea
+              {...field}
+              minRows={minRows}
+              placeholder={placeholder}
+              onChange={(event) => {
+                handleChange(event);
+                field.onChange(event);
+              }}
+              value={content} // Set the value to content state
+              required={required}
+              style={{
+                ...DefaultInputStyle,
+                width: '100%',
+                ...overrideStyle,
+                paddingBottom: "30px"
+              }}
+            />
+            <div style={{
+              position: 'absolute',
+              bottom: '5px',
+              right: '6%',
+              fontSize: '12px',
+              color: 'grey',
+            }}>
+              <StyledText
+                level="body-md"
+                color={content.length >= maxChars ? PALLETTE.red : PALLETTE.charcoal_see_through}
+                fontSize={14}>
+                {content.length}/{maxChars}
+              </StyledText>
+            </div>
+          </div>
+        )
+      }}
+    </Field>
+  );
+};
 
 export interface FormMarkdownProps {
   name: string;
@@ -138,6 +191,7 @@ export interface FormMarkdownProps {
   minRows?: number;
   onChange?: (content: string) => void;
   overrideStyle?: Object;
+  maxChars?: number;
 }
 
 export const FormMarkdown: React.FC<FormMarkdownProps> = ({
@@ -145,36 +199,57 @@ export const FormMarkdown: React.FC<FormMarkdownProps> = ({
   label,
   placeholder,
   minRows = 2,
-  onChange = () => {},
+  onChange = () => { },
   overrideStyle = {},
+  maxChars = 2000, // Default max characters
 }) => {
   const [content, setContent] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = event.target.value;
-    setContent(newText);
-    if (onChange) {
-      onChange(newText);
+    if (newText.length <= maxChars) { // Ensure the text does not exceed the max characters
+      setContent(newText);
+      if (onChange) {
+        onChange(newText);
+      }
     }
   };
 
   return (
     <Field name={name}>
       {({ field, form }: any) => (
-        <Textarea
-          {...field}
-          minRows={minRows}
-          placeholder={placeholder}
-          onChange={(event) => {
-            handleChange(event);
-            field.onChange(event);
-          }}
-          style={{
-            ...DefaultInputStyle,
-            width: "350px",
-            ...overrideStyle,
-          }}
-        />
+        <div style={{ position: 'relative', width: "97%" }}>
+          <Textarea
+            {...field}
+            minRows={minRows}
+            placeholder={placeholder}
+            onChange={(event) => {
+              handleChange(event);
+              field.onChange(event);
+            }}
+            value={content} // Set the value to content state
+            style={{
+              ...DefaultInputStyle,
+              width: '100%',
+              ...overrideStyle,
+              paddingBottom: "30px"
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            bottom: '5px',
+            right: '6%',
+            fontSize: '12px',
+            color: 'grey',
+          }}>
+            <StyledText
+              level="body-md"
+              color={content.length > maxChars ? PALLETTE.red : PALLETTE.charcoal_see_through}
+              fontSize={14}>
+              {content.length}/{maxChars}
+            </StyledText>
+          </div>
+        </div>
       )}
     </Field>
   );

@@ -122,6 +122,12 @@ const ManagerDashboardDrawerComponent: React.FC<
               color={PALLETTE.cerise_dark}
               fontSize={24}
               fontWeight={600}
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                width: "75%",
+              }}
             >
               {network?.name || "Network Name"}
             </StyledText>

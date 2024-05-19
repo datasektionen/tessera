@@ -60,7 +60,6 @@ function* createTicketReleaseSaga(
       is_reserved: ticketRelease.is_reserved,
       promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
       tickets_available: ticketRelease.tickets_available,
-      allow_external: ticketRelease.allow_external,
     };
 
     const response = yield call(
@@ -115,7 +114,6 @@ function* updateTicketReleaseSaga(
       is_reserved: formData.is_reserved,
       promo_code: formData.is_reserved ? formData.promo_code : "",
       tickets_available: formData.tickets_available,
-      allow_external: formData.allow_external,
     };
 
     const response = yield call(

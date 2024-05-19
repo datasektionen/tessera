@@ -28,26 +28,9 @@ import RestartEventCreationButton from "../../buttons/restart_event_creation_but
 import { ITicketTypeForm } from "../../../types";
 import { useTranslation } from "react-i18next";
 import { RemoveTTButton } from "./remove_ticket_type_button";
+import StyledBorderBox from "../../wrappers/styled_border_box";
 
-const StyledBorderBox = styled(Box)(({ theme }) => ({
-  cursor: "pointer",
-  backgroundColor: PALLETTE.cerise,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  transition: "all 0.2s ease-in-out",
-  position: "relative",
-  marginTop: theme.spacing(1),
-  minHeight: "48px",
 
-  borderStyle: "solid",
-  borderColor: PALLETTE.cerise,
-  borderWidth: "2px",
-
-  "&:hover": {
-    borderColor: PALLETTE.charcoal,
-    transition: "all 0.2s ease-in-out",
-  },
-}));
 
 interface CreateTicketTypesProps {
   submit: (tts: ITicketTypeForm[]) => void;
@@ -200,13 +183,19 @@ const CreateTicketTypes: React.FC<CreateTicketTypesProps> = ({
               />
             </Tooltip>
           </Box>
-          <Box mt={2}>
+          <Box mt={4} sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}>
             <StyledButton
               size="lg"
               onClick={handleSubmission}
               color={PALLETTE.charcoal}
               bgColor={PALLETTE.cerise}
               disabled={someFormsAreInvalid}
+              sx={{
+                width: "200px",
+              }}
             >
               {t("form.button_next")}
             </StyledButton>

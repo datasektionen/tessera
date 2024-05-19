@@ -151,6 +151,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
                     overrideStyle={{
                       width: "95%",
                     }}
+                    maxChars={10000}
                   />
                   <StyledErrorMessage name="description" />
 

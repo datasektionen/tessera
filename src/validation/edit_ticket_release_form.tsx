@@ -76,7 +76,7 @@ const EditTicketReleaseFormSchema = Yup.object()
     description: Yup.string()
       .required("Description is required")
       .min(5, "Too short")
-      .max(500, "Too long"),
+      .max(501, "Too long"),
     open: Yup.date().required("Open is required"),
     close: Yup.date()
       .required("Close is required")
@@ -135,7 +135,6 @@ const EditTicketReleaseFormSchema = Yup.object()
       "Cancellation Policy is required"
     ),
     is_reserved: Yup.boolean(),
-    allow_external: Yup.boolean(),
     promo_code: Yup.string().when("is_reserved", {
       // @ts-ignore
       is: true,
@@ -182,7 +181,7 @@ const EditTicketReleaseFormSchema = Yup.object()
     if (!isValid) {
       return new Yup.ValidationError(
         "The open and close times must be before the event date: " +
-          format(value.event_date, "yyyy-MM-dd HH:mm"),
+        format(value.event_date, "yyyy-MM-dd HH:mm"),
         null,
         "open"
       );

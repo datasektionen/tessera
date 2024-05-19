@@ -54,26 +54,9 @@ import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
 import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
+import StyledBorderBox from "../../../../components/wrappers/styled_border_box";
 
-const StyledBorderBox = styled(Box)(({ theme }) => ({
-  cursor: "pointer",
-  backgroundColor: PALLETTE.cerise,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  transition: "all 0.2s ease-in-out",
-  position: "relative",
-  marginTop: theme.spacing(1),
-  minHeight: "48px",
 
-  borderStyle: "solid",
-  borderColor: PALLETTE.cerise,
-  borderWidth: "2px",
-
-  "&:hover": {
-    borderColor: PALLETTE.charcoal,
-    transition: "all 0.2s ease-in-out",
-  },
-}));
 
 const EditTicketTypes: React.FC = () => {
   const { eventID, ticketReleaseID } = useParams();
@@ -107,6 +90,11 @@ const EditTicketTypes: React.FC = () => {
 
   useEffect(() => {
     if (updateSuccess) {
+      // navigate(-1);
+      setTimeout(() => {
+        toast.success("Ticket batches updated successfully.");
+      }, 500);
+      navigate(-1);
       dispatch(resetUpdateSuccess());
     }
   }, [updateSuccess]);
@@ -286,46 +274,22 @@ const EditTicketTypes: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                <StyledButton
-                  size="sm"
-                  color={PALLETTE.charcoal}
-                  onClick={() => {
-                    dispatch(addTicketType());
-                  }}
-                  style={{
-                    width: "200px",
-                  }}
-                >
-                  <Grid container justifyContent="center" alignItems="center">
-                    <Tooltip title="Add Ticket Type" placement="bottom">
-                      <AddIcon
-                        style={{
-                          color: PALLETTE.charcoal,
-                          fontSize: "40px",
-                          // svg shadow
-                          filter:
-                            "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
-                        }}
-                      />
-                    </Tooltip>
-                  </Grid>
-                </StyledButton>
+                <Tooltip title={t("tooltips.add_ticket_type")}>
+                  <AddIcon
+                    onClick={() => {
+                      dispatch(addTicketType());
+                    }}
+                    style={{
+                      color: PALLETTE.cerise,
+                      fontSize: "40px",
+                      // svg shadow
+                      filter: "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
+                    }}
+                  />
+                </Tooltip>
               </Box>
               <Box mt={2}>
                 <Grid container justifyContent="flex-start" spacing={2}>
-                  <Grid>
-                    <StyledButton
-                      size="lg"
-                      onClick={async () => {
-                        handleSubmission();
-                      }}
-                      color={PALLETTE.charcoal}
-                      bgColor={PALLETTE.green}
-                      disabled={someFormsAreInvalid}
-                    >
-                      {t("form.button_save")}
-                    </StyledButton>
-                  </Grid>
                   <Grid>
                     <StyledButton
                       size="lg"
@@ -339,6 +303,23 @@ const EditTicketTypes: React.FC = () => {
                       {t("form.button_back")}
                     </StyledButton>
                   </Grid>
+                  <Grid>
+                    <StyledButton
+                      size="lg"
+                      onClick={async () => {
+                        handleSubmission();
+                      }}
+                      sx={{
+                        width: 150
+                      }}
+                      color={PALLETTE.charcoal}
+                      bgColor={PALLETTE.green}
+                      disabled={someFormsAreInvalid}
+                    >
+                      {t("form.button_save")}
+                    </StyledButton>
+                  </Grid>
+
                 </Grid>
               </Box>
             </Box>

@@ -30,6 +30,7 @@ import {
   FormInput,
   FormMarkdown,
   FormTextarea,
+  PlaceOption,
 } from "../forms/input_types";
 import CreateEventFormSchema from "../../validation/create_event_form";
 import StyledText from "../text/styled_text";
@@ -69,7 +70,6 @@ const CreateEventForm: React.FC = () => {
     dispatch(setEventForm(values));
   };
 
-  console.log(organizations)
 
   if (loading || initialLoading) {
     return <LoadingOverlay />;
@@ -81,6 +81,7 @@ const CreateEventForm: React.FC = () => {
       validationSchema={CreateEventFormSchema}
       validateOnBlur={true}
       validateOnChange={true}
+      validateOnMount={true}
       onSubmit={(values: IEventForm) => {
         // Convert date to Unix timestamp
         handleSubmission(values);
@@ -130,6 +131,7 @@ const CreateEventForm: React.FC = () => {
                 overrideStyle={{
                   width: "95%",
                 }}
+                maxChars={10000}
               />
               <StyledErrorMessage name="description" />
 
@@ -187,27 +189,43 @@ const CreateEventForm: React.FC = () => {
               <StyledFormLabelWithHelperText>
                 {t("form.event_details.location_helperText")}
               </StyledFormLabelWithHelperText>
-              {organizations?.length! > 0 && organizations![0].common_event_locations?.length! > 0 && (
-                <Box sx={{ mt: 2 }}>
-                  <StyledText level="body-sm" color={PALLETTE.charcoal}>
-                    {t("form.event_details.popular_locations")}
-                  </StyledText>
-                  <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', mt: 1 }}>
-                    {organizations!
-                      .flatMap(org => org.common_event_locations || [])
-                      .slice(0, 5)
-                      .map((location, index) => (
-                        <Chip
-                          key={index}
-                          onClick={() => setFieldValue("location", location.name)}
-                          sx={{ cursor: 'pointer' }}
-                        >
-                          {location.name.length > 20 ? `${location.name.substring(0, 20)}...` : location.name}
-                        </Chip>
-                      ))}
-                  </Stack>
-                </Box>
-              )}
+              <div key={"common-event-locations-" + values.organization_id}>
+                {organizations?.length! > 0 && (
+                  <Box sx={{ my: 1 }}>
+                    <StyledText level="body-sm" color={PALLETTE.charcoal}>
+                      {t("form.event_details.common_locations")}
+                    </StyledText>
+                    <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', mt: 1 }}>
+                      {organizations!
+                        .flatMap(org => org.common_event_locations || [])
+                        .slice(0, 5)
+                        .map((location, index) => (
+                          <Chip
+                            key={index}
+                            variant="outlined"
+                            onClick={() => {
+                              const option: PlaceOption = {
+                                label: location.name,
+                                value: location.name,
+                              };
+
+                              setFieldValue('location', option);
+                            }}
+                            sx={{ cursor: 'pointer', zIndex: 0 }}
+                          >
+                            <StyledText
+                              level="body-sm"
+                              color={PALLETTE.charcoal}
+                              fontSize={14}
+                            >
+                              {location.name.length > 20 ? `${location.name.substring(0, 25)}...` : location.name}
+                            </StyledText>
+                          </Chip>
+                        ))}
+                    </Stack>
+                  </Box>
+                )}
+              </div>
             </FormControl>
 
             <Divider />

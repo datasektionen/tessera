@@ -58,9 +58,10 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
     undoManager: { trackSelection: false },
     selectorManager: { componentFirst: true },
     styleManager: {
+      // @ts-ignore
       sectors: [
         {
-          name: "General",
+          name: "General", // Add the missing 'name' property
           open: true,
           buildProps: [
             "background-color",
@@ -125,7 +126,7 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
           ],
         },
         {
-          name: "Typography",
+          name: "Typography", // Add the missing 'name' property
           open: false,
           buildProps: [
             "font-family",
@@ -156,7 +157,7 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
           ],
         },
         {
-          name: "Decorations",
+          name: "Decorations", // Add the missing 'name' property
           open: false,
           buildProps: [
             "border-radius-c",
@@ -166,7 +167,7 @@ export const generateGjsEditorConfig = (eventID: string): EditorConfig => {
           ],
         },
         {
-          name: "Extra",
+          name: "Extra", // Add the missing 'name' property
           open: false,
           buildProps: ["transition", "perspective", "transform"],
         },

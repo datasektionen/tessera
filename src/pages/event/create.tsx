@@ -44,7 +44,7 @@ const CreateEventPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { canUseFeature } = useFeatureLimitAccess("max_events");
-  const {network} = useNetworkDetails();
+  const { network } = useNetworkDetails();
 
   // Only run when the component mounts
   useEffect(() => {
@@ -73,6 +73,7 @@ const CreateEventPage = () => {
   ) => {
     const errors = await validateForm(values);
     if (Object.keys(errors).length === 0) {
+      values.is_saved = true;
       // The form is valid
       dispatch(setTicketReleaseForm(values));
     } else {

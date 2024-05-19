@@ -103,7 +103,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
         tickets_available: ticketRelease.tickets_available!,
-        allow_external: ticketRelease.allow_external!,
       };
       setInitialValues(initVals);
       setInitValueSet(true);
@@ -173,6 +172,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     overrideStyle={{
                       width: "95%",
                     }}
+                    maxChars={500}
                   />
                   <StyledErrorMessage name="description" />
 
@@ -216,20 +216,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
-                <FormControl>
-                  <StyledFormLabel>
-                    {t("form.ticket_release.allow_external")}
-                  </StyledFormLabel>
-                  <FormCheckbox
-                    name="allow_external"
-                    label="Allow External Users"
-                  />
-                  <StyledErrorMessage name="allow_external" />
 
-                  <StyledFormLabelWithHelperText>
-                    {t("form.ticket_release.allow_external_helperText")}
-                  </StyledFormLabelWithHelperText>
-                </FormControl>
               </Grid>
               <Grid xs={16} sm={8}>
                 {/* Ticket Release Method ID */}
@@ -314,7 +301,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                         <b>
                           {format(
                             new Date(values.open).getTime() +
-                              values.open_window_duration * 60 * 1000,
+                            values.open_window_duration * 60 * 1000,
                             "dd/MM/yyyy HH:mm:ss"
                           )}
                         </b>
@@ -340,6 +327,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                       overrideStyle={{
                         width: "95%",
                       }}
+                      maxChars={500}
                     />
                     <StyledErrorMessage name="method_description" />
 

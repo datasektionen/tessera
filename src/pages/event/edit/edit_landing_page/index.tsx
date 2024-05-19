@@ -19,7 +19,6 @@ import StyledButton from "../../../../components/buttons/styled_button";
 
 // PUT /events/:eventID/landing-page/set-enabled 
 async function setEnabled(eventID: string, enabled: boolean) {
-  console.log('eventID:', eventID);
   try {
     const response = await axios.put(ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_LANDING_PAGE_SET_ENABLED, {
       eventID,
@@ -54,7 +53,6 @@ const EditLandingPageSettingsPage: React.FC = () => {
 
   useEffect(() => {
     if (event?.landing_page) {
-      console.log()
       setChecked(event?.landing_page.enabled);
     }
   }, [event?.landing_page]);
@@ -66,7 +64,7 @@ const EditLandingPageSettingsPage: React.FC = () => {
       <DrawerBoxWrapper eventID={eventID!}>
         {loading && <LoadingOverlay />}
         <Title>
-          {t('manage_event.edit.landing_page.title')}
+          {t('manage_event.edit.event_page.title')}
         </Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -80,7 +78,7 @@ const EditLandingPageSettingsPage: React.FC = () => {
             label={
               t("manage_event.breadcrumbs.edit") +
               " " +
-              t("manage_event.breadcrumbs.landing_page")
+              t("manage_event.breadcrumbs.event_page")
             }
           />
         </Breadcrumbs>
@@ -89,7 +87,7 @@ const EditLandingPageSettingsPage: React.FC = () => {
             color={PALLETTE.charcoal}
             level="body-sm"
           >
-            {t('manage_event.edit.landing_page.description')}
+            {t('manage_event.edit.event_page.description')}
           </StyledText>
           <Box mt={2}>
             <FormControl
@@ -104,7 +102,7 @@ const EditLandingPageSettingsPage: React.FC = () => {
                     fontWeight={600}
                     fontSize={18}
                   >
-                    {t('manage_event.edit.landing_page.enable')}
+                    {t('manage_event.edit.event_page.enable')}
                   </StyledText>
                 </FormLabel>
                 <FormHelperText sx={{ mt: 0 }}>You can edit the landing page before enabling it.</FormHelperText>
@@ -116,7 +114,7 @@ const EditLandingPageSettingsPage: React.FC = () => {
                 }
                 color={checked ? 'success' : 'neutral'}
                 variant={checked ? 'solid' : 'outlined'}
-                endDecorator={checked ? t('manage_event.edit.landing_page.enabled') : t('manage_event.edit.landing_page.disabled')}
+                endDecorator={checked ? t('manage_event.edit.event_page.enabled') : t('manage_event.edit.event_page.disabled')}
                 slotProps={{
                   endDecorator: {
                     sx: {
@@ -140,16 +138,17 @@ const EditLandingPageSettingsPage: React.FC = () => {
             fontSize={24}
             fontWeight={600}
           >
-            {t('manage_event.edit.landing_page.editor_title')}
+            {t('manage_event.edit.event_page.editor_title')}
           </StyledText>
           <StyledText
             color={PALLETTE.charcoal}
             level="body-sm"
             sx={{
-              textWrap: "balance"
+              textWrap: "balance",
+              width: 600,
             }}
           >
-            {t('manage_event.edit.landing_page.editor_description')}
+            {t('manage_event.edit.event_page.editor_description')}
           </StyledText>
           <StyledButton
             size="md"
@@ -160,7 +159,7 @@ const EditLandingPageSettingsPage: React.FC = () => {
               eventId: eventID!,
             }))}
           >
-            {t('manage_event.edit.landing_page.editor_button')}
+            {t('manage_event.edit.event_page.editor_button')}
           </StyledButton>
         </Box>
       </DrawerBoxWrapper>
