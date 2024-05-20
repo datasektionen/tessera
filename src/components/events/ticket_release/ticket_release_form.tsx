@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, useFormikContext, FormikHelpers } from "formik";
 import {
   Button,
@@ -40,8 +40,6 @@ import { format, addHours, addWeeks } from "date-fns";
 import LoadingOverlay from "../../Loading";
 import { useTranslation } from "react-i18next";
 
-
-
 interface CreateTicketReleaseFormProps {
   submit: (
     values: ITicketReleaseForm,
@@ -72,7 +70,6 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
     dispatch(getTicketReleaseMethodsRequest());
   }, [dispatch]);
 
-
   if (initialLoading) {
     return <LoadingOverlay />;
   }
@@ -81,8 +78,12 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
     <Formik
       initialValues={{
         ...initialValues,
-        open: !initialValues.is_saved ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm") : initialValues.open,
-        close: !initialValues.is_saved ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm") : initialValues.close,
+        open: !initialValues.is_saved
+          ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm")
+          : initialValues.open,
+        close: !initialValues.is_saved
+          ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm")
+          : initialValues.close,
       }}
       validationSchema={CreateTicketReleaseFormSchema}
       validateOnBlur={true}
@@ -227,7 +228,13 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                               >
                                 {trm.name}
                               </StyledText>
-                              <Tooltip title={trm.description}>
+
+                              <Tooltip
+                                title={trm.description}
+                                style={{
+                                  width: "300px",
+                                }}
+                              >
                                 <HelpOutlineIcon
                                   style={{
                                     marginLeft: "5px",
@@ -273,7 +280,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                     <b>
                       {format(
                         new Date(values.open).getTime() +
-                        values.open_window_duration * 60 * 1000,
+                          values.open_window_duration * 60 * 1000,
                         "dd/MM/yyyy HH:mm:ss"
                       )}
                     </b>
@@ -348,7 +355,6 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
-
 
             {/* Notification Method */}
             <FormControl>
