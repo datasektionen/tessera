@@ -21,11 +21,9 @@ const CreateEventFormSchema = Yup.object().shape({
     .min(5, "Too short")
     .max(10000, "Too long"),
   date: Yup.string()
-    .required("Date is required")
-    .test("is-future", "Date must be in the future", checkDateInFuture),
-  end_date: Yup.string()
+    .required("Date is required"),
+  end_date: Yup.string() // Removed check for future date so that it can be edited after the event has passed
     .optional()
-    .test("is-future", "End date must be in the future", checkDateInFuture)
     .test(
       "is-after-start",
       "End date must be after start date",

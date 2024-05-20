@@ -26,7 +26,7 @@ const EditEventPage: React.FC = () => {
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper eventID={eventID!}>
-        <Title fontSize={36}>{t("form.event_fields.title")}</Title>
+        <Title fontSize={36}>{t("manage_event.edit.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
             to={`/events/${eventID}/manage`}
@@ -44,9 +44,6 @@ const EditEventPage: React.FC = () => {
           />
         </Breadcrumbs>
         <Box sx={{ padding: "16px 32px" }}>
-          <StyledText color={PALLETTE.charcoal} level="body-lg" fontSize={32}>
-            {t("manage_event.edit.event_details.title")}
-          </StyledText>
           <EditEventForm event={event!} />
         </Box>
       </DrawerBoxWrapper>

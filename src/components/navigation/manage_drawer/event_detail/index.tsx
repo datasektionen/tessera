@@ -115,6 +115,9 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             fontSize: "1.2rem",
             width: !isExtended ? "0px" : "100%",
             height: "64px",
+            pb: 1,
+            pr: 0,
+            pt: 0
           }}
         >
           <div style={{
@@ -129,7 +132,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                 <ArrowBackIcon
                   style={{
                     margin: 0,
-                    color: PALLETTE.charcoal_see_through,
+                    color: PALLETTE.charcoal,
                     fontSize: 18,
                   }}
                 />
@@ -162,6 +165,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
         <List
           sx={{
             pb: "128px",
+            mt: 1
           }}
         >
           <CollapsibleDrawerSection
@@ -325,7 +329,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
           <Box
             sx={{
               position: "absolute",
-              top: "8px",
+              top: "0",
               right: "8px",
             }}
           >
