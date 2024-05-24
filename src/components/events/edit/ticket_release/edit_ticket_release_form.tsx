@@ -82,6 +82,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
 
   useEffect(() => {
     if (ticketRelease) {
+      console.log(ticketRelease);
       const initVals = {
         name: ticketRelease.name,
         description: ticketRelease.description,
@@ -103,6 +104,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
         tickets_available: ticketRelease.tickets_available!,
+        save_template: ticketRelease.save_template,
       };
       setInitialValues(initVals);
       setInitValueSet(true);
@@ -461,6 +463,19 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     </StyledFormLabelWithHelperText>
                   </FormControl>
                 )}
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.save_template")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="save_template"
+                    label="Save as a template"
+                  />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_release.save_template_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
               </Grid>
             </Grid>
 

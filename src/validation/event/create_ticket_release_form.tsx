@@ -109,6 +109,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
           .max(500, "Too long"),
       otherwise: (schema) => schema.notRequired(),
     }),
+    save_template: Yup.boolean(),
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
       .min(1, "Max Tickets Per User must be greater than or equal to 1")
@@ -194,7 +195,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
     if (!isValid) {
       return new Yup.ValidationError(
         "The open and close times must be before the event date: " +
-        format(value.event_date, "yyyy-MM-dd HH:mm"),
+          format(value.event_date, "yyyy-MM-dd HH:mm"),
         null,
         "close"
       );

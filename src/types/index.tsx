@@ -408,6 +408,7 @@ export interface ITicketReleaseForm {
   promo_code?: string;
   tickets_available: number;
   is_saved?: boolean;
+  save_template: boolean;
 }
 
 export interface ITicketReleasePostReq {
@@ -425,6 +426,7 @@ export interface ITicketReleasePostReq {
   promo_code?: string;
   tickets_available: number;
   method_description?: string;
+  save_template: boolean;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
@@ -442,6 +444,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   is_reserved: false,
   promo_code: "",
   is_saved: false,
+  save_template: false,
 };
 
 export interface ITicketTypeForm {
@@ -539,6 +542,7 @@ export interface ITicketRelease {
   tickets_available: number;
   addons?: IAddon[];
   payment_deadline: ITicketReleasePaymentDeadline;
+  save_template: boolean;
 }
 
 export interface ITicketReleasePaymentDeadline {
@@ -825,15 +829,15 @@ export interface IEventLandingPage {
 }
 
 export enum SurfApplicationStatus {
-  ApplicationNotStarted = 'application_not_started',
-  ApplicationInitiated = 'application_initiated',
-  ApplicationSubmitted = 'application_submitted',
-  ApplicationPendingInformation = 'application_pending_information',
-  ApplicationSigned = 'application_signed',
-  ApplicationRejected = 'application_rejected',
-  ApplicationCompleted = 'application_completed',
-  ApplicationExpired = 'application_expired',
-  MerchantCreated = 'merchant_created'
+  ApplicationNotStarted = "application_not_started",
+  ApplicationInitiated = "application_initiated",
+  ApplicationSubmitted = "application_submitted",
+  ApplicationPendingInformation = "application_pending_information",
+  ApplicationSigned = "application_signed",
+  ApplicationRejected = "application_rejected",
+  ApplicationCompleted = "application_completed",
+  ApplicationExpired = "application_expired",
+  MerchantCreated = "merchant_created",
 }
 
 export const ApplicationStatusColors = {
@@ -845,8 +849,8 @@ export const ApplicationStatusColors = {
   application_rejected: red[500],
   application_completed: green[500],
   application_expired: red[500],
-  merchant_created: green[500]
-}
+  merchant_created: green[500],
+};
 
 export interface INetworkMerchant {
   id: number;
@@ -866,15 +870,15 @@ export interface INetworkDetails {
   updated_at: Date;
   network_id: number;
   corporate_id: string; // Corporate ID of the network
-  legal_name: string;   // Legal name of the network
-  description: string;  // Description of the network
+  legal_name: string; // Legal name of the network
+  description: string; // Description of the network
   language: string;
   address: string;
   city: string;
   country: string;
   phone_number: string;
   country_code: string; // Two-letter ISO country code, in uppercase. i.e 'SE' | 'DK' | 'FI'.
-  email: string;        // main email for the network
+  email: string; // main email for the network
 }
 
 export type Country = {
@@ -888,8 +892,8 @@ export const AvaialableCountries: Country[] = [
     name: "Sweden",
     code: "SE",
     phone: 46,
-  }
-]
+  },
+];
 
 export interface BusinessDetailsFormValues {
   country_code: string;

@@ -47,12 +47,14 @@ interface CreateTicketReleaseFormProps {
   ) => void;
   initialValues: ITicketReleaseForm;
   createOnSubmit?: boolean;
+  fromTemplate?: boolean;
 }
 
 const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
   submit,
   initialValues = TicketReleaseFormInitialValues,
   createOnSubmit = false,
+  fromTemplate = false,
 }) => {
   const { ticketReleaseMethods } = useSelector(
     (state: RootState) => state.ticketReleaseMethods
@@ -78,18 +80,21 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
     <Formik
       initialValues={{
         ...initialValues,
-        open: !initialValues.is_saved
-          ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm")
-          : initialValues.open,
-        close: !initialValues.is_saved
-          ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm")
-          : initialValues.close,
+        open:
+          !initialValues.is_saved && !fromTemplate
+            ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm")
+            : initialValues.open,
+        close:
+          !initialValues.is_saved && !fromTemplate
+            ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm")
+            : initialValues.close,
       }}
       validationSchema={CreateTicketReleaseFormSchema}
       validateOnBlur={true}
       validateOnChange={true}
       validateOnMount={true}
       onSubmit={submit}
+      enableReinitialize={true}
     >
       {({ values, isValid, errors }) => {
         return (
@@ -280,7 +285,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                     <b>
                       {format(
                         new Date(values.open).getTime() +
-                        values.open_window_duration * 60 * 1000,
+                          values.open_window_duration * 60 * 1000,
                         "dd/MM/yyyy HH:mm:ss"
                       )}
                     </b>
@@ -447,6 +452,16 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 </StyledFormLabelWithHelperText>
               </FormControl>
             )}
+
+            <FormControl>
+              <StyledFormLabel>
+                {t("form.ticket_release.save_template")}
+              </StyledFormLabel>
+              <FormCheckbox name="save_template" label="Save as a template" />
+              <StyledFormLabelWithHelperText>
+                {t("form.ticket_release.save_template_helperText")}
+              </StyledFormLabelWithHelperText>
+            </FormControl>
 
             <Grid container justifyContent="flex-end" spacing={2}>
               <Grid>

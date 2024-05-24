@@ -455,6 +455,7 @@ const seTranslations = {
   open: "är öppen",
   the_ticket_release: "Biljettsläppet",
   deleted_ticket_requests: "Raderade biljettförfrågningar",
+  remaining_ticket_requests: "Återstående biljettförfrågningar",
   deleted_tickets: "Raderade biljetter",
   check_allocated_reserve_tickets: "Försök att tilldela reservbiljetter",
   check_allocated_reserve_tickets_tooltip:
