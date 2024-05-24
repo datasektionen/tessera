@@ -67,6 +67,7 @@ export const ticketRequestSlice = createSlice({
     postTicketRequest: (
       state,
       action: PayloadAction<{
+        promoCodes: string[];
         tickets: TicketRequestData[];
         addons: ISelectedAddon[];
         eventId: number;
@@ -90,6 +91,9 @@ export const ticketRequestSlice = createSlice({
     resetPostSuccess: (state) => {
       state.postSuccess = false;
     },
+    resetError: (state) => {
+      state.error = null;
+    },
   },
 });
 
@@ -101,6 +105,7 @@ export const {
   postTicketRequestFailure,
   postTicketRequestSuccess,
   resetPostSuccess,
+  resetError,
 } = ticketRequestSlice.actions;
 
 // Export the reducer

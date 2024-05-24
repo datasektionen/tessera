@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs } from "@mui/joy";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import { useTranslation } from "react-i18next";
 import EventTicketsList from "../../../components/events/tickets/list";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
@@ -16,6 +16,7 @@ import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 import { generateRoute, ROUTES } from "../../../routes/def";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const ManageEventTicketsPage: React.FC = () => {
   const { eventID } = useParams();
@@ -86,9 +87,8 @@ const ManageEventTicketsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
       {ticketsLoading && <LoadingOverlay />}
-      <Box sx={{ marginLeft: `70px`, marginRight: `20px` }}>
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("manage_event.tickets.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -118,7 +118,7 @@ const ManageEventTicketsPage: React.FC = () => {
             />
           )}
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

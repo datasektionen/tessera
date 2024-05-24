@@ -1,19 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import PALLETTE from "../../theme/pallette";
-import {
-  IEvent,
-  IOrganization,
-  IOrganizationUser,
-  OrganizationUserRole,
-} from "../../types";
+import { IEvent, INetwork, IOrganization } from "../../types";
 import StyledText from "../text/styled_text";
 import Title from "../text/title";
 import BorderBox from "../wrappers/border_box";
 import { useEffect, useState } from "react";
 import {
   deleteOrganizationRequest,
-  getMyOrganizationsRequest,
   getOrganizationEventsRequest,
   getOrganizationUsersRequest,
 } from "../../redux/features/organizationSlice";
@@ -25,16 +19,11 @@ import {
   AccordionSummary,
   Box,
   Divider,
-  Grid,
-  Input,
   Link,
-  Option,
-  Select,
-  Sheet,
   Stack,
   useTheme,
 } from "@mui/joy";
-import { getUserFullName } from "../../utils/user_utils";
+import { getUserFullName, isTeamOwner } from "../../utils/user_utils";
 import OrganizationUserView from "./organization_user_view";
 import { removeUserSuccess } from "../../redux/sagas/organizationSaga";
 import AddOrganizationUser from "./add_organization_user";
@@ -42,27 +31,26 @@ import OrganizationEventView from "./organization_event_view";
 import { Trans, useTranslation } from "react-i18next";
 import ConfirmModal from "../modal/confirm_modal";
 import StyledButton from "../buttons/styled_button";
-import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import EditOrganization from "./edit";
 import InformationModal from "../modal/information";
 import { useMediaQuery } from "@mui/material";
 
 interface ViewOrganizationProps {
   organization: IOrganization;
+  network: INetwork;
 }
 
 const ViewOrganization: React.FC<ViewOrganizationProps> = ({
   organization,
+  network,
 }) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
 
-  const { organizationUsers, loading, organizationEvents } = useSelector(
+  const { loading, organizationEvents } = useSelector(
     (state: RootState) => state.organization
   ) as {
-    organizationUsers: IOrganizationUser[];
     loading: boolean;
     organizationEvents: IEvent[];
   };
@@ -88,11 +76,11 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
     dispatch(deleteOrganizationRequest(organization.id));
   };
 
-  const isOwner = organizationUsers?.find(
-    (user) =>
-      user.username === currentUser?.username &&
-      user.organization_role === OrganizationUserRole.OWNER
-  );
+  const organizationUsers = network.organizations.find(
+    (org) => org.id === organization.id
+  )?.users;
+
+  const isOwner = currentUser && isTeamOwner(currentUser);
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -120,47 +108,27 @@ const ViewOrganization: React.FC<ViewOrganizationProps> = ({
       >
         {t("profile.your_teams.users")}
       </Title>
-      <AccordionGroup>
-        <Accordion
-          variant="plain"
-          expanded={showAllUsers}
-          onChange={() => setShowAllUsers(!showAllUsers)}
-        >
-          <AccordionSummary>
-            <StyledText
-              level="body-md"
-              fontSize={18}
-              color={PALLETTE.charcoal_see_through}
-              fontWeight={700}
-            >
-              {showAllUsers ? t("common.show_less") : t("common.show_all")}
-            </StyledText>
-          </AccordionSummary>
-          <AccordionDetails>
-            {organizationUsers?.length === 0 ? (
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                color={PALLETTE.charcoal}
-              >
-                {t("profile.your_teams.no_users")}
-              </StyledText>
-            ) : (
-              organizationUsers?.map((user) => {
-                return (
-                  <OrganizationUserView
-                    user={user}
-                    organization={organization}
-                    canManage={isOwner !== undefined}
-                  />
-                );
-              })
-            )}
-          </AccordionDetails>
-        </Accordion>
-      </AccordionGroup>
+
+      {organizationUsers?.length === 0 ? (
+        <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
+          {t("profile.your_teams.no_users")}
+        </StyledText>
+      ) : (
+        organizationUsers?.map((user) => {
+          return (
+            <OrganizationUserView
+              user={user}
+              organization={organization}
+              canManage={isOwner!}
+            />
+          );
+        })
+      )}
+
       {/* Add new user */}
-      <AddOrganizationUser organization={organization} reFetch={reFetch} />
+      {currentUser && isTeamOwner(currentUser) && (
+        <AddOrganizationUser organization={organization} reFetch={reFetch} />
+      )}
 
       <Divider sx={{ marginTop: "16px", marginBottom: "16px" }} />
       <Box sx={{ marginTop: "16px" }}>

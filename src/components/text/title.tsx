@@ -12,7 +12,7 @@ interface TitleProps {
 
 const Title: React.FC<TitleProps> = ({
   color = PALLETTE.cerise_dark,
-  fontSize = 48,
+  fontSize = 38,
   fontWeight = 700,
   children,
   style,

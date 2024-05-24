@@ -18,7 +18,11 @@ import { getEventRequest } from "../../../../redux/features/eventSlice";
 import LoadingOverlay from "../../../../components/Loading";
 import { createTicketReleaseRequest } from "../../../../redux/features/createTicketReleaseSlice";
 import { format } from "date-fns";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
+import usePinnedDrawer from "../../../../hooks/drawer_pinned_hook";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
+import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
+import { ROUTES, generateRoute } from "../../../../routes/def";
 
 const EditEventAddTicketReleasePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -29,8 +33,28 @@ const EditEventAddTicketReleasePage: React.FC = () => {
 
   const { event } = useSelector((state: RootState) => state.eventDetail);
 
+  const { success, createdTicketReleaseId } = useSelector(
+    (state: RootState) => state.createTicketRelease
+  );
+
   const navigate = useNavigate();
   // Only run when the component mounts
+
+  useEffect(() => {
+    if (success && createdTicketReleaseId !== null) {
+      setTimeout(() => {
+        toast.success("Ticket release created successfully");
+      }, 1000);
+      dispatch(resetTicketTypes());
+
+      navigate(
+        generateRoute(ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES, {
+          eventId: eventID!,
+          ticketReleaseId: createdTicketReleaseId!,
+        })
+      );
+    }
+  }, [dispatch, navigate, success, eventID]);
 
   useEffect(() => {
     if (eventID)
@@ -67,21 +91,16 @@ const EditEventAddTicketReleasePage: React.FC = () => {
   };
 
   return (
-    <>
-      <DrawerComponent eventID={eventID!} />
-      <Box component={"main"}>
-        <TesseraWrapper>
-          <Box sx={{ padding: "16px 32px" }}>
-            <EditEventAddTicketRelease
-              eventId={parseInt(eventID!)}
-              submit={handleTicketReleaseSubmit}
-              initialValues={ticketReleaseForm || initialValues}
-              createOnSubmit={true}
-            />
-          </Box>
-        </TesseraWrapper>
-      </Box>
-    </>
+    <MUITesseraWrapper>
+      <DrawerBoxWrapper eventID={eventID!}>
+        <EditEventAddTicketRelease
+          eventId={parseInt(eventID!)}
+          submit={handleTicketReleaseSubmit}
+          initialValues={ticketReleaseForm || initialValues}
+          createOnSubmit={true}
+        />
+      </DrawerBoxWrapper>
+    </MUITesseraWrapper>
   );
 };
 

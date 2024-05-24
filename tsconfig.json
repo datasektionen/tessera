@@ -25,5 +25,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["./src/**/*", "./src/types"]
+  "include": ["./src/**/*", "./src/types", "public/default-css copy.ts"]
 }

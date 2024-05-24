@@ -1,13 +1,7 @@
 import { Divider, Grid, Link, Option, Select, Sheet, Stack } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../text/styled_text";
-import {
-  IEvent,
-  IOrganization,
-  IOrganizationUser,
-  IUser,
-  OrganizationUserRole,
-} from "../../types";
+import { IEvent, IOrganization, IOrganizationUser, IUser } from "../../types";
 import { getUserFullName } from "../../utils/user_utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";

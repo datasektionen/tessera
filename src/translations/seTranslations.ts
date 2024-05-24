@@ -7,6 +7,22 @@ const seTranslations = {
     teams: "Grupper",
     contact: "Kontakt",
     login: "Logga in",
+    pricing: "Priser",
+    manager: "Arrangör",
+  },
+
+  become_a_manager: {
+    welcome: "Välkommen till tessera!",
+    proceed: "Vem är du?",
+    customer: "Kund",
+    manager: "Arrangör",
+    skip: "Hoppa över",
+    select_plan: "Välj paket",
+    continue_as_manager: "Fortsätt som arrangör",
+    choose_plan:
+      "Välj det paket som passar dig bäst. När du kontaktar oss, vänligen låt oss veta vilken paket du är intresserad av och vad du skulle vilja veta mer om.",
+    full_list_of_features: "Fullständig lista över funktioner",
+    selected_plan: "Vald paket",
   },
 
   tooltips: {
@@ -39,6 +55,10 @@ const seTranslations = {
       private_event: "Privat evenemang",
       private_event_helperText:
         "Är ditt evenemang privat? Om så är fallet kan bara personer med länken se det.",
+      common_locations: "Vanligt Använda Platser",
+      collect_food_preferences: "Samla in matpreferenser",
+      collect_food_preferences_helperText:
+        "Ange om du vill samla in matpreferenser från deltagarna. Om detta är aktiverat kommer användarna att kunna ange sina matpreferenser när de begär en biljett.",
     },
     ticket_release: {
       name: "Namn",
@@ -74,9 +94,7 @@ const seTranslations = {
       promo_code: "Promokod",
       promo_code_helperText:
         "Vilken promokod ska användas för att få tillgång till detta reserverade biljettsläpp?",
-      allow_external: "Tillåt externa användare",
-      allow_external_helperText:
-        "Ska externa användare tillåtas att önska biljetter till detta biljettsläpp?",
+
       selective_description: "Beskriv allokeringsmetoden",
       selective_description_helperText:
         "Ange hur ditt team planerar att allokera biljetter. Denna information kommer att visas för användaren när de begär en biljett.",
@@ -107,10 +125,11 @@ const seTranslations = {
     contact: {
       title: "Kontakt",
       email: "Din E-post",
+      plan: "Paket",
       email_helperText: "Vad är kontakt-e-posten för denna biljett?",
       subject: "Ämne",
       subject_helperText: "Vad är ämnet för denna biljett?",
-      name: "Namn",
+      name: "Ditt Namn",
 
       name_helperText: "Vad är namnet på kontaktpersonen?",
       message: "Meddelande",
@@ -134,7 +153,8 @@ const seTranslations = {
       max_quantity_helperText:
         "Hur många av detta tillägg kan en användare köpa?",
       is_enabled: "Aktiverad",
-      is_enabled_helperText: "Är detta tillägg aktiverat?",
+      is_enabled_helperText:
+        "Om tilläget är aktiverat kommer det att visas för användaren.",
       contains_alcohol: "Innehåller alkohol",
       contains_alcohol_helperText: "Innehåller detta tillägg alkohol?",
     },
@@ -152,6 +172,8 @@ const seTranslations = {
       delete_field_confirm:
         "Är du säker på att du vill radera detta fält? Denna åtgärd kan göra att användarens svar raderas. Du måste trycka på spara efter du utgört denna åtgärd!",
     },
+
+    button_sign_in: "Logga in",
     button_add_field: "Lägg till fält",
     button_clear: "Rensa",
     button_next: "Nästa",
@@ -208,14 +230,9 @@ const seTranslations = {
     title: "Profil",
     full_name: "För- och efternamn",
     username: "Användarnamn",
-    role: "Roll",
+    roles: "Roller",
     teams: "Grupper",
-    internal_email: "KTH E-post",
-    external_email: "E-post",
-    preferred_email: "Föredragen e-post",
-    edit_preferred_email: "Redigera föredragen e-post",
-    edit_preferred_email_description:
-      "Här kan du redigera din föredragen e-post. Detta är e-postadressen som du kommer att få alla meddelanden till.",
+    email: "E-post",
 
     links_and_buttons: {
       your_ticket_requests: "Mina biljettförfrågningar",
@@ -300,9 +317,38 @@ const seTranslations = {
       "Detta kommer att vara gruppens e-post. Detta måste vara en giltig e-postadress.",
   },
 
+  manager: {
+    dashboard: {},
+
+    teams: {
+      title: "{{name}} Grupper",
+    },
+
+    drawer: {
+      events: "Evenemang",
+      all_events: "Alla evenemang",
+      teams: "Lag",
+      create_event: "Skapa evenemang",
+      settings: {
+        title: "Inställningar",
+        general: "Allmänt",
+        subscription: "Prenumeration",
+        financial: "Ekonomi",
+        users: "Användare",
+        customize: "Anpassa",
+      },
+    },
+  },
+
+  features: {
+    limit_description:
+      "Du har överskridit gränsen för {{feature}}, uppgradera ditt abonnemang för att få mer.",
+  },
+
   manage_event: {
     title: "Hantera {{event_name}}",
     delete_button: "Radera {{event_name}}",
+    view_button: "Visa eventsida",
     manage_ticket_releases: "Hantera biljettsläpp",
     allocate_tickets_button: "Tilldela biljetter",
     allocated_tickets: "Tilldelade biljetter",
@@ -374,6 +420,7 @@ const seTranslations = {
       form: "Formulär",
       send_outs: "Utskick",
       tickets: "Biljetter",
+      event_page: "Eventsida",
     },
 
     overview: {
@@ -419,13 +466,17 @@ const seTranslations = {
         ticket_releases: "Biljettsläpp",
         ticket_types: "Biljettbatcher",
         form: "Formulär",
-        landing_page: "Landningssida",
+        event_page: "Eventsida",
       },
 
       economy: {
         title: "Ekonomi",
         pay_outs: "Utbetalningar",
+        sales_report: "Försäljningsrapport",
       },
+
+      is_not_pinned: "Fäst meny",
+      is_pinned: "Lossa meny",
     },
 
     tickets: {
@@ -582,6 +633,19 @@ const seTranslations = {
         ticket_details_helperText:
           "Ändra detaljerna för dina biljettyper och klicka sedan på 'Spara'.",
       },
+
+      event_page: {
+        title: "Redigera eventsida",
+        description:
+          "Välj mellan en enkel eventsida eller anpassa den efter dina önskemål.",
+        enable: "Använd anpassad eventsida",
+        enabled: "Aktiverad",
+        disabled: "Inaktiverad",
+        editor_title: "Redigeraren",
+        editor_description:
+          "Eventsidans redigerare är ett kraftfullt verktyg som hjälper dig att skapa en anpassad eventsida för ditt evenemang. Du kan lägga till text, bilder, videoklipp och mer. Du designar sidan precis som du vill att den ska se ut, och vi tar hand om resten.",
+        editor_button: "Gå till redigeraren",
+      },
     },
 
     form_field_responses: {
@@ -614,6 +678,8 @@ const seTranslations = {
     ticket_request_success_title: "Biljettförfrågan skickad!",
     ticket_request_success_description:
       "Du kan också fylla i denna information senare om du vill. Du kan göra det <1>här</1>.",
+    ticket_releases_description:
+      "Här kan du se alla biljettsläpp för eventet. Du kan begära biljetter för varje biljettsläpp. Om du har en kampanjkod, bläddra till botten av vyn för att ange den.",
     check_in: {
       scan_ticket_instructions: "Skanna QR-koden för att checka in.",
       loading: "Laddar...",
@@ -653,6 +719,26 @@ const seTranslations = {
         max_quantity: "Max kvantitet",
         contains_alcohol: "Innehåller alkohol",
         view_addons: "Visa biljettillägg",
+      },
+      request_process: {
+        complete_ticket_request: "Slutför önska biljetter",
+        account_required_description:
+          "För att begära en biljett till detta evenemang måste du ha ett konto. Vänligen logga in eller skapa ett konto.",
+        already_have_an_account: "Har du redan ett konto?",
+        form: {
+          first_name: "Förnamn",
+          last_name: "Efternamn",
+          email: "E-post",
+          phone_number: "Telefonnummer (valfritt)",
+          password: "Lösenord",
+          password_repeat: "Upprepa lösenord",
+          button_save_account: "Spara konto",
+          button_save_account_helperText:
+            "Vi kommer att spara dina uppgifter för framtida köp",
+          button_sign_in: "Logga in",
+          button_sign_up: "Registrera dig",
+          button_continue_as_guest: "Fortsätt som gäst",
+        },
       },
     },
   },
@@ -713,7 +799,7 @@ const seTranslations = {
     },
   },
 
-  external: {
+  customer: {
     login: "Logga in",
     signup: "Registrera dig",
     info: {
@@ -722,8 +808,6 @@ const seTranslations = {
         "Om du inte är en KTH-student kan du fortfarande använda Tessera. Eftersom du dock inte har ett KTH-konto behöver du använda en annan inloggningsmetod. När du använder Tessera kommer du endast att kunna köpa biljetter från biljettsläpp som är specifika för externa användare. Dessa kan inkludera '+1'-biljetter, eller hedersbiljetter för speciella gäster.",
       forgot_password: "Glömt lösenord?",
       dont_have_an_account: "Har du inget konto? Registrera dig!",
-      i_have_kth_account:
-        "Men jag har ett KTH-konto! Då kan du logga in <1>här</1>.",
     },
     form: {
       first_name: "Förnamn",
@@ -735,6 +819,11 @@ const seTranslations = {
       button_signup: "Registrera dig",
       button_login: "Logga in",
       no_account: "Har du inget konto? Vänligen kontakta oss.", // TODO add email
+    },
+    forgot_password: {
+      title: "Begär nytt lösenord",
+      description:
+        "Ange den e-postadress som är kopplad till ditt konto och du kommer att få en länk för att återställa ditt lösenord.",
     },
   },
 
@@ -763,6 +852,8 @@ const seTranslations = {
     made_by: "Tessera är byggt av <1>Lucas Dow</1>.",
     report_an_issue_content:
       "Om något inte fungerar, eller om du har ett förslag, kan du <1>Skapa ett problem på Github</1>.",
+    contact_title: "Kontakt",
+    follow_us: "Följ oss",
   },
 
   main_page: {

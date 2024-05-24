@@ -28,6 +28,12 @@ import { ITicketReleaseForm, ITicketTypeForm } from "../../types";
 import { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useFeatureLimitAccess } from "../../hooks/manager/required_feature_access_hook";
+import MUITesseraWrapper from "../../components/wrappers/page_wrapper_mui";
+import ManagerDashboardDrawerComponent from "../../components/navigation/manage_drawer/manager_dashboard";
+import DrawerBoxWrapper from "../../components/wrappers/manager_wrapper";
+import { ROUTES } from "../../routes/def";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
 
 const CreateEventPage = () => {
   const { currentStep, form, success } = useSelector(
@@ -37,12 +43,15 @@ const CreateEventPage = () => {
   const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { canUseFeature } = useFeatureLimitAccess("max_events");
+  const { network } = useNetworkDetails();
+
   // Only run when the component mounts
   useEffect(() => {
     if (success) {
       dispatch(resetTicketTypes());
       dispatch(resetCurrentStep());
-      navigate(`/events`);
+      navigate(ROUTES.MANAGER_DASHBOARD);
     }
     dispatch(resetSuccess());
   }, [dispatch, navigate, success]);
@@ -64,6 +73,7 @@ const CreateEventPage = () => {
   ) => {
     const errors = await validateForm(values);
     if (Object.keys(errors).length === 0) {
+      values.is_saved = true;
       // The form is valid
       dispatch(setTicketReleaseForm(values));
     } else {
@@ -85,75 +95,95 @@ const CreateEventPage = () => {
   };
 
   return (
-    <TesseraWrapper>
-      <Box sx={{ padding: "16px 32px" }}>
-        {currentStep == 1 && (
-          <StandardGrid>
-            <Grid xs={8}>
-              <Title>{t("create_event.title")}</Title>
-              <Box>
-                <StyledText
-                  level="body-md"
-                  fontSize={18}
-                  color={PALLETTE.charcoal}
-                >
-                  {t("create_event.create_event_description")}
-                </StyledText>
-                {!canCreateEvent && (
+    <MUITesseraWrapper>
+      <DrawerBoxWrapper showManagerDashboard={true}>
+        <Box sx={{ mt: 2 }}>
+          {currentStep === 1 && (
+            <StandardGrid
+              overrideStyle={{
+                marginLeft: 0,
+              }}
+            >
+              <Grid xs={6}>
+                <Title>{t("create_event.title")}</Title>
+                <Box>
                   <StyledText
                     level="body-md"
                     fontSize={18}
-                    color={PALLETTE.orange}
-                    fontWeight={700}
-                  >
-                    {t("create_event.no_teams")}
-                  </StyledText>
-                )}
-              </Box>
-              <Box mt={2}>
-                {canCreateEvent && <RestartEventCreationButton />}
-              </Box>
-            </Grid>
-            {canCreateEvent && (
-              <Grid xs={8}>
-                <BorderBox>
-                  <StyledText
-                    level="body-lg"
-                    fontSize={24}
-                    color={PALLETTE.cerise_dark}
-                  >
-                    {t("create_event.event_details_title")}
-                  </StyledText>
-                  <StyledText
-                    level="body-md"
-                    fontSize={16}
                     color={PALLETTE.charcoal}
                   >
-                    {t("create_event.event_details_description")}
+                    {t("create_event.create_event_description")}
                   </StyledText>
-                  <CreateEventForm />
-                </BorderBox>
+                  {!canCreateEvent && (
+                    <StyledText
+                      level="body-md"
+                      fontSize={18}
+                      color={PALLETTE.orange}
+                      fontWeight={700}
+                    >
+                      {t("create_event.no_teams")}
+                    </StyledText>
+                  )}
+                  {canUseFeature === false && (
+                    <StyledText
+                      level="body-md"
+                      fontSize={18}
+                      color={PALLETTE.orange}
+                      fontWeight={700}
+                    >
+                      {t("features.limit_description", {
+                        feature: "max_events",
+                      })}
+                    </StyledText>
+                  )}
+                </Box>
+                <Box mt={2}>
+                  {canCreateEvent && canUseFeature && (
+                    <RestartEventCreationButton />
+                  )}
+                </Box>
               </Grid>
-            )}
-          </StandardGrid>
-        )}
+              {canCreateEvent && canUseFeature && (
+                <Grid xs={10}>
+                  <BorderBox>
+                    <StyledText
+                      level="body-lg"
+                      fontSize={24}
+                      color={PALLETTE.cerise_dark}
+                    >
+                      {t("create_event.event_details_title")}
+                    </StyledText>
+                    <StyledText
+                      level="body-md"
+                      fontSize={16}
+                      color={PALLETTE.charcoal}
+                    >
+                      {t("create_event.event_details_description")}
+                    </StyledText>
+                    <CreateEventForm />
+                  </BorderBox>
+                </Grid>
+              )}
+            </StandardGrid>
+          )}
 
-        {currentStep === 2 && canCreateEvent && (
-          <CreateTicketReleases submit={handleTicketReleaseSubmit} />
-        )}
-        {currentStep === 3 && canCreateEvent && (
-          <CreateTicketTypes
-            submit={handleTTsSubmit}
-            handleBack={() => {
-              dispatch(previousStep());
-            }}
-          />
-        )}
-        {currentStep === 4 && canCreateEvent && (
-          <CreateEventLastStep submit={submitEventFullWorkflow} />
-        )}
-      </Box>
-    </TesseraWrapper>
+          {currentStep === 2 && canCreateEvent && (
+            <CreateTicketReleases submit={handleTicketReleaseSubmit} />
+          )}
+          {currentStep === 3 && canCreateEvent && (
+            <CreateTicketTypes
+              submit={handleTTsSubmit}
+              handleBack={() => {
+                dispatch(previousStep());
+              }}
+            />
+          )}
+          {currentStep === 4 && canCreateEvent && (
+            <CreateEventLastStep submit={submitEventFullWorkflow} />
+          )}
+        </Box>
+      </DrawerBoxWrapper>
+    </MUITesseraWrapper>
   );
 };
 

@@ -13,17 +13,24 @@ import watchTicketsSaga from "./ticketsSaga";
 import watchTicketReleaseSaga from "./ticketReleaseSaga";
 import watchFetchTicketTypes from "./ticketTypeSaga";
 import watchEventTicketsSaga from "./eventTicketsSaga";
-import watchExternalAuthSagas from "./externalAuthSaga";
+import watchCustomerAuthSagas from "./customerAuthSaga";
 import { listOrganizationsSaga } from "./listOrganizationsSlice";
 import watchSalesReportSaga from "./salesReportSaga";
 import watchGetAddonSaga from "./addonSaga";
 import bankingDetailsSaga from "./bankingDetailsSaga";
+import watchViewCustomerEventSaga from "./customerViewEventSaga";
+import { watchGuestCustomerCreateTicketRequestSaga } from "./ticketRequestGuestSaga";
+import { watchGuestSaga } from "./guestSaga";
+import { watchCreatePlanEnrollmentSaga } from "./createPlanEnrollmentSaga";
+import watchListNetworkEventSaga from "./manager/listNetworkEventsSaga";
+import watchNetworkSaga from "./manager/networkSaga";
 
 export default function* rootSaga() {
   yield all([
     watchLoginSaga(),
     watchUserSagas(),
     watchListEventSaga(),
+    watchListNetworkEventSaga(),
     watchEventSaga(),
     watchTicketRequestSaga(),
     watchTicketsSaga(),
@@ -36,10 +43,15 @@ export default function* rootSaga() {
     watchPromoCodeAccessSaga(),
     watchFetchTicketTypes(),
     watchEventTicketsSaga(),
-    watchExternalAuthSagas(),
+    watchCustomerAuthSagas(),
     listOrganizationsSaga(),
     watchGetAddonSaga(),
     bankingDetailsSaga(),
+    watchViewCustomerEventSaga(),
+    watchCreatePlanEnrollmentSaga(),
+    watchGuestCustomerCreateTicketRequestSaga(),
+    watchGuestSaga(),
+    watchNetworkSaga(),
     // add other sagas here
   ]);
 }

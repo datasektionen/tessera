@@ -2,11 +2,11 @@
     "numberOfQuestions": 10,
     "q1": {
         "question": "What is Tessera and how does it simplify the process of ticket releases?",
-        "answer": "Tessera is a user-friendly platform designed to streamline the process of creating and managing ticket releases. It allows event organizers to easily customize ticket releases, manage attendees, and ensure a smooth experience by integrating attendee preferences such as food choices and allergies. For attendees, Tessera simplifies the ticket request process, offering various distribution methods like lottery systems or first-come-first-serve, removing the hassle of filling out extensive forms."
+        "answer": "Tessera is a user-friendly platform designed to streamline the process of creating and managing ticket releases. It allows event managers to easily customize ticket releases, manage attendees, and ensure a smooth experience by integrating attendee preferences such as food choices and allergies. For attendees, Tessera simplifies the ticket request process, offering various distribution methods like lottery systems or first-come-first-serve, removing the hassle of filling out extensive forms."
     },
     "q2": {
-        "question": "How do I become an event organizer and create a team on Tessera?",
-        "answer": "To become an event organizer, you need to create a team. Currently, teams can be set up by contacting us directly. After creating your team, you can start crafting ticket releases and inviting other members to your team for assistance in managing the events."
+        "question": "How do I become an event manager and create a team on Tessera?",
+        "answer": "To become an event manager, you need to create a team. Currently, teams can be set up by contacting us directly. After creating your team, you can start crafting ticket releases and inviting other members to your team for assistance in managing the events."
     },
     "q3": {
         "question": "What are the different ways tickets can be distributed to users on Tessera?",
@@ -30,7 +30,7 @@
     },
     "q8": {
         "question": "How are food preferences and allergies handled for event attendees?",
-        "answer": "Tessera allows attendees to input their food preferences and any allergies or dietary restrictions during the ticket request process. Event organizers can easily access this information to accommodate attendees' needs and ensure an enjoyable experience for everyone."
+        "answer": "Tessera allows attendees to input their food preferences and any allergies or dietary restrictions during the ticket request process. Event managers can easily access this information to accommodate attendees' needs and ensure an enjoyable experience for everyone."
     },
     "q9": {
         "question": "How can I pay for my tickets, and what is the payment policy?",

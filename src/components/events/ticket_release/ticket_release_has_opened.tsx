@@ -39,6 +39,11 @@ import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../text/styled_text";
 import TicketReleaseAddons from "./addons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import InformationModal from "../../modal/information";
+import { useMediaQuery, useTheme } from "@mui/material";
+import MakeTicketRequestUserDetails from "./ticket_request/make_ticket_request_user_details";
+import MakeTicketRequestWorkflow from "./ticket_request/make_ticket_request_work_flow";
+import { createGuestTicketRequest } from "../../../redux/features/guestCustomerSlice";
 
 const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
@@ -60,12 +65,23 @@ const TicketReleaseHasOpened: React.FC<{
   >();
 
   const [whatIsRequestOpen, setWhatIsRequestOpen] = React.useState(false);
+  const [requestedTickets, setRequestedTickets] = React.useState<
+    TicketRequestData[]
+  >([]);
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
 
   const [selectedAddons, setSelectedAddons] = React.useState<ISelectedAddon[]>(
     []
   );
+
+  const { guestCustomer } = useSelector((state: RootState) => state.auth);
+
+  const [makeTicketRequestModalOpen, setMakeTicketRequestModalOpen] =
+    React.useState(false);
 
   useEffect(() => {
     // Create a summary of the ticket request items
@@ -140,12 +156,43 @@ const TicketReleaseHasOpened: React.FC<{
       return;
     }
 
+    setRequestedTickets(tickets);
+    setMakeTicketRequestModalOpen(true);
+  };
+
+  const getPromoCodes = () => {
+    let existingPromoCodes: string[] = [];
+    if (existingPromoCodes) {
+      existingPromoCodes = JSON.parse(
+        localStorage.getItem("promo_codes") || "[]"
+      );
+    } else {
+      existingPromoCodes = [];
+    }
+    return existingPromoCodes ?? [];
+  };
+
+  const onSubmit = () => {
     dispatch(
       postTicketRequest({
-        tickets,
+        promoCodes: getPromoCodes(),
+        tickets: requestedTickets,
         addons: selectedAddons,
         eventId: ticketRelease.eventId,
         ticketReleaseId: ticketRelease.id,
+      })
+    );
+  };
+
+  const onGuestSubmit = () => {
+    dispatch(
+      createGuestTicketRequest({
+        promoCodes: getPromoCodes(),
+        tickets: requestedTickets,
+        addons: selectedAddons,
+        eventId: ticketRelease.eventId,
+        ticketReleaseId: ticketRelease.id,
+        guestCustomer: guestCustomer!,
       })
     );
   };
@@ -159,6 +206,28 @@ const TicketReleaseHasOpened: React.FC<{
 
   return (
     <>
+      <InformationModal
+        isOpen={makeTicketRequestModalOpen}
+        onClose={() => {
+          setMakeTicketRequestModalOpen(false);
+        }}
+        title={t(
+          "event.ticket_release.request_process.complete_ticket_request"
+        )}
+        width={isScreenSmall ? "100%" : "60%"}
+      >
+        <Box>
+          <MakeTicketRequestWorkflow
+            ticketRelease={ticketRelease}
+            onSubmitTicketRequest={onSubmit}
+            onSubmitGuestTicketRequest={onGuestSubmit}
+            onClose={() => {
+              setMakeTicketRequestModalOpen(false);
+            }}
+          />
+        </Box>
+      </InformationModal>
+
       {/* {makingRequest && <LoadingOverlay />} */}
       <Stack spacing={2} sx={{ p: 0 }} mt={2}>
         {ticketRelease.ticketTypes!.length > 0 ? (
@@ -233,31 +302,45 @@ const TicketReleaseHasOpened: React.FC<{
               <Divider />
             </>
           ))}
-          <Divider />
+          <Divider sx={{
+            mb: 1,
+            maxWidth: "500px"
+          }} />
           {/* Total */}
           <Grid
             container
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center"
+            sx={{
+              maxWidth: "500px"
+            }}
           >
             <Grid container justifyContent={"flex-start"} flexDirection={"row"}>
               <ShoppingCartIcon />
-              <Typography
+              <StyledText
                 level="body-sm"
-                fontFamily={"Josefin sans"}
-                ml={2}
-                fontWeight={600}
+                fontSize={16}
+                color={PALLETTE.charcoal}
+                sx={{
+                  ml: 2
+                }}
               >
                 {t("event.ticket_release.checkout.total")}
-              </Typography>
+              </StyledText>
             </Grid>
-            <Typography level="body-sm" fontFamily={"Josefin sans"}>
+            <StyledText
+              level="body-sm"
+              fontSize={16}
+              color={PALLETTE.charcoal}
+
+            >
               SEK{" "}
               {basket
                 ?.reduce((acc, item) => acc + item.price * item.quantity, 0)
                 .toFixed(2)}
-            </Typography>
+
+            </StyledText>
           </Grid>
 
           <Box mt={2}>
@@ -326,7 +409,8 @@ const TicketReleaseHasOpened: React.FC<{
             }}
           />
         </>
-      )}
+      )
+      }
       <div
         style={{
           marginTop: "1rem",

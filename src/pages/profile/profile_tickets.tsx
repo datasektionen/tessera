@@ -101,10 +101,10 @@ const ProfileTicketsPage: React.FC = () => {
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
               <Trans i18nKey="profile.your_tickets.description">
                 Here you can see all the tickets you have gotten. You can give
-                up your ticket by clicking on it and then choosing the
-                option "I no longer wish to attend", which will give your ticket
-                to the next person in line. If you have not yet been allocated a
-                ticket or reserve ticket, you can see your ticket requests
+                up your ticket by clicking on it and then choosing the option "I
+                no longer wish to attend", which will give your ticket to the
+                next person in line. If you have not yet been allocated a ticket
+                or reserve ticket, you can see your ticket requests
                 <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>.
               </Trans>
             </StyledText>

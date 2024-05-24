@@ -147,7 +147,6 @@ function* fetchEventTickets(
             close: new Date(
               ticket_request.ticket_release.close! * 1000
             ).getTime(),
-            allow_external: ticket_request.ticket_release.allow_external!,
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
             ticketReleaseMethodDetail: {

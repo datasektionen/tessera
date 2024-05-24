@@ -28,6 +28,13 @@ import languageSlice from "./redux/features/languageSlice";
 import addonCreationSlice from "./redux/features/addonCreationSlice";
 import addonSlice from "./redux/features/addonSlice";
 import bankingDetailsSlice from "./redux/features/bankingDetailsSlice";
+import viewCustomerEventSlice from "./redux/features/customerViewEvent";
+import guestCustomerSlice from "./redux/features/guestCustomerSlice";
+import planeEnrollmentCreationSlice from "./redux/features/createPlanEnrollmentSlice";
+import drawerPinnedSlice from "./redux/features/drawerPinnedSlice";
+import listNetworkEventsSlice from "./redux/features/manager/listNetworkEventsSlice";
+import networkSlice from "./redux/features/manager/networkSlice";
+import { authStatusReducer } from "./redux/features/authSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -39,6 +46,7 @@ const persistConfig = {
     "ticketTypeCreation",
     "timestamp",
     "language",
+    "drawerPinned",
   ],
   key: "root",
   storage,
@@ -46,8 +54,10 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  authStatus: authStatusReducer,
   user: userReducer,
   events: listEventsReducer,
+  networkEvents: listNetworkEventsSlice,
   eventDetail: eventReducer,
   ticketRequest: ticketRequestReducer,
   foodPreferences: foodPreferenceReducer,
@@ -70,6 +80,11 @@ const rootReducer = combineReducers({
   addonCreation: addonCreationSlice,
   addons: addonSlice,
   bankingDetails: bankingDetailsSlice,
+  customerViewEvent: viewCustomerEventSlice,
+  guestCustomer: guestCustomerSlice,
+  planEnrollmentCreation: planeEnrollmentCreationSlice,
+  drawerPinned: drawerPinnedSlice,
+  network: networkSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

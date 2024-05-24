@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { ShoppingCartItem } from "../../../redux/features/ticketRequestSlice";
 import React, { useEffect } from "react";
-import { ListItemText } from "@mui/material";
+import { ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import {
   ticketReleaseHasClosed,
   ticketReleaseHasNotOpened,
@@ -59,100 +59,21 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const { t } = useTranslation();
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
-
-  const [reminderStatus, setReminderStatus] = React.useState<{
-    has_reminder: boolean;
-    reminder_time: number;
-  } | null>(null);
-
-  const getUserTicketReleaseReminderStatus = async (
-    ticketRelease: ITicketRelease
-  ) => {
-    axios
-      // /events/:eventID/ticket-release/:ticketReleaseID/reminder
-      .get(
-        process.env.REACT_APP_BACKEND_URL +
-          `/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/reminder`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        const { reminder_time } = response.data;
-        if (reminder_time) {
-          const reminder_time_unix = new Date(reminder_time).getTime();
-          setReminderStatus({
-            has_reminder: true,
-            reminder_time: reminder_time_unix,
-          });
-        }
-      })
-      .catch((error) => {});
-  };
-
-  const createReminder = async () => {
-    const reminder_time: number = Math.floor(
-      ticketRelease.open / 1000 - 60 * 10
-    );
-
-    axios
-      .post(
-        process.env.REACT_APP_BACKEND_URL +
-          `/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/reminder`,
-        {
-          reminder_time,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        setReminderStatus({
-          has_reminder: true,
-          reminder_time,
-        });
-        toast.info(
-          "Reminder has been set, you will be notified 10 minutes before the ticket release opens"
-        );
-      })
-      .catch((error) => {
-        const errorMessage = error.response.data.error || "An error occurred";
-        toast.error(errorMessage);
-      });
-  };
-
-  const removeReminder = async () => {
-    axios
-      .delete(
-        process.env.REACT_APP_BACKEND_URL +
-          `/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/reminder`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        setReminderStatus(null);
-        toast.info("Reminder has been removed");
-      })
-      .catch((error) => {
-        const errorMessage = error.response.data.error || "An error occurred";
-        toast.error(errorMessage);
-      });
-  };
-
-  useEffect(() => {
-    getUserTicketReleaseReminderStatus(ticketRelease);
-  }, []);
+  const theme = useTheme();
+  const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Sheet
       variant="outlined"
       sx={{
-        p: 2,
+        background: "transparent",
+        p: isScreenSmall ? 0.5 : 2,
+        width: isScreenSmall ? "100%" : "inherit",
       }}
       style={{
+        border: "2.5px solid",
         borderColor: PALLETTE.cerise,
-        backgroundColor: "transparent",
+        borderRadius: 4,
       }}
     >
       <Stack
@@ -180,33 +101,11 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
             </Chip>
           </Box>
         )}
-        {ticketReleaseHasNotOpened(ticketRelease, timestamp!) &&
-          (reminderStatus === null ? (
-            <Box style={{}}>
-              <Tooltip title={t("event.ticket_release.set_reminder")}>
-                <IconButton onClick={createReminder}>
-                  <NotificationsNoneIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          ) : (
-            <Box>
-              <Tooltip title={t("event.ticket_release.remove_reminder")}>
-                <IconButton onClick={removeReminder}>
-                  <NotificationsActive
-                    style={{
-                      color: PALLETTE.cerise,
-                    }}
-                  />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          ))}
       </Stack>
 
       <StyledText
-        level="h4"
-        fontSize={24}
+        level="h3"
+        fontSize={32}
         color={PALLETTE.charcoal}
         style={{
           color: PALLETTE.charcoal,
@@ -214,10 +113,10 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       >
         {ticketRelease.name}
       </StyledText>
-      <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16}>
-        <div>
-          <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
-        </div>
+      <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16} sx={{
+        mt: -1,
+      }}>
+        <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
       </StyledText>
       {!ticketReleaseHasClosed(ticketRelease, timestamp!) && [
         <StyledText
@@ -248,21 +147,21 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           {" - "}
           {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.id ===
             4 && (
-            <StyledText
-              level="body-sm"
-              key="ticket_release_method"
-              color={PALLETTE.charcoal}
-              fontSize={16}
-              style={{
-                textDecoration: "italic",
-              }}
-              sx={{
-                mb: 1,
-              }}
-            >
-              {ticketRelease.ticketReleaseMethodDetail.method_description}
-            </StyledText>
-          )}
+              <StyledText
+                level="body-sm"
+                key="ticket_release_method"
+                color={PALLETTE.charcoal}
+                fontSize={16}
+                style={{
+                  textDecoration: "italic",
+                }}
+                sx={{
+                  mb: 1,
+                }}
+              >
+                {ticketRelease.ticketReleaseMethodDetail.method_description}
+              </StyledText>
+            )}
         </StyledText>,
 
         <InformationModal

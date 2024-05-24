@@ -10,7 +10,7 @@ import {
   Sheet,
   Stack,
 } from "@mui/joy";
-import { IOrganization, OrganizationUserRole } from "../../types";
+import { IOrganization, OrganizationUserRoleType } from "../../types";
 import PALLETTE from "../../theme/pallette";
 import { TitleTwoTone } from "@mui/icons-material";
 import StyledText from "../text/styled_text";
@@ -30,14 +30,16 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
   organization,
   reFetch,
 }) => {
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const { t } = useTranslation();
   const handleAddUser = async () => {
     // Add the user to the organization
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/organizations/${organization.id}/users/${username}`,
-        {},
+        `${process.env.REACT_APP_BACKEND_URL}/organizations/${organization.id}/users`,
+        {
+          email: email,
+        },
         {
           withCredentials: true,
         }
@@ -45,7 +47,7 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
 
       if (response.status === 200) {
         toast.success("User added successfully!");
-        setUsername("");
+        setEmail("");
         reFetch();
       } else {
         toast.error("Something went wrong!");
@@ -75,14 +77,14 @@ const AddOrganizationUser: React.FC<AddOrganizationUserProps> = ({
         >
           <Grid xs={12} md={8}>
             <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               style={{
                 width: "200px",
                 borderColor: PALLETTE.cerise,
                 backgroundColor: PALLETTE.offWhite,
               }}
-              placeholder="Enter username"
+              placeholder="Enter users email"
             />
           </Grid>
           <Grid xs={12} md={4}>

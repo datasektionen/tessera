@@ -23,6 +23,19 @@ const METHODS_THAT_CAN_MASS_ALLOCATE_TICKETS: string[] = [
 
 const METHODS_THAT_HAS_LOTTERY: string[] = ["First Come First Serve Lottery"];
 
+const METHODS_THAT_REQUIRE_ACCOUNT: string[] = [
+  "First Come First Serve Lottery",
+  "First Come First Serve",
+];
+
+export const ticketReleaseRequiresAccount = (method?: ITicketReleaseMethod) => {
+  if (!method) {
+    throw new Error("Method is required");
+  }
+
+  return METHODS_THAT_REQUIRE_ACCOUNT.includes(method.name);
+};
+
 export const canEditPaymentDeadline = (method?: ITicketReleaseMethod) => {
   if (!method) {
     throw new Error("Method is required");

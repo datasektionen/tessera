@@ -119,6 +119,7 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                       handleFieldChange("description", e.target.value, index);
                       // Optionally dispatch on change instead of on submit
                     }}
+                    maxChars={500}
                   />
                   <StyledErrorMessage name="description" />
 
@@ -168,8 +169,8 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                 >
                   <Grid>
                     <StyledButton
-                      size="md"
-                      color="primary"
+                      size="sm"
+                      color={PALLETTE.charcoal_see_through}
                       onClick={() => {
                         dispatch(clearTicketType(index));
                       }}

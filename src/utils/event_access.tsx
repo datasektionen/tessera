@@ -40,12 +40,19 @@ export const useCanAccessEvent = (eventID: string) => {
           }, 400);
           navigate("/events");
         }
+
         setCanAccess(false);
       }
     };
 
     fetchAccess();
   }, [eventID, navigate]);
+
+  useEffect(() => {
+    if (canAccess === false) {
+      navigate(-1);
+    }
+  }, [canAccess, navigate]);
 
   return canAccess;
 };

@@ -1,6 +1,6 @@
 // src/redux/foodUserFoodPreferencesSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IFoodPreference } from "../../types";
+import { IFoodPreference, IGuestCustomer } from "../../types";
 
 interface FoodUserFoodPreferencesState {
   foodPreferences: string[];
@@ -8,6 +8,7 @@ interface FoodUserFoodPreferencesState {
   additionalNotes: string;
   gdpr_agreed: boolean;
   loading: boolean;
+  save_success: boolean;
   error: string | null;
   needs_to_renew_gdpr: boolean;
 }
@@ -24,6 +25,7 @@ const initialState: FoodUserFoodPreferencesState = {
   additionalNotes: "",
   gdpr_agreed: false,
   needs_to_renew_gdpr: false,
+  save_success: false,
   loading: false,
   error: null,
 };
@@ -32,7 +34,12 @@ export const foodUserFoodPreferencesSlice = createSlice({
   name: "foodUserFoodPreferences",
   initialState,
   reducers: {
-    fetchUserFoodPreferencesStart: (state) => {
+    fetchUserFoodPreferencesStart: (
+      state,
+      action: PayloadAction<{
+        guestCustomer: IGuestCustomer | null;
+      }>
+    ) => {
       state.loading = true;
       state.error = null;
     },
@@ -61,8 +68,10 @@ export const foodUserFoodPreferencesSlice = createSlice({
         additionalNotes: string;
         gdpr_agreed: boolean;
         needs_to_renew_gdpr: boolean;
+        guestCustomer: IGuestCustomer | null;
       }>
     ) => {
+      state.save_success = false;
       state.loading = true;
       state.error = null;
     },
@@ -77,6 +86,7 @@ export const foodUserFoodPreferencesSlice = createSlice({
       state.gdpr_agreed = action.payload.gdpr_agreed;
       state.needs_to_renew_gdpr = action.payload.needs_to_renew_gdpr;
       state.loading = false;
+      state.save_success = true;
     },
     updateUserFoodPreferencesFailure: (
       state,

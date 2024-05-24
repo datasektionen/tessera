@@ -40,14 +40,6 @@ const EventsPage: React.FC = () => {
       <Box pl={4} pt={2}>
         <Stack direction="row" spacing={2}>
           <Title>{t("event.list_title")}</Title>
-          <IconButton onClick={() => navigate(ROUTES.CREATE_EVENT)}>
-            <AddCircleOutlineIcon
-              style={{
-                color: PALLETTE.cerise,
-                fontSize: "2.5rem",
-              }}
-            />
-          </IconButton>
         </Stack>
       </Box>
 

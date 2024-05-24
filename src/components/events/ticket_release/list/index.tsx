@@ -60,6 +60,7 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
     <Box
       style={{
         position: "relative",
+        minWidth: "100px", // Set your desired minimum width here
       }}
     >
       <Input
@@ -106,6 +107,7 @@ const ListEventTicketReleases: React.FC<ListEventTicketReleasesProps> = ({
                   pt: 0.5,
                   backgroundColor: PALLETTE.white,
                   borderRadius: 4,
+                  minWidth: "100px",
                   transition: "all 0.2s",
                   "&:hover": {
                     transform: "scale(1.01)",

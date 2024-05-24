@@ -57,15 +57,15 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
   const initialValues: IEventFormFieldInput =
     event.form_fields !== undefined
       ? {
-          form_field_description: event.form_field_description || "",
-          form_fields: event.form_fields,
-        }
+        form_field_description: event.form_field_description || "",
+        form_fields: event.form_fields,
+      }
       : {
-          form_field_description: "",
-          form_fields: [
-            { name: "", type: "", description: "", is_required: false },
-          ],
-        };
+        form_field_description: "",
+        form_fields: [
+          { name: "", type: "", description: "", is_required: false },
+        ],
+      };
 
   const { t } = useTranslation();
 
@@ -109,7 +109,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
               placeholder="Form Field Description"
               required={false}
               overrideStyle={{
-                width: "80%",
+                width: "95%",
               }}
             />
             <StyledErrorMessage name="form_field_description" />

@@ -52,6 +52,7 @@ function* createEventFullWorkflowSaga(
           : undefined,
         is_private: event.is_private,
         organization_id: event.organization_id,
+        collect_food_preferences: event.collect_food_preferences,
       },
       ticket_release: {
         name: ticketRelease.name,
@@ -67,7 +68,6 @@ function* createEventFullWorkflowSaga(
         is_reserved: ticketRelease.is_reserved,
         promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
         tickets_available: ticketRelease.tickets_available,
-        allow_external: ticketRelease.allow_external,
       },
       ticket_types: ticketTypes.map((ticketType: ITicketTypeForm) => {
         return {
@@ -80,7 +80,7 @@ function* createEventFullWorkflowSaga(
 
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/complete-event-workflow`,
+      `${process.env.REACT_APP_BACKEND_URL}/manager/complete-event-workflow`,
       data,
       {
         withCredentials: true,
@@ -97,7 +97,6 @@ function* createEventFullWorkflowSaga(
       }, 500);
     }
   } catch (error: any) {
-    console.log(error);
     toast.error(error.response.data.error);
     yield put(createEventFullWorkflowFailure(error.message));
   }

@@ -4,14 +4,14 @@ import {
   IEvent,
   IOrganization,
   IOrganizationUser,
-  OrganizationUserRole,
+  OrganizationUserRoleType,
 } from "../../types";
 import { stat } from "fs";
 
 export interface ChangeUserRolePayload {
   organizationId: number;
   username: string;
-  newRole: OrganizationUserRole;
+  newRole: OrganizationUserRoleType;
 }
 
 interface OrganizationState {

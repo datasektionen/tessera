@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, useFormikContext, FormikHelpers } from "formik";
 import {
   Button,
@@ -29,20 +30,13 @@ import {
 } from "../../forms/form_labels";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
-import { useEffect } from "react";
 import { getTicketReleaseMethodsRequest } from "../../../redux/features/ticketReleaseMethodsSlice";
 import PALLETTE from "../../../theme/pallette";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import StyledText from "../../text/styled_text";
 import StyledButton from "../../buttons/styled_button";
-import {
-  clearEventForm,
-  clearTicketReleaseForm,
-  setTicketReleaseForm,
-} from "../../../redux/features/eventCreationSlice";
 import CreateTicketReleaseFormSchema from "../../../validation/create_ticket_release_form";
-import { format } from "date-fns";
-import { toast } from "react-toastify";
+import { format, addHours, addWeeks } from "date-fns";
 import LoadingOverlay from "../../Loading";
 import { useTranslation } from "react-i18next";
 
@@ -82,7 +76,15 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        ...initialValues,
+        open: !initialValues.is_saved
+          ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm")
+          : initialValues.open,
+        close: !initialValues.is_saved
+          ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm")
+          : initialValues.close,
+      }}
       validationSchema={CreateTicketReleaseFormSchema}
       validateOnBlur={true}
       validateOnChange={true}
@@ -144,6 +146,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 overrideStyle={{
                   width: "95%",
                 }}
+                maxChars={500}
               />
               <StyledErrorMessage name="description" />
 
@@ -225,7 +228,13 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                               >
                                 {trm.name}
                               </StyledText>
-                              <Tooltip title={trm.description}>
+
+                              <Tooltip
+                                title={trm.description}
+                                style={{
+                                  width: "300px",
+                                }}
+                              >
                                 <HelpOutlineIcon
                                   style={{
                                     marginLeft: "5px",
@@ -346,21 +355,6 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
-
-            <FormControl>
-              <StyledFormLabel>
-                {t("form.ticket_release.allow_external")}
-              </StyledFormLabel>
-              <FormCheckbox
-                name="allow_external"
-                label="Allow External Users"
-              />
-              <StyledErrorMessage name="allow_external" />
-
-              <StyledFormLabelWithHelperText>
-                {t("form.ticket_release.allow_external_helperText")}
-              </StyledFormLabelWithHelperText>
-            </FormControl>
 
             {/* Notification Method */}
             <FormControl>

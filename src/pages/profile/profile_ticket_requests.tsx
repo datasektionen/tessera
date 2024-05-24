@@ -16,6 +16,8 @@ import TicketRequestsList from "../../components/ticket_requests/list_ticket_req
 import ViewTicketRequest from "../../components/ticket_requests/view";
 import { Trans, useTranslation } from "react-i18next";
 import { useMediaQuery } from "@mui/material";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProfileTicketRequestsPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
@@ -23,6 +25,7 @@ const ProfileTicketRequestsPage: React.FC = () => {
     (state: RootState) => state.myTicketRequests
   ) as { ticketRequests: ITicketRequest[] };
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [selected, setSelected] = React.useState<number | null>(null);
   const { t } = useTranslation();
@@ -38,6 +41,23 @@ const ProfileTicketRequestsPage: React.FC = () => {
       ViewTicketRequestRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    // Get query params
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // ticket_request_id
+    const ticketRequestId = searchParams.get("ticket_request_id");
+    const created = searchParams.get("created");
+
+    if (ticketRequestId && created) {
+      setSelectedTicketRequest(parseInt(ticketRequestId));
+      toast.info(
+        "This is your tickets request page, you can see all your ticket requests here."
+      );
+      navigate(ROUTES.PROFILE_TICKET_REQUESTS, { replace: true });
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(getMyTicketRequestsRequest([]));

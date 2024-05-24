@@ -68,7 +68,11 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
   const [confirmCancelOpen, setConfirmCancelOpen] = useState<boolean>(false);
 
   const handleCancel = () => {
-    dispatch(cancelTicketRequestRequest(ticketRequest));
+    dispatch(
+      cancelTicketRequestRequest({
+        ticket_request: ticketRequest,
+      })
+    );
     setConfirmCancelOpen(false);
   };
 

@@ -14,14 +14,15 @@ import StyledText from "../../../components/text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import theme from "../../../theme";
 import { useTranslation } from "react-i18next";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { useParams } from "react-router-dom";
 import Title from "../../../components/text/title";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { ITicket } from "../../../types";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
 import LoadingOverlay from "../../../components/Loading";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
 
 const getAccordionDetails = (ticket: ITicket) => {
   return (
@@ -79,8 +80,7 @@ const ManageEventFormResponsesPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-      <Box sx={{ marginLeft: `70px`, marginRight: `20px` }}>
+      <DrawerBoxWrapper eventID={eventID!}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Title fontSize={22} color={PALLETTE.charcoal}>
             {t("manage_event.manage_tickets_custom_event_form")}
@@ -120,7 +120,7 @@ const ManageEventFormResponsesPage: React.FC = () => {
             ))}
           </AccordionGroup>
         </CssVarsProvider>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

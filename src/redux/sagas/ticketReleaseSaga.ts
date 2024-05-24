@@ -13,17 +13,7 @@ import {
   ITicketType,
   LoginCredentials,
 } from "../../types";
-import {
-  getEventFailure,
-  getEventRequest,
-  getEventSuccess,
-} from "../features/eventSlice";
 import { toast } from "react-toastify";
-import {
-  editEventFailure,
-  editEventRequest,
-  editEventSuccess,
-} from "../features/editEventSlice";
 import {
   createTicketReleaseFailure,
   createTicketReleaseRequest,
@@ -34,6 +24,7 @@ import {
   updateTicketReleaseStart,
   updateTicketReleaseSuccess,
 } from "../features/ticketReleaseSlice";
+import ApiRoutes from "../../routes/backend_routes";
 
 function* createTicketReleaseSaga(
   action: PayloadAction<{
@@ -59,12 +50,13 @@ function* createTicketReleaseSaga(
       is_reserved: ticketRelease.is_reserved,
       promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
       tickets_available: ticketRelease.tickets_available,
-      allow_external: ticketRelease.allow_external,
     };
 
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${eventId}/ticket-release`,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_TICKET_RELEASE, {
+        eventID: eventId,
+      }),
       data,
       {
         withCredentials: true, // This ensures cookies are sent with the request
@@ -72,11 +64,7 @@ function* createTicketReleaseSaga(
     );
 
     if (response.status === 201) {
-      yield put(createTicketReleaseSuccess(response.data));
-      setTimeout(() => {
-        toast.success("Ticket release created successfully");
-      }, 1000);
-      window.location.href = `/events/${eventId}/edit`;
+      yield put(createTicketReleaseSuccess(response.data.ticket_release.ID));
     } else {
       const errorMessage = response.data.error || "An error occurred";
       yield put(createTicketReleaseFailure(errorMessage));
@@ -112,7 +100,6 @@ function* updateTicketReleaseSaga(
       is_reserved: formData.is_reserved,
       promo_code: formData.is_reserved ? formData.promo_code : "",
       tickets_available: formData.tickets_available,
-      allow_external: formData.allow_external,
     };
 
     const response = yield call(

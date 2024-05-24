@@ -10,6 +10,7 @@ const StyledBorderBox = styled(Box)(({ theme }) => ({
   position: "relative",
   marginTop: theme.spacing(1),
   minHeight: "48px",
+  borderRadius: "8px",
 
   borderStyle: "solid",
   borderColor: PALLETTE.cerise,

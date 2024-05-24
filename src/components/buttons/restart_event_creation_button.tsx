@@ -62,8 +62,9 @@ const RestartEventCreationButton: React.FC = () => {
     <>
       <StyledButton
         onClick={() => setIsOpen(true)}
-        textColor={PALLETTE.red}
         size="md"
+        bgColor={PALLETTE.charcoal_see_through}
+        color={PALLETTE.charcoal}
       >
         {t("form.button_restart")}
       </StyledButton>

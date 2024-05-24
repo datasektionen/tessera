@@ -12,6 +12,7 @@ import {
   getEventSalesReportsSuccess,
 } from "../features/salesReportSlice";
 import { IEventSalesReport } from "../../types";
+import ApiRoutes from "../../routes/backend_routes";
 
 const listEventSalesReports = function* (
   action: PayloadAction<number>
@@ -19,7 +20,9 @@ const listEventSalesReports = function* (
   try {
     const response = yield call(
       axios.get,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${action.payload}/sales-report`,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_SALES_REPORT, {
+        eventID: action.payload,
+      }),
       {
         withCredentials: true,
       }
@@ -59,7 +62,9 @@ const generateSalesReport = function* (
   try {
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/events/${action.payload}/sales-report`,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_SALES_REPORT, {
+        eventID: action.payload,
+      }),
       {},
       {
         withCredentials: true,

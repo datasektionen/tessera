@@ -1,0 +1,506 @@
+[
+    {
+        "name": "Advanced event forms",
+        "group": "event_management",
+        "description": "Advanced event forms",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": false,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Advanced ticket release methods",
+        "group": "ticket_management",
+        "description": "Advanced ticket release methods",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "API Integration",
+        "group": "api_integration",
+        "description": "API integration",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": false,
+            "description": ""
+        },
+        "professional": {
+            "has": false,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Basic event site",
+        "group": "landing_page",
+        "description": "Use tessera's integrated event site",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Basic ticket release methods",
+        "group": "ticket_management",
+        "description": "Basic ticket release methods",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Check in",
+        "group": "event_management",
+        "description": "Check-in for events",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Contact database",
+        "group": "event_management",
+        "description": "Contact database for storing attendee information",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": false,
+            "description": ""
+        },
+        "professional": {
+            "has": false,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Custom business page",
+        "group": "landing_page",
+        "description": "Create a custom business page to display your organization's events",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": false,
+            "description": ""
+        },
+        "professional": {
+            "has": false,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Custom_domains",
+        "group": "other",
+        "description": "Custom domains for your events",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Custom emails",
+        "group": "email_management",
+        "description": "Customize the emails sent to attendees",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Custom event site",
+        "group": "landing_page",
+        "description": "Create a custom event site",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Custom ticket release methods",
+        "group": "ticket_management",
+        "description": "Create custom ticket release methods",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": false,
+            "description": ""
+        },
+        "professional": {
+            "has": false,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Email credits",
+        "group": "email_management",
+        "description": "Email credits for sending emails",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": "Custom"
+        }
+    },
+    {
+        "name": "Max events",
+        "group": "event_management",
+        "description": "Maximum number of events",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": "Unlimited"
+        },
+        "network": {
+            "has": true,
+            "description": "Unlimited"
+        }
+    },
+    {
+        "name": "Max teams per network",
+        "group": "team_management",
+        "description": "Maximum number of teams per network",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": "Custom"
+        }
+    },
+    {
+        "name": "Max ticket addons per ticket",
+        "group": "ticket_management",
+        "description": "Maximum number of ticket addons per ticket",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": "Unlimited"
+        },
+        "network": {
+            "has": true,
+            "description": "Custom"
+        }
+    },
+    {
+        "name": "Max ticket releases per event",
+        "group": "ticket_management",
+        "description": "Maximum number of ticket releases per event",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": "Unlimited"
+        }
+    },
+    {
+        "name": "Max ticket types per ticket release",
+        "group": "ticket_management",
+        "description": "Maximum number of ticket types per event",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": "Unlimited"
+        }
+    },
+    {
+        "name": "Private events",
+        "group": "event_management",
+        "description": "Create private events",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Reserved ticket releases",
+        "group": "ticket_management",
+        "description": "Reserved ticket releases for events",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Sales reports",
+        "group": "financial_management",
+        "description": "Sales reports for events",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Send outs",
+        "group": "email_management",
+        "description": "Send custom emails to attendees (Uses email credits)",
+        "free": {
+            "has": false,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Simple event forms",
+        "group": "event_management",
+        "description": "Simple event forms",
+        "free": {
+            "has": true,
+            "description": ""
+        },
+        "single_event": {
+            "has": true,
+            "description": ""
+        },
+        "professional": {
+            "has": true,
+            "description": ""
+        },
+        "network": {
+            "has": true,
+            "description": ""
+        }
+    },
+    {
+        "name": "Support",
+        "group": "support",
+        "description": "Support for the application",
+        "free": {
+            "has": true,
+            "description": "Limited"
+        },
+        "single_event": {
+            "has": true,
+            "description": "Limited"
+        },
+        "professional": {
+            "has": true,
+            "description": "Premium"
+        },
+        "network": {
+            "has": true,
+            "description": "Dedicated"
+        }
+    }
+]

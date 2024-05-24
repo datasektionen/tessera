@@ -19,12 +19,17 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
   secret_token,
   tickets,
 }) => {
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(
-      process.env.REACT_APP_BASE_URL +
-        `/events/${event.id}?secret_token=${secret_token}`
-    );
-    // Show a toast or some other notification to let the user know the link has been copied
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        process.env.REACT_APP_BASE_URL +
+        `/events/${event.reference_id}?secret_token=${secret_token}`
+      );
+      // Show a toast or some other notification to let the user know the link has been copied
+    } catch (err) {
+      // Handle the error appropriately
+      console.error('Failed to copy text: ', err);
+    }
   };
   const { t } = useTranslation();
   return (
@@ -57,6 +62,9 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
               level="body-lg"
               fontSize={22}
               fontWeight={600}
+              sx={{
+                mt: 3
+              }}
             >
               {t("manage_event.private_event.title")}
             </StyledText>
@@ -65,7 +73,7 @@ const EventDetailInfo: React.FC<EventDetailInfoProps> = ({
             </StyledText>
             <Stack direction="row" spacing={2} alignItems="center">
               <Link href={`/events/${event.id}?secret_token=${secret_token}`}>
-                {`${process.env.REACT_APP_BASE_URL}/events/${event.id}?secret_token=${secret_token}`}
+                {`${process.env.REACT_APP_BASE_URL}/events/${event.reference_id}?secret_token=${secret_token}`}
               </Link>
               <IconButton>
                 <ContentCopyIcon

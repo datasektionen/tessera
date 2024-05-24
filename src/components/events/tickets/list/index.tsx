@@ -1,4 +1,3 @@
-import { IEventFormFieldResponse, ITicket, IUser } from "../../../../types";
 import React, { useEffect, useMemo, useState } from "react";
 import LoadingOverlay from "../../../Loading";
 import {
@@ -9,7 +8,6 @@ import {
   Input,
   ThemeProvider,
   Typography,
-  createTheme,
 } from "@mui/material";
 import PALLETTE from "../../../../theme/pallette";
 import { Box } from "@mui/joy";
@@ -18,12 +16,10 @@ import {
   DataGrid,
   GridRowsProp,
   GridColumnVisibilityModel,
-  GridValueFormatterParams,
   GridRenderCellParams,
 } from "@mui/x-data-grid";
-
 import { Cancel, CheckCircle } from "@mui/icons-material";
-import { add, compareAsc, format, parse, startOfHour } from "date-fns";
+import { add, compareAsc, format, parse } from "date-fns";
 import InformationModal from "../../../modal/information";
 import TicketsRowUserInfo from "./tickets_row_user_info";
 import CustomToolbar from "./datagrid_utils/toolbar";
@@ -43,10 +39,83 @@ import {
 import Fuse from "fuse.js";
 import InfoIcon from "@mui/icons-material/Info";
 import StyledText from "../../../text/styled_text";
+import Cookies from "js-cookie";
+import { ITicket, IUser } from "../../../../types";
+import ClearIcon from "@mui/icons-material/Clear";
+import {
+  green,
+  red,
+  orange,
+  blue,
+  purple,
+  yellow,
+  teal,
+  grey,
+  pink,
+  cyan,
+} from "@mui/material/colors";
 
 const isTicketRequest = (ticket: ITicket) => {
   return ticket.id === 0;
 };
+
+enum TicketStatus {
+  PENDING = "Pending",
+  CANCELLED_TICKET = "Cancelled Ticket",
+  CANCELLED_REQUEST = "Cancelled Request",
+  REFUNDED = "Refunded",
+  CHECKED_IN = "Checked In",
+  PAID = "Paid",
+  RESERVED = "Reserved",
+  PURCHASEABLE = "Purchaseable",
+  EXPIRED = "Expired",
+  LOTTERY_ENTERED = "Lottery Entered",
+  HANDLED = "Handled",
+}
+
+function getTicketStatus(ticket: ITicket) {
+  let payBefore: Date | null = null;
+  if (ticket.payment_deadline) {
+    payBefore = ticket.payment_deadline;
+  }
+
+  let status = TicketStatus.PENDING;
+  if (ticket.ticket_request?.is_handled) {
+    if (ticket.deleted_at) {
+      status = TicketStatus.CANCELLED_TICKET;
+    } else if (ticket.refunded) {
+      status = TicketStatus.REFUNDED;
+    } else if (ticket.checked_in) {
+      status = TicketStatus.CHECKED_IN;
+    } else if (ticket.is_paid) {
+      status = TicketStatus.PAID;
+    } else if (ticket.is_reserve) {
+      status = TicketStatus.RESERVED;
+    } else if (
+      ticket.purchasable_at &&
+      new Date(ticket.purchasable_at) <= new Date()
+    ) {
+      status = TicketStatus.PURCHASEABLE;
+    } else if (payBefore && new Date() > payBefore && !ticket.is_paid) {
+      status = TicketStatus.EXPIRED;
+    } else if (
+      ticketIsEnteredIntoFCFSLottery(
+        ticket,
+        ticket.ticket_request?.ticket_release!
+      )
+    ) {
+      status = TicketStatus.LOTTERY_ENTERED;
+    }
+  } else {
+    if (ticket.ticket_request?.deleted_at) {
+      status = TicketStatus.CANCELLED_REQUEST;
+    } else if (ticket.ticket_request?.is_handled) {
+      status = TicketStatus.HANDLED;
+    }
+  }
+
+  return status;
+}
 
 function createRow(ticket: ITicket) {
   const ufp = ticket.user!.food_preferences!;
@@ -80,11 +149,15 @@ function createRow(ticket: ITicket) {
 
   const customRows = getEventFormFieldsRow(ticket || {});
 
+  // Determine status
+  const status = getTicketStatus(ticket);
+
   const row = {
     id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
     ticket_request_id: ticket.ticket_request?.id,
     ticket_release_id: ticket.ticket_request?.ticket_release?.id,
     ticket_release_name: ticket.ticket_request?.ticket_release?.name,
+    status: status,
     type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
     is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
     is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
@@ -157,9 +230,12 @@ const EventTicketsList: React.FC<{
 }> = ({ tickets, selectTicketRequest }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
-  const [searchText, setSearchText] = useState("");
-
+  const [searchText, setSearchText] = useState(Cookies.get("searchText") || "");
   const [filteredRows, setFilteredRows] = useState<GridRowsProp>([]);
+  const [filterModel, setFilterModel] = useState(() => {
+    const savedFilterModel = Cookies.get("filterModel");
+    return savedFilterModel ? JSON.parse(savedFilterModel) : { items: [] };
+  });
 
   // Initialize Fuse with the appropriate options
   const fuse = useMemo(() => {
@@ -183,8 +259,22 @@ const EventTicketsList: React.FC<{
     setFilteredRows(results.map(createRow)); // Transform results into row data
   }, [searchText, fuse, tickets]);
 
+  useEffect(() => {
+    const savedColumnVisibilityModel = Cookies.get("columnVisibilityModel");
+    if (savedColumnVisibilityModel) {
+      setColumnVisibilityModel(JSON.parse(savedColumnVisibilityModel));
+    }
+  }, []);
+
+  useEffect(() => {
+    Cookies.set("filterModel", JSON.stringify(filterModel), {
+      expires: 2 / 24,
+    });
+  }, [filterModel]);
+
   const handleSearchChange = (event: any) => {
     setSearchText(event.target.value);
+    Cookies.set("searchText", event.target.value, { expires: 2 / 24 }); // 2 hours
   };
 
   const customColumns = getEventFormFieldsColumns(tickets);
@@ -206,6 +296,54 @@ const EventTicketsList: React.FC<{
           >
             <InfoIcon />
           </IconButton>
+        );
+      },
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 170,
+      renderCell: (params) => {
+        let color;
+        switch (params.value) {
+          case TicketStatus.PENDING:
+            color = orange[500];
+            break;
+          case TicketStatus.CANCELLED_TICKET:
+          case TicketStatus.CANCELLED_REQUEST:
+            color = red[500];
+            break;
+          case TicketStatus.REFUNDED:
+            color = purple[500];
+            break;
+          case TicketStatus.CHECKED_IN:
+            color = green[500];
+            break;
+          case TicketStatus.PAID:
+            color = blue[500];
+            break;
+          case TicketStatus.RESERVED:
+            color = yellow[500];
+            break;
+          case TicketStatus.PURCHASEABLE:
+            color = teal[200];
+            break;
+          case TicketStatus.EXPIRED:
+            color = grey[500];
+            break;
+          case TicketStatus.LOTTERY_ENTERED:
+            color = pink[500];
+            break;
+          case TicketStatus.HANDLED:
+            color = cyan[500];
+            break;
+          default:
+            color = "white";
+        }
+        return (
+          <span style={{ backgroundColor: color, color: "black" }}>
+            {params.value}
+          </span>
         );
       },
     },
@@ -518,9 +656,8 @@ const EventTicketsList: React.FC<{
     ...customColumns,
   ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const rows = tickets.map(createRow);
-
     setRows(rows);
   }, [tickets]);
 
@@ -558,10 +695,11 @@ const EventTicketsList: React.FC<{
       ticket_release_id: false,
       ticket_request_id: false,
       ticket_release_name: true,
+      status: true,
       type: true,
       addons: false,
-      is_reserve: true,
-      is_paid: true,
+      is_reserve: false,
+      is_paid: false,
       ticket: true,
       user: true,
       email: false,
@@ -570,7 +708,6 @@ const EventTicketsList: React.FC<{
       entered_into_lottery: false,
       price: true,
       // Hide all the food preferences
-
       gluten_intolerant: false,
       halal: false,
       kosher: false,
@@ -596,6 +733,16 @@ const EventTicketsList: React.FC<{
     return <CustomToolbar rows={rows} />;
   };
 
+  useEffect(() => {
+    Cookies.set(
+      "columnVisibilityModel",
+      JSON.stringify(columnVisibilityModel),
+      {
+        expires: 1 / 24, // 2 hours
+      }
+    );
+  }, [columnVisibilityModel]);
+
   if (!tickets || rows.length === 0) {
     return null;
   }
@@ -603,12 +750,33 @@ const EventTicketsList: React.FC<{
   return (
     <Box>
       <ThemeProvider theme={MUItheme}>
-        <Input
-          value={searchText}
-          onChange={handleSearchChange}
-          placeholder="Search tickets..."
-          style={{ marginBottom: 20 }}
-        />
+        <div
+          style={{
+            position: "relative",
+            marginBottom: 20,
+            width: "fit-content",
+          }}
+        >
+          <Input
+            value={searchText}
+            onChange={handleSearchChange}
+            placeholder="Search tickets..."
+          />
+          {searchText && (
+            <ClearIcon
+              style={{
+                position: "absolute",
+                right: 10,
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                handleSearchChange({ target: { value: "" } } as any)
+              }
+            />
+          )}
+        </div>
         <StyledText
           color={PALLETTE.charcoal_see_through}
           level="body-md"
@@ -629,6 +797,8 @@ const EventTicketsList: React.FC<{
           onColumnVisibilityModelChange={(newModel) =>
             setColumnVisibilityModel(newModel)
           }
+          filterModel={filterModel}
+          onFilterModelChange={(newModel) => setFilterModel(newModel)}
           getRowClassName={(params) =>
             params.row.deleted_at !== "N/A" ? styles.rowDeleted : ""
           }

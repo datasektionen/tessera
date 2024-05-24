@@ -5,8 +5,8 @@ import { useParams } from "react-router-dom";
 import { Box, Breadcrumbs, Divider } from "@mui/joy";
 
 import { getEventRequest } from "../../../../redux/features/eventSlice";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import StyledText from "../../../../components/text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import LoadingOverlay from "../../../../components/Loading";
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const EditEventFormPage: React.FC = () => {
   const { eventID } = useParams();
@@ -42,13 +43,7 @@ const EditEventFormPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("form.event_fields.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -73,7 +68,7 @@ const EditEventFormPage: React.FC = () => {
           <Divider sx={{ my: 1 }} />
           <EditEventFormFields event={event!} refetchEvent={reFetchEvent} />
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

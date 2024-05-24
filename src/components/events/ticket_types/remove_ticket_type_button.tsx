@@ -56,6 +56,7 @@ interface RemoveButtonProps {
   action: (index: number) => void;
   confirmTitle: string;
   confirmText: string;
+  shouldWarn?: boolean;
 }
 
 const RemoveListFormButton: React.FC<RemoveButtonProps> = ({
@@ -65,10 +66,19 @@ const RemoveListFormButton: React.FC<RemoveButtonProps> = ({
   action,
   confirmTitle,
   confirmText,
+  shouldWarn = true,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+
+  const handleClick = () => {
+    if (shouldWarn) {
+      setIsOpen(true);
+    } else {
+      action(index);
+    }
+  };
 
   return (
     <div
@@ -105,7 +115,7 @@ const RemoveListFormButton: React.FC<RemoveButtonProps> = ({
         </StyledText>
       </ConfirmModal>
       <RemoveCircleOutlineIcon
-        onClick={() => setIsOpen(true)}
+        onClick={handleClick}
         style={{
           color: color,
           transition: "transform 0.3s",
@@ -117,7 +127,7 @@ const RemoveListFormButton: React.FC<RemoveButtonProps> = ({
         fontSize={15}
         fontWeight={700}
         level="body-sm"
-        onClick={() => setIsOpen(true)}
+        onClick={handleClick}
         style={{
           marginLeft: "-45px",
           opacity: showConfirm ? 1 : 0,

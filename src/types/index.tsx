@@ -1,3 +1,4 @@
+import { addHours, addWeeks, format } from "date-fns";
 import { PlaceOption } from "../components/forms/input_types";
 import { formatDateToDateTimeLocal } from "../utils/date_conversions";
 
@@ -15,14 +16,41 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface INavigationLoginOptions {
+  showLogin: boolean;
+}
 export interface AuthState {
   isLoggedIn: boolean;
   loading: boolean;
-  user: Object | null;
+  user: any | null;
   token: string | null;
   error: string | null;
   fetchUser: boolean;
   onLoginRedirect: string | null;
+  customerSignupSuccess: boolean;
+  customerLoginSuccess: boolean;
+  guestCustomer: IGuestCustomer | null;
+}
+
+export interface IGuestCustomerForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number?: string;
+}
+
+export interface IGuestCustomer {
+  user_id: string;
+  roles: IRole[];
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  request_token?: string;
+
+  ticket_request?: ITicketRequest;
+  ticket?: ITicket;
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface UserState {
@@ -59,30 +87,215 @@ export interface LoginFailureAction {
   payload: string;
 }
 
+// Differeny types of roles
+export enum RoleType {
+  SUPER_ADMIN = "super_admin",
+  MANAGER = "manager",
+  CUSTOMER_GUEST = "customer_guest",
+  CUSTOMER = "customer",
+}
+
+export interface IFreeRegisterFormValues {
+  name: string;
+  referral_source: string;
+  referral_source_specific: string;
+}
+
 export interface IRole {
   id: number;
   name: string;
 }
 
-export interface IPreferredEmail {
-  ID: number;
+export interface ICustomerSignupValues {
+  first_name: string;
+  last_name: string;
   email: string;
-  requested_change_email: string;
-  is_verified: boolean;
+  phone_number: string;
+
+  is_saved?: boolean;
+  password?: string;
+  password_repeat?: string;
+}
+
+export enum NetworkRoleType {
+  NetworkSuperAdmin = "network_super_admin",
+  NetworkAdmin = "network_admin",
+  NetworkMember = "network_member",
+}
+
+export type FeatureGroupType =
+  | "event_management"
+  | "ticket_management"
+  | "api_integration"
+  | "support"
+  | "landing_page"
+  | "financial_management"
+  | "email_management"
+  | "other";
+
+export type PaymentPlanType = "monthly" | "yearly" | "one_time" | "no_payment";
+
+export enum PaymentPlanOption {
+  Monthly = "monthly",
+  Yearly = "yearly",
+  OneTime = "one_time",
+  NoPayment = "no_payment",
+}
+
+export type PackageTierType =
+  | "free"
+  | "single_event"
+  | "professional"
+  | "network";
+
+export interface IFeatureGroup {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: FeatureGroupType;
+  description: string;
+}
+
+export interface IPackageTier {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  tier: PackageTierType;
+  description: string;
+  standard_monthly_price: number;
+  standard_yearly_price: number;
+  plan_enrollments: IPlanEnrollment[];
+  default_feature_ids: number[];
+  default_features: IFeature[];
+}
+
+export interface IRequiredPlanFeatures {
+  feature_name: string;
+  plans: PackageTierType[];
+}
+
+export interface IPlanEnrollment {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  creator_email: string;
+  creator_id: string;
+  creator: IUser; // You would need to define a User interface
+  network_id: number;
+  package_tier_id: number;
+  features: IFeature[];
+  monthly_price: number;
+  yearly_price: number;
+  one_time_price: number;
+  plan: PaymentPlanType;
+  features_usages: IFeatureUsage[];
+  required_plan_features: IRequiredPlanFeatures[];
+}
+
+export interface IFeatureUsage {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  feature_id: number;
+  plan_enrollment_id: number;
+  usage: number;
+  object_reference?: string;
+}
+
+export interface IFeature {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  description: string;
+  feature_group_id: number;
+  feature_group: IFeatureGroup;
+  is_available: boolean;
+  package_tiers: IPackageTier[];
+  package_tiers_ids: number[];
+  feature_limits: IFeatureLimit[];
+  has_limit_access?: boolean;
+}
+
+export interface IFeatureLimit {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  feature_id: number;
+  package_tier_id: number;
+  limit_description: string;
+  limit: number | null; // This is a hard limit
+  monthly_limit: number | null;
+  yearly_limit: number | null;
+}
+
+export interface INetwork {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  plan_enrollment_id: number;
+  plan_enrollment: IPlanEnrollment;
+  users: IUser[]; // You would need to define a User interface
+  organizations: IOrganization[]; // You would need to define an Organization interface
+}
+
+export interface ICustomerLoginValues {
+  email: string;
+  password: string;
+}
+
+export interface ICustomer {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  verifiedEmail: boolean;
+  food_preferences?: IUserFoodPreference;
+}
+
+export interface IOrganizationUserRole {
+  id: string;
+  user_ug_kth_id: string;
+  organization_id: number;
+  organization_role_name: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface INetworkUserRole {
+  id: string;
+  user_ug_kth_id: string;
+  network_id: number;
+  network_role_name: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface IUser {
   // Define user properties based on your backend response
+  id?: string;
   ug_kth_id: string;
   username: string;
   first_name: string;
   last_name: string;
   email: string;
-  role?: IRole;
+  roles?: IRole[];
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
-  preferred_email?: IPreferredEmail;
+  showed_post_login?: boolean;
+  network_user_roles?: INetworkUserRole[];
+  organization_user_roles?: IOrganizationUserRole[];
 }
 
 export interface IOrganizationUser extends IUser {
@@ -95,10 +308,16 @@ export interface IOrganization {
   name: string;
   email: string;
   created_at?: number;
+  organization_user_roles?: IOrganizationUserRole[];
+  common_event_locations: {
+    name: string;
+  }[];
+  users?: IUser[];
 }
 
 export interface IEvent {
   id: number;
+  reference_id: string;
   createdAt: number;
   name: string;
   description: string;
@@ -112,6 +331,8 @@ export interface IEvent {
   createdById?: string;
   form_field_description?: string;
   form_fields?: IEventFormField[];
+  landing_page?: IEventLandingPage;
+  collect_food_preferences?: boolean;
 }
 
 export interface IEventForm {
@@ -122,6 +343,7 @@ export interface IEventForm {
   location: PlaceOption | null;
   organization_id: number;
   is_private: boolean;
+  collect_food_preferences: boolean;
 }
 
 export interface IEventPostReq {
@@ -132,6 +354,7 @@ export interface IEventPostReq {
   location: string;
   organization_id: number;
   is_private: boolean;
+  collect_food_preferences: boolean;
 }
 
 export const EventFormInitialValues: IEventForm = {
@@ -141,6 +364,7 @@ export const EventFormInitialValues: IEventForm = {
   location: null,
   organization_id: 1,
   is_private: false,
+  collect_food_preferences: false,
 };
 
 export const EventFormInitialTestValues: IEventForm = {
@@ -156,6 +380,7 @@ export const EventFormInitialTestValues: IEventForm = {
   },
   organization_id: 1,
   is_private: false,
+  collect_food_preferences: false,
 };
 
 export interface ITicketReleaseMethod {
@@ -179,7 +404,7 @@ export interface ITicketReleaseForm {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
-  allow_external: boolean;
+  is_saved?: boolean;
 }
 
 export interface ITicketReleasePostReq {
@@ -196,15 +421,14 @@ export interface ITicketReleasePostReq {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
-  allow_external: boolean;
   method_description?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   name: "",
   description: "",
-  open: formatDateToDateTimeLocal(new Date()),
-  close: formatDateToDateTimeLocal(new Date()),
+  open: format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm"),
+  close: format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm"),
   ticket_release_method_id: 0,
   open_window_duration: 0,
   method_description: "",
@@ -214,7 +438,7 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   tickets_available: 0,
   is_reserved: false,
   promo_code: "",
-  allow_external: false,
+  is_saved: false,
 };
 
 export interface ITicketTypeForm {
@@ -310,7 +534,6 @@ export interface ITicketRelease {
   promo_code?: string;
   event?: IEvent;
   tickets_available: number;
-  allow_external: boolean;
   addons?: IAddon[];
   payment_deadline: ITicketReleasePaymentDeadline;
 }
@@ -587,7 +810,18 @@ export interface ISelectedAddon {
   quantity: number;
 }
 
-export enum OrganizationUserRole {
+export interface IEventLandingPage {
+  id?: number;
+  event_id: number;
+  html: string;
+  css: string;
+  js: string;
+  enabled: boolean;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export enum OrganizationUserRoleType {
   OWNER = "owner",
   MEMBER = "member",
 }

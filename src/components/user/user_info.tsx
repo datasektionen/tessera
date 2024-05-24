@@ -24,12 +24,11 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                 value={`${user.first_name} ${user.last_name}`}
               />
               <UserEmail user={user} />
-              <UserInfoText
-                label={t("profile.username")}
-                value={user.username}
-              />
 
-              <UserInfoText label={t("profile.role")} value={user.role!.name} />
+              <UserInfoText
+                label={t("profile.roles")}
+                value={user.roles!.map((role) => role.name).join(", ")}
+              />
 
               <UserInfoText
                 label={t("profile.teams")}

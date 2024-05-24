@@ -41,6 +41,16 @@ const CreateTicketReleases: React.FC<CreateTicketReleasesProps> = ({
           <StyledText level="body-md" fontSize={18} color={PALLETTE.charcoal}>
             {t("create_event.ticket_release_description")}
           </StyledText>
+          <StyledText
+            level="body-md"
+            fontSize={17}
+            color={PALLETTE.charcoal}
+            sx={{
+              mt: 1
+            }}
+          >
+            {t("create_event.ticket_release_description_example")}
+          </StyledText>
         </Box>
         <Stack mt={2} spacing={2} direction="row">
           <StyledButton

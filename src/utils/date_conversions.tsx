@@ -1,3 +1,5 @@
+import { IEvent } from "../types";
+
 export function formatDateToDateTimeLocal(date: Date): string {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -137,4 +139,33 @@ export const paymentDurationToString = (nanoseconds: number): string => {
 
   // Remove trailing space and return the duration string
   return durationStr.trim();
+};
+
+export const formatEventDate = (date: Date, end_date: Date | null) => {
+  if (end_date) {
+    if (date.toDateString() === end_date.toDateString()) {
+      // Same date, only include the time part of the end date
+      return `${date.toLocaleString()} - ${end_date.toLocaleTimeString()}`;
+    } else {
+      // Different dates, include both date and time for both
+      return `${date.toLocaleString()} - ${end_date.toLocaleString()}`;
+    }
+  } else {
+    return date.toLocaleString();
+  }
+};
+
+export const eventIsInThePast = (event: IEvent) => {
+  // If the event is more than 1 day in the past
+  const eventDate = new Date(event.date);
+  const endDate = event.end_date ? new Date(event.end_date) : null;
+  const now = new Date();
+
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+
+  if (endDate) {
+    return endDate.getTime() + oneDay < now.getTime();
+  }
+
+  return eventDate.getTime() + oneDay < now.getTime();
 };
