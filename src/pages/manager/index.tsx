@@ -35,6 +35,8 @@ const ManagerPage: React.FC = () => {
     dispatch(getNetworkEventsRequest());
   }, []);
 
+  console.log(network)
+
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>
@@ -49,11 +51,11 @@ const ManagerPage: React.FC = () => {
             (network?.name?.charAt(network?.name.length - 1) === "s"
               ? "'"
               : "'s")}{" "}
-          Events
+          {t("manager.dashboard.events")}
         </Title>
         {networkEvents.length === 0 && (
           <StyledText fontSize={24} color={PALLETTE.charcoal} level="h4">
-            No events found
+            {t("manager.dashboard.no_events")}
           </StyledText>
         )}
         <Grid container spacing={2}>

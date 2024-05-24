@@ -18,7 +18,7 @@ import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
 import { useEffect } from "react";
-import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import { useTranslation } from "react-i18next";
 
 interface EditTicketTypeFormProps {

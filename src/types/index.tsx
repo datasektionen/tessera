@@ -1,6 +1,7 @@
 import { addHours, addWeeks, format } from "date-fns";
 import { PlaceOption } from "../components/forms/input_types";
 import { formatDateToDateTimeLocal } from "../utils/date_conversions";
+import { blue, green, grey, orange, red } from "@mui/material/colors";
 
 enum NotificationMethod {
   EMAIL = "email",
@@ -246,6 +247,8 @@ export interface INetwork {
   plan_enrollment: IPlanEnrollment;
   users: IUser[]; // You would need to define a User interface
   organizations: IOrganization[]; // You would need to define an Organization interface
+  merchant: INetworkMerchant;
+  details: INetworkDetails;
 }
 
 export interface ICustomerLoginValues {
@@ -816,6 +819,85 @@ export interface IEventLandingPage {
   updated_at?: Date;
 }
 
+export enum SurfApplicationStatus {
+  ApplicationNotStarted = 'application_not_started',
+  ApplicationInitiated = 'application_initiated',
+  ApplicationSubmitted = 'application_submitted',
+  ApplicationPendingInformation = 'application_pending_information',
+  ApplicationSigned = 'application_signed',
+  ApplicationRejected = 'application_rejected',
+  ApplicationCompleted = 'application_completed',
+  ApplicationExpired = 'application_expired',
+  MerchantCreated = 'merchant_created'
+}
+
+export const ApplicationStatusColors = {
+  application_not_started: grey[500],
+  application_initiated: green[200],
+  application_submitted: green[400],
+  application_pending_information: orange[500],
+  application_signed: blue[500],
+  application_rejected: red[500],
+  application_completed: green[500],
+  application_expired: red[500],
+  merchant_created: green[500]
+}
+
+export interface INetworkMerchant {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  networkId: number;
+  applicationId: string;
+  merchantId: string;
+  applicationStatus: SurfApplicationStatus;
+  webKybUrl: string;
+  storeId: string;
+}
+
+export interface INetworkDetails {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  network_id: number;
+  corporate_id: string; // Corporate ID of the network
+  legal_name: string;   // Legal name of the network
+  description: string;  // Description of the network
+  language: string;
+  address: string;
+  city: string;
+  country: string;
+  phone_number: string;
+  country_code: string; // Two-letter ISO country code, in uppercase. i.e 'SE' | 'DK' | 'FI'.
+  email: string;        // main email for the network
+}
+
+export type Country = {
+  name: string;
+  code: string;
+  phone: number;
+};
+
+export const AvaialableCountries: Country[] = [
+  {
+    name: "Sweden",
+    code: "SE",
+    phone: 46,
+  }
+]
+
+export interface BusinessDetailsFormValues {
+  country_code: string;
+  legal_name: string;
+  corporate_id: string;
+  address_line1: string;
+  address_line2: string;
+  city: string;
+  postal_code: string;
+  phone_number: string;
+  business_email: string;
+  store_name: string;
+}
 
 export enum OrganizationUserRoleType {
   OWNER = "owner",

@@ -23,6 +23,7 @@ class ApiRoutes {
   static MANAGER_EVENT_LANDING_PAGE = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page`;
   static MANAGER_EVENT_LANDING_PAGE_EDITOR = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/editor`;
   static MANAGER_EVENT_LANDING_PAGE_SET_ENABLED = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/set-enabled`;
+  static MANAGER_NETWORK_MERCHANT = `${ApiRoutes.baseUrl}/manager/network/merchant`;
 
   static ORGANIZATION = `${ApiRoutes.baseUrl}/organizations/:organizationID`;
 

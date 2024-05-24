@@ -28,7 +28,7 @@ import StyledButton from "../../../buttons/styled_button";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import EditTicketReleaseFormSchema from "../../../../validation/edit_ticket_release_form";
+import EditTicketReleaseFormSchema from "../../../../validation/event/edit_ticket_release_form";
 import { updateTicketReleaseStart } from "../../../../redux/features/ticketReleaseSlice";
 import DeleteTicketReleaseModal from "../../ticket_release/delete_ticket_release_modal";
 import handleDeleteTicketRelease from "../../../../redux/sagas/axios_calls/handle_delete_ticket_release";

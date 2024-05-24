@@ -39,7 +39,7 @@ import { StyledErrorMessage } from "../../forms/messages";
 import StyledButton from "../../buttons/styled_button";
 import PALLETTE from "../../../theme/pallette";
 import { format } from "date-fns";
-import CreateEventFormSchema from "../../../validation/create_event_form";
+import CreateEventFormSchema from "../../../validation/event/create_event_form";
 import { editEventRequest } from "../../../redux/features/editEventSlice";
 import { Trans, useTranslation } from "react-i18next";
 
