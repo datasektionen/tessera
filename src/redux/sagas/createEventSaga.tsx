@@ -52,6 +52,7 @@ function* createEventFullWorkflowSaga(
           : undefined,
         is_private: event.is_private,
         organization_id: event.organization_id,
+        collect_food_preferences: event.collect_food_preferences,
       },
       ticket_release: {
         name: ticketRelease.name,

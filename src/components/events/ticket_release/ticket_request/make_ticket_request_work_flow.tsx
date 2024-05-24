@@ -20,7 +20,10 @@ import {
   resetGustCustomer,
   resetRequestSuccess,
 } from "../../../../redux/features/guestCustomerSlice";
-import { resetError, resetPostSuccess } from "../../../../redux/features/ticketRequestSlice";
+import {
+  resetError,
+  resetPostSuccess,
+} from "../../../../redux/features/ticketRequestSlice";
 import EditFormFieldResponse from "../../form_field_response/edit";
 import { Trans } from "react-i18next";
 import StyledButton from "../../../buttons/styled_button";
@@ -156,10 +159,16 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     }
   }, [customerLoginSuccess, customerSignupSuccess, dispatch]);
 
-
   // Handle navigation and state reset based on active step
   useEffect(() => {
     const isGuestCustomer = guestCustomer !== null;
+
+    if (activeStep === 1 && !ticketRelease.event?.collect_food_preferences) {
+      setTimeout(() => {
+        handleNext();
+      }, 200);
+      return;
+    }
 
     if (activeStep === 2 && isGuestCustomer) {
       setTimeout(() => {
@@ -189,7 +198,8 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     if (activeStep === 4 && isGuestCustomer) {
       setTimeout(() => {
         navigate(
-          `/events/${refID!}/guest/${guestCustomer.user_id}?request_token=${guestCustomer.request_token
+          `/events/${refID!}/guest/${guestCustomer.user_id}?request_token=${
+            guestCustomer.request_token
           }`
         );
       }, 1000);

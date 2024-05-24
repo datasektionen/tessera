@@ -64,11 +64,7 @@ function* createTicketReleaseSaga(
     );
 
     if (response.status === 201) {
-      yield put(createTicketReleaseSuccess(response.data));
-      setTimeout(() => {
-        toast.success("Ticket release created successfully");
-      }, 1000);
-      window.location.href = `/events/${eventId}/edit`;
+      yield put(createTicketReleaseSuccess(response.data.ticket_release.ID));
     } else {
       const errorMessage = response.data.error || "An error occurred";
       yield put(createTicketReleaseFailure(errorMessage));

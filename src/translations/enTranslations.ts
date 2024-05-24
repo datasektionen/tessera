@@ -101,6 +101,9 @@ const enTranslations = {
       private_event: "Private Event",
       private_event_helperText:
         "Is your event private? Only people with the link can see it.",
+      collect_food_preferences: "Collect Food Preferences",
+      collect_food_preferences_helperText:
+        "Do you want to collect food preferences and allergies from attendees?",
     },
     ticket_release: {
       name: "Name",

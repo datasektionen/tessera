@@ -84,6 +84,7 @@ function* eventSaga(
         ? new Date(eventData.end_date).getTime()
         : undefined,
       organizationId: eventData.organization_id!,
+      collect_food_preferences: eventData.collect_food_preferences!,
       createdById: eventData.created_by!,
       landing_page: {
         id: eventData.landing_page.ID!,
@@ -222,6 +223,7 @@ function* editEventSaga(
         : undefined,
       is_private: event.is_private,
       organization_id: event.organization_id,
+      collect_food_preferences: event.collect_food_preferences,
     };
 
     const response = yield call(

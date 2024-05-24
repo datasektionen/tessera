@@ -70,10 +70,13 @@ const CreateEventForm: React.FC = () => {
     dispatch(setEventForm(values));
   };
 
-
   if (loading || initialLoading) {
     return <LoadingOverlay />;
   }
+
+  const commonLocations = organizations!
+    .flatMap((org) => org.common_event_locations || [])
+    .slice(0, 5);
 
   return (
     <Formik
@@ -190,14 +193,18 @@ const CreateEventForm: React.FC = () => {
                 {t("form.event_details.location_helperText")}
               </StyledFormLabelWithHelperText>
               <div key={"common-event-locations-" + values.organization_id}>
-                {organizations?.length! > 0 && (
+                {organizations?.length! > 0 && commonLocations.length > 0 && (
                   <Box sx={{ my: 1 }}>
                     <StyledText level="body-sm" color={PALLETTE.charcoal}>
                       {t("form.event_details.common_locations")}
                     </StyledText>
-                    <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', mt: 1 }}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{ flexWrap: "wrap", mt: 1 }}
+                    >
                       {organizations!
-                        .flatMap(org => org.common_event_locations || [])
+                        .flatMap((org) => org.common_event_locations || [])
                         .slice(0, 5)
                         .map((location, index) => (
                           <Chip
@@ -209,16 +216,18 @@ const CreateEventForm: React.FC = () => {
                                 value: location.name,
                               };
 
-                              setFieldValue('location', option);
+                              setFieldValue("location", option);
                             }}
-                            sx={{ cursor: 'pointer', zIndex: 0 }}
+                            sx={{ cursor: "pointer", zIndex: 0 }}
                           >
                             <StyledText
                               level="body-sm"
                               color={PALLETTE.charcoal}
                               fontSize={14}
                             >
-                              {location.name.length > 20 ? `${location.name.substring(0, 25)}...` : location.name}
+                              {location.name.length > 20
+                                ? `${location.name.substring(0, 25)}...`
+                                : location.name}
                             </StyledText>
                           </Chip>
                         ))}
@@ -270,6 +279,21 @@ const CreateEventForm: React.FC = () => {
 
               <StyledFormLabelWithHelperText>
                 {t("form.event_details.private_event_helperText")}
+              </StyledFormLabelWithHelperText>
+            </FormControl>
+            <Divider />
+            <FormControl>
+              <StyledFormLabel>
+                {t("form.event_details.collect_food_preferences")}
+              </StyledFormLabel>
+              <FormCheckbox
+                name="collect_food_preferences"
+                label="Collect Food Preferences"
+              />
+              <StyledErrorMessage name="collect_food_preferences" />
+
+              <StyledFormLabelWithHelperText>
+                {t("form.event_details.collect_food_preferences_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Grid

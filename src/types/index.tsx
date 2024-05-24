@@ -311,7 +311,7 @@ export interface IOrganization {
   organization_user_roles?: IOrganizationUserRole[];
   common_event_locations: {
     name: string;
-  }[],
+  }[];
   users?: IUser[];
 }
 
@@ -332,6 +332,7 @@ export interface IEvent {
   form_field_description?: string;
   form_fields?: IEventFormField[];
   landing_page?: IEventLandingPage;
+  collect_food_preferences?: boolean;
 }
 
 export interface IEventForm {
@@ -342,6 +343,7 @@ export interface IEventForm {
   location: PlaceOption | null;
   organization_id: number;
   is_private: boolean;
+  collect_food_preferences: boolean;
 }
 
 export interface IEventPostReq {
@@ -352,6 +354,7 @@ export interface IEventPostReq {
   location: string;
   organization_id: number;
   is_private: boolean;
+  collect_food_preferences: boolean;
 }
 
 export const EventFormInitialValues: IEventForm = {
@@ -361,6 +364,7 @@ export const EventFormInitialValues: IEventForm = {
   location: null,
   organization_id: 1,
   is_private: false,
+  collect_food_preferences: false,
 };
 
 export const EventFormInitialTestValues: IEventForm = {
@@ -376,6 +380,7 @@ export const EventFormInitialTestValues: IEventForm = {
   },
   organization_id: 1,
   is_private: false,
+  collect_food_preferences: false,
 };
 
 export interface ITicketReleaseMethod {
@@ -815,7 +820,6 @@ export interface IEventLandingPage {
   created_at?: Date;
   updated_at?: Date;
 }
-
 
 export enum OrganizationUserRoleType {
   OWNER = "owner",

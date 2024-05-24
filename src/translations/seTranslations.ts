@@ -56,6 +56,9 @@ const seTranslations = {
       private_event_helperText:
         "Är ditt evenemang privat? Om så är fallet kan bara personer med länken se det.",
       common_locations: "Vanligt Använda Platser",
+      collect_food_preferences: "Samla in matpreferenser",
+      collect_food_preferences_helperText:
+        "Ange om du vill samla in matpreferenser från deltagarna. Om detta är aktiverat kommer användarna att kunna ange sina matpreferenser när de begär en biljett.",
     },
     ticket_release: {
       name: "Namn",

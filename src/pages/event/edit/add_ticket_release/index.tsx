@@ -22,6 +22,7 @@ import DrawerComponent from "../../../../components/navigation/manage_drawer/eve
 import usePinnedDrawer from "../../../../hooks/drawer_pinned_hook";
 import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
+import { ROUTES, generateRoute } from "../../../../routes/def";
 
 const EditEventAddTicketReleasePage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -32,8 +33,28 @@ const EditEventAddTicketReleasePage: React.FC = () => {
 
   const { event } = useSelector((state: RootState) => state.eventDetail);
 
+  const { success, createdTicketReleaseId } = useSelector(
+    (state: RootState) => state.createTicketRelease
+  );
+
   const navigate = useNavigate();
   // Only run when the component mounts
+
+  useEffect(() => {
+    if (success && createdTicketReleaseId !== null) {
+      setTimeout(() => {
+        toast.success("Ticket release created successfully");
+      }, 1000);
+      dispatch(resetTicketTypes());
+
+      navigate(
+        generateRoute(ROUTES.EDIT_EVENT_TICKET_RELEASE_TICKET_TYPES, {
+          eventId: eventID!,
+          ticketReleaseId: createdTicketReleaseId!,
+        })
+      );
+    }
+  }, [dispatch, navigate, success, eventID]);
 
   useEffect(() => {
     if (eventID)

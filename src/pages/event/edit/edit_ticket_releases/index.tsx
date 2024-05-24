@@ -22,6 +22,7 @@ import {
 import StyledText from "../../../../components/text/styled_text";
 import EditTicketRelease from "../../../../components/events/edit/ticket_release/edit_ticket_release";
 import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
+import Cookies from "js-cookie";
 
 const drawerWidth = 200;
 
@@ -42,6 +43,9 @@ const EditTicketReleasesPage: React.FC = () => {
 
   const handleSetSelectedTicketRelease = (ticketRelease: ITicketRelease) => {
     setSelectedTicketRelease(ticketRelease);
+
+    // Save the ticket release ID in a cookie
+    Cookies.set("lastVisitedTicketRelease", ticketRelease.id.toString());
 
     navigate(
       `/events/${eventID}/edit/ticket-releases?ticket_release_id=${ticketRelease.id}`,
@@ -66,7 +70,12 @@ const EditTicketReleasesPage: React.FC = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const ticketReleaseID = params.get("ticket_release_id");
+    let ticketReleaseID = params.get("ticket_release_id");
+
+    // If there's no ticket release ID in the URL, get it from the cookie
+    if (!ticketReleaseID) {
+      ticketReleaseID = Cookies.get("lastVisitedTicketRelease")!;
+    }
 
     if (ticketReleaseID) {
       const parsedID = parseInt(ticketReleaseID);
@@ -116,9 +125,11 @@ const EditTicketReleasesPage: React.FC = () => {
         </Breadcrumbs>
         <Grid container columns={12} spacing={5} sx={{ mt: 1 }}>
           <Grid
-            xs={2}
+            xs={3}
+            md={2}
             sx={{
               height: "calc(100vh - 64px)",
+              minWidth: "100px", // Set your desired minimum width here
               ...ScrollConfig,
             }}
           >
@@ -128,7 +139,7 @@ const EditTicketReleasesPage: React.FC = () => {
               setSelectedTicketRelease={handleSetSelectedTicketRelease}
             />
           </Grid>
-          <Grid xs={10}>
+          <Grid xs={9} md={10}>
             {selectedTicketRelease !== null && (
               <EditTicketRelease
                 ticketRelease={selectedTicketRelease}

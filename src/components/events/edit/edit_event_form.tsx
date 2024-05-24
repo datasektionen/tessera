@@ -79,6 +79,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
         },
         organization_id: event.organizationId,
         is_private: event.is_private,
+        collect_food_preferences: event.collect_food_preferences || false,
       });
       setInitValueSet(true);
     }
@@ -250,6 +251,22 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
 
                   <StyledFormLabelWithHelperText>
                     {t("form.event_details.private_event_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.event_details.collect_food_preferences")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="collect_food_preferences"
+                    label="Collect Food Preferences"
+                  />
+                  <StyledErrorMessage name="collect_food_preferences" />
+
+                  <StyledFormLabelWithHelperText>
+                    {t(
+                      "form.event_details.collect_food_preferences_helperText"
+                    )}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
               </Grid>

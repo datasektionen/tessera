@@ -130,7 +130,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       {({ values, isValid, errors }) => {
         return (
           <Form>
-
             <Grid container columns={16} spacing={2}>
               <Grid xs={16} sm={8}>
                 <FormControl>
@@ -215,8 +214,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     {t("form.ticket_release.closes_at_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
-
-
               </Grid>
               <Grid xs={16} sm={8}>
                 {/* Ticket Release Method ID */}
@@ -301,7 +298,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                         <b>
                           {format(
                             new Date(values.open).getTime() +
-                            values.open_window_duration * 60 * 1000,
+                              values.open_window_duration * 60 * 1000,
                             "dd/MM/yyyy HH:mm:ss"
                           )}
                         </b>
