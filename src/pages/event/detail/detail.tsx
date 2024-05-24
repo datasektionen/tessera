@@ -32,7 +32,7 @@ import {
 } from "../../../components/forms/form_labels";
 import StyledButton from "../../../components/buttons/styled_button";
 import { Form, Formik } from "formik";
-import { PromoCodeValidationSchema } from "../../../validation/create_ticket_release_form";
+import { PromoCodeValidationSchema } from "../../../validation/event/create_ticket_release_form";
 import { StyledErrorMessage } from "../../../components/forms/messages";
 import { Trans, useTranslation } from "react-i18next";
 import StyledText from "../../../components/text/styled_text";

@@ -124,6 +124,10 @@ export const ManagerTeamsPage = React.lazy(
   () => import("../pages/manager/teams")
 );
 
+export const ManagerSetupPage = React.lazy(
+  () => import("../pages/manager/setup")
+);
+
 export const EditEventLandingEditorPage = React.lazy(
   () => import("../pages/event/edit/edit_landing_page/edit_page")
 );

@@ -70,6 +70,7 @@ export const ROUTES = {
   MANAGER_SETTINGS_FINANCIAL: "/manager/settings/financial",
   MANAGER_SETTINGS_USERS: "/manager/settings/users",
   MANAGER_SETTINGS_CONFIGURATION: "/manager/settings/configuration",
+  MANAGER_SETUP: "/manager/setup",
 
   // Event related routes
   EVENTS: "/events",

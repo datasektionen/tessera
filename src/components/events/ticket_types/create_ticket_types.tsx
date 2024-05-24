@@ -20,7 +20,7 @@ import {
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import CreateTicketTypeForm from "./create_ticket_type_form";
 import AddIcon from "@mui/icons-material/Add";
-import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import StatusIcon from "../../icons/status_icon";

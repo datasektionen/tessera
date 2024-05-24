@@ -14,7 +14,7 @@ import {
 } from "../../../redux/features/ticketTypeCreationSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
-import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";

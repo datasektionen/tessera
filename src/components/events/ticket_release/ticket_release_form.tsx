@@ -35,7 +35,7 @@ import PALLETTE from "../../../theme/pallette";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import StyledText from "../../text/styled_text";
 import StyledButton from "../../buttons/styled_button";
-import CreateTicketReleaseFormSchema from "../../../validation/create_ticket_release_form";
+import CreateTicketReleaseFormSchema from "../../../validation/event/create_ticket_release_form";
 import { format, addHours, addWeeks } from "date-fns";
 import LoadingOverlay from "../../Loading";
 import { useTranslation } from "react-i18next";
@@ -280,7 +280,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                     <b>
                       {format(
                         new Date(values.open).getTime() +
-                          values.open_window_duration * 60 * 1000,
+                        values.open_window_duration * 60 * 1000,
                         "dd/MM/yyyy HH:mm:ss"
                       )}
                     </b>

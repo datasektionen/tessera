@@ -7,7 +7,7 @@ import {
 import { FormInput } from "../../../forms/input_types";
 import { StyledErrorMessage } from "../../../forms/messages";
 import { getDurationUnits } from "../../../../utils/date_conversions";
-import PaymentDeadlineFormValidation from "../../../../validation/payment_deadline_form_validation";
+import PaymentDeadlineFormValidation from "../../../../validation/event/payment_deadline_form_validation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import StyledText from "../../../text/styled_text";
@@ -80,7 +80,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
     <Formik
       initialValues={initialValues}
       validationSchema={PaymentDeadlineFormValidation}
-      onSubmit={async (values) => {}}
+      onSubmit={async (values) => { }}
       validateOnBlur={true}
       validateOnChange={true}
       enableReinitialize={enableReinitialize}
@@ -88,7 +88,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
       {({ values, isValid, errors }) => {
         return (
           <Form
-            onChange={(e) => {}}
+            onChange={(e) => { }}
             onSubmit={async (e) => {
               e.preventDefault();
               await onSubmit(values);

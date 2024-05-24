@@ -22,6 +22,7 @@ interface FormInputProps {
   required?: boolean;
   afterChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  startDecorator?: any;
 }
 
 export const DefaultInputStyle = {
@@ -43,6 +44,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   disabled = false,
   required = true,
   afterChange = () => { },
+  startDecorator = null,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -64,6 +66,7 @@ export const FormInput: React.FC<FormInputProps> = ({
           readOnly={readOnly}
           autoComplete={autoComplete}
           disabled={disabled}
+          startDecorator={startDecorator}
           onChange={(e: any) => {
             try {
               if (type === "datetime-local") {

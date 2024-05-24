@@ -58,6 +58,7 @@ import {
   EditEventLandingEditorPage,
   EditLandingPageSettingsPage,
   EventDetailLandingPage,
+  ManagerSetupPage,
 } from "./page_import";
 import GrapesJSEditor from "../pages/event/edit/edit_landing_page/edit_page";
 
@@ -153,6 +154,10 @@ const PostLoginPageWithCurrentUser = withCurrentUserRequest(PostLoginPage);
 
 const ManagerPageWithCurrentUser = withCurrentUserRequest(ManagerPage);
 
+const ManagerSettingsPageWithCurrentUser = withCurrentUserRequest(
+  ManagerSetupPage
+);
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -237,6 +242,11 @@ function AppRoutes() {
             <Route
               path={ROUTES.MANAGER_DASHBOARD}
               element={<ManagerPageWithCurrentUser />}
+            />
+
+            <Route
+              path={ROUTES.MANAGER_SETUP}
+              element={<ManagerSettingsPageWithCurrentUser />}
             />
 
             <Route path={ROUTES.MANAGER_TEAMS} element={<ManagerTeamsPage />} />

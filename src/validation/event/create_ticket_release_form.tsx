@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import * as Yup from "yup";
-import { isValidDecimal } from "../utils/integer_validation";
+import { isValidDecimal } from "../../utils/integer_validation";
 
 const checkDateInFuture = (timestamp: Date) => {
   const now = new Date();
@@ -66,7 +66,7 @@ export const PromoCodeValidationSchema = Yup.object().shape({
     .max(20, "Promo Code must be at most 20 characters"),
 });
 
-const EditTicketReleaseFormSchema = Yup.object()
+const CreateTicketReleaseFormSchema = Yup.object()
   .shape({
     event_date: Yup.date().required("Event Date is required"),
     name: Yup.string()
@@ -77,14 +77,18 @@ const EditTicketReleaseFormSchema = Yup.object()
       .required("Description is required")
       .min(5, "Too short")
       .max(501, "Too long"),
-    open: Yup.date().required("Open is required"),
+    open: Yup.date()
+      .required("Open is required")
+      .test("is-future", "Needs to be in the future", checkDateInFuture),
     close: Yup.date()
       .required("Close is required")
-      .min(Yup.ref("open"), "Close must be after open"),
+      .min(Yup.ref("open"), "Close must be after open")
+      .test("is-future", "Close must be in the future", checkDateInFuture),
     ticket_release_method_id: Yup.number()
       .required("Ticket Release Method ID is required")
-      .min(1, "Ticket Release Method ID is required")
-      .integer("Ticket Release Method ID must be an integer"),
+      .integer("Ticket Release Method ID must be an integer")
+      .min(1, "Ticket Release Method ID is required"),
+
     open_window_duration: Yup.number().when("ticket_release_method_id", {
       // @ts-ignore
       is: 1,
@@ -95,11 +99,20 @@ const EditTicketReleaseFormSchema = Yup.object()
           .integer("Open Window Duration must be an integer"),
       otherwise: (schema) => schema.notRequired(),
     }),
+    method_description: Yup.string().when("ticket_release_method_id", {
+      // @ts-ignore
+      is: 4,
+      then: (schema) =>
+        schema
+          .required("Method Description is required")
+          .min(5, "Too short")
+          .max(500, "Too long"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
       .min(1, "Max Tickets Per User must be greater than or equal to 1")
-      .max(1, "Multiple tickets per user is not supported yet")
-      .integer("Max Tickets Per User must be an integer"),
+      .max(1, "Multiple tickets per user is not supported yet"),
     tickets_available: Yup.number()
       .required("Available Tickets is required")
       .min(1, "Available Tickets must be greater than or equal to 1")
@@ -117,11 +130,11 @@ const EditTicketReleaseFormSchema = Yup.object()
         }
       )
       .test(
-        "is-valid-available-tickets",
-        "Number of available tickets must be greater than or equal to the number of tickets per user",
+        "is-valid-decimal",
+        "Available Tickets must be a valid decimal number and cannot start with zero",
         function (value) {
-          const maxTicketsPerUser = this.parent.max_tickets_per_user;
-          if (value < maxTicketsPerUser) {
+          // Convert the value to a string and check if it starts with a zero
+          if (String(value).startsWith("0") && value !== 0) {
             return false;
           }
 
@@ -183,11 +196,11 @@ const EditTicketReleaseFormSchema = Yup.object()
         "The open and close times must be before the event date: " +
         format(value.event_date, "yyyy-MM-dd HH:mm"),
         null,
-        "open"
+        "close"
       );
     }
 
     return true;
   });
 
-export default EditTicketReleaseFormSchema;
+export default CreateTicketReleaseFormSchema;
