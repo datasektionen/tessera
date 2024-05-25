@@ -36,6 +36,7 @@ function* fetchTicketTypes(
         description: ticketType.description!,
         price: ticketType.price!,
         is_reserved: ticketType.is_reserved!,
+        save_template: ticketType.save_template!,
       };
     });
 
@@ -63,6 +64,8 @@ function* updateTicketTypes(
   try {
     const { eventId, ticketReleaseId, ticketTypes } = action.payload;
 
+    console.log("ticketTypes", ticketTypes);
+
     const postData: ITicketTypePostReq[] = ticketTypes.map((ticketType) => {
       return {
         id: ticketType.id ? ticketType.id : 0,
@@ -71,6 +74,7 @@ function* updateTicketTypes(
         name: ticketType.name,
         description: ticketType.description,
         price: ticketType.price,
+        save_template: ticketType.save_template,
       };
     });
 

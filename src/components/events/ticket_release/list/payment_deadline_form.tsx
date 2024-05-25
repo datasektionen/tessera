@@ -58,29 +58,11 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
     );
   }, [initialValues.reserve_payment_duration, setReservePaymentDuration]);
 
-  if (
-    ((ticketRelease &&
-      (ticketReleaseHasNotOpened(ticketRelease, timestamp) ||
-        ticketReleaseHasOpened(ticketRelease, timestamp))) ||
-      !ticketRelease?.has_allocated_tickets) &&
-    !allocation
-  ) {
-    return (
-      <StyledText
-        level="body-md"
-        fontWeight={600}
-        color={PALLETTE.dark_red}
-        fontSize={18}
-      >
-        {t("manage_event.payment_deadline_not_editable")}
-      </StyledText>
-    );
-  }
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={PaymentDeadlineFormValidation}
-      onSubmit={async (values) => { }}
+      onSubmit={async (values) => {}}
       validateOnBlur={true}
       validateOnChange={true}
       enableReinitialize={enableReinitialize}
@@ -88,7 +70,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
       {({ values, isValid, errors }) => {
         return (
           <Form
-            onChange={(e) => { }}
+            onChange={(e) => {}}
             onSubmit={async (e) => {
               e.preventDefault();
               await onSubmit(values);

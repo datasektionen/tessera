@@ -83,6 +83,7 @@ function* createEventFullWorkflowSaga(
           name: ticketType.name,
           description: ticketType.description,
           price: ticketType.price,
+          save_template: ticketType.save_template,
         };
       }),
     };

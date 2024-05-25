@@ -37,6 +37,9 @@ class ApiRoutes {
   static TEMPLATE_TICKET_RELEASE_UNSAVE = `${ApiRoutes.baseUrl}/templates/ticket-release/:ticketReleaseID/unsave`;
   static TEMPLATE_TICKET_RELEASES = `${ApiRoutes.baseUrl}/templates/ticket-release`;
 
+  static TEMPLATE_TICKET_TYPES_UNSAVE = `${ApiRoutes.baseUrl}/templates/ticket-types/:ticketTypeID/unsave`;
+  static TEMPLATE_TICKET_TYPES = `${ApiRoutes.baseUrl}/templates/ticket-types`;
+
   static ORGANIZATION = `${ApiRoutes.baseUrl}/organizations/:organizationID`;
 
   // Method to generate routes with dynamic parameters

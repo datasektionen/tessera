@@ -163,6 +163,7 @@ function* eventSaga(
               description: ticketType.description!,
               price: ticketType.price!,
               isReserved: ticketType.is_reserved!,
+              save_template: ticketType.save_template!,
             } as ITicketType;
           }),
           ticketReleaseMethodDetail: {

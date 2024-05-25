@@ -175,6 +175,19 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.save_template")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="save_template"
+                    label="Save as a template"
+                  />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_types.save_template_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
                 <Grid
                   container
                   spacing={2}

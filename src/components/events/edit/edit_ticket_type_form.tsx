@@ -7,7 +7,7 @@ import {
 } from "../../forms/form_labels";
 import { FormCheckbox, FormInput, FormTextarea } from "../../forms/input_types";
 import { StyledErrorMessage } from "../../forms/messages";
-import { ITicketRelease, ITicketTypeForm } from "../../../types";
+import { ITicketRelease, ITicketType, ITicketTypeForm } from "../../../types";
 import {
   clearTicketType,
   updateTicketType,
@@ -17,9 +17,14 @@ import { useDispatch } from "react-redux";
 import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import { useTranslation } from "react-i18next";
+import { AxiosResponse } from "axios";
+import { fetchApi, putApi } from "../../../utils/api/fetch_api";
+import ApiRoutes from "../../../routes/backend_routes";
+
+
 
 interface EditTicketTypeFormProps {
   ticketTypes: ITicketTypeForm[];
@@ -158,6 +163,27 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
 
                   <StyledFormLabelWithHelperText>
                     {t("form.ticket_types.price_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.save_template")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="save_template"
+                    label="Save as a template"
+                    onChange={async (e: any) => {
+                      handleChange(e);
+                      handleFieldChange(
+                        "save_template",
+                        e.target.checked,
+                        index
+                      );
+                    }}
+                  />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_types.save_template_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 

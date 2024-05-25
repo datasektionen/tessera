@@ -215,6 +215,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
     /**
      * Must be in the future
      * Must be before the event date
+     * Must be after close
      */
     allocation_cut_off: Yup.date()
       .optional()
@@ -239,6 +240,18 @@ const CreateTicketReleaseFormSchema = Yup.object()
           }
 
           return value < event_date;
+        }
+      )
+      .test(
+        "is-after-close",
+        "Allocation Cut Off must be after the close time",
+        function (value) {
+          const close = this.parent.close;
+          if (!value || !close) {
+            return true;
+          }
+
+          return value > close;
         }
       ),
   })

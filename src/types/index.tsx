@@ -468,6 +468,7 @@ export interface ITicketTypeForm {
   name: string;
   description: string;
   price: number;
+  save_template: boolean;
 }
 
 export interface ITicketTypePostReq {
@@ -477,12 +478,14 @@ export interface ITicketTypePostReq {
   name: string;
   description: string;
   price: number;
+  save_template: boolean;
 }
 
 export const TicketTypeFormInitialValues: ITicketTypeForm = {
   name: "Default",
   description: "",
   price: 0,
+  save_template: false,
 };
 
 export interface ITicketReleaseMethodDetail {
@@ -537,6 +540,7 @@ export interface ITicketType {
   price: number;
   quantityTotal: number;
   isReserved: boolean;
+  save_template: boolean;
 }
 
 export interface ITicketRelease {

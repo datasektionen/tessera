@@ -165,6 +165,9 @@ const enTranslations = {
         "Describe what's included in this ticket. Markdown is supported.",
       price: "Price (SEK)",
       price_helperText: "How much does this ticket cost?",
+      save_template: "Save as Template",
+      save_template_helperText:
+        "Save this ticket as a template to use again later.",
     },
     contact: {
       title: "Contact",
@@ -314,6 +317,11 @@ const enTranslations = {
     ticket_releases: {
       description:
         "You can create new templates by ticking the 'Save as Template' checkbox when creating a ticket release. Here you can see all your saved templates. Click 'Create' to create a new event from a template.",
+      no_templates: "There are no templates available.",
+    },
+    ticket_types: {
+      description:
+        "Templates for ticket batches are a bit different from ticket releases. Saving a template will assume that you will keep that template for the ticket release you are editing. Editing your template will automatically update all ticket releases that use that template.",
       no_templates: "There are no templates available.",
     },
   },
