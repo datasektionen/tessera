@@ -26,6 +26,7 @@ import { fetchApi, putApi } from "../../../utils/api/fetch_api";
 import { format } from "date-fns";
 import { use } from "i18next";
 import ClearIcon from "@mui/icons-material/Clear";
+import { ApiRounded } from "@mui/icons-material";
 
 interface EditEventAddTicketReleaseProps {
   eventId: number;
@@ -43,7 +44,10 @@ const fetchTemplateTicketReleases = async () => {
   try {
     const response: AxiosResponse<{
       ticket_releases: Array<ITicketRelease>;
-    }> = await fetchApi("/templates/ticket-releases/", true);
+    }> = await fetchApi(
+      ApiRoutes.generateRoute(ApiRoutes.TEMPLATE_TICKET_RELEASES, {}),
+      true
+    );
 
     return response.data;
   } catch (error) {
@@ -57,7 +61,14 @@ const unsaveTemplateTicketRelease = async (id: number) => {
   try {
     const response: AxiosResponse<{
       ticket_release: ITicketRelease;
-    }> = await putApi(`/templates/ticket-releases/${id}/unsave`, {}, true);
+    }> = await putApi(
+      ApiRoutes.generateRoute(ApiRoutes.TEMPLATE_TICKET_RELEASE_UNSAVE, {
+        ticketReleaseID: id,
+      }),
+      {},
+      true
+    );
+
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -105,8 +116,9 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
       description: template.description,
       open: format(template.open * 1000, "yyyy-MM-dd'T'HH:mm:ss"),
       close: format(template.close * 1000, "yyyy-MM-dd'T'HH:mm:ss"),
-      //@ts-ignore
-      ticket_release_method_id: template.ticket_release_method_id,
+      ticket_release_method_id:
+        //@ts-ignore
+        template.ticket_release_method_detail.ticket_release_method_id,
       open_window_duration:
         //@ts-ignore
         template.ticket_release_method_detail.open_window_duration,
@@ -134,13 +146,10 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
 
   const handleUnsaveTemplate = async (id: number) => {
     const data = await unsaveTemplateTicketRelease(id);
-    console.log("Data:", data);
     setTemplates((prev) => {
       return prev.filter((template) => template.id !== id);
     });
   };
-
-  console.log("Initial Values:", useInitialValues);
 
   useEffect(() => {
     window.scrollTo(0, 0);

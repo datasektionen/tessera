@@ -13,6 +13,10 @@ import Button, { ButtonProps } from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { createSvgIcon } from "@mui/material/utils";
 import * as XLSX from "xlsx";
+import { useState } from "react";
+import { Menu } from "@mui/material";
+import BackHandIcon from "@mui/icons-material/BackHand";
+import ApiRoutes from "../../../../../routes/backend_routes";
 
 // Custom toolbar
 const getAllRows = ({ apiRef }: GridCsvGetRowsToExportParams) =>
@@ -89,8 +93,10 @@ function convertDataToCSV(data: any) {
   return csvContent;
 }
 
-function CustomToolbar({ rows }: any) {
+function CustomToolbar({ rows, onCustomAction }: any) {
   const apiRef = useGridApiContext();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const handleDownloadExcel = () => {
     const csvData = convertDataToCSV(rows);
@@ -101,6 +107,14 @@ function CustomToolbar({ rows }: any) {
     color: "primary",
     size: "small",
     startIcon: <ExportIcon />,
+  };
+
+  const handleClickActions = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -115,6 +129,40 @@ function CustomToolbar({ rows }: any) {
           Export as Excel
         </Button>
       </GridToolbarExportContainer>
+      <Button
+        variant="text"
+        color="primary"
+        onClick={handleClickActions}
+        startIcon={<BackHandIcon />}
+      >
+        Actions
+      </Button>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <MenuItem
+          onClick={() => {
+            onCustomAction("delete");
+            handleClose();
+          }}
+        >
+          Delete
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onCustomAction("undelete");
+            handleClose();
+          }}
+        >
+          Undelete
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onCustomAction("allocate");
+            handleClose();
+          }}
+        >
+          Allocate
+        </MenuItem>
+      </Menu>
     </GridToolbarContainer>
   );
 }

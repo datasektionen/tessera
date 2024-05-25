@@ -53,10 +53,20 @@ const TicketsList: React.FC<TicketsListProps> = ({
     return new Date(event!.date) > new Date();
   });
 
+  /**
+   * Get all past events
+   * An event is considered past if the current date is 2 days after the event date
+   */
   const pastEvents = Object.keys(groupedTickets).filter((eventId) => {
     const event =
       groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
-    return new Date(event!.date) < new Date();
+    const eventEndDate = event?.end_date
+      ? new Date(event.end_date)
+      : new Date(event!.date);
+    const twoDaysAfterEvent = new Date(
+      eventEndDate.setDate(eventEndDate.getDate() + 2)
+    );
+    return new Date() > twoDaysAfterEvent;
   });
 
   return (

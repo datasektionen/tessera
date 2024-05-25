@@ -17,6 +17,7 @@ import {
   GridRowsProp,
   GridColumnVisibilityModel,
   GridRenderCellParams,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { Cancel, CheckCircle } from "@mui/icons-material";
 import { add, compareAsc, format, parse } from "date-fns";
@@ -54,6 +55,10 @@ import {
   pink,
   cyan,
 } from "@mui/material/colors";
+import ApiRoutes from "../../../../routes/backend_routes";
+import { deleteApi, fetchApi, putApi } from "../../../../utils/api/fetch_api";
+import { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
 
 const isTicketRequest = (ticket: ITicket) => {
   return ticket.id === 0;
@@ -155,6 +160,7 @@ function createRow(ticket: ITicket) {
   const row = {
     id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
     ticket_request_id: ticket.ticket_request?.id,
+    ticket_id: ticket.id,
     ticket_release_id: ticket.ticket_request?.ticket_release?.id,
     ticket_release_name: ticket.ticket_request?.ticket_release?.name,
     status: status,
@@ -236,6 +242,7 @@ const EventTicketsList: React.FC<{
     const savedFilterModel = Cookies.get("filterModel");
     return savedFilterModel ? JSON.parse(savedFilterModel) : { items: [] };
   });
+  const [selectedRows, setSelectedRows] = useState<GridRowsProp>([]);
 
   // Initialize Fuse with the appropriate options
   const fuse = useMemo(() => {
@@ -356,6 +363,11 @@ const EventTicketsList: React.FC<{
       field: "ticket_request_id",
       headerName: "Ticket Request ID",
       width: 150,
+    },
+    {
+      field: "ticket_id",
+      headerName: "Ticket ID",
+      width: 50,
     },
     {
       field: "ticket_release_name",
@@ -690,9 +702,86 @@ const EventTicketsList: React.FC<{
     setIsModalOpen(false);
   };
 
+  const handleCustomActionClick = async (action: string) => {
+    // Implement your custom action logic here
+    const isHandlingTicketRequests = selectedRows[0].type === "Request";
+
+    // Define a list of ids
+    const ids = selectedRows.map((row) =>
+      isHandlingTicketRequests ? row.ticket_request_id : row.ticket_id
+    );
+
+    const url = ApiRoutes.generateRoute(
+      isHandlingTicketRequests
+        ? ApiRoutes.MANAGER_EVENT_TICKET_REQEUST_ACTION
+        : ApiRoutes.MANAGER_EVENT_TICKET_ACTION,
+      { eventID: eventID }
+    );
+
+    let body: Object = {};
+    if (isHandlingTicketRequests) {
+      body = {
+        action: action,
+        ticket_request_ids: ids,
+      };
+    } else {
+      body = {
+        action: action,
+        ticket_ids: ids,
+      };
+    }
+
+    switch (action) {
+      case "undelete":
+      case "delete":
+        try {
+          await putApi(url, body, true);
+
+          toast.success(
+            `Successfully ${action === "delete" ? "deleted" : "undeleted"} ${
+              isHandlingTicketRequests ? "ticket requests" : "tickets"
+            }`
+          );
+        } catch (error: any) {
+          const errorMessage =
+            error.response.data.error ||
+            error.message ||
+            error ||
+            "An error occurred";
+
+          toast.error(errorMessage);
+        }
+        break;
+      case "allocate":
+        if (!isHandlingTicketRequests) {
+          toast.error("Cannot allocate tickets");
+          return;
+        }
+
+        try {
+          await putApi(url, body, true);
+
+          toast.success("Successfully allocated tickets");
+        } catch (error: any) {
+          const errorMessage =
+            error.response.data.error ||
+            error.message ||
+            error ||
+            "An error occurred";
+
+          toast.error(errorMessage);
+        }
+        break;
+      default:
+        toast.error("Invalid action");
+        break;
+    }
+  };
+
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
+      ticket_id: false,
       ticket_request_id: false,
       ticket_release_name: true,
       status: true,
@@ -729,8 +818,12 @@ const EventTicketsList: React.FC<{
     });
 
   const CustomToolbarWithProps = () => {
-    // Pass the rows directly to the CustomToolbar
-    return <CustomToolbar rows={rows} />;
+    return (
+      <CustomToolbar
+        rows={filteredRows}
+        onCustomAction={handleCustomActionClick}
+      />
+    );
   };
 
   useEffect(() => {
@@ -807,6 +900,27 @@ const EventTicketsList: React.FC<{
               sortModel: [{ field: "requseted_at", sort: "desc" }],
             },
           }}
+          checkboxSelection
+          disableRowSelectionOnClick
+          onRowSelectionModelChange={(newSelection: any) => {
+            const selectedRowData = newSelection.map((id: any) =>
+              filteredRows.find((row) => row.id === id)
+            );
+            setSelectedRows(selectedRowData);
+          }}
+          isRowSelectable={
+            (params: GridRowParams) => {
+              if (selectedRows.length === 0) {
+                return true;
+              }
+
+              return (
+                selectedRows.length === 0 ||
+                selectedRows[0].type === params.row.type
+              );
+            }
+            // Check if the first element in the selected rows has the same type as the current row
+          }
         />
       </ThemeProvider>
       {selectedUser && (

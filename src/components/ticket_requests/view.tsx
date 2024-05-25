@@ -266,7 +266,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledText>
         </ConfirmModal>
 
-        {!ticketRequest.is_handled ? (
+        {!ticketRequest.is_handled && !ticketRequest.deleted_at ? (
           <StyledButton
             bgColor={PALLETTE.red}
             size="md"
@@ -294,7 +294,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledButton>
         )}
 
-        {!ticketRequest.is_handled && (
+        {!ticketRequest.is_handled && allAddons?.length! > 0 && (
           <AccordionGroup
             sx={{
               mt: 2,

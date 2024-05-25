@@ -96,12 +96,24 @@ export function postApi<T extends { [key: string]: any }>(
 }
 
 export function putApi<T extends { [key: string]: any }>(
-  endpoint: string,
+  url: string,
   data: any,
   withCredentials: boolean = true
 ): Promise<AxiosResponse<T>> {
   return axios
-    .put(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, data, {
+    .put(url, data, {
+      withCredentials,
+    })
+    .then(convertKeysAndParseDates);
+}
+
+export function deleteApi<T extends { [key: string]: any }>(
+  endpoint: string,
+  body: any,
+  withCredentials: boolean = true
+): Promise<AxiosResponse<T>> {
+  return axios
+    .delete(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
       withCredentials,
     })
     .then(convertKeysAndParseDates);

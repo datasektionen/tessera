@@ -56,8 +56,6 @@ import { useEventDetails } from "../../../../hooks/event/use_event_details_hook"
 import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 import StyledBorderBox from "../../../../components/wrappers/styled_border_box";
 
-
-
 const EditTicketTypes: React.FC = () => {
   const { eventID, ticketReleaseID } = useParams();
   const navigate = useNavigate();
@@ -94,7 +92,12 @@ const EditTicketTypes: React.FC = () => {
       setTimeout(() => {
         toast.success("Ticket batches updated successfully.");
       }, 500);
-      navigate(-1);
+      navigate(
+        generateRoute(ROUTES.EDIT_EVENT_TICKET_RELEASES, {
+          eventId: eventID,
+          ticketReleaseId: ticketReleaseID,
+        })
+      );
       dispatch(resetUpdateSuccess());
     }
   }, [updateSuccess]);
@@ -310,7 +313,7 @@ const EditTicketTypes: React.FC = () => {
                         handleSubmission();
                       }}
                       sx={{
-                        width: 150
+                        width: 150,
                       }}
                       color={PALLETTE.charcoal}
                       bgColor={PALLETTE.green}
@@ -319,7 +322,6 @@ const EditTicketTypes: React.FC = () => {
                       {t("form.button_save")}
                     </StyledButton>
                   </Grid>
-
                 </Grid>
               </Box>
             </Box>

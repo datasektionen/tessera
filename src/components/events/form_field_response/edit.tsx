@@ -299,6 +299,10 @@ const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
   formFields = undefined,
   isGuestCustomer = false,
 }) => {
+  if (!formFields || formFields.length === 0) {
+    return <></>;
+  }
+
   if (ticket !== undefined) {
     return (
       <EditFormFieldResponseBase

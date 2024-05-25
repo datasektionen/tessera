@@ -2,6 +2,9 @@
 interface GenerateRouteParams {
   eventID?: number | string;
   organizationID?: number | string;
+  ticketRequestID?: number | string;
+  ticketID?: number | string;
+  ticketReleaseID?: number | string;
 }
 
 // Define the API routes class
@@ -25,6 +28,13 @@ class ApiRoutes {
   static MANAGER_EVENT_LANDING_PAGE_SET_ENABLED = `${ApiRoutes.baseUrl}/manager/events/:eventID/landing-page/set-enabled`;
   static MANAGER_NETWORK_MERCHANT = `${ApiRoutes.baseUrl}/manager/network/merchant`;
 
+  // Manager ticket requests
+  static MANAGER_EVENT_TICKET_REQEUST_ACTION = `${ApiRoutes.baseUrl}/manager/events/:eventID/ticket-requests/action`;
+
+  // Manager ticket
+  static MANAGER_EVENT_TICKET_ACTION = `${ApiRoutes.baseUrl}/manager/events/:eventID/tickets/action`;
+
+  static TEMPLATE_TICKET_RELEASE_UNSAVE = `${ApiRoutes.baseUrl}/templates/ticket-releases/:ticketReleaseID/unsave`;
   static TEMPLATE_TICKET_RELEASES = `${ApiRoutes.baseUrl}/templates/ticket-releases`;
 
   static ORGANIZATION = `${ApiRoutes.baseUrl}/organizations/:organizationID`;
@@ -34,6 +44,27 @@ class ApiRoutes {
     let result = route;
     if (params.eventID) {
       result = result.replace(":eventID", params.eventID.toString());
+    }
+    if (params.organizationID) {
+      result = result.replace(
+        ":organizationID",
+        params.organizationID.toString()
+      );
+    }
+    if (params.ticketRequestID) {
+      result = result.replace(
+        ":ticketRequestID",
+        params.ticketRequestID.toString()
+      );
+    }
+    if (params.ticketID) {
+      result = result.replace(":ticketID", params.ticketID.toString());
+    }
+    if (params.ticketReleaseID) {
+      result = result.replace(
+        ":ticketReleaseID",
+        params.ticketReleaseID.toString()
+      );
     }
     return result;
   }
