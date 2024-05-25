@@ -79,7 +79,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
       .max(501, "Too long"),
     open: Yup.date()
       .required("Open is required")
-      .test("is-future", "Needs to be in the future", checkDateInFuture),
+      .test("is-future", "Open must be in the future", checkDateInFuture),
     close: Yup.date()
       .required("Close is required")
       .min(Yup.ref("open"), "Close must be after open")
@@ -163,6 +163,84 @@ const CreateTicketReleaseFormSchema = Yup.object()
           .max(20, "Promo Code must be at most 20 characters"),
       otherwise: (schema: any) => schema.notRequired(),
     }),
+    /**
+     * Cannot be after the close time
+     * Must be in the future
+     * Must be before the event date
+     */
+    payment_deadline: Yup.date()
+      .optional()
+      .test(
+        "is-after-close",
+        "Payment Deadline must be after the close time",
+        function (value) {
+          const close = this.parent.close;
+          if (!value || !close) {
+            return true;
+          }
+
+          return value > close;
+        }
+      )
+      .test(
+        "is-future",
+        "Payment Deadline must be in the future",
+        function (value) {
+          if (!value) {
+            return false;
+          }
+
+          return checkDateInFuture(value);
+        }
+      )
+      .test(
+        "is-valid-dates",
+        "Payment Deadline must be before the event date",
+        function (value) {
+          const event_date = this.parent.event_date;
+          if (!value || !event_date) {
+            return false;
+          }
+
+          return value < event_date;
+        }
+      ),
+    reserve_payment_duration: Yup.string().when("use_custom_payment_deadline", {
+      // @ts-ignore
+      is: true,
+      then: (schema) => schema.required("Reserve Payment Duration is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    // Defines the cut off time for allocation
+    /**
+     * Must be in the future
+     * Must be before the event date
+     */
+    allocation_cut_off: Yup.date()
+      .optional()
+      .test(
+        "is-future",
+        "Allocation Cut Off must be in the future",
+        function (value) {
+          if (!value) {
+            return false;
+          }
+
+          return checkDateInFuture(value);
+        }
+      )
+      .test(
+        "is-valid-dates",
+        "Allocation Cut Off must be before the event date",
+        function (value) {
+          const event_date = this.parent.event_date;
+          if (!value || !event_date) {
+            return false;
+          }
+
+          return value < event_date;
+        }
+      ),
   })
   .test(
     "is-valid-open-and-close",

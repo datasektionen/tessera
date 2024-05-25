@@ -20,13 +20,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { useFeatureLimitAccess } from "../../../hooks/manager/required_feature_access_hook";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import ApiRoutes from "../../../routes/backend_routes";
 import { fetchApi, putApi } from "../../../utils/api/fetch_api";
-import { format } from "date-fns";
+import { addHours, addWeeks, format } from "date-fns";
 import { use } from "i18next";
 import ClearIcon from "@mui/icons-material/Clear";
 import { ApiRounded } from "@mui/icons-material";
+import { paymentDurationToString } from "../../../utils/date_conversions";
 
 interface EditEventAddTicketReleaseProps {
   eventId: number;
@@ -40,12 +41,12 @@ interface EditEventAddTicketReleaseProps {
 
 const fetchTemplateTicketReleases = async () => {
   // /templates/ticket-releases/
-  console.log("Fetching template ticket releases");
   try {
     const response: AxiosResponse<{
       ticket_releases: Array<ITicketRelease>;
     }> = await fetchApi(
       ApiRoutes.generateRoute(ApiRoutes.TEMPLATE_TICKET_RELEASES, {}),
+      true,
       true
     );
 
@@ -57,7 +58,6 @@ const fetchTemplateTicketReleases = async () => {
 
 const unsaveTemplateTicketRelease = async (id: number) => {
   // /templates/ticket-releases/:ticketReleaseID/unsave
-  console.log("Unsaving template ticket release");
   try {
     const response: AxiosResponse<{
       ticket_release: ITicketRelease;
@@ -101,6 +101,8 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
 
       console.log("Data:", data);
 
+      if (!data) return;
+
       setTemplates(data!.ticket_releases);
     };
     fetchTemplateTicketReleasesData();
@@ -110,6 +112,9 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
 
   const setTemplate = (template: ITicketRelease) => {
     // Set the template values to the form
+
+    console.log("Template:", template);
+
     setUseInitialValues({
       event_date: useInitialValues.event_date,
       name: template.name,
@@ -140,6 +145,17 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
       tickets_available: template.tickets_available,
       is_saved: false,
       save_template: false,
+      payment_deadline: format(
+        new Date(template.payment_deadline.original_deadline),
+        "yyyy-MM-dd"
+      ),
+      reserve_payment_duration: paymentDurationToString(
+        template.payment_deadline.reserve_payment_duration
+      ),
+      allocation_cut_off: format(
+        new Date(template.allocation_cut_off),
+        "yyyy-MM-dd"
+      ),
     });
     setUseTemplate(true);
   };

@@ -19,6 +19,7 @@ import {
   resetCurrentStep,
 } from "../features/eventCreationSlice";
 import { postCreateEvent } from "./helpers/createEvent";
+import { getDurationUnits, toGoDuration } from "../../utils/date_conversions";
 
 function* createEventFullWorkflowSaga(
   action: PayloadAction<{
@@ -40,6 +41,10 @@ function* createEventFullWorkflowSaga(
       yield put(resetCurrentStep());
       return;
     }
+
+    const { hours, minutes, seconds, days } = getDurationUnits(
+      ticketRelease.reserve_payment_duration
+    );
 
     const data: CompleteEventWorkflowPostReq = {
       event: {
@@ -69,6 +74,9 @@ function* createEventFullWorkflowSaga(
         promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
         tickets_available: ticketRelease.tickets_available,
         save_template: ticketRelease.save_template,
+        payment_deadline: ticketRelease.payment_deadline,
+        reserve_payment_duration: toGoDuration(days, hours, minutes, seconds),
+        allocation_cut_off: ticketRelease.allocation_cut_off,
       },
       ticket_types: ticketTypes.map((ticketType: ITicketTypeForm) => {
         return {

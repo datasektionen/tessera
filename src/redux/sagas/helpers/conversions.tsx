@@ -37,6 +37,7 @@ export function convertResponseToTicketRelease(
     ticketReleaseMethodDetailId: responseData.ticket_release_method_detail_id!,
     tickets_available: responseData.tickets_available!,
     save_template: responseData.save_template!,
+    allocation_cut_off: new Date(responseData.allocation_cut_off! * 1000),
     payment_deadline: {
       id: responseData.payment_deadline.ID!,
       ticket_release_id: responseData.payment_deadline.ticket_release_id!,

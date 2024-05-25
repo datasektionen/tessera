@@ -1,6 +1,10 @@
 import { addHours, addWeeks, format } from "date-fns";
 import { PlaceOption } from "../components/forms/input_types";
-import { formatDateToDateTimeLocal } from "../utils/date_conversions";
+import {
+  formatDateToDateTimeLocal,
+  getDurationUnits,
+  paymentDurationToString,
+} from "../utils/date_conversions";
 import { blue, green, grey, orange, red } from "@mui/material/colors";
 
 enum NotificationMethod {
@@ -409,6 +413,9 @@ export interface ITicketReleaseForm {
   tickets_available: number;
   is_saved?: boolean;
   save_template: boolean;
+  payment_deadline: string;
+  reserve_payment_duration: string;
+  allocation_cut_off: string;
 }
 
 export interface ITicketReleasePostReq {
@@ -427,6 +434,9 @@ export interface ITicketReleasePostReq {
   tickets_available: number;
   method_description?: string;
   save_template: boolean;
+  payment_deadline: string;
+  reserve_payment_duration: string;
+  allocation_cut_off: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
@@ -445,6 +455,12 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   promo_code: "",
   is_saved: false,
   save_template: false,
+  payment_deadline: format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd"),
+  reserve_payment_duration: "",
+  allocation_cut_off: format(
+    addWeeks(addHours(new Date(), 1), 1),
+    "yyyy-MM-dd"
+  ),
 };
 
 export interface ITicketTypeForm {
@@ -543,6 +559,7 @@ export interface ITicketRelease {
   addons?: IAddon[];
   payment_deadline: ITicketReleasePaymentDeadline;
   save_template: boolean;
+  allocation_cut_off: Date;
 }
 
 export interface ITicketReleasePaymentDeadline {

@@ -76,6 +76,8 @@ export function fetchApi<T extends { [key: string]: any }>(
     ? endpoint
     : `${process.env.REACT_APP_BACKEND_URL}${endpoint}`;
 
+  console.log(url);
+
   return axios
     .get(url, {
       withCredentials,

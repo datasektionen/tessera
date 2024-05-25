@@ -38,7 +38,7 @@ export const ticketReleaseRequiresAccount = (method?: ITicketReleaseMethod) => {
 
 export const canEditPaymentDeadline = (method?: ITicketReleaseMethod) => {
   if (!method) {
-    throw new Error("Method is required");
+    return false;
   }
 
   return METHODS_THAT_CAN_EDIT_PAYMENT_DEADLINE.includes(method.name);

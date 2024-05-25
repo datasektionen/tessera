@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Formik, Form, Field, useFormikContext, FormikHelpers } from "formik";
 import {
   Button,
@@ -12,10 +12,14 @@ import {
   Tooltip,
   Grid,
   Stack,
+  Box,
+  List,
+  ListItem,
 } from "@mui/joy";
 import {
   TicketReleaseFormInitialValues,
   ITicketReleaseForm,
+  IDeadlineUnits,
 } from "../../../types";
 import { StyledErrorMessage } from "../../forms/messages";
 import {
@@ -39,6 +43,10 @@ import CreateTicketReleaseFormSchema from "../../../validation/event/create_tick
 import { format, addHours, addWeeks } from "date-fns";
 import LoadingOverlay from "../../Loading";
 import { useTranslation } from "react-i18next";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
+import { useParams } from "react-router-dom";
+import { canEditPaymentDeadline } from "../../../utils/manage_event/can_edit_payment_deadline";
+import { getDurationUnits } from "../../../utils/date_conversions";
 
 interface CreateTicketReleaseFormProps {
   submit: (
@@ -56,14 +64,29 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
   createOnSubmit = false,
   fromTemplate = false,
 }) => {
+  const { eventID } = useParams();
   const { ticketReleaseMethods } = useSelector(
     (state: RootState) => state.ticketReleaseMethods
   );
   const { t } = useTranslation();
 
-  const { loading: initialLoading } = useSelector(
-    (state: RootState) => state.eventCreation
-  );
+  const {
+    loading: initialLoading,
+    form: { event: eventCreation },
+  } = useSelector((state: RootState) => state.eventCreation);
+
+  const [reservePaymentDuration, setReservePaymentDuration] =
+    useState<IDeadlineUnits>({
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    });
+
+  // Get event details
+  const {
+    eventDetail: { event },
+  } = useEventDetails(parseInt(eventID!));
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -72,22 +95,35 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
     dispatch(getTicketReleaseMethodsRequest());
   }, [dispatch]);
 
+  const eventDate = !!event
+    ? new Date(event?.date!)
+    : new Date(eventCreation.date);
+
+  const open =
+    !initialValues.is_saved && !fromTemplate
+      ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm")
+      : initialValues.open;
+
+  const close =
+    !initialValues.is_saved && !fromTemplate
+      ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm")
+      : initialValues.close;
+
   if (initialLoading) {
     return <LoadingOverlay />;
   }
+
+  /**
+   * Payment deadline is set 75 % of the way between the open and event.date
+   * Allocation cut of is set 90% of the way between the open and event.date
+   */
 
   return (
     <Formik
       initialValues={{
         ...initialValues,
-        open:
-          !initialValues.is_saved && !fromTemplate
-            ? format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm")
-            : initialValues.open,
-        close:
-          !initialValues.is_saved && !fromTemplate
-            ? format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm")
-            : initialValues.close,
+        open,
+        close,
       }}
       validationSchema={CreateTicketReleaseFormSchema}
       validateOnBlur={true}
@@ -452,6 +488,87 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 </StyledFormLabelWithHelperText>
               </FormControl>
             )}
+            <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
+
+            {/* Payment Deadline */}
+
+            {canEditPaymentDeadline(
+              ticketReleaseMethods?.find(
+                (trm) => trm.id === values.ticket_release_method_id
+              )
+            ) && (
+              <>
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.payment_deadline")}
+                  </StyledFormLabel>
+                  <FormInput
+                    placeholder="Enter date and time"
+                    name="payment_deadline"
+                    label="Payment Deadline"
+                    type="date"
+                  />
+                  <StyledErrorMessage name="payment_deadline" />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_release.payment_deadline_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                {/* Reserve Payment Duration */}
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.reserve_payment_duration")}
+                  </StyledFormLabel>
+                  <FormInput
+                    placeholder="7d 12h"
+                    name="reserve_payment_duration"
+                    label="Reserve Payment Duration"
+                    afterChange={(e) => {
+                      setReservePaymentDuration(
+                        getDurationUnits(e.target.value)
+                      );
+                    }}
+                  />
+                  <StyledErrorMessage name="reserve_payment_duration" />
+                  <StyledFormLabelWithHelperText>
+                    {t(
+                      "form.ticket_release.reserve_payment_duration_helperText"
+                    )}
+                  </StyledFormLabelWithHelperText>
+                  <StyledText
+                    level="body-md"
+                    fontWeight={500}
+                    color={PALLETTE.charcoal_see_through}
+                    fontSize={16}
+                  >
+                    {t("manage_event.reserve_payment_duration_text", {
+                      ...reservePaymentDuration,
+                    }).toString()}{" "}
+                  </StyledText>
+                </FormControl>
+
+                {/* Allocation Cut Off */}
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.allocation_cut_off")}
+                  </StyledFormLabel>
+                  <FormInput
+                    placeholder="Enter date and time"
+                    name="allocation_cut_off"
+                    label="Allocation Cut Off"
+                    type="date"
+                  />
+                  <StyledErrorMessage name="allocation_cut_off" />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_release.allocation_cut_off_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                <Divider sx={{ marginTop: 1, marginBottom: 1 }} />
+              </>
+            )}
 
             <FormControl>
               <StyledFormLabel>
@@ -462,6 +579,23 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                 {t("form.ticket_release.save_template_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
+
+            <Box>
+              {/* Display errors */}
+              <List component="ol" marker="disc">
+                {Object.values(errors).map((error, index) => (
+                  <ListItem key={index}>
+                    <StyledText
+                      level="body-sm"
+                      color={PALLETTE.red}
+                      fontSize={15}
+                    >
+                      {error}
+                    </StyledText>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
 
             <Grid container justifyContent="flex-end" spacing={2}>
               <Grid>

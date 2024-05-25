@@ -25,6 +25,7 @@ import {
   updateTicketReleaseSuccess,
 } from "../features/ticketReleaseSlice";
 import ApiRoutes from "../../routes/backend_routes";
+import { getDurationUnits, toGoDuration } from "../../utils/date_conversions";
 
 function* createTicketReleaseSaga(
   action: PayloadAction<{
@@ -34,6 +35,10 @@ function* createTicketReleaseSaga(
 ): Generator<any, void, any> {
   try {
     const { ticketRelease, eventId } = action.payload;
+
+    const { hours, minutes, seconds, days } = getDurationUnits(
+      ticketRelease.reserve_payment_duration
+    );
 
     const data: ITicketReleasePostReq = {
       event_id: eventId,
@@ -51,6 +56,9 @@ function* createTicketReleaseSaga(
       promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
       tickets_available: ticketRelease.tickets_available,
       save_template: ticketRelease.save_template,
+      payment_deadline: ticketRelease.payment_deadline,
+      reserve_payment_duration: toGoDuration(days, hours, minutes, seconds),
+      allocation_cut_off: ticketRelease.allocation_cut_off,
     };
 
     const response = yield call(
@@ -87,6 +95,10 @@ function* updateTicketReleaseSaga(
   try {
     const { formData, eventId, ticketReleaseId } = action.payload;
 
+    const { hours, minutes, seconds, days } = getDurationUnits(
+      formData.reserve_payment_duration
+    );
+
     const data: ITicketReleasePostReq = {
       name: formData.name,
       description: formData.description,
@@ -102,6 +114,9 @@ function* updateTicketReleaseSaga(
       promo_code: formData.is_reserved ? formData.promo_code : "",
       tickets_available: formData.tickets_available,
       save_template: formData.save_template,
+      payment_deadline: formData.payment_deadline,
+      reserve_payment_duration: toGoDuration(days, hours, minutes, seconds),
+      allocation_cut_off: formData.allocation_cut_off,
     };
 
     const response = yield call(

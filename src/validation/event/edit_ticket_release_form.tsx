@@ -181,7 +181,7 @@ const EditTicketReleaseFormSchema = Yup.object()
     if (!isValid) {
       return new Yup.ValidationError(
         "The open and close times must be before the event date: " +
-        format(value.event_date, "yyyy-MM-dd HH:mm"),
+          format(value.event_date, "yyyy-MM-dd HH:mm"),
         null,
         "open"
       );

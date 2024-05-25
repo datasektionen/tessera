@@ -130,6 +130,7 @@ function* eventSaga(
           ticketReleaseMethodDetailId:
             ticketRelease.ticket_release_method_detail_id!,
           save_template: ticketRelease.save_template!,
+          allocation_cut_off: ticketRelease.allocation_cut_off!,
           payment_deadline:
             ticketRelease.payment_deadline &&
             ({

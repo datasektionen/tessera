@@ -98,14 +98,14 @@ function* createTicketRequestSaga(
           response.data.map((ticket_request: any) => ticket_request.ID)
         )
       );
-      // toast.success(
-      //   <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
-      //     Ticket request created! View it{" "}
-      //     <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
-      //   </StyledText>
-      // );
+
       yield put(postTicketRequestSuccess());
     } else {
+      // check if status is 429
+      if (response.status === 429) {
+        return;
+      }
+
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);
       yield put(postTicketRequestFailure(errorMessage));

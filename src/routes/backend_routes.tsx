@@ -34,8 +34,8 @@ class ApiRoutes {
   // Manager ticket
   static MANAGER_EVENT_TICKET_ACTION = `${ApiRoutes.baseUrl}/manager/events/:eventID/tickets/action`;
 
-  static TEMPLATE_TICKET_RELEASE_UNSAVE = `${ApiRoutes.baseUrl}/templates/ticket-releases/:ticketReleaseID/unsave`;
-  static TEMPLATE_TICKET_RELEASES = `${ApiRoutes.baseUrl}/templates/ticket-releases`;
+  static TEMPLATE_TICKET_RELEASE_UNSAVE = `${ApiRoutes.baseUrl}/templates/ticket-release/:ticketReleaseID/unsave`;
+  static TEMPLATE_TICKET_RELEASES = `${ApiRoutes.baseUrl}/templates/ticket-release`;
 
   static ORGANIZATION = `${ApiRoutes.baseUrl}/organizations/:organizationID`;
 

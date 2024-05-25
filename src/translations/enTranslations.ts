@@ -146,6 +146,16 @@ const enTranslations = {
       save_template: "Save as Template",
       save_template_helperText:
         "Save this ticket release as a template to use again later.",
+
+      payment_deadline: "Payment Deadline",
+      payment_deadline_helperText:
+        "When is the payment deadline for users who initially got a ticket?",
+      reserve_payment_duration: "Reserve Payment Duration",
+      reserve_payment_duration_helperText:
+        "When a reserve receives a ticket, how long do they have to pay before it's given to the next person in line?",
+      allocation_cut_off: "Allocation Cut-off",
+      allocation_cut_off_helperText:
+        "When will the allocation of tickets be cut off? This is when the system will stop allocating tickets.",
     },
     ticket_types: {
       name: "Name",

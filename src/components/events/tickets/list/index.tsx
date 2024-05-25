@@ -31,7 +31,6 @@ import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
 import AddonModalView from "./addon_modal_view";
 import StyledButton from "../../../buttons/styled_button";
-import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getEventFormFieldsColumns,
@@ -72,7 +71,7 @@ enum TicketStatus {
   CHECKED_IN = "Checked In",
   PAID = "Paid",
   RESERVED = "Reserved",
-  PURCHASEABLE = "Purchaseable",
+  PURCHASEABLE = "Ready for Purchase",
   EXPIRED = "Expired",
   LOTTERY_ENTERED = "Lottery Entered",
   HANDLED = "Handled",
@@ -629,42 +628,6 @@ const EventTicketsList: React.FC<{
         return params.value;
       },
     },
-    {
-      field: "Allocate",
-      headerName: "Allocate",
-      width: 150,
-      renderCell: (params: GridRenderCellParams<any>) => {
-        if (params.row.deleted_at !== "N/A") {
-          return "N/A";
-        }
-
-        if (params.row.type === "Ticket") {
-          return <CheckCircle color="success" />;
-        }
-
-        return (
-          <Button
-            variant="contained"
-            size="small"
-            tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => {
-              allocateSelectedTicket(
-                parseInt(eventID!),
-                params.row.ticket_request_id
-              );
-            }}
-          >
-            <Typography
-              fontFamily={"Josefin Sans"}
-              fontSize={14}
-              fontWeight={400}
-            >
-              Allocate
-            </Typography>
-          </Button>
-        );
-      },
-    },
     ...customColumns,
   ];
 
@@ -703,6 +666,11 @@ const EventTicketsList: React.FC<{
   };
 
   const handleCustomActionClick = async (action: string) => {
+    if (selectedRows.length === 0) {
+      toast.error("No rows selected");
+      return;
+    }
+
     // Implement your custom action logic here
     const isHandlingTicketRequests = selectedRows[0].type === "Request";
 
@@ -809,7 +777,6 @@ const EventTicketsList: React.FC<{
       requseted_at: true,
       purchasable_at: true,
       prefer_meat: false,
-      can_be_selectively_allocated: false,
       // All custom columns are false by default
       ...customColumns.reduce((acc: { [key: string]: boolean }, column) => {
         acc[column.field as string] = false;
