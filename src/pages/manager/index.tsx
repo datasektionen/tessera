@@ -35,8 +35,6 @@ const ManagerPage: React.FC = () => {
     dispatch(getNetworkEventsRequest());
   }, []);
 
-  console.log(network)
-
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>
@@ -79,7 +77,11 @@ const ManagerPage: React.FC = () => {
                     position: "relative",
                   }}
                 >
-                  <EventCard event={event} isForCustomers={false} inThePast={eventIsInThePast(event)} />
+                  <EventCard
+                    event={event}
+                    isForCustomers={false}
+                    inThePast={eventIsInThePast(event)}
+                  />
                 </Grid>
               );
             })}

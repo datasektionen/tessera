@@ -99,8 +99,6 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
     const fetchTemplateTicketReleasesData = async () => {
       const data = await fetchTemplateTicketReleases();
 
-      console.log("Data:", data);
-
       if (!data) return;
 
       setTemplates(data!.ticket_releases);
@@ -112,8 +110,6 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
 
   const setTemplate = (template: ITicketRelease) => {
     // Set the template values to the form
-
-    console.log("Template:", template);
 
     setUseInitialValues({
       event_date: useInitialValues.event_date,
