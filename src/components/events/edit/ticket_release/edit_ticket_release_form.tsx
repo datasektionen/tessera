@@ -128,17 +128,18 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         tickets_available: ticketRelease.tickets_available!,
         save_template: ticketRelease.save_template,
         use_custom_payment_deadline: !!ticketRelease.payment_deadline,
-        payment_deadline: format(
-          ticketRelease.payment_deadline.original_deadline,
-          "yyyy-MM-dd"
-        ),
+        payment_deadline: !!ticketRelease.payment_deadline?.original_deadline
+          ? format(
+              ticketRelease.payment_deadline.original_deadline,
+              "yyyy-MM-dd"
+            )
+          : "",
         reserve_payment_duration: paymentDurationToString(
           ticketRelease.payment_deadline?.reserve_payment_duration
         ),
-        allocation_cut_off: format(
-          new Date(ticketRelease.allocation_cut_off),
-          "yyyy-MM-dd"
-        ),
+        allocation_cut_off: !!ticketRelease.allocation_cut_off
+          ? format(new Date(ticketRelease.allocation_cut_off), "yyyy-MM-dd")
+          : "",
       };
 
       setReservePaymentDuration(

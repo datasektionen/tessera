@@ -337,26 +337,28 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           </StyledText>
         </ConfirmModal>
 
-        <StyledButton
-          bgColor={PALLETTE.red}
-          color={PALLETTE.charcoal}
-          size="md"
-          onClick={() => {
-            if (canPayForTicket(ticket)) {
-              setConfirmCancelOpen(true);
-            }
-          }}
-          style={{
-            width: "250px",
-            marginTop: "16px",
-          }}
-        >
-          {ticket.is_reserve
-            ? t("tickets.leave_reserve_list_text")
-            : canPayForTicket(ticket)
-            ? t("tickets.cancel_ticket_button")
-            : "Nothing to see here!"}
-        </StyledButton>
+      {
+        ticket.is_reserve || canPayForTicket(ticket) ? (
+          <StyledButton
+            bgColor={PALLETTE.red}
+            color={PALLETTE.charcoal}
+            size="md"
+            onClick={() => {
+              if (canPayForTicket(ticket)) {
+                setConfirmCancelOpen(true);
+              }
+            }}
+            style={{
+              width: "250px",
+              marginTop: "16px",
+            }}
+          >
+            {ticket.is_reserve
+              ? t("tickets.leave_reserve_list_text")
+              : t("tickets.cancel_ticket_button")}
+          </StyledButton>
+        ) : null
+      }
       </Box>
     </BorderBox>
   );
