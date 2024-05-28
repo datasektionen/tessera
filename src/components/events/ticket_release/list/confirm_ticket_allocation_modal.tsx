@@ -27,10 +27,12 @@ import { Form, Formik } from "formik";
 import {
   getDurationUnits,
   parseDurationInput,
+  paymentDurationToString,
   toGoDuration,
 } from "../../../../utils/date_conversions";
 import { StyledErrorMessage } from "../../../forms/messages";
 import PaymentDeadlineForm from "./payment_deadline_form";
+import { format } from "date-fns";
 
 interface ConfirmTicketAllocationModalProps {
   ticketRelease: ITicketRelease;
@@ -147,7 +149,21 @@ const ConfirmTicketAllocationModal: React.FC<
           onSubmit={handleAllocateTickets}
           reservePaymentDuration={reservePaymentDuration}
           setReservePaymentDuration={setReservePaymentDuration}
-          allocation={true}
+          initialValues={{
+            payment_deadline: ticketRelease.payment_deadline?.original_deadline
+              ? format(
+                  new Date(ticketRelease.payment_deadline.original_deadline),
+                  "yyyy-MM-dd"
+                )
+              : format(new Date(), "yyyy-MM-dd"),
+
+            reserve_payment_duration: ticketRelease.payment_deadline
+              ?.reserve_payment_duration
+              ? paymentDurationToString(
+                  ticketRelease.payment_deadline.reserve_payment_duration
+                )
+              : "",
+          }}
         />
       </StyledText>
     </ConfirmModal>

@@ -615,6 +615,7 @@ export interface ITicketRequest {
   deleted_at: number | null;
 
   ticket_add_ons?: ITicketAddon[];
+  deleted_reason?: string;
 }
 
 export interface IDeadlineUnits {
@@ -647,6 +648,7 @@ export interface ITicket {
   deleted_at: number | null;
   ticket_add_ons?: ITicketAddon[];
   payment_deadline?: Date;
+  deleted_reason?: string;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

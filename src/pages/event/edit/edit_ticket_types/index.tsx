@@ -105,8 +105,6 @@ const EditTicketTypes: React.FC = () => {
     const fetchTemplateTicketTypesData = async () => {
       const data = await fetchTemplateTicketTypes();
 
-      console.log("data", data);
-
       if (!data) return;
 
       setTemplates(data!.ticket_types);
@@ -199,8 +197,6 @@ const EditTicketTypes: React.FC = () => {
     await validateAllForms();
 
     if (someFormsAreInvalid) toast.error("Please fix the errors in the form.");
-
-    console.log("formTicketTypes", formTicketTypes);
 
     dispatch(
       updateTicketTypesRequest({

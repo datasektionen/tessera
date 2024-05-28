@@ -14,9 +14,9 @@ import LoadingOverlay from "../../../components/Loading";
 import { getEventRequest } from "../../../redux/features/eventSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
-import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 import { generateRoute, ROUTES } from "../../../routes/def";
 import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
+import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 
 const ManageEventTicketsPage: React.FC = () => {
   const { eventID } = useParams();
@@ -69,6 +69,10 @@ const ManageEventTicketsPage: React.FC = () => {
     }
   }, [selectedTicket, navigate, eventID]);
 
+  const reFetchTickets = useCallback(() => {
+    dispatch(fetchEventTicketsStart(parseInt(eventID!)));
+  }, [dispatch, eventID]);
+
   const handleBackNavigation = useCallback(() => {
     // Custom logic when back button is pressed
     // For example, navigate to a specific path or perform checks
@@ -115,6 +119,7 @@ const ManageEventTicketsPage: React.FC = () => {
             <EventTicketsList
               tickets={tickets}
               selectTicketRequest={setSelectedTicketRequestID}
+              reFetch={reFetchTickets}
             />
           )}
         </Box>

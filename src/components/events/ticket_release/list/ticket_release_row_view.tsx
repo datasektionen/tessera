@@ -61,17 +61,19 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   };
 
   const tryToAllocateReserveTickets = async () => {
-    const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/manually-allocate-reserve-tickets`,
-      {},
-      { withCredentials: true }
-    );
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/manually-allocate-reserve-tickets`,
+        {},
+        { withCredentials: true }
+      );
 
-    if (response.status === 200) {
-      toast.success("Reserve tickets allocated successfully");
-      dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
-    } else {
-      const errorMessage = response.data?.message || "Something went wrong";
+      if (response.status === 200) {
+        toast.success("Reserve tickets allocated successfully");
+        dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
+      }
+    } catch (error: any) {
+      const errorMessage = error.response.data.error || "Something went wrong";
       toast.error(errorMessage);
     }
   };
@@ -121,11 +123,16 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     });
 
   useEffect(() => {
+    if (!ticketRelease) return;
+
     setDeadlineInitialValues({
-      payment_deadline:
-        ticketRelease.payment_deadline?.original_deadline
-          .toISOString()
-          .substring(0, 16) || "",
+      payment_deadline: ticketRelease.payment_deadline?.original_deadline
+        ? format(
+            new Date(ticketRelease.payment_deadline.original_deadline),
+            "yyyy-MM-dd"
+          )
+        : new Date().toISOString(),
+
       reserve_payment_duration: ticketRelease.payment_deadline
         ?.reserve_payment_duration
         ? paymentDurationToString(
@@ -439,38 +446,34 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
         </Grid>
 
         {/* Edit Payment Deadline */}
-        {canEditPaymentDeadline(
-          ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
-        ) && (
-          <Grid xs={12}>
-            <Box mt={2}>
-              <StyledText
-                level="body-md"
-                fontSize={22}
-                fontWeight={700}
-                color={PALLETTE.cerise_dark}
-              >
-                {t("manage_event.edit_payment_deadline")}
-              </StyledText>
-              <StyledText
-                level="body-md"
-                fontSize={18}
-                fontWeight={500}
-                color={PALLETTE.charcoal}
-              >
-                {t("manage_event.payment_deadline_description")}
-              </StyledText>
-              <PaymentDeadlineForm
-                initialValues={deadlineInitialValues}
-                onSubmit={updatePaymentDeadline}
-                ticketRelease={ticketRelease}
-                reservePaymentDuration={reservePaymentDuration}
-                setReservePaymentDuration={setReservePaymentDuration}
-                enableReinitialize={true}
-              />
-            </Box>
-          </Grid>
-        )}
+
+        <Grid xs={12}>
+          <Box mt={2}>
+            <StyledText
+              level="body-md"
+              fontSize={22}
+              fontWeight={700}
+              color={PALLETTE.cerise_dark}
+            >
+              {t("manage_event.edit_payment_deadline")}
+            </StyledText>
+            <StyledText
+              level="body-md"
+              fontSize={18}
+              fontWeight={500}
+              color={PALLETTE.charcoal}
+            >
+              {t("manage_event.payment_deadline_description")}
+            </StyledText>
+            <PaymentDeadlineForm
+              key={"payment_deadline_form" + ticketRelease.id}
+              initialValues={deadlineInitialValues!}
+              onSubmit={updatePaymentDeadline}
+              reservePaymentDuration={reservePaymentDuration}
+              setReservePaymentDuration={setReservePaymentDuration}
+            />
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

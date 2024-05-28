@@ -48,6 +48,7 @@ function* fetchEventTickets(
         created_at: new Date(ticket.CreatedAt!).getTime(),
         qr_code: ticket.qr_code!,
         checked_in: ticket.checked_in!,
+        deleted_reason: ticket.deleted_reason!,
         user: {
           ug_kth_id: ticket.user.ug_kth_id!,
           id: ticket.user.ID!,
@@ -185,6 +186,7 @@ function* fetchEventTickets(
               } as IAddon,
             };
           }) as ITicketAddon[],
+          deleted_reason: ticket_request.deleted_reason!,
         } as ITicketRequest,
         deleted_at: new Date(ticket.DeletedAt!).getTime(),
         updated_at: new Date(ticket.UpdatedAt!).getTime(),
@@ -320,6 +322,7 @@ function* fetchEventTickets(
                 } as IAddon,
               };
             }) as ITicketAddon[],
+            deleted_reason: ticketRequest.deleted_reason!,
           } as ITicketRequest,
         } as ITicket;
       }

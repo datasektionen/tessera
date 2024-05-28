@@ -64,8 +64,6 @@ function* updateTicketTypes(
   try {
     const { eventId, ticketReleaseId, ticketTypes } = action.payload;
 
-    console.log("ticketTypes", ticketTypes);
-
     const postData: ITicketTypePostReq[] = ticketTypes.map((ticketType) => {
       return {
         id: ticketType.id ? ticketType.id : 0,

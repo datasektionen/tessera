@@ -224,6 +224,7 @@ function* getMyTicketRequestsSaga(
               quantity: addon.quantity!,
             };
           }) as ITicketAddon[],
+          deleted_reason: ticket_request.deleted_reason!,
         } as ITicketRequest;
       }
     );

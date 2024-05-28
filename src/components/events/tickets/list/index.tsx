@@ -194,6 +194,8 @@ function createRow(ticket: ITicket) {
       ticket,
       ticket.ticket_request?.ticket_release!
     ),
+    deleted_reason:
+      ticket.deleted_reason || ticket.ticket_request?.deleted_reason,
     ...customRows,
   };
 
@@ -232,7 +234,8 @@ const MyCustomInputComponent: React.FC<{
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
   selectTicketRequest: (ticketRequestID: number) => void;
-}> = ({ tickets, selectTicketRequest }) => {
+  reFetch: () => void;
+}> = ({ tickets, selectTicketRequest, reFetch }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
   const [searchText, setSearchText] = useState(Cookies.get("searchText") || "");
@@ -347,8 +350,11 @@ const EventTicketsList: React.FC<{
             color = "white";
         }
         return (
+          // Print params.deleted_reason if it exists
           <span style={{ backgroundColor: color, color: "black" }}>
-            {params.value}
+            {params.row.deleted_reason
+              ? params.row.deleted_reason
+              : params.value}
           </span>
         );
       },
@@ -744,6 +750,11 @@ const EventTicketsList: React.FC<{
         toast.error("Invalid action");
         break;
     }
+    // Wait 1 second
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Refetch the tickets
+    reFetch();
   };
 
   const [columnVisibilityModel, setColumnVisibilityModel] =

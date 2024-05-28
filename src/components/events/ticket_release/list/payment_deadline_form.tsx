@@ -25,28 +25,20 @@ import {
 } from "../../../../utils/event_open_close";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import { format } from "date-fns";
 
 interface PaymentDeadlineFormProps {
   onSubmit: (values: any) => void;
   reservePaymentDuration: IDeadlineUnits;
   setReservePaymentDuration: (values: any) => void;
-  initialValues?: ITicketReleasePaymentDeadlineForm;
-  ticketRelease?: ITicketRelease;
-  allocation?: boolean;
-  enableReinitialize?: boolean;
+  initialValues: ITicketReleasePaymentDeadlineForm;
 }
 
 const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
   onSubmit,
   reservePaymentDuration,
   setReservePaymentDuration,
-  initialValues = {
-    payment_deadline: new Date(),
-    reserve_payment_duration: "",
-  },
-  ticketRelease,
-  enableReinitialize = false,
-  allocation = false,
+  initialValues,
 }) => {
   const { t } = useTranslation();
 
@@ -65,7 +57,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
       onSubmit={async (values) => {}}
       validateOnBlur={true}
       validateOnChange={true}
-      enableReinitialize={enableReinitialize}
+      enableReinitialize={true}
     >
       {({ values, isValid, errors }) => {
         return (
@@ -81,7 +73,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
                 {t("manage_event.payment_deadline")}
               </StyledFormLabel>
               <FormInput
-                type="datetime-local"
+                type="datetime"
                 name="payment_deadline"
                 label="Payment Deadline"
                 placeholder=""
