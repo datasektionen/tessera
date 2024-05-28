@@ -42,7 +42,7 @@ function* customerSignupSaga(
 
     const response: AxiosResponse<Response> = yield call(
       postApi,
-      "/customer/signup",
+      "/signup",
       action.payload,
       false
     );
@@ -91,7 +91,7 @@ function* customerLoginSaga(
   action: PayloadAction<ICustomerLoginValues>
 ): Generator<any, void, any> {
   try {
-    const url = `${process.env.REACT_APP_BACKEND_URL}/customer/login`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/login`;
     const response = yield call(axios.post, url, action.payload, {
       withCredentials: true,
     });

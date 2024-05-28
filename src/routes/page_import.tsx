@@ -41,7 +41,9 @@ export const ManageEventFormResponsesPage = React.lazy(
 );
 export const FourOFour404 = React.lazy(() => import("../pages/errors/404"));
 
-export const EventDetail = React.lazy(() => import("../pages/event/detail/detail"));
+export const EventDetail = React.lazy(
+  () => import("../pages/event/detail/detail")
+);
 
 export const EventDetailLandingPage = React.lazy(
   () => import("../pages/event/detail/detail_landing_page")
@@ -79,9 +81,6 @@ export const PasswordReset = React.lazy(
 );
 export const SendOut = React.lazy(
   () => import("../pages/event/send_out/new_send_out")
-);
-export const VerifyPreferredEmail = React.lazy(
-  () => import("../pages/user/preferred_email/verify")
 );
 
 export const PrivacyPolicy = React.lazy(

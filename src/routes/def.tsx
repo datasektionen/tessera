@@ -106,7 +106,6 @@ export const ROUTES = {
   EDIT_EVENT_LANDING_PAGE_EDTIOR: "/events/:eventID/edit/landing-page/editor",
   EDIT_EVENT_LANDING_PAGE_SETTINGS: "/events/:eventID/edit/landing-page/",
 
-
   // Event creation routes
   CREATE_EVENT: "/create-event",
   ALLOCATE_TICKETS:
@@ -137,7 +136,6 @@ export const ROUTES = {
   TICKET_RELEASE_CONSTANTS: "/ticket-release/constants",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",
   EXTERNAL_VERIFY_EMAIL: "/verify-email/:token",
-  VERIFY_PREFERRED_EMAIL: "/verify-preferred-email/:token",
   CONTACT_PAGE: "/contact",
   PRIVACY_POLICY: "/privacy-policy",
 
