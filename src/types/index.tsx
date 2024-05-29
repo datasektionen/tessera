@@ -455,12 +455,9 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   promo_code: "",
   is_saved: false,
   save_template: false,
-  payment_deadline: format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd"),
+  payment_deadline: "",
   reserve_payment_duration: "",
-  allocation_cut_off: format(
-    addWeeks(addHours(new Date(), 1), 1),
-    "yyyy-MM-dd"
-  ),
+  allocation_cut_off: "",
 };
 
 export interface ITicketTypeForm {

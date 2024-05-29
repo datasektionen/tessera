@@ -72,6 +72,7 @@ function* getMyTicketSaga(): Generator<any, void, any> {
               date: new Date(
                 ticket_request.ticket_release.event.date!
               ).getTime(),
+              reference_id: ticket_request.ticket_release.event.reference_id!,
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,

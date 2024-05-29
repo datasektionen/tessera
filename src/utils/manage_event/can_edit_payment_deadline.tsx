@@ -44,6 +44,10 @@ export const canEditPaymentDeadline = (method?: ITicketReleaseMethod) => {
   return METHODS_THAT_CAN_EDIT_PAYMENT_DEADLINE.includes(method.name);
 };
 
+export const canEditPaymentDeadlineFromId = (id: number) => {
+  return [1, 3].includes(id);
+};
+
 export const hasReserveTickets = (method?: ITicketReleaseMethod) => {
   if (!method) {
     throw new Error("Method is required");
