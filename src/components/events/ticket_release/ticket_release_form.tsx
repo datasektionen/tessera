@@ -130,7 +130,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
       validateOnChange={true}
       validateOnMount={true}
       onSubmit={submit}
-      enableReinitialize={true}
+      enableReinitialize={false}
     >
       {({ values, isValid, errors }) => {
         return (
@@ -507,6 +507,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                     name="payment_deadline"
                     label="Payment Deadline"
                     type="date"
+                    required={false}
                   />
                   <StyledErrorMessage name="payment_deadline" />
                   <StyledFormLabelWithHelperText>
@@ -524,6 +525,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                     placeholder="7d 12h"
                     name="reserve_payment_duration"
                     label="Reserve Payment Duration"
+                    required={false}
                     afterChange={(e) => {
                       setReservePaymentDuration(
                         getDurationUnits(e.target.value)
@@ -559,6 +561,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                     name="allocation_cut_off"
                     label="Allocation Cut Off"
                     type="date"
+                    required={false}
                   />
                   <StyledErrorMessage name="allocation_cut_off" />
                   <StyledFormLabelWithHelperText>

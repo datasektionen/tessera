@@ -166,6 +166,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       validateOnBlur={true}
       validateOnChange={true}
       validateOnMount={true}
+      isInitialValid
       onSubmit={handleSubmission}
       enableReinitialize
     >
@@ -270,6 +271,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                         placeholder="Enter date and time"
                         name="payment_deadline"
                         label="Payment Deadline"
+                        required={false}
                         type="date"
                       />
                       <StyledErrorMessage name="payment_deadline" />
@@ -288,6 +290,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                         placeholder="7d 12h"
                         name="reserve_payment_duration"
                         label="Reserve Payment Duration"
+                        required={false}
                         afterChange={(e) => {
                           setReservePaymentDuration(
                             getDurationUnits(e.target.value)
@@ -322,6 +325,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                         placeholder="Enter date and time"
                         name="allocation_cut_off"
                         label="Allocation Cut Off"
+                        required={false}
                         type="date"
                       />
                       <StyledErrorMessage name="allocation_cut_off" />

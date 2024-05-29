@@ -187,7 +187,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
         "Payment Deadline must be in the future",
         function (value) {
           if (!value) {
-            return false;
+            return true; // Return true when the value is not set
           }
 
           return checkDateInFuture(value);
@@ -199,7 +199,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
         function (value) {
           const event_date = this.parent.event_date;
           if (!value || !event_date) {
-            return false;
+            return true;
           }
 
           return value < event_date;
@@ -224,7 +224,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
         "Allocation Cut Off must be in the future",
         function (value) {
           if (!value) {
-            return false;
+            return true; // Return true when the value is not set
           }
 
           return checkDateInFuture(value);
@@ -236,7 +236,7 @@ const CreateTicketReleaseFormSchema = Yup.object()
         function (value) {
           const event_date = this.parent.event_date;
           if (!value || !event_date) {
-            return false;
+            return true;
           }
 
           return value < event_date;

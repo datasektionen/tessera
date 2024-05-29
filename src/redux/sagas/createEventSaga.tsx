@@ -42,9 +42,10 @@ function* createEventFullWorkflowSaga(
       return;
     }
 
-    const { hours, minutes, seconds, days } = getDurationUnits(
+    const { hours, minutes, seconds, days } =
       ticketRelease.reserve_payment_duration
-    );
+        ? getDurationUnits(ticketRelease.reserve_payment_duration)
+        : { hours: 0, minutes: 0, seconds: 0, days: 0 };
 
     const data: CompleteEventWorkflowPostReq = {
       event: {
@@ -74,9 +75,15 @@ function* createEventFullWorkflowSaga(
         promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
         tickets_available: ticketRelease.tickets_available,
         save_template: ticketRelease.save_template,
-        payment_deadline: ticketRelease.payment_deadline,
-        reserve_payment_duration: toGoDuration(days, hours, minutes, seconds),
-        allocation_cut_off: ticketRelease.allocation_cut_off,
+        payment_deadline: ticketRelease.payment_deadline
+          ? ticketRelease.payment_deadline
+          : undefined,
+        reserve_payment_duration: ticketRelease.reserve_payment_duration
+          ? toGoDuration(days, hours, minutes, seconds)
+          : undefined,
+        allocation_cut_off: ticketRelease.allocation_cut_off
+          ? ticketRelease.allocation_cut_off
+          : undefined,
       },
       ticket_types: ticketTypes.map((ticketType: ITicketTypeForm) => {
         return {
@@ -107,7 +114,9 @@ function* createEventFullWorkflowSaga(
       }, 500);
     }
   } catch (error: any) {
-    toast.error(error.response.data.error);
+    console.log(error);
+    const errorMessage = error.response.data.error || "An error occurred";
+    toast.error(errorMessage);
     yield put(createEventFullWorkflowFailure(error.message));
   }
 }

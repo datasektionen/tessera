@@ -434,9 +434,9 @@ export interface ITicketReleasePostReq {
   tickets_available: number;
   method_description?: string;
   save_template: boolean;
-  payment_deadline: string;
-  reserve_payment_duration: string;
-  allocation_cut_off: string;
+  payment_deadline?: string;
+  reserve_payment_duration?: string;
+  allocation_cut_off?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
