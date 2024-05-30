@@ -42,15 +42,15 @@ interface EditEventAddTicketReleaseProps {
 const fetchTemplateTicketReleases = async () => {
   // /templates/ticket-releases/
   try {
-    const response: AxiosResponse<{
-      ticket_releases: Array<ITicketRelease>;
-    }> = await fetchApi(
+    const response = await fetchApi<{
+      ticket_releases: ITicketRelease[];
+    }>(
       ApiRoutes.generateRoute(ApiRoutes.TEMPLATE_TICKET_RELEASES, {}),
       true,
       true
     );
 
-    return response.data;
+    return response.data.ticket_releases;
   } catch (error) {
     console.error("Error:", error);
   }
@@ -59,16 +59,15 @@ const fetchTemplateTicketReleases = async () => {
 const unsaveTemplateTicketRelease = async (id: number) => {
   // /templates/ticket-releases/:ticketReleaseID/unsave
   try {
-    const response: AxiosResponse<{
-      ticket_release: ITicketRelease;
-    }> = await putApi(
-      ApiRoutes.generateRoute(ApiRoutes.TEMPLATE_TICKET_RELEASE_UNSAVE, {
+    const url = ApiRoutes.generateRoute(
+      ApiRoutes.TEMPLATE_TICKET_RELEASE_UNSAVE,
+      {
         ticketReleaseID: id,
-      }),
-      {},
-      true
+      }
     );
-
+    const response = await putApi<{
+      ticket_release: ITicketRelease;
+    }>(url, {}, true, true);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -97,11 +96,11 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
 
   useEffect(() => {
     const fetchTemplateTicketReleasesData = async () => {
-      const data = await fetchTemplateTicketReleases();
+      const ticket_releases = await fetchTemplateTicketReleases();
 
-      if (!data) return;
+      if (!ticket_releases) return;
 
-      setTemplates(data!.ticket_releases);
+      setTemplates(ticket_releases);
     };
     fetchTemplateTicketReleasesData();
   }, []);
@@ -115,14 +114,14 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
       event_date: useInitialValues.event_date,
       name: template.name,
       description: template.description,
-      open: format(template.open * 1000, "yyyy-MM-dd'T'HH:mm:ss"),
-      close: format(template.close * 1000, "yyyy-MM-dd'T'HH:mm:ss"),
+      open: format(template.open, "yyyy-MM-dd'T'HH:mm:ss"),
+      close: format(template.close, "yyyy-MM-dd'T'HH:mm:ss"),
       ticket_release_method_id:
         //@ts-ignore
         template.ticket_release_method_detail.ticket_release_method_id,
       open_window_duration:
         //@ts-ignore
-        template.ticket_release_method_detail.open_window_duration,
+        template.ticket_release_method_detail.open_window_duration || 0,
       //@ts-ignore
       method_description:
         //@ts-ignore
@@ -280,15 +279,15 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
                   >
                     <span>{template.description.slice(0, 26)}...</span> <br />
                     <span>
-                      {format(template.open * 1000, "dd/MM/yyyy HH:mm")} -{" "}
-                      {format(template.close * 1000, "dd/MM/yyyy HH:mm")}
+                      {format(template.open, "dd/MM/yyyy HH:mm")} -{" "}
+                      {format(template.close, "dd/MM/yyyy HH:mm")}
                       <br />
                     </span>
                     <span>
                       {
                         // @ts-ignore
                         template.ticket_release_method_detail
-                          .ticket_release_method.method_name
+                          .ticket_release_method.name
                       }
                     </span>
                     <br />

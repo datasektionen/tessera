@@ -55,8 +55,7 @@ import {
   cyan,
 } from "@mui/material/colors";
 import ApiRoutes from "../../../../routes/backend_routes";
-import { deleteApi, fetchApi, putApi } from "../../../../utils/api/fetch_api";
-import { AxiosResponse } from "axios";
+import { putApi } from "../../../../utils/api/fetch_api";
 import { toast } from "react-toastify";
 
 const isTicketRequest = (ticket: ITicket) => {
@@ -548,7 +547,7 @@ const EventTicketsList: React.FC<{
 
         let formattedDate: string;
         try {
-          formattedDate = format(params.value as Date, "dd/MM/yyyy HH:mm");
+          formattedDate = format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } catch (e) {
           console.error(e);
           formattedDate = "N/A";
@@ -573,7 +572,7 @@ const EventTicketsList: React.FC<{
           // So we should show "Event Start" instead
           return "Event Start";
         } else if (params.value) {
-          return format(params.value as Date, "dd/MM/yyyy HH:mm");
+          return format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } else {
           return "N/A";
         }

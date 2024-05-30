@@ -447,7 +447,6 @@ const ManagerSetupPage: React.FC = () => {
         toast.error("An error occurred");
       }
     } catch (error: any) {
-      console.log(error);
       const errorMessage =
         error.response.data.error ||
         error.message ||

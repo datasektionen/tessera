@@ -96,7 +96,7 @@ const TicketReleaseHasOpened: React.FC<{
     }[] = [];
 
     ticketRequestItems.forEach((item) => {
-      const ticketType = ticketRelease.ticketTypes?.find(
+      const ticketType = ticketRelease.ticket_types?.find(
         (tt) => tt.id === item.ticket.id
       );
       if (ticketType) {
@@ -126,7 +126,7 @@ const TicketReleaseHasOpened: React.FC<{
     setBasketItems(basketItems);
   }, [
     ticketRequestItems,
-    ticketRelease.ticketTypes,
+    ticketRelease.ticket_types,
     selectedAddons,
     ticketRelease.addons,
   ]);
@@ -137,7 +137,7 @@ const TicketReleaseHasOpened: React.FC<{
     // If there are 3 tickets in the basket, then there should be 3 tickets in the request
     let tickets: TicketRequestData[] = [];
     ticketRequestItems.forEach((item) => {
-      const ticketType = ticketRelease.ticketTypes?.find(
+      const ticketType = ticketRelease.ticket_types?.find(
         (tt) => tt.id === item.ticket.id
       );
       if (ticketType) {
@@ -178,7 +178,7 @@ const TicketReleaseHasOpened: React.FC<{
         promoCodes: getPromoCodes(),
         tickets: requestedTickets,
         addons: selectedAddons,
-        eventId: ticketRelease.eventId,
+        eventId: ticketRelease.event_id,
         ticketReleaseId: ticketRelease.id,
       })
     );
@@ -190,7 +190,7 @@ const TicketReleaseHasOpened: React.FC<{
         promoCodes: getPromoCodes(),
         tickets: requestedTickets,
         addons: selectedAddons,
-        eventId: ticketRelease.eventId,
+        eventId: ticketRelease.event_id,
         ticketReleaseId: ticketRelease.id,
         guestCustomer: guestCustomer!,
       })
@@ -230,14 +230,15 @@ const TicketReleaseHasOpened: React.FC<{
 
       {/* {makingRequest && <LoadingOverlay />} */}
       <Stack spacing={2} sx={{ p: 0 }} mt={2}>
-        {ticketRelease.ticketTypes!.length > 0 ? (
-          ticketRelease.ticketTypes!.map((ticketType, i) => {
+        {ticketRelease.ticket_types!.length > 0 ? (
+          ticketRelease.ticket_types!.map((ticketType, i) => {
             const key = `${ticketType.id}-${i}`;
             return (
               <TicketType
                 ticketType={ticketType}
                 maxTicketsPerUser={
-                  ticketRelease.ticketReleaseMethodDetail?.maxTicketsPerUser
+                  ticketRelease.ticket_release_method_detail
+                    ?.max_tickets_per_user
                 }
                 key={key}
               />
@@ -302,10 +303,12 @@ const TicketReleaseHasOpened: React.FC<{
               <Divider />
             </>
           ))}
-          <Divider sx={{
-            mb: 1,
-            maxWidth: "500px"
-          }} />
+          <Divider
+            sx={{
+              mb: 1,
+              maxWidth: "500px",
+            }}
+          />
           {/* Total */}
           <Grid
             container
@@ -313,7 +316,7 @@ const TicketReleaseHasOpened: React.FC<{
             justifyContent="space-between"
             alignItems="center"
             sx={{
-              maxWidth: "500px"
+              maxWidth: "500px",
             }}
           >
             <Grid container justifyContent={"flex-start"} flexDirection={"row"}>
@@ -323,23 +326,17 @@ const TicketReleaseHasOpened: React.FC<{
                 fontSize={16}
                 color={PALLETTE.charcoal}
                 sx={{
-                  ml: 2
+                  ml: 2,
                 }}
               >
                 {t("event.ticket_release.checkout.total")}
               </StyledText>
             </Grid>
-            <StyledText
-              level="body-sm"
-              fontSize={16}
-              color={PALLETTE.charcoal}
-
-            >
+            <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
               SEK{" "}
               {basket
                 ?.reduce((acc, item) => acc + item.price * item.quantity, 0)
                 .toFixed(2)}
-
             </StyledText>
           </Grid>
 
@@ -409,8 +406,7 @@ const TicketReleaseHasOpened: React.FC<{
             }}
           />
         </>
-      )
-      }
+      )}
       <div
         style={{
           marginTop: "1rem",

@@ -10,9 +10,13 @@ interface ConvertibleKeys {
   UpdatedAt?: string;
 }
 
-function convertKeysAndParseDates<T>(
-  response: AxiosResponse<T>
-): AxiosResponse<T> {
+export interface ApiResponse<T> {
+  status: string;
+  data: T;
+  message: string;
+}
+
+function convertKeysAndParseDates<T>(response: ApiResponse<T>): ApiResponse<T> {
   // Recursive function to handle objects and arrays
   function recursiveConvert(obj: any): void {
     Object.keys(obj).forEach((key) => {
@@ -28,9 +32,10 @@ function convertKeysAndParseDates<T>(
       }
     });
 
+    const dateKeys = ["open", "close", "date", "end_date", "payment_deadline"];
+
     // Map of old keys to new keys
-    const keysToConvert: { [key in keyof ConvertibleKeys]: string } = {
-      created_at: "created_at",
+    const keysToConvert: { [key: string]: string } = {
       CreatedAt: "created_at",
       DeletedAt: "deleted_at",
       ID: "id",
@@ -47,6 +52,8 @@ function convertKeysAndParseDates<T>(
           } else if (obj[originalKey] != null) {
             // Make sure the date is not null before parsing
             obj[newKey!] = parseISO(obj[originalKey]);
+          } else if (dateKeys.includes(originalKey as string)) {
+            obj[newKey!] = parseISO(obj[originalKey]);
           }
           delete obj[originalKey];
         }
@@ -56,9 +63,13 @@ function convertKeysAndParseDates<T>(
 
   // Start the recursive conversion from the response.data
   try {
+    if (!response.data) {
+      return response;
+    }
+
     recursiveConvert(response.data);
   } catch (error: any) {
-    console.log(error);
+    console.error("An error occurred while parsing the response:", error);
     toast.error(
       "An error occurred while parsing the response, contact support"
     );
@@ -67,11 +78,14 @@ function convertKeysAndParseDates<T>(
   return response;
 }
 
-export function fetchApi<T extends { [key: string]: any }>(
+export { convertKeysAndParseDates };
+
+export function fetchApi<T>(
   endpoint: string,
   withCredentials: boolean = true,
   fullUrl: boolean = false
-): Promise<AxiosResponse<T>> {
+): Promise<ApiResponse<T>> {
+  // Note the change here to return ApiResponse<T>
   const url = fullUrl
     ? endpoint
     : `${process.env.REACT_APP_BACKEND_URL}${endpoint}`;
@@ -80,41 +94,49 @@ export function fetchApi<T extends { [key: string]: any }>(
     .get(url, {
       withCredentials,
     })
-    .then(convertKeysAndParseDates);
+    .then((response: AxiosResponse<ApiResponse<T>>) => response.data) // Accessing the data property directly
+    .then(convertKeysAndParseDates); // Assuming this function can handle ApiResponse<T>
 }
 
-export function postApi<T extends { [key: string]: any }>(
+export function postApi<T>(
   endpoint: string,
   data: any,
-  withCredentials: boolean = true
-): Promise<AxiosResponse<T>> {
+  withCredentials: boolean = true,
+  fullUrl: boolean = false
+): Promise<ApiResponse<T>> {
+  const url = `${process.env.REACT_APP_BACKEND_URL}${endpoint}`;
   return axios
-    .post(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, data, {
+    .post<ApiResponse<T>>(url, data, {
       withCredentials,
     })
+    .then((response) => response.data) // Directly returning ApiResponse<T>
     .then(convertKeysAndParseDates);
 }
 
-export function putApi<T extends { [key: string]: any }>(
+export function putApi<T>(
   url: string,
   data: any,
-  withCredentials: boolean = true
-): Promise<AxiosResponse<T>> {
+  withCredentials: boolean = true,
+  fullUrl: boolean = false
+): Promise<ApiResponse<T>> {
   return axios
-    .put(url, data, {
+    .put<ApiResponse<T>>(url, data, {
       withCredentials,
     })
+    .then((response) => response.data) // Directly returning ApiResponse<T>
     .then(convertKeysAndParseDates);
 }
 
-export function deleteApi<T extends { [key: string]: any }>(
+export function deleteApi<T>(
   endpoint: string,
-  body: any,
-  withCredentials: boolean = true
-): Promise<AxiosResponse<T>> {
+  withCredentials: boolean = true,
+  fullUrl: boolean = false
+): Promise<ApiResponse<T>> {
+  const url = `${process.env.REACT_APP_BACKEND_URL}${endpoint}`;
   return axios
-    .delete(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
+    .delete<ApiResponse<T>>(url, {
       withCredentials,
     })
+    .then((response) => response.data) // Directly returning ApiResponse<T>
     .then(convertKeysAndParseDates);
 }

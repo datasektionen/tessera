@@ -45,6 +45,10 @@ export const canEditPaymentDeadline = (method?: ITicketReleaseMethod) => {
 };
 
 export const canEditPaymentDeadlineFromId = (id: number) => {
+  return true;
+};
+
+export const canEditReservePaymentDurationFromId = (id: number) => {
   return [1, 3].includes(id);
 };
 

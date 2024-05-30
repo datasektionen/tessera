@@ -11,7 +11,7 @@ const handleDeleteTicketRelease = async (
   const response = await axios.delete(
     `${
       process.env.REACT_APP_BACKEND_URL
-    }/events/${ticketRelease.eventId!}/ticket-release/${ticketRelease.id}`,
+    }/events/${ticketRelease.event_id!}/ticket-release/${ticketRelease.id}`,
     {
       withCredentials: true,
     }
@@ -23,7 +23,7 @@ const handleDeleteTicketRelease = async (
     }, 500);
     dispatch(
       getEventRequest({
-        id: ticketRelease.eventId!,
+        id: ticketRelease.event_id!,
         secretToken: "",
       })
     );

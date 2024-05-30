@@ -5,7 +5,7 @@ import DrawerComponent from "../../../components/navigation/manage_drawer/event_
 import { Box, Breadcrumbs } from "@mui/joy";
 import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import { useTranslation } from "react-i18next";
-import EventTicketsList from "../../../components/events/tickets/list";
+import EventTicketsList from "../../../components/events/tickets/list/ticket_data_grid";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
 import Title from "../../../components/text/title";
 import { ITicket } from "../../../types";

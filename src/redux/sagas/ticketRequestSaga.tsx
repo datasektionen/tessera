@@ -176,13 +176,11 @@ function* getMyTicketRequestsSaga(
           ticket_release_id: ticket_request.ticket_release_id!,
           ticket_release: {
             id: ticket_request.ticket_release.ID!,
-            eventId: ticket_request.ticket_release.event_id!,
+            event_id: ticket_request.ticket_release.event_id!,
             event: {
               id: ticket_request.ticket_release.event.ID!,
               name: ticket_request.ticket_release.event.name!,
-              date: new Date(
-                ticket_request.ticket_release.event.date!
-              ).getTime(),
+              date: new Date(ticket_request.ticket_release.event.date!),
               form_field_description:
                 ticket_request.ticket_release.event.form_field_description!,
               form_fields: ticket_request.ticket_release.event.form_fields?.map(
@@ -199,8 +197,8 @@ function* getMyTicketRequestsSaga(
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,
-            open: new Date(ticket_request.ticket_release.open!).getTime(),
-            close: new Date(ticket_request.ticket_release.close!).getTime(),
+            open: new Date(ticket_request.ticket_release.open!),
+            close: new Date(ticket_request.ticket_release.close!),
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
             addons: ticket_request.ticket_release.add_ons?.map((addon: any) => {

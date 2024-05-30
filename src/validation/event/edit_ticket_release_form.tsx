@@ -1,6 +1,10 @@
 import { format } from "date-fns";
 import * as Yup from "yup";
 import { isValidDecimal } from "../../utils/integer_validation";
+import {
+  canEditPaymentDeadlineFromId,
+  canEditReservePaymentDurationFromId,
+} from "../../utils/manage_event/can_edit_payment_deadline";
 
 const checkDateInFuture = (timestamp: Date) => {
   const now = new Date();
@@ -155,7 +159,7 @@ const EditTicketReleaseFormSchema = Yup.object()
      * Must be before the event date
      */
     payment_deadline: Yup.date()
-      .optional()
+      .required("Payment Deadline is required")
       .test(
         "is-after-close",
         "Payment Deadline must be after the close time",
@@ -191,9 +195,11 @@ const EditTicketReleaseFormSchema = Yup.object()
           return value < event_date;
         }
       ),
-    reserve_payment_duration: Yup.string().when("use_custom_payment_deadline", {
+    reserve_payment_duration: Yup.string().when("ticket_release_method_id", {
       // @ts-ignore
-      is: true,
+      is: (id: number) => {
+        return canEditReservePaymentDurationFromId(id);
+      },
       then: (schema) => schema.required("Reserve Payment Duration is required"),
       otherwise: (schema) => schema.notRequired(),
     }),

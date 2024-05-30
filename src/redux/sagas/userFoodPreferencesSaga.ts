@@ -44,7 +44,6 @@ function* fetchUserFoodPreferences(
       })
     );
   } catch (error: any) {
-    console.log(error);
     yield put(fetchUserFoodPreferencesFailure(error.message));
   }
 }
@@ -126,7 +125,6 @@ function* updateUserFoodPreferences(
       yield put(updateUserFoodPreferencesFailure(response.data.error));
     }
   } catch (error: any) {
-    console.log(error);
     const errorMessage: string = error.response.data.error || error.message;
     toast.error(errorMessage);
     yield put(updateUserFoodPreferencesFailure(error.message));

@@ -73,7 +73,7 @@ const ConfirmTicketAllocationModal: React.FC<
       const response = await axios.post(
         `${
           process.env.REACT_APP_BACKEND_URL
-        }/events/${ticketRelease.eventId!}/ticket-release/${
+        }/events/${ticketRelease.event_id!}/ticket-release/${
           ticketRelease.id
         }/allocate-tickets`,
         data,
@@ -88,11 +88,11 @@ const ConfirmTicketAllocationModal: React.FC<
         }, 500);
         dispatch(
           getEventRequest({
-            id: ticketRelease.eventId!,
+            id: ticketRelease.event_id!,
             secretToken: "",
           })
         );
-        dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
+        dispatch(fetchEventTicketsStart(ticketRelease.event_id!));
       } else {
         const errorMessage = response.data?.message || "Something went wrong";
         toast.error(errorMessage);
@@ -100,7 +100,6 @@ const ConfirmTicketAllocationModal: React.FC<
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
-      console.log(error);
       toast.error(errorMessage);
     }
     setAllocationLoading(false);

@@ -49,7 +49,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
   const handleAddTicket = (ticket: ITicketType) => {
     const numberOfTotalTickets = numberOfTotalTicketRequestInBasket(
       items,
-      ticket.ticketReleaseId!
+      ticket.ticket_release_id!
     );
     if (numberOfTotalTickets >= maxTicketsPerUser) {
       toast.error(

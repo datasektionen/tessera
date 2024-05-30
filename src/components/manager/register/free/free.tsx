@@ -17,7 +17,7 @@ const GetStartedFreePlanEnrollment: React.FC = () => {
 
   useEffect(() => {
     if (network) {
-      navigate("/manager/dashboard");
+      navigate("/manager/setup");
     }
   }, [network, navigate]);
 

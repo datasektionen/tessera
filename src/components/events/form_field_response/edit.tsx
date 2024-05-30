@@ -141,7 +141,7 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         value: value,
       };
     });
-    const event_id = ticketRequest.ticket_release?.eventId!;
+    const event_id = ticketRequest.ticket_release?.event_id!;
 
     handleEventFormFieldResponseSubmit(
       formFieldValues,

@@ -207,7 +207,7 @@ const EditTicketTypes: React.FC = () => {
     );
   };
 
-  const ticketRelease = event?.ticketReleases?.find(
+  const ticketRelease = event?.ticket_releases?.find(
     (tr: ITicketRelease) => tr.id === parseInt(ticketReleaseID!)
   );
 

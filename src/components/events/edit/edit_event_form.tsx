@@ -77,7 +77,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
           label: event.location,
           value: event.location,
         },
-        organization_id: event.organizationId,
+        organization_id: event.organization_id,
         is_private: event.is_private,
         collect_food_preferences: event.collect_food_preferences || false,
       });

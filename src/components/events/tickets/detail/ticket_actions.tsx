@@ -33,7 +33,7 @@ const TicketActions: React.FC<TicketActionsProps> = ({ ticket }) => {
             <StyledButton
               onClick={() => {
                 allocateSelectedTicket(
-                  ticket.ticket_request?.ticket_release?.eventId!,
+                  ticket.ticket_request?.ticket_release?.event_id!,
                   ticket.ticket_request?.id!
                 );
               }}

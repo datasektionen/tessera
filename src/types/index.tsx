@@ -322,24 +322,46 @@ export interface IOrganization {
   users?: IUser[];
 }
 
+export interface IStoreTerminal {
+  terminal_id: string;
+  event_id: number;
+  store_id: string;
+
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
+export interface IStore {
+  store_id: string;
+  name: string;
+  organization_id: number;
+  terminals: IStoreTerminal[];
+
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
 export interface IEvent {
   id: number;
   reference_id: string;
   createdAt: number;
   name: string;
   description: string;
-  date: number;
-  end_date?: number;
+  date: Date;
+  end_date?: Date;
   location: string;
-  organizationId: number;
+  organization_id: number;
   organization?: IOrganization;
   is_private: boolean;
-  ticketReleases?: ITicketRelease[];
-  createdById?: string;
+  ticket_releases?: ITicketRelease[];
+  created_by?: string;
   form_field_description?: string;
   form_fields?: IEventFormField[];
   landing_page?: IEventLandingPage;
   collect_food_preferences?: boolean;
+  terminal: IStoreTerminal;
 }
 
 export interface IEventForm {
@@ -356,8 +378,8 @@ export interface IEventForm {
 export interface IEventPostReq {
   name: string;
   description: string;
-  date: number;
-  end_date?: number;
+  date: string;
+  end_date?: string;
   location: string;
   organization_id: number;
   is_private: boolean;
@@ -422,8 +444,8 @@ export interface ITicketReleasePostReq {
   event_id?: number;
   name: string;
   description: string;
-  open: number;
-  close: number;
+  open: string;
+  close: string;
   open_window_duration?: number;
   max_tickets_per_user: number;
   notification_method: string;
@@ -488,12 +510,12 @@ export const TicketTypeFormInitialValues: ITicketTypeForm = {
 export interface ITicketReleaseMethodDetail {
   id: number;
   name: string;
-  maxTicketsPerUser: number;
-  cancellationPolicy: string;
-  openWindowDuration: number | null; // Todo change
+  max_tickets_per_user: number;
+  cancellation_policy: string;
+  open_window_duration: number | null; // Todo change
   method_description: string;
-  notificationMethod: string;
-  ticketReleaseMethod?: ITicketReleaseMethod;
+  notification_method: string;
+  ticket_release_method?: ITicketReleaseMethod;
 }
 
 export enum NotificationType {
@@ -531,7 +553,7 @@ export interface ISendOut {
 
 export interface ITicketType {
   id: number;
-  ticketReleaseId: number;
+  ticket_release_id: number;
   name: string;
   description: string;
   price: number;
@@ -544,15 +566,15 @@ export interface ITicketRelease {
   created_at: string | number | Date;
   updated_at?: string | number | Date;
   id: number;
-  eventId: number;
+  event_id: number;
   name: string;
   description: string;
-  open: number;
-  close: number;
+  open: Date;
+  close: Date;
   has_allocated_tickets?: boolean;
-  ticketReleaseMethodDetailId?: number;
-  ticketTypes?: ITicketType[];
-  ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
+  ticket_release_method_detail_id?: number;
+  ticket_types?: ITicketType[];
+  ticket_release_method_detail: ITicketReleaseMethodDetail;
   is_reserved?: boolean;
   promo_code?: string;
   event?: IEvent;
@@ -580,7 +602,7 @@ export const PromoCodeAccessFormInitialValues: PromoCodeAccessForm = {
 
 export interface ITicketReleaseAdmin extends ITicketRelease {
   id: number;
-  ticketReleaseMethodDetailId: number;
+  ticket_release_method_detail_id: number;
   hasAllocatedTickets: boolean;
 }
 
@@ -892,10 +914,14 @@ export interface INetworkDetails {
   corporate_id: string; // Corporate ID of the network
   legal_name: string; // Legal name of the network
   description: string; // Description of the network
+  care_of: string; // Care of (c/o) of the network
+  address_line1: string; // Address line 1 of the network
+  address_line2: string; // Address line 2 of the network
   language: string;
-  address: string;
   city: string;
+  postal_code: string;
   country: string;
+  phone_code: string;
   phone_number: string;
   country_code: string; // Two-letter ISO country code, in uppercase. i.e 'SE' | 'DK' | 'FI'.
   email: string; // main email for the network

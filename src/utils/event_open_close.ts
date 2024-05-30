@@ -6,7 +6,10 @@ export const ticketReleaseHasClosed = (
 ): boolean => {
   const { open, close } = ticketRelease;
 
-  return serverTimestamp > close;
+  const stDate = new Date(serverTimestamp);
+  const closeDate = new Date(close);
+
+  return stDate > closeDate;
 };
 
 export const ticketReleaseHasOpened = (
@@ -15,7 +18,11 @@ export const ticketReleaseHasOpened = (
 ): boolean => {
   const { open, close } = ticketRelease;
 
-  return serverTimestamp > open && serverTimestamp < close;
+  const stDate = new Date(serverTimestamp);
+  const openDate = new Date(open);
+  const closeDate = new Date(close);
+
+  return stDate > openDate && stDate < closeDate;
 };
 
 export const ticketReleaseHasNotOpened = (
@@ -34,7 +41,7 @@ export const beforeWindowDuration = (
 ): boolean => {
   const { open } = ticketRelease;
   const open_window_duration =
-    ticketRelease.ticketReleaseMethodDetail.openWindowDuration;
+    ticketRelease.ticket_release_method_detail.open_window_duration;
 
   if (!open_window_duration) return false;
 
@@ -45,9 +52,13 @@ export const ticketIsEnteredIntoFCFSLottery = (
   ticket: ITicket,
   ticketRelease: ITicketRelease
 ) => {
+  const open = new Date(ticketRelease.open);
+
   const windowDeadline = new Date(
-    ticketRelease.open +
-      ticketRelease.ticketReleaseMethodDetail.openWindowDuration! * 60 * 1000
+    open.getTime() +
+      ticketRelease.ticket_release_method_detail.open_window_duration! *
+        60 *
+        1000
   );
   return ticket.ticket_request!.created_at < windowDeadline.getTime();
 };

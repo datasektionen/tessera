@@ -18,7 +18,6 @@ import {
   createEventFullWorkflowSuccess,
   resetCurrentStep,
 } from "../features/eventCreationSlice";
-import { postCreateEvent } from "./helpers/createEvent";
 import { getDurationUnits, toGoDuration } from "../../utils/date_conversions";
 
 function* createEventFullWorkflowSaga(
@@ -52,10 +51,8 @@ function* createEventFullWorkflowSaga(
         name: event.name,
         description: event.description,
         location: event.location!.label,
-        date: new Date(event.date).getTime() / 1000,
-        end_date: event.end_date
-          ? new Date(event.end_date).getTime() / 1000
-          : undefined,
+        date: new Date(event.date).toISOString(),
+        end_date: event.end_date ? event.end_date : undefined,
         is_private: event.is_private,
         organization_id: event.organization_id,
         collect_food_preferences: event.collect_food_preferences,
@@ -63,8 +60,8 @@ function* createEventFullWorkflowSaga(
       ticket_release: {
         name: ticketRelease.name,
         description: ticketRelease.description,
-        open: new Date(ticketRelease.open).getTime() / 1000,
-        close: new Date(ticketRelease.close).getTime() / 1000,
+        open: new Date(ticketRelease.open).toISOString(),
+        close: new Date(ticketRelease.close).toISOString(),
         open_window_duration: ticketRelease.open_window_duration! * 60,
         method_description: ticketRelease.method_description,
         max_tickets_per_user: ticketRelease.max_tickets_per_user,
@@ -95,6 +92,7 @@ function* createEventFullWorkflowSaga(
       }),
     };
 
+
     const response = yield call(
       axios.post,
       `${process.env.REACT_APP_BACKEND_URL}/manager/complete-event-workflow`,
@@ -114,7 +112,6 @@ function* createEventFullWorkflowSaga(
       }, 500);
     }
   } catch (error: any) {
-    console.log(error);
     const errorMessage = error.response.data.error || "An error occurred";
     toast.error(errorMessage);
     yield put(createEventFullWorkflowFailure(error.message));

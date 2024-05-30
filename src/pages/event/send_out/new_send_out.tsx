@@ -41,7 +41,7 @@ import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlic
 import { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { FormControlLabel } from "@mui/material";
-import { ITicket, IUser } from "../../../types";
+import { ITicket, ITicketRelease, IUser } from "../../../types";
 import StyledButton from "../../../components/buttons/styled_button";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -358,7 +358,7 @@ const NewSendOut: React.FC = () => {
                 <StyledFormLabel>
                   {t("manage_event.send_out.ticket_releases")}
                 </StyledFormLabel>
-                {event.ticketReleases!.length > 0 && (
+                {event.ticket_releases!.length > 0 && (
                   <div style={{ width: "100px" }}>
                     <Select
                       multiple
@@ -398,7 +398,7 @@ const NewSendOut: React.FC = () => {
                         </Box>
                       )}
                     >
-                      {event.ticketReleases!.map((release) => {
+                      {event.ticket_releases!.map((release: ITicketRelease) => {
                         return (
                           <Option
                             key={release.id}

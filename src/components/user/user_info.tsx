@@ -60,16 +60,6 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                   {t("profile.links_and_buttons.your_tickets")}
                 </StyledButton>
               </Link>
-              <Link
-                href="/profile/organizations"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <StyledButton size="md">
-                  {t("profile.links_and_buttons.your_teams")}
-                </StyledButton>
-              </Link>
             </Stack>
           </Box>
         </Grid>

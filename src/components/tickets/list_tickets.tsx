@@ -39,7 +39,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
   }
 
   const groupedTickets = tickets.reduce((groups, ticket) => {
-    const key = ticket.ticket_request?.ticket_release?.eventId!;
+    const key = ticket.ticket_request?.ticket_release?.event_id!;
     if (!groups[key]) {
       groups[key] = [];
     }

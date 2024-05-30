@@ -20,11 +20,6 @@ import PALLETTE from "../../../theme/pallette";
 import { useEffect, useState } from "react";
 import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import { useTranslation } from "react-i18next";
-import { AxiosResponse } from "axios";
-import { fetchApi, putApi } from "../../../utils/api/fetch_api";
-import ApiRoutes from "../../../routes/backend_routes";
-
-
 
 interface EditTicketTypeFormProps {
   ticketTypes: ITicketTypeForm[];

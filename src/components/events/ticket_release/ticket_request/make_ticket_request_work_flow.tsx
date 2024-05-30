@@ -97,7 +97,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   // Check if account is required
   useEffect(() => {
     let requiresAccount = ticketReleaseRequiresAccount(
-      ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod!
+      ticketRelease.ticket_release_method_detail.ticket_release_method!
     );
 
     if (requiresAccount) {

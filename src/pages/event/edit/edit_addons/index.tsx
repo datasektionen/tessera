@@ -56,7 +56,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
     eventDetail: { event },
   } = useEventDetails(parseInt(eventID!));
 
-  const ticketRelease = event?.ticketReleases?.find(
+  const ticketRelease = event?.ticket_releases?.find(
     (release) => release.id === parseInt(ticketReleaseID!)
   );
 
@@ -266,7 +266,6 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                         )}
                       />
                     </Box>
-
                   </StyledBorderBox>
                 );
               })}
@@ -290,10 +289,12 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                 />
               </Tooltip>
             </Box>
-            <Box sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <StyledButton
                 size="lg"
                 onClick={handleSubmit}
@@ -330,7 +331,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
           </Grid>
         </StandardGrid>
       </DrawerBoxWrapper>
-    </MUITesseraWrapper >
+    </MUITesseraWrapper>
   );
 };
 

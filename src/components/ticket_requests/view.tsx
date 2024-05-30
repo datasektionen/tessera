@@ -103,16 +103,16 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     dispatch(getMyTicketRequestsRequest([]));
   };
 
-  const { addons: allAddons } = ticketRequest.ticket_release!;
-
   const [selectedAddons, setSelectedAddons] = useState<ISelectedAddon[]>([]);
 
   const { totalTicketCost, totalAddonsCost, totalCost } =
     useCosts(ticketRequest);
 
   if (!ticketRequest) {
-    return <></>;
+    return null;
   }
+
+  const { addons: allAddons } = ticketRequest.ticket_release!;
 
   return (
     <BorderBox

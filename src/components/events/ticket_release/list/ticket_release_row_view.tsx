@@ -63,14 +63,14 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const tryToAllocateReserveTickets = async () => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/manually-allocate-reserve-tickets`,
+        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.event_id}/ticket-release/${ticketRelease.id}/manually-allocate-reserve-tickets`,
         {},
         { withCredentials: true }
       );
 
       if (response.status === 200) {
         toast.success("Reserve tickets allocated successfully");
-        dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
+        dispatch(fetchEventTicketsStart(ticketRelease.event_id!));
       }
     } catch (error: any) {
       const errorMessage = error.response.data.error || "Something went wrong";
@@ -93,7 +93,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
 
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.eventId}/ticket-release/${ticketRelease.id}/payment-deadline`,
+        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.event_id}/ticket-release/${ticketRelease.id}/payment-deadline`,
         data,
         { withCredentials: true }
       );
@@ -101,7 +101,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
       if (response.status === 200) {
         toast.success("Payment deadline updated successfully");
         dispatch(
-          getEventRequest({ id: ticketRelease.eventId!, secretToken: "" })
+          getEventRequest({ id: ticketRelease.event_id!, secretToken: "" })
         );
       } else {
         const errorMessage = response.data?.message || "Something went wrong";
@@ -224,7 +224,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
               fontWeight={500}
             >
               {
-                ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
+                ticketRelease.ticket_release_method_detail.ticket_release_method
                   ?.name
               }
             </StyledText>
@@ -275,7 +275,8 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             <Stack spacing={2} direction="column" mt={2}>
               {!hasntOpenedYet() &&
                 canMassAllocateTickets(
-                  ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
+                  ticketRelease.ticket_release_method_detail
+                    .ticket_release_method
                 ) && (
                   <StyledButton
                     size="md"
@@ -289,7 +290,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                   </StyledButton>
                 )}
               {hasReserveTickets(
-                ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
+                ticketRelease.ticket_release_method_detail.ticket_release_method
               ) && (
                 <StyledButton
                   size="md"

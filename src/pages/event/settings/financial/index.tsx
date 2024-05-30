@@ -32,7 +32,7 @@ const SettingsFinancialPage: React.FC = () => {
         </StyledText>
         <BankingDetailsForm
           bankingDetails={bankingDetails}
-          organizationID={event?.organizationId!}
+          organizationID={event?.organization_id!}
         />
       </DrawerBoxWrapper>
     </MUITesseraWrapper>

@@ -47,11 +47,14 @@ import {
   paymentDurationToString,
   toGoDuration,
 } from "../../../../utils/date_conversions";
-import { canEditPaymentDeadline } from "../../../../utils/manage_event/can_edit_payment_deadline";
+import {
+  canEditPaymentDeadline,
+  canEditReservePaymentDurationFromId,
+} from "../../../../utils/manage_event/can_edit_payment_deadline";
 
 interface EditTicketReleaseFormProps {
   ticketRelease: ITicketRelease | undefined;
-  event_date: number;
+  event_date: Date;
 }
 
 const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
@@ -86,7 +89,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       // dispatch(setTicketReleaseForm(values));
       dispatch(
         updateTicketReleaseStart({
-          eventId: ticketRelease!.eventId,
+          eventId: ticketRelease!.event_id,
           ticketReleaseId: ticketRelease!.id,
           formData: values,
         })
@@ -112,25 +115,24 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         open: format(new Date(ticketRelease.open), "yyyy-MM-dd'T'HH:mm"),
         close: format(new Date(ticketRelease.close), "yyyy-MM-dd'T'HH:mm"),
         ticket_release_method_id:
-          ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.id!,
+          ticketRelease.ticket_release_method_detail.ticket_release_method?.id!,
         open_window_duration:
-          ticketRelease.ticketReleaseMethodDetail.openWindowDuration!,
+          ticketRelease.ticket_release_method_detail.open_window_duration!,
         method_description:
-          ticketRelease.ticketReleaseMethodDetail.method_description,
+          ticketRelease.ticket_release_method_detail.method_description,
         max_tickets_per_user:
-          ticketRelease.ticketReleaseMethodDetail.maxTicketsPerUser,
+          ticketRelease.ticket_release_method_detail.max_tickets_per_user,
         notification_method:
-          ticketRelease.ticketReleaseMethodDetail.notificationMethod,
+          ticketRelease.ticket_release_method_detail.notification_method,
         cancellation_policy:
-          ticketRelease.ticketReleaseMethodDetail.cancellationPolicy,
+          ticketRelease.ticket_release_method_detail.cancellation_policy,
         is_reserved: ticketRelease.is_reserved!,
         promo_code: ticketRelease.promo_code,
         tickets_available: ticketRelease.tickets_available!,
         save_template: ticketRelease.save_template,
-        use_custom_payment_deadline: !!ticketRelease.payment_deadline,
         payment_deadline: !!ticketRelease.payment_deadline?.original_deadline
           ? format(
-              ticketRelease.payment_deadline.original_deadline,
+              new Date(ticketRelease.payment_deadline.original_deadline),
               "yyyy-MM-dd"
             )
           : "",
@@ -171,6 +173,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       enableReinitialize
     >
       {({ values, isValid, errors }) => {
+        errors;
         return (
           <Form>
             <Grid container columns={16} spacing={2}>
@@ -257,84 +260,80 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                     {t("form.ticket_release.closes_at_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
-                {canEditPaymentDeadline(
-                  ticketReleaseMethods?.find(
-                    (trm) => trm.id === values.ticket_release_method_id
-                  )
+                {/* Payment Deadline */}
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.payment_deadline")}*
+                  </StyledFormLabel>
+                  <FormInput
+                    placeholder="Enter date and time"
+                    name="payment_deadline"
+                    label="Payment Deadline"
+                    type="date"
+                    required={true}
+                  />
+                  <StyledErrorMessage name="payment_deadline" />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_release.payment_deadline_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                {canEditReservePaymentDurationFromId(
+                  values.ticket_release_method_id
                 ) && (
-                  <>
-                    <FormControl>
-                      <StyledFormLabel>
-                        {t("form.ticket_release.payment_deadline")}
-                      </StyledFormLabel>
-                      <FormInput
-                        placeholder="Enter date and time"
-                        name="payment_deadline"
-                        label="Payment Deadline"
-                        required={false}
-                        type="date"
-                      />
-                      <StyledErrorMessage name="payment_deadline" />
-                      <StyledFormLabelWithHelperText>
-                        {t("form.ticket_release.payment_deadline_helperText")}
-                      </StyledFormLabelWithHelperText>
-                    </FormControl>
-
-                    {/* Reserve Payment Duration */}
-
-                    <FormControl>
-                      <StyledFormLabel>
-                        {t("form.ticket_release.reserve_payment_duration")}
-                      </StyledFormLabel>
-                      <FormInput
-                        placeholder="7d 12h"
-                        name="reserve_payment_duration"
-                        label="Reserve Payment Duration"
-                        required={false}
-                        afterChange={(e) => {
-                          setReservePaymentDuration(
-                            getDurationUnits(e.target.value)
-                          );
-                        }}
-                      />
-                      <StyledErrorMessage name="reserve_payment_duration" />
-                      <StyledFormLabelWithHelperText>
-                        {t(
-                          "form.ticket_release.reserve_payment_duration_helperText"
-                        )}
-                      </StyledFormLabelWithHelperText>
-                      <StyledText
-                        level="body-md"
-                        fontWeight={500}
-                        color={PALLETTE.charcoal_see_through}
-                        fontSize={16}
-                      >
-                        {t("manage_event.reserve_payment_duration_text", {
-                          ...reservePaymentDuration,
-                        }).toString()}{" "}
-                      </StyledText>
-                    </FormControl>
-
-                    {/* Allocation Cut Off */}
-
-                    <FormControl>
-                      <StyledFormLabel>
-                        {t("form.ticket_release.allocation_cut_off")}
-                      </StyledFormLabel>
-                      <FormInput
-                        placeholder="Enter date and time"
-                        name="allocation_cut_off"
-                        label="Allocation Cut Off"
-                        required={false}
-                        type="date"
-                      />
-                      <StyledErrorMessage name="allocation_cut_off" />
-                      <StyledFormLabelWithHelperText>
-                        {t("form.ticket_release.allocation_cut_off_helperText")}
-                      </StyledFormLabelWithHelperText>
-                    </FormControl>
-                  </>
+                  <FormControl>
+                    <StyledFormLabel>
+                      {t("form.ticket_release.reserve_payment_duration")}
+                    </StyledFormLabel>
+                    <FormInput
+                      placeholder="7d 12h"
+                      name="reserve_payment_duration"
+                      label="Reserve Payment Duration"
+                      required={false}
+                      afterChange={(e) => {
+                        setReservePaymentDuration(
+                          getDurationUnits(e.target.value)
+                        );
+                      }}
+                    />
+                    <StyledErrorMessage name="reserve_payment_duration" />
+                    <StyledFormLabelWithHelperText>
+                      {t(
+                        "form.ticket_release.reserve_payment_duration_helperText"
+                      )}
+                    </StyledFormLabelWithHelperText>
+                    <StyledText
+                      level="body-md"
+                      fontWeight={500}
+                      color={PALLETTE.charcoal_see_through}
+                      fontSize={16}
+                    >
+                      {t("manage_event.reserve_payment_duration_text", {
+                        ...reservePaymentDuration,
+                      }).toString()}{" "}
+                    </StyledText>
+                  </FormControl>
                 )}
+
+                {/* Allocation Cut Off */}
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_release.allocation_cut_off")}
+                  </StyledFormLabel>
+                  <FormInput
+                    placeholder="Enter date and time"
+                    name="allocation_cut_off"
+                    label="Allocation Cut Off"
+                    type="date"
+                    required={false}
+                  />
+                  <StyledErrorMessage name="allocation_cut_off" />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_release.allocation_cut_off_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
               </Grid>
               <Grid xs={16} sm={8}>
                 {/* Ticket Release Method ID */}

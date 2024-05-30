@@ -45,7 +45,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
             currentUser?.organizations?.some(
               // @ts-ignore
               (org) => org.ID === event.organizationId
-            ) ?? currentUser?.ug_kth_id === event.createdById;
+            ) ?? currentUser?.ug_kth_id === event.created_by;
 
           if (eventIsInThePast(event)) {
             return null;
