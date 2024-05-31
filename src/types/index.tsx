@@ -659,7 +659,7 @@ export interface ITicket {
   refunded: boolean;
   user_id: number;
   user?: IUser;
-  transaction?: ITransaction;
+  order?: IOrder;
   reserve_number?: number;
   checked_in: boolean;
   qr_code: string;
@@ -716,16 +716,72 @@ export interface IUserFoodPreference {
   additional: string;
 }
 
-export interface ITransaction {
-  id: number;
-  ticket_id: number;
-  amount: number;
+// export interface ITransaction {
+//   id: number;
+//   ticket_id: number;
+//   amount: number;
+//   currency: string;
+//   payed_at: number;
+//   refunded: boolean;
+//   refunded_at: number | null;
+//   payment_method?: string;
+//   transaction_type: string;
+// }
+
+enum OrderStatusType {
+  Pending = "pending",
+  Initiated = "payment_initiated",
+  Processed = "payment_processed",
+  PaymentCompleted = "payment_completed",
+  PaymentCancelled = "payment_cancelled",
+  PartialPaymentCompleted = "partial_payment_completed",
+}
+
+export interface IOrder {
+  id: number; // Automatically managed by GORM
+  order_id: string;
+  merchant_id: string;
+  event_id: number;
+  user_ug_kth_id: string;
+  payment_page_link: string;
+
+  status: OrderStatusType;
+  details: IOrderDetails;
+  tickets: ITicket[];
+
+  created_at: Date;
+  updated_at?: Date | null;
+  deleted_at?: Date | null;
+}
+
+export interface IOrderDetails {
+  id: number; // Automatically managed by GORM
+  order_id: string;
+
+  payment_id: string;
+  transaction_id: string;
+  payment_method: string;
+  payment_status: string;
+  truncated_pan: string;
+  card_label: string;
+  pos_entry_mode: string;
+  issuer_application: string;
+  terminal_verification_result: string;
+  aid: string;
+  customer_response_code: string;
+  cvm_method: string;
+  auth_mode: string;
+
+  total: number;
   currency: string;
-  payed_at: number;
+
   refunded: boolean;
-  refunded_at: number | null;
-  payment_method?: string;
-  transaction_type: string;
+  refunded_at: Date | null;
+  payed_at: Date | null;
+
+  created_at: Date;
+  updated_at?: Date | null;
+  deleted_at?: Date | null;
 }
 
 export interface IBankingDetails {

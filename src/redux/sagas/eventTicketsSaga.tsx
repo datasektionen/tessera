@@ -1,29 +1,16 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   fetchEventTicketsStart,
   fetchEventTicketsSuccess,
   fetchEventTicketsFailure,
 } from "../features/eventTicketsSlice";
-import axios, { AxiosResponse } from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
-  IAddon,
-  IEvent,
-  IEventFormField,
-  IEventFormFieldResponse,
   ITicket,
-  ITicketAddon,
-  ITicketRelease,
-  ITicketReleaseMethod,
-  ITicketReleaseMethodDetail,
-  ITicketReleasePaymentDeadline,
   ITicketRequest,
-  ITicketType,
-  ITransaction,
   IUser,
   IUserFoodPreference,
 } from "../../types";
-import { format, parseISO } from "date-fns";
 import { ApiResponse, fetchApi } from "../../utils/api/fetch_api";
 
 function* fetchEventTickets(

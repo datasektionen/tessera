@@ -129,7 +129,7 @@ function createRow(ticket: ITicket) {
     payed_at = ticket.is_paid
       ? ticket.ticket_request?.ticket_type?.price === 0
         ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
-        : format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
+        : format(ticket?.order?.details?.payed_at as Date, "dd/MM/yyyy HH:mm")
       : "N/A";
   } catch (e) {
     console.error(e);
