@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useFeatureLimitAccess } from "../../../hooks/manager/required_feature_access_hook";
 import axios, { AxiosResponse } from "axios";
 import ApiRoutes from "../../../routes/backend_routes";
-import { fetchApi, putApi } from "../../../utils/api/fetch_api";
+import { fetchApi, putApi } from "../../../utils/api/api";
 import { addHours, addWeeks, format } from "date-fns";
 import { use } from "i18next";
 import ClearIcon from "@mui/icons-material/Clear";

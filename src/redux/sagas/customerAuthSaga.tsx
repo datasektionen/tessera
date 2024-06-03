@@ -24,7 +24,7 @@ import { ROUTES } from "../../routes/def";
 import ResendVerificationLinkToast from "../../components/toasts/ResendSignupVerificationEmail";
 import { currentUserRequest } from "../features/userSlice";
 import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
-import { ApiResponse, fetchApi, postApi } from "../../utils/api/fetch_api";
+import { ApiResponse, fetchApi, postApi } from "../../utils/api/api";
 
 interface Response {
   request_token: string;

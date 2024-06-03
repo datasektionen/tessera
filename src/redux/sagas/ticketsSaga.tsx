@@ -24,7 +24,7 @@ import {
   getMyTicketsSuccess,
 } from "../features/myTicketsSlice";
 import { toast } from "react-toastify";
-import { ApiResponse, fetchApi } from "../../utils/api/fetch_api";
+import { ApiResponse, fetchApi } from "../../utils/api/api";
 
 function* getMyTicketSaga(): Generator<any, void, any> {
   try {

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { ITicketType } from "../../types";
-import { ApiResponse, fetchApi, putApi } from "../api/fetch_api";
+import { ApiResponse, fetchApi, putApi } from "../api/api";
 import ApiRoutes from "../../routes/backend_routes";
 
 export const fetchTemplateTicketTypes = async () => {

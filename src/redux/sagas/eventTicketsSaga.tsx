@@ -11,7 +11,7 @@ import {
   IUser,
   IUserFoodPreference,
 } from "../../types";
-import { ApiResponse, fetchApi } from "../../utils/api/fetch_api";
+import { ApiResponse, fetchApi } from "../../utils/api/api";
 
 function* fetchEventTickets(
   action: PayloadAction<number>

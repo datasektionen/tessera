@@ -6,7 +6,7 @@
 import axios from "axios";
 import { Editor } from "grapesjs";
 import { IEventLandingPage } from "../../../../types";
-import { fetchApi } from "../../../../utils/api/fetch_api";
+import { fetchApi } from "../../../../utils/api/api";
 import ApiRoutes from "../../../../routes/backend_routes";
 import defaultCss from "../default-css";
 import DOMPurify from "dompurify";

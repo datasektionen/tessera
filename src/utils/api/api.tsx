@@ -32,7 +32,14 @@ function convertKeysAndParseDates<T>(response: ApiResponse<T>): ApiResponse<T> {
       }
     });
 
-    const dateKeys = ["open", "close", "date", "end_date", "payment_deadline"];
+    const dateKeys = [
+      "open",
+      "close",
+      "date",
+      "end_date",
+      "payment_deadline",
+      "payed_at",
+    ];
 
     // Map of old keys to new keys
     const keysToConvert: { [key: string]: string } = {

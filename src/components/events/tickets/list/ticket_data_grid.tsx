@@ -55,7 +55,7 @@ import {
   cyan,
 } from "@mui/material/colors";
 import ApiRoutes from "../../../../routes/backend_routes";
-import { putApi } from "../../../../utils/api/fetch_api";
+import { putApi } from "../../../../utils/api/api";
 import { toast } from "react-toastify";
 
 const isTicketRequest = (ticket: ITicket) => {
@@ -125,11 +125,15 @@ function createRow(ticket: ITicket) {
 
   let payed_at = "N/A";
   let deleted_at = "N/A";
+
   try {
     payed_at = ticket.is_paid
       ? ticket.ticket_request?.ticket_type?.price === 0
         ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
-        : format(ticket?.order?.details?.payed_at as Date, "dd/MM/yyyy HH:mm")
+        : format(
+            new Date(ticket?.order?.details?.payed_at!),
+            "dd/MM/yyyy HH:mm"
+          )
       : "N/A";
   } catch (e) {
     console.error(e);

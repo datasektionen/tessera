@@ -31,7 +31,7 @@ import {
 } from "../features/editEventSlice";
 import { setTimestamp } from "../features/serverTimestampSlice";
 import ApiRoutes from "../../routes/backend_routes";
-import { ApiResponse, fetchApi } from "../../utils/api/fetch_api";
+import { ApiResponse, fetchApi } from "../../utils/api/api";
 import { parseISO } from "date-fns";
 
 function* eventSaga(

@@ -777,7 +777,7 @@ export interface IOrderDetails {
 
   refunded: boolean;
   refunded_at: Date | null;
-  payed_at: Date | null;
+  payed_at: string | null;
 
   created_at: Date;
   updated_at?: Date | null;

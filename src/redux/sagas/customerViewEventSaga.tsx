@@ -24,7 +24,7 @@ import {
   getCustomerEventRequest,
   getCustomerEventSuccess,
 } from "../features/customerViewEvent";
-import { ApiResponse, fetchApi } from "../../utils/api/fetch_api";
+import { ApiResponse, fetchApi } from "../../utils/api/api";
 
 function* eventSaga(
   action: PayloadAction<{
