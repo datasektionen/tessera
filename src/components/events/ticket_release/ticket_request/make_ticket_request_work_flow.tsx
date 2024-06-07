@@ -10,7 +10,7 @@ import {
   resetLoginSuccess,
   resetSignupSuccess,
 } from "../../../../redux/features/authSlice";
-import MakeTicketRequestFormDetails from "./make_ticket_request_form_details";
+import MakeTicketRequestFormDetails from "./make_ticket_order_form_details";
 import { ticketReleaseRequiresAccount } from "../../../../utils/manage_event/can_edit_payment_deadline";
 import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
@@ -23,22 +23,22 @@ import {
 import {
   resetError,
   resetPostSuccess,
-} from "../../../../redux/features/ticketRequestSlice";
+} from "../../../../redux/features/ticketOrderSlice";
 import EditFormFieldResponse from "../../form_field_response/edit";
 import { Trans } from "react-i18next";
 import StyledButton from "../../../buttons/styled_button";
 
-interface MakeTicketRequestWorkflowProps {
+interface MakeTicketOrderWorkflowProps {
   ticketRelease: ITicketRelease;
-  onSubmitGuestTicketRequest: () => void; // Logic managed in parent component
-  onSubmitTicketRequest: () => void; // Logic managed in parent component
+  onSubmitGuestTicketOrder: () => void; // Logic managed in parent component
+  onSubmitTicketOrder: () => void; // Logic managed in parent component
   onClose: () => void;
 }
 
-const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
+const MakeTicketOrderWorkflow: React.FC<MakeTicketOrderWorkflowProps> = ({
   ticketRelease,
-  onSubmitTicketRequest,
-  onSubmitGuestTicketRequest,
+  onSubmitTicketOrder,
+  onSubmitGuestTicketOrder,
   onClose,
 }) => {
   const { refID } = useParams();
@@ -57,15 +57,17 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   } = useSelector((state: RootState) => state.auth);
 
   const { postSuccess, error: postError } = useSelector(
-    (state: RootState) => state.ticketRequest
+    (state: RootState) => state.ticketOrder
   );
+
+  console.log(postSuccess);
 
   const { create_ticket_request_sucess } = useSelector(
     (state: RootState) => state.guestCustomer
   );
 
-  const { ticketRequests: madeTicketRequests } = useSelector(
-    (state: RootState) => state.myTicketRequests
+  const { ticketOrders: madeTicketOrders } = useSelector(
+    (state: RootState) => state.myTicketOrders
   );
 
   const { guestCustomer: fetchedGuestCustomer } = useSelector(
@@ -115,7 +117,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   // Handle guest customer ticket request
   useEffect(() => {
     if (guestCustomer !== null && !create_ticket_request_sucess && !loading) {
-      onSubmitGuestTicketRequest();
+      onSubmitGuestTicketOrder();
     }
   }, [guestCustomer]);
 
@@ -136,7 +138,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
 
   useEffect(() => {
     if (isLoggedIn && !loading) {
-      onSubmitTicketRequest();
+      onSubmitTicketOrder();
     }
   }, []);
 
@@ -155,7 +157,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     }
     if (customerLoginSuccess) {
       dispatch(resetLoginSuccess());
-      onSubmitTicketRequest();
+      onSubmitTicketOrder();
     }
   }, [customerLoginSuccess, customerSignupSuccess, dispatch]);
 
@@ -206,30 +208,30 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
     } else if (activeStep === 4 && !isGuestCustomer) {
       setTimeout(() => {
         navigate(
-          `/profile/ticket-requests?ticket_request_id=${madeTicketRequests[0].id}&created=true`
+          `/profile/ticket-orders?ticket_request_id=${madeTicketOrders[0].id}&created=true`
         );
       }, 1000);
     }
 
     if (
       activeStep === 3 &&
-      madeTicketRequests[0] &&
+      madeTicketOrders[0] &&
       !isGuestCustomer &&
-      !(madeTicketRequests[0].ticket_release!.event!.form_fields!.length > 0)
+      !(madeTicketOrders[0].ticket_release!.event!.form_fields!.length > 0)
     ) {
       handleNext();
     } else if (
       activeStep === 3 &&
-      fetchedGuestCustomer?.ticket_request &&
+      fetchedGuestCustomer?.ticket_order &&
       isGuestCustomer &&
       !(
-        fetchedGuestCustomer?.ticket_request.ticket_release!.event!.form_fields!
+        fetchedGuestCustomer?.ticket_order.ticket_release!.event!.form_fields!
           .length > 0
       )
     ) {
       handleNext();
     }
-  }, [guestCustomer, activeStep, madeTicketRequests, navigate, onClose]);
+  }, [guestCustomer, activeStep, madeTicketOrders, navigate, onClose]);
 
   // Reset guest customer on component mount
   useEffect(() => {
@@ -283,14 +285,13 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
         )}
         {activeStep === 3 && (
           <Box>
-            <EditFormFieldResponse
-              ticketRequest={
-                guestCustomer !== null
-                  ? fetchedGuestCustomer?.ticket_request!
-                  : madeTicketRequests[0]
-              }
-              isGuestCustomer={guestCustomer !== null}
-            />
+            {guestCustomer?.ticket_order?.tickets.map((ticket) => (
+              <EditFormFieldResponse
+                ticket={ticket}
+                isGuestCustomer={guestCustomer !== null}
+              />
+            ))}
+
             <StyledText
               color={PALLETTE.charcoal}
               level="body-sm"
@@ -302,7 +303,7 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
             >
               <Trans i18nKey="event.ticket_request_success_description">
                 hjdw
-                <Link href="/profile/ticket-requests" target="_blank">
+                <Link href="/profile/ticket-orders" target="_blank">
                   here{" "}
                 </Link>
               </Trans>
@@ -354,4 +355,4 @@ const MakeTicketRequestWorkflow: React.FC<MakeTicketRequestWorkflowProps> = ({
   );
 };
 
-export default MakeTicketRequestWorkflow;
+export default MakeTicketOrderWorkflow;

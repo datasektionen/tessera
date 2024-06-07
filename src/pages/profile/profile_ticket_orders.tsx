@@ -10,20 +10,21 @@ import LoadingOverlay from "../../components/Loading";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../../components/text/styled_text";
 import { ROUTES } from "../../routes/def";
-import { getMyTicketRequestsRequest } from "../../redux/features/myTicketRequestsSlice";
-import { ITicketRequest } from "../../types";
-import TicketRequestsList from "../../components/ticket_requests/list_ticket_requests";
-import ViewTicketRequest from "../../components/ticket_requests/view";
+import { getMyTicketOrdersRequest } from "../../redux/features/myTicketOrderSlice";
+import { ITicketOrder } from "../../types";
+import TicketOrdersList from "../../components/ticket_orders/list_ticket_orders";
+import ViewTicketRequest from "../../components/ticket_orders/view";
 import { Trans, useTranslation } from "react-i18next";
 import { useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import ViewTicketOrder from "../../components/ticket_orders/view";
 
-const ProfileTicketRequestsPage: React.FC = () => {
+const ProfileTicketOrdersPage: React.FC = () => {
   const { user, loading } = useSelector((state: RootState) => state.user);
-  const { ticketRequests } = useSelector(
-    (state: RootState) => state.myTicketRequests
-  ) as { ticketRequests: ITicketRequest[] };
+  const { ticketOrders } = useSelector(
+    (state: RootState) => state.myTicketOrders
+  ) as { ticketOrders: ITicketOrder[] };
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,12 +34,12 @@ const ProfileTicketRequestsPage: React.FC = () => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("md"));
 
-  const ViewTicketRequestRef = useRef<HTMLDivElement>(null);
+  const ViewTicketOrderRef = useRef<HTMLDivElement>(null);
 
-  const setSelectedTicketRequest = (index: number | null) => {
+  const setSelectedTicketOrder = (index: number | null) => {
     setSelected(index);
-    if (ViewTicketRequestRef.current) {
-      ViewTicketRequestRef.current.scrollIntoView({ behavior: "smooth" });
+    if (ViewTicketOrderRef.current) {
+      ViewTicketOrderRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -46,21 +47,20 @@ const ProfileTicketRequestsPage: React.FC = () => {
     // Get query params
     const searchParams = new URLSearchParams(window.location.search);
 
-    // ticket_request_id
-    const ticketRequestId = searchParams.get("ticket_request_id");
+    const ticketOrderId = searchParams.get("ticket_order_id");
     const created = searchParams.get("created");
 
-    if (ticketRequestId && created) {
-      setSelectedTicketRequest(parseInt(ticketRequestId));
+    if (ticketOrderId && created) {
+      setSelectedTicketOrder(parseInt(ticketOrderId));
       toast.info(
-        "This is your tickets request page, you can see all your ticket requests here."
+        "This is your tickets orders page, you can see all your ticket orders here."
       );
-      navigate(ROUTES.PROFILE_TICKET_REQUESTS, { replace: true });
+      navigate(ROUTES.PROFILE_TICKET_ORDERS, { replace: true });
     }
   }, []);
 
   useEffect(() => {
-    dispatch(getMyTicketRequestsRequest([]));
+    dispatch(getMyTicketOrdersRequest([]));
   }, []);
 
   return (
@@ -91,17 +91,17 @@ const ProfileTicketRequestsPage: React.FC = () => {
             </StyledText>
           </Box>
           <Grid xs={16} md={8}>
-            <TicketRequestsList
-              ticketRequests={ticketRequests}
+            <TicketOrdersList
+              ticketOrders={ticketOrders}
               selected={selected}
-              setSelected={setSelectedTicketRequest}
+              setSelected={setSelectedTicketOrder}
             />
           </Grid>
         </Grid>
-        <Grid xs={16} md={8} ref={ViewTicketRequestRef}>
+        <Grid xs={16} md={8} ref={ViewTicketOrderRef}>
           {selected && (
-            <ViewTicketRequest
-              ticketRequest={ticketRequests.find((tr) => tr.id === selected)!}
+            <ViewTicketOrder
+              ticketOrder={ticketOrders.find((to) => to.id === selected)!}
             />
           )}
         </Grid>
@@ -110,4 +110,4 @@ const ProfileTicketRequestsPage: React.FC = () => {
   );
 };
 
-export default ProfileTicketRequestsPage;
+export default ProfileTicketOrdersPage;

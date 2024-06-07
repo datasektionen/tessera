@@ -1,4 +1,4 @@
-import { ShoppingCartItem } from "../redux/features/ticketRequestSlice";
+import { ShoppingCartItem } from "../redux/features/ticketOrderSlice";
 
 export const numberOfTicketRequestInBasket = (
   items: ShoppingCartItem[]

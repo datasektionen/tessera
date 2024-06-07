@@ -1,20 +1,8 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  IAddon,
-  IEvent,
-  IGuestCustomer,
-  ITicket,
-  ITicketAddon,
-  ITicketRelease,
-  ITicketReleaseMethodDetail,
-  ITicketReleasePaymentDeadline,
-  ITicketRequest,
-  ITicketType,
-  TicketRequestPostReq,
-} from "../../types";
+import { IGuestCustomer, ITicket } from "../../types";
 import {
   cancelMyTicketFailure,
   cancelMyTicketStart,

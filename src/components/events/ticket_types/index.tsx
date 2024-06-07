@@ -15,7 +15,7 @@ import {
   ShoppingCartItem,
   addTicket,
   removeTicket,
-} from "../../../redux/features/ticketRequestSlice";
+} from "../../../redux/features/ticketOrderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import React, { useEffect } from "react";
@@ -38,7 +38,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
   ticketType,
   maxTicketsPerUser,
 }) => {
-  const { items } = useSelector((state: RootState) => state.ticketRequest) as {
+  const { items } = useSelector((state: RootState) => state.ticketOrder) as {
     items: ShoppingCartItem[];
   };
   const [plusDisabled, setPlusDisabled] = React.useState<boolean>(false);

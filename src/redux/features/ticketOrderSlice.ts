@@ -1,7 +1,10 @@
 // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISelectedAddon, ITicketRequest, ITicketType } from "../../types";
-import { TicketRequestData } from "../sagas/ticketRequestSaga";
+import { ISelectedAddon, ITicketOrder, ITicketType } from "../../types";
+import {
+  ITicketOrderRequest,
+  TicketRequestData,
+} from "../sagas/ticketOrderSaga";
 
 // Define the ShoppingCartItem interface
 export interface ShoppingCartItem {
@@ -12,7 +15,7 @@ export interface ShoppingCartItem {
 // Define the ShoppingCartState interface
 export interface ShoppingCartState {
   items: ShoppingCartItem[];
-  ticketRequests: ITicketRequest[];
+  ticketOrders: ITicketOrder[];
   loading: boolean;
   error: string | null;
   postSuccess: boolean;
@@ -21,14 +24,14 @@ export interface ShoppingCartState {
 // Define initial state for the shopping cart
 const initialState: ShoppingCartState = {
   items: [],
-  ticketRequests: [],
+  ticketOrders: [],
   loading: false,
   error: null,
   postSuccess: false,
 };
 
 // Create the shopping cart slice
-export const ticketRequestSlice = createSlice({
+export const ticketOrderSlice = createSlice({
   name: "shoppingCart",
   initialState,
   reducers: {
@@ -64,26 +67,25 @@ export const ticketRequestSlice = createSlice({
         }
       }
     },
-    postTicketRequest: (
+    postTicketOrderRequest: (
       state,
       action: PayloadAction<{
         promoCodes: string[];
-        tickets: TicketRequestData[];
+        tickeOrderReq: ITicketOrderRequest;
         addons: ISelectedAddon[];
         eventId: number;
-        ticketReleaseId: number;
       }>
     ) => {
       state.loading = true;
       state.postSuccess = false;
     },
-    postTicketRequestSuccess: (state) => {
+    postTicketOrderSuccess: (state) => {
       state.loading = false;
       state.items = [];
       state.error = null;
       state.postSuccess = true;
     },
-    postTicketRequestFailure: (state, action: PayloadAction<string>) => {
+    postTicketOrderFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
       state.postSuccess = false;
@@ -101,12 +103,12 @@ export const ticketRequestSlice = createSlice({
 export const {
   addTicket,
   removeTicket,
-  postTicketRequest,
-  postTicketRequestFailure,
-  postTicketRequestSuccess,
+  postTicketOrderRequest,
+  postTicketOrderSuccess,
+  postTicketOrderFailure,
   resetPostSuccess,
   resetError,
-} = ticketRequestSlice.actions;
+} = ticketOrderSlice.actions;
 
 // Export the reducer
-export default ticketRequestSlice.reducer;
+export default ticketOrderSlice.reducer;

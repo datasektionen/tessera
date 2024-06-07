@@ -144,7 +144,7 @@ const NewSendOut: React.FC = () => {
     Object.entries(ticketFilters!).forEach(([filter, value]) => {
       if (value) {
         filteredTickets = filteredTickets.filter((ticket: ITicket) => {
-          if (ticket.deleted_at || ticket.ticket_request?.deleted_at) {
+          if (ticket.deleted_at || ticket.ticket_order?.deleted_at) {
             return false;
           }
           if (value === "ignore") {
@@ -161,8 +161,8 @@ const NewSendOut: React.FC = () => {
               return value === "yes" ? ticket.is_reserve : !ticket.is_reserve;
             case "is_handled":
               return value === "yes"
-                ? ticket.ticket_request?.is_handled
-                : !ticket.ticket_request?.is_handled;
+                ? ticket.ticket_order?.is_handled
+                : !ticket.ticket_order?.is_handled;
             default:
               return ticket;
           }
@@ -178,7 +178,7 @@ const NewSendOut: React.FC = () => {
     let users: IUser[] = [];
     selectedTicketReleases.forEach((release) => {
       let ticketsForRelease = tickets.filter(
-        (ticket) => ticket.ticket_request?.ticket_release?.id === release
+        (ticket) => ticket.ticket_order?.ticket_release?.id === release
       );
 
       ticketsForRelease = applyFiltersToTickets(ticketsForRelease);

@@ -61,9 +61,7 @@ const EventDetail: React.FC = () => {
     errorStatusCode: number | null;
   };
 
-  const { postSuccess } = useSelector(
-    (state: RootState) => state.ticketRequest
-  );
+  const { postSuccess } = useSelector((state: RootState) => state.ticketOrder);
 
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
 

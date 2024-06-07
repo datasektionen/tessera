@@ -78,12 +78,12 @@ enum TicketStatus {
 
 function getTicketStatus(ticket: ITicket) {
   let payBefore: Date | null = null;
-  if (ticket.payment_deadline) {
-    payBefore = ticket.payment_deadline;
+  if (ticket.payment_deadline.Valid) {
+    payBefore = new Date(ticket.payment_deadline.Time);
   }
 
   let status = TicketStatus.PENDING;
-  if (ticket.ticket_request?.is_handled) {
+  if (ticket.ticket_order?.is_handled) {
     if (ticket.deleted_at) {
       status = TicketStatus.CANCELLED_TICKET;
     } else if (ticket.refunded) {
@@ -104,15 +104,15 @@ function getTicketStatus(ticket: ITicket) {
     } else if (
       ticketIsEnteredIntoFCFSLottery(
         ticket,
-        ticket.ticket_request?.ticket_release!
+        ticket.ticket_order?.ticket_release!
       )
     ) {
       status = TicketStatus.LOTTERY_ENTERED;
     }
   } else {
-    if (ticket.ticket_request?.deleted_at) {
+    if (ticket.ticket_order?.deleted_at) {
       status = TicketStatus.CANCELLED_REQUEST;
-    } else if (ticket.ticket_request?.is_handled) {
+    } else if (ticket.ticket_order?.is_handled) {
       status = TicketStatus.HANDLED;
     }
   }
@@ -128,10 +128,10 @@ function createRow(ticket: ITicket) {
 
   try {
     payed_at = ticket.is_paid
-      ? ticket.ticket_request?.ticket_type?.price === 0
-        ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
+      ? ticket?.ticket_type?.price === 0
+        ? format(new Date(ticket?.created_at), "dd/MM/yyyy HH:mm")
         : format(
-            new Date(ticket?.order?.details?.payed_at!),
+            new Date(ticket?.ticket_order.order?.details?.payed_at!),
             "dd/MM/yyyy HH:mm"
           )
       : "N/A";
@@ -141,17 +141,19 @@ function createRow(ticket: ITicket) {
 
   try {
     deleted_at = ticket.deleted_at
-      ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
-      : ticket.ticket_request?.deleted_at
-      ? format(ticket.ticket_request?.deleted_at as number, "dd/MM/yyyy HH:mm")
+      ? format(new Date(ticket.deleted_at), "dd/MM/yyyy HH:mm")
+      : ticket.ticket_order?.deleted_at
+      ? format(new Date(ticket.ticket_order?.deleted_at), "dd/MM/yyyy HH:mm")
       : "N/A";
   } catch (e) {
     console.error(e);
   }
 
   let payBefore: Date | null = null;
-  if (ticket.payment_deadline) {
-    payBefore = ticket.payment_deadline;
+  console.log(ticket);
+
+  if (ticket.payment_deadline.Valid) {
+    payBefore = new Date(ticket.payment_deadline.Time);
   }
 
   const customRows = getEventFormFieldsRow(ticket || {});
@@ -160,20 +162,20 @@ function createRow(ticket: ITicket) {
   const status = getTicketStatus(ticket);
 
   const row = {
-    id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
-    ticket_request_id: ticket.ticket_request?.id,
+    id: `${ticket.ticket_order!.id}-${ticket.id}-ticket`,
+    ticket_order_id: ticket.ticket_order?.id,
     ticket_id: ticket.id,
-    ticket_release_id: ticket.ticket_request?.ticket_release?.id,
-    ticket_release_name: ticket.ticket_request?.ticket_release?.name,
+    ticket_release_id: ticket.ticket_order?.ticket_release?.id,
+    ticket_release_name: ticket.ticket_order?.ticket_release?.name,
     status: status,
-    type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
+    type: ticket.ticket_order?.type,
     is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
     is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
-    ticket: ticket.ticket_request?.ticket_type?.name,
+    ticket: ticket?.ticket_type?.name,
     user: ticket?.user,
     email: ticket?.user?.email,
     payed_at: payed_at,
-    price: ticket?.ticket_request?.ticket_type?.price,
+    price: ticket?.ticket_type?.price,
     gluten_intolerant: ufp.gluten_intolerant,
     halal: ufp.halal,
     kosher: ufp.kosher,
@@ -184,7 +186,7 @@ function createRow(ticket: ITicket) {
     vegetarian: ufp.vegetarian,
     additional_info: ufp.additional,
     checked_in: ticket.checked_in,
-    requseted_at: ticket?.ticket_request?.created_at,
+    requseted_at: ticket?.ticket_order?.created_at,
     prefer_meat: ufp.prefer_meat,
     deleted_at,
     pay_before: payBefore,
@@ -195,10 +197,10 @@ function createRow(ticket: ITicket) {
       : ticket.updated_at,
     entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
       ticket,
-      ticket.ticket_request?.ticket_release!
+      ticket.ticket_order?.ticket_release!
     ),
     deleted_reason:
-      ticket.deleted_reason || ticket.ticket_request?.deleted_reason,
+      ticket.deleted_reason || ticket.ticket_order?.deleted_reason,
     ...customRows,
   };
 
@@ -236,9 +238,9 @@ const MyCustomInputComponent: React.FC<{
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
-  selectTicketRequest: (ticketRequestID: number) => void;
+  selectTicketOrder: (ticketOrderID: number) => void;
   reFetch: () => void;
-}> = ({ tickets, selectTicketRequest, reFetch }) => {
+}> = ({ tickets, selectTicketOrder, reFetch }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
   const [searchText, setSearchText] = useState(Cookies.get("searchText") || "");
@@ -303,7 +305,7 @@ const EventTicketsList: React.FC<{
               padding: "0 5px 5px 0",
             }}
             onClick={() => {
-              selectTicketRequest(params.row.ticket_request_id);
+              selectTicketOrder(params.row.ticket_order_id);
             }}
           >
             <InfoIcon />
@@ -368,7 +370,7 @@ const EventTicketsList: React.FC<{
       width: 150,
     },
     {
-      field: "ticket_request_id",
+      field: "ticket_order_id",
       headerName: "Ticket Request ID",
       width: 150,
     },
@@ -566,6 +568,7 @@ const EventTicketsList: React.FC<{
       width: 150,
       renderCell: (params) => {
         const otherFieldValue = params.row.type;
+        console.log(params.value);
 
         if (
           otherFieldValue === "Ticket" &&
@@ -652,10 +655,10 @@ const EventTicketsList: React.FC<{
   );
 
   const handleAddonsModal = (params: any) => {
-    const selectedTicketRequestId = params.row.ticket_request_id;
+    const selectedTicketOrderId = params.row.ticket_order_id;
 
     const filteredTickets = tickets.filter(
-      (ticket) => ticket.ticket_request?.id === selectedTicketRequestId
+      (ticket) => ticket.ticket_order?.id === selectedTicketOrderId
     );
 
     setSelectedTicket(filteredTickets[0]!);
@@ -685,7 +688,7 @@ const EventTicketsList: React.FC<{
 
     // Define a list of ids
     const ids = selectedRows.map((row) =>
-      isHandlingTicketRequests ? row.ticket_request_id : row.ticket_id
+      isHandlingTicketRequests ? row.ticket_order_id : row.ticket_id
     );
 
     const url = ApiRoutes.generateRoute(
@@ -699,7 +702,7 @@ const EventTicketsList: React.FC<{
     if (isHandlingTicketRequests) {
       body = {
         action: action,
-        ticket_request_ids: ids,
+        ticket_order_ids: ids,
       };
     } else {
       body = {
@@ -764,7 +767,7 @@ const EventTicketsList: React.FC<{
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
       ticket_id: false,
-      ticket_request_id: false,
+      ticket_order_id: false,
       ticket_release_name: true,
       status: true,
       type: true,

@@ -17,7 +17,7 @@ import TicketType from "../ticket_types";
 import TicketReleaseCountdown from "./tr_countdown";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { ShoppingCartItem } from "../../../redux/features/ticketRequestSlice";
+import { ShoppingCartItem } from "../../../redux/features/ticketOrderSlice";
 import React, { useEffect } from "react";
 import { ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import {

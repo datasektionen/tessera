@@ -9,7 +9,7 @@ export const getEventFormFieldsColumns = (tickets: ITicket[]) => {
   }
 
   tickets.forEach((ticket) => {
-    ticket.ticket_request?.event_form_responses?.forEach(
+    ticket?.event_form_responses?.forEach(
       (response: IEventFormFieldResponse) => {
         columns.push({
           field: "event_form-" + response.event_form_field?.name!,
@@ -37,11 +37,9 @@ export const getEventFormFieldsRow = (ticket: ITicket) => {
 
   let rows: Record<string, any> = {};
 
-  ticket.ticket_request?.event_form_responses?.forEach(
-    (response: IEventFormFieldResponse) => {
-      rows["event_form-" + response.event_form_field?.name!] = response.value;
-    }
-  );
+  ticket?.event_form_responses?.forEach((response: IEventFormFieldResponse) => {
+    rows["event_form-" + response.event_form_field?.name!] = response.value;
+  });
 
   return rows;
 };

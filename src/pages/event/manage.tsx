@@ -18,7 +18,7 @@ import { deleteEventStart } from "../../redux/features/editEventSlice";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
-import TicketEventFormResponseTable from "./manage/ticket_form_reponse_list_page";
+import TicketEventFormResponseTable from "./manage/ticket_form_response_list_page";
 
 import DrawerComponent from "../../components/navigation/manage_drawer/event_detail";
 import { useEventDetails } from "../../hooks/event/use_event_details_hook";

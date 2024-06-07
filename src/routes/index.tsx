@@ -365,7 +365,7 @@ function AppRoutes() {
             {/* ---------------*/}
 
             <Route
-              path={ROUTES.PROFILE_TICKET_REQUESTS}
+              path={ROUTES.PROFILE_TICKET_ORDERS}
               element={<ProfileTicketRequestsPageWithCurrentUser />}
             />
             <Route

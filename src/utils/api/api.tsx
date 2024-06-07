@@ -111,7 +111,10 @@ export function postApi<T>(
   withCredentials: boolean = true,
   fullUrl: boolean = false
 ): Promise<ApiResponse<T>> {
-  const url = `${process.env.REACT_APP_BACKEND_URL}${endpoint}`;
+  let url = endpoint;
+  if (!fullUrl) {
+    url = `${process.env.REACT_APP_BACKEND_URL}${endpoint}`;
+  }
   return axios
     .post<ApiResponse<T>>(url, data, {
       withCredentials,

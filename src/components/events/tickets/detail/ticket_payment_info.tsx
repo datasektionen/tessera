@@ -18,7 +18,7 @@ const TicketPaymentInfo: React.FC<TicketPaymentInfoProps> = ({
   ticket,
   onNull,
 }) => {
-  const order: IOrder = ticket.order!;
+  const order: IOrder = ticket.ticket_order.order!;
 
   const { t } = useTranslation();
   const theme = useTheme();

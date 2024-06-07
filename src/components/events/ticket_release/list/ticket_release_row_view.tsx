@@ -148,14 +148,12 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     return null;
   }
 
-  const totalTicketRequestsAvailable = ticketRelease.tickets_available;
-  const numTicketRequests = ticketReleaseTickets.length;
+  const totalTicketAvailable = ticketRelease.tickets_available;
+  const numTickets = ticketReleaseTickets.length;
   const numAllocatedTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket.id !== 0 && ticket?.ticket_request?.is_handled!
+    (ticket) => ticket.id !== 0 && ticket?.ticket_order?.is_handled!
   ).length;
-  const numDeletedTicketRequests = ticketReleaseTickets.filter(
-    (ticket) => !!ticket.ticket_request?.deleted_at
-  ).length;
+
   const numPaidTickets = ticketReleaseTickets.filter(
     (ticket) => ticket?.is_paid! && !!!ticket?.deleted_at
   ).length;
@@ -168,8 +166,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const numDeletedTickets = ticketReleaseTickets.filter(
     (ticket) => !!ticket.deleted_at
   ).length;
-  const remaingTicketRequests =
-    totalTicketRequestsAvailable - numTicketRequests;
+  const remaingTickets = totalTicketAvailable - numAllocatedTickets;
 
   return (
     <Box>
@@ -347,18 +344,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                     fontWeight={600}
                     color={PALLETTE.charcoal}
                   >
-                    {`${numTicketRequests} ` +
-                      t("manage_event.ticket_requests")}
-                  </StyledText>
-                  <StyledText
-                    level="body-sm"
-                    fontSize={18}
-                    fontWeight={600}
-                    color={PALLETTE.charcoal}
-                    startDecorator={<DeleteIcon color="error" />}
-                  >
-                    {`${numDeletedTicketRequests} ` +
-                      t("manage_event.deleted_ticket_requests")}
+                    {`${numTickets} ` + t("manage_event.ticket_requests")}
                   </StyledText>
                   <StyledText
                     level="body-sm"
@@ -367,7 +353,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
                     color={PALLETTE.charcoal}
                     startDecorator={<PendingIcon color="info" />}
                   >
-                    {`${remaingTicketRequests} ` +
+                    {`${remaingTickets} ` +
                       t("manage_event.remaining_ticket_requests")}
                   </StyledText>
                 </Stack>

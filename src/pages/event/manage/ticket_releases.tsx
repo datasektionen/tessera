@@ -46,7 +46,7 @@ const ManageEventTicketReleasesPage: React.FC = () => {
 
   useEffect(() => {
     const grouped = tickets.reduce((groups, ticket) => {
-      const key = ticket?.ticket_request?.ticket_release?.id!;
+      const key = ticket?.ticket_order?.ticket_release?.id!;
       if (!groups[key]) {
         groups[key] = [];
       }

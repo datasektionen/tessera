@@ -9,7 +9,7 @@ export const EditTicketTypes = React.lazy(
   () => import("../pages/event/edit/edit_ticket_types")
 );
 export const ProfileTicketRequestsPage = React.lazy(
-  () => import("../pages/profile/profile_ticket_requests")
+  () => import("../pages/profile/profile_ticket_orders")
 );
 export const ProfileTicketsPage = React.lazy(
   () => import("../pages/profile/profile_tickets")
@@ -37,7 +37,7 @@ export const ManageEventTicketsPage = React.lazy(
   () => import("../pages/event/manage/tickets")
 );
 export const ManageEventFormResponsesPage = React.lazy(
-  () => import("../pages/event/manage/ticket_form_reponse_list_page")
+  () => import("../pages/event/manage/ticket_form_response_list_page")
 );
 export const FourOFour404 = React.lazy(() => import("../pages/errors/404"));
 

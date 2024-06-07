@@ -7,7 +7,7 @@ import { ROUTES } from "../../routes/def";
 import { Link } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import { getCustomerEventRequest } from "../../redux/features/customerViewEvent";
-import { resetPostSuccess } from "../../redux/features/ticketRequestSlice";
+import { resetPostSuccess } from "../../redux/features/ticketOrderSlice";
 
 export const useEventEffects = (
   postSuccess: boolean,
@@ -32,8 +32,8 @@ export const useEventEffects = (
     if (displayPostSuccess) {
       toast.success(
         <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
-          Ticket request created! View it{" "}
-          <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
+          Ticket order created! View it{" "}
+          <Link href={ROUTES.PROFILE_TICKET_ORDERS}>here</Link>
         </StyledText>
       );
     }

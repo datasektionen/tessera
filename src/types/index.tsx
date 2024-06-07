@@ -16,6 +16,11 @@ enum CancellationPolicy {
   NO_REFUND = "no_refund",
 }
 
+export interface ISQLNullTime {
+  Time: string;
+  Valid: boolean;
+}
+
 export interface LoginCredentials {
   username: string;
   password: string;
@@ -53,8 +58,8 @@ export interface IGuestCustomer {
   phone_number: string;
   request_token?: string;
 
-  ticket_request?: ITicketRequest;
-  ticket?: ITicket;
+  ticket_order_id?: number;
+  ticket_order?: ITicketOrder;
   food_preferences?: IUserFoodPreference;
 }
 
@@ -618,23 +623,29 @@ export interface IEventSalesReport {
   url: string;
 }
 
-export interface ITicketRequest {
+export interface ITicketOrder {
   id: number;
-  created_at: number;
-  is_handled: boolean;
-  ticket_amount: number;
+  user_ug_kth_id: string;
+  user?: IUser;
 
-  ticket_type_id: number;
-  ticket_type?: ITicketType;
+  is_handled: boolean;
+  num_tickets: number;
+  total_amount: number;
+  is_paid: boolean;
+  paid_at: Date | null;
+  type: string;
 
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
-  event_form_responses?: IEventFormFieldResponse[];
 
+  tickets: ITicket[];
+
+  created_at: number;
+  updated_at: number;
   deleted_at: number | null;
-
-  ticket_add_ons?: ITicketAddon[];
   deleted_reason?: string;
+
+  order: IOrder;
 }
 
 export interface IDeadlineUnits {
@@ -651,22 +662,33 @@ export interface ITicketReleasePaymentDeadlineForm {
 
 export interface ITicket {
   id: number;
-  created_at: number;
-  updated_at: number;
-  ticket_request?: ITicketRequest;
+  ticket_order_id: number;
+  ticket_order: ITicketOrder;
   is_paid: boolean;
   is_reserve: boolean;
   refunded: boolean;
-  user_id: number;
-  user?: IUser;
-  order?: IOrder;
   reserve_number?: number;
-  checked_in: boolean;
   qr_code: string;
+  was_reserve: boolean;
+
+  checked_in: boolean;
+  checked_in_at: Date | null;
+
+  ticket_type: ITicketType;
+
+  user_ug_kth_id: string;
+  user: IUser;
+
   purchasable_at?: Date | null;
-  deleted_at: number | null;
+
   ticket_add_ons?: ITicketAddon[];
-  payment_deadline?: Date;
+  ticket_type_id: number;
+  payment_deadline: ISQLNullTime;
+  event_form_responses?: IEventFormFieldResponse[];
+
+  created_at: Date;
+  updated_at: Date | null;
+  deleted_at: Date | null;
   deleted_reason?: string;
 }
 export interface TicketRequestPostReq {
@@ -697,8 +719,8 @@ export interface IEventSiteVisit {
   unique_visitors: number;
   unique_visitors_last_week: number;
   last_week_date: Date;
-  num_ticket_requests: number;
-  num_ticket_requests_last_week: number;
+  num_ticket_orders: number;
+  num_ticket_orders_last_week: number;
   total_income: number;
   total_income_last_week: number;
 }
@@ -875,7 +897,7 @@ export interface IFormFieldInput {
 
 export interface IEventFormFieldResponse {
   id: number;
-  ticket_request_id: number;
+  ticket_order_id: number;
   event_form_field_id: number;
   event_form_field?: IEventFormField;
   value: string | number | boolean | null;
@@ -905,7 +927,6 @@ export interface ITicketAddon {
   id: any;
   add_on_id: number;
   add_on?: IAddon;
-  ticket_request_id?: number;
   ticket_id?: number;
   quantity: number;
 }
