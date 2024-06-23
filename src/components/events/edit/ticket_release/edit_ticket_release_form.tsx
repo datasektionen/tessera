@@ -173,7 +173,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       enableReinitialize
     >
       {({ values, isValid, errors }) => {
-        errors;
         return (
           <Form>
             <Grid container columns={16} spacing={2}>
