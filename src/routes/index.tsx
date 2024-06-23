@@ -1,5 +1,13 @@
 // Import statements should be at the top
-import { BrowserRouter, Outlet, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import React, {
   ComponentType,
   startTransition,
@@ -39,7 +47,6 @@ import {
   ForgotPassword,
   PasswordReset,
   ExternalVerifyEmail,
-  VerifyPreferredEmail,
   ContactPage,
   SendOut,
   PrivacyPolicy,
@@ -58,6 +65,7 @@ import {
   EditEventLandingEditorPage,
   EditLandingPageSettingsPage,
   EventDetailLandingPage,
+  ManagerSetupPage,
 } from "./page_import";
 import GrapesJSEditor from "../pages/event/edit/edit_landing_page/edit_page";
 
@@ -121,10 +129,12 @@ const EditTicketReleaseAddonsWithCurrentUser = withCurrentUserRequest(
   EditTicketReleaseAddonsPage
 );
 
-const EditEventLandingPageWithCurrentUser =
-  withCurrentUserRequest(EditEventLandingEditorPage);
-const EditLandingPageSettingsPageWithCurrentUser =
-  withCurrentUserRequest(EditLandingPageSettingsPage);
+const EditEventLandingPageWithCurrentUser = withCurrentUserRequest(
+  EditEventLandingEditorPage
+);
+const EditLandingPageSettingsPageWithCurrentUser = withCurrentUserRequest(
+  EditLandingPageSettingsPage
+);
 
 const ManageEventTicketReleasesWithCurrentUser = withCurrentUserRequest(
   ManageEventTicketReleasesPage
@@ -153,6 +163,9 @@ const PostLoginPageWithCurrentUser = withCurrentUserRequest(PostLoginPage);
 
 const ManagerPageWithCurrentUser = withCurrentUserRequest(ManagerPage);
 
+const ManagerSettingsPageWithCurrentUser =
+  withCurrentUserRequest(ManagerSetupPage);
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -170,14 +183,12 @@ const ProtectedEventRoutes: React.FC = () => {
   const canAccess = useCanAccessEvent(eventID!);
 
   if (!canAccess) {
-    navigate(-1)
+    navigate(-1);
     return null;
   } else {
-    return (
-      <Outlet />
-    );
+    return <Outlet />;
   }
-}
+};
 
 function AppRoutes() {
   return (
@@ -203,16 +214,16 @@ function AppRoutes() {
             path={ROUTES.EXTERNAL_VERIFY_EMAIL}
             element={<ExternalVerifyEmail />}
           />
-          <Route
-            path={ROUTES.VERIFY_PREFERRED_EMAIL}
-            element={<VerifyPreferredEmail />}
-          />
+
           <Route path={ROUTES.MAIN} element={<MainPage />} />
           <Route path={ROUTES.PRICING} element={<PricingPage />} />
 
           <Route path={ROUTES.EVENT_DETAIL} element={<EventDetail />} />
 
-          <Route path={ROUTES.EVENT_DETAIL_LANDING_PAGE} element={<EventDetailLandingPage />} />
+          <Route
+            path={ROUTES.EVENT_DETAIL_LANDING_PAGE}
+            element={<EventDetailLandingPage />}
+          />
 
           <Route
             path={ROUTES.GUEST_TICKET_REQUEST}
@@ -239,6 +250,11 @@ function AppRoutes() {
               element={<ManagerPageWithCurrentUser />}
             />
 
+            <Route
+              path={ROUTES.MANAGER_SETUP}
+              element={<ManagerSettingsPageWithCurrentUser />}
+            />
+
             <Route path={ROUTES.MANAGER_TEAMS} element={<ManagerTeamsPage />} />
 
             {/* ---------- */}
@@ -252,7 +268,7 @@ function AppRoutes() {
             </Route>
 
             {/* Event check route */}
-            <Route element={<ProtectedEventRoutes />} >
+            <Route element={<ProtectedEventRoutes />}>
               {/* Edit event */}
               <Route
                 path={ROUTES.EDIT_EVENT}
@@ -281,12 +297,14 @@ function AppRoutes() {
 
               {/* Landing page editor */}
 
-
               <Route
                 path={ROUTES.EDIT_EVENT_LANDING_PAGE_EDTIOR}
                 element={<EditEventLandingPageWithCurrentUser />}
               />
-              <Route path={ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS} element={<EditLandingPageSettingsPageWithCurrentUser />} />
+              <Route
+                path={ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS}
+                element={<EditLandingPageSettingsPageWithCurrentUser />}
+              />
 
               {/* Manage */}
               <Route
@@ -359,7 +377,6 @@ function AppRoutes() {
               path={ROUTES.CREATE_ORGANIZATION}
               element={<CreateOrganizationPageWithCurrentUser />}
             />
-
           </Route>
           <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
           <Route path="*" element={<FourOFour404 />} />

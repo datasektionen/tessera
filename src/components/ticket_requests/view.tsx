@@ -103,16 +103,16 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
     dispatch(getMyTicketRequestsRequest([]));
   };
 
-  const { addons: allAddons } = ticketRequest.ticket_release!;
-
   const [selectedAddons, setSelectedAddons] = useState<ISelectedAddon[]>([]);
 
   const { totalTicketCost, totalAddonsCost, totalCost } =
     useCosts(ticketRequest);
 
   if (!ticketRequest) {
-    return <></>;
+    return null;
   }
+
+  const { addons: allAddons } = ticketRequest.ticket_release!;
 
   return (
     <BorderBox
@@ -266,7 +266,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledText>
         </ConfirmModal>
 
-        {!ticketRequest.is_handled ? (
+        {!ticketRequest.is_handled && !ticketRequest.deleted_at ? (
           <StyledButton
             bgColor={PALLETTE.red}
             size="md"
@@ -294,7 +294,7 @@ const ViewTicketRequest: React.FC<ViewTicketRequestProps> = ({
           </StyledButton>
         )}
 
-        {!ticketRequest.is_handled && (
+        {!ticketRequest.is_handled && allAddons?.length! > 0 && (
           <AccordionGroup
             sx={{
               mt: 2,

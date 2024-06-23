@@ -19,6 +19,8 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import EventIcon from "@mui/icons-material/Event";
 import CollapsibleDrawerSection from "../collapsible_drawer_section";
 import PushPinIcon from "@mui/icons-material/PushPin";
+import { networkHasCreatedMerchant } from "../../../../utils/manager/merchant";
+import { useNavigate } from "react-router-dom";
 
 interface ManagerDashboardDrawerComponentProps {
   handlePinned: (isPinned: boolean) => void;
@@ -27,6 +29,7 @@ interface ManagerDashboardDrawerComponentProps {
 const ManagerDashboardDrawerComponent: React.FC<
   ManagerDashboardDrawerComponentProps
 > = ({ handlePinned }) => {
+  const navigate = useNavigate();
   // Paste the Drawer related code here
   // Redux State
   const { isPinned: initialIsPinned } = useSelector(
@@ -37,6 +40,12 @@ const ManagerDashboardDrawerComponent: React.FC<
   // State Variables
   const [isPinned, setIsPinned] = React.useState<boolean | null>(null);
   const [isHovered, setIsHovered] = React.useState(false);
+
+  useEffect(() => {
+    if (network && !networkHasCreatedMerchant(network)) {
+      // navigate(ROUTES.MANAGER_SETUP) TODO WHEN DONE
+    }
+  }, [network, navigate]);
 
   // Other Variables
   const theme = useTheme();

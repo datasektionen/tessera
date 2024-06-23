@@ -32,7 +32,7 @@ import {
   FormTextarea,
   PlaceOption,
 } from "../forms/input_types";
-import CreateEventFormSchema from "../../validation/create_event_form";
+import CreateEventFormSchema from "../../validation/event/create_event_form";
 import StyledText from "../text/styled_text";
 import { StyledErrorMessage } from "../forms/messages";
 import { useEffect } from "react";

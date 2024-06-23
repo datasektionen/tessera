@@ -30,6 +30,12 @@ const ticketTypeCreationSlice = createSlice({
     addTicketType: (state) => {
       state.ticketTypes.push(initialTicketType);
     },
+    addTicketTypeWithValues: (
+      state,
+      action: PayloadAction<ITicketTypeForm>
+    ) => {
+      state.ticketTypes.push(action.payload);
+    },
     updateTicketType: (
       state,
       action: PayloadAction<{
@@ -66,6 +72,7 @@ export const {
   setLoading,
   setError,
   addTicketType,
+  addTicketTypeWithValues,
   removeTicketType,
   updateTicketType,
   clearTicketType,

@@ -1,6 +1,11 @@
 import { addHours, addWeeks, format } from "date-fns";
 import { PlaceOption } from "../components/forms/input_types";
-import { formatDateToDateTimeLocal } from "../utils/date_conversions";
+import {
+  formatDateToDateTimeLocal,
+  getDurationUnits,
+  paymentDurationToString,
+} from "../utils/date_conversions";
+import { blue, green, grey, orange, red } from "@mui/material/colors";
 
 enum NotificationMethod {
   EMAIL = "email",
@@ -246,6 +251,8 @@ export interface INetwork {
   plan_enrollment: IPlanEnrollment;
   users: IUser[]; // You would need to define a User interface
   organizations: IOrganization[]; // You would need to define an Organization interface
+  merchant: INetworkMerchant;
+  details: INetworkDetails;
 }
 
 export interface ICustomerLoginValues {
@@ -315,24 +322,46 @@ export interface IOrganization {
   users?: IUser[];
 }
 
+export interface IStoreTerminal {
+  terminal_id: string;
+  event_id: number;
+  store_id: string;
+
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
+export interface IStore {
+  store_id: string;
+  name: string;
+  organization_id: number;
+  terminals: IStoreTerminal[];
+
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
 export interface IEvent {
   id: number;
   reference_id: string;
   createdAt: number;
   name: string;
   description: string;
-  date: number;
-  end_date?: number;
+  date: Date;
+  end_date?: Date;
   location: string;
-  organizationId: number;
+  organization_id: number;
   organization?: IOrganization;
   is_private: boolean;
-  ticketReleases?: ITicketRelease[];
-  createdById?: string;
+  ticket_releases?: ITicketRelease[];
+  created_by?: string;
   form_field_description?: string;
   form_fields?: IEventFormField[];
   landing_page?: IEventLandingPage;
   collect_food_preferences?: boolean;
+  terminal: IStoreTerminal;
 }
 
 export interface IEventForm {
@@ -349,8 +378,8 @@ export interface IEventForm {
 export interface IEventPostReq {
   name: string;
   description: string;
-  date: number;
-  end_date?: number;
+  date: string;
+  end_date?: string;
   location: string;
   organization_id: number;
   is_private: boolean;
@@ -405,14 +434,18 @@ export interface ITicketReleaseForm {
   promo_code?: string;
   tickets_available: number;
   is_saved?: boolean;
+  save_template: boolean;
+  payment_deadline: string;
+  reserve_payment_duration: string;
+  allocation_cut_off: string;
 }
 
 export interface ITicketReleasePostReq {
   event_id?: number;
   name: string;
   description: string;
-  open: number;
-  close: number;
+  open: string;
+  close: string;
   open_window_duration?: number;
   max_tickets_per_user: number;
   notification_method: string;
@@ -422,6 +455,10 @@ export interface ITicketReleasePostReq {
   promo_code?: string;
   tickets_available: number;
   method_description?: string;
+  save_template: boolean;
+  payment_deadline?: string;
+  reserve_payment_duration?: string;
+  allocation_cut_off?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
@@ -439,6 +476,10 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   is_reserved: false,
   promo_code: "",
   is_saved: false,
+  save_template: false,
+  payment_deadline: "",
+  reserve_payment_duration: "",
+  allocation_cut_off: "",
 };
 
 export interface ITicketTypeForm {
@@ -446,6 +487,7 @@ export interface ITicketTypeForm {
   name: string;
   description: string;
   price: number;
+  save_template: boolean;
 }
 
 export interface ITicketTypePostReq {
@@ -455,23 +497,25 @@ export interface ITicketTypePostReq {
   name: string;
   description: string;
   price: number;
+  save_template: boolean;
 }
 
 export const TicketTypeFormInitialValues: ITicketTypeForm = {
   name: "Default",
   description: "",
   price: 0,
+  save_template: false,
 };
 
 export interface ITicketReleaseMethodDetail {
   id: number;
   name: string;
-  maxTicketsPerUser: number;
-  cancellationPolicy: string;
-  openWindowDuration: number | null; // Todo change
+  max_tickets_per_user: number;
+  cancellation_policy: string;
+  open_window_duration: number | null; // Todo change
   method_description: string;
-  notificationMethod: string;
-  ticketReleaseMethod?: ITicketReleaseMethod;
+  notification_method: string;
+  ticket_release_method?: ITicketReleaseMethod;
 }
 
 export enum NotificationType {
@@ -509,33 +553,36 @@ export interface ISendOut {
 
 export interface ITicketType {
   id: number;
-  ticketReleaseId: number;
+  ticket_release_id: number;
   name: string;
   description: string;
   price: number;
   quantityTotal: number;
   isReserved: boolean;
+  save_template: boolean;
 }
 
 export interface ITicketRelease {
   created_at: string | number | Date;
   updated_at?: string | number | Date;
   id: number;
-  eventId: number;
+  event_id: number;
   name: string;
   description: string;
-  open: number;
-  close: number;
+  open: Date;
+  close: Date;
   has_allocated_tickets?: boolean;
-  ticketReleaseMethodDetailId?: number;
-  ticketTypes?: ITicketType[];
-  ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
+  ticket_release_method_detail_id?: number;
+  ticket_types?: ITicketType[];
+  ticket_release_method_detail: ITicketReleaseMethodDetail;
   is_reserved?: boolean;
   promo_code?: string;
   event?: IEvent;
   tickets_available: number;
   addons?: IAddon[];
   payment_deadline: ITicketReleasePaymentDeadline;
+  save_template: boolean;
+  allocation_cut_off: Date;
 }
 
 export interface ITicketReleasePaymentDeadline {
@@ -555,7 +602,7 @@ export const PromoCodeAccessFormInitialValues: PromoCodeAccessForm = {
 
 export interface ITicketReleaseAdmin extends ITicketRelease {
   id: number;
-  ticketReleaseMethodDetailId: number;
+  ticket_release_method_detail_id: number;
   hasAllocatedTickets: boolean;
 }
 
@@ -587,6 +634,7 @@ export interface ITicketRequest {
   deleted_at: number | null;
 
   ticket_add_ons?: ITicketAddon[];
+  deleted_reason?: string;
 }
 
 export interface IDeadlineUnits {
@@ -611,7 +659,7 @@ export interface ITicket {
   refunded: boolean;
   user_id: number;
   user?: IUser;
-  transaction?: ITransaction;
+  order?: IOrder;
   reserve_number?: number;
   checked_in: boolean;
   qr_code: string;
@@ -619,6 +667,7 @@ export interface ITicket {
   deleted_at: number | null;
   ticket_add_ons?: ITicketAddon[];
   payment_deadline?: Date;
+  deleted_reason?: string;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;
@@ -667,16 +716,72 @@ export interface IUserFoodPreference {
   additional: string;
 }
 
-export interface ITransaction {
-  id: number;
-  ticket_id: number;
-  amount: number;
+// export interface ITransaction {
+//   id: number;
+//   ticket_id: number;
+//   amount: number;
+//   currency: string;
+//   payed_at: number;
+//   refunded: boolean;
+//   refunded_at: number | null;
+//   payment_method?: string;
+//   transaction_type: string;
+// }
+
+enum OrderStatusType {
+  Pending = "pending",
+  Initiated = "payment_initiated",
+  Processed = "payment_processed",
+  PaymentCompleted = "payment_completed",
+  PaymentCancelled = "payment_cancelled",
+  PartialPaymentCompleted = "partial_payment_completed",
+}
+
+export interface IOrder {
+  id: number; // Automatically managed by GORM
+  order_id: string;
+  merchant_id: string;
+  event_id: number;
+  user_ug_kth_id: string;
+  payment_page_link: string;
+
+  status: OrderStatusType;
+  details: IOrderDetails;
+  tickets: ITicket[];
+
+  created_at: Date;
+  updated_at?: Date | null;
+  deleted_at?: Date | null;
+}
+
+export interface IOrderDetails {
+  id: number; // Automatically managed by GORM
+  order_id: string;
+
+  payment_id: string;
+  transaction_id: string;
+  payment_method: string;
+  payment_status: string;
+  truncated_pan: string;
+  card_label: string;
+  pos_entry_mode: string;
+  issuer_application: string;
+  terminal_verification_result: string;
+  aid: string;
+  customer_response_code: string;
+  cvm_method: string;
+  auth_mode: string;
+
+  total: number;
   currency: string;
-  payed_at: number;
+
   refunded: boolean;
-  refunded_at: number | null;
-  payment_method?: string;
-  transaction_type: string;
+  refunded_at: Date | null;
+  payed_at: string | null;
+
+  created_at: Date;
+  updated_at?: Date | null;
+  deleted_at?: Date | null;
 }
 
 export interface IBankingDetails {
@@ -819,6 +924,90 @@ export interface IEventLandingPage {
   enabled: boolean;
   created_at?: Date;
   updated_at?: Date;
+}
+
+export enum SurfApplicationStatus {
+  ApplicationNotStarted = "application_not_started",
+  ApplicationInitiated = "application_initiated",
+  ApplicationSubmitted = "application_submitted",
+  ApplicationPendingInformation = "application_pending_information",
+  ApplicationSigned = "application_signed",
+  ApplicationRejected = "application_rejected",
+  ApplicationCompleted = "application_completed",
+  ApplicationExpired = "application_expired",
+  MerchantCreated = "merchant_created",
+}
+
+export const ApplicationStatusColors = {
+  application_not_started: grey[500],
+  application_initiated: green[200],
+  application_submitted: green[400],
+  application_pending_information: orange[500],
+  application_signed: blue[500],
+  application_rejected: red[500],
+  application_completed: green[500],
+  application_expired: red[500],
+  merchant_created: green[500],
+};
+
+export interface INetworkMerchant {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  networkId: number;
+  applicationId: string;
+  merchantId: string;
+  applicationStatus: SurfApplicationStatus;
+  webKybUrl: string;
+  storeId: string;
+}
+
+export interface INetworkDetails {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  network_id: number;
+  corporate_id: string; // Corporate ID of the network
+  legal_name: string; // Legal name of the network
+  description: string; // Description of the network
+  care_of: string; // Care of (c/o) of the network
+  address_line1: string; // Address line 1 of the network
+  address_line2: string; // Address line 2 of the network
+  language: string;
+  city: string;
+  postal_code: string;
+  country: string;
+  phone_code: string;
+  phone_number: string;
+  country_code: string; // Two-letter ISO country code, in uppercase. i.e 'SE' | 'DK' | 'FI'.
+  email: string; // main email for the network
+}
+
+export type Country = {
+  name: string;
+  code: string;
+  phone: number;
+};
+
+export const AvaialableCountries: Country[] = [
+  {
+    name: "Sweden",
+    code: "SE",
+    phone: 46,
+  },
+];
+
+export interface BusinessDetailsFormValues {
+  country_code: string;
+  legal_name: string;
+  corporate_id: string;
+  address_line1: string;
+  address_line2: string;
+  city: string;
+  postal_code: string;
+  phone_number: string;
+  business_email: string;
+  store_name: string;
 }
 
 export enum OrganizationUserRoleType {

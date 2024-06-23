@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation, UNSAFE_NavigationContext as NavigationContext } from "react-router-dom";
 
-import AddonFormSchema from "../../../validation/edit_addons_form";
+import AddonFormSchema from "../../../validation/event/edit_addons_form";
 import { setAddons, clearAddon, updateAddon } from "../../../redux/features/addonCreationSlice";
 import { IAddon } from "../../../types";
 

@@ -9,7 +9,7 @@ interface StyledErrorMessageProps {
 
 export const StyledErrorMessage: React.FC<StyledErrorMessageProps> = ({
   name,
-  fontSize = 18,
+  fontSize = 16,
 }) => {
   return (
     <ErrorMessage

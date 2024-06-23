@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/joy";
 import { LabelValue } from "./ticket_utils";
-import { ITicket, ITransaction } from "../../../../types";
+import { ITicket, IOrder } from "../../../../types";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import PALLETTE from "../../../../theme/pallette";
@@ -18,13 +18,13 @@ const TicketPaymentInfo: React.FC<TicketPaymentInfoProps> = ({
   ticket,
   onNull,
 }) => {
-  const transaction: ITransaction = ticket.transaction!;
+  const order: IOrder = ticket.order!;
 
   const { t } = useTranslation();
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (!transaction) {
+  if (!order) {
     onNull();
     return null;
   }
@@ -54,24 +54,27 @@ const TicketPaymentInfo: React.FC<TicketPaymentInfoProps> = ({
             key="is_paid"
             label={t("manage_event.tickets.ticket_info.paid_at")}
             value={
-              transaction && transaction.payed_at
-                ? format(new Date(transaction.payed_at), "dd MMMM, yyyy, HH:mm")
+              order && order.details.payed_at
+                ? format(
+                    new Date(order.details.payed_at),
+                    "dd MMMM, yyyy, HH:mm"
+                  )
                 : "-"
             }
           />
           <LabelValue
             label={t("manage_event.tickets.payment_info.amount")}
-            value={transaction.amount / 100}
+            value={order.details.total / 100}
           />
           <LabelValue
             label={t("manage_event.tickets.payment_info.currency")}
-            value={transaction.currency.toUpperCase()}
+            value={order.details.currency.toUpperCase()}
           />
 
           <LabelValue
             label={t("manage_event.tickets.payment_info.refunded")}
             value={
-              transaction.refunded ? (
+              order.details.refunded ? (
                 <CheckIcon color="success" />
               ) : (
                 <CloseIcon color="error" />
@@ -79,18 +82,18 @@ const TicketPaymentInfo: React.FC<TicketPaymentInfoProps> = ({
             }
           />
 
-          {transaction.refunded && (
+          {order.details.refunded && (
             <LabelValue
               label={t("manage_event.tickets.payment_info.refunded_at")}
               value={format(
-                new Date(transaction.refunded_at!),
+                new Date(order.details.refunded_at!),
                 "dd MMMM, yyyy, HH:mm"
               )}
             />
           )}
           <LabelValue
             label={t("manage_event.tickets.payment_info.payment_method")}
-            value={transaction.payment_method}
+            value={order.details.payment_method}
           />
         </Box>
       </Stack>

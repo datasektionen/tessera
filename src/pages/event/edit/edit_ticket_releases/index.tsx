@@ -80,7 +80,7 @@ const EditTicketReleasesPage: React.FC = () => {
     if (ticketReleaseID) {
       const parsedID = parseInt(ticketReleaseID);
       if (!isNaN(parsedID)) {
-        const ticketRelease = event?.ticketReleases?.find(
+        const ticketRelease = event?.ticket_releases?.find(
           (tr: any) => tr.id === parsedID
         );
 
@@ -135,7 +135,7 @@ const EditTicketReleasesPage: React.FC = () => {
           >
             <ListEventTicketReleases
               selectedTicketRelease={selectedTicketRelease}
-              ticketReleases={event?.ticketReleases!}
+              ticketReleases={event?.ticket_releases!}
               setSelectedTicketRelease={handleSetSelectedTicketRelease}
             />
           </Grid>

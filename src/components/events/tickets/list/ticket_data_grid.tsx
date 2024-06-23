@@ -17,6 +17,7 @@ import {
   GridRowsProp,
   GridColumnVisibilityModel,
   GridRenderCellParams,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { Cancel, CheckCircle } from "@mui/icons-material";
 import { add, compareAsc, format, parse } from "date-fns";
@@ -30,7 +31,6 @@ import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
 import AddonModalView from "./addon_modal_view";
 import StyledButton from "../../../buttons/styled_button";
-import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getEventFormFieldsColumns,
@@ -54,6 +54,9 @@ import {
   pink,
   cyan,
 } from "@mui/material/colors";
+import ApiRoutes from "../../../../routes/backend_routes";
+import { putApi } from "../../../../utils/api/api";
+import { toast } from "react-toastify";
 
 const isTicketRequest = (ticket: ITicket) => {
   return ticket.id === 0;
@@ -67,7 +70,7 @@ enum TicketStatus {
   CHECKED_IN = "Checked In",
   PAID = "Paid",
   RESERVED = "Reserved",
-  PURCHASEABLE = "Purchaseable",
+  PURCHASEABLE = "Ready for Purchase",
   EXPIRED = "Expired",
   LOTTERY_ENTERED = "Lottery Entered",
   HANDLED = "Handled",
@@ -122,11 +125,15 @@ function createRow(ticket: ITicket) {
 
   let payed_at = "N/A";
   let deleted_at = "N/A";
+
   try {
     payed_at = ticket.is_paid
       ? ticket.ticket_request?.ticket_type?.price === 0
         ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
-        : format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
+        : format(
+            new Date(ticket?.order?.details?.payed_at!),
+            "dd/MM/yyyy HH:mm"
+          )
       : "N/A";
   } catch (e) {
     console.error(e);
@@ -155,6 +162,7 @@ function createRow(ticket: ITicket) {
   const row = {
     id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
     ticket_request_id: ticket.ticket_request?.id,
+    ticket_id: ticket.id,
     ticket_release_id: ticket.ticket_request?.ticket_release?.id,
     ticket_release_name: ticket.ticket_request?.ticket_release?.name,
     status: status,
@@ -189,6 +197,8 @@ function createRow(ticket: ITicket) {
       ticket,
       ticket.ticket_request?.ticket_release!
     ),
+    deleted_reason:
+      ticket.deleted_reason || ticket.ticket_request?.deleted_reason,
     ...customRows,
   };
 
@@ -227,7 +237,8 @@ const MyCustomInputComponent: React.FC<{
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
   selectTicketRequest: (ticketRequestID: number) => void;
-}> = ({ tickets, selectTicketRequest }) => {
+  reFetch: () => void;
+}> = ({ tickets, selectTicketRequest, reFetch }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
   const [searchText, setSearchText] = useState(Cookies.get("searchText") || "");
@@ -236,6 +247,7 @@ const EventTicketsList: React.FC<{
     const savedFilterModel = Cookies.get("filterModel");
     return savedFilterModel ? JSON.parse(savedFilterModel) : { items: [] };
   });
+  const [selectedRows, setSelectedRows] = useState<GridRowsProp>([]);
 
   // Initialize Fuse with the appropriate options
   const fuse = useMemo(() => {
@@ -341,8 +353,11 @@ const EventTicketsList: React.FC<{
             color = "white";
         }
         return (
+          // Print params.deleted_reason if it exists
           <span style={{ backgroundColor: color, color: "black" }}>
-            {params.value}
+            {params.row.deleted_reason
+              ? params.row.deleted_reason
+              : params.value}
           </span>
         );
       },
@@ -356,6 +371,11 @@ const EventTicketsList: React.FC<{
       field: "ticket_request_id",
       headerName: "Ticket Request ID",
       width: 150,
+    },
+    {
+      field: "ticket_id",
+      headerName: "Ticket ID",
+      width: 50,
     },
     {
       field: "ticket_release_name",
@@ -531,7 +551,7 @@ const EventTicketsList: React.FC<{
 
         let formattedDate: string;
         try {
-          formattedDate = format(params.value as Date, "dd/MM/yyyy HH:mm");
+          formattedDate = format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } catch (e) {
           console.error(e);
           formattedDate = "N/A";
@@ -556,7 +576,7 @@ const EventTicketsList: React.FC<{
           // So we should show "Event Start" instead
           return "Event Start";
         } else if (params.value) {
-          return format(params.value as Date, "dd/MM/yyyy HH:mm");
+          return format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } else {
           return "N/A";
         }
@@ -617,42 +637,6 @@ const EventTicketsList: React.FC<{
         return params.value;
       },
     },
-    {
-      field: "Allocate",
-      headerName: "Allocate",
-      width: 150,
-      renderCell: (params: GridRenderCellParams<any>) => {
-        if (params.row.deleted_at !== "N/A") {
-          return "N/A";
-        }
-
-        if (params.row.type === "Ticket") {
-          return <CheckCircle color="success" />;
-        }
-
-        return (
-          <Button
-            variant="contained"
-            size="small"
-            tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => {
-              allocateSelectedTicket(
-                parseInt(eventID!),
-                params.row.ticket_request_id
-              );
-            }}
-          >
-            <Typography
-              fontFamily={"Josefin Sans"}
-              fontSize={14}
-              fontWeight={400}
-            >
-              Allocate
-            </Typography>
-          </Button>
-        );
-      },
-    },
     ...customColumns,
   ];
 
@@ -690,9 +674,96 @@ const EventTicketsList: React.FC<{
     setIsModalOpen(false);
   };
 
+  const handleCustomActionClick = async (action: string) => {
+    if (selectedRows.length === 0) {
+      toast.error("No rows selected");
+      return;
+    }
+
+    // Implement your custom action logic here
+    const isHandlingTicketRequests = selectedRows[0].type === "Request";
+
+    // Define a list of ids
+    const ids = selectedRows.map((row) =>
+      isHandlingTicketRequests ? row.ticket_request_id : row.ticket_id
+    );
+
+    const url = ApiRoutes.generateRoute(
+      isHandlingTicketRequests
+        ? ApiRoutes.MANAGER_EVENT_TICKET_REQEUST_ACTION
+        : ApiRoutes.MANAGER_EVENT_TICKET_ACTION,
+      { eventID: eventID }
+    );
+
+    let body: Object = {};
+    if (isHandlingTicketRequests) {
+      body = {
+        action: action,
+        ticket_request_ids: ids,
+      };
+    } else {
+      body = {
+        action: action,
+        ticket_ids: ids,
+      };
+    }
+
+    switch (action) {
+      case "undelete":
+      case "delete":
+        try {
+          await putApi(url, body, true);
+
+          toast.success(
+            `Successfully ${action === "delete" ? "deleted" : "undeleted"} ${
+              isHandlingTicketRequests ? "ticket requests" : "tickets"
+            }`
+          );
+        } catch (error: any) {
+          const errorMessage =
+            error.response.data.error ||
+            error.message ||
+            error ||
+            "An error occurred";
+
+          toast.error(errorMessage);
+        }
+        break;
+      case "allocate":
+        if (!isHandlingTicketRequests) {
+          toast.error("Cannot allocate tickets");
+          return;
+        }
+
+        try {
+          await putApi(url, body, true);
+
+          toast.success("Successfully allocated tickets");
+        } catch (error: any) {
+          const errorMessage =
+            error.response.data.error ||
+            error.message ||
+            error ||
+            "An error occurred";
+
+          toast.error(errorMessage);
+        }
+        break;
+      default:
+        toast.error("Invalid action");
+        break;
+    }
+    // Wait 1 second
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Refetch the tickets
+    reFetch();
+  };
+
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
+      ticket_id: false,
       ticket_request_id: false,
       ticket_release_name: true,
       status: true,
@@ -720,7 +791,6 @@ const EventTicketsList: React.FC<{
       requseted_at: true,
       purchasable_at: true,
       prefer_meat: false,
-      can_be_selectively_allocated: false,
       // All custom columns are false by default
       ...customColumns.reduce((acc: { [key: string]: boolean }, column) => {
         acc[column.field as string] = false;
@@ -729,8 +799,12 @@ const EventTicketsList: React.FC<{
     });
 
   const CustomToolbarWithProps = () => {
-    // Pass the rows directly to the CustomToolbar
-    return <CustomToolbar rows={rows} />;
+    return (
+      <CustomToolbar
+        rows={filteredRows}
+        onCustomAction={handleCustomActionClick}
+      />
+    );
   };
 
   useEffect(() => {
@@ -807,6 +881,27 @@ const EventTicketsList: React.FC<{
               sortModel: [{ field: "requseted_at", sort: "desc" }],
             },
           }}
+          checkboxSelection
+          disableRowSelectionOnClick
+          onRowSelectionModelChange={(newSelection: any) => {
+            const selectedRowData = newSelection.map((id: any) =>
+              filteredRows.find((row) => row.id === id)
+            );
+            setSelectedRows(selectedRowData);
+          }}
+          isRowSelectable={
+            (params: GridRowParams) => {
+              if (selectedRows.length === 0) {
+                return true;
+              }
+
+              return (
+                selectedRows.length === 0 ||
+                selectedRows[0].type === params.row.type
+              );
+            }
+            // Check if the first element in the selected rows has the same type as the current row
+          }
         />
       </ThemeProvider>
       {selectedUser && (

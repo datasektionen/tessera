@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import StyledButton from "../buttons/styled_button";
 import PALLETTE from "../../theme/pallette";
 import { useEffect, useState } from "react";
-import { createSignupValidationSchema } from "../../validation/customer_signup_validation";
+import { createSignupValidationSchema } from "../../validation/user/customer_signup_validation";
 import StyledText from "../text/styled_text";
 import {
   StyledFormLabel,

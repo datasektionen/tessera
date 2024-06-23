@@ -39,7 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({
     currentUser?.organizations?.some(
       // @ts-ignore
       (org) => org.ID === event.organizationId
-    ) ?? currentUser?.ug_kth_id === event.createdById;
+    ) ?? currentUser?.ug_kth_id === event.created_by;
 
   return (
     <Card
@@ -53,7 +53,9 @@ const EventCard: React.FC<EventCardProps> = ({
         }
       }}
       sx={{
-        backgroundColor: inThePast ? PALLETTE.charcoal_see_through : PALLETTE.white,
+        backgroundColor: inThePast
+          ? PALLETTE.charcoal_see_through
+          : PALLETTE.white,
       }}
     >
       <Box

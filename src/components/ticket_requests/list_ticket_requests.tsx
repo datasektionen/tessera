@@ -50,7 +50,7 @@ const TicketRequestsList: React.FC<TicketRequestsListProps> = ({
   }
 
   const groupedRequests = ticketRequests.reduce((groups, request) => {
-    const key = request.ticket_release?.eventId!;
+    const key = request.ticket_release?.event_id!;
     if (!groups[key]) {
       groups[key] = [];
     }

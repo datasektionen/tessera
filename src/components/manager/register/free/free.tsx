@@ -6,10 +6,21 @@ import StyledText from "../../../text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import FreeRegisterForm from "./free_register_form";
 import TesseraWrapper from "../../../wrappers/page_wrapper";
+import { useNetworkDetails } from "../../../../hooks/manager/network_details_hook";
+import { useEffect } from "react";
 
 const GetStartedFreePlanEnrollment: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const { network } = useNetworkDetails();
+
+  useEffect(() => {
+    if (network) {
+      navigate("/manager/setup");
+    }
+  }, [network, navigate]);
+
   return (
     <TesseraWrapper>
       <StandardToastContainer />

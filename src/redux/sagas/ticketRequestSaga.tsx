@@ -98,14 +98,14 @@ function* createTicketRequestSaga(
           response.data.map((ticket_request: any) => ticket_request.ID)
         )
       );
-      // toast.success(
-      //   <StyledText color={PALLETTE.charcoal} level="body-sm" fontWeight={600}>
-      //     Ticket request created! View it{" "}
-      //     <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>
-      //   </StyledText>
-      // );
+
       yield put(postTicketRequestSuccess());
     } else {
+      // check if status is 429
+      if (response.status === 429) {
+        return;
+      }
+
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);
       yield put(postTicketRequestFailure(errorMessage));
@@ -176,13 +176,11 @@ function* getMyTicketRequestsSaga(
           ticket_release_id: ticket_request.ticket_release_id!,
           ticket_release: {
             id: ticket_request.ticket_release.ID!,
-            eventId: ticket_request.ticket_release.event_id!,
+            event_id: ticket_request.ticket_release.event_id!,
             event: {
               id: ticket_request.ticket_release.event.ID!,
               name: ticket_request.ticket_release.event.name!,
-              date: new Date(
-                ticket_request.ticket_release.event.date!
-              ).getTime(),
+              date: new Date(ticket_request.ticket_release.event.date!),
               form_field_description:
                 ticket_request.ticket_release.event.form_field_description!,
               form_fields: ticket_request.ticket_release.event.form_fields?.map(
@@ -199,8 +197,8 @@ function* getMyTicketRequestsSaga(
             } as IEvent,
             name: ticket_request.ticket_release.name!,
             description: ticket_request.ticket_release.description!,
-            open: new Date(ticket_request.ticket_release.open!).getTime(),
-            close: new Date(ticket_request.ticket_release.close!).getTime(),
+            open: new Date(ticket_request.ticket_release.open!),
+            close: new Date(ticket_request.ticket_release.close!),
             has_allocated_tickets:
               ticket_request.ticket_release.has_allocated_tickets,
             addons: ticket_request.ticket_release.add_ons?.map((addon: any) => {
@@ -224,6 +222,7 @@ function* getMyTicketRequestsSaga(
               quantity: addon.quantity!,
             };
           }) as ITicketAddon[],
+          deleted_reason: ticket_request.deleted_reason!,
         } as ITicketRequest;
       }
     );

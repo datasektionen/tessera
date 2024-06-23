@@ -18,7 +18,7 @@ import {
   createEventFullWorkflowSuccess,
   resetCurrentStep,
 } from "../features/eventCreationSlice";
-import { postCreateEvent } from "./helpers/createEvent";
+import { getDurationUnits, toGoDuration } from "../../utils/date_conversions";
 
 function* createEventFullWorkflowSaga(
   action: PayloadAction<{
@@ -41,15 +41,18 @@ function* createEventFullWorkflowSaga(
       return;
     }
 
+    const { hours, minutes, seconds, days } =
+      ticketRelease.reserve_payment_duration
+        ? getDurationUnits(ticketRelease.reserve_payment_duration)
+        : { hours: 0, minutes: 0, seconds: 0, days: 0 };
+
     const data: CompleteEventWorkflowPostReq = {
       event: {
         name: event.name,
         description: event.description,
         location: event.location!.label,
-        date: new Date(event.date).getTime() / 1000,
-        end_date: event.end_date
-          ? new Date(event.end_date).getTime() / 1000
-          : undefined,
+        date: new Date(event.date).toISOString(),
+        end_date: event.end_date ? event.end_date : undefined,
         is_private: event.is_private,
         organization_id: event.organization_id,
         collect_food_preferences: event.collect_food_preferences,
@@ -57,8 +60,8 @@ function* createEventFullWorkflowSaga(
       ticket_release: {
         name: ticketRelease.name,
         description: ticketRelease.description,
-        open: new Date(ticketRelease.open).getTime() / 1000,
-        close: new Date(ticketRelease.close).getTime() / 1000,
+        open: new Date(ticketRelease.open).toISOString(),
+        close: new Date(ticketRelease.close).toISOString(),
         open_window_duration: ticketRelease.open_window_duration! * 60,
         method_description: ticketRelease.method_description,
         max_tickets_per_user: ticketRelease.max_tickets_per_user,
@@ -68,15 +71,27 @@ function* createEventFullWorkflowSaga(
         is_reserved: ticketRelease.is_reserved,
         promo_code: ticketRelease.is_reserved ? ticketRelease.promo_code : "",
         tickets_available: ticketRelease.tickets_available,
+        save_template: ticketRelease.save_template,
+        payment_deadline: ticketRelease.payment_deadline
+          ? ticketRelease.payment_deadline
+          : undefined,
+        reserve_payment_duration: ticketRelease.reserve_payment_duration
+          ? toGoDuration(days, hours, minutes, seconds)
+          : undefined,
+        allocation_cut_off: ticketRelease.allocation_cut_off
+          ? ticketRelease.allocation_cut_off
+          : undefined,
       },
       ticket_types: ticketTypes.map((ticketType: ITicketTypeForm) => {
         return {
           name: ticketType.name,
           description: ticketType.description,
           price: ticketType.price,
+          save_template: ticketType.save_template,
         };
       }),
     };
+
 
     const response = yield call(
       axios.post,
@@ -97,7 +112,8 @@ function* createEventFullWorkflowSaga(
       }, 500);
     }
   } catch (error: any) {
-    toast.error(error.response.data.error);
+    const errorMessage = error.response.data.error || "An error occurred";
+    toast.error(errorMessage);
     yield put(createEventFullWorkflowFailure(error.message));
   }
 }

@@ -31,7 +31,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { InputLabel } from "@mui/material";
 import { mt } from "date-fns/locale";
-import { formFieldSchema } from "../../../../validation/event_form_fields";
+import { formFieldSchema } from "../../../../validation/event/event_form_fields";
 import { handleEventFormFieldsSubmit } from "../../../../redux/sagas/axios_calls/event_form_fields";
 import { toast } from "react-toastify";
 import {

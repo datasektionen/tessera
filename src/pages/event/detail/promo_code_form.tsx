@@ -6,7 +6,7 @@ import { StyledFormLabel, StyledFormLabelWithHelperText } from '../../../compone
 import { FormInput } from '../../../components/forms/input_types';
 import StyledButton from '../../../components/buttons/styled_button';
 import { StyledErrorMessage } from '../../../components/forms/messages';
-import { PromoCodeValidationSchema } from '../../../validation/create_ticket_release_form';
+import { PromoCodeValidationSchema } from '../../../validation/event/create_ticket_release_form';
 import { PromoCodeAccessForm, PromoCodeAccessFormInitialValues } from '../../../types';
 
 interface PromoCodeFormProps {

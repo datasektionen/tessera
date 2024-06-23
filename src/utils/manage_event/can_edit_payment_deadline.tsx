@@ -38,10 +38,18 @@ export const ticketReleaseRequiresAccount = (method?: ITicketReleaseMethod) => {
 
 export const canEditPaymentDeadline = (method?: ITicketReleaseMethod) => {
   if (!method) {
-    throw new Error("Method is required");
+    return false;
   }
 
   return METHODS_THAT_CAN_EDIT_PAYMENT_DEADLINE.includes(method.name);
+};
+
+export const canEditPaymentDeadlineFromId = (id: number) => {
+  return true;
+};
+
+export const canEditReservePaymentDurationFromId = (id: number) => {
+  return [1, 3].includes(id);
 };
 
 export const hasReserveTickets = (method?: ITicketReleaseMethod) => {

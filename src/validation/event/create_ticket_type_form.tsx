@@ -21,6 +21,7 @@ const CreateTicketTypeFormSchema = Yup.object().shape({
       (value) => value === 0 || value >= 3
     )
     .integer("Price must be a whole number"),
+  save_template: Yup.boolean(),
 });
 
 export default CreateTicketTypeFormSchema;

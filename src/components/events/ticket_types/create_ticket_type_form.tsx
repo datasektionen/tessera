@@ -14,7 +14,7 @@ import {
 } from "../../../redux/features/ticketTypeCreationSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
-import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
@@ -172,6 +172,19 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
 
                   <StyledFormLabelWithHelperText>
                     {t("form.ticket_types.price_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.save_template")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="save_template"
+                    label="Save as a template"
+                  />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_types.save_template_helperText")}
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 

@@ -12,7 +12,7 @@ export const useBankingDetails = (eventID: number) => {
   } = useEventDetails(eventID);
 
   useEffect(() => {
-    const organizationID = event?.organizationId!;
+    const organizationID = event?.organization_id!;
     if (organizationID) {
       dispatch(
         getBankingDetailsRequest({

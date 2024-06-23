@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { parseDurationInput } from "../utils/date_conversions";
+import { parseDurationInput } from "../../utils/date_conversions";
 
 const PaymentDeadlineFormValidation = Yup.object().shape({
   payment_deadline: Yup.date()

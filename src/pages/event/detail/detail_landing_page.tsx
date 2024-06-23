@@ -108,7 +108,7 @@ const EventLandingPage = () => {
     return <LoadingOverlay />;
   }
 
-  const ticketReleases = event!.ticketReleases!.filter(
+  const ticketReleases = event!.ticket_releases!.filter(
     (ticketRelease) => !ticketReleaseHasClosed(ticketRelease, timestamp)
   );
 

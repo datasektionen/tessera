@@ -105,7 +105,7 @@ const PricingPage: React.FC = () => {
       </InformationModal>
       <Box
         sx={{
-          minHeight: 260,
+          minHeight: 180,
         }}
       >
         <div className={classes.wave}>
@@ -126,7 +126,7 @@ const PricingPage: React.FC = () => {
             position: "absolute",
             transform: "translateX(-50%)",
             left: "50%",
-            top: "150px",
+            top: "75px",
           }}
         >
           <StyledText

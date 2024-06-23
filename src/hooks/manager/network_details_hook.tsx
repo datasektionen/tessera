@@ -5,7 +5,7 @@ import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export const useNetworkDetails = () => {
+export const useNetworkDetails = (redirectOnFail: boolean = true) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { network, loading, error } = useSelector(
@@ -14,10 +14,15 @@ export const useNetworkDetails = () => {
 
   useEffect(() => {
     if (error) {
-      setTimeout(() => {
-        toast.error(error);
-      }, 1000);
-      navigate("/");
+      if (error !== "User does not belong to a network") {
+        if (redirectOnFail) {
+          setTimeout(() => {
+            toast.error(error);
+          }, 1000);
+
+          navigate("/");
+        }
+      }
     }
   }, [error]);
 

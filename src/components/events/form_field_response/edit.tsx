@@ -141,7 +141,7 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         value: value,
       };
     });
-    const event_id = ticketRequest.ticket_release?.eventId!;
+    const event_id = ticketRequest.ticket_release?.event_id!;
 
     handleEventFormFieldResponseSubmit(
       formFieldValues,
@@ -299,6 +299,10 @@ const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
   formFields = undefined,
   isGuestCustomer = false,
 }) => {
+  if (!formFields || formFields.length === 0) {
+    return <></>;
+  }
+
   if (ticket !== undefined) {
     return (
       <EditFormFieldResponseBase

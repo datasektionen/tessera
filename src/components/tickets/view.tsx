@@ -39,7 +39,7 @@ function convertPayWithinToString(
 }
 
 interface ViewTicketProps {
-  ticket: ITicket;
+  ticket: ITicket | null;
 }
 
 const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
@@ -50,18 +50,16 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const ticketRequest = ticket.ticket_request!;
+  const ticketRequest = ticket?.ticket_request!;
 
   const { totalTicketCost, totalAddonsCost, totalCost } = useCosts(
-    ticket.ticket_request!
+    ticket?.ticket_request
   );
 
-  const { addons: allAddons } = ticket.ticket_request?.ticket_release!;
-
   useEffect(() => {
-    if (ticket.payment_deadline) {
+    if (ticket?.payment_deadline) {
       setPayBefore(
-        format(ticket.payment_deadline, "yyyy-MM-dd HH:mm:ss") +
+        format(new Date(ticket.payment_deadline), "yyyy-MM-dd HH:mm:ss") +
           " CET (or CEST in summer)"
       );
     } else {
@@ -85,6 +83,9 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   }, []);
 
   const handleCancelTicket = () => {
+    if (!ticket) {
+      return;
+    }
     dispatch(
       cancelMyTicketStart({
         ticket,
@@ -101,13 +102,15 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         new Date(ticket.ticket_request?.ticket_release?.event?.date!)
       );
     } else {
-      return isBefore(new Date(), ticket.payment_deadline);
+      return isBefore(new Date(), new Date(ticket.payment_deadline));
     }
   };
 
   if (!ticket) {
-    return <></>;
+    return null;
   }
+
+  const { addons: allAddons } = ticket?.ticket_request?.ticket_release!;
 
   return (
     <BorderBox
@@ -337,26 +340,26 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           </StyledText>
         </ConfirmModal>
 
-        <StyledButton
-          bgColor={PALLETTE.red}
-          color={PALLETTE.charcoal}
-          size="md"
-          onClick={() => {
-            if (canPayForTicket(ticket)) {
-              setConfirmCancelOpen(true);
-            }
-          }}
-          style={{
-            width: "250px",
-            marginTop: "16px",
-          }}
-        >
-          {ticket.is_reserve
-            ? t("tickets.leave_reserve_list_text")
-            : canPayForTicket(ticket)
-            ? t("tickets.cancel_ticket_button")
-            : "Nothing to see here!"}
-        </StyledButton>
+        {ticket.is_reserve || canPayForTicket(ticket) ? (
+          <StyledButton
+            bgColor={PALLETTE.red}
+            color={PALLETTE.charcoal}
+            size="md"
+            onClick={() => {
+              if (canPayForTicket(ticket)) {
+                setConfirmCancelOpen(true);
+              }
+            }}
+            style={{
+              width: "250px",
+              marginTop: "16px",
+            }}
+          >
+            {ticket.is_reserve
+              ? t("tickets.leave_reserve_list_text")
+              : t("tickets.cancel_ticket_button")}
+          </StyledButton>
+        ) : null}
       </Box>
     </BorderBox>
   );

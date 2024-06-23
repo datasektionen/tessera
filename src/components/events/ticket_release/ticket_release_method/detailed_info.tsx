@@ -43,23 +43,23 @@ const TicketReleaseMethodDetail: React.FC<TicketReleaseMethodDetailProps> = ({
 
   useEffect(() => {
     if (
-      ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod!.name ===
+      ticketRelease.ticket_release_method_detail.ticket_release_method!.name ===
       "First Come First Serve Lottery"
     ) {
       setData({
         fcfsl: {
           open_window_duration:
-            ticketRelease.ticketReleaseMethodDetail.openWindowDuration!,
+            ticketRelease.ticket_release_method_detail.open_window_duration!,
         },
       });
       setMethod("First Come First Serve Lottery");
     } else if (
-      ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod!.name ===
+      ticketRelease.ticket_release_method_detail.ticket_release_method!.name ===
       "Reserved Ticket Release"
     ) {
       setData({
         reserved: {
-          ticket_release_id: ticketRelease.ticketReleaseMethodDetail.id,
+          ticket_release_id: ticketRelease.ticket_release_method_detail.id,
         },
       });
       setMethod("Reserved Ticket Release");

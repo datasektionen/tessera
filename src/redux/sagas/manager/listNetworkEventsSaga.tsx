@@ -7,6 +7,7 @@ import {
   getNetworkEventsRequest,
   getNetworkEventsSuccess,
 } from "../../features/manager/listNetworkEventsSlice";
+import { compareDesc } from "date-fns";
 
 function* listNetworkEventSaga(): Generator<any, void, any> {
   try {
@@ -34,13 +35,13 @@ function* listNetworkEventSaga(): Generator<any, void, any> {
           location: event.location!,
           date: event.date!,
           end_date: event.end_date || null,
-          organizationId: event.organization_id!,
-          createdById: event.created_by!,
+          organization_id: event.organization_id!,
+          created_by: event.created_by!,
           is_private: event.is_private!,
         } as IEvent;
       })
       .sort((a: IEvent, b: IEvent) => {
-        return b.date - a.date;
+        return compareDesc(new Date(b.date), new Date(a.date));
       });
 
     yield put(getNetworkEventsSuccess(events));

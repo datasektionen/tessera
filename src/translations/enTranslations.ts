@@ -103,7 +103,7 @@ const enTranslations = {
         "Is your event private? Only people with the link can see it.",
       collect_food_preferences: "Collect Food Preferences",
       collect_food_preferences_helperText:
-        "Do you want to collect food preferences and allergies from attendees?",
+        "Do you want to collect food preferences from users?",
     },
     ticket_release: {
       name: "Name",
@@ -143,6 +143,19 @@ const enTranslations = {
       selective_description: "Describe the Allocation Method",
       selective_description_helperText:
         "Specify how your team plans to allocate tickets. This information will be shown to users when they request a ticket.",
+      save_template: "Save as Template",
+      save_template_helperText:
+        "Save this ticket release as a template to use again later.",
+
+      payment_deadline: "Payment Deadline",
+      payment_deadline_helperText:
+        "When is the payment deadline for users who initially got a ticket?",
+      reserve_payment_duration: "Reserve Payment Duration",
+      reserve_payment_duration_helperText:
+        "When a reserve receives a ticket, how long do they have to pay before it's given to the next person in line?",
+      allocation_cut_off: "Allocation Cut-off",
+      allocation_cut_off_helperText:
+        "When will the allocation of tickets be cut off? This is when the system will stop allocating tickets.",
     },
     ticket_types: {
       name: "Name",
@@ -152,6 +165,9 @@ const enTranslations = {
         "Describe what's included in this ticket. Markdown is supported.",
       price: "Price (SEK)",
       price_helperText: "How much does this ticket cost?",
+      save_template: "Save as Template",
+      save_template_helperText:
+        "Save this ticket as a template to use again later.",
     },
     contact: {
       title: "Contact",
@@ -215,6 +231,33 @@ const enTranslations = {
       updated_at: "Last updated {{date}}",
     },
 
+    manager: {
+      setup: {
+        business_details: {
+          legal_name: "Legal Name",
+          legal_name_helperText: "Legal name of your business.",
+          corporate_id: "Corporate ID",
+          corporate_id_helperText: "Corporate ID of your business.",
+          store_name: "Store Name",
+          store_name_helperText: "Name of your online store.",
+          business_email: "Business Email",
+          business_email_helperText: "Email of your business.",
+          country: "Country",
+          country_helperText: "Country of your business.",
+          phone_number: "Phone Number",
+          phone_number_helperText: "Phone number of your business.",
+          address_line1: "Address Line 1",
+          address_line1_helperText: "Address Line 1 of your business.",
+          address_line2: "Address Line 2",
+          address_line2_helperText: "Address Line 2 of your business.",
+          city: "City",
+          city_helperText: "City of your business.",
+          postal_code: "Postal Code",
+          postal_code_helperText: "Postal code of your business.",
+        },
+      },
+    },
+
     button_sign_in: "Sign in",
     button_add_field: "Add Field",
     button_clear: "Clear",
@@ -268,6 +311,21 @@ const enTranslations = {
     no_teams:
       "You are currently not part of any team, and therefore cannot create an event. To create a team, you need to contact us. Read more on the landing page.",
   },
+
+  templates: {
+    title: "Saved Templates",
+    ticket_releases: {
+      description:
+        "You can create new templates by ticking the 'Save as Template' checkbox when creating a ticket release. Here you can see all your saved templates. Click 'Create' to create a new event from a template.",
+      no_templates: "There are no templates available.",
+    },
+    ticket_types: {
+      description:
+        "Templates for ticket batches are a bit different from ticket releases. Saving a template will assume that you will keep that template for the ticket release you are editing. Editing your template will automatically update all ticket releases that use that template.",
+      no_templates: "There are no templates available.",
+    },
+  },
+
   profile: {
     title: "Profile",
     full_name: "Full Name",
@@ -359,7 +417,73 @@ const enTranslations = {
   },
 
   manager: {
-    dashboard: {},
+    dashboard: {
+      events: "Events",
+      no_events: "No events yet",
+    },
+
+    setup: {
+      title: "Setup",
+      description: "Complete your profile to start creating events.",
+    },
+
+    onboarding: {
+      welcomeMessage: "Welcome to Tesseras Event Manager Setup & Onboarding!",
+      intro:
+        "Welcome to the onboarding setup page for event managers. As an event organizer, you are just a few steps away from setting up your payment processing system through Surfboard Payments. Please follow the instructions below to provide the necessary details and complete the onboarding process.",
+      stepByStepGuide: "Step-by-Step Guide to Complete Onboarding",
+      steps: {
+        step1: {
+          title: "Fill in Business Details",
+          description:
+            "Please provide the necessary business details in the form below. This information will be used to create your merchant account and online store.",
+        },
+        step2: {
+          title: "Fill out KYB Form",
+          active: "Click the link below to fill out the KYB form.",
+          description:
+            "Tessera will generate a Know Your Business (KYB) link for you from the Surfboard Payments partner portal. This link will be sent to your registered email address.",
+        },
+        step3: {
+          title: "Verification Process",
+          description:
+            "Once you submit your details, Surfboard Payments will verify the legitimacy of your business. This process typically takes 2-4 business days. You will receive a notification via email once your business details have been approved.",
+        },
+        step4: {
+          title: "Account Creation",
+          description:
+            "After approval, Surfboard Payments will automatically create a merchant account and an online store for your business. You will receive the credentials and relevant information for accessing your merchant account.",
+        },
+      },
+      customization: {
+        title: "Customization",
+        description:
+          "The onboarding web-app can be customized to match the colors and branding of Dow Technologies. If you wish to customize the appearance of your onboarding page, please contact our support team for assistance.",
+      },
+      importantLinks: {
+        title: "Important Links",
+        links: {
+          partnersGuide:
+            "https://developers.surfboardpayments.com/docs/concepts/partners",
+          merchantsGuide:
+            "https://developers.surfboardpayments.com/docs/concepts/merchants/merchants-home",
+          storesGuide:
+            "https://developers.surfboardpayments.com/docs/concepts/stores/stores-home",
+          terminalsGuide:
+            "https://developers.surfboardpayments.com/docs/concepts/terminals/terminals-home",
+          onboardingRequirements:
+            "https://developers.surfboardpayments.com/docs/concepts/onboarding#requirements-for-onboarding",
+          onlinePaymentsGuide:
+            "https://developers.surfboardpayments.com/docs/guides/online-payments",
+        },
+      },
+      needHelp: {
+        title: "Need Help?",
+        description:
+          "If you have any questions or need assistance during the onboarding process, please contact our support team at support@dowtechnologies.com or call us at 1-800-123-4567.",
+      },
+      thankYou: "Thank you for choosing Dow Technologies!",
+    },
 
     teams: {
       title: "{{name}} Teams",
@@ -406,6 +530,7 @@ const enTranslations = {
     allocate_tickets_button: "Allocate Tickets",
     the_ticket_release: "The ticket release",
     deleted_ticket_requests: "Deleted Ticket Requests",
+    remaining_ticket_requests: "Remaining Ticket Requests",
     deleted_tickets: "Deleted Tickets",
     not_open: "Not Open",
     not_yet_open: "Not Yet Open",

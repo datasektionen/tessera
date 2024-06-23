@@ -57,14 +57,14 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
     ticketTypes,
     loading: ticketBatchLoading,
   } = useChangeTicketBatch(
-    ticket_release?.eventId!,
+    ticket_release?.event_id!,
     ticket_release?.id!,
     ticket.id
   );
 
   const onSave = (values: any) => {
     setOpenEditModal(false);
-    sendTicketUpdateRequest(ticket_release?.eventId!, ticket.id, {
+    sendTicketUpdateRequest(ticket_release?.event_id!, ticket.id, {
       payment_deadline: values.payment_deadline?.toISOString(),
       checked_in: values.checked_in,
     });
@@ -190,7 +190,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
             label={t("manage_event.tickets.ticket_info.ticket_release")}
             value={
               <Link
-                href={`/events/${ticket_release?.eventId}/manage/ticket-releases?ticket_release_id=${ticket_release?.id}`}
+                href={`/events/${ticket_release?.event_id}/manage/ticket-releases?ticket_release_id=${ticket_release?.id}`}
               >
                 {ticket_release?.name}
               </Link>
@@ -206,7 +206,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
           />
 
           {hasLottery(
-            ticket_release?.ticketReleaseMethodDetail.ticketReleaseMethod!
+            ticket_release?.ticket_release_method_detail.ticket_release_method!
           ) && (
             <LabelValue
               label={t("manage_event.tickets.ticket_info.entered_into_lottery")}

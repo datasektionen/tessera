@@ -13,12 +13,16 @@ const TicketReleaseCountdown: React.FC<{
   fs: number;
   useOpen?: boolean;
 }> = ({ ticketRelease, fw, fs, useOpen }) => {
-  const targetDate = useOpen ? ticketRelease.open : ticketRelease.close;
+  const openDate = new Date(ticketRelease.open);
+  const closeDate = new Date(ticketRelease.close);
+
+  const targetDate: Date = useOpen ? openDate : closeDate;
+  const now = new Date();
 
   const calculateDuration = () => {
     return intervalToDuration({
-      start: new Date(),
-      end: targetDate,
+      start: now,
+      end: targetDate.getTime(),
     });
   };
 
@@ -26,7 +30,7 @@ const TicketReleaseCountdown: React.FC<{
 
   useEffect(() => {
     // Check if current date is past the target date
-    if (new Date().getTime() >= targetDate) {
+    if (new Date() >= targetDate) {
       clearInterval(1);
       return;
     }
@@ -47,7 +51,7 @@ const TicketReleaseCountdown: React.FC<{
 
   const { t } = useTranslation();
 
-  if (useOpen && new Date().getTime() >= ticketRelease.open) {
+  if (useOpen && new Date() >= ticketRelease.open) {
     return (
       <>
         <IconButton
