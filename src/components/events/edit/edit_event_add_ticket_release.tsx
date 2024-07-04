@@ -287,7 +287,7 @@ const EditEventAddTicketRelease: React.FC<EditEventAddTicketReleaseProps> = ({
                       {
                         // @ts-ignore
                         template.ticket_release_method_detail
-                          .ticket_release_method.name
+                          .ticket_release_method.method_name
                       }
                     </span>
                     <br />

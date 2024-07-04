@@ -913,7 +913,7 @@ const enTranslations = {
       month: "month(s)",
       method_info: {
         fcfsl:
-          "Requests made within the first <1>{{duration}}</1> minutes of the release will be entered into the lottery.",
+          "Requests made within the first <1>{{duration}}</1> of the release will be entered into the lottery.",
       },
       reserved: "Reserved",
       no_tickets: "There are no tickets available.",
@@ -1013,6 +1013,10 @@ const enTranslations = {
     made_at: "Made At",
     updated: "Updated",
     private_event: "Private Event",
+    hour_one: "hour",
+    hour_other: "hours",
+    minute_one: "minute",
+    minute_other: "minutes",
     mobile_warning:
       "Welcome to Tessera! It appears you are using a mobile device. Some website features may not be optimized for mobile. However, requesting and viewing tickets should work as expected. If you're an event organizer, we recommend using a desktop device.",
   },

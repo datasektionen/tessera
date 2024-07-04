@@ -138,14 +138,14 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
             values={{
               method:
                 ticketRelease.ticket_release_method_detail
-                  ?.ticket_release_method?.name,
+                  ?.ticket_release_method?.method_name,
             }}
           >
             This release uses
             <Link target="_blank" onClick={() => setModalIsOpen(true)}>
               {
                 ticketRelease.ticket_release_method_detail
-                  ?.ticket_release_method?.name
+                  ?.ticket_release_method?.method_name
               }
             </Link>
           </Trans>
@@ -175,7 +175,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           onClose={() => setModalIsOpen(false)}
           title={
             ticketRelease.ticket_release_method_detail?.ticket_release_method
-              ?.name!
+              ?.method_name!
           }
         >
           <StyledText

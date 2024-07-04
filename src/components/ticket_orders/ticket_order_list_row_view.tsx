@@ -16,7 +16,8 @@ import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { format } from "date-fns";
 import { t } from "i18next";
-import { ITicketOrder } from "../../types";
+import { ITicket, ITicketOrder } from "../../types";
+import { useEffect, useState } from "react";
 
 const StyledTicketRequestBox = styled(Box)(({ theme }) => ({
   border: "2px solid " + PALLETTE.charcoal,
@@ -44,12 +45,51 @@ const TicketOrderListRowView: React.FC<TicketOrderListRowViewProps> = ({
   setSelected,
   isPastEvent = false,
 }) => {
+  const event = ticketOrder.ticket_release!.event;
+  const isUpcoming = new Date(event!.date) > new Date();
+  const [groupedTickets, setGroupedTickets] = useState<{
+    [key: string]: { name: string; price: number; count: number }[];
+  }>({});
+
+  useEffect(() => {
+    const grouped = ticketOrder.tickets.reduce(
+      (
+        acc: {
+          [key: string]: { name: string; price: number; count: number }[];
+        },
+        ticket
+      ) => {
+        const key = ticket.ticket_order_id.toString(); // Ensure the key is a string
+        const ticketTypeKey = ticket.ticket_type_id.toString();
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        const existingTicketType = acc[key].find(
+          (t) =>
+            t.name === ticket.ticket_type.name &&
+            t.price === ticket.ticket_type.price
+        );
+        if (existingTicketType) {
+          existingTicketType.count += 1;
+        } else {
+          acc[key].push({
+            name: ticket.ticket_type.name,
+            price: ticket.ticket_type.price,
+            count: 1,
+          });
+        }
+        return acc;
+      },
+      {}
+    );
+
+    setGroupedTickets(grouped);
+  }, [ticketOrder.tickets]);
+
   if (!ticketOrder) {
     return <></>;
   }
 
-  const event = ticketOrder.ticket_release!.event;
-  const isUpcoming = new Date(event!.date) > new Date();
   return (
     <StyledTicketRequestBox
       key={ticketOrder.id}
@@ -71,23 +111,26 @@ const TicketOrderListRowView: React.FC<TicketOrderListRowViewProps> = ({
           padding: "8px",
         }}
       >
-        {ticketOrder.tickets.map((ticket) => (
-          <Grid>
-            <StyledText
-              color={PALLETTE.charcoal}
-              level="body-md"
-              fontWeight={700}
-            >
-              {ticket.ticket_type!.name} -
+        {Object.entries(groupedTickets).map(([ticketOrderId, ticketTypes]) => (
+          <Grid xs={12} key={ticketOrderId}>
+            {ticketTypes.map((ticketType) => (
               <StyledText
+                key={ticketType.name}
                 color={PALLETTE.charcoal}
                 level="body-md"
-                fontWeight={500}
+                fontWeight={700}
               >
-                {" "}
-                {ticket.ticket_type!.price} SEK
+                {ticketType.count} x {ticketType.name} -
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-md"
+                  fontWeight={500}
+                >
+                  {" "}
+                  {ticketType.price} SEK
+                </StyledText>
               </StyledText>
-            </StyledText>
+            ))}
           </Grid>
         ))}
 

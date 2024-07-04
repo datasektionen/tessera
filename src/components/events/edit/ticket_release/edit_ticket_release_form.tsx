@@ -173,7 +173,6 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
       enableReinitialize
     >
       {({ values, isValid, errors }) => {
-        errors;
         return (
           <Form>
             <Grid container columns={16} spacing={2}>
@@ -370,7 +369,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                                     level="body-sm"
                                     color={PALLETTE.charcoal}
                                   >
-                                    {trm.name}
+                                    {trm.method_name}
                                   </StyledText>
                                   <Tooltip title={trm.description}>
                                     <HelpOutlineIcon

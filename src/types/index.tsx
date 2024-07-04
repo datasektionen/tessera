@@ -419,7 +419,7 @@ export const EventFormInitialTestValues: IEventForm = {
 
 export interface ITicketReleaseMethod {
   id: number;
-  name: string;
+  method_name: string;
   description: string;
 }
 
@@ -679,7 +679,7 @@ export interface ITicket {
   user_ug_kth_id: string;
   user: IUser;
 
-  purchasable_at?: Date | null;
+  purchasable_at: ISQLNullTime;
 
   ticket_add_ons?: ITicketAddon[];
   ticket_type_id: number;

@@ -250,7 +250,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
                 key="allocated_at"
                 label={t("manage_event.tickets.ticket_info.purchasable_at")}
                 value={format(
-                  new Date(ticket.purchasable_at!),
+                  new Date(ticket.purchasable_at.Time),
                   "dd MMMM, yyyy, HH:mm"
                 )}
               />,

@@ -222,7 +222,7 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
             >
               {
                 ticketRelease.ticket_release_method_detail.ticket_release_method
-                  ?.name
+                  ?.method_name
               }
             </StyledText>
           </Box>

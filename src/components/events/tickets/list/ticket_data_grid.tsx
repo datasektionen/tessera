@@ -82,6 +82,10 @@ function getTicketStatus(ticket: ITicket) {
     payBefore = new Date(ticket.payment_deadline.Time);
   }
 
+  console.log(
+    ticket.purchasable_at && new Date(ticket.purchasable_at.Time) <= new Date()
+  );
+
   let status = TicketStatus.PENDING;
   if (ticket.ticket_order?.is_handled) {
     if (ticket.deleted_at) {
@@ -95,8 +99,8 @@ function getTicketStatus(ticket: ITicket) {
     } else if (ticket.is_reserve) {
       status = TicketStatus.RESERVED;
     } else if (
-      ticket.purchasable_at &&
-      new Date(ticket.purchasable_at) <= new Date()
+      ticket.purchasable_at.Valid &&
+      new Date(ticket.purchasable_at.Time) <= new Date()
     ) {
       status = TicketStatus.PURCHASEABLE;
     } else if (payBefore && new Date() > payBefore && !ticket.is_paid) {
@@ -108,6 +112,7 @@ function getTicketStatus(ticket: ITicket) {
       )
     ) {
       status = TicketStatus.LOTTERY_ENTERED;
+    } else {
     }
   } else {
     if (ticket.ticket_order?.deleted_at) {
@@ -192,8 +197,8 @@ function createRow(ticket: ITicket) {
     pay_before: payBefore,
     purchasable_at: ticket.deleted_at
       ? null
-      : ticket.purchasable_at !== null
-      ? ticket.purchasable_at
+      : ticket.purchasable_at.Valid
+      ? ticket.purchasable_at.Time
       : ticket.updated_at,
     entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
       ticket,
@@ -552,6 +557,7 @@ const EventTicketsList: React.FC<{
         }
 
         let formattedDate: string;
+        console.log(params.value);
         try {
           formattedDate = format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } catch (e) {
