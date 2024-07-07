@@ -1,6 +1,8 @@
 import { Box, styled } from "@mui/joy";
 import PALLETTE from "../../theme/pallette";
 import StyledText from "../text/styled_text";
+import { useSelector } from "react-redux";
+import { selectAccentColor } from "../../redux/features/managerThemeSlice";
 
 const StyledBorderBox = styled(Box)(({ theme }) => ({
   // On hover

@@ -1,6 +1,8 @@
 import { Button, ButtonProps, Typography, styled } from "@mui/joy";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
+import { useSelector } from "react-redux";
+import { selectAccentColor } from "../../redux/features/managerThemeSlice";
 
 interface StyledButtonExtension extends Omit<ButtonProps, "color"> {
   children: React.ReactNode;
@@ -52,6 +54,8 @@ const StyledButton: React.FC<StyledButtonProps> = ({
   sx = {},
   fs,
 }) => {
+  const accentColor = useSelector(selectAccentColor);
+
   return (
     <ButtonStyled
       variant={"outlined"}
@@ -63,7 +67,10 @@ const StyledButton: React.FC<StyledButtonProps> = ({
       style={style}
       bgColor={bgColor}
       color_={color}
-      sx={sx}
+      sx={{
+        ...sx,
+        borderColor: accentColor !== "" ? accentColor : PALLETTE.cerise,
+      }}
     >
       <StyledText
         level="body-md"

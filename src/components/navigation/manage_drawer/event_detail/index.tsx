@@ -23,8 +23,10 @@ import PushPinIcon from "@mui/icons-material/PushPin";
 import { Stack, Tooltip } from "@mui/joy";
 import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import { text } from "stream/consumers";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
+import { getNetworkColors } from "../../../../utils/manager/color";
+import { selectMainColor } from "../../../../redux/features/managerThemeSlice";
 
 interface DrawerComponentProps {
   eventID: string;
@@ -53,6 +55,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
 
   // Custom Hooks
   const { network, loading } = useNetworkDetails();
+  const main_color = useSelector(selectMainColor);
 
   // Effects
   useEffect(() => {
@@ -86,7 +89,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
         [`& .MuiDrawer-paper`]: {
           width: isExtended ? DRAWER_WIDTH : theme.spacing(7),
           marginTop: "64px",
-          backgroundColor: PALLETTE.cerise,
+          backgroundColor: main_color,
           transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -117,18 +120,22 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
             height: "64px",
             pb: 1,
             pr: 0,
-            pt: 0
+            pt: 0,
           }}
         >
-          <div style={{
-            display: isExtended ? "block" : "none",
-            // display word wrap
-            whiteSpace: "nowrap",
-          }}>
+          <div
+            style={{
+              display: isExtended ? "block" : "none",
+              // display word wrap
+              whiteSpace: "nowrap",
+            }}
+          >
             <Box>
-              <IconButton onClick={() => {
-                navigate(ROUTES.MANAGER_DASHBOARD)
-              }}>
+              <IconButton
+                onClick={() => {
+                  navigate(ROUTES.MANAGER_DASHBOARD);
+                }}
+              >
                 <ArrowBackIcon
                   style={{
                     margin: 0,
@@ -165,7 +172,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
         <List
           sx={{
             pb: "128px",
-            mt: 1
+            mt: 1,
           }}
         >
           <CollapsibleDrawerSection
@@ -245,9 +252,12 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               },
               {
                 title: t("manage_event.drawer.edit.event_page"),
-                navigateTo: generateRoute(ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS, {
-                  eventId: eventID,
-                }),
+                navigateTo: generateRoute(
+                  ROUTES.EDIT_EVENT_LANDING_PAGE_SETTINGS,
+                  {
+                    eventId: eventID,
+                  }
+                ),
                 clickable: true,
               },
             ]}

@@ -35,6 +35,8 @@ import drawerPinnedSlice from "./redux/features/drawerPinnedSlice";
 import listNetworkEventsSlice from "./redux/features/manager/listNetworkEventsSlice";
 import networkSlice from "./redux/features/manager/networkSlice";
 import { authStatusReducer } from "./redux/features/authSlice";
+import networkSettingsSlice from "./redux/features/networkSettingsSlice";
+import managerThemeSlice from "./redux/features/managerThemeSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -85,6 +87,8 @@ const rootReducer = combineReducers({
   planEnrollmentCreation: planeEnrollmentCreationSlice,
   drawerPinned: drawerPinnedSlice,
   network: networkSlice,
+  networkSettings: networkSettingsSlice,
+  managerTheme: managerThemeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -282,6 +282,7 @@ const enTranslations = {
     button_economy: "Economy",
     generate_sales_report: "Generate Sales Report",
   },
+
   create_event: {
     title: "Create Event",
     create_event_description:
@@ -483,6 +484,23 @@ const enTranslations = {
           "If you have any questions or need assistance during the onboarding process, please contact our support team at support@dowtechnologies.com or call us at 1-800-123-4567.",
       },
       thankYou: "Thank you for choosing Dow Technologies!",
+    },
+
+    settings: {
+      general: {
+        title: "General Settings",
+        description: "Manage your general settings here.",
+        main_color: "Main Color",
+        accent_color: "Accent Color",
+        logo: "Logo URL",
+        pick_color: "Pick {{color}}",
+        close_color_picker: "Close {{color}} Picker",
+        upload_logo: "Upload Logo",
+        logo_helperText:
+          "The file can not be bigger than 1000x1000 pixels and exceed 2MB.",
+        save_settings: "Save Settings",
+        save_logo: "Save Logo",
+      },
     },
 
     teams: {

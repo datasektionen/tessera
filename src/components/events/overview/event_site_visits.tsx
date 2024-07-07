@@ -9,7 +9,6 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { OverviewBorderBoxWrapper } from "./overview_borde_box_wrapper";
 import OverviewStatisticDisplay from "./overview_stat_display";
-
 interface IEventSiteVisitProps {
   eventID: number;
 }

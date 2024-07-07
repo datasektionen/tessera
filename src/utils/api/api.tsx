@@ -129,8 +129,10 @@ export function putApi<T>(
   withCredentials: boolean = true,
   fullUrl: boolean = false
 ): Promise<ApiResponse<T>> {
+  const useUrl = fullUrl ? url : `${process.env.REACT_APP_BACKEND_URL}${url}`;
+
   return axios
-    .put<ApiResponse<T>>(url, data, {
+    .put<ApiResponse<T>>(useUrl, data, {
       withCredentials,
     })
     .then((response) => response.data) // Directly returning ApiResponse<T>

@@ -21,6 +21,13 @@ import CollapsibleDrawerSection from "../collapsible_drawer_section";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { networkHasCreatedMerchant } from "../../../../utils/manager/merchant";
 import { useNavigate } from "react-router-dom";
+import { INetwork } from "../../../../types";
+import { getNetworkColors, isColorDark } from "../../../../utils/manager/color";
+import {
+  selectAccentColor,
+  selectMainColor,
+  selectTextColor,
+} from "../../../../redux/features/managerThemeSlice";
 
 interface ManagerDashboardDrawerComponentProps {
   handlePinned: (isPinned: boolean) => void;
@@ -58,6 +65,10 @@ const ManagerDashboardDrawerComponent: React.FC<
     }
   }, [initialIsPinned, isPinned]);
 
+  const mainColor = useSelector(selectMainColor);
+  const accentColor = useSelector(selectAccentColor);
+  const textColor = useSelector(selectTextColor);
+
   // Conditional rendering
   if (isPinned === null) {
     return null;
@@ -83,7 +94,7 @@ const ManagerDashboardDrawerComponent: React.FC<
         [`& .MuiDrawer-paper`]: {
           width: isExtended ? DRAWER_WIDTH : theme.spacing(7),
           marginTop: "64px",
-          backgroundColor: PALLETTE.cerise,
+          backgroundColor: mainColor,
           transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -121,14 +132,16 @@ const ManagerDashboardDrawerComponent: React.FC<
             height: "64px",
           }}
         >
-          <div style={{
-            display: isExtended ? "block" : "none",
-            // display word wrap
-            whiteSpace: "nowrap",
-          }}>
+          <div
+            style={{
+              display: isExtended ? "block" : "none",
+              // display word wrap
+              whiteSpace: "nowrap",
+            }}
+          >
             <StyledText
               level="h3"
-              color={PALLETTE.cerise_dark}
+              color={accentColor}
               fontSize={24}
               fontWeight={600}
               sx={{
@@ -142,7 +155,7 @@ const ManagerDashboardDrawerComponent: React.FC<
             </StyledText>
             <StyledText
               level="h3"
-              color={PALLETTE.charcoal}
+              color={textColor}
               fontSize={16}
               fontWeight={500}
             >
@@ -175,7 +188,7 @@ const ManagerDashboardDrawerComponent: React.FC<
             subItems={[
               {
                 title: t("manager.drawer.settings.general"),
-                clickable: false,
+                clickable: true,
                 navigateTo: ROUTES.MANAGER_SETTINGS_GENERAL,
               },
               {

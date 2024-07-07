@@ -258,6 +258,24 @@ export interface INetwork {
   organizations: IOrganization[]; // You would need to define an Organization interface
   merchant: INetworkMerchant;
   details: INetworkDetails;
+  settings: INetworkSettings;
+}
+
+export interface INetworkSettings {
+  id: number;
+  network_id: number;
+  main_color: string;
+  accent_color: string;
+  logo: string;
+  created_at: Date;
+  updated_at: Date | null;
+}
+
+// NetworkSettingsInput represents the input for creating or updating network settings
+export interface INetworkSettingsInput {
+  main_color: string;
+  accent_color: string;
+  logo: File | null;
 }
 
 export interface ICustomerLoginValues {

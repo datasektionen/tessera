@@ -37,6 +37,7 @@ import axios from "axios";
 import { NotificationsActive } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import TicketReleaseMethodDetail from "./ticket_release_method/detailed_info";
+import { selectAccentColor } from "../../../redux/features/managerThemeSlice";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -62,6 +63,8 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const accentColor = useSelector(selectAccentColor);
+
   return (
     <Sheet
       variant="outlined"
@@ -72,7 +75,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       }}
       style={{
         border: "2.5px solid",
-        borderColor: PALLETTE.cerise,
+        borderColor: accentColor !== "" ? accentColor : PALLETTE.cerise,
         borderRadius: 4,
       }}
     >

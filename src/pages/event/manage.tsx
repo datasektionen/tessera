@@ -1,5 +1,4 @@
 import { Box, Grid, IconButton, Input, Stack, Tooltip } from "@mui/joy";
-import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -18,9 +17,7 @@ import { deleteEventStart } from "../../redux/features/editEventSlice";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
-import TicketEventFormResponseTable from "./manage/ticket_form_response_list_page";
 
-import DrawerComponent from "../../components/navigation/manage_drawer/event_detail";
 import { useEventDetails } from "../../hooks/event/use_event_details_hook";
 import usePinnedDrawer from "../../hooks/drawer_pinned_hook";
 import DrawerBoxWrapper from "../../components/wrappers/manager_wrapper";

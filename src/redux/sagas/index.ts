@@ -24,6 +24,7 @@ import { watchGuestSaga } from "./guestSaga";
 import { watchCreatePlanEnrollmentSaga } from "./createPlanEnrollmentSaga";
 import watchListNetworkEventSaga from "./manager/listNetworkEventsSaga";
 import watchNetworkSaga from "./manager/networkSaga";
+import watchNetworkSettingsSaga from "./manager/networkSettingsSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -52,6 +53,7 @@ export default function* rootSaga() {
     watchGuestCustomerCreateTicketRequestSaga(),
     watchGuestSaga(),
     watchNetworkSaga(),
+    watchNetworkSettingsSaga(),
     // add other sagas here
   ]);
 }

@@ -134,3 +134,7 @@ export const EditEventLandingEditorPage = React.lazy(
 export const EditLandingPageSettingsPage = React.lazy(
   () => import("../pages/event/edit/edit_landing_page")
 );
+
+export const NetworkGeneralSettingsPage = React.lazy(
+  () => import("../pages/manager/settings/general_settings")
+);

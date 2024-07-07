@@ -33,6 +33,9 @@ import { useNavigate } from "react-router-dom";
 import { INavigationLoginOptions, RoleType } from "../../types";
 import { isEventManager } from "../../utils/roles/manager";
 import { userHasRole } from "../../utils/roles/has_role";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
+import { getNetworkColors, isColorDark } from "../../utils/manager/color";
+import { StringBuffer } from "google-libphonenumber";
 
 const lngs = [
   {
@@ -93,8 +96,9 @@ export const LanguageSelector: React.FC = () => {
       renderValue={(selected) => (
         <img
           alt={i18n.language}
-          src={`https://flagcdn.com/16x12/${i18n.language === "en-GB" ? "gb" : i18n.language
-            }.png`}
+          src={`https://flagcdn.com/16x12/${
+            i18n.language === "en-GB" ? "gb" : i18n.language
+          }.png`}
         />
       )}
       sx={{
@@ -110,8 +114,9 @@ export const LanguageSelector: React.FC = () => {
           <Option value={lng.code} key={index}>
             <img
               alt={lng.nativeName}
-              src={`https://flagcdn.com/16x12/${lng.code === "en-GB" ? "gb" : lng.code
-                }.png`}
+              src={`https://flagcdn.com/16x12/${
+                lng.code === "en-GB" ? "gb" : lng.code
+              }.png`}
               style={{
                 marginRight: 8,
               }}
@@ -124,72 +129,12 @@ export const LanguageSelector: React.FC = () => {
   );
 };
 
-const MaintenanceMessage: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const savedState = localStorage.getItem("maintenanceMessageDismissed");
-    if (!savedState) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(JSON.parse(savedState) ? false : true);
-    }
-
-    setIsLoading(false);
-  }, []);
-
-  const handleDismiss = () => {
-    setIsVisible(false);
-    localStorage.setItem("maintenanceMessageDismissed", JSON.stringify(true));
-  };
-
-  if (isLoading || !isVisible) {
-    return null;
-  }
-
-  return (
-    <Box
-      sx={{
-        backgroundColor: PALLETTE.orange,
-        padding: "16px",
-        textAlign: "center",
-      }}
-    >
-      <StyledText
-        level="body-md"
-        fontSize={20}
-        color={PALLETTE.charcoal}
-        fontWeight={600}
-        sx={{
-          width: "80%",
-          margin: "0 auto",
-        }}
-      >
-        Scheduled maintenance: Between May 21 and June 1, we will be performing
-        maintenance on Tessera. During this time, the website might be
-        unavailable. We apologize for any inconvenience this may cause.
-      </StyledText>
-
-      <StyledButton
-        size="sm"
-        onClick={handleDismiss}
-        style={{
-          margin: "16px auto",
-        }}
-      >
-        Dismiss
-      </StyledButton>
-    </Box>
-  );
-};
-
-export const StyledLink = (props: any) => (
+export const StyledLink = (props: any, color: StringBuffer) => (
   <Link
     {...props}
     className={styles.link}
     style={{
-      color: PALLETTE.charcoal,
+      color: "inherit",
     }}
   />
 );
@@ -204,6 +149,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
     showLogin: true,
   };
 
+  const { network } = useNetworkDetails(false);
+
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
@@ -211,17 +158,21 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
 
+  const { main_color, accent_color } = getNetworkColors(network);
+  const textColor = isColorDark(main_color)
+    ? PALLETTE.white
+    : PALLETTE.charcoal;
+
   if (isScreenSmall) {
     return <MobileNavigationBar />;
   } else
     return (
       <>
-        <MaintenanceMessage />
         <Box
           sx={{
             margin: 0,
             padding: 0,
-            backgroundColor: PALLETTE.cerise,
+            backgroundColor: main_color,
             color: "white",
             width: "100%",
             height: "64px",
@@ -248,7 +199,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 href="/" // Link to the main page
                 fontFamily={"Josefin sans"}
                 fontSize={24}
-                sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
+                sx={{ textDecoration: "none", color: textColor }}
               >
                 tessera
               </Typography>
@@ -276,26 +227,29 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
               }}
             >
               {isLoggedIn && [
-                currentUser && userHasRole(currentUser, RoleType.SUPER_ADMIN) && (<StyledText
-                  key="events"
-                  level="body-sm"
-                  color={""}
-                  fontSize={18}
-                  fontWeight={700}
-                  style={{
-                    margin: "0 16px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  <StyledLink href={ROUTES.EVENTS}>
-                    {t("navigation.events")}
-                  </StyledLink>
-                </StyledText>),
+                currentUser &&
+                  userHasRole(currentUser, RoleType.SUPER_ADMIN) && (
+                    <StyledText
+                      key="events"
+                      level="body-sm"
+                      color={textColor}
+                      fontSize={18}
+                      fontWeight={700}
+                      style={{
+                        margin: "0 16px",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      <StyledLink href={ROUTES.EVENTS}>
+                        {t("navigation.events")}
+                      </StyledLink>
+                    </StyledText>
+                  ),
 
                 <StyledText
                   key="contact"
                   level="body-sm"
-                  color={""}
+                  color={textColor}
                   fontSize={18}
                   fontWeight={700}
                   style={{
@@ -310,7 +264,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
               ]}
               <StyledText
                 level="body-sm"
-                color={""}
+                color={textColor}
                 fontSize={18}
                 fontWeight={700}
                 style={{
@@ -325,7 +279,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
 
               <StyledText
                 level="body-sm"
-                color={""}
+                color={textColor}
                 fontSize={18}
                 fontWeight={700}
                 style={{
@@ -337,11 +291,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                   href={
                     currentUser
                       ? generateRoute(
-                        isEventManager(currentUser!)
-                          ? ROUTES.MANAGER_DASHBOARD
-                          : ROUTES.BECOME_A_MANAGER,
-                        {}
-                      )
+                          isEventManager(currentUser!)
+                            ? ROUTES.MANAGER_DASHBOARD
+                            : ROUTES.BECOME_A_MANAGER,
+                          {}
+                        )
                       : ROUTES.LOGIN
                   }
                 >
@@ -363,43 +317,47 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
 
               {isLoggedIn
                 ? [
-                  <IconButton
-                    component="a"
-                    key="profile"
-                    href="/profile" // Link to the profile page
-                  >
-                    <PersonIcon
-                      style={{
-                        color: PALLETTE.charcoal,
-                      }}
-                    />
-                  </IconButton>,
-                  <IconButton
-                    component="a"
-                    key="logout"
-                    href="/logout" // Link to the logout page
-                  >
-                    <LogoutIcon
-                      style={{
-                        color: PALLETTE.charcoal,
-                      }}
-                    />
-                  </IconButton>,
-                ]
+                    <IconButton
+                      component="a"
+                      key="profile"
+                      href="/profile" // Link to the profile page
+                    >
+                      <PersonIcon
+                        style={{
+                          color: isColorDark(main_color)
+                            ? PALLETTE.yellow
+                            : PALLETTE.charcoal,
+                        }}
+                      />
+                    </IconButton>,
+                    <IconButton
+                      component="a"
+                      key="logout"
+                      href="/logout" // Link to the logout page
+                    >
+                      <LogoutIcon
+                        style={{
+                          color: isColorDark(main_color)
+                            ? PALLETTE.yellow
+                            : PALLETTE.charcoal,
+                        }}
+                      />
+                    </IconButton>,
+                  ]
                 : showLogin && (
-                  <StyledButton
-                    color={PALLETTE.charcoal}
-                    size="sm"
-                    style={{
-                      margin: "0 16px",
-                    }}
-                    onClick={() => {
-                      navigate(ROUTES.LOGIN);
-                    }}
-                  >
-                    {t("navigation.login")}
-                  </StyledButton>
-                )}
+                    <StyledButton
+                      color={textColor}
+                      size="sm"
+                      style={{
+                        margin: "0 16px",
+                      }}
+                      onClick={() => {
+                        navigate(ROUTES.LOGIN);
+                      }}
+                    >
+                      {t("navigation.login")}
+                    </StyledButton>
+                  )}
             </Stack>
           </Grid>
         </Box>
