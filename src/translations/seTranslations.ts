@@ -56,6 +56,9 @@ const seTranslations = {
       private_event_helperText:
         "Är ditt evenemang privat? Om så är fallet kan bara personer med länken se det.",
       common_locations: "Vanligt Använda Platser",
+      collect_food_preferences: "Samla in matpreferenser",
+      collect_food_preferences_helperText:
+        "Vill du samla in matpreferenser från deltagarna? Om så är fallet kommer deltagarna att kunna ange sina matpreferenser när de begär en biljett.",
     },
     ticket_release: {
       name: "Namn",
@@ -95,6 +98,19 @@ const seTranslations = {
       selective_description: "Beskriv allokeringsmetoden",
       selective_description_helperText:
         "Ange hur ditt team planerar att allokera biljetter. Denna information kommer att visas för användaren när de begär en biljett.",
+      save_template: "Spara som mall",
+      save_template_helperText:
+        "Spara detta biljettsläpp som en mall för att använda det för framtida evenemang.",
+
+      payment_deadline: "Betalningsdeadline",
+      payment_deadline_helperText:
+        "När är betalningsdeadlinen för användare som initialt fick en biljett?",
+      reserve_payment_duration: "Reserverad Betalningstid",
+      reserve_payment_duration_helperText:
+        "När en reserv får en biljett, hur lång tid har de på sig att betala innan den ges till nästa person i kön?",
+      allocation_cut_off: "Stopp för Allokering",
+      allocation_cut_off_helperText:
+        "När kommer allokeringen av biljetter att avslutas? Detta är när systemet kommer att sluta allokera biljetter.",
     },
     ticket_types: {
       name: "Namn",
@@ -104,6 +120,9 @@ const seTranslations = {
         "Beskriv vad som ingår i denna biljett. Markdown stöds.",
       price: "Pris (SEK)",
       price_helperText: "Hur mycket kostar denna biljett?",
+      save_template: "Spara som mall",
+      save_template_helperText:
+        "Spara denna biljett som en mall för att använda den för framtida evenemang.",
     },
 
     banking_details: {
@@ -175,10 +194,12 @@ const seTranslations = {
         business_details: {
           legal_name: "Företagsnamn",
           legal_name_helperText: "Ditt företags juridiska namn.",
-          coorporate_id: "Organisationsnummer",
-          coorporate_id_helperText: "Ditt företags organisationsnummer.",
+          corporate_id: "Organisationsnummer",
+          corporate_id_helperText: "Ditt företags organisationsnummer.",
           store_name: "Butiksnamn",
           store_name_helperText: "Namnet på din onlinebutik.",
+          business_email: "Företagsemail",
+          business_email_helperText: "Ditt företags emailadress.",
           country: "Land",
           country_helperText: "Ditt företags land.",
           phone_number: "Telefonnummer",
@@ -323,6 +344,20 @@ const seTranslations = {
     },
   },
 
+  templates: {
+    title: "Sparade Mallar",
+    ticket_releases: {
+      description:
+        "Du kan skapa nya mallar genom att markera kryssrutan 'Spara som mall' när du skapar en biljettsläpp. Här kan du se alla dina sparade mallar. Klicka på 'Skapa' för att skapa en ny händelse från en mall.",
+      no_templates: "Det finns inga tillgängliga mallar.",
+    },
+    ticket_types: {
+      description:
+        "Mallar för biljettbatcher är lite annorlunda jämfört med biljettsläpp. Att spara en mall innebär att du kommer att behålla den mallen för det biljettsläpp du redigerar. Att redigera din mall kommer automatiskt att uppdatera alla biljettsläpp som använder den mallen.",
+      no_templates: "Det finns inga tillgängliga mallar.",
+    },
+  },
+
   create_team: {
     title: "Skapa grupp",
     what_is_a_team: "Vad är en grupp?",
@@ -343,39 +378,40 @@ const seTranslations = {
 
   manager: {
     dashboard: {
-      events: "Event",
-      no_events: "Du har inga evenemang.",
+      events: "Evenemang",
+      no_events: "Inga evenemang ännu",
     },
 
     setup: {
       title: "Inställningar",
-      description: "Komplettera din profil för att börja skapa evenemang.",
+      description: "Slutför din profil för att börja skapa evenemang.",
     },
 
     onboarding: {
       welcomeMessage:
-        "Välkommen till Tesseras Event Manager Inställningar & Onboarding!",
+        "Välkommen till Tesseras inställningar och introduktion för evenemangshanterare!",
       intro:
-        "Välkommen till inställningssidan för evenemangschefer. Som evenemangsorganisatör är du bara några steg bort från att ställa in ditt betalningssystem genom Surfboard Payments. Följ instruktionerna nedan för att ge nödvändiga detaljer och slutföra onboardingprocessen.",
-      stepByStepGuide: "Steg-för-steg-guide för att slutföra onboarding",
+        "Välkommen till introduktionssidan för evenemangshanterare. Som evenemangsarrangör är du bara några steg från att konfigurera ditt betalningssystem genom Surfboard Payments. Följ instruktionerna nedan för att tillhandahålla nödvändiga uppgifter och slutföra introduktionsprocessen.",
+      stepByStepGuide: "Steg-för-steg-guide för att slutföra introduktionen",
       steps: {
         step1: {
-          title: "Fyll i företagsinformation",
+          title: "Fyll i företagsuppgifter",
           description:
-            "Ange nödvändiga företagsuppgifter i formuläret nedan. Denna information kommer att användas för att skapa ditt handlarkonto och onlinebutik.",
+            "Vänligen ange nödvändiga företagsuppgifter i formuläret nedan. Denna information kommer att användas för att skapa ditt handlarkonto och onlinebutik.",
         },
         step2: {
-          title: "Fyll i KYB-formulär",
+          title: "Fyll i KYB-formuläret",
+          active: "Klicka på länken nedan för att fylla i KYB-formuläret.",
           description:
-            "Tessera kommer att generera en Know Your Business (KYB) -länk för dig från Surfboard Payments partnerportal. Denna länk kommer att skickas till din registrerade e-postadress.",
+            "Tessera kommer att generera en Know Your Business (KYB)-länk åt dig från Surfboard Payments partnerportal. Denna länk kommer att skickas till din registrerade e-postadress.",
         },
         step3: {
           title: "Verifieringsprocess",
           description:
-            "När du har skickat in dina uppgifter kommer Surfboard Payments att verifiera legitimiteten i ditt företag. Denna process tar vanligtvis 2-4 arbetsdagar. Du kommer att få en anmälan via e-post när dina företagsuppgifter har godkänts.",
+            "När du har skickat in dina uppgifter kommer Surfboard Payments att verifiera ditt företags legitimitet. Denna process tar vanligtvis 2-4 arbetsdagar. Du kommer att få ett meddelande via e-post när dina företagsuppgifter har godkänts.",
         },
         step4: {
-          title: "Skapa konto",
+          title: "Kontoskapande",
           description:
             "Efter godkännande kommer Surfboard Payments automatiskt att skapa ett handlarkonto och en onlinebutik för ditt företag. Du kommer att få inloggningsuppgifter och relevant information för att komma åt ditt handlarkonto.",
         },
@@ -383,7 +419,7 @@ const seTranslations = {
       customization: {
         title: "Anpassning",
         description:
-          "Onboarding-webbappen kan anpassas för att matcha färgerna och varumärket för Dow Technologies. Om du vill anpassa utseendet på din onboarding-sida, vänligen kontakta vårt supportteam för hjälp.",
+          "Introduktionswebbappen kan anpassas för att matcha Dow Technologies färger och varumärke. Om du vill anpassa utseendet på din introduktionssida, vänligen kontakta vårt supportteam för hjälp.",
       },
       importantLinks: {
         title: "Viktiga länkar",
@@ -405,19 +441,36 @@ const seTranslations = {
       needHelp: {
         title: "Behöver du hjälp?",
         description:
-          "Om du har några frågor eller behöver hjälp under onboardingprocessen, vänligen kontakta vårt supportteam på support@dowtechnologies.com eller ring oss på 1-800-123-4567.",
+          "Om du har några frågor eller behöver hjälp under introduktionsprocessen, vänligen kontakta vårt supportteam på support@dowtechnologies.com eller ring oss på 1-800-123-4567.",
       },
-      thankYou: "Tack för att du valde Dow Technologies!",
+      thankYou: "Tack för att du valt Dow Technologies!",
+    },
+
+    settings: {
+      general: {
+        title: "Allmänna inställningar",
+        description: "Hantera dina allmänna inställningar här.",
+        main_color: "Huvudfärg",
+        accent_color: "Accentfärg",
+        logo: "Logotyp-URL",
+        pick_color: "Välj {{color}}",
+        close_color_picker: "Stäng {{color}}-väljaren",
+        upload_logo: "Ladda upp logotyp",
+        logo_helperText:
+          "Filen kan inte vara större än 1000x1000 pixlar och överskrida 2MB.",
+        save_settings: "Spara inställningar",
+        save_logo: "Spara logotyp",
+      },
     },
 
     teams: {
-      title: "{{name}} Grupper",
+      title: "{{name}}(s) Grupper",
     },
 
     drawer: {
       events: "Evenemang",
       all_events: "Alla evenemang",
-      teams: "Lag",
+      teams: "Grupp",
       create_event: "Skapa evenemang",
       settings: {
         title: "Inställningar",
@@ -425,7 +478,7 @@ const seTranslations = {
         subscription: "Prenumeration",
         financial: "Ekonomi",
         users: "Användare",
-        customize: "Anpassa",
+        customize: "Anpassning",
       },
     },
   },
@@ -1017,6 +1070,7 @@ const seTranslations = {
     submit: "Genomför återbetalning",
     ticket_info: "Biljett-ID: {{id}}, Typ: {{type}}, Pris: {{price}}",
     user_info: "Användare: {{name}}, E-post: {{email}}",
+    cannot_refund: "Kan inte återbetala",
   },
   error: {
     no_rows_selected: "Inga rader valda",
