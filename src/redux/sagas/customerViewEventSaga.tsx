@@ -60,10 +60,15 @@ function* eventSaga(
 
     const response: ApiResponse<{
       event: IEvent;
+      timestamp: number;
     }> = yield call(fetchApi, url, true, true);
 
     if (response.status === "success") {
       yield put(getCustomerEventSuccess(response.data.event));
+
+      yield put(
+        setTimestamp(new Date(response.data.timestamp * 1000).getTime())
+      );
     } else {
       yield put(
         getCustomerEventFailure({
@@ -72,19 +77,6 @@ function* eventSaga(
         })
       );
     }
-
-    const time_response: ApiResponse<{
-      timestamp: number;
-    }> = yield call(
-      fetchApi,
-      process.env.REACT_APP_BACKEND_URL + "/timestamp",
-      true,
-      true
-    );
-
-    yield put(
-      setTimestamp(new Date(time_response.data.timestamp * 1000).getTime())
-    );
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
     yield put(
