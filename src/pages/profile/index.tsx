@@ -14,7 +14,7 @@ const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <TesseraWrapper>
+    <TesseraWrapper defaultColors>
       {loading && <LoadingOverlay />}
       <Typography level="h1" fontFamily="Josefin Sans">
         <Grid

@@ -64,7 +64,7 @@ const ProfileTicketOrdersPage: React.FC = () => {
   }, []);
 
   return (
-    <TesseraWrapper>
+    <TesseraWrapper defaultColors>
       {loading && <LoadingOverlay />}
       <Grid
         container

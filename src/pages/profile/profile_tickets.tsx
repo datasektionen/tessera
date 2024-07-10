@@ -82,8 +82,12 @@ const ProfileTicketsPage: React.FC = () => {
     }
   }, [pSuccess]);
 
+  const filteredTickets = tickets.filter(
+    (ticket) => ticket.status !== "pending"
+  );
+
   return (
-    <TesseraWrapper>
+    <TesseraWrapper defaultColors>
       {loading && <LoadingOverlay />}
       <Grid
         container
@@ -111,7 +115,7 @@ const ProfileTicketsPage: React.FC = () => {
           </Box>
           <Grid xs={16} md={8}>
             <TicketsList
-              tickets={tickets}
+              tickets={filteredTickets}
               selected={selected}
               setSelected={handleSetSelected}
             />
@@ -119,7 +123,9 @@ const ProfileTicketsPage: React.FC = () => {
         </Grid>
         <Grid xs={16} md={8} id="ticket-view" ref={viewTicketRef}>
           {selected && (
-            <ViewTicket ticket={tickets.find((tr) => tr.id === selected)!} />
+            <ViewTicket
+              ticket={filteredTickets.find((tr) => tr.id === selected)!}
+            />
           )}
         </Grid>
       </Grid>

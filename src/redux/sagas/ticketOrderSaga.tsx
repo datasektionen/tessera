@@ -42,7 +42,6 @@ function* createTicketRequestSaga(
     eventId: number;
   }>
 ): Generator<any, void, any> {
-  console.log("Creating ticket order");
   try {
     const { tickeOrderReq, eventId, addons, promoCodes } = action.payload;
 
@@ -58,8 +57,6 @@ function* createTicketRequestSaga(
 
     yield all(promoCodeRequests);
 
-    console.log("Promo codes fetched");
-
     const body = {
       ticket_order: tickeOrderReq,
       selected_add_ons: addons,
@@ -71,12 +68,9 @@ function* createTicketRequestSaga(
       ticket_order: ITicketOrder;
     }> = yield call(postApi, url, body, true, true);
 
-    console.log("Response: ", response);
-
     if (response.status === "success") {
       yield put(getMyTicketOrdersRequest(null));
 
-      console.log("Ticket order created successfully");
       yield put(postTicketOrderSuccess());
     } else {
       // check if status is 429
@@ -86,7 +80,6 @@ function* createTicketRequestSaga(
       yield put(postTicketOrderFailure(errorMessage));
     }
   } catch (error: any) {
-    console.log("Error: ", error);
     const errorMessage = error.response.data.error || "An error occurred";
     if (error.response.status !== 401) {
       toast.error(errorMessage);

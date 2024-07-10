@@ -23,7 +23,7 @@ import { utcToZonedTime } from "date-fns-tz";
 import { Trans, useTranslation } from "react-i18next";
 import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
 import { canPayForTicket, mustPayBefore } from "../../utils/user_payment";
-import { useCosts } from "../events/payments/use_cost";
+import { useTicketCost } from "../events/payments/use_cost";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TicketQRCode from "../events/tickets/qr_code";
 
@@ -52,7 +52,9 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
 
   const ticketOrder = ticket?.ticket_order!;
 
-  const { totalTicketCost, totalAddonsCost, totalCost } = useCosts(ticketOrder);
+  const { totalTicketCost, totalAddonsCost, totalCost } = useTicketCost(
+    ticket!
+  );
 
   useEffect(() => {
     if (ticket?.payment_deadline.Valid) {

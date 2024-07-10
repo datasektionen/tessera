@@ -28,23 +28,35 @@ export const getNetworkColors = (network?: INetwork | null) => {
  * @throws Error if the input is not a valid hex color.
  */
 export function isColorDark(color: string): boolean {
-  // Remove the hash if it exists
-  const hex = color.replace(/^#/, "");
-
-  // Check if it's a valid hex color
-  if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
-    throw new Error("Invalid hex color format");
+  if (!color) {
+    return false;
   }
 
-  // Parse the hex color
-  const r = parseInt(hex.slice(0, 2), 16);
-  const g = parseInt(hex.slice(2, 4), 16);
-  const b = parseInt(hex.slice(4, 6), 16);
+  if (color === PALLETTE.cerise) {
+    return false;
+  }
 
-  // Calculate luminance using the same formula
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  try {
+    // Remove the hash if it exists
+    const hex = color.replace(/^#/, "");
 
-  // A luminance of 0.5 is the midpoint, so we consider colors
-  // with luminance < 0.5 as dark
-  return luminance < 0.5;
+    // Check if it's a valid hex color
+    if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+      throw new Error("Invalid hex color format");
+    }
+
+    // Parse the hex color
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+
+    // Calculate luminance using the same formula
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    // A luminance of 0.5 is the midpoint, so we consider colors
+    // with luminance < 0.5 as dark
+    return luminance < 0.5;
+  } catch (error) {
+    return false;
+  }
 }

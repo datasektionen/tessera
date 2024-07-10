@@ -920,6 +920,7 @@ const seTranslations = {
 
   common: {
     back: "Tillbaka",
+    cancel: "Avbryt",
     show_all: "Visa alla",
     show_less: "Visa mindre",
     search: "Sök",
@@ -1007,6 +1008,31 @@ const seTranslations = {
       wait: "Det sista steget är att vänta på att biljettsläppet stänger och biljetterna delas ut, antingen genom ett lotteri eller på en först-till-kvarn-basis. Tessera ser till att biljetterna fördelas rättvist. Håll ett öga på din e-post eller ditt Tessera-konto för att få uppdateringar om din begärans status. Om du får biljetter kommer du även att få vidare instruktioner, som hur du betalar.",
     },
   },
+
+  refund: {
+    dialog_title: "Återbetala biljett",
+    reason: "Anledning till återbetalning",
+    amount: "Återbetalningsbelopp",
+    payment_method: "Betalningsmetod",
+    submit: "Genomför återbetalning",
+    ticket_info: "Biljett-ID: {{id}}, Typ: {{type}}, Pris: {{price}}",
+    user_info: "Användare: {{name}}, E-post: {{email}}",
+  },
+  error: {
+    no_rows_selected: "Inga rader valda",
+    invalid_refund_selection:
+      "Ogiltig återbetalningsval. Vänligen välj en enskild biljett.",
+    ticket_not_found: "Vald biljett hittades inte",
+    no_ticket_selected: "Ingen biljett vald för återbetalning",
+    unknown: "Ett okänt fel inträffade",
+  },
+  success: {
+    delete: "Lyckades ta bort {{type}}",
+    undelete: "Lyckades återställa {{type}}",
+    allocate: "Lyckades tilldela biljetter",
+    refund_processed: "Återbetalning genomförd",
+  },
+
   faq: {
     title: "Vanliga frågor",
     ...seFaq,

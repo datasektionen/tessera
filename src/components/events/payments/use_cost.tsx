@@ -33,3 +33,27 @@ export const useCosts = (ticketOrder: ITicketOrder) => {
 
   return { totalTicketCost, totalAddonsCost, totalCost };
 };
+
+export const useTicketCost = (ticket: ITicket) => {
+  const totalTicketCost = useMemo(() => {
+    return ticket?.ticket_type?.price ?? 0;
+  }, [ticket]);
+
+  const totalAddonsCost = useMemo(() => {
+    return (
+      ticket?.ticket_add_ons?.reduce((total, addon) => {
+        const addonDetails = ticket?.ticket_order.ticket_release?.addons?.find(
+          (a) => a.id === addon.add_on_id
+        );
+        return total + (addonDetails?.price ?? 0) * (addon.quantity ?? 0);
+      }, 0) ?? 0
+    );
+  }, [ticket]);
+
+  const totalCost = useMemo(
+    () => totalTicketCost + totalAddonsCost,
+    [totalTicketCost, totalAddonsCost]
+  );
+
+  return { totalTicketCost, totalAddonsCost, totalCost };
+};

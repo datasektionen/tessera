@@ -78,7 +78,7 @@ const PricingPage: React.FC = () => {
   };
 
   return (
-    <MUITesseraWrapper>
+    <MUITesseraWrapper defaultColors={true}>
       <InformationModal
         title="Contact Us"
         isOpen={showContactModal}

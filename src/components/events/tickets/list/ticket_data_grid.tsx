@@ -57,73 +57,14 @@ import {
 import ApiRoutes from "../../../../routes/backend_routes";
 import { putApi } from "../../../../utils/api/api";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import RefundDialog from "./refund_dialog";
+import { TicketStatus } from "../../../../types";
+import { getTicketStatus } from "../../../../utils/manager/ticket_status";
 
 const isTicketRequest = (ticket: ITicket) => {
   return ticket.id === 0;
 };
-
-enum TicketStatus {
-  PENDING = "Pending",
-  CANCELLED_TICKET = "Cancelled Ticket",
-  CANCELLED_REQUEST = "Cancelled Request",
-  REFUNDED = "Refunded",
-  CHECKED_IN = "Checked In",
-  PAID = "Paid",
-  RESERVED = "Reserved",
-  PURCHASEABLE = "Ready for Purchase",
-  EXPIRED = "Expired",
-  LOTTERY_ENTERED = "Lottery Entered",
-  HANDLED = "Handled",
-}
-
-function getTicketStatus(ticket: ITicket) {
-  let payBefore: Date | null = null;
-  if (ticket.payment_deadline.Valid) {
-    payBefore = new Date(ticket.payment_deadline.Time);
-  }
-
-  console.log(
-    ticket.purchasable_at && new Date(ticket.purchasable_at.Time) <= new Date()
-  );
-
-  let status = TicketStatus.PENDING;
-  if (ticket.ticket_order?.is_handled) {
-    if (ticket.deleted_at) {
-      status = TicketStatus.CANCELLED_TICKET;
-    } else if (ticket.refunded) {
-      status = TicketStatus.REFUNDED;
-    } else if (ticket.checked_in) {
-      status = TicketStatus.CHECKED_IN;
-    } else if (ticket.is_paid) {
-      status = TicketStatus.PAID;
-    } else if (ticket.is_reserve) {
-      status = TicketStatus.RESERVED;
-    } else if (
-      ticket.purchasable_at.Valid &&
-      new Date(ticket.purchasable_at.Time) <= new Date()
-    ) {
-      status = TicketStatus.PURCHASEABLE;
-    } else if (payBefore && new Date() > payBefore && !ticket.is_paid) {
-      status = TicketStatus.EXPIRED;
-    } else if (
-      ticketIsEnteredIntoFCFSLottery(
-        ticket,
-        ticket.ticket_order?.ticket_release!
-      )
-    ) {
-      status = TicketStatus.LOTTERY_ENTERED;
-    } else {
-    }
-  } else {
-    if (ticket.ticket_order?.deleted_at) {
-      status = TicketStatus.CANCELLED_REQUEST;
-    } else if (ticket.ticket_order?.is_handled) {
-      status = TicketStatus.HANDLED;
-    }
-  }
-
-  return status;
-}
 
 function createRow(ticket: ITicket) {
   const ufp = ticket.user!.food_preferences!;
@@ -136,7 +77,7 @@ function createRow(ticket: ITicket) {
       ? ticket?.ticket_type?.price === 0
         ? format(new Date(ticket?.created_at), "dd/MM/yyyy HH:mm")
         : format(
-            new Date(ticket?.ticket_order.order?.details?.payed_at!),
+            new Date(ticket?.order?.details?.payed_at!),
             "dd/MM/yyyy HH:mm"
           )
       : "N/A";
@@ -155,7 +96,6 @@ function createRow(ticket: ITicket) {
   }
 
   let payBefore: Date | null = null;
-  console.log(ticket);
 
   if (ticket.payment_deadline.Valid) {
     payBefore = new Date(ticket.payment_deadline.Time);
@@ -164,7 +104,7 @@ function createRow(ticket: ITicket) {
   const customRows = getEventFormFieldsRow(ticket || {});
 
   // Determine status
-  const status = getTicketStatus(ticket);
+  const status = getTicketStatus(ticket!);
 
   const row = {
     id: `${ticket.ticket_order!.id}-${ticket.id}-ticket`,
@@ -255,6 +195,10 @@ const EventTicketsList: React.FC<{
     return savedFilterModel ? JSON.parse(savedFilterModel) : { items: [] };
   });
   const [selectedRows, setSelectedRows] = useState<GridRowsProp>([]);
+  const [isRefundDialogOpen, setIsRefundDialogOpen] = useState(false);
+  const [refundTicket, setRefundTicket] = useState<ITicket | null>(null);
+
+  const { t } = useTranslation();
 
   // Initialize Fuse with the appropriate options
   const fuse = useMemo(() => {
@@ -557,7 +501,6 @@ const EventTicketsList: React.FC<{
         }
 
         let formattedDate: string;
-        console.log(params.value);
         try {
           formattedDate = format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } catch (e) {
@@ -574,7 +517,6 @@ const EventTicketsList: React.FC<{
       width: 150,
       renderCell: (params) => {
         const otherFieldValue = params.row.type;
-        console.log(params.value);
 
         if (
           otherFieldValue === "Ticket" &&
@@ -683,6 +625,39 @@ const EventTicketsList: React.FC<{
     setIsModalOpen(false);
   };
 
+  const handleRefund = async (reason: string, amount: number) => {
+    if (!refundTicket) {
+      toast.error(t("error.no_ticket_selected"));
+      return;
+    }
+
+    const url = ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_TICKET_ACTION, {
+      eventID,
+    });
+
+    try {
+      await putApi(
+        url,
+        {
+          action: "refund",
+          ticket_ids: [refundTicket.id],
+          refund_reason: reason,
+          refund_amount: amount,
+        },
+        true
+      );
+
+      toast.success(t("success.refund_processed"));
+      setIsRefundDialogOpen(false);
+      setRefundTicket(null);
+      reFetch();
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.error || error.message || t("error.unknown");
+      toast.error(errorMessage);
+    }
+  };
+
   const handleCustomActionClick = async (action: string) => {
     if (selectedRows.length === 0) {
       toast.error("No rows selected");
@@ -690,7 +665,8 @@ const EventTicketsList: React.FC<{
     }
 
     // Implement your custom action logic here
-    const isHandlingTicketRequests = selectedRows[0].type === "Request";
+    const isHandlingTicketRequests =
+      selectedRows[0].type.toLowerCase() === "request";
 
     // Define a list of ids
     const ids = selectedRows.map((row) =>
@@ -721,7 +697,7 @@ const EventTicketsList: React.FC<{
       case "undelete":
       case "delete":
         try {
-          await putApi(url, body, true);
+          await putApi(url, body, true, true);
 
           toast.success(
             `Successfully ${action === "delete" ? "deleted" : "undeleted"} ${
@@ -729,6 +705,7 @@ const EventTicketsList: React.FC<{
             }`
           );
         } catch (error: any) {
+          console.log(error);
           const errorMessage =
             error.response.data.error ||
             error.message ||
@@ -745,10 +722,11 @@ const EventTicketsList: React.FC<{
         }
 
         try {
-          await putApi(url, body, true);
+          await putApi(url, body, true, true);
 
           toast.success("Successfully allocated tickets");
         } catch (error: any) {
+          console.log(error);
           const errorMessage =
             error.response.data.error ||
             error.message ||
@@ -756,6 +734,19 @@ const EventTicketsList: React.FC<{
             "An error occurred";
 
           toast.error(errorMessage);
+        }
+        break;
+      case "refund":
+        if (isHandlingTicketRequests || ids.length !== 1) {
+          toast.error(t("error.invalid_refund_selection"));
+          return;
+        }
+        const ticketToRefund = tickets.find((ticket) => ticket.id === ids[0]);
+        if (ticketToRefund) {
+          setRefundTicket(ticketToRefund);
+          setIsRefundDialogOpen(true);
+        } else {
+          toast.error(t("error.ticket_not_found"));
         }
         break;
       default:
@@ -860,6 +851,15 @@ const EventTicketsList: React.FC<{
             />
           )}
         </div>
+        <RefundDialog
+          open={isRefundDialogOpen}
+          onClose={() => {
+            setIsRefundDialogOpen(false);
+            setRefundTicket(null);
+          }}
+          onSubmit={handleRefund}
+          ticket={refundTicket}
+        />
         <StyledText
           color={PALLETTE.charcoal_see_through}
           level="body-md"

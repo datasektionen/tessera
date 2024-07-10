@@ -60,8 +60,6 @@ const MakeTicketOrderWorkflow: React.FC<MakeTicketOrderWorkflowProps> = ({
     (state: RootState) => state.ticketOrder
   );
 
-  console.log(postSuccess);
-
   const { create_ticket_request_sucess } = useSelector(
     (state: RootState) => state.guestCustomer
   );

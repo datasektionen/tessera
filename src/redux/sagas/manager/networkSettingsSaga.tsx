@@ -92,8 +92,6 @@ function* uploadLogoSaga(
       }
     );
 
-    console.log(response);
-
     if (
       response.data &&
       response.data.logo_url &&
@@ -105,7 +103,6 @@ function* uploadLogoSaga(
       throw new Error("Invalid response from server");
     }
   } catch (error: any) {
-    console.log("Error uploading logo", error);
     const errorMessage =
       error.response?.data?.error || error.message || "An error occurred";
     yield put(uploadLogoFailure(errorMessage));

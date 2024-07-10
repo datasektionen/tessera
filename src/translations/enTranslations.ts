@@ -385,7 +385,7 @@ const enTranslations = {
         "You are not part of any teams. Read more about creating a team on the landing page.",
       add_user: "Add User",
       add_user_helperText:
-        "Enter the username of the user you want to add to this team. You can change their role later. Hint: Username is the same as KTH ID.",
+        "Enter the email of the user you want to add to this team. You can change their role later. Hint: Username is the same as KTH ID.",
       manage_team_events: "Manage Team Events",
       no_events:
         "There are no events in this team. Create one now <1>here</1>.",
@@ -1023,6 +1023,7 @@ const enTranslations = {
 
   common: {
     back: "Back",
+    cancel: "Cancel",
     show_all: "Show All",
     show_less: "Show Less",
     show_more: "Show More",
@@ -1037,6 +1038,32 @@ const enTranslations = {
     minute_other: "minutes",
     mobile_warning:
       "Welcome to Tessera! It appears you are using a mobile device. Some website features may not be optimized for mobile. However, requesting and viewing tickets should work as expected. If you're an event organizer, we recommend using a desktop device.",
+  },
+
+  refund: {
+    dialog_title: "Refund Ticket",
+    reason: "Refund Reason",
+    amount: "Refund Amount",
+    payment_method: "Payment Method",
+    submit: "Process Refund",
+    ticket_info: "Ticket ID: {{id}}, Type: {{type}}, Price: {{price}}",
+    user_info: "User: {{name}}, Email: {{email}}",
+    cannot_refund: "Cannot refund ticket",
+  },
+
+  error: {
+    no_rows_selected: "No rows selected",
+    invalid_refund_selection:
+      "Invalid refund selection. Please select a single ticket.",
+    ticket_not_found: "Selected ticket not found",
+    no_ticket_selected: "No ticket selected for refund",
+    unknown: "An unknown error occurred",
+  },
+  success: {
+    delete: "Successfully deleted {{type}}",
+    undelete: "Successfully undeleted {{type}}",
+    allocate: "Successfully allocated tickets",
+    refund_processed: "Refund processed successfully",
   },
 
   faq: {

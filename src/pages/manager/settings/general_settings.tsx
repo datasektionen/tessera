@@ -154,8 +154,6 @@ const GeneralSettingsPage: React.FC = () => {
     accent_color: network.settings?.accent_color || "",
   };
 
-  ("hi");
-
   return (
     <MUITesseraWrapper>
       <DrawerBoxWrapper showManagerDashboard={true}>

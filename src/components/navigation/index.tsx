@@ -141,9 +141,13 @@ export const StyledLink = (props: any, color: StringBuffer) => (
 
 interface NavigationBarProps {
   loginOptions?: INavigationLoginOptions;
+  shouldUseDefaultColor?: boolean;
 }
 
-const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
+const NavigationBar: React.FC<NavigationBarProps> = ({
+  loginOptions,
+  shouldUseDefaultColor = false,
+}) => {
   const { t } = useTranslation();
   const { showLogin } = loginOptions || {
     showLogin: true,
@@ -172,7 +176,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
           sx={{
             margin: 0,
             padding: 0,
-            backgroundColor: main_color,
+            backgroundColor: shouldUseDefaultColor
+              ? PALLETTE.cerise
+              : main_color,
             color: "white",
             width: "100%",
             height: "64px",

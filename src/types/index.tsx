@@ -662,8 +662,6 @@ export interface ITicketOrder {
   updated_at: number;
   deleted_at: number | null;
   deleted_reason?: string;
-
-  order: IOrder;
 }
 
 export interface IDeadlineUnits {
@@ -676,6 +674,20 @@ export interface IDeadlineUnits {
 export interface ITicketReleasePaymentDeadlineForm {
   payment_deadline: string;
   reserve_payment_duration: string;
+}
+
+export enum TicketStatus {
+  PENDING = "Pending",
+  CANCELLED_TICKET = "Cancelled Ticket",
+  CANCELLED_REQUEST = "Cancelled Request",
+  REFUNDED = "Refunded",
+  CHECKED_IN = "Checked In",
+  PAID = "Paid",
+  RESERVED = "Reserved",
+  PURCHASEABLE = "Ready for Purchase",
+  EXPIRED = "Expired",
+  LOTTERY_ENTERED = "Lottery Entered",
+  HANDLED = "Handled",
 }
 
 export interface ITicket {
@@ -696,6 +708,7 @@ export interface ITicket {
 
   user_ug_kth_id: string;
   user: IUser;
+  status: string;
 
   purchasable_at: ISQLNullTime;
 
@@ -708,6 +721,9 @@ export interface ITicket {
   updated_at: Date | null;
   deleted_at: Date | null;
   deleted_reason?: string;
+
+  order_id: number;
+  order: IOrder;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;

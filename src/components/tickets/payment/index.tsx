@@ -26,7 +26,7 @@ import PALLETTE from "../../../theme/pallette";
 import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
 import { useTranslation } from "react-i18next";
-import { useCosts } from "../../events/payments/use_cost";
+import { useCosts, useTicketCost } from "../../events/payments/use_cost";
 import { useNavigate } from "react-router-dom";
 
 let stripePromise: any;
@@ -51,7 +51,7 @@ const Payment: React.FC<PaymentProps> = ({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const ticketType = ticket?.ticket_type!;
 
-  const { totalCost } = useCosts(ticket.ticket_order!);
+  const { totalCost } = useTicketCost(ticket!);
 
   const handlePay = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
