@@ -66,12 +66,11 @@ import {
   EditLandingPageSettingsPage,
   EventDetailLandingPage,
   ManagerSetupPage,
+  NetworkGeneralSettingsPage,
 } from "./page_import";
-import GrapesJSEditor from "../pages/event/edit/edit_landing_page/edit_page";
 
 import GuestTicketRequestPage from "../pages/event/guest/guest_ticket_request";
 import AdminPage from "../admin";
-import { useEventAccess } from "../components/events/use_event_access";
 import { useCanAccessEvent } from "../utils/event_access";
 
 function withCurrentUserRequest<P>(
@@ -166,6 +165,10 @@ const ManagerPageWithCurrentUser = withCurrentUserRequest(ManagerPage);
 const ManagerSettingsPageWithCurrentUser =
   withCurrentUserRequest(ManagerSetupPage);
 
+const NetworkGeneralSettingsWithCurrentUser = withCurrentUserRequest(
+  NetworkGeneralSettingsPage
+);
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -256,6 +259,13 @@ function AppRoutes() {
             />
 
             <Route path={ROUTES.MANAGER_TEAMS} element={<ManagerTeamsPage />} />
+
+            {/* Network settings */}
+            {/* General */}
+            <Route
+              path={ROUTES.MANAGER_SETTINGS_GENERAL}
+              element={<NetworkGeneralSettingsWithCurrentUser />}
+            />
 
             {/* ---------- */}
 
@@ -365,7 +375,7 @@ function AppRoutes() {
             {/* ---------------*/}
 
             <Route
-              path={ROUTES.PROFILE_TICKET_REQUESTS}
+              path={ROUTES.PROFILE_TICKET_ORDERS}
               element={<ProfileTicketRequestsPageWithCurrentUser />}
             />
             <Route

@@ -1,12 +1,12 @@
 // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IGuestCustomer, ITicketRequest, ITicketType } from "../../types";
+import { IGuestCustomer, ITicketOrder, ITicketType } from "../../types";
 import { act } from "react-dom/test-utils";
-import { TicketRequestData } from "../sagas/ticketRequestSaga";
+import { TicketRequestData } from "../sagas/ticketOrderSaga";
 
 // Define the ShoppingCartState interface
 export interface ShoppingCartState {
-  ticketRequests: ITicketRequest[];
+  ticketOrders: ITicketOrder[];
   loading: boolean;
   error: string | null;
   deleteSucess: boolean;
@@ -14,38 +14,38 @@ export interface ShoppingCartState {
 
 // Define initial state for the shopping cart
 const initialState: ShoppingCartState = {
-  ticketRequests: [],
+  ticketOrders: [],
   loading: false,
   error: null,
   deleteSucess: false,
 };
 
 // Create the shopping cart slice
-export const myTicketRequestSlice = createSlice({
-  name: "myTicketRequests",
+export const myTicketOrderSlice = createSlice({
+  name: "myTicketOrders",
   initialState,
   reducers: {
-    getMyTicketRequestsRequest: (
+    getMyTicketOrdersRequest: (
       state,
       action: PayloadAction<number[] | null>
     ) => {
       state.loading = true;
     },
-    getMyTicketRequestsSuccess: (
+    getMyTicketOrdersSuccess: (
       state,
-      action: PayloadAction<ITicketRequest[]>
+      action: PayloadAction<ITicketOrder[]>
     ) => {
       state.loading = false;
-      state.ticketRequests = action.payload;
+      state.ticketOrders = action.payload;
     },
-    getMyTicketRequestsFailure: (state, action: PayloadAction<string>) => {
+    getMyTicketOrdersFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
-    cancelTicketRequestRequest: (
+    cancelTicketOrderRequest: (
       state,
       action: PayloadAction<{
-        ticket_request: ITicketRequest;
+        ticket_order: ITicketOrder;
         isGuestCustomer?: boolean;
         guestCustomer?: IGuestCustomer | null;
       }>
@@ -53,15 +53,15 @@ export const myTicketRequestSlice = createSlice({
       state.loading = true;
       state.deleteSucess = false;
     },
-    cancelTicketRequestSuccess: (state, action: PayloadAction<number>) => {
+    cancelTicketOrderSuccess: (state, action: PayloadAction<number>) => {
       state.loading = false;
       state.error = null;
-      state.ticketRequests = state.ticketRequests.filter(
-        (ticketRequest) => ticketRequest.id !== action.payload
+      state.ticketOrders = state.ticketOrders.filter(
+        (ticketOrders) => ticketOrders.id !== action.payload
       );
       state.deleteSucess = true;
     },
-    cancelTicketRequestFailure: (state, action: PayloadAction<string>) => {
+    cancelTicketOrderFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
       state.deleteSucess = false;
@@ -71,13 +71,13 @@ export const myTicketRequestSlice = createSlice({
 
 // Export the actions
 export const {
-  getMyTicketRequestsRequest,
-  getMyTicketRequestsFailure,
-  getMyTicketRequestsSuccess,
-  cancelTicketRequestRequest,
-  cancelTicketRequestFailure,
-  cancelTicketRequestSuccess,
-} = myTicketRequestSlice.actions;
+  getMyTicketOrdersRequest,
+  getMyTicketOrdersSuccess,
+  getMyTicketOrdersFailure,
+  cancelTicketOrderRequest,
+  cancelTicketOrderSuccess,
+  cancelTicketOrderFailure,
+} = myTicketOrderSlice.actions;
 
 // Export the reducer
-export default myTicketRequestSlice.reducer;
+export default myTicketOrderSlice.reducer;

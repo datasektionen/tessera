@@ -282,6 +282,7 @@ const enTranslations = {
     button_economy: "Economy",
     generate_sales_report: "Generate Sales Report",
   },
+
   create_event: {
     title: "Create Event",
     create_event_description:
@@ -384,7 +385,7 @@ const enTranslations = {
         "You are not part of any teams. Read more about creating a team on the landing page.",
       add_user: "Add User",
       add_user_helperText:
-        "Enter the username of the user you want to add to this team. You can change their role later. Hint: Username is the same as KTH ID.",
+        "Enter the email of the user you want to add to this team. You can change their role later. Hint: Username is the same as KTH ID.",
       manage_team_events: "Manage Team Events",
       no_events:
         "There are no events in this team. Create one now <1>here</1>.",
@@ -483,6 +484,23 @@ const enTranslations = {
           "If you have any questions or need assistance during the onboarding process, please contact our support team at support@dowtechnologies.com or call us at 1-800-123-4567.",
       },
       thankYou: "Thank you for choosing Dow Technologies!",
+    },
+
+    settings: {
+      general: {
+        title: "General Settings",
+        description: "Manage your general settings here.",
+        main_color: "Main Color",
+        accent_color: "Accent Color",
+        logo: "Logo URL",
+        pick_color: "Pick {{color}}",
+        close_color_picker: "Close {{color}} Picker",
+        upload_logo: "Upload Logo",
+        logo_helperText:
+          "The file can not be bigger than 1000x1000 pixels and exceed 2MB.",
+        save_settings: "Save Settings",
+        save_logo: "Save Logo",
+      },
     },
 
     teams: {
@@ -913,7 +931,7 @@ const enTranslations = {
       month: "month(s)",
       method_info: {
         fcfsl:
-          "Requests made within the first <1>{{duration}}</1> minutes of the release will be entered into the lottery.",
+          "Requests made within the first <1>{{duration}}</1> of the release will be entered into the lottery.",
       },
       reserved: "Reserved",
       no_tickets: "There are no tickets available.",
@@ -1005,6 +1023,7 @@ const enTranslations = {
 
   common: {
     back: "Back",
+    cancel: "Cancel",
     show_all: "Show All",
     show_less: "Show Less",
     show_more: "Show More",
@@ -1013,8 +1032,38 @@ const enTranslations = {
     made_at: "Made At",
     updated: "Updated",
     private_event: "Private Event",
+    hour_one: "hour",
+    hour_other: "hours",
+    minute_one: "minute",
+    minute_other: "minutes",
     mobile_warning:
       "Welcome to Tessera! It appears you are using a mobile device. Some website features may not be optimized for mobile. However, requesting and viewing tickets should work as expected. If you're an event organizer, we recommend using a desktop device.",
+  },
+
+  refund: {
+    dialog_title: "Refund Ticket",
+    reason: "Refund Reason",
+    amount: "Refund Amount",
+    payment_method: "Payment Method",
+    submit: "Process Refund",
+    ticket_info: "Ticket ID: {{id}}, Type: {{type}}, Price: {{price}}",
+    user_info: "User: {{name}}, Email: {{email}}",
+    cannot_refund: "Cannot refund ticket",
+  },
+
+  error: {
+    no_rows_selected: "No rows selected",
+    invalid_refund_selection:
+      "Invalid refund selection. Please select a single ticket.",
+    ticket_not_found: "Selected ticket not found",
+    no_ticket_selected: "No ticket selected for refund",
+    unknown: "An unknown error occurred",
+  },
+  success: {
+    delete: "Successfully deleted {{type}}",
+    undelete: "Successfully undeleted {{type}}",
+    allocate: "Successfully allocated tickets",
+    refund_processed: "Refund processed successfully",
   },
 
   faq: {

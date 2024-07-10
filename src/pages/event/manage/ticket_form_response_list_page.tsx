@@ -36,7 +36,7 @@ const getAccordionDetails = (ticket: ITicket) => {
         marginRight: "5%",
       }}
     >
-      {ticket.ticket_request?.event_form_responses?.map((response, index) => {
+      {ticket?.event_form_responses?.map((response, index) => {
         return (
           <Grid xs={12} sm={6} md={6} lg={4} key={response.id}>
             <StyledText

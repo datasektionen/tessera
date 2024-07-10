@@ -22,13 +22,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import {
   ShoppingCartItem,
-  postTicketRequest,
-} from "../../../redux/features/ticketRequestSlice";
+  postTicketOrderRequest,
+} from "../../../redux/features/ticketOrderSlice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import WhaIsTicketRequestModal from "./what_is_ticket_request";
 import LoadingOverlay from "../../Loading";
-import { TicketRequestData } from "../../../redux/sagas/ticketRequestSaga";
+import {
+  ITicketOrderRequest,
+  TicketRequestData,
+} from "../../../redux/sagas/ticketOrderSaga";
 import { toast } from "react-toastify";
 import StyledButton from "../../buttons/styled_button";
 import {
@@ -41,15 +44,14 @@ import TicketReleaseAddons from "./addons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import InformationModal from "../../modal/information";
 import { useMediaQuery, useTheme } from "@mui/material";
-import MakeTicketRequestUserDetails from "./ticket_request/make_ticket_request_user_details";
-import MakeTicketRequestWorkflow from "./ticket_request/make_ticket_request_work_flow";
-import { createGuestTicketRequest } from "../../../redux/features/guestCustomerSlice";
+import MakeTicketOrderWorkflow from "./ticket_request/make_ticket_request_work_flow";
+import { createGuestTicketOrderRequest } from "../../../redux/features/guestCustomerSlice";
 
 const TicketReleaseHasOpened: React.FC<{
   ticketRelease: ITicketRelease;
 }> = ({ ticketRelease }) => {
-  const { items: ticketRequestItems, loading: makingRequest } = useSelector(
-    (state: RootState) => state.ticketRequest
+  const { items: ticketOrderItems, loading: makingRequest } = useSelector(
+    (state: RootState) => state.ticketOrder
   ) as {
     items: ShoppingCartItem[];
     loading: boolean;
@@ -66,7 +68,9 @@ const TicketReleaseHasOpened: React.FC<{
 
   const [whatIsRequestOpen, setWhatIsRequestOpen] = React.useState(false);
   const [requestedTickets, setRequestedTickets] = React.useState<
-    TicketRequestData[]
+    {
+      ticket_type_id: number;
+    }[]
   >([]);
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -80,7 +84,7 @@ const TicketReleaseHasOpened: React.FC<{
 
   const { guestCustomer } = useSelector((state: RootState) => state.auth);
 
-  const [makeTicketRequestModalOpen, setMakeTicketRequestModalOpen] =
+  const [makeTicketOrderModalOpen, setMakeTicketOrderModalOpen] =
     React.useState(false);
 
   useEffect(() => {
@@ -95,7 +99,7 @@ const TicketReleaseHasOpened: React.FC<{
       type: "ticket" | "addon";
     }[] = [];
 
-    ticketRequestItems.forEach((item) => {
+    ticketOrderItems.forEach((item) => {
       const ticketType = ticketRelease.ticket_types?.find(
         (tt) => tt.id === item.ticket.id
       );
@@ -125,7 +129,7 @@ const TicketReleaseHasOpened: React.FC<{
 
     setBasketItems(basketItems);
   }, [
-    ticketRequestItems,
+    ticketOrderItems,
     ticketRelease.ticket_types,
     selectedAddons,
     ticketRelease.addons,
@@ -135,19 +139,20 @@ const TicketReleaseHasOpened: React.FC<{
     // Make request
     // Get the tickets that are also in the basket
     // If there are 3 tickets in the basket, then there should be 3 tickets in the request
-    let tickets: TicketRequestData[] = [];
-    ticketRequestItems.forEach((item) => {
+    let tickets: {
+      ticket_type_id: number;
+    }[] = [];
+    ticketOrderItems.forEach((item) => {
       const ticketType = ticketRelease.ticket_types?.find(
         (tt) => tt.id === item.ticket.id
       );
       if (ticketType) {
         // Add a ticket_amount property
-        const ticket: TicketRequestData = {
-          ticket_type_id: ticketType.id,
-          ticket_amount: item.quantity,
-        };
-
-        tickets.push(ticket);
+        for (let i = 0; i < item.quantity; i++) {
+          tickets.push({
+            ticket_type_id: ticketType.id,
+          });
+        }
       }
     });
 
@@ -157,7 +162,7 @@ const TicketReleaseHasOpened: React.FC<{
     }
 
     setRequestedTickets(tickets);
-    setMakeTicketRequestModalOpen(true);
+    setMakeTicketOrderModalOpen(true);
   };
 
   const getPromoCodes = () => {
@@ -174,24 +179,28 @@ const TicketReleaseHasOpened: React.FC<{
 
   const onSubmit = () => {
     dispatch(
-      postTicketRequest({
+      postTicketOrderRequest({
         promoCodes: getPromoCodes(),
-        tickets: requestedTickets,
+        tickeOrderReq: {
+          ticket_release_id: ticketRelease.id!,
+          tickets: requestedTickets,
+        },
         addons: selectedAddons,
         eventId: ticketRelease.event_id,
-        ticketReleaseId: ticketRelease.id,
       })
     );
   };
 
   const onGuestSubmit = () => {
     dispatch(
-      createGuestTicketRequest({
+      createGuestTicketOrderRequest({
         promoCodes: getPromoCodes(),
-        tickets: requestedTickets,
+        ticketOrder: {
+          ticket_release_id: ticketRelease.id!,
+          tickets: requestedTickets,
+        },
         addons: selectedAddons,
         eventId: ticketRelease.event_id,
-        ticketReleaseId: ticketRelease.id,
         guestCustomer: guestCustomer!,
       })
     );
@@ -207,9 +216,9 @@ const TicketReleaseHasOpened: React.FC<{
   return (
     <>
       <InformationModal
-        isOpen={makeTicketRequestModalOpen}
+        isOpen={makeTicketOrderModalOpen}
         onClose={() => {
-          setMakeTicketRequestModalOpen(false);
+          setMakeTicketOrderModalOpen(false);
         }}
         title={t(
           "event.ticket_release.request_process.complete_ticket_request"
@@ -217,12 +226,12 @@ const TicketReleaseHasOpened: React.FC<{
         width={isScreenSmall ? "100%" : "60%"}
       >
         <Box>
-          <MakeTicketRequestWorkflow
+          <MakeTicketOrderWorkflow
             ticketRelease={ticketRelease}
-            onSubmitTicketRequest={onSubmit}
-            onSubmitGuestTicketRequest={onGuestSubmit}
+            onSubmitTicketOrder={onSubmit}
+            onSubmitGuestTicketOrder={onGuestSubmit}
             onClose={() => {
-              setMakeTicketRequestModalOpen(false);
+              setMakeTicketOrderModalOpen(false);
             }}
           />
         </Box>
@@ -377,7 +386,7 @@ const TicketReleaseHasOpened: React.FC<{
               color={PALLETTE.charcoal}
               disabled={
                 numberOfTotalTicketRequestInBasket(
-                  ticketRequestItems,
+                  ticketOrderItems,
                   ticketRelease.id!
                 ) === 0
               }

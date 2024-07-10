@@ -58,7 +58,7 @@ Copy `.env.example` to `.env` then edit it with it by inserting the google maps 
 
 ```
 REACT_APP_ENV=development
-REACT_APP_BASE_URL=http://localhost:5000
+REACT_APP_BASE_URL=http://localhost:3000
 REACT_APP_BACKEND_URL=http://localhost:8080
 REACT_APP_GOOGLE_MAPS_API=<INSERT KEY HERE>
 REACT_APP_STRIPE_KEY=<INSERT KEY HERE>

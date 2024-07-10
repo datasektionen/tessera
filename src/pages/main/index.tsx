@@ -129,6 +129,7 @@ const MainPage: React.FC = () => {
         loginOptions={{
           showLogin: true,
         }}
+        shouldUseDefaultColor
       />
       <Box
         className={styles.divider}

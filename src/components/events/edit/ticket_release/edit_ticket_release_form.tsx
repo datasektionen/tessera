@@ -117,7 +117,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
         ticket_release_method_id:
           ticketRelease.ticket_release_method_detail.ticket_release_method?.id!,
         open_window_duration:
-          ticketRelease.ticket_release_method_detail.open_window_duration!,
+          ticketRelease.ticket_release_method_detail.open_window_duration! / 60,
         method_description:
           ticketRelease.ticket_release_method_detail.method_description,
         max_tickets_per_user:
@@ -369,7 +369,7 @@ const EditTicketReleaseForm: React.FC<EditTicketReleaseFormProps> = ({
                                     level="body-sm"
                                     color={PALLETTE.charcoal}
                                   >
-                                    {trm.name}
+                                    {trm.method_name}
                                   </StyledText>
                                   <Tooltip title={trm.description}>
                                     <HelpOutlineIcon

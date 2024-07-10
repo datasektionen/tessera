@@ -270,7 +270,7 @@ const CreateTicketReleaseForm: React.FC<CreateTicketReleaseFormProps> = ({
                                 level="body-sm"
                                 color={PALLETTE.charcoal}
                               >
-                                {trm.name}
+                                {trm.method_name}
                               </StyledText>
 
                               <Tooltip

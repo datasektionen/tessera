@@ -1,22 +1,9 @@
-import { ITicket, ITicketRequest } from "../../types";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionGroup,
-  AccordionSummary,
-  Box,
-  Chip,
-  Grid,
-  IconButton,
-  Stack,
-  Tooltip,
-  styled,
-} from "@mui/joy";
+import { ITicket } from "../../types";
+import { Box, Chip, Grid, IconButton, Stack, Tooltip, styled } from "@mui/joy";
 import BorderBox from "../wrappers/border_box";
 import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
-import { format } from "date-fns";
-import { is } from "date-fns/locale";
+
 import { canPayForTicket } from "../../utils/user_payment";
 
 const StyledTicketBox = styled(Box)(({ theme }) => ({
@@ -49,8 +36,8 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
     return <></>;
   }
 
-  const ticketRequest = ticket.ticket_request!;
-  const event = ticketRequest.ticket_release!.event;
+  const ticketOrder = ticket.ticket_order!;
+  const event = ticketOrder.ticket_release!.event;
 
   const handleClick = () => {
     if (!isPastEvent) setSelected(ticket.id);
@@ -82,15 +69,14 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
             level="body-md"
             fontWeight={700}
           >
-            {ticketRequest.ticket_type!.name} -
+            {ticket.ticket_type!.name} -
             <StyledText
               color={PALLETTE.charcoal}
               level="body-md"
               fontWeight={500}
             >
               {" "}
-              {ticketRequest.ticket_amount}x{ticketRequest.ticket_type!.price}{" "}
-              SEK
+              {ticket.ticket_type!.price} SEK
             </StyledText>
           </StyledText>
         </Grid>
@@ -150,7 +136,7 @@ const TicketListRowView: React.FC<TicketListRowViewProps> = ({
                     : "Not paid in time"}
                 </StyledText>
               </Chip>
-              {ticketRequest.ticket_release?.is_reserved && (
+              {ticketOrder.ticket_release?.is_reserved && (
                 <Chip
                   variant="soft"
                   color="primary"

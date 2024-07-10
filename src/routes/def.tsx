@@ -120,7 +120,7 @@ export const ROUTES = {
   // User profile routes
   PROFILE: "/profile",
   PROFILE_ORGANIZATIONS: "/profile/organizations",
-  PROFILE_TICKET_REQUESTS: "/profile/ticket-requests",
+  PROFILE_TICKET_ORDERS: "/profile/ticket-orders",
   PROFILE_TICKETS: "/profile/tickets",
   USER_FOOD_PREFERENCES: "/user-food-preferences",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",

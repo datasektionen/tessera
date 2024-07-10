@@ -7,14 +7,14 @@ import listEventsReducer from "./redux/features/listEventsSlice";
 import eventReducer from "./redux/features/eventSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import ticketRequestReducer from "./redux/features/ticketRequestSlice";
+import ticketOrderReducer from "./redux/features/ticketOrderSlice";
 import foodPreferenceReducer from "./redux/features/userFoodPreferences";
 import organizationReducer from "./redux/features/organizationSlice";
 import eventCreationSlice from "./redux/features/eventCreationSlice";
 import ticketReleaseMethodReducer from "./redux/features/ticketReleaseMethodsSlice";
 import ticketTypeCreationReducer from "./redux/features/ticketTypeCreationSlice";
 import promoCodeAccessSlice from "./redux/features/promoCodeAccessSlice";
-import myTicketRequestsSlice from "./redux/features/myTicketRequestsSlice";
+import myTicketOrderSlice from "./redux/features/myTicketOrderSlice";
 import myTicketsSlice from "./redux/features/myTicketsSlice";
 import createTicketReleaseSlice from "./redux/features/createTicketReleaseSlice";
 import ticketTypeSlice from "./redux/features/ticketTypeSlice";
@@ -35,6 +35,8 @@ import drawerPinnedSlice from "./redux/features/drawerPinnedSlice";
 import listNetworkEventsSlice from "./redux/features/manager/listNetworkEventsSlice";
 import networkSlice from "./redux/features/manager/networkSlice";
 import { authStatusReducer } from "./redux/features/authSlice";
+import networkSettingsSlice from "./redux/features/networkSettingsSlice";
+import managerThemeSlice from "./redux/features/managerThemeSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -59,14 +61,14 @@ const rootReducer = combineReducers({
   events: listEventsReducer,
   networkEvents: listNetworkEventsSlice,
   eventDetail: eventReducer,
-  ticketRequest: ticketRequestReducer,
+  ticketOrder: ticketOrderReducer,
   foodPreferences: foodPreferenceReducer,
   organization: organizationReducer,
   eventCreation: eventCreationSlice,
   ticketReleaseMethods: ticketReleaseMethodReducer,
   ticketTypeCreation: ticketTypeCreationReducer,
   promoCodeAccess: promoCodeAccessSlice,
-  myTicketRequests: myTicketRequestsSlice,
+  myTicketOrders: myTicketOrderSlice,
   myTickets: myTicketsSlice,
   createTicketRelease: createTicketReleaseSlice,
   ticketTypes: ticketTypeSlice,
@@ -85,6 +87,8 @@ const rootReducer = combineReducers({
   planEnrollmentCreation: planeEnrollmentCreationSlice,
   drawerPinned: drawerPinnedSlice,
   network: networkSlice,
+  networkSettings: networkSettingsSlice,
+  managerTheme: managerThemeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

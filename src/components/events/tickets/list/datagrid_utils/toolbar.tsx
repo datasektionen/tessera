@@ -162,6 +162,14 @@ function CustomToolbar({ rows, onCustomAction }: any) {
         >
           Allocate
         </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onCustomAction("refund");
+            handleClose();
+          }}
+        >
+          Refund
+        </MenuItem>
       </Menu>
     </GridToolbarContainer>
   );

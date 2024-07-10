@@ -60,7 +60,7 @@ export const ticketIsEnteredIntoFCFSLottery = (
         60 *
         1000
   );
-  return ticket.ticket_request!.created_at < windowDeadline.getTime();
+  return ticket.ticket_order!.created_at < windowDeadline.getTime();
 };
 
 export const ticketsEnteredIntoFCFSLottery = (

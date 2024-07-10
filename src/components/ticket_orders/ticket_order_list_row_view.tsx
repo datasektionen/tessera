@@ -1,4 +1,3 @@
-import { ITicketRequest } from "../../types";
 import {
   Accordion,
   AccordionDetails,
@@ -17,6 +16,8 @@ import StyledText from "../text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { format } from "date-fns";
 import { t } from "i18next";
+import { ITicket, ITicketOrder } from "../../types";
+import { useEffect, useState } from "react";
 
 const StyledTicketRequestBox = styled(Box)(({ theme }) => ({
   border: "2px solid " + PALLETTE.charcoal,
@@ -31,38 +32,76 @@ const StyledTicketRequestBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface TicketRequestListRowViewProps {
-  ticketRequest: ITicketRequest;
+interface TicketOrderListRowViewProps {
+  ticketOrder: ITicketOrder;
   selected: number | null;
   setSelected: (id: number | null) => void;
   isPastEvent?: boolean;
 }
 
-const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
-  ticketRequest,
+const TicketOrderListRowView: React.FC<TicketOrderListRowViewProps> = ({
+  ticketOrder,
   selected,
   setSelected,
   isPastEvent = false,
 }) => {
-  if (!ticketRequest) {
+  const event = ticketOrder.ticket_release!.event;
+  const isUpcoming = new Date(event!.date) > new Date();
+  const [groupedTickets, setGroupedTickets] = useState<{
+    [key: string]: { name: string; price: number; count: number }[];
+  }>({});
+
+  useEffect(() => {
+    const grouped = ticketOrder.tickets.reduce(
+      (
+        acc: {
+          [key: string]: { name: string; price: number; count: number }[];
+        },
+        ticket
+      ) => {
+        const key = ticket.ticket_order_id.toString(); // Ensure the key is a string
+        const ticketTypeKey = ticket.ticket_type_id.toString();
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        const existingTicketType = acc[key].find(
+          (t) =>
+            t.name === ticket.ticket_type.name &&
+            t.price === ticket.ticket_type.price
+        );
+        if (existingTicketType) {
+          existingTicketType.count += 1;
+        } else {
+          acc[key].push({
+            name: ticket.ticket_type.name,
+            price: ticket.ticket_type.price,
+            count: 1,
+          });
+        }
+        return acc;
+      },
+      {}
+    );
+
+    setGroupedTickets(grouped);
+  }, [ticketOrder.tickets]);
+
+  if (!ticketOrder) {
     return <></>;
   }
 
-  const event = ticketRequest.ticket_release!.event;
-  const isUpcoming = new Date(event!.date) > new Date();
   return (
     <StyledTicketRequestBox
-      key={ticketRequest.id}
+      key={ticketOrder.id}
       my={1}
       style={{
-        borderColor:
-          selected === ticketRequest.id ? PALLETTE.cerise : undefined,
+        borderColor: selected === ticketOrder.id ? PALLETTE.cerise : undefined,
         backgroundColor:
-          isPastEvent || ticketRequest.deleted_at
+          isPastEvent || ticketOrder.deleted_at
             ? PALLETTE.charcoal_see_through
             : undefined,
       }}
-      onClick={() => setSelected(ticketRequest.id)}
+      onClick={() => setSelected(ticketOrder.id)}
     >
       <Grid
         container
@@ -72,24 +111,29 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
           padding: "8px",
         }}
       >
-        <Grid>
-          <StyledText
-            color={PALLETTE.charcoal}
-            level="body-md"
-            fontWeight={700}
-          >
-            {ticketRequest.ticket_type!.name} -
-            <StyledText
-              color={PALLETTE.charcoal}
-              level="body-md"
-              fontWeight={500}
-            >
-              {" "}
-              {ticketRequest.ticket_amount}x{ticketRequest.ticket_type!.price}{" "}
-              SEK
-            </StyledText>
-          </StyledText>
-        </Grid>
+        {Object.entries(groupedTickets).map(([ticketOrderId, ticketTypes]) => (
+          <Grid xs={12} key={ticketOrderId}>
+            {ticketTypes.map((ticketType) => (
+              <StyledText
+                key={ticketType.name}
+                color={PALLETTE.charcoal}
+                level="body-md"
+                fontWeight={700}
+              >
+                {ticketType.count} x {ticketType.name} -
+                <StyledText
+                  color={PALLETTE.charcoal}
+                  level="body-md"
+                  fontWeight={500}
+                >
+                  {" "}
+                  {ticketType.price} SEK
+                </StyledText>
+              </StyledText>
+            ))}
+          </Grid>
+        ))}
+
         <Grid>
           {!isPastEvent && (
             <Stack direction="row" spacing={1}>
@@ -120,21 +164,19 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
                 >
                   <StyledText
                     color={
-                      ticketRequest.is_handled
-                        ? PALLETTE.green
-                        : PALLETTE.orange
+                      ticketOrder.is_handled ? PALLETTE.green : PALLETTE.orange
                     }
                     level="body-sm"
                     fontSize={14}
                     fontWeight={600}
                   >
-                    {ticketRequest.is_handled
+                    {ticketOrder.is_handled
                       ? t("ticket_request.handled")
                       : t("ticket_request.ticket_request")}
                   </StyledText>
                 </Chip>
               </Tooltip>
-              {ticketRequest.deleted_at && (
+              {ticketOrder.deleted_at && (
                 <Chip
                   variant="soft"
                   color="primary"
@@ -152,7 +194,7 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
                   </StyledText>
                 </Chip>
               )}
-              {ticketRequest.ticket_release?.is_reserved && (
+              {ticketOrder.ticket_release?.is_reserved && (
                 <Chip
                   variant="soft"
                   color="primary"
@@ -178,4 +220,4 @@ const TicketRequestListRowView: React.FC<TicketRequestListRowViewProps> = ({
   );
 };
 
-export default TicketRequestListRowView;
+export default TicketOrderListRowView;

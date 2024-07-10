@@ -33,6 +33,9 @@ import { useNavigate } from "react-router-dom";
 import { INavigationLoginOptions, RoleType } from "../../types";
 import { isEventManager } from "../../utils/roles/manager";
 import { userHasRole } from "../../utils/roles/has_role";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
+import { getNetworkColors, isColorDark } from "../../utils/manager/color";
+import { StringBuffer } from "google-libphonenumber";
 
 const lngs = [
   {
@@ -126,85 +129,31 @@ export const LanguageSelector: React.FC = () => {
   );
 };
 
-const MaintenanceMessage: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const savedState = localStorage.getItem("maintenanceMessageDismissed");
-    if (!savedState) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(JSON.parse(savedState) ? false : true);
-    }
-
-    setIsLoading(false);
-  }, []);
-
-  const handleDismiss = () => {
-    setIsVisible(false);
-    localStorage.setItem("maintenanceMessageDismissed", JSON.stringify(true));
-  };
-
-  if (isLoading || !isVisible) {
-    return null;
-  }
-
-  return (
-    <Box
-      sx={{
-        backgroundColor: PALLETTE.orange,
-        padding: "16px",
-        textAlign: "center",
-      }}
-    >
-      <StyledText
-        level="body-md"
-        fontSize={20}
-        color={PALLETTE.charcoal}
-        fontWeight={600}
-        sx={{
-          width: "80%",
-          margin: "0 auto",
-        }}
-      >
-        Scheduled maintenance: Between May 21 and June 1, we will be performing
-        maintenance on Tessera. During this time, the website might be
-        unavailable. We apologize for any inconvenience this may cause.
-      </StyledText>
-
-      <StyledButton
-        size="sm"
-        onClick={handleDismiss}
-        style={{
-          margin: "16px auto",
-        }}
-      >
-        Dismiss
-      </StyledButton>
-    </Box>
-  );
-};
-
-export const StyledLink = (props: any) => (
+export const StyledLink = (props: any, color: StringBuffer) => (
   <Link
     {...props}
     className={styles.link}
     style={{
-      color: PALLETTE.charcoal,
+      color: "inherit",
     }}
   />
 );
 
 interface NavigationBarProps {
   loginOptions?: INavigationLoginOptions;
+  shouldUseDefaultColor?: boolean;
 }
 
-const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
+const NavigationBar: React.FC<NavigationBarProps> = ({
+  loginOptions,
+  shouldUseDefaultColor = false,
+}) => {
   const { t } = useTranslation();
   const { showLogin } = loginOptions || {
     showLogin: true,
   };
+
+  const { network } = useNetworkDetails(false);
 
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -212,6 +161,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
+
+  const { main_color, accent_color } = getNetworkColors(network);
+  const textColor = isColorDark(main_color)
+    ? PALLETTE.white
+    : PALLETTE.charcoal;
 
   if (isScreenSmall) {
     return <MobileNavigationBar />;
@@ -222,7 +176,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
           sx={{
             margin: 0,
             padding: 0,
-            backgroundColor: PALLETTE.cerise,
+            backgroundColor: shouldUseDefaultColor
+              ? PALLETTE.cerise
+              : main_color,
             color: "white",
             width: "100%",
             height: "64px",
@@ -249,7 +205,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 href="/" // Link to the main page
                 fontFamily={"Josefin sans"}
                 fontSize={24}
-                sx={{ textDecoration: "none", color: PALLETTE.charcoal }}
+                sx={{ textDecoration: "none", color: textColor }}
               >
                 tessera
               </Typography>
@@ -282,7 +238,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                     <StyledText
                       key="events"
                       level="body-sm"
-                      color={""}
+                      color={textColor}
                       fontSize={18}
                       fontWeight={700}
                       style={{
@@ -299,7 +255,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                 <StyledText
                   key="contact"
                   level="body-sm"
-                  color={""}
+                  color={textColor}
                   fontSize={18}
                   fontWeight={700}
                   style={{
@@ -314,7 +270,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
               ]}
               <StyledText
                 level="body-sm"
-                color={""}
+                color={textColor}
                 fontSize={18}
                 fontWeight={700}
                 style={{
@@ -329,7 +285,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
 
               <StyledText
                 level="body-sm"
-                color={""}
+                color={textColor}
                 fontSize={18}
                 fontWeight={700}
                 style={{
@@ -374,7 +330,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                     >
                       <PersonIcon
                         style={{
-                          color: PALLETTE.charcoal,
+                          color: isColorDark(main_color)
+                            ? PALLETTE.yellow
+                            : PALLETTE.charcoal,
                         }}
                       />
                     </IconButton>,
@@ -385,14 +343,16 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ loginOptions }) => {
                     >
                       <LogoutIcon
                         style={{
-                          color: PALLETTE.charcoal,
+                          color: isColorDark(main_color)
+                            ? PALLETTE.yellow
+                            : PALLETTE.charcoal,
                         }}
                       />
                     </IconButton>,
                   ]
                 : showLogin && (
                     <StyledButton
-                      color={PALLETTE.charcoal}
+                      color={textColor}
                       size="sm"
                       style={{
                         margin: "0 16px",

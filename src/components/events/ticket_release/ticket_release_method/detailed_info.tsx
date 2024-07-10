@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ITicketRelease } from "../../../../types";
 import { Box } from "@mui/joy";
 import StyledText from "../../../text/styled_text";
@@ -6,15 +6,6 @@ import { Trans, useTranslation } from "react-i18next";
 import PALLETTE from "../../../../theme/pallette";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import {
-  beforeWindowDuration,
-  ticketReleaseHasClosed,
-  ticketReleaseHasNotOpened,
-  ticketReleaseHasOpened,
-} from "../../../../utils/event_open_close";
-import TicketReleaseHasNotOpened from "../ticket_release_has_not_opened";
-import { time } from "console";
-import InfoIcon from "@mui/icons-material/Info";
 
 type TicketReleaseMethod =
   | "First Come First Serve Lottery"
@@ -43,8 +34,8 @@ const TicketReleaseMethodDetail: React.FC<TicketReleaseMethodDetailProps> = ({
 
   useEffect(() => {
     if (
-      ticketRelease.ticket_release_method_detail.ticket_release_method!.name ===
-      "First Come First Serve Lottery"
+      ticketRelease.ticket_release_method_detail.ticket_release_method!
+        .method_name === "First Come First Serve Lottery"
     ) {
       setData({
         fcfsl: {
@@ -54,8 +45,8 @@ const TicketReleaseMethodDetail: React.FC<TicketReleaseMethodDetailProps> = ({
       });
       setMethod("First Come First Serve Lottery");
     } else if (
-      ticketRelease.ticket_release_method_detail.ticket_release_method!.name ===
-      "Reserved Ticket Release"
+      ticketRelease.ticket_release_method_detail.ticket_release_method!
+        .method_name === "Reserved Ticket Release"
     ) {
       setData({
         reserved: {
@@ -68,13 +59,37 @@ const TicketReleaseMethodDetail: React.FC<TicketReleaseMethodDetailProps> = ({
 
   const { t } = useTranslation();
 
+  const formatDuration = (seconds: number): string => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    let result = [];
+
+    if (hours > 0) {
+      result.push(`${hours} ${t("common.hour", { count: hours })}`);
+    }
+
+    if (minutes > 0 || (hours > 0 && remainingSeconds > 0)) {
+      result.push(`${minutes} ${t("common.minute", { count: minutes })}`);
+    }
+
+    if (result.length === 0 || remainingSeconds > 0) {
+      result.push(
+        `${remainingSeconds} ${t("common.second", { count: remainingSeconds })}`
+      );
+    }
+
+    return result.join(" ");
+  };
+
   if (!method) {
     return null;
   }
 
   return (
     <Box mt={2}>
-      {method === "First Come First Serve Lottery" && (
+      {method === "First Come First Serve Lottery" && data.fcfsl && (
         <StyledText
           color={PALLETTE.charcoal}
           level="body-md"
@@ -83,19 +98,20 @@ const TicketReleaseMethodDetail: React.FC<TicketReleaseMethodDetailProps> = ({
         >
           <Trans
             i18nKey="event.ticket_release.method_info.fcfsl"
-            values={{ duration: data.fcfsl?.open_window_duration }}
+            values={{
+              duration: formatDuration(data.fcfsl.open_window_duration),
+            }}
           >
-            Request your ticket within the first
+            Requests made within the first
             <StyledText
-              color={PALLETTE.orange}
+              color={PALLETTE.cerise_dark}
               level="body-md"
               fontSize={17}
               fontWeight={700}
             >
-              {data.fcfsl?.open_window_duration}
+              t
             </StyledText>
-            minutes of the ticket release opening in order to be entered into
-            the lottery.
+            of the release will be entered into the lottery.
           </Trans>
         </StyledText>
       )}

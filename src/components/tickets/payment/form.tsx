@@ -32,7 +32,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { totalCost } = useCosts(ticket.ticket_request!);
+  const { totalCost } = useCosts(ticket.ticket_order);
 
   useEffect(() => {
     if (!stripe) {

@@ -78,7 +78,7 @@ const ContactPage: React.FC = () => {
   }
 
   return (
-    <TesseraWrapper>
+    <TesseraWrapper defaultColors>
       <Box
         sx={{
           width: "100%",

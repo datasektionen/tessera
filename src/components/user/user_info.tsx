@@ -41,7 +41,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
           <Box>
             <Stack direction="column" spacing={2}>
               <Link
-                href="/profile/ticket-requests"
+                href="/profile/ticket-orders"
                 style={{
                   textDecoration: "none",
                 }}

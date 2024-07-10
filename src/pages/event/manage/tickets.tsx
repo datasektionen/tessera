@@ -23,7 +23,7 @@ const ManageEventTicketsPage: React.FC = () => {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-  const [selectedTicketRequestID, setSelectedTicketRequestID] = useState<
+  const [selectedTicketOrderID, setSelectedTicketOrderID] = useState<
     number | null
   >(null);
   const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
@@ -36,35 +36,34 @@ const ManageEventTicketsPage: React.FC = () => {
   const handleSetSelectedTicket = useCallback(() => {
     if (!ticketsLoading) {
       const ticket = tickets.find((ticket) => {
-        return ticket?.ticket_request?.id === selectedTicketRequestID;
+        return ticket?.ticket_order?.id === selectedTicketOrderID;
       });
       setSelectedTicket(ticket || null);
     }
-  }, [tickets, selectedTicketRequestID, ticketsLoading]);
+  }, [tickets, selectedTicketOrderID, ticketsLoading]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const ticketRequestID = params.get("ticket_request_id");
+    const ticketOrderID = params.get("ticket_order_id");
 
-    if (ticketRequestID) {
-      const parsedID = parseInt(ticketRequestID);
+    if (ticketOrderID) {
+      const parsedID = parseInt(ticketOrderID);
       if (!isNaN(parsedID)) {
-        setSelectedTicketRequestID(parsedID);
+        setSelectedTicketOrderID(parsedID);
       } else {
-        setSelectedTicketRequestID(null);
+        setSelectedTicketOrderID(null);
       }
     }
-  }, [setSelectedTicketRequestID]);
+  }, [setSelectedTicketOrderID]);
 
   useEffect(() => {
     handleSetSelectedTicket();
   }, [handleSetSelectedTicket]);
 
   useEffect(() => {
-    // Update the URL with the ticket_request_id when selectedTicket changes
     if (selectedTicket) {
       navigate(
-        `/events/${eventID}/manage/tickets?ticket_request_id=${selectedTicket.ticket_request?.id}`
+        `/events/${eventID}/manage/tickets?ticket_order_id=${selectedTicket.ticket_order?.id}`
       );
     }
   }, [selectedTicket, navigate, eventID]);
@@ -76,7 +75,7 @@ const ManageEventTicketsPage: React.FC = () => {
   const handleBackNavigation = useCallback(() => {
     // Custom logic when back button is pressed
     // For example, navigate to a specific path or perform checks
-    setSelectedTicketRequestID(null);
+    setSelectedTicketOrderID(null);
   }, [navigate]);
 
   useEffect(() => {
@@ -107,7 +106,7 @@ const ManageEventTicketsPage: React.FC = () => {
           />
           {selectedTicket && (
             <BreadCrumbLink
-              to={`/events/${eventID}/manage/tickets?ticket_request_id=${selectedTicket.ticket_request?.id}`}
+              to={`/events/${eventID}/manage/tickets?ticket_order_id=${selectedTicket.ticket_order?.id}`}
               label={selectedTicket.id.toString()}
             />
           )}
@@ -118,7 +117,7 @@ const ManageEventTicketsPage: React.FC = () => {
           ) : (
             <EventTicketsList
               tickets={tickets}
-              selectTicketRequest={setSelectedTicketRequestID}
+              selectTicketOrder={setSelectedTicketOrderID}
               reFetch={reFetchTickets}
             />
           )}

@@ -3,7 +3,7 @@ import watchLoginSaga from "./authSaga";
 import watchUserSagas from "./userSaga";
 import watchListEventSaga from "./listEventSaga";
 import watchEventSaga from "./eventSaga";
-import watchTicketRequestSaga from "./ticketRequestSaga";
+import watchTicketOrderSaga from "./ticketOrderSaga";
 import { watchFoodPreferences } from "./userFoodPreferencesSaga";
 import { watchCreateOrganization } from "./organizationSaga";
 import { watchFetchTicketReleaseMethods } from "./ticketReleaseMethodSaga";
@@ -19,11 +19,12 @@ import watchSalesReportSaga from "./salesReportSaga";
 import watchGetAddonSaga from "./addonSaga";
 import bankingDetailsSaga from "./bankingDetailsSaga";
 import watchViewCustomerEventSaga from "./customerViewEventSaga";
-import { watchGuestCustomerCreateTicketRequestSaga } from "./ticketRequestGuestSaga";
+import { watchGuestCustomerCreateTicketRequestSaga } from "./ticketOrderGuestSaga";
 import { watchGuestSaga } from "./guestSaga";
 import { watchCreatePlanEnrollmentSaga } from "./createPlanEnrollmentSaga";
 import watchListNetworkEventSaga from "./manager/listNetworkEventsSaga";
 import watchNetworkSaga from "./manager/networkSaga";
+import watchNetworkSettingsSaga from "./manager/networkSettingsSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -32,7 +33,7 @@ export default function* rootSaga() {
     watchListEventSaga(),
     watchListNetworkEventSaga(),
     watchEventSaga(),
-    watchTicketRequestSaga(),
+    watchTicketOrderSaga(),
     watchTicketsSaga(),
     watchTicketReleaseSaga(),
     watchFoodPreferences(),
@@ -52,6 +53,7 @@ export default function* rootSaga() {
     watchGuestCustomerCreateTicketRequestSaga(),
     watchGuestSaga(),
     watchNetworkSaga(),
+    watchNetworkSettingsSaga(),
     // add other sagas here
   ]);
 }

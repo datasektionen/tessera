@@ -23,9 +23,9 @@ function* fetchTicketReleaseMethods(): Generator<any, void, any> {
       (ticketReleaseMethod: any) => {
         return {
           id: ticketReleaseMethod.ID!,
-          name: ticketReleaseMethod.method_name!,
+          method_name: ticketReleaseMethod.method_name!,
           description: ticketReleaseMethod.description!,
-        };
+        } as ITicketReleaseMethod;
       }
     );
 
