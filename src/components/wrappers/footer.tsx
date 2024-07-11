@@ -118,25 +118,23 @@ const Footer: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        {/* <StyledText
+        <StyledText
           level="body-sm"
           fontSize={isScreenSmall ? 14 : 20}
           fontWeight={600}
           color={PALLETTE.charcoal}
         >
           <Trans i18nKey="footer.made_by">
-            Made with ❤️
-             <Link
+            Made with ❤️ by
+            <Link
               href="https://www.linkedin.com/in/lucas-dow-1315a61b5/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Lucas Dow
-            </Link>  
+            </Link>
           </Trans>
-        </StyledText> */}
-        {/* For mörkläggning */}
-
+        </StyledText>
         <Link
           href="https://www.youtube.com/watch?v=7IZ-Fek2kzE&ab_channel=ForestFilmStudio"
           target="_blank"
