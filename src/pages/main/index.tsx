@@ -237,6 +237,16 @@ const MainPage: React.FC = () => {
           position: "relative",
         }}
       >
+        <Box
+          ref={GetInTouchRef}
+          style={{
+            borderTop: "1px solid " + PALLETTE.cerise,
+            borderBottom: "1px solid " + PALLETTE.cerise,
+          }}
+          my={4}
+        >
+          <ContactDetails />
+        </Box>
         <Grid
           container
           justifyContent="center"

@@ -96,7 +96,7 @@ const WelcomePage = () => {
           <Link href="/external">Click here</Link>
         </StyledText>
 
-        {/* <Box
+        <Box
           sx={{
             position: "absolute",
             bottom: "3%",
@@ -123,8 +123,7 @@ const WelcomePage = () => {
               , the creator of Tessera.
             </Trans>
           </StyledText>
-        </Box> */}
-        {/* For mörkläggning */}
+        </Box>
       </div>
     </>
   );
