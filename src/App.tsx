@@ -11,6 +11,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { useTranslation } from "react-i18next";
 
 function App() {
+  console.log(process.env.REACT_APP_BACKEND_URL);
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
