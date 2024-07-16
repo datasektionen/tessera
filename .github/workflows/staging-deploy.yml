@@ -31,6 +31,11 @@ jobs:
         REACT_APP_GOOGLE_MAPS_API: ${{ secrets.REACT_APP_GOOGLE_MAPS_API }}
         REACT_APP_STRIPE_KEY: ${{ secrets.REACT_APP_STRIPE_KEY }}
         REACT_APP_TEST_EMAIL: ${{ secrets.REACT_APP_TEST_EMAIL }}
+      continue-on-error: true
+
+    - name: Show npm debug log on error
+      if: failure()
+      run: cat /home/runner/.npm/_logs/*-debug.log
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -40,6 +45,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Deploy to S3
+      if: success()
       run: |
         aws s3 sync build/ s3://tessera-staging --delete
         aws s3 cp build/index.html s3://tessera-staging/index.html --cache-control "max-age=0, no-cache, no-store, must-revalidate"
