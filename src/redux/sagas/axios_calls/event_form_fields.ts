@@ -35,7 +35,7 @@ export const handleEventFormFieldsSubmit = async (
 export const handleEventFormFieldResponseSubmit = async (
   formFieldValues: { event_form_field_id: number; value: string }[],
   event_id: number,
-  ticketRequestId: number,
+  ticketId: number,
   isGuestCustomer?: boolean,
   guestCustomer?: IGuestCustomer
 ) => {
@@ -47,8 +47,8 @@ export const handleEventFormFieldResponseSubmit = async (
     url += isGuestCustomer
       ? `/guest-customer/${
           guestCustomer?.user_id
-        }/events/${event_id}/ticket-requests/${ticketRequestId}/form-fields?request_token=${guestCustomer?.request_token!}`
-      : `/events/${event_id}/ticket-requests/${ticketRequestId}/form-fields`;
+        }/events/${event_id}/tickets/${ticketId}/form-fields?request_token=${guestCustomer?.request_token!}`
+      : `/events/${event_id}/tickets/${ticketId}/form-fields`;
 
     const response = await axios.put(url, formFieldValues, {
       withCredentials: !isGuestCustomer,

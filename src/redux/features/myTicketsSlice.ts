@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGuestCustomer, ITicket } from "../../types";
 import { act } from "react-dom/test-utils";
-import { TicketRequestData } from "../sagas/ticketRequestSaga";
+import { TicketRequestData } from "../sagas/ticketOrderSaga";
 
 // Define the ShoppingCartState interface
 export interface MyTicketState {

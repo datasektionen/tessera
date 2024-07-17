@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavigationBar from "../navigation";
 import { Box, CssVarsProvider, IconButton } from "@mui/joy";
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import theme from "../../theme";
@@ -14,11 +14,13 @@ import { motion } from "framer-motion";
 interface TesseraWrapperProps {
   children: React.ReactNode;
   loginOptions?: INavigationLoginOptions;
+  defaultColors?: boolean;
 }
 
 const TesseraWrapper: React.FC<TesseraWrapperProps> = ({
   children,
   loginOptions,
+  defaultColors = false,
 }) => {
   const [showScroll, setShowScroll] = useState(false);
 
@@ -31,16 +33,15 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({
   };
 
   const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', checkScrollTop);
+    window.addEventListener("scroll", checkScrollTop);
     return () => {
-      window.removeEventListener('scroll', checkScrollTop);
+      window.removeEventListener("scroll", checkScrollTop);
     };
   }, [showScroll]);
-
 
   return (
     <CssVarsProvider theme={theme}>
@@ -56,7 +57,10 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({
         pauseOnHover
         theme="light"
       />
-      <NavigationBar loginOptions={loginOptions} />
+      <NavigationBar
+        loginOptions={loginOptions}
+        shouldUseDefaultColor={defaultColors}
+      />
       <Box
         sx={{ width: "100%", minHeight: "100vh" }}
         id="tessera-wrapper"
@@ -72,16 +76,16 @@ const TesseraWrapper: React.FC<TesseraWrapperProps> = ({
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: showScroll ? 1 : 0, y: showScroll ? 0 : 50 }}
         transition={{ duration: 0.5 }}
-        style={{ position: 'fixed', top: '90px', right: '30px', zIndex: 1000 }}
+        style={{ position: "fixed", top: "90px", right: "30px", zIndex: 1000 }}
       >
         <IconButton
           sx={{
             backgroundColor: PALLETTE.cerise,
-            color: '#fff',
-            '&:hover': {
+            color: "#fff",
+            "&:hover": {
               backgroundColor: PALLETTE.cerise,
             },
-            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           }}
           onClick={scrollTop}
           aria-label="Scroll to top"

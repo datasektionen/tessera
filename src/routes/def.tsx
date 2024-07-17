@@ -70,6 +70,7 @@ export const ROUTES = {
   MANAGER_SETTINGS_FINANCIAL: "/manager/settings/financial",
   MANAGER_SETTINGS_USERS: "/manager/settings/users",
   MANAGER_SETTINGS_CONFIGURATION: "/manager/settings/configuration",
+  MANAGER_SETUP: "/manager/setup",
 
   // Event related routes
   EVENTS: "/events",
@@ -105,7 +106,6 @@ export const ROUTES = {
   EDIT_EVENT_LANDING_PAGE_EDTIOR: "/events/:eventID/edit/landing-page/editor",
   EDIT_EVENT_LANDING_PAGE_SETTINGS: "/events/:eventID/edit/landing-page/",
 
-
   // Event creation routes
   CREATE_EVENT: "/create-event",
   ALLOCATE_TICKETS:
@@ -120,7 +120,7 @@ export const ROUTES = {
   // User profile routes
   PROFILE: "/profile",
   PROFILE_ORGANIZATIONS: "/profile/organizations",
-  PROFILE_TICKET_REQUESTS: "/profile/ticket-requests",
+  PROFILE_TICKET_ORDERS: "/profile/ticket-orders",
   PROFILE_TICKETS: "/profile/tickets",
   USER_FOOD_PREFERENCES: "/user-food-preferences",
   RENEW_FOOD_PREFS_CONSENT: "/profile/food-preferences/renew-consent",
@@ -136,7 +136,6 @@ export const ROUTES = {
   TICKET_RELEASE_CONSTANTS: "/ticket-release/constants",
   HANDLE_LOGIN_CALLBACK: "/handle-login-callback",
   EXTERNAL_VERIFY_EMAIL: "/verify-email/:token",
-  VERIFY_PREFERRED_EMAIL: "/verify-preferred-email/:token",
   CONTACT_PAGE: "/contact",
   PRIVACY_POLICY: "/privacy-policy",
 

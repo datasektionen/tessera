@@ -1,31 +1,19 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { TicketRequestData } from "./ticketRequestSaga";
+import { TicketRequestData } from "./ticketOrderSaga";
 import {
-  IAddon,
-  IEvent,
-  IEventFormField,
-  IEventFormFieldResponse,
   IGuestCustomer,
   ISelectedAddon,
-  ITicketAddon,
-  ITicketRelease,
-  ITicketRequest,
-  ITicketType,
   TicketRequestPostReq,
 } from "../../types";
 import { all, call, put, takeLatest } from "redux-saga/effects";
-import { getMyTicketRequestsRequest } from "../features/myTicketRequestsSlice";
-import {
-  postTicketRequestFailure,
-  postTicketRequestSuccess,
-} from "../features/ticketRequestSlice";
+
 import { toast } from "react-toastify";
 import { customerSignupSuccess } from "../features/authSlice";
 import {
-  createGuestTicketRequest,
-  createGuestTicketRequestFailure,
-  createGuestTicketRequestSuccess,
+  createGuestTicketOrderFailure,
+  createGuestTicketOrderRequest,
+  createGuestTicketOrderSuccess,
   setGuestCustomer,
 } from "../features/guestCustomerSlice";
 import { getPromoCodeAccessRequest } from "../features/promoCodeAccessSlice";
@@ -93,7 +81,7 @@ function* createTicketRequestSaga(
 
     if (response.status === 201) {
       toast.success("Ticket request successful!");
-      yield put(createGuestTicketRequestSuccess());
+      yield put(createGuestTicketOrderSuccess());
       yield put(
         setGuestCustomer({
           ...guestCustomer,
@@ -102,15 +90,15 @@ function* createTicketRequestSaga(
     } else {
       const errorMessage = response.data.error || "An error occurred";
       toast.error(errorMessage);
-      yield put(createGuestTicketRequestFailure(errorMessage));
+      yield put(createGuestTicketOrderFailure(errorMessage));
     }
   } catch (error: any) {
     const errorMessage = error.response.data.error || "An error occurred";
     toast.error(errorMessage);
-    yield put(createGuestTicketRequestFailure(errorMessage));
+    yield put(createGuestTicketOrderFailure(errorMessage));
   }
 }
 
 export function* watchGuestCustomerCreateTicketRequestSaga() {
-  yield takeLatest(createGuestTicketRequest.type, createTicketRequestSaga);
+  yield takeLatest(createGuestTicketOrderRequest.type, createTicketRequestSaga);
 }

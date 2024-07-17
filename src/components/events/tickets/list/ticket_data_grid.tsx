@@ -17,6 +17,7 @@ import {
   GridRowsProp,
   GridColumnVisibilityModel,
   GridRenderCellParams,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { Cancel, CheckCircle } from "@mui/icons-material";
 import { add, compareAsc, format, parse } from "date-fns";
@@ -30,7 +31,6 @@ import { DefaultInputStyle } from "../../../forms/input_types";
 import styles from "./list.module.css";
 import AddonModalView from "./addon_modal_view";
 import StyledButton from "../../../buttons/styled_button";
-import allocateSelectedTicket from "../../../../redux/sagas/axios_calls/allocate_selected_ticket";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getEventFormFieldsColumns,
@@ -54,79 +54,32 @@ import {
   pink,
   cyan,
 } from "@mui/material/colors";
+import ApiRoutes from "../../../../routes/backend_routes";
+import { putApi } from "../../../../utils/api/api";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import RefundDialog from "./refund_dialog";
+import { TicketStatus } from "../../../../types";
+import { getTicketStatus } from "../../../../utils/manager/ticket_status";
 
 const isTicketRequest = (ticket: ITicket) => {
   return ticket.id === 0;
 };
-
-enum TicketStatus {
-  PENDING = "Pending",
-  CANCELLED_TICKET = "Cancelled Ticket",
-  CANCELLED_REQUEST = "Cancelled Request",
-  REFUNDED = "Refunded",
-  CHECKED_IN = "Checked In",
-  PAID = "Paid",
-  RESERVED = "Reserved",
-  PURCHASEABLE = "Purchaseable",
-  EXPIRED = "Expired",
-  LOTTERY_ENTERED = "Lottery Entered",
-  HANDLED = "Handled",
-}
-
-function getTicketStatus(ticket: ITicket) {
-  let payBefore: Date | null = null;
-  if (ticket.payment_deadline) {
-    payBefore = ticket.payment_deadline;
-  }
-
-  let status = TicketStatus.PENDING;
-  if (ticket.ticket_request?.is_handled) {
-    if (ticket.deleted_at) {
-      status = TicketStatus.CANCELLED_TICKET;
-    } else if (ticket.refunded) {
-      status = TicketStatus.REFUNDED;
-    } else if (ticket.checked_in) {
-      status = TicketStatus.CHECKED_IN;
-    } else if (ticket.is_paid) {
-      status = TicketStatus.PAID;
-    } else if (ticket.is_reserve) {
-      status = TicketStatus.RESERVED;
-    } else if (
-      ticket.purchasable_at &&
-      new Date(ticket.purchasable_at) <= new Date()
-    ) {
-      status = TicketStatus.PURCHASEABLE;
-    } else if (payBefore && new Date() > payBefore && !ticket.is_paid) {
-      status = TicketStatus.EXPIRED;
-    } else if (
-      ticketIsEnteredIntoFCFSLottery(
-        ticket,
-        ticket.ticket_request?.ticket_release!
-      )
-    ) {
-      status = TicketStatus.LOTTERY_ENTERED;
-    }
-  } else {
-    if (ticket.ticket_request?.deleted_at) {
-      status = TicketStatus.CANCELLED_REQUEST;
-    } else if (ticket.ticket_request?.is_handled) {
-      status = TicketStatus.HANDLED;
-    }
-  }
-
-  return status;
-}
 
 function createRow(ticket: ITicket) {
   const ufp = ticket.user!.food_preferences!;
 
   let payed_at = "N/A";
   let deleted_at = "N/A";
+
   try {
     payed_at = ticket.is_paid
-      ? ticket.ticket_request?.ticket_type?.price === 0
-        ? format(ticket?.created_at as number, "dd/MM/yyyy HH:mm")
-        : format(ticket?.transaction?.payed_at as number, "dd/MM/yyyy HH:mm")
+      ? ticket?.ticket_type?.price === 0
+        ? format(new Date(ticket?.created_at), "dd/MM/yyyy HH:mm")
+        : format(
+            new Date(ticket?.order?.details?.payed_at!),
+            "dd/MM/yyyy HH:mm"
+          )
       : "N/A";
   } catch (e) {
     console.error(e);
@@ -134,38 +87,40 @@ function createRow(ticket: ITicket) {
 
   try {
     deleted_at = ticket.deleted_at
-      ? format(ticket.deleted_at as number, "dd/MM/yyyy HH:mm")
-      : ticket.ticket_request?.deleted_at
-      ? format(ticket.ticket_request?.deleted_at as number, "dd/MM/yyyy HH:mm")
+      ? format(new Date(ticket.deleted_at), "dd/MM/yyyy HH:mm")
+      : ticket.ticket_order?.deleted_at
+      ? format(new Date(ticket.ticket_order?.deleted_at), "dd/MM/yyyy HH:mm")
       : "N/A";
   } catch (e) {
     console.error(e);
   }
 
   let payBefore: Date | null = null;
-  if (ticket.payment_deadline) {
-    payBefore = ticket.payment_deadline;
+
+  if (ticket.payment_deadline.Valid) {
+    payBefore = new Date(ticket.payment_deadline.Time);
   }
 
   const customRows = getEventFormFieldsRow(ticket || {});
 
   // Determine status
-  const status = getTicketStatus(ticket);
+  const status = getTicketStatus(ticket!);
 
   const row = {
-    id: `${ticket.ticket_request!.id}-${ticket.id}-ticket`,
-    ticket_request_id: ticket.ticket_request?.id,
-    ticket_release_id: ticket.ticket_request?.ticket_release?.id,
-    ticket_release_name: ticket.ticket_request?.ticket_release?.name,
+    id: `${ticket.ticket_order!.id}-${ticket.id}-ticket`,
+    ticket_order_id: ticket.ticket_order?.id,
+    ticket_id: ticket.id,
+    ticket_release_id: ticket.ticket_order?.ticket_release?.id,
+    ticket_release_name: ticket.ticket_order?.ticket_release?.name,
     status: status,
-    type: ticket.ticket_request?.is_handled ? "Ticket" : "Request", // "Request" or "Ticket
+    type: ticket.ticket_order?.type,
     is_reserve: !isTicketRequest(ticket) ? ticket.is_reserve : null,
     is_paid: !isTicketRequest(ticket) ? ticket.is_paid : null,
-    ticket: ticket.ticket_request?.ticket_type?.name,
+    ticket: ticket?.ticket_type?.name,
     user: ticket?.user,
     email: ticket?.user?.email,
     payed_at: payed_at,
-    price: ticket?.ticket_request?.ticket_type?.price,
+    price: ticket?.ticket_type?.price,
     gluten_intolerant: ufp.gluten_intolerant,
     halal: ufp.halal,
     kosher: ufp.kosher,
@@ -176,19 +131,21 @@ function createRow(ticket: ITicket) {
     vegetarian: ufp.vegetarian,
     additional_info: ufp.additional,
     checked_in: ticket.checked_in,
-    requseted_at: ticket?.ticket_request?.created_at,
+    requseted_at: ticket?.ticket_order?.created_at,
     prefer_meat: ufp.prefer_meat,
     deleted_at,
     pay_before: payBefore,
     purchasable_at: ticket.deleted_at
       ? null
-      : ticket.purchasable_at !== null
-      ? ticket.purchasable_at
+      : ticket.purchasable_at.Valid
+      ? ticket.purchasable_at.Time
       : ticket.updated_at,
     entered_into_lottery: ticketIsEnteredIntoFCFSLottery(
       ticket,
-      ticket.ticket_request?.ticket_release!
+      ticket.ticket_order?.ticket_release!
     ),
+    deleted_reason:
+      ticket.deleted_reason || ticket.ticket_order?.deleted_reason,
     ...customRows,
   };
 
@@ -226,8 +183,9 @@ const MyCustomInputComponent: React.FC<{
 
 const EventTicketsList: React.FC<{
   tickets: ITicket[];
-  selectTicketRequest: (ticketRequestID: number) => void;
-}> = ({ tickets, selectTicketRequest }) => {
+  selectTicketOrder: (ticketOrderID: number) => void;
+  reFetch: () => void;
+}> = ({ tickets, selectTicketOrder, reFetch }) => {
   const [rows, setRows] = React.useState<GridRowsProp>([]);
   const { eventID } = useParams();
   const [searchText, setSearchText] = useState(Cookies.get("searchText") || "");
@@ -236,6 +194,11 @@ const EventTicketsList: React.FC<{
     const savedFilterModel = Cookies.get("filterModel");
     return savedFilterModel ? JSON.parse(savedFilterModel) : { items: [] };
   });
+  const [selectedRows, setSelectedRows] = useState<GridRowsProp>([]);
+  const [isRefundDialogOpen, setIsRefundDialogOpen] = useState(false);
+  const [refundTicket, setRefundTicket] = useState<ITicket | null>(null);
+
+  const { t } = useTranslation();
 
   // Initialize Fuse with the appropriate options
   const fuse = useMemo(() => {
@@ -291,7 +254,7 @@ const EventTicketsList: React.FC<{
               padding: "0 5px 5px 0",
             }}
             onClick={() => {
-              selectTicketRequest(params.row.ticket_request_id);
+              selectTicketOrder(params.row.ticket_order_id);
             }}
           >
             <InfoIcon />
@@ -341,8 +304,11 @@ const EventTicketsList: React.FC<{
             color = "white";
         }
         return (
+          // Print params.deleted_reason if it exists
           <span style={{ backgroundColor: color, color: "black" }}>
-            {params.value}
+            {params.row.deleted_reason
+              ? params.row.deleted_reason
+              : params.value}
           </span>
         );
       },
@@ -353,9 +319,14 @@ const EventTicketsList: React.FC<{
       width: 150,
     },
     {
-      field: "ticket_request_id",
+      field: "ticket_order_id",
       headerName: "Ticket Request ID",
       width: 150,
+    },
+    {
+      field: "ticket_id",
+      headerName: "Ticket ID",
+      width: 50,
     },
     {
       field: "ticket_release_name",
@@ -531,7 +502,7 @@ const EventTicketsList: React.FC<{
 
         let formattedDate: string;
         try {
-          formattedDate = format(params.value as Date, "dd/MM/yyyy HH:mm");
+          formattedDate = format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } catch (e) {
           console.error(e);
           formattedDate = "N/A";
@@ -556,7 +527,7 @@ const EventTicketsList: React.FC<{
           // So we should show "Event Start" instead
           return "Event Start";
         } else if (params.value) {
-          return format(params.value as Date, "dd/MM/yyyy HH:mm");
+          return format(new Date(params.value), "dd/MM/yyyy HH:mm");
         } else {
           return "N/A";
         }
@@ -617,42 +588,6 @@ const EventTicketsList: React.FC<{
         return params.value;
       },
     },
-    {
-      field: "Allocate",
-      headerName: "Allocate",
-      width: 150,
-      renderCell: (params: GridRenderCellParams<any>) => {
-        if (params.row.deleted_at !== "N/A") {
-          return "N/A";
-        }
-
-        if (params.row.type === "Ticket") {
-          return <CheckCircle color="success" />;
-        }
-
-        return (
-          <Button
-            variant="contained"
-            size="small"
-            tabIndex={params.hasFocus ? 0 : -1}
-            onClick={() => {
-              allocateSelectedTicket(
-                parseInt(eventID!),
-                params.row.ticket_request_id
-              );
-            }}
-          >
-            <Typography
-              fontFamily={"Josefin Sans"}
-              fontSize={14}
-              fontWeight={400}
-            >
-              Allocate
-            </Typography>
-          </Button>
-        );
-      },
-    },
     ...customColumns,
   ];
 
@@ -668,10 +603,10 @@ const EventTicketsList: React.FC<{
   );
 
   const handleAddonsModal = (params: any) => {
-    const selectedTicketRequestId = params.row.ticket_request_id;
+    const selectedTicketOrderId = params.row.ticket_order_id;
 
     const filteredTickets = tickets.filter(
-      (ticket) => ticket.ticket_request?.id === selectedTicketRequestId
+      (ticket) => ticket.ticket_order?.id === selectedTicketOrderId
     );
 
     setSelectedTicket(filteredTickets[0]!);
@@ -690,10 +625,146 @@ const EventTicketsList: React.FC<{
     setIsModalOpen(false);
   };
 
+  const handleRefund = async (reason: string, amount: number) => {
+    if (!refundTicket) {
+      toast.error(t("error.no_ticket_selected"));
+      return;
+    }
+
+    const url = ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_TICKET_ACTION, {
+      eventID,
+    });
+
+    try {
+      await putApi(
+        url,
+        {
+          action: "refund",
+          ticket_ids: [refundTicket.id],
+          refund_reason: reason,
+          refund_amount: amount,
+        },
+        true
+      );
+
+      toast.success(t("success.refund_processed"));
+      setIsRefundDialogOpen(false);
+      setRefundTicket(null);
+      reFetch();
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.error || error.message || t("error.unknown");
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleCustomActionClick = async (action: string) => {
+    if (selectedRows.length === 0) {
+      toast.error("No rows selected");
+      return;
+    }
+
+    // Implement your custom action logic here
+    const isHandlingTicketRequests =
+      selectedRows[0].type.toLowerCase() === "request";
+
+    // Define a list of ids
+    const ids = selectedRows.map((row) =>
+      isHandlingTicketRequests ? row.ticket_order_id : row.ticket_id
+    );
+
+    const url = ApiRoutes.generateRoute(
+      isHandlingTicketRequests
+        ? ApiRoutes.MANAGER_EVENT_TICKET_REQEUST_ACTION
+        : ApiRoutes.MANAGER_EVENT_TICKET_ACTION,
+      { eventID: eventID }
+    );
+
+    let body: Object = {};
+    if (isHandlingTicketRequests) {
+      body = {
+        action: action,
+        ticket_order_ids: ids,
+      };
+    } else {
+      body = {
+        action: action,
+        ticket_ids: ids,
+      };
+    }
+
+    switch (action) {
+      case "undelete":
+      case "delete":
+        try {
+          await putApi(url, body, true, true);
+
+          toast.success(
+            `Successfully ${action === "delete" ? "deleted" : "undeleted"} ${
+              isHandlingTicketRequests ? "ticket requests" : "tickets"
+            }`
+          );
+        } catch (error: any) {
+          console.log(error);
+          const errorMessage =
+            error.response.data.error ||
+            error.message ||
+            error ||
+            "An error occurred";
+
+          toast.error(errorMessage);
+        }
+        break;
+      case "allocate":
+        if (!isHandlingTicketRequests) {
+          toast.error("Cannot allocate tickets");
+          return;
+        }
+
+        try {
+          await putApi(url, body, true, true);
+
+          toast.success("Successfully allocated tickets");
+        } catch (error: any) {
+          console.log(error);
+          const errorMessage =
+            error.response.data.error ||
+            error.message ||
+            error ||
+            "An error occurred";
+
+          toast.error(errorMessage);
+        }
+        break;
+      case "refund":
+        if (isHandlingTicketRequests || ids.length !== 1) {
+          toast.error(t("error.invalid_refund_selection"));
+          return;
+        }
+        const ticketToRefund = tickets.find((ticket) => ticket.id === ids[0]);
+        if (ticketToRefund) {
+          setRefundTicket(ticketToRefund);
+          setIsRefundDialogOpen(true);
+        } else {
+          toast.error(t("error.ticket_not_found"));
+        }
+        break;
+      default:
+        toast.error("Invalid action");
+        break;
+    }
+    // Wait 1 second
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Refetch the tickets
+    reFetch();
+  };
+
   const [columnVisibilityModel, setColumnVisibilityModel] =
     React.useState<GridColumnVisibilityModel>({
       ticket_release_id: false,
-      ticket_request_id: false,
+      ticket_id: false,
+      ticket_order_id: false,
       ticket_release_name: true,
       status: true,
       type: true,
@@ -720,7 +791,6 @@ const EventTicketsList: React.FC<{
       requseted_at: true,
       purchasable_at: true,
       prefer_meat: false,
-      can_be_selectively_allocated: false,
       // All custom columns are false by default
       ...customColumns.reduce((acc: { [key: string]: boolean }, column) => {
         acc[column.field as string] = false;
@@ -729,8 +799,12 @@ const EventTicketsList: React.FC<{
     });
 
   const CustomToolbarWithProps = () => {
-    // Pass the rows directly to the CustomToolbar
-    return <CustomToolbar rows={rows} />;
+    return (
+      <CustomToolbar
+        rows={filteredRows}
+        onCustomAction={handleCustomActionClick}
+      />
+    );
   };
 
   useEffect(() => {
@@ -777,6 +851,15 @@ const EventTicketsList: React.FC<{
             />
           )}
         </div>
+        <RefundDialog
+          open={isRefundDialogOpen}
+          onClose={() => {
+            setIsRefundDialogOpen(false);
+            setRefundTicket(null);
+          }}
+          onSubmit={handleRefund}
+          ticket={refundTicket}
+        />
         <StyledText
           color={PALLETTE.charcoal_see_through}
           level="body-md"
@@ -807,6 +890,27 @@ const EventTicketsList: React.FC<{
               sortModel: [{ field: "requseted_at", sort: "desc" }],
             },
           }}
+          checkboxSelection
+          disableRowSelectionOnClick
+          onRowSelectionModelChange={(newSelection: any) => {
+            const selectedRowData = newSelection.map((id: any) =>
+              filteredRows.find((row) => row.id === id)
+            );
+            setSelectedRows(selectedRowData);
+          }}
+          isRowSelectable={
+            (params: GridRowParams) => {
+              if (selectedRows.length === 0) {
+                return true;
+              }
+
+              return (
+                selectedRows.length === 0 ||
+                selectedRows[0].type === params.row.type
+              );
+            }
+            // Check if the first element in the selected rows has the same type as the current row
+          }
         />
       </ThemeProvider>
       {selectedUser && (

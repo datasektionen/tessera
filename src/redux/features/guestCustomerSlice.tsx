@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IGuestCustomer, ISelectedAddon } from "../../types";
-import { TicketRequestData } from "../sagas/ticketRequestSaga";
+import { ITicketOrderRequest } from "../sagas/ticketOrderSaga";
 
 interface GuestCustomerState {
   guestCustomer: IGuestCustomer | null;
@@ -26,24 +26,23 @@ const guestCustomerSlice = createSlice({
     resetGuestCustomer: (state) => {
       state.guestCustomer = null;
     },
-    createGuestTicketRequest: (
+    createGuestTicketOrderRequest: (
       state,
       action: PayloadAction<{
         promoCodes: string[];
-        tickets: TicketRequestData[];
+        ticketOrder: ITicketOrderRequest;
         addons: ISelectedAddon[];
         eventId: number;
-        ticketReleaseId: number;
         guestCustomer: IGuestCustomer;
       }>
     ) => {
       state.loading = true;
     },
-    createGuestTicketRequestSuccess: (state) => {
+    createGuestTicketOrderSuccess: (state) => {
       state.loading = false;
       state.create_ticket_request_sucess = true;
     },
-    createGuestTicketRequestFailure: (state, action: PayloadAction<string>) => {
+    createGuestTicketOrderFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -79,9 +78,9 @@ const guestCustomerSlice = createSlice({
 export const {
   setGuestCustomer,
   resetGuestCustomer,
-  createGuestTicketRequest,
-  createGuestTicketRequestSuccess,
-  createGuestTicketRequestFailure,
+  createGuestTicketOrderRequest,
+  createGuestTicketOrderSuccess,
+  createGuestTicketOrderFailure,
   getGuestCustomerRequest,
   getGuestCustomerSuccess,
   getGuestCustomerFailure,

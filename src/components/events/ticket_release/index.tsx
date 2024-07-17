@@ -17,7 +17,7 @@ import TicketType from "../ticket_types";
 import TicketReleaseCountdown from "./tr_countdown";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { ShoppingCartItem } from "../../../redux/features/ticketRequestSlice";
+import { ShoppingCartItem } from "../../../redux/features/ticketOrderSlice";
 import React, { useEffect } from "react";
 import { ListItemText, useMediaQuery, useTheme } from "@mui/material";
 import {
@@ -37,6 +37,7 @@ import axios from "axios";
 import { NotificationsActive } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import TicketReleaseMethodDetail from "./ticket_release_method/detailed_info";
+import { selectAccentColor } from "../../../redux/features/managerThemeSlice";
 
 interface TicketReleaseProps {
   ticketRelease: ITicketRelease;
@@ -62,6 +63,8 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const accentColor = useSelector(selectAccentColor);
+
   return (
     <Sheet
       variant="outlined"
@@ -72,7 +75,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       }}
       style={{
         border: "2.5px solid",
-        borderColor: PALLETTE.cerise,
+        borderColor: accentColor !== "" ? accentColor : PALLETTE.cerise,
         borderRadius: 4,
       }}
     >
@@ -113,9 +116,14 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
       >
         {ticketRelease.name}
       </StyledText>
-      <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={16} sx={{
-        mt: -1,
-      }}>
+      <StyledText
+        level="body-sm"
+        color={PALLETTE.charcoal}
+        fontSize={16}
+        sx={{
+          mt: -1,
+        }}
+      >
         <ReactMarkdown>{ticketRelease.description}</ReactMarkdown>
       </StyledText>
       {!ticketReleaseHasClosed(ticketRelease, timestamp!) && [
@@ -132,36 +140,36 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
             i18nKey="event.ticket_release.method"
             values={{
               method:
-                ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
-                  ?.name,
+                ticketRelease.ticket_release_method_detail
+                  ?.ticket_release_method?.method_name,
             }}
           >
             This release uses
             <Link target="_blank" onClick={() => setModalIsOpen(true)}>
               {
-                ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
-                  ?.name
+                ticketRelease.ticket_release_method_detail
+                  ?.ticket_release_method?.method_name
               }
             </Link>
           </Trans>
           {" - "}
-          {ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.id ===
-            4 && (
-              <StyledText
-                level="body-sm"
-                key="ticket_release_method"
-                color={PALLETTE.charcoal}
-                fontSize={16}
-                style={{
-                  textDecoration: "italic",
-                }}
-                sx={{
-                  mb: 1,
-                }}
-              >
-                {ticketRelease.ticketReleaseMethodDetail.method_description}
-              </StyledText>
-            )}
+          {ticketRelease.ticket_release_method_detail?.ticket_release_method
+            ?.id === 4 && (
+            <StyledText
+              level="body-sm"
+              key="ticket_release_method"
+              color={PALLETTE.charcoal}
+              fontSize={16}
+              style={{
+                textDecoration: "italic",
+              }}
+              sx={{
+                mb: 1,
+              }}
+            >
+              {ticketRelease.ticket_release_method_detail.method_description}
+            </StyledText>
+          )}
         </StyledText>,
 
         <InformationModal
@@ -169,7 +177,8 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
           isOpen={modalIsOpen}
           onClose={() => setModalIsOpen(false)}
           title={
-            ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod?.name!
+            ticketRelease.ticket_release_method_detail?.ticket_release_method
+              ?.method_name!
           }
         >
           <StyledText
@@ -179,7 +188,7 @@ const TicketRelease: React.FC<TicketReleaseProps> = ({ ticketRelease }) => {
             fontWeight={500}
           >
             {
-              ticketRelease.ticketReleaseMethodDetail?.ticketReleaseMethod
+              ticketRelease.ticket_release_method_detail?.ticket_release_method
                 ?.description
             }
           </StyledText>

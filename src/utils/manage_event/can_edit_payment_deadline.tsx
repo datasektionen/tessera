@@ -33,15 +33,23 @@ export const ticketReleaseRequiresAccount = (method?: ITicketReleaseMethod) => {
     throw new Error("Method is required");
   }
 
-  return METHODS_THAT_REQUIRE_ACCOUNT.includes(method.name);
+  return METHODS_THAT_REQUIRE_ACCOUNT.includes(method.method_name);
 };
 
 export const canEditPaymentDeadline = (method?: ITicketReleaseMethod) => {
   if (!method) {
-    throw new Error("Method is required");
+    return false;
   }
 
-  return METHODS_THAT_CAN_EDIT_PAYMENT_DEADLINE.includes(method.name);
+  return METHODS_THAT_CAN_EDIT_PAYMENT_DEADLINE.includes(method.method_name);
+};
+
+export const canEditPaymentDeadlineFromId = (id: number) => {
+  return true;
+};
+
+export const canEditReservePaymentDurationFromId = (id: number) => {
+  return [1, 3].includes(id);
 };
 
 export const hasReserveTickets = (method?: ITicketReleaseMethod) => {
@@ -49,7 +57,7 @@ export const hasReserveTickets = (method?: ITicketReleaseMethod) => {
     throw new Error("Method is required");
   }
 
-  return METHODS_THAT_HAS_RESERVE_TICKETS.includes(method.name);
+  return METHODS_THAT_HAS_RESERVE_TICKETS.includes(method.method_name);
 };
 
 export const canMassAllocateTickets = (method?: ITicketReleaseMethod) => {
@@ -57,7 +65,7 @@ export const canMassAllocateTickets = (method?: ITicketReleaseMethod) => {
     throw new Error("Method is required");
   }
 
-  return METHODS_THAT_CAN_MASS_ALLOCATE_TICKETS.includes(method.name);
+  return METHODS_THAT_CAN_MASS_ALLOCATE_TICKETS.includes(method.method_name);
 };
 
 export const hasLottery = (method?: ITicketReleaseMethod) => {
@@ -65,5 +73,5 @@ export const hasLottery = (method?: ITicketReleaseMethod) => {
     throw new Error("Method is required");
   }
 
-  return METHODS_THAT_HAS_LOTTERY.includes(method.name);
+  return METHODS_THAT_HAS_LOTTERY.includes(method.method_name);
 };

@@ -5,7 +5,6 @@ import {
   IEventFormField,
   IEventFormFields,
   ITicket,
-  ITicketRequest,
 } from "../../../types";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
@@ -29,7 +28,7 @@ import { RootState } from "../../../store";
 
 interface EditFormFieldResponsePropsBase {
   formFields: IEventFormField[];
-  ticketRequest: ITicketRequest;
+  ticket: ITicket;
   isGuestCustomer?: boolean;
 }
 
@@ -84,7 +83,7 @@ const createField = (field: IEventFormField) => {
 
 const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
   formFields,
-  ticketRequest,
+  ticket,
   isGuestCustomer,
 }) => {
   const { t } = useTranslation();
@@ -141,12 +140,12 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         value: value,
       };
     });
-    const event_id = ticketRequest.ticket_release?.eventId!;
+    const event_id = ticket.ticket_order.ticket_release?.event_id!;
 
     handleEventFormFieldResponseSubmit(
       formFieldValues,
       event_id,
-      ticketRequest.id,
+      ticket.id,
       isGuestCustomer,
       isGuestCustomer ? guestCustomer! : undefined
     ).then((response) => {
@@ -169,7 +168,7 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
   };
 
   const createInitialValues = (): IEventFormField[] => {
-    const values = ticketRequest.event_form_responses || [];
+    const values = ticket.event_form_responses || [];
     let initialValues: any = {};
     formFields.forEach((field) => {
       const response = values.find(
@@ -228,7 +227,7 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
         sx={{ mb: 2 }}
       >
         <ReactMarkdown>
-          {ticketRequest.ticket_release?.event?.form_field_description}
+          {ticket.ticket_order.ticket_release?.event?.form_field_description}
         </ReactMarkdown>
       </StyledText>
       <Divider sx={{ mb: 2 }} />
@@ -284,41 +283,32 @@ const EditFormFieldResponseBase: React.FC<EditFormFieldResponsePropsBase> = ({
       </Formik>
     </Box>
   );
+  
 };
 
 interface EditFormFieldResponseProps {
-  ticket?: ITicket;
-  ticketRequest?: ITicketRequest;
+  ticket: ITicket;
   formFields?: IEventFormField[];
   isGuestCustomer?: boolean;
 }
 
 const EditFormFieldResponse: React.FC<EditFormFieldResponseProps> = ({
   ticket,
-  ticketRequest,
   formFields = undefined,
   isGuestCustomer = false,
 }) => {
+  if (!formFields || formFields.length === 0) {
+    return <></>;
+  }
+
   if (ticket !== undefined) {
     return (
       <EditFormFieldResponseBase
-        ticketRequest={ticket.ticket_request!}
+        ticket={ticket}
         formFields={
           formFields
             ? formFields
-            : ticket.ticket_request?.ticket_release?.event?.form_fields!
-        }
-        isGuestCustomer={isGuestCustomer}
-      />
-    );
-  } else if (ticketRequest !== undefined) {
-    return (
-      <EditFormFieldResponseBase
-        ticketRequest={ticketRequest}
-        formFields={
-          formFields
-            ? formFields
-            : ticketRequest.ticket_release?.event?.form_fields!
+            : ticket.ticket_order?.ticket_release?.event?.form_fields!
         }
         isGuestCustomer={isGuestCustomer}
       />

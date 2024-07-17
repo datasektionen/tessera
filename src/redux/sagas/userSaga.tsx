@@ -1,18 +1,12 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
-import { PayloadAction } from "@reduxjs/toolkit";
-import {
-  loginRequest,
-  loginSuccess,
-  loginFailure,
-} from "../features/authSlice";
+import { loginSuccess, loginFailure } from "../features/authSlice";
 import { LoginCredentials } from "../../types";
 import {
   currentUserFailure,
   currentUserRequest,
   currentUserSuccess,
 } from "../features/userSlice";
-import Cookies from "js-cookie";
 
 function* userSaga(): Generator<any, void, any> {
   try {

@@ -1,6 +1,10 @@
 import { format } from "date-fns";
 import * as Yup from "yup";
-import { isValidDecimal } from "../utils/integer_validation";
+import { isValidDecimal } from "../../utils/integer_validation";
+import {
+  canEditPaymentDeadlineFromId,
+  canEditReservePaymentDurationFromId,
+} from "../../utils/manage_event/can_edit_payment_deadline";
 
 const checkDateInFuture = (timestamp: Date) => {
   const now = new Date();
@@ -98,7 +102,6 @@ const EditTicketReleaseFormSchema = Yup.object()
     max_tickets_per_user: Yup.number()
       .required("Max Tickets Per User is required")
       .min(1, "Max Tickets Per User must be greater than or equal to 1")
-      .max(1, "Multiple tickets per user is not supported yet")
       .integer("Max Tickets Per User must be an integer"),
     tickets_available: Yup.number()
       .required("Available Tickets is required")
@@ -149,6 +152,99 @@ const EditTicketReleaseFormSchema = Yup.object()
           .max(20, "Promo Code must be at most 20 characters"),
       otherwise: (schema: any) => schema.notRequired(),
     }),
+    /**
+     * Cannot be after the close time
+     * Must be in the future
+     * Must be before the event date
+     */
+    payment_deadline: Yup.date()
+      .required("Payment Deadline is required")
+      .test(
+        "is-after-close",
+        "Payment Deadline must be after the close time",
+        function (value) {
+          const close = this.parent.close;
+          if (!value || !close) {
+            return true;
+          }
+
+          return value > close;
+        }
+      )
+      .test(
+        "is-future",
+        "Payment Deadline must be in the future",
+        function (value) {
+          if (!value) {
+            return true; // Return true when the value is not set
+          }
+
+          return checkDateInFuture(value);
+        }
+      )
+      .test(
+        "is-valid-dates",
+        "Payment Deadline must be before the event date",
+        function (value) {
+          const event_date = this.parent.event_date;
+          if (!value || !event_date) {
+            return true;
+          }
+
+          return value < event_date;
+        }
+      ),
+    reserve_payment_duration: Yup.string().when("ticket_release_method_id", {
+      // @ts-ignore
+      is: (id: number) => {
+        return canEditReservePaymentDurationFromId(id);
+      },
+      then: (schema) => schema.required("Reserve Payment Duration is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    // Defines the cut off time for allocation
+    /**
+     * Must be in the future
+     * Must be before the event date
+     * Must be after close
+     */
+    allocation_cut_off: Yup.date()
+      .optional()
+      .test(
+        "is-future",
+        "Allocation Cut Off must be in the future",
+        function (value) {
+          if (!value) {
+            return true; // Return true when the value is not set
+          }
+
+          return checkDateInFuture(value);
+        }
+      )
+      .test(
+        "is-valid-dates",
+        "Allocation Cut Off must be before the event date",
+        function (value) {
+          const event_date = this.parent.event_date;
+          if (!value || !event_date) {
+            return true;
+          }
+
+          return value < event_date;
+        }
+      )
+      .test(
+        "is-after-close",
+        "Allocation Cut Off must be after the close time",
+        function (value) {
+          const close = this.parent.close;
+          if (!value || !close) {
+            return true;
+          }
+
+          return value > close;
+        }
+      ),
   })
   .test(
     "is-valid-open-and-close",
@@ -181,7 +277,7 @@ const EditTicketReleaseFormSchema = Yup.object()
     if (!isValid) {
       return new Yup.ValidationError(
         "The open and close times must be before the event date: " +
-        format(value.event_date, "yyyy-MM-dd HH:mm"),
+          format(value.event_date, "yyyy-MM-dd HH:mm"),
         null,
         "open"
       );

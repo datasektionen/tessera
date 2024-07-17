@@ -44,8 +44,8 @@ export function useEventSiteVisits(eventID: number) {
             unique_visitors: response.data.unique_visitors || 0,
             unique_visitors_last_week: response.data.return_visitors || 0,
             last_week_date: new Date(response.data.last_week_date),
-            num_ticket_requests: response.data.num_ticket_requests || 0,
-            num_ticket_requests_last_week:
+            num_ticket_orders: response.data.num_ticket_requests || 0,
+            num_ticket_orders_last_week:
               response.data.num_ticket_requests_last_week || 0,
             total_income: response.data.total_income || 0,
             total_income_last_week: response.data.total_income_last_week || 0,

@@ -14,11 +14,11 @@ import LoadingOverlay from "../../../components/Loading";
 import EditFormFieldResponse from "../../../components/events/form_field_response/edit";
 import { Trans } from "react-i18next";
 import Payment from "../../../components/tickets/payment";
-import { cancelTicketRequestRequest } from "../../../redux/features/myTicketRequestsSlice";
 import StyledButton from "../../../components/buttons/styled_button";
 import { cancelMyTicketStart } from "../../../redux/features/myTicketsSlice";
 import QRCode from "qrcode.react";
 import TicketQRCode from "../../../components/events/tickets/qr_code";
+import { cancelTicketOrderRequest } from "../../../redux/features/myTicketOrderSlice";
 
 const GuestTicketRequestPage: React.FC = () => {
   const { refID, ugkthid } = useParams();
@@ -29,8 +29,8 @@ const GuestTicketRequestPage: React.FC = () => {
     (state: RootState) => state.guestCustomer
   );
 
-  const { deleteSucess: ticketRequestDeleteSuccess } = useSelector(
-    (state: RootState) => state.myTicketRequests
+  const { deleteSucess: ticketOrderDeleteSuccess } = useSelector(
+    (state: RootState) => state.myTicketOrders
   );
 
   const { deleteSucess: ticketDeleteSuccess } = useSelector(
@@ -77,8 +77,8 @@ const GuestTicketRequestPage: React.FC = () => {
 
   const cancelTicketRequest = () => {
     dispatch(
-      cancelTicketRequestRequest({
-        ticket_request: guestCustomer?.ticket_request!,
+      cancelTicketOrderRequest({
+        ticket_order: guestCustomer?.ticket_order!,
         isGuestCustomer: true,
         guestCustomer,
       })
@@ -88,7 +88,7 @@ const GuestTicketRequestPage: React.FC = () => {
   const cancelTicket = () => {
     dispatch(
       cancelMyTicketStart({
-        ticket: guestCustomer?.ticket!,
+        ticket: guestCustomer?.ticket_order?.tickets[0]!,
         isGuestCustomer: true,
         guestCustomer: guestCustomer,
       })
@@ -96,13 +96,13 @@ const GuestTicketRequestPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (ticketRequestDeleteSuccess) {
+    if (ticketOrderDeleteSuccess) {
       toast.info("Ticket request cancelled!");
       setTimeout(() => {
         navigate("/");
       }, 1000);
     }
-  }, [navigate, ticketRequestDeleteSuccess]);
+  }, [navigate, ticketOrderDeleteSuccess]);
 
   useEffect(() => {
     if (ticketDeleteSuccess) {
@@ -137,13 +137,13 @@ const GuestTicketRequestPage: React.FC = () => {
           }}
         >
           {guestCustomer?.first_name!}'s{" "}
-          {!guestCustomer?.ticket_request?.is_handled
+          {!guestCustomer?.ticket_order?.is_handled
             ? "Ticket Request"
             : "Ticket"}
         </StyledText>
-        <Box>
+        {/* <Box>
           <Stack spacing={2} direction={"row"}>
-            {guestCustomer?.ticket_request?.is_handled &&
+            {guestCustomer?.ticket_order?.is_handled &&
               guestCustomer.ticket &&
               !guestCustomer.ticket.is_paid && (
                 <Payment
@@ -152,7 +152,7 @@ const GuestTicketRequestPage: React.FC = () => {
                   guestCustomer={guestCustomer}
                 />
               )}
-            {!guestCustomer?.ticket_request?.is_handled && (
+            {!guestCustomer?.ticket_order?.is_handled && (
               <StyledButton
                 size="md"
                 onClick={cancelTicketRequest}
@@ -161,7 +161,7 @@ const GuestTicketRequestPage: React.FC = () => {
                 Cancel Ticket Request
               </StyledButton>
             )}
-            {guestCustomer?.ticket_request?.is_handled &&
+            {guestCustomer?.ticket_order?.is_handled &&
               guestCustomer.ticket &&
               !guestCustomer.ticket.is_paid && (
                 <StyledButton
@@ -173,13 +173,13 @@ const GuestTicketRequestPage: React.FC = () => {
                 </StyledButton>
               )}
           </Stack>
-        </Box>
-        {guestCustomer?.ticket_request?.is_handled &&
+        </Box> */}
+        {/* {guestCustomer?.ticket_order?.is_handled &&
           guestCustomer.ticket &&
           guestCustomer.ticket.is_paid && (
             <TicketQRCode ticket={guestCustomer.ticket!} />
           )}
-        {guestCustomer?.ticket_request?.is_handled && guestCustomer.ticket && (
+        {guestCustomer?.ticket_order?.is_handled && guestCustomer.ticket && (
           <Divider sx={{ my: 2 }} />
         )}
         <Box
@@ -190,7 +190,7 @@ const GuestTicketRequestPage: React.FC = () => {
           <FoodPreferences />
         </Box>
         <Divider sx={{ my: 2 }} />
-        {guestCustomer?.ticket_request?.ticket_release?.event?.form_fields
+        {guestCustomer?.ticket_order?.ticket_release?.event?.form_fields
           ?.length! > 0 && (
           <Box
             sx={{
@@ -198,7 +198,7 @@ const GuestTicketRequestPage: React.FC = () => {
             }}
           >
             <EditFormFieldResponse
-              ticketRequest={guestCustomer?.ticket_request!}
+              ticket={guestCustomer?.ticket!}
               isGuestCustomer={true}
             />
             <StyledText
@@ -212,14 +212,14 @@ const GuestTicketRequestPage: React.FC = () => {
             >
               <Trans i18nKey="event.ticket_request_success_description">
                 hjdw
-                <Link href="/profile/ticket-requests" target="_blank">
+                <Link href="/profile/ticket-orders" target="_blank">
                   here{" "}
                 </Link>
               </Trans>
             </StyledText>
           </Box>
-        )}
-        {guestCustomer?.ticket_request?.ticket_release?.event?.form_fields
+        )} */}
+        {guestCustomer?.ticket_order?.ticket_release?.event?.form_fields
           ?.length! > 0 && <Divider sx={{ my: 2 }} />}
       </Box>
     </TesseraWrapper>

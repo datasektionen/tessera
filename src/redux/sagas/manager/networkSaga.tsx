@@ -8,16 +8,15 @@ import {
   getNetworkRequest,
   getNetworkSuccess,
 } from "../../features/manager/networkSlice";
-import { fetchApi } from "../../../utils/api/fetch_api";
+import { ApiResponse, fetchApi } from "../../../utils/api/api";
 
 function* getNetworkSaga(): Generator<any, void, any> {
   try {
-    const response: AxiosResponse<INetwork> = yield call(
-      fetchApi,
-      "/manager/network"
-    );
+    const response: ApiResponse<{
+      network: INetwork;
+    }> = yield call(fetchApi, "/manager/network", true, false);
 
-    yield put(getNetworkSuccess(response.data));
+    yield put(getNetworkSuccess(response.data.network));
   } catch (error: any) {
     const errorMessage =
       error.response.data.error || error.message || "An error occurred";

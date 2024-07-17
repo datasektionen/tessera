@@ -9,7 +9,7 @@ interface AddonModalViewProps {
 }
 
 const AddonModalView: React.FC<AddonModalViewProps> = ({ ticket }) => {
-  const ticket_add_ons = ticket.ticket_request?.ticket_add_ons || [];
+  const ticket_add_ons = ticket?.ticket_add_ons || [];
 
   if (ticket_add_ons.length === 0) {
     return (

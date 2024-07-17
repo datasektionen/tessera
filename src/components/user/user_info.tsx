@@ -41,7 +41,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
           <Box>
             <Stack direction="column" spacing={2}>
               <Link
-                href="/profile/ticket-requests"
+                href="/profile/ticket-orders"
                 style={{
                   textDecoration: "none",
                 }}
@@ -58,16 +58,6 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
               >
                 <StyledButton size="md">
                   {t("profile.links_and_buttons.your_tickets")}
-                </StyledButton>
-              </Link>
-              <Link
-                href="/profile/organizations"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <StyledButton size="md">
-                  {t("profile.links_and_buttons.your_teams")}
                 </StyledButton>
               </Link>
             </Stack>

@@ -17,12 +17,12 @@ export function mustPayBefore(payWithin: number, ticketUpdatedAt: Date): Date {
 }
 
 export const canPayForTicket = (ticket: ITicket): boolean => {
-  if (!ticket.payment_deadline) {
+  if (!ticket.payment_deadline.Valid) {
     return isBefore(
       new Date(),
-      new Date(ticket.ticket_request?.ticket_release?.event?.date!)
+      new Date(ticket.ticket_order?.ticket_release?.event?.date!)
     );
   } else {
-    return isBefore(new Date(), ticket.payment_deadline);
+    return isBefore(new Date(), new Date(ticket.payment_deadline.Time));
   }
 };

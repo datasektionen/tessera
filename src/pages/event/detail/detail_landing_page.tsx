@@ -61,7 +61,7 @@ const EventLandingPage = () => {
   };
   const { timestamp } = useSelector((state: RootState) => state.timestamp);
   const { postSuccess } = useSelector(
-    (state: RootState) => state.ticketRequest
+    (state: RootState) => state.ticketOrder
   );
 
   useEventEffects(postSuccess, errorStatusCode, refID!, secretToken, error);
@@ -108,7 +108,7 @@ const EventLandingPage = () => {
     return <LoadingOverlay />;
   }
 
-  const ticketReleases = event!.ticketReleases!.filter(
+  const ticketReleases = event!.ticket_releases!.filter(
     (ticketRelease) => !ticketReleaseHasClosed(ticketRelease, timestamp)
   );
 

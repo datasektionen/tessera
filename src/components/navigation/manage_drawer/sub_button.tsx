@@ -13,6 +13,7 @@ interface SubButtonProps {
   navigateTo: string;
   hasFeatureAccess?: boolean;
   requiredPlan?: string;
+  defaultColor: string;
 }
 
 const SubButton: React.FC<SubButtonProps> = ({
@@ -22,6 +23,7 @@ const SubButton: React.FC<SubButtonProps> = ({
   navigateTo,
   hasFeatureAccess = true,
   requiredPlan,
+  defaultColor,
 }) => {
   const navigate = useNavigate();
 
@@ -53,7 +55,7 @@ const SubButton: React.FC<SubButtonProps> = ({
               fontSize={17}
               color={
                 clickable && hasFeatureAccess
-                  ? PALLETTE.charcoal
+                  ? defaultColor
                   : PALLETTE.charcoal_see_through
               }
               sx={{
@@ -62,7 +64,7 @@ const SubButton: React.FC<SubButtonProps> = ({
                 "&:hover": {
                   color:
                     clickable && hasFeatureAccess
-                      ? PALLETTE.cerise_dark
+                      ? defaultColor
                       : PALLETTE.charcoal_see_through,
                   textDecoration: clickable ? "underline" : "none",
                 },

@@ -3,11 +3,11 @@ import { toast } from "react-toastify";
 
 async function allocateSelectedTicket(
   eventID: number,
-  ticketRequestId: number
+  ticketID: number
 ): Promise<void> {
   try {
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/events/${eventID}/ticket-requests/${ticketRequestId}/allocate`,
+      `${process.env.REACT_APP_BACKEND_URL}/events/${eventID}/tickets/${ticketID}/allocate`,
       {},
       {
         withCredentials: true,

@@ -86,9 +86,9 @@ const EventTicketsListScannerView: React.FC<{
       .filter((ticket) => !ticket.deleted_at && ticket.is_paid)
       .map((ticket: ITicket) => {
         const row = {
-          id: `${ticket.id}-${ticket.ticket_request!.id}-ticket`,
+          id: `${ticket.id}-${ticket.ticket_order!.id}-ticket`,
           ticket_id: ticket.id,
-          ticket: ticket.ticket_request?.ticket_type?.name,
+          ticket: ticket?.ticket_type?.name,
           user: ticket?.user,
           checked_in: ticket.checked_in,
           qr_code: ticket.qr_code,

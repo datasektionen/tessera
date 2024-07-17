@@ -17,7 +17,7 @@ const TicketEventForm: React.FC<TicketEventFormProps> = ({
   const { t } = useTranslation();
 
   const event_form_responses =
-    ticket.ticket_request?.event_form_responses || [];
+    ticket?.event_form_responses || [];
 
   if (event_form_responses.length === 0) {
     onNull();

@@ -9,7 +9,7 @@ export const EditTicketTypes = React.lazy(
   () => import("../pages/event/edit/edit_ticket_types")
 );
 export const ProfileTicketRequestsPage = React.lazy(
-  () => import("../pages/profile/profile_ticket_requests")
+  () => import("../pages/profile/profile_ticket_orders")
 );
 export const ProfileTicketsPage = React.lazy(
   () => import("../pages/profile/profile_tickets")
@@ -37,11 +37,13 @@ export const ManageEventTicketsPage = React.lazy(
   () => import("../pages/event/manage/tickets")
 );
 export const ManageEventFormResponsesPage = React.lazy(
-  () => import("../pages/event/manage/ticket_form_reponse_list_page")
+  () => import("../pages/event/manage/ticket_form_response_list_page")
 );
 export const FourOFour404 = React.lazy(() => import("../pages/errors/404"));
 
-export const EventDetail = React.lazy(() => import("../pages/event/detail/detail"));
+export const EventDetail = React.lazy(
+  () => import("../pages/event/detail/detail")
+);
 
 export const EventDetailLandingPage = React.lazy(
   () => import("../pages/event/detail/detail_landing_page")
@@ -79,9 +81,6 @@ export const PasswordReset = React.lazy(
 );
 export const SendOut = React.lazy(
   () => import("../pages/event/send_out/new_send_out")
-);
-export const VerifyPreferredEmail = React.lazy(
-  () => import("../pages/user/preferred_email/verify")
 );
 
 export const PrivacyPolicy = React.lazy(
@@ -124,10 +123,18 @@ export const ManagerTeamsPage = React.lazy(
   () => import("../pages/manager/teams")
 );
 
+export const ManagerSetupPage = React.lazy(
+  () => import("../pages/manager/setup")
+);
+
 export const EditEventLandingEditorPage = React.lazy(
   () => import("../pages/event/edit/edit_landing_page/edit_page")
 );
 
 export const EditLandingPageSettingsPage = React.lazy(
   () => import("../pages/event/edit/edit_landing_page")
+);
+
+export const NetworkGeneralSettingsPage = React.lazy(
+  () => import("../pages/manager/settings/general_settings")
 );

@@ -21,6 +21,7 @@ import {
   eventIsInThePast,
   formatEventDate,
 } from "../../utils/date_conversions";
+import { selectAccentColor } from "../../redux/features/managerThemeSlice";
 
 interface EventListProps {
   events: IEvent[];
@@ -33,6 +34,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
 
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const accentColor = useSelector(selectAccentColor);
 
   return (
     <Grid container spacing={2}>
@@ -45,7 +47,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
             currentUser?.organizations?.some(
               // @ts-ignore
               (org) => org.ID === event.organizationId
-            ) ?? currentUser?.ug_kth_id === event.createdById;
+            ) ?? currentUser?.ug_kth_id === event.created_by;
 
           if (eventIsInThePast(event)) {
             return null;
@@ -103,6 +105,10 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
               <Card
                 variant="outlined"
                 className={styles.card}
+                sx={{
+                  borderColor:
+                    accentColor !== "" ? accentColor : PALLETTE.cerise,
+                }}
                 onClick={() => {
                   navigate(`/events/${event.reference_id}`);
                 }}

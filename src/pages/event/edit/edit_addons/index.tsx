@@ -17,7 +17,7 @@ import StatusIcon, {
 import { AppDispatch, RootState } from "../../../../store";
 // Assume these actions exist and are properly defined for managing addons
 
-import AddonFormSchema from "../../../../validation/edit_addons_form";
+import AddonFormSchema from "../../../../validation/event/edit_addons_form";
 import CreateAddonForm from "../../../../components/events/addons/create_addon_form";
 import {
   addAddon,
@@ -56,7 +56,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
     eventDetail: { event },
   } = useEventDetails(parseInt(eventID!));
 
-  const ticketRelease = event?.ticketReleases?.find(
+  const ticketRelease = event?.ticket_releases?.find(
     (release) => release.id === parseInt(ticketReleaseID!)
   );
 
@@ -266,7 +266,6 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                         )}
                       />
                     </Box>
-
                   </StyledBorderBox>
                 );
               })}
@@ -290,47 +289,49 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                 />
               </Tooltip>
             </Box>
-            <Box sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}>
-              <StyledButton
-              size="lg"
-              onClick={handleSubmit}
-              color={PALLETTE.charcoal}
-              bgColor={PALLETTE.green}
-              style={{
-                width: "200px",
-                marginTop: "64px",
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
               }}
             >
-              {t("form.button_save")}
-            </StyledButton>
-          </Box>
-        </Grid>
-        <Grid xs={8}>
-          <BorderBox>
-            <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
-              {t("manage_event.edit.addons.form_title")}
-            </StyledText>
-            <StyledText
-              level="body-md"
-              fontSize={16}
-              color={PALLETTE.charcoal}
-            >
-              {t("manage_event.edit.addons.form_subtitle")}
-            </StyledText>
-            <CreateAddonForm
-              addons={addons}
-              ticketReleaseID={parseInt(ticketReleaseID!)}
-              selectedAddon={selectedAddon}
-              validateAllForms={validateAllForms}
-            />
-          </BorderBox>
-        </Grid>
-      </StandardGrid>
-    </DrawerBoxWrapper>
-    </MUITesseraWrapper >
+              <StyledButton
+                size="lg"
+                onClick={handleSubmit}
+                color={PALLETTE.charcoal}
+                bgColor={PALLETTE.green}
+                style={{
+                  width: "200px",
+                  marginTop: "64px",
+                }}
+              >
+                {t("form.button_save")}
+              </StyledButton>
+            </Box>
+          </Grid>
+          <Grid xs={8}>
+            <BorderBox>
+              <StyledText level="body-lg" fontSize={24} color={PALLETTE.cerise}>
+                {t("manage_event.edit.addons.form_title")}
+              </StyledText>
+              <StyledText
+                level="body-md"
+                fontSize={16}
+                color={PALLETTE.charcoal}
+              >
+                {t("manage_event.edit.addons.form_subtitle")}
+              </StyledText>
+              <CreateAddonForm
+                addons={addons}
+                ticketReleaseID={parseInt(ticketReleaseID!)}
+                selectedAddon={selectedAddon}
+                validateAllForms={validateAllForms}
+              />
+            </BorderBox>
+          </Grid>
+        </StandardGrid>
+      </DrawerBoxWrapper>
+    </MUITesseraWrapper>
   );
 };
 

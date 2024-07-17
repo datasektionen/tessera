@@ -49,11 +49,11 @@ const ManagerPage: React.FC = () => {
             (network?.name?.charAt(network?.name.length - 1) === "s"
               ? "'"
               : "'s")}{" "}
-          Events
+          {t("manager.dashboard.events")}
         </Title>
         {networkEvents.length === 0 && (
           <StyledText fontSize={24} color={PALLETTE.charcoal} level="h4">
-            No events found
+            {t("manager.dashboard.no_events")}
           </StyledText>
         )}
         <Grid container spacing={2}>
@@ -77,7 +77,11 @@ const ManagerPage: React.FC = () => {
                     position: "relative",
                   }}
                 >
-                  <EventCard event={event} isForCustomers={false} inThePast={eventIsInThePast(event)} />
+                  <EventCard
+                    event={event}
+                    isForCustomers={false}
+                    inThePast={eventIsInThePast(event)}
+                  />
                 </Grid>
               );
             })}

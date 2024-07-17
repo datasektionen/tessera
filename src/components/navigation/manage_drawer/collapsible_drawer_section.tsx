@@ -21,6 +21,10 @@ import {
 } from "../../../utils/manager/require_feature";
 import { Chip, Stack } from "@mui/joy";
 import RequiredPlanChip from "../../features/required_plan_chip";
+import { INetwork } from "../../../types";
+import { isColorDark } from "../../../utils/manager/color";
+import { useSelector } from "react-redux";
+import { selectTextColor } from "../../../redux/features/managerThemeSlice";
 
 interface SubItem {
   title: string;
@@ -74,6 +78,8 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
     ? hasFeatureAccess(requiredFeature, planEnrollment)
     : true;
 
+  const textColor = useSelector(selectTextColor);
+
   return (
     <ListItem
       disablePadding
@@ -101,12 +107,12 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
             }}
           >
             <Box display="flex" alignItems="center">
-              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: textColor }}>{icon}</ListItemIcon>
               <ListItemText>
                 <StyledText
                   level="body-md"
                   fontSize={16}
-                  color={PALLETTE.charcoal}
+                  color={textColor}
                   sx={{
                     m: 0,
                     p: 0,
@@ -130,7 +136,11 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
                   }
                 />
               ) : (
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    color: textColor,
+                  }}
+                >
                   <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
@@ -189,6 +199,7 @@ const CollapsibleDrawerSection: React.FC<CollapsibleDrawerSectionProps> = ({
                     navigateTo={item.navigateTo}
                     hasFeatureAccess={subFeatAcess}
                     requiredPlan={requiredPlan}
+                    defaultColor={textColor}
                   />
                 </Stack>
               );

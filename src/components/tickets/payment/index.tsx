@@ -26,7 +26,8 @@ import PALLETTE from "../../../theme/pallette";
 import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
 import { useTranslation } from "react-i18next";
-import { useCosts } from "../../events/payments/use_cost";
+import { useCosts, useTicketCost } from "../../events/payments/use_cost";
+import { useNavigate } from "react-router-dom";
 
 let stripePromise: any;
 
@@ -48,27 +49,36 @@ const Payment: React.FC<PaymentProps> = ({
   guestCustomer,
 }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const ticketType = ticket.ticket_request?.ticket_type!;
+  const ticketType = ticket?.ticket_type!;
 
-  const { totalCost } = useCosts(ticket.ticket_request!);
+  const { totalCost } = useTicketCost(ticket!);
 
   const handlePay = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // if guest: /guest-customer/:ugkthid/tickets/:ticketID/create-payment-intent
-    // Else: /tickets/:ticketID/create-payment-intent
+    // Else: /payments/events/:referenceID/tickets/create
+    // TODO: modify the guest customer endpoint to use the new endpoint
     const url =
       process.env.REACT_APP_BACKEND_URL +
       (isGuestCustomer
         ? `/guest-customer/${guestCustomer?.user_id}/tickets/${ticket.id}/create-payment-intent?request_token=${guestCustomer?.request_token}`
-        : `/tickets/${ticket.id}/create-payment-intent`);
+        : `/payments/events/${ticket.ticket_order?.ticket_release?.event?.reference_id}/order/create`);
 
     // Request to create a payment intent
     try {
-      const response = await axios.get(url, {
-        withCredentials: !isGuestCustomer, // This ensures cookies are sent with the request
-      });
-      setClientSecret(response.data.client_secret);
+      const response = await axios.post(
+        url,
+        {
+          ticket_ids: [ticket.id],
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      const paymentPageLink = response.data.order.paymentPageLink;
+      window.location.href = paymentPageLink;
 
       // You can now open a modal dialog with the payment details or proceed as below
     } catch (error: any) {

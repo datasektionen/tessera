@@ -39,7 +39,7 @@ import { StyledErrorMessage } from "../../forms/messages";
 import StyledButton from "../../buttons/styled_button";
 import PALLETTE from "../../../theme/pallette";
 import { format } from "date-fns";
-import CreateEventFormSchema from "../../../validation/create_event_form";
+import CreateEventFormSchema from "../../../validation/event/create_event_form";
 import { editEventRequest } from "../../../redux/features/editEventSlice";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -77,7 +77,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ event }) => {
           label: event.location,
           value: event.location,
         },
-        organization_id: event.organizationId,
+        organization_id: event.organization_id,
         is_private: event.is_private,
         collect_food_preferences: event.collect_food_preferences || false,
       });
