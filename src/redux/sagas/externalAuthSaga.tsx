@@ -37,6 +37,7 @@ function* externalSignupSaga(
       yield put(externalSignupFailure(response.data.error));
     }
   } catch (error: any) {
+    console.log(error);
     const errorMessage = error.response.data.error || "Something went wrong!";
     toast.error(errorMessage);
     yield put(externalLoginFailure(error.message));
