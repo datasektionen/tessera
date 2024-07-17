@@ -27,6 +27,7 @@ const OverviewStatisticDisplay: React.FC<OverviewStatisticDisplayProps> = ({
   color,
 }) => {
   const { t } = useTranslation();
+
   return (
     <Grid>
       <OverviewBorderBoxWrapper>

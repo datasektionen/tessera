@@ -1,4 +1,4 @@
-import { ShoppingCartItem } from "../redux/features/ticketRequestSlice";
+import { ShoppingCartItem } from "../redux/features/ticketOrderSlice";
 
 export const numberOfTicketRequestInBasket = (
   items: ShoppingCartItem[]
@@ -17,7 +17,7 @@ export const numberOfTotalTicketRequestInBasket = (
 ): number => {
   let total = 0;
   items.forEach((item) => {
-    if (item.ticket.ticketReleaseId === ticketReleaseId) {
+    if (item.ticket.ticket_release_id === ticketReleaseId) {
       total += item.quantity;
     }
   });

@@ -1,14 +1,15 @@
 // Import createSlice from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ITicket } from "../../types";
+import { IGuestCustomer, ITicket } from "../../types";
 import { act } from "react-dom/test-utils";
-import { TicketRequestData } from "../sagas/ticketRequestSaga";
+import { TicketRequestData } from "../sagas/ticketOrderSaga";
 
 // Define the ShoppingCartState interface
 export interface MyTicketState {
   tickets: ITicket[];
   loading: boolean;
   error: string | null;
+  deleteSucess: boolean;
 }
 
 // Define initial state for the shopping cart
@@ -16,6 +17,7 @@ const initialState: MyTicketState = {
   tickets: [],
   loading: false,
   error: null,
+  deleteSucess: false,
 };
 
 // Create the shopping cart slice
@@ -34,16 +36,26 @@ export const myTicketsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    cancelMyTicketStart: (state, action: PayloadAction<ITicket>) => {
+    cancelMyTicketStart: (
+      state,
+      action: PayloadAction<{
+        ticket: ITicket;
+        isGuestCustomer?: boolean;
+        guestCustomer?: IGuestCustomer | null;
+      }>
+    ) => {
       state.loading = true;
+      state.deleteSucess = false;
     },
     cancelMyTicketSuccess: (state, action: PayloadAction<number>) => {
       state.loading = false;
       state.error = null;
+      state.deleteSucess = true;
     },
     cancelMyTicketFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
+      state.deleteSucess = false;
     },
   },
 });

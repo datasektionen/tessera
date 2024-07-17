@@ -19,8 +19,15 @@ import {
   StyledFormLabel,
   StyledFormLabelWithHelperText,
 } from "../forms/form_labels";
+import { canCreateOrg } from "../../utils/roles/can_create_org";
 
-const CreateOrganizationForm: React.FC = () => {
+interface CreateOrganizationFormProps {
+  canCreate: boolean;
+}
+
+const CreateOrganizationForm: React.FC<CreateOrganizationFormProps> = ({
+  canCreate,
+}) => {
   const [organizationName, setOrganizationName] = useState<string>("");
   const [organizationEmail, setOrganizationEmail] = useState<string>("");
 
@@ -37,8 +44,6 @@ const CreateOrganizationForm: React.FC = () => {
       })
     );
   };
-
-  const canCreate = currentUser?.role?.name === "super_admin";
 
   return (
     <Box

@@ -20,12 +20,16 @@ import { Button, ThemeProvider } from "@mui/material";
 import StyledButton from "../../../components/buttons/styled_button";
 import { useTranslation } from "react-i18next";
 import Footer from "../../../components/wrappers/footer";
+import { useRequiredFeatureAccess } from "../../../hooks/manager/required_feature_access_hook";
+import ApiRoutes from "../../../routes/backend_routes";
 
 const EventTicketsListScannerView: React.FC<{
   tickets: ITicket[];
   handleScan: (data: string | null) => void;
 }> = ({ tickets, handleScan }) => {
   const [rows, setRows] = useState<GridRowsProp>([]);
+
+  const { hasFeatAccess } = useRequiredFeatureAccess("check_in", true);
 
   const columns: GridColDef[] = [
     {
@@ -82,9 +86,9 @@ const EventTicketsListScannerView: React.FC<{
       .filter((ticket) => !ticket.deleted_at && ticket.is_paid)
       .map((ticket: ITicket) => {
         const row = {
-          id: `${ticket.id}-${ticket.ticket_request!.id}-ticket`,
+          id: `${ticket.id}-${ticket.ticket_order!.id}-ticket`,
           ticket_id: ticket.id,
-          ticket: ticket.ticket_request?.ticket_type?.name,
+          ticket: ticket?.ticket_type?.name,
           user: ticket?.user,
           checked_in: ticket.checked_in,
           qr_code: ticket.qr_code,
@@ -124,7 +128,9 @@ const TicketScannerPage = () => {
   const makeCheckInRequest = async (qrCode: string) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/events/${eventID}/tickets/qr-check-in`,
+        ApiRoutes.generateRoute(ApiRoutes.MANAGER_EVENT_TICKET_CHECK_IN, {
+          eventID: eventID,
+        }),
         {
           qr_code: qrCode,
         },

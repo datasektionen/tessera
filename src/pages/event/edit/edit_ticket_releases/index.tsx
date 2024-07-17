@@ -2,9 +2,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ITicket, ITicketRelease } from "../../../../types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid, Stack } from "@mui/joy";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import ListEventTicketReleases from "../../../../components/events/ticket_release/list";
@@ -21,6 +21,8 @@ import {
 } from "../../../../routes/def";
 import StyledText from "../../../../components/text/styled_text";
 import EditTicketRelease from "../../../../components/events/edit/ticket_release/edit_ticket_release";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
+import Cookies from "js-cookie";
 
 const drawerWidth = 200;
 
@@ -42,6 +44,9 @@ const EditTicketReleasesPage: React.FC = () => {
   const handleSetSelectedTicketRelease = (ticketRelease: ITicketRelease) => {
     setSelectedTicketRelease(ticketRelease);
 
+    // Save the ticket release ID in a cookie
+    Cookies.set("lastVisitedTicketRelease", ticketRelease.id.toString());
+
     navigate(
       `/events/${eventID}/edit/ticket-releases?ticket_release_id=${ticketRelease.id}`,
       {
@@ -52,7 +57,7 @@ const EditTicketReleasesPage: React.FC = () => {
 
   useEffect(() => {
     const grouped = tickets.reduce((groups: any, ticket: ITicket) => {
-      const key = ticket?.ticket_request?.ticket_release?.id!;
+      const key = ticket?.ticket_order?.ticket_release?.id!;
       if (!groups[key]) {
         groups[key] = [];
       }
@@ -65,12 +70,17 @@ const EditTicketReleasesPage: React.FC = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const ticketReleaseID = params.get("ticket_release_id");
+    let ticketReleaseID = params.get("ticket_release_id");
+
+    // If there's no ticket release ID in the URL, get it from the cookie
+    if (!ticketReleaseID) {
+      ticketReleaseID = Cookies.get("lastVisitedTicketRelease")!;
+    }
 
     if (ticketReleaseID) {
       const parsedID = parseInt(ticketReleaseID);
       if (!isNaN(parsedID)) {
-        const ticketRelease = event?.ticketReleases?.find(
+        const ticketRelease = event?.ticket_releases?.find(
           (tr: any) => tr.id === parsedID
         );
 
@@ -87,14 +97,7 @@ const EditTicketReleasesPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-          width: `calc(100% - ${drawerWidth}px)`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>
           {t("manage_event.edit.ticket_releases.title")}
         </Title>
@@ -122,19 +125,21 @@ const EditTicketReleasesPage: React.FC = () => {
         </Breadcrumbs>
         <Grid container columns={12} spacing={5} sx={{ mt: 1 }}>
           <Grid
-            xs={2}
+            xs={3}
+            md={2}
             sx={{
               height: "calc(100vh - 64px)",
+              minWidth: "100px", // Set your desired minimum width here
               ...ScrollConfig,
             }}
           >
             <ListEventTicketReleases
               selectedTicketRelease={selectedTicketRelease}
-              ticketReleases={event?.ticketReleases!}
+              ticketReleases={event?.ticket_releases!}
               setSelectedTicketRelease={handleSetSelectedTicketRelease}
             />
           </Grid>
-          <Grid xs={10}>
+          <Grid xs={9} md={10}>
             {selectedTicketRelease !== null && (
               <EditTicketRelease
                 ticketRelease={selectedTicketRelease}
@@ -143,7 +148,7 @@ const EditTicketReleasesPage: React.FC = () => {
             )}
           </Grid>
         </Grid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

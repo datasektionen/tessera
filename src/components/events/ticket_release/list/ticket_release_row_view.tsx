@@ -1,61 +1,40 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../store";
 import {
   IDeadlineUnits,
   ITicket,
   ITicketRelease,
   ITicketReleasePaymentDeadlineForm,
 } from "../../../../types";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Divider,
-  FormControl,
-  Grid,
-  Input,
-  Link,
-  Sheet,
-  Stack,
-  Tooltip,
-} from "@mui/joy";
-import LoadingOverlay from "../../../Loading";
-import PALLETTE from "../../../../theme/pallette";
-import StyledText from "../../../text/styled_text";
-import { add, format } from "date-fns";
-import StyledButton from "../../../buttons/styled_button";
-import ConfirmModal from "../../../modal/confirm_modal";
-import axios from "axios";
+import { Box, Grid, Stack, Tooltip } from "@mui/joy";
 import { toast } from "react-toastify";
-import { getEventRequest } from "../../../../redux/features/eventSlice";
-import { fetchEventTicketsStart } from "../../../../redux/features/eventTicketsSlice";
-import {
-  StyledFormLabel,
-  StyledFormLabelWithHelperText,
-} from "../../../forms/form_labels";
-import { DefaultInputStyle, FormInput } from "../../../forms/input_types";
+import { format } from "date-fns";
+import axios from "axios";
+import StyledText from "../../../text/styled_text";
+import StyledButton from "../../../buttons/styled_button";
+import ConfirmTicketAllocationModal from "./confirm_ticket_allocation_modal";
+import PaymentDeadlineForm from "./payment_deadline_form";
 import { useTranslation } from "react-i18next";
+import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import ShuffleIcon from "@mui/icons-material/Shuffle";
-import SnoozeIcon from "@mui/icons-material/Snooze";
-import { ticketsEnteredIntoFCFSLottery } from "../../../../utils/event_open_close";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DeleteTicketReleaseModal from "../delete_ticket_release_modal";
-import handleDeleteTicketRelease from "../../../../redux/sagas/axios_calls/handle_delete_ticket_release";
-import ConfirmTicketAllocationModal from "./confirm_ticket_allocation_modal";
-import PaymentDeadlineForm from "./payment_deadline_form";
-import {
-  paymentDurationToString,
-  toGoDuration,
-} from "../../../../utils/date_conversions";
 import {
   canEditPaymentDeadline,
   canMassAllocateTickets,
   hasReserveTickets,
 } from "../../../../utils/manage_event/can_edit_payment_deadline";
+import {
+  paymentDurationToString,
+  toGoDuration,
+} from "../../../../utils/date_conversions";
+import handleDeleteTicketRelease from "../../../../redux/sagas/axios_calls/handle_delete_ticket_release";
+import { fetchEventTicketsStart } from "../../../../redux/features/eventTicketsSlice";
+import { getEventRequest } from "../../../../redux/features/eventSlice";
+import PALLETTE from "../../../../theme/pallette";
+import PendingIcon from "@mui/icons-material/Pending";
 
 interface TicketReleaseRowViewProps {
   ticketRelease: ITicketRelease;
@@ -82,26 +61,19 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   };
 
   const tryToAllocateReserveTickets = async () => {
-    const response = await axios.post(
-      `${
-        process.env.REACT_APP_BACKEND_URL
-      }/events/${ticketRelease.eventId!}/ticket-release/${
-        ticketRelease.id
-      }/manually-allocate-reserve-tickets`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.event_id}/ticket-release/${ticketRelease.id}/manually-allocate-reserve-tickets`,
+        {},
+        { withCredentials: true }
+      );
 
-    if (response.status === 200) {
-      setTimeout(() => {
+      if (response.status === 200) {
         toast.success("Reserve tickets allocated successfully");
-      }, 1000);
-      // dispatch(getEventRequest(ticketRelease.eventId!));
-      dispatch(fetchEventTicketsStart(ticketRelease.eventId!));
-    } else {
-      const errorMessage = response.data?.message || "Something went wrong";
+        dispatch(fetchEventTicketsStart(ticketRelease.event_id!));
+      }
+    } catch (error: any) {
+      const errorMessage = error.response.data.error || "Something went wrong";
       toast.error(errorMessage);
     }
   };
@@ -109,7 +81,6 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
   const updatePaymentDeadline = async (
     values: ITicketReleasePaymentDeadlineForm
   ) => {
-    // PUT /events/:eventID/ticket-release/:ticketReleaseID/payment-deadline
     const data = {
       original_deadline: new Date(values.payment_deadline).toISOString(),
       reserve_payment_duration: toGoDuration(
@@ -122,26 +93,15 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
 
     try {
       const response = await axios.put(
-        `${
-          process.env.REACT_APP_BACKEND_URL
-        }/events/${ticketRelease.eventId!}/ticket-release/${
-          ticketRelease.id
-        }/payment-deadline`,
+        `${process.env.REACT_APP_BACKEND_URL}/events/${ticketRelease.event_id}/ticket-release/${ticketRelease.id}/payment-deadline`,
         data,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       if (response.status === 200) {
-        setTimeout(() => {
-          toast.success("Payment deadline updated successfully");
-        }, 250);
+        toast.success("Payment deadline updated successfully");
         dispatch(
-          getEventRequest({
-            id: ticketRelease.eventId!,
-            secretToken: "",
-          })
+          getEventRequest({ id: ticketRelease.event_id!, secretToken: "" })
         );
       } else {
         const errorMessage = response.data?.message || "Something went wrong";
@@ -150,19 +110,12 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
-      console.log(error);
       toast.error(errorMessage);
     }
   };
 
   const [reservePaymentDuration, setReservePaymentDuration] =
-    useState<IDeadlineUnits>({
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    });
-
+    useState<IDeadlineUnits>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [deadlineInitialValues, setDeadlineInitialValues] =
     useState<ITicketReleasePaymentDeadlineForm>({
       payment_deadline: new Date().toISOString(),
@@ -170,11 +123,16 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     });
 
   useEffect(() => {
+    if (!ticketRelease) return;
+
     setDeadlineInitialValues({
-      payment_deadline:
-        ticketRelease.payment_deadline?.original_deadline
-          .toISOString()
-          .substring(0, 16) || "",
+      payment_deadline: ticketRelease.payment_deadline?.original_deadline
+        ? format(
+            new Date(ticketRelease.payment_deadline.original_deadline),
+            "yyyy-MM-dd"
+          )
+        : new Date().toISOString(),
+
       reserve_payment_duration: ticketRelease.payment_deadline
         ?.reserve_payment_duration
         ? paymentDurationToString(
@@ -190,368 +148,321 @@ const TicketReleaseRowView: React.FC<TicketReleaseRowViewProps> = ({
     return null;
   }
 
-  const numTicketRequests = ticketReleaseTickets.length;
-
+  const totalTicketAvailable = ticketRelease.tickets_available;
+  const numTickets = ticketReleaseTickets.length;
   const numAllocatedTickets = ticketReleaseTickets.filter(
-    (ticket) => ticket.id !== 0 && ticket?.ticket_request?.is_handled!
-  ).length;
-
-  const numDeletedTicketRequests = ticketReleaseTickets.filter(
-    (ticket) => !!ticket.ticket_request?.deleted_at
+    (ticket) => ticket.id !== 0 && ticket?.ticket_order?.is_handled!
   ).length;
 
   const numPaidTickets = ticketReleaseTickets.filter(
     (ticket) => ticket?.is_paid! && !!!ticket?.deleted_at
   ).length;
-
   const numRefundedTickets = ticketReleaseTickets.filter(
     (ticket) => ticket?.refunded! && !!!ticket?.deleted_at
   ).length;
-
   const numReserveTickets = ticketReleaseTickets.filter(
     (ticket) => ticket?.is_reserve! && !!!ticket?.deleted_at
   ).length;
-
   const numDeletedTickets = ticketReleaseTickets.filter(
     (ticket) => !!ticket.deleted_at
   ).length;
+  const remaingTickets = totalTicketAvailable - numAllocatedTickets;
 
   return (
-    <Grid
-      container
-      spacing={4}
-      columns={12}
-      sx={{
-        p: 0,
-      }}
-    >
-      <Grid xs={12} md={12} lg={3}>
-        <StyledText
-          level="body-md"
-          fontSize={24}
-          fontWeight={700}
-          color={PALLETTE.cerise_dark}
-        >
-          {ticketRelease.name}
-        </StyledText>
-        <StyledText
-          color={PALLETTE.charcoal_see_through}
-          level="body-md"
-          fontSize={15}
-          sx={{}}
-        >
-          {t("common.created")}{" "}
-          {format(new Date(ticketRelease.created_at), "dd/MM/yyyy HH:mm:ss")}
-        </StyledText>
-        <StyledText
-          color={PALLETTE.charcoal_see_through}
-          level="body-md"
-          fontSize={15}
-          sx={{}}
-        >
-          {t("common.updated")}{" "}
-          {format(new Date(ticketRelease.updated_at!), "dd/MM/yyyy HH:mm:ss")}
-        </StyledText>
-        <StyledText
-          level="body-md"
-          fontSize={18}
-          fontWeight={700}
-          color={PALLETTE.charcoal}
-          sx={{ mt: 1 }}
-        >
-          {t("manage_event.ticket_release_method_title")}
-        </StyledText>
-        <StyledText
-          level="body-sm"
-          fontSize={16}
-          color={PALLETTE.charcoal}
-          fontWeight={500}
-        >
-          {ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.name}
-        </StyledText>
-        <StyledText
-          level="body-sm"
-          fontSize={18}
-          fontWeight={700}
-          sx={{ mt: 2 }}
-          color={PALLETTE.charcoal}
-        >
-          {t("manage_event.ticket_release_ticket_info_title")}
-        </StyledText>
-        <Box mt={1}>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={700}
-            color={PALLETTE.charcoal}
-          >
-            {`${ticketRelease.tickets_available} ` +
-              t("manage_event.tickets_available")}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={600}
-            color={PALLETTE.charcoal}
-          >
-            {`${numTicketRequests} ` + t("manage_event.ticket_requests")}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={600}
-            color={PALLETTE.charcoal}
-            startDecorator={<DeleteIcon />}
-            sx={{ ml: 2 }}
-          >
-            {`${numDeletedTicketRequests} ` +
-              t("manage_event.deleted_ticket_requests")}
-          </StyledText>
-          {ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod?.id ===
-            1 && [
-            // First come first serve lottery
+    <Box>
+      <Grid container spacing={4} sx={{ p: 0 }}>
+        {/* Ticket Release Information */}
+        <Grid xs={12} md={4}>
+          <Box>
             <StyledText
-              key="fcfs-lottery-info"
-              level="body-sm"
-              fontSize={18}
-              fontWeight={600}
-              color={PALLETTE.charcoal_see_through}
-              sx={{ ml: 2 }}
+              level="body-md"
+              fontSize={24}
+              fontWeight={700}
+              color={PALLETTE.cerise_dark}
             >
-              FCFSL Deadline:{" "}
+              {ticketRelease.name}
+            </StyledText>
+            <StyledText
+              color={PALLETTE.charcoal_see_through}
+              level="body-md"
+              fontSize={15}
+            >
+              {t("common.created")}{" "}
               {format(
-                add(new Date(ticketRelease.open), {
-                  minutes:
-                    ticketRelease.ticketReleaseMethodDetail.openWindowDuration!,
-                }),
+                new Date(ticketRelease.created_at),
                 "dd/MM/yyyy HH:mm:ss"
               )}
-            </StyledText>,
+            </StyledText>
             <StyledText
-              key="fcfs-lottery-1"
+              color={PALLETTE.charcoal_see_through}
+              level="body-md"
+              fontSize={15}
+            >
+              {t("common.updated")}{" "}
+              {format(
+                new Date(ticketRelease.updated_at!),
+                "dd/MM/yyyy HH:mm:ss"
+              )}
+            </StyledText>
+          </Box>
+          <Box mt={1}>
+            <StyledText
+              level="body-md"
+              fontSize={18}
+              fontWeight={700}
+              color={PALLETTE.charcoal}
+            >
+              {t("manage_event.ticket_release_method_title")}
+            </StyledText>
+            <StyledText
+              level="body-sm"
+              fontSize={16}
+              color={PALLETTE.charcoal}
+              fontWeight={500}
+            >
+              {
+                ticketRelease.ticket_release_method_detail.ticket_release_method
+                  ?.method_name
+              }
+            </StyledText>
+          </Box>
+          <Box mt={1}>
+            <StyledText
+              level="body-md"
+              fontSize={18}
+              fontWeight={700}
+              color={PALLETTE.charcoal}
+            >
+              {t("manage_event.ticket_release_time_title")}
+            </StyledText>
+            <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
+              {format(new Date(ticketRelease.open), "dd/MM/yyyy HH:mm:ss")} -{" "}
+              {format(new Date(ticketRelease.close), "dd/MM/yyyy HH:mm:ss")}
+            </StyledText>
+            <StyledText
               level="body-sm"
               fontSize={18}
-              startDecorator={<ShuffleIcon />}
-              fontWeight={600}
-              color={PALLETTE.charcoal}
-              sx={{ ml: 2 }}
+              fontWeight={500}
+              color={isCurrentlyOpen() ? PALLETTE.dark_green : PALLETTE.red}
             >
-              {`${ticketsEnteredIntoFCFSLottery(
-                ticketReleaseTickets,
-                ticketRelease
-              )} ` + t("manage_event.lottery_entered_ticket_requests")}
-            </StyledText>,
+              {hasntOpenedYet()
+                ? t("manage_event.not_yet_open")
+                : t("manage_event.the_ticket_release") +
+                  " " +
+                  (isCurrentlyOpen()
+                    ? t("manage_event.open")
+                    : t("manage_event.closed"))}
+            </StyledText>
+          </Box>
+        </Grid>
+
+        {/* Ticket Info */}
+
+        {/* Ticket Release Time and Actions */}
+        <Grid xs={12} md={4}>
+          <Box mt={2}>
             <StyledText
-              key="fcfs-lottery-2"
               level="body-sm"
-              fontSize={18}
-              fontWeight={600}
-              startDecorator={<SnoozeIcon />}
-              color={PALLETTE.charcoal}
-              sx={{ ml: 2 }}
+              fontSize={22}
+              color={PALLETTE.charcoal_see_through}
+              fontWeight={700}
             >
-              {`${
-                numTicketRequests -
-                ticketsEnteredIntoFCFSLottery(
-                  ticketReleaseTickets,
-                  ticketRelease
-                )
-              } ` + t("manage_event.not_lottery_entered_ticket_requests")}
-            </StyledText>,
-          ]}
-        </Box>
-        <Box mt={1}>
-          <StyledText
-            level="body-sm"
-            fontSize={20}
-            fontWeight={600}
-            color={PALLETTE.dark_green}
-          >
-            {`${numAllocatedTickets} ${t("manage_event.allocated_tickets")}`}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={500}
-            color={PALLETTE.charcoal}
-            sx={{ ml: 2 }}
-            startDecorator={<CheckIcon />}
-          >
-            {`${numPaidTickets} ${t("manage_event.paid_tickets")}`}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={500}
-            color={PALLETTE.charcoal}
-            sx={{ ml: 2 }}
-            startDecorator={<HourglassTopIcon />}
-          >
-            {`${numAllocatedTickets - numPaidTickets - numDeletedTickets} ${t(
-              "manage_event.not_yet_paid_tickets"
-            )}`}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={500}
-            color={PALLETTE.charcoal}
-            sx={{ ml: 2 }}
-            startDecorator={<KeyboardReturnIcon />}
-          >
-            {`${numRefundedTickets} ${t("manage_event.refunded_tickets")}`}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            fontWeight={500}
-            color={PALLETTE.charcoal}
-            sx={{ ml: 2 }}
-            startDecorator={<DeleteIcon />}
-          >
-            {`${numDeletedTickets} ${t("manage_event.deleted_tickets")}`}
-          </StyledText>
-        </Box>
-        <Box mt={1}>
-          <StyledText
-            level="body-sm"
-            fontSize={20}
-            fontWeight={600}
-            color={PALLETTE.orange}
-          >
-            {`${numReserveTickets} ${t("manage_event.reserve_tickets")}`}
-          </StyledText>
-        </Box>
-      </Grid>
-      <Grid
-        xs={12}
-        sm={12}
-        lg={3}
-        justifyContent="flex-end"
-        flexDirection="row"
-      >
-        <StyledText
-          level="body-md"
-          fontSize={18}
-          fontWeight={700}
-          color={PALLETTE.charcoal}
-        >
-          {t("manage_event.ticket_release_time_title")}
-        </StyledText>
-        <StyledText level="body-sm" fontSize={16} color={PALLETTE.charcoal}>
-          {format(new Date(ticketRelease.open), "dd/MM/yyyy HH:mm:ss")} -{" "}
-          {format(new Date(ticketRelease.close), "dd/MM/yyyy HH:mm:ss")}
-        </StyledText>
-        <StyledText
-          level="body-sm"
-          fontSize={18}
-          fontWeight={500}
-          color={isCurrentlyOpen() ? PALLETTE.dark_green : PALLETTE.red}
-        >
-          {hasntOpenedYet()
-            ? t("manage_event.not_yet_open")
-            : t("manage_event.the_ticket_release") +
-              " " +
-              (isCurrentlyOpen()
-                ? t("manage_event.open")
-                : t("manage_event.closed"))}
-        </StyledText>
-        <StyledText
-          level="body-sm"
-          fontSize={22}
-          color={PALLETTE.charcoal_see_through}
-          fontWeight={700}
-          sx={{ mt: 2 }}
-        >
-          {t("manage_event.ticket_release_actions_title")}
-        </StyledText>
-        <Box mt={2}>
-          <ConfirmTicketAllocationModal
-            ticketRelease={ticketRelease}
-            open={confirmOpen}
-            onClose={() => {
-              setConfirmOpen(false);
-            }}
-            isCurrentlyOpen={isCurrentlyOpen}
-          />
-          <Stack spacing={2} direction={"column"}>
-            {!hasntOpenedYet() &&
-              canMassAllocateTickets(
-                ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
+              {t("manage_event.ticket_release_actions_title")}
+            </StyledText>
+            <Stack spacing={2} direction="column" mt={2}>
+              {!hasntOpenedYet() &&
+                canMassAllocateTickets(
+                  ticketRelease.ticket_release_method_detail
+                    .ticket_release_method
+                ) && (
+                  <StyledButton
+                    size="md"
+                    bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
+                    disabled={ticketRelease.has_allocated_tickets}
+                    onClick={() => {
+                      setConfirmOpen(true);
+                    }}
+                  >
+                    {t("manage_event.allocate_tickets_button")}
+                  </StyledButton>
+                )}
+              {hasReserveTickets(
+                ticketRelease.ticket_release_method_detail.ticket_release_method
               ) && (
                 <StyledButton
                   size="md"
-                  bgColor={isCurrentlyOpen() ? PALLETTE.red : PALLETTE.green}
-                  disabled={ticketRelease.has_allocated_tickets}
-                  onClick={() => {
-                    setConfirmOpen(true);
-                  }}
+                  bgColor={PALLETTE.offWhite}
+                  startDecorator={
+                    <Tooltip
+                      title={t(
+                        "manage_event.check_allocated_reserve_tickets_tooltip"
+                      )}
+                    >
+                      <HelpOutlineIcon />
+                    </Tooltip>
+                  }
+                  onClick={tryToAllocateReserveTickets}
                 >
-                  {t("manage_event.allocate_tickets_button")}
+                  {t("manage_event.check_allocated_reserve_tickets")}
                 </StyledButton>
               )}
-            {hasReserveTickets(
-              ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
-            ) && (
-              <StyledButton
-                size="md"
-                bgColor={PALLETTE.offWhite}
-                startDecorator={
-                  <Tooltip
-                    title={t(
-                      "manage_event.check_allocated_reserve_tickets_tooltip"
-                    )}
-                  >
-                    <HelpOutlineIcon />
-                  </Tooltip>
-                }
-                onClick={() => {
-                  tryToAllocateReserveTickets();
-                }}
-                sx={{ mt: 1 }}
-              >
-                {t("manage_event.check_allocated_reserve_tickets")}
-              </StyledButton>
-            )}
-            <DeleteTicketReleaseModal
-              handleDeleteTicketRelease={() => {
-                handleDeleteTicketRelease(dispatch, ticketRelease);
-              }}
+            </Stack>
+            <ConfirmTicketAllocationModal
+              ticketRelease={ticketRelease}
+              open={confirmOpen}
+              onClose={() => setConfirmOpen(false)}
+              isCurrentlyOpen={isCurrentlyOpen}
             />
-          </Stack>
-        </Box>
-      </Grid>
-      {canEditPaymentDeadline(
-        ticketRelease.ticketReleaseMethodDetail.ticketReleaseMethod
-      ) && (
-        <Grid xs={12} sm={12} lg={6}>
+          </Box>
+        </Grid>
+
+        <Grid xs={12}>
           <StyledText
             level="body-md"
             fontSize={22}
             fontWeight={700}
-            color={PALLETTE.cerise_dark}
-          >
-            {t("manage_event.edit_payment_deadline")}
-          </StyledText>
-          <StyledText
-            level="body-md"
-            fontSize={18}
-            fontWeight={500}
             color={PALLETTE.charcoal}
           >
-            {t("manage_event.payment_deadline_description")}
+            {t("manage_event.ticket_release_ticket_info_title")}
           </StyledText>
-          <PaymentDeadlineForm
-            initialValues={deadlineInitialValues}
-            onSubmit={updatePaymentDeadline}
-            ticketRelease={ticketRelease}
-            reservePaymentDuration={reservePaymentDuration}
-            setReservePaymentDuration={setReservePaymentDuration}
-            enableReinitialize={true}
-          />
+          <Grid container spacing={4}>
+            <Grid xs={12} md={4}>
+              <Box>
+                <Stack spacing={1}>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={700}
+                    color={PALLETTE.charcoal}
+                  >
+                    {`${ticketRelease.tickets_available} ` +
+                      t("manage_event.tickets_available")}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={600}
+                    color={PALLETTE.charcoal}
+                  >
+                    {`${numTickets} ` + t("manage_event.ticket_requests")}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={600}
+                    color={PALLETTE.charcoal}
+                    startDecorator={<PendingIcon color="info" />}
+                  >
+                    {`${remaingTickets} ` +
+                      t("manage_event.remaining_ticket_requests")}
+                  </StyledText>
+                </Stack>
+              </Box>
+            </Grid>
+            <Grid xs={12} md={4}>
+              <Box>
+                <Stack spacing={1}>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={20}
+                    fontWeight={600}
+                    color={PALLETTE.dark_green}
+                  >
+                    {`${numAllocatedTickets} ${t(
+                      "manage_event.allocated_tickets"
+                    )}`}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={500}
+                    color={PALLETTE.charcoal}
+                    startDecorator={<CheckIcon color="success" />}
+                  >
+                    {`${numPaidTickets} ${t("manage_event.paid_tickets")}`}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={500}
+                    color={PALLETTE.charcoal}
+                    startDecorator={<HourglassTopIcon />}
+                  >
+                    {`${
+                      numAllocatedTickets - numPaidTickets - numDeletedTickets
+                    } ${t("manage_event.not_yet_paid_tickets")}`}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={500}
+                    color={PALLETTE.charcoal}
+                    startDecorator={<KeyboardReturnIcon />}
+                  >
+                    {`${numRefundedTickets} ${t(
+                      "manage_event.refunded_tickets"
+                    )}`}
+                  </StyledText>
+                  <StyledText
+                    level="body-sm"
+                    fontSize={18}
+                    fontWeight={500}
+                    color={PALLETTE.charcoal}
+                    startDecorator={<DeleteIcon />}
+                  >
+                    {`${numDeletedTickets} ${t(
+                      "manage_event.deleted_tickets"
+                    )}`}
+                  </StyledText>
+                </Stack>
+              </Box>
+            </Grid>
+            <Grid xs={12} md={4}>
+              <Box>
+                <StyledText
+                  level="body-sm"
+                  fontSize={20}
+                  fontWeight={600}
+                  color={PALLETTE.orange}
+                >
+                  {`${numReserveTickets} ${t("manage_event.reserve_tickets")}`}
+                </StyledText>
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
-      )}
-    </Grid>
+
+        {/* Edit Payment Deadline */}
+
+        <Grid xs={12}>
+          <Box mt={2}>
+            <StyledText
+              level="body-md"
+              fontSize={22}
+              fontWeight={700}
+              color={PALLETTE.cerise_dark}
+            >
+              {t("manage_event.edit_payment_deadline")}
+            </StyledText>
+            <StyledText
+              level="body-md"
+              fontSize={18}
+              fontWeight={500}
+              color={PALLETTE.charcoal}
+            >
+              {t("manage_event.payment_deadline_description")}
+            </StyledText>
+            <PaymentDeadlineForm
+              key={"payment_deadline_form" + ticketRelease.id}
+              initialValues={deadlineInitialValues!}
+              onSubmit={updatePaymentDeadline}
+              reservePaymentDuration={reservePaymentDuration}
+              setReservePaymentDuration={setReservePaymentDuration}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

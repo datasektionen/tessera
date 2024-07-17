@@ -16,10 +16,11 @@ import {
   addTicketType,
   setSelectedTicketType,
   setTicketTypes,
+  addTicketTypeWithValues,
 } from "../../../../redux/features/ticketTypeCreationSlice";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddIcon from "@mui/icons-material/Add";
-import CreateTicketTypeFormSchema from "../../../../validation/create_ticket_type_form";
+import CreateTicketTypeFormSchema from "../../../../validation/event/create_ticket_type_form";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
@@ -48,31 +49,19 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { RemoveTTButton } from "../../../../components/events/ticket_types/remove_ticket_type_button";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
-
-const StyledBorderBox = styled(Box)(({ theme }) => ({
-  cursor: "pointer",
-  backgroundColor: PALLETTE.cerise,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  transition: "all 0.2s ease-in-out",
-  position: "relative",
-  marginTop: theme.spacing(1),
-  minHeight: "48px",
-
-  borderStyle: "solid",
-  borderColor: PALLETTE.cerise,
-  borderWidth: "2px",
-
-  "&:hover": {
-    borderColor: PALLETTE.charcoal,
-    transition: "all 0.2s ease-in-out",
-  },
-}));
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
+import StyledBorderBox from "../../../../components/wrappers/styled_border_box";
+import {
+  fetchTemplateTicketTypes,
+  unsaveTemplateTicketTypes,
+} from "../../../../utils/manager/templates";
+import ClearIcon from "@mui/icons-material/Clear";
+import IconButton from "@mui/material/IconButton";
 
 const EditTicketTypes: React.FC = () => {
   const { eventID, ticketReleaseID } = useParams();
@@ -103,9 +92,38 @@ const EditTicketTypes: React.FC = () => {
 
   const someFormsAreInvalid = Object.keys(invalidForms).length > 0;
   const { t } = useTranslation();
+  const [templates, setTemplates] = useState<ITicketType[]>([]);
+
+  const handleUnsaveTemplate = async (id: number) => {
+    const data = await unsaveTemplateTicketTypes(id);
+    setTemplates((prev) => {
+      return prev.filter((template) => template.id !== id);
+    });
+  };
+
+  useEffect(() => {
+    const fetchTemplateTicketTypesData = async () => {
+      const data = await fetchTemplateTicketTypes();
+
+      if (!data) return;
+
+      setTemplates(data!.ticket_types);
+    };
+    fetchTemplateTicketTypesData();
+  }, []);
 
   useEffect(() => {
     if (updateSuccess) {
+      // navigate(-1);
+      setTimeout(() => {
+        toast.success("Ticket batches updated successfully.");
+      }, 500);
+      navigate(
+        generateRoute(ROUTES.EDIT_EVENT_TICKET_RELEASES, {
+          eventId: eventID,
+          ticketReleaseId: ticketReleaseID,
+        })
+      );
       dispatch(resetUpdateSuccess());
     }
   }, [updateSuccess]);
@@ -133,6 +151,7 @@ const EditTicketTypes: React.FC = () => {
             name: ticketType.name,
             description: ticketType.description,
             price: ticketType.price,
+            save_template: ticketType.save_template,
           } as ITicketTypeForm;
         }
       );
@@ -141,6 +160,17 @@ const EditTicketTypes: React.FC = () => {
       dispatch(setTicketTypes(formValues));
     }
   }, [dispatch, fetchedTicketTypes]);
+
+  const setTemplate = (template: ITicketType) => {
+    dispatch(
+      addTicketTypeWithValues({
+        name: template.name,
+        description: template.description,
+        price: template.price,
+        save_template: false,
+      })
+    );
+  };
 
   const validateAllForms = async () => {
     let allFormsAreValid = true;
@@ -177,7 +207,7 @@ const EditTicketTypes: React.FC = () => {
     );
   };
 
-  const ticketRelease = event?.ticketReleases?.find(
+  const ticketRelease = event?.ticket_releases?.find(
     (tr: ITicketRelease) => tr.id === parseInt(ticketReleaseID!)
   );
 
@@ -190,13 +220,7 @@ const EditTicketTypes: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("manage_event.edit.ticket_types.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -291,46 +315,22 @@ const EditTicketTypes: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                <StyledButton
-                  size="sm"
-                  color={PALLETTE.charcoal}
-                  onClick={() => {
-                    dispatch(addTicketType());
-                  }}
-                  style={{
-                    width: "200px",
-                  }}
-                >
-                  <Grid container justifyContent="center" alignItems="center">
-                    <Tooltip title="Add Ticket Type" placement="bottom">
-                      <AddIcon
-                        style={{
-                          color: PALLETTE.charcoal,
-                          fontSize: "40px",
-                          // svg shadow
-                          filter:
-                            "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
-                        }}
-                      />
-                    </Tooltip>
-                  </Grid>
-                </StyledButton>
+                <Tooltip title={t("tooltips.add_ticket_type")}>
+                  <AddIcon
+                    onClick={() => {
+                      dispatch(addTicketType());
+                    }}
+                    style={{
+                      color: PALLETTE.cerise,
+                      fontSize: "40px",
+                      // svg shadow
+                      filter: "drop-shadow( 0px 0px 2px rgba(200, 0, 0, .7))",
+                    }}
+                  />
+                </Tooltip>
               </Box>
               <Box mt={2}>
                 <Grid container justifyContent="flex-start" spacing={2}>
-                  <Grid>
-                    <StyledButton
-                      size="lg"
-                      onClick={async () => {
-                        handleSubmission();
-                      }}
-                      color={PALLETTE.charcoal}
-                      bgColor={PALLETTE.green}
-                      disabled={someFormsAreInvalid}
-                    >
-                      {t("form.button_save")}
-                    </StyledButton>
-                  </Grid>
                   <Grid>
                     <StyledButton
                       size="lg"
@@ -344,8 +344,119 @@ const EditTicketTypes: React.FC = () => {
                       {t("form.button_back")}
                     </StyledButton>
                   </Grid>
+                  <Grid>
+                    <StyledButton
+                      size="lg"
+                      onClick={async () => {
+                        handleSubmission();
+                      }}
+                      sx={{
+                        width: 150,
+                      }}
+                      color={PALLETTE.charcoal}
+                      bgColor={PALLETTE.green}
+                      disabled={someFormsAreInvalid}
+                    >
+                      {t("form.button_save")}
+                    </StyledButton>
+                  </Grid>
                 </Grid>
               </Box>
+            </Box>
+            <Box mt={3}>
+              <StyledText
+                level="body-lg"
+                fontSize={24}
+                color={PALLETTE.charcoal}
+                fontWeight={700}
+              >
+                {t("templates.title")}
+              </StyledText>
+              <StyledText
+                level="body-md"
+                fontSize={16}
+                color={PALLETTE.charcoal}
+                sx={{
+                  textWrap: "balance",
+                  mb: 2,
+                }}
+              >
+                {t("templates.ticket_types.description")}
+              </StyledText>
+
+              {templates && templates.length === 0 && (
+                <StyledText
+                  level="body-md"
+                  fontSize={18}
+                  color={PALLETTE.charcoal_see_through}
+                  sx={{
+                    textWrap: "balance",
+                    mb: 2,
+                  }}
+                >
+                  {t("templates.ticket_types.no_templates")}
+                </StyledText>
+              )}
+
+              {templates?.map((template) => {
+                return (
+                  <Sheet
+                    key={template.id}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "16px",
+                      marginBottom: "16px",
+                      border: "1px solid #E0E0E0",
+                      borderRadius: "4px",
+                      maxWidth: "400px",
+                    }}
+                  >
+                    <IconButton
+                      onClick={() => handleUnsaveTemplate(template.id)}
+                      sx={{
+                        position: "absolute",
+                        top: "0",
+                        right: "4px",
+                      }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                    <StyledButton
+                      size="sm"
+                      bgColor={PALLETTE.cerise}
+                      color={PALLETTE.charcoal}
+                      sx={{
+                        width: "fit-content",
+                        position: "absolute",
+                        bottom: "4px",
+                        right: "4px",
+                      }}
+                      onClick={() => {
+                        setTemplate(template);
+                      }}
+                    >
+                      Use
+                    </StyledButton>
+                    <StyledText
+                      level="body-lg"
+                      fontSize={20}
+                      color={PALLETTE.cerise_dark}
+                      fontWeight={600}
+                    >
+                      {template.name}
+                    </StyledText>
+                    <StyledText
+                      level="body-sm"
+                      fontSize={16}
+                      color={PALLETTE.charcoal}
+                    >
+                      <span>{template.description.slice(0, 26)}...</span> <br />
+                      <span>{template.price}</span> <br />
+                    </StyledText>
+                  </Sheet>
+                );
+              })}
             </Box>
           </Grid>
           <Grid xs={8}>
@@ -368,7 +479,7 @@ const EditTicketTypes: React.FC = () => {
             </BorderBox>
           </Grid>
         </StandardGrid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

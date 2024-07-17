@@ -7,14 +7,14 @@ import listEventsReducer from "./redux/features/listEventsSlice";
 import eventReducer from "./redux/features/eventSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import ticketRequestReducer from "./redux/features/ticketRequestSlice";
+import ticketOrderReducer from "./redux/features/ticketOrderSlice";
 import foodPreferenceReducer from "./redux/features/userFoodPreferences";
 import organizationReducer from "./redux/features/organizationSlice";
 import eventCreationSlice from "./redux/features/eventCreationSlice";
 import ticketReleaseMethodReducer from "./redux/features/ticketReleaseMethodsSlice";
 import ticketTypeCreationReducer from "./redux/features/ticketTypeCreationSlice";
 import promoCodeAccessSlice from "./redux/features/promoCodeAccessSlice";
-import myTicketRequestsSlice from "./redux/features/myTicketRequestsSlice";
+import myTicketOrderSlice from "./redux/features/myTicketOrderSlice";
 import myTicketsSlice from "./redux/features/myTicketsSlice";
 import createTicketReleaseSlice from "./redux/features/createTicketReleaseSlice";
 import ticketTypeSlice from "./redux/features/ticketTypeSlice";
@@ -28,6 +28,15 @@ import languageSlice from "./redux/features/languageSlice";
 import addonCreationSlice from "./redux/features/addonCreationSlice";
 import addonSlice from "./redux/features/addonSlice";
 import bankingDetailsSlice from "./redux/features/bankingDetailsSlice";
+import viewCustomerEventSlice from "./redux/features/customerViewEvent";
+import guestCustomerSlice from "./redux/features/guestCustomerSlice";
+import planeEnrollmentCreationSlice from "./redux/features/createPlanEnrollmentSlice";
+import drawerPinnedSlice from "./redux/features/drawerPinnedSlice";
+import listNetworkEventsSlice from "./redux/features/manager/listNetworkEventsSlice";
+import networkSlice from "./redux/features/manager/networkSlice";
+import { authStatusReducer } from "./redux/features/authSlice";
+import networkSettingsSlice from "./redux/features/networkSettingsSlice";
+import managerThemeSlice from "./redux/features/managerThemeSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -39,6 +48,7 @@ const persistConfig = {
     "ticketTypeCreation",
     "timestamp",
     "language",
+    "drawerPinned",
   ],
   key: "root",
   storage,
@@ -46,17 +56,19 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  authStatus: authStatusReducer,
   user: userReducer,
   events: listEventsReducer,
+  networkEvents: listNetworkEventsSlice,
   eventDetail: eventReducer,
-  ticketRequest: ticketRequestReducer,
+  ticketOrder: ticketOrderReducer,
   foodPreferences: foodPreferenceReducer,
   organization: organizationReducer,
   eventCreation: eventCreationSlice,
   ticketReleaseMethods: ticketReleaseMethodReducer,
   ticketTypeCreation: ticketTypeCreationReducer,
   promoCodeAccess: promoCodeAccessSlice,
-  myTicketRequests: myTicketRequestsSlice,
+  myTicketOrders: myTicketOrderSlice,
   myTickets: myTicketsSlice,
   createTicketRelease: createTicketReleaseSlice,
   ticketTypes: ticketTypeSlice,
@@ -70,6 +82,13 @@ const rootReducer = combineReducers({
   addonCreation: addonCreationSlice,
   addons: addonSlice,
   bankingDetails: bankingDetailsSlice,
+  customerViewEvent: viewCustomerEventSlice,
+  guestCustomer: guestCustomerSlice,
+  planEnrollmentCreation: planeEnrollmentCreationSlice,
+  drawerPinned: drawerPinnedSlice,
+  network: networkSlice,
+  networkSettings: networkSettingsSlice,
+  managerTheme: managerThemeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

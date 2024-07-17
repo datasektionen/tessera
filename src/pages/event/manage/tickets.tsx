@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs } from "@mui/joy";
-import { useEventDetails } from "../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../hooks/event/use_event_details_hook";
 import { useTranslation } from "react-i18next";
-import EventTicketsList from "../../../components/events/tickets/list";
+import EventTicketsList from "../../../components/events/tickets/list/ticket_data_grid";
 import BreadCrumbLink from "../../../components/navigation/breadcrumbs/link";
 import Title from "../../../components/text/title";
 import { ITicket } from "../../../types";
@@ -14,15 +14,16 @@ import LoadingOverlay from "../../../components/Loading";
 import { getEventRequest } from "../../../redux/features/eventSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
-import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 import { generateRoute, ROUTES } from "../../../routes/def";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
+import { fetchEventTicketsStart } from "../../../redux/features/eventTicketsSlice";
 
 const ManageEventTicketsPage: React.FC = () => {
   const { eventID } = useParams();
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-  const [selectedTicketRequestID, setSelectedTicketRequestID] = useState<
+  const [selectedTicketOrderID, setSelectedTicketOrderID] = useState<
     number | null
   >(null);
   const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
@@ -35,43 +36,46 @@ const ManageEventTicketsPage: React.FC = () => {
   const handleSetSelectedTicket = useCallback(() => {
     if (!ticketsLoading) {
       const ticket = tickets.find((ticket) => {
-        return ticket?.ticket_request?.id === selectedTicketRequestID;
+        return ticket?.ticket_order?.id === selectedTicketOrderID;
       });
       setSelectedTicket(ticket || null);
     }
-  }, [tickets, selectedTicketRequestID, ticketsLoading]);
+  }, [tickets, selectedTicketOrderID, ticketsLoading]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const ticketRequestID = params.get("ticket_request_id");
+    const ticketOrderID = params.get("ticket_order_id");
 
-    if (ticketRequestID) {
-      const parsedID = parseInt(ticketRequestID);
+    if (ticketOrderID) {
+      const parsedID = parseInt(ticketOrderID);
       if (!isNaN(parsedID)) {
-        setSelectedTicketRequestID(parsedID);
+        setSelectedTicketOrderID(parsedID);
       } else {
-        setSelectedTicketRequestID(null);
+        setSelectedTicketOrderID(null);
       }
     }
-  }, [setSelectedTicketRequestID]);
+  }, [setSelectedTicketOrderID]);
 
   useEffect(() => {
     handleSetSelectedTicket();
   }, [handleSetSelectedTicket]);
 
   useEffect(() => {
-    // Update the URL with the ticket_request_id when selectedTicket changes
     if (selectedTicket) {
       navigate(
-        `/events/${eventID}/manage/tickets?ticket_request_id=${selectedTicket.ticket_request?.id}`
+        `/events/${eventID}/manage/tickets?ticket_order_id=${selectedTicket.ticket_order?.id}`
       );
     }
   }, [selectedTicket, navigate, eventID]);
 
+  const reFetchTickets = useCallback(() => {
+    dispatch(fetchEventTicketsStart(parseInt(eventID!)));
+  }, [dispatch, eventID]);
+
   const handleBackNavigation = useCallback(() => {
     // Custom logic when back button is pressed
     // For example, navigate to a specific path or perform checks
-    setSelectedTicketRequestID(null);
+    setSelectedTicketOrderID(null);
   }, [navigate]);
 
   useEffect(() => {
@@ -86,9 +90,8 @@ const ManageEventTicketsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
       {ticketsLoading && <LoadingOverlay />}
-      <Box sx={{ marginLeft: `70px`, marginRight: `20px` }}>
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}>{t("manage_event.tickets.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
@@ -103,7 +106,7 @@ const ManageEventTicketsPage: React.FC = () => {
           />
           {selectedTicket && (
             <BreadCrumbLink
-              to={`/events/${eventID}/manage/tickets?ticket_request_id=${selectedTicket.ticket_request?.id}`}
+              to={`/events/${eventID}/manage/tickets?ticket_order_id=${selectedTicket.ticket_order?.id}`}
               label={selectedTicket.id.toString()}
             />
           )}
@@ -114,11 +117,12 @@ const ManageEventTicketsPage: React.FC = () => {
           ) : (
             <EventTicketsList
               tickets={tickets}
-              selectTicketRequest={setSelectedTicketRequestID}
+              selectTicketOrder={setSelectedTicketOrderID}
+              reFetch={reFetchTickets}
             />
           )}
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

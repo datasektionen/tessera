@@ -5,6 +5,8 @@ import {
   CardContent,
   CardOverflow,
   Grid,
+  Stack,
+  Tooltip,
   Typography,
 } from "@mui/joy";
 import { ITicketType } from "../../../types";
@@ -13,7 +15,7 @@ import {
   ShoppingCartItem,
   addTicket,
   removeTicket,
-} from "../../../redux/features/ticketRequestSlice";
+} from "../../../redux/features/ticketOrderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import React, { useEffect } from "react";
@@ -25,6 +27,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import StyledText from "../../text/styled_text";
+import InfoIcon from "@mui/icons-material/Info";
 
 interface TicketTypeProps {
   ticketType: ITicketType;
@@ -35,7 +38,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
   ticketType,
   maxTicketsPerUser,
 }) => {
-  const { items } = useSelector((state: RootState) => state.ticketRequest) as {
+  const { items } = useSelector((state: RootState) => state.ticketOrder) as {
     items: ShoppingCartItem[];
   };
   const [plusDisabled, setPlusDisabled] = React.useState<boolean>(false);
@@ -46,7 +49,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
   const handleAddTicket = (ticket: ITicketType) => {
     const numberOfTotalTickets = numberOfTotalTicketRequestInBasket(
       items,
-      ticket.ticketReleaseId!
+      ticket.ticket_release_id!
     );
     if (numberOfTotalTickets >= maxTicketsPerUser) {
       toast.error(
@@ -96,10 +99,12 @@ const TicketType: React.FC<TicketTypeProps> = ({
       orientation="horizontal"
       variant="outlined"
       style={{
-        backgroundColor: "transparent",
+        backgroundColor: PALLETTE.white,
+        boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.25)",
         borderColor: PALLETTE.cerise,
         maxHeight: isScreenSmall ? "100px" : "150px",
         minWidth: isScreenSmall ? "80%" : "fit-content",
+        maxWidth: "600px",
         width: "90%",
       }}
     >
@@ -108,43 +113,36 @@ const TicketType: React.FC<TicketTypeProps> = ({
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: isScreenSmall ? "column" : "row",
               justifyContent: "flex-start",
               alignItems: "center",
             }}
           >
             <div>
-              <StyledText
-                level="body-md"
-                color={PALLETTE.cerise_dark}
-                fontWeight={700}
-                fontSize={
-                  isScreenSmall ? 14 : calculateFontSize(ticketType.name)
-                }
-                style={{
-                  overflow: "break-word",
-                  lineHeight: "1",
-                  textOverflow: "wrap",
-                  maxWidth: isScreenSmall ? "100px" : "inherit",
-                  width: isScreenSmall ? "fit-content" : "150px",
-                }}
-              >
-                {ticketType.name}
-              </StyledText>
-              <Typography
-                level="body-sm"
-                fontSize={10}
-                fontFamily={"Josefin sans"}
-                textColor={PALLETTE.charcoal}
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  width: isScreenSmall ? "fit-content" : "150px",
-                }}
-              >
-                {ticketType.description}
-              </Typography>
+              <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                {!isScreenSmall && (
+                  <Tooltip title={ticketType.description}>
+                    <InfoIcon />
+                  </Tooltip>
+                )}
+                <StyledText
+                  level="body-md"
+                  color={PALLETTE.cerise_dark}
+                  fontWeight={700}
+                  fontSize={
+                    isScreenSmall ? 14 : calculateFontSize(ticketType.name)
+                  }
+                  style={{
+                    overflow: "break-word",
+                    lineHeight: "1",
+                    textOverflow: "wrap",
+                    maxWidth: isScreenSmall ? "100px" : "inherit",
+                    width: isScreenSmall ? "60px" : "150px",
+                  }}
+                >
+                  {ticketType.name}
+                </StyledText>
+              </Stack>
             </div>
             <Typography
               level="body-md"
@@ -176,7 +174,7 @@ const TicketType: React.FC<TicketTypeProps> = ({
             alignItems="center"
             justifyContent="flex-start"
             style={{
-              minWidth: "128px",
+              minWidth: "80px",
             }}
           >
             <Button

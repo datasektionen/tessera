@@ -12,6 +12,8 @@ import {
   Select,
   Stack,
   Textarea,
+  Chip,
+  Box,
 } from "@mui/joy";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import PALLETTE from "../../theme/pallette";
@@ -28,8 +30,9 @@ import {
   FormInput,
   FormMarkdown,
   FormTextarea,
+  PlaceOption,
 } from "../forms/input_types";
-import CreateEventFormSchema from "../../validation/create_event_form";
+import CreateEventFormSchema from "../../validation/event/create_event_form";
 import StyledText from "../text/styled_text";
 import { StyledErrorMessage } from "../forms/messages";
 import { useEffect } from "react";
@@ -71,19 +74,24 @@ const CreateEventForm: React.FC = () => {
     return <LoadingOverlay />;
   }
 
+  const commonLocations = organizations!
+    .flatMap((org) => org.common_event_locations || [])
+    .slice(0, 5);
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={CreateEventFormSchema}
       validateOnBlur={true}
       validateOnChange={true}
+      validateOnMount={true}
       onSubmit={(values: IEventForm) => {
         // Convert date to Unix timestamp
         handleSubmission(values);
       }}
       enableReinitialize
     >
-      {({ values, isValid, errors }) => {
+      {({ values, isValid, errors, setFieldValue }) => {
         return (
           <Form>
             <StyledText
@@ -126,6 +134,7 @@ const CreateEventForm: React.FC = () => {
                 overrideStyle={{
                   width: "95%",
                 }}
+                maxChars={10000}
               />
               <StyledErrorMessage name="description" />
 
@@ -183,6 +192,49 @@ const CreateEventForm: React.FC = () => {
               <StyledFormLabelWithHelperText>
                 {t("form.event_details.location_helperText")}
               </StyledFormLabelWithHelperText>
+              <div key={"common-event-locations-" + values.organization_id}>
+                {organizations?.length! > 0 && commonLocations.length > 0 && (
+                  <Box sx={{ my: 1 }}>
+                    <StyledText level="body-sm" color={PALLETTE.charcoal}>
+                      {t("form.event_details.common_locations")}
+                    </StyledText>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{ flexWrap: "wrap", mt: 1 }}
+                    >
+                      {organizations!
+                        .flatMap((org) => org.common_event_locations || [])
+                        .slice(0, 5)
+                        .map((location, index) => (
+                          <Chip
+                            key={index}
+                            variant="outlined"
+                            onClick={() => {
+                              const option: PlaceOption = {
+                                label: location.name,
+                                value: location.name,
+                              };
+
+                              setFieldValue("location", option);
+                            }}
+                            sx={{ cursor: "pointer", zIndex: 0 }}
+                          >
+                            <StyledText
+                              level="body-sm"
+                              color={PALLETTE.charcoal}
+                              fontSize={14}
+                            >
+                              {location.name.length > 20
+                                ? `${location.name.substring(0, 25)}...`
+                                : location.name}
+                            </StyledText>
+                          </Chip>
+                        ))}
+                    </Stack>
+                  </Box>
+                )}
+              </div>
             </FormControl>
 
             <Divider />
@@ -227,6 +279,21 @@ const CreateEventForm: React.FC = () => {
 
               <StyledFormLabelWithHelperText>
                 {t("form.event_details.private_event_helperText")}
+              </StyledFormLabelWithHelperText>
+            </FormControl>
+            <Divider />
+            <FormControl>
+              <StyledFormLabel>
+                {t("form.event_details.collect_food_preferences")}
+              </StyledFormLabel>
+              <FormCheckbox
+                name="collect_food_preferences"
+                label="Collect Food Preferences"
+              />
+              <StyledErrorMessage name="collect_food_preferences" />
+
+              <StyledFormLabelWithHelperText>
+                {t("form.event_details.collect_food_preferences_helperText")}
               </StyledFormLabelWithHelperText>
             </FormControl>
             <Grid

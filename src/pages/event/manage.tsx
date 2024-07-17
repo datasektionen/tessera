@@ -1,5 +1,4 @@
 import { Box, Grid, IconButton, Input, Stack, Tooltip } from "@mui/joy";
-import TesseraWrapper from "../../components/wrappers/page_wrapper";
 import Title from "../../components/text/title";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
@@ -18,59 +17,60 @@ import { deleteEventStart } from "../../redux/features/editEventSlice";
 import { useCanAccessEvent } from "../../utils/event_access";
 import { DefaultInputStyle } from "../../components/forms/input_types";
 import { GetSecretToken } from "../../redux/sagas/axios_calls/secret_token";
-import TicketEventFormResponseTable from "./manage/ticket_form_reponse_list_page";
 
-import DrawerComponent from "../../components/navigation/manage_drawer";
-import { useEventDetails } from "../../hooks/use_event_details_hook";
-
-const drawerWidth = 200;
+import { useEventDetails } from "../../hooks/event/use_event_details_hook";
+import usePinnedDrawer from "../../hooks/drawer_pinned_hook";
+import DrawerBoxWrapper from "../../components/wrappers/manager_wrapper";
+import { useNetworkDetails } from "../../hooks/manager/network_details_hook";
 
 const ManageEventPage: React.FC = () => {
+  // Variables
   const { eventID } = useParams();
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
+  const { marginLeft, isPinned, handlePinned } = usePinnedDrawer("70px");
+  const {
+    eventDetail: { event, loading, error },
+    eventTickets: { tickets },
+  } = useEventDetails(parseInt(eventID!));
 
+  // State Variables
   const [canAccess, setCanAccess] = useState<boolean | null>(null);
   const [secretToken, setSecretToken] = useState<string>("");
-
-  const canAccessEvent = useCanAccessEvent(eventID!);
-
-  useEffect(() => {
-    const fetchCanAccess = () => {
-      if (canAccessEvent) {
-        fetchSecretToken();
-      } else {
-      }
-    };
-
-    const fetchSecretToken = async () => {
-      const token = await GetSecretToken(parseInt(eventID!));
-      setSecretToken(token);
-    };
-
-    fetchCanAccess();
-  }, [canAccessEvent, eventID]); // Make sure to include all dependencies here
-
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [confirmDeleteText, setConfirmDeleteText] = useState<string>("");
   const [confirmDeleteTextIsValid, setConfirmDeleteTextIsValid] =
     useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const dispatch: AppDispatch = useDispatch();
+  // Callbacks
+  const canAccessEvent = useCanAccessEvent(eventID!);
+  const { network } = useNetworkDetails();
 
-  const { t } = useTranslation();
+  // Functions
+  const fetchSecretToken = async () => {
+    const token = await GetSecretToken(parseInt(eventID!));
+    setSecretToken(token);
+  };
+
+  const fetchCanAccess = () => {
+    if (canAccessEvent) {
+      fetchSecretToken();
+    }
+  };
 
   const handleEventDelete = () => {
     dispatch(deleteEventStart(parseInt(eventID!)));
     navigate("/events");
   };
 
-  const {
-    eventDetail: { event, loading, error },
-    eventTickets: { tickets },
-  } = useEventDetails(parseInt(eventID!));
+  // Effects
+  useEffect(() => {
+    fetchCanAccess();
+  }, [canAccessEvent, eventID]); // Make sure to include all dependencies here
 
-  const [isHovered, setIsHovered] = useState(false);
-
+  // Conditional navigation
   if (error) {
     navigate("/events");
   }
@@ -85,24 +85,36 @@ const ManageEventPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-      <Box
-        component="main"
-        sx={{
-          marginLeft: isHovered ? `${drawerWidth + 32}px` : `70px`,
-          marginRight: 1.5,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Box mt={"16px"}>
-          <Title
-            style={{
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              width: "90%",
-            }}
+          <Stack
+            justifyContent={"space-between"}
+            direction={"row"}
+            alignItems={"center"}
           >
-            {t("manage_event.title", { event_name: event.name })}
-          </Title>
+            <Title
+              style={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                width: "90%",
+              }}
+            >
+              {t("manage_event.title", { event_name: event.name })}
+            </Title>
+            <StyledButton
+              size="md"
+              bgColor={PALLETTE.offWhite}
+              style={{
+                width: "220px",
+                height: "40px",
+              }}
+              onClick={() => {
+                navigate("/events/" + event.reference_id);
+              }}
+            >
+              {t("manage_event.view_button", { event_name: event.name })}
+            </StyledButton>
+          </Stack>
           <ConfirmModal
             isOpen={showDeleteModal}
             onClose={() => {
@@ -177,7 +189,7 @@ const ManageEventPage: React.FC = () => {
             </StyledButton>
           </Stack>
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

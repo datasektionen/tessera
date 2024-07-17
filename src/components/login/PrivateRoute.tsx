@@ -1,8 +1,10 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginRedirect } from "../../redux/features/authSlice";
+import { ROUTES } from "../../routes/def";
+import { IRole } from "../../types";
 
 interface ProtectedRouteProps {
   redirectPath?: string;
@@ -11,11 +13,14 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectPath = "/login",
 }) => {
-  const { isLoggedIn, loading: authLoading } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    user,
+    isLoggedIn,
+    loading: authLoading,
+  } = useSelector((state: RootState) => state.auth);
   const location = useLocation();
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { loading: userLoading } = useSelector(
     (state: RootState) => state.user
@@ -35,7 +40,20 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       redirectUrl = `${redirectPath}?redirect=${urlAfterLogin}`;
     }
 
+    // Clear promo_codes local storage
+    localStorage.removeItem("promo_codes");
+
     return <Navigate to={redirectUrl} replace />;
+  }
+
+  return <Outlet />;
+};
+
+export const SuperAdminProtectedRoute: React.FC = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  if (!user?.roles.map((role: IRole) => role.name).includes("super_admin")) {
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

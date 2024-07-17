@@ -12,7 +12,7 @@ import { getUserFullName } from "../../utils/user_utils";
 import StyledText from "../../components/text/styled_text";
 import StyledButton from "../../components/buttons/styled_button";
 import MainPageButton from "../../components/buttons/main_page_button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import mainPageImage from "../../assets/images/main_page.jpg";
 import styles from "./divider.module.css";
@@ -30,6 +30,13 @@ import HowToUse from "./how_to_use";
 import Bg1 from "../../assets/backgrounds/1.svg";
 import Bg2 from "../../assets/backgrounds/2.svg";
 import { TypeAnimation } from "react-type-animation";
+import { ToastContainer, toast } from "react-toastify";
+import { ROUTES } from "../../routes/def";
+
+const EXCLUDED_POST_LOGIN_ENDPOINTS = [
+  ROUTES.POST_LOGIN,
+  ROUTES.BECOME_A_MANAGER,
+];
 
 const MainPage: React.FC = () => {
   const { t } = useTranslation();
@@ -77,10 +84,28 @@ const MainPage: React.FC = () => {
     visible: { opacity: 1, transition: { delay: 2.5, duration: 0.8 } },
   };
 
-  // if (!currentUser) {
-  //   navigate("/login");
-  //   return null;
-  // }
+  useEffect(() => {
+    // get email-verified query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailVerified = urlParams.get("email-verified");
+    if (emailVerified === "true") {
+      // Show toast
+      setTimeout(() => {
+        toast.success("Email verified successfully!");
+      }, 0);
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
+
+  const location = useLocation();
+
+  if (
+    currentUser &&
+    !currentUser.showed_post_login &&
+    !EXCLUDED_POST_LOGIN_ENDPOINTS.includes(location.pathname)
+  ) {
+    navigate("/post-login");
+  }
 
   return (
     <div
@@ -88,7 +113,24 @@ const MainPage: React.FC = () => {
         overflow: "hidden",
       }}
     >
-      <Navigation />
+      <ToastContainer
+        position={isMobile ? "top-center" : "bottom-right"}
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <Navigation
+        loginOptions={{
+          showLogin: true,
+        }}
+        shouldUseDefaultColor
+      />
       <Box
         className={styles.divider}
         sx={{

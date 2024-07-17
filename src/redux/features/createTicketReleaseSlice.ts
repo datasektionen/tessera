@@ -1,14 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ITicketReleaseForm } from "../../types";
+import { ITicketRelease, ITicketReleaseForm } from "../../types";
 
 interface AddTicketReleaseState {
   loading: boolean;
   success: boolean;
+  createdTicketReleaseId: number | null;
 }
 
 const initialState: AddTicketReleaseState = {
   loading: false,
   success: false,
+  createdTicketReleaseId: null,
 };
 
 const createTicketReleaseSlice = createSlice({
@@ -23,13 +25,18 @@ const createTicketReleaseSlice = createSlice({
       }>
     ) => {
       state.loading = true;
+      state.success = false;
+      state.createdTicketReleaseId = null;
     },
-    createTicketReleaseSuccess: (state) => {
+    createTicketReleaseSuccess: (state, action: PayloadAction<number>) => {
       state.loading = false;
       state.success = true;
+      state.createdTicketReleaseId = action.payload;
     },
     createTicketReleaseFailure: (state) => {
       state.loading = false;
+      state.success = false;
+      state.createdTicketReleaseId = null;
     },
   },
 });

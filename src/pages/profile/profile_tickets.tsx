@@ -10,7 +10,7 @@ import LoadingOverlay from "../../components/Loading";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import { ROUTES } from "../../routes/def";
-import ViewTicketRequest from "../../components/ticket_requests/view";
+import ViewTicketRequest from "../../components/ticket_orders/view";
 import ViewTicket from "../../components/tickets/view";
 import { getMyTicketsRequest } from "../../redux/features/myTicketsSlice";
 import TicketsList from "../../components/tickets/list_tickets";
@@ -82,8 +82,12 @@ const ProfileTicketsPage: React.FC = () => {
     }
   }, [pSuccess]);
 
+  const filteredTickets = tickets.filter(
+    (ticket) => ticket.status !== "pending"
+  );
+
   return (
-    <TesseraWrapper>
+    <TesseraWrapper defaultColors>
       {loading && <LoadingOverlay />}
       <Grid
         container
@@ -101,17 +105,17 @@ const ProfileTicketsPage: React.FC = () => {
             <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
               <Trans i18nKey="profile.your_tickets.description">
                 Here you can see all the tickets you have gotten. You can give
-                up your ticket by clicking on it and then choosing the
-                option "I no longer wish to attend", which will give your ticket
-                to the next person in line. If you have not yet been allocated a
-                ticket or reserve ticket, you can see your ticket requests
-                <Link href={ROUTES.PROFILE_TICKET_REQUESTS}>here</Link>.
+                up your ticket by clicking on it and then choosing the option "I
+                no longer wish to attend", which will give your ticket to the
+                next person in line. If you have not yet been allocated a ticket
+                or reserve ticket, you can see your ticket requests
+                <Link href={ROUTES.PROFILE_TICKET_ORDERS}>here</Link>.
               </Trans>
             </StyledText>
           </Box>
           <Grid xs={16} md={8}>
             <TicketsList
-              tickets={tickets}
+              tickets={filteredTickets}
               selected={selected}
               setSelected={handleSetSelected}
             />
@@ -119,7 +123,9 @@ const ProfileTicketsPage: React.FC = () => {
         </Grid>
         <Grid xs={16} md={8} id="ticket-view" ref={viewTicketRef}>
           {selected && (
-            <ViewTicket ticket={tickets.find((tr) => tr.id === selected)!} />
+            <ViewTicket
+              ticket={filteredTickets.find((tr) => tr.id === selected)!}
+            />
           )}
         </Grid>
       </Grid>

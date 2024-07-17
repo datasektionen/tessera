@@ -7,7 +7,7 @@ import {
 } from "../../forms/form_labels";
 import { FormCheckbox, FormInput, FormTextarea } from "../../forms/input_types";
 import { StyledErrorMessage } from "../../forms/messages";
-import { ITicketRelease, ITicketTypeForm } from "../../../types";
+import { ITicketRelease, ITicketType, ITicketTypeForm } from "../../../types";
 import {
   clearTicketType,
   updateTicketType,
@@ -17,8 +17,8 @@ import { useDispatch } from "react-redux";
 import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
-import { useEffect } from "react";
-import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import { useEffect, useState } from "react";
+import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import { useTranslation } from "react-i18next";
 
 interface EditTicketTypeFormProps {
@@ -119,6 +119,7 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                       handleFieldChange("description", e.target.value, index);
                       // Optionally dispatch on change instead of on submit
                     }}
+                    maxChars={500}
                   />
                   <StyledErrorMessage name="description" />
 
@@ -160,6 +161,27 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.save_template")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="save_template"
+                    label="Save as a template"
+                    onChange={async (e: any) => {
+                      handleChange(e);
+                      handleFieldChange(
+                        "save_template",
+                        e.target.checked,
+                        index
+                      );
+                    }}
+                  />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_types.save_template_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
                 <Grid
                   container
                   spacing={2}
@@ -168,8 +190,8 @@ const EditTicketTypeForm: React.FC<EditTicketTypeFormProps> = ({
                 >
                   <Grid>
                     <StyledButton
-                      size="md"
-                      color="primary"
+                      size="sm"
+                      color={PALLETTE.charcoal_see_through}
                       onClick={() => {
                         dispatch(clearTicketType(index));
                       }}

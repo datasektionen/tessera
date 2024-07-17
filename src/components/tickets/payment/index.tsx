@@ -9,7 +9,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios"; // Ensure axios is installed
-import { ITicket, ITicketType } from "../../../types";
+import { IGuestCustomer, ITicket, ITicketType } from "../../../types";
 import StyledButton from "../../buttons/styled_button";
 import { toast } from "react-toastify";
 import {
@@ -26,7 +26,8 @@ import PALLETTE from "../../../theme/pallette";
 import { appearance } from "../../../types/stripe_options";
 import CheckoutForm from "./form";
 import { useTranslation } from "react-i18next";
-import { useCosts } from "../../events/payments/use_cost";
+import { useCosts, useTicketCost } from "../../events/payments/use_cost";
+import { useNavigate } from "react-router-dom";
 
 let stripePromise: any;
 
@@ -38,26 +39,46 @@ if (process.env.NODE_ENV === "production") {
 
 interface PaymentProps {
   ticket: ITicket;
+  isGuestCustomer?: boolean;
+  guestCustomer?: IGuestCustomer;
 }
 
-const Payment: React.FC<PaymentProps> = ({ ticket }) => {
+const Payment: React.FC<PaymentProps> = ({
+  ticket,
+  isGuestCustomer = false,
+  guestCustomer,
+}) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const ticketType = ticket.ticket_request?.ticket_type!;
+  const ticketType = ticket?.ticket_type!;
 
-  const { totalCost } = useCosts(ticket.ticket_request!);
+  const { totalCost } = useTicketCost(ticket!);
 
   const handlePay = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // if guest: /guest-customer/:ugkthid/tickets/:ticketID/create-payment-intent
+    // Else: /payments/events/:referenceID/tickets/create
+    // TODO: modify the guest customer endpoint to use the new endpoint
+    const url =
+      process.env.REACT_APP_BACKEND_URL +
+      (isGuestCustomer
+        ? `/guest-customer/${guestCustomer?.user_id}/tickets/${ticket.id}/create-payment-intent?request_token=${guestCustomer?.request_token}`
+        : `/payments/events/${ticket.ticket_order?.ticket_release?.event?.reference_id}/order/create`);
+
     // Request to create a payment intent
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/tickets/${ticket.id}/create-payment-intent`,
+      const response = await axios.post(
+        url,
         {
-          withCredentials: true, // This ensures cookies are sent with the request
+          ticket_ids: [ticket.id],
+        },
+        {
+          withCredentials: true,
         }
       );
-      setClientSecret(response.data.client_secret);
+
+      const paymentPageLink = response.data.order.paymentPageLink;
+      window.location.href = paymentPageLink;
 
       // You can now open a modal dialog with the payment details or proceed as below
     } catch (error: any) {
@@ -68,6 +89,12 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
   };
 
   const { t } = useTranslation();
+
+  // Return URL depends on whether the user is a guest or not
+  // For guest is the exact same, with query param and everything
+  const returnUrl = isGuestCustomer
+    ? window.location.href
+    : process.env.REACT_APP_FRONTEND_URL + "/profile/tickets";
 
   return (
     <>
@@ -107,7 +134,11 @@ const Payment: React.FC<PaymentProps> = ({ ticket }) => {
                       },
                     }}
                   >
-                    <CheckoutForm ticket={ticket} ticketType={ticketType} />
+                    <CheckoutForm
+                      ticket={ticket}
+                      ticketType={ticketType}
+                      returnURL={returnUrl}
+                    />
                   </Elements>
                 </Box>
               </Box>

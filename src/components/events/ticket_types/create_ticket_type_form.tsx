@@ -14,7 +14,7 @@ import {
 } from "../../../redux/features/ticketTypeCreationSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
-import CreateTicketTypeFormSchema from "../../../validation/create_ticket_type_form";
+import CreateTicketTypeFormSchema from "../../../validation/event/create_ticket_type_form";
 import StyledButton from "../../buttons/styled_button";
 import StyledText from "../../text/styled_text";
 import PALLETTE from "../../../theme/pallette";
@@ -133,6 +133,7 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                       handleFieldChange("description", e.target.value, index);
                       // Optionally dispatch on change instead of on submit
                     }}
+                    maxChars={500}
                   />
                   <StyledErrorMessage name="description" />
 
@@ -174,6 +175,19 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                   </StyledFormLabelWithHelperText>
                 </FormControl>
 
+                <FormControl>
+                  <StyledFormLabel>
+                    {t("form.ticket_types.save_template")}
+                  </StyledFormLabel>
+                  <FormCheckbox
+                    name="save_template"
+                    label="Save as a template"
+                  />
+                  <StyledFormLabelWithHelperText>
+                    {t("form.ticket_types.save_template_helperText")}
+                  </StyledFormLabelWithHelperText>
+                </FormControl>
+
                 <Grid
                   container
                   spacing={2}
@@ -182,8 +196,8 @@ const CreateTicketTypeForm: React.FC<CreateTicketTypeFormProps> = ({
                 >
                   <Grid>
                     <StyledButton
-                      size="md"
-                      color="primary"
+                      size="sm"
+                      color={PALLETTE.charcoal_see_through}
                       onClick={() => {
                         dispatch(clearTicketType(index));
                       }}

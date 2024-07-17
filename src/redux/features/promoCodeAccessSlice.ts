@@ -1,8 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IGuestCustomer } from "../../types";
 
 interface PromoCodeAccessData {
   promo_code: string;
   eventId: number;
+  isGuestCustomer?: boolean;
+  guestCustomer?: IGuestCustomer | null;
 }
 
 interface PromoCodeAccessState {

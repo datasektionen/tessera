@@ -17,9 +17,14 @@ import { useCosts } from "../../events/payments/use_cost";
 interface CheckoutFormProps {
   ticket: ITicket;
   ticketType: ITicketType;
+  returnURL?: string;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  ticket,
+  ticketType,
+  returnURL = process.env.REACT_APP_BASE_URL! + "/profile/tickets",
+}) => {
   const { user: currentUser } = useSelector((state: RootState) => state.user);
   const stripe = useStripe();
   const elements = useElements();
@@ -27,7 +32,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { totalCost } = useCosts(ticket.ticket_request!);
+  const { totalCost } = useCosts(ticket.ticket_order);
 
   useEffect(() => {
     if (!stripe) {
@@ -74,7 +79,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ ticket, ticketType }) => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: process.env.REACT_APP_BASE_URL + "/profile/tickets",
+        return_url: returnURL,
         receipt_email:
           process.env.NODE_ENV === "development"
             ? process.env.REACT_APP_TEST_EMAIL

@@ -1,5 +1,5 @@
 import { Box, Grid, Stack } from "@mui/joy";
-import { useEventSiteVisits } from "../../../hooks/use_event_details_hook";
+import { useEventSiteVisits } from "../../../hooks/event/use_event_details_hook";
 import { IEventSiteVisit } from "../../../types";
 import BorderBox from "../../wrappers/border_box";
 import StyledText from "../../text/styled_text";
@@ -9,7 +9,6 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { OverviewBorderBoxWrapper } from "./overview_borde_box_wrapper";
 import OverviewStatisticDisplay from "./overview_stat_display";
-
 interface IEventSiteVisitProps {
   eventID: number;
 }
@@ -74,10 +73,10 @@ const EventSiteVisit: React.FC<IEventSiteVisitProps> = ({ eventID }) => {
       />
       <OverviewStatisticDisplay
         title="manage_event.overview.num_ticket_requests"
-        value={eventSiteVisits.num_ticket_requests}
+        value={eventSiteVisits.num_ticket_orders}
         changeText={`+ ${
-          eventSiteVisits.num_ticket_requests -
-          eventSiteVisits.num_ticket_requests_last_week
+          eventSiteVisits.num_ticket_orders -
+          eventSiteVisits.num_ticket_orders_last_week
         } ${getLastWeekDate()}`}
         color="cerise_dark"
       />

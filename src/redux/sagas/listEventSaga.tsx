@@ -12,6 +12,7 @@ import {
   getEventsRequest,
   getEventsSuccess,
 } from "../features/listEventsSlice";
+import { compareAsc } from "date-fns";
 
 function* listEventSaga(): Generator<any, void, any> {
   try {
@@ -32,19 +33,20 @@ function* listEventSaga(): Generator<any, void, any> {
       .map((event: any) => {
         return {
           id: event.ID!,
+          reference_id: event.reference_id!,
           createdAt: event.CreatedAt!,
           name: event.name!,
           description: event.description!,
           location: event.location!,
           date: event.date!,
           end_date: event.end_date || null,
-          organizationId: event.organization_id!,
-          createdById: event.created_by!,
+          organization_id: event.organization_id!,
+          created_by: event.created_by!,
           is_private: event.is_private!,
         } as IEvent;
       })
       .sort((a: IEvent, b: IEvent) => {
-        return b.date - a.date;
+        return compareAsc(new Date(a.date), new Date(b.date));
       });
 
     yield put(getEventsSuccess(events));

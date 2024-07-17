@@ -1,5 +1,11 @@
+import { addHours, addWeeks, format } from "date-fns";
 import { PlaceOption } from "../components/forms/input_types";
-import { formatDateToDateTimeLocal } from "../utils/date_conversions";
+import {
+  formatDateToDateTimeLocal,
+  getDurationUnits,
+  paymentDurationToString,
+} from "../utils/date_conversions";
+import { blue, green, grey, orange, red } from "@mui/material/colors";
 
 enum NotificationMethod {
   EMAIL = "email",
@@ -10,19 +16,51 @@ enum CancellationPolicy {
   NO_REFUND = "no_refund",
 }
 
+export interface ISQLNullTime {
+  Time: string;
+  Valid: boolean;
+}
+
 export interface LoginCredentials {
   username: string;
   password: string;
 }
 
+export interface INavigationLoginOptions {
+  showLogin: boolean;
+}
 export interface AuthState {
   isLoggedIn: boolean;
   loading: boolean;
-  user: Object | null;
+  user: any | null;
   token: string | null;
   error: string | null;
   fetchUser: boolean;
   onLoginRedirect: string | null;
+  customerSignupSuccess: boolean;
+  customerLoginSuccess: boolean;
+  guestCustomer: IGuestCustomer | null;
+}
+
+export interface IGuestCustomerForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number?: string;
+}
+
+export interface IGuestCustomer {
+  user_id: string;
+  roles: IRole[];
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  request_token?: string;
+
+  ticket_order_id?: number;
+  ticket_order?: ITicketOrder;
+  food_preferences?: IUserFoodPreference;
 }
 
 export interface UserState {
@@ -59,30 +97,235 @@ export interface LoginFailureAction {
   payload: string;
 }
 
+// Differeny types of roles
+export enum RoleType {
+  SUPER_ADMIN = "super_admin",
+  MANAGER = "manager",
+  CUSTOMER_GUEST = "customer_guest",
+  CUSTOMER = "customer",
+}
+
+export interface IFreeRegisterFormValues {
+  name: string;
+  referral_source: string;
+  referral_source_specific: string;
+}
+
 export interface IRole {
   id: number;
   name: string;
 }
 
-export interface IPreferredEmail {
-  ID: number;
+export interface ICustomerSignupValues {
+  first_name: string;
+  last_name: string;
   email: string;
-  requested_change_email: string;
-  is_verified: boolean;
+  phone_number: string;
+
+  is_saved?: boolean;
+  password?: string;
+  password_repeat?: string;
+}
+
+export enum NetworkRoleType {
+  NetworkSuperAdmin = "network_super_admin",
+  NetworkAdmin = "network_admin",
+  NetworkMember = "network_member",
+}
+
+export type FeatureGroupType =
+  | "event_management"
+  | "ticket_management"
+  | "api_integration"
+  | "support"
+  | "landing_page"
+  | "financial_management"
+  | "email_management"
+  | "other";
+
+export type PaymentPlanType = "monthly" | "yearly" | "one_time" | "no_payment";
+
+export enum PaymentPlanOption {
+  Monthly = "monthly",
+  Yearly = "yearly",
+  OneTime = "one_time",
+  NoPayment = "no_payment",
+}
+
+export type PackageTierType =
+  | "free"
+  | "single_event"
+  | "professional"
+  | "network";
+
+export interface IFeatureGroup {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: FeatureGroupType;
+  description: string;
+}
+
+export interface IPackageTier {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  tier: PackageTierType;
+  description: string;
+  standard_monthly_price: number;
+  standard_yearly_price: number;
+  plan_enrollments: IPlanEnrollment[];
+  default_feature_ids: number[];
+  default_features: IFeature[];
+}
+
+export interface IRequiredPlanFeatures {
+  feature_name: string;
+  plans: PackageTierType[];
+}
+
+export interface IPlanEnrollment {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  creator_email: string;
+  creator_id: string;
+  creator: IUser; // You would need to define a User interface
+  network_id: number;
+  package_tier_id: number;
+  features: IFeature[];
+  monthly_price: number;
+  yearly_price: number;
+  one_time_price: number;
+  plan: PaymentPlanType;
+  features_usages: IFeatureUsage[];
+  required_plan_features: IRequiredPlanFeatures[];
+}
+
+export interface IFeatureUsage {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  feature_id: number;
+  plan_enrollment_id: number;
+  usage: number;
+  object_reference?: string;
+}
+
+export interface IFeature {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  description: string;
+  feature_group_id: number;
+  feature_group: IFeatureGroup;
+  is_available: boolean;
+  package_tiers: IPackageTier[];
+  package_tiers_ids: number[];
+  feature_limits: IFeatureLimit[];
+  has_limit_access?: boolean;
+}
+
+export interface IFeatureLimit {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  feature_id: number;
+  package_tier_id: number;
+  limit_description: string;
+  limit: number | null; // This is a hard limit
+  monthly_limit: number | null;
+  yearly_limit: number | null;
+}
+
+export interface INetwork {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+  name: string;
+  plan_enrollment_id: number;
+  plan_enrollment: IPlanEnrollment;
+  users: IUser[]; // You would need to define a User interface
+  organizations: IOrganization[]; // You would need to define an Organization interface
+  merchant: INetworkMerchant;
+  details: INetworkDetails;
+  settings: INetworkSettings;
+}
+
+export interface INetworkSettings {
+  id: number;
+  network_id: number;
+  main_color: string;
+  accent_color: string;
+  logo: string;
+  created_at: Date;
+  updated_at: Date | null;
+}
+
+// NetworkSettingsInput represents the input for creating or updating network settings
+export interface INetworkSettingsInput {
+  main_color: string;
+  accent_color: string;
+  logo: File | null;
+}
+
+export interface ICustomerLoginValues {
+  email: string;
+  password: string;
+}
+
+export interface ICustomer {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  verifiedEmail: boolean;
+  food_preferences?: IUserFoodPreference;
+}
+
+export interface IOrganizationUserRole {
+  id: string;
+  user_ug_kth_id: string;
+  organization_id: number;
+  organization_role_name: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface INetworkUserRole {
+  id: string;
+  user_ug_kth_id: string;
+  network_id: number;
+  network_role_name: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface IUser {
   // Define user properties based on your backend response
+  id?: string;
   ug_kth_id: string;
   username: string;
   first_name: string;
   last_name: string;
   email: string;
-  role?: IRole;
+  roles?: IRole[];
   organizations?: IOrganization[];
   food_preferences?: IUserFoodPreference;
   is_external: boolean;
-  preferred_email?: IPreferredEmail;
+  showed_post_login?: boolean;
+  network_user_roles?: INetworkUserRole[];
+  organization_user_roles?: IOrganizationUserRole[];
 }
 
 export interface IOrganizationUser extends IUser {
@@ -95,23 +338,53 @@ export interface IOrganization {
   name: string;
   email: string;
   created_at?: number;
+  organization_user_roles?: IOrganizationUserRole[];
+  common_event_locations: {
+    name: string;
+  }[];
+  users?: IUser[];
+}
+
+export interface IStoreTerminal {
+  terminal_id: string;
+  event_id: number;
+  store_id: string;
+
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
+
+export interface IStore {
+  store_id: string;
+  name: string;
+  organization_id: number;
+  terminals: IStoreTerminal[];
+
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export interface IEvent {
   id: number;
+  reference_id: string;
   createdAt: number;
   name: string;
   description: string;
-  date: number;
-  end_date?: number;
+  date: Date;
+  end_date?: Date;
   location: string;
-  organizationId: number;
+  organization_id: number;
   organization?: IOrganization;
   is_private: boolean;
-  ticketReleases?: ITicketRelease[];
-  createdById?: string;
+  ticket_releases?: ITicketRelease[];
+  created_by?: string;
   form_field_description?: string;
   form_fields?: IEventFormField[];
+  landing_page?: IEventLandingPage;
+  collect_food_preferences?: boolean;
+  terminal: IStoreTerminal;
 }
 
 export interface IEventForm {
@@ -122,16 +395,18 @@ export interface IEventForm {
   location: PlaceOption | null;
   organization_id: number;
   is_private: boolean;
+  collect_food_preferences: boolean;
 }
 
 export interface IEventPostReq {
   name: string;
   description: string;
-  date: number;
-  end_date?: number;
+  date: string;
+  end_date?: string;
   location: string;
   organization_id: number;
   is_private: boolean;
+  collect_food_preferences: boolean;
 }
 
 export const EventFormInitialValues: IEventForm = {
@@ -141,6 +416,7 @@ export const EventFormInitialValues: IEventForm = {
   location: null,
   organization_id: 1,
   is_private: false,
+  collect_food_preferences: false,
 };
 
 export const EventFormInitialTestValues: IEventForm = {
@@ -156,11 +432,12 @@ export const EventFormInitialTestValues: IEventForm = {
   },
   organization_id: 1,
   is_private: false,
+  collect_food_preferences: false,
 };
 
 export interface ITicketReleaseMethod {
   id: number;
-  name: string;
+  method_name: string;
   description: string;
 }
 
@@ -179,15 +456,19 @@ export interface ITicketReleaseForm {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
-  allow_external: boolean;
+  is_saved?: boolean;
+  save_template: boolean;
+  payment_deadline: string;
+  reserve_payment_duration: string;
+  allocation_cut_off: string;
 }
 
 export interface ITicketReleasePostReq {
   event_id?: number;
   name: string;
   description: string;
-  open: number;
-  close: number;
+  open: string;
+  close: string;
   open_window_duration?: number;
   max_tickets_per_user: number;
   notification_method: string;
@@ -196,15 +477,18 @@ export interface ITicketReleasePostReq {
   is_reserved: boolean;
   promo_code?: string;
   tickets_available: number;
-  allow_external: boolean;
   method_description?: string;
+  save_template: boolean;
+  payment_deadline?: string;
+  reserve_payment_duration?: string;
+  allocation_cut_off?: string;
 }
 
 export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   name: "",
   description: "",
-  open: formatDateToDateTimeLocal(new Date()),
-  close: formatDateToDateTimeLocal(new Date()),
+  open: format(addHours(new Date(), 1), "yyyy-MM-dd'T'HH:mm"),
+  close: format(addWeeks(addHours(new Date(), 1), 1), "yyyy-MM-dd'T'HH:mm"),
   ticket_release_method_id: 0,
   open_window_duration: 0,
   method_description: "",
@@ -214,7 +498,11 @@ export const TicketReleaseFormInitialValues: ITicketReleaseForm = {
   tickets_available: 0,
   is_reserved: false,
   promo_code: "",
-  allow_external: false,
+  is_saved: false,
+  save_template: false,
+  payment_deadline: "",
+  reserve_payment_duration: "",
+  allocation_cut_off: "",
 };
 
 export interface ITicketTypeForm {
@@ -222,6 +510,7 @@ export interface ITicketTypeForm {
   name: string;
   description: string;
   price: number;
+  save_template: boolean;
 }
 
 export interface ITicketTypePostReq {
@@ -231,23 +520,25 @@ export interface ITicketTypePostReq {
   name: string;
   description: string;
   price: number;
+  save_template: boolean;
 }
 
 export const TicketTypeFormInitialValues: ITicketTypeForm = {
   name: "Default",
   description: "",
   price: 0,
+  save_template: false,
 };
 
 export interface ITicketReleaseMethodDetail {
   id: number;
   name: string;
-  maxTicketsPerUser: number;
-  cancellationPolicy: string;
-  openWindowDuration: number | null; // Todo change
+  max_tickets_per_user: number;
+  cancellation_policy: string;
+  open_window_duration: number | null; // Todo change
   method_description: string;
-  notificationMethod: string;
-  ticketReleaseMethod?: ITicketReleaseMethod;
+  notification_method: string;
+  ticket_release_method?: ITicketReleaseMethod;
 }
 
 export enum NotificationType {
@@ -285,34 +576,36 @@ export interface ISendOut {
 
 export interface ITicketType {
   id: number;
-  ticketReleaseId: number;
+  ticket_release_id: number;
   name: string;
   description: string;
   price: number;
   quantityTotal: number;
   isReserved: boolean;
+  save_template: boolean;
 }
 
 export interface ITicketRelease {
   created_at: string | number | Date;
   updated_at?: string | number | Date;
   id: number;
-  eventId: number;
+  event_id: number;
   name: string;
   description: string;
-  open: number;
-  close: number;
+  open: Date;
+  close: Date;
   has_allocated_tickets?: boolean;
-  ticketReleaseMethodDetailId?: number;
-  ticketTypes?: ITicketType[];
-  ticketReleaseMethodDetail: ITicketReleaseMethodDetail;
+  ticket_release_method_detail_id?: number;
+  ticket_types?: ITicketType[];
+  ticket_release_method_detail: ITicketReleaseMethodDetail;
   is_reserved?: boolean;
   promo_code?: string;
   event?: IEvent;
   tickets_available: number;
-  allow_external: boolean;
   addons?: IAddon[];
   payment_deadline: ITicketReleasePaymentDeadline;
+  save_template: boolean;
+  allocation_cut_off: Date;
 }
 
 export interface ITicketReleasePaymentDeadline {
@@ -332,7 +625,7 @@ export const PromoCodeAccessFormInitialValues: PromoCodeAccessForm = {
 
 export interface ITicketReleaseAdmin extends ITicketRelease {
   id: number;
-  ticketReleaseMethodDetailId: number;
+  ticket_release_method_detail_id: number;
   hasAllocatedTickets: boolean;
 }
 
@@ -348,22 +641,27 @@ export interface IEventSalesReport {
   url: string;
 }
 
-export interface ITicketRequest {
+export interface ITicketOrder {
   id: number;
-  created_at: number;
-  is_handled: boolean;
-  ticket_amount: number;
+  user_ug_kth_id: string;
+  user?: IUser;
 
-  ticket_type_id: number;
-  ticket_type?: ITicketType;
+  is_handled: boolean;
+  num_tickets: number;
+  total_amount: number;
+  is_paid: boolean;
+  paid_at: Date | null;
+  type: string;
 
   ticket_release_id: number;
   ticket_release?: ITicketRelease;
-  event_form_responses?: IEventFormFieldResponse[];
 
+  tickets: ITicket[];
+
+  created_at: number;
+  updated_at: number;
   deleted_at: number | null;
-
-  ticket_add_ons?: ITicketAddon[];
+  deleted_reason?: string;
 }
 
 export interface IDeadlineUnits {
@@ -378,24 +676,54 @@ export interface ITicketReleasePaymentDeadlineForm {
   reserve_payment_duration: string;
 }
 
+export enum TicketStatus {
+  PENDING = "Pending",
+  CANCELLED_TICKET = "Cancelled Ticket",
+  CANCELLED_REQUEST = "Cancelled Request",
+  REFUNDED = "Refunded",
+  CHECKED_IN = "Checked In",
+  PAID = "Paid",
+  RESERVED = "Reserved",
+  PURCHASEABLE = "Ready for Purchase",
+  EXPIRED = "Expired",
+  LOTTERY_ENTERED = "Lottery Entered",
+  HANDLED = "Handled",
+}
+
 export interface ITicket {
   id: number;
-  created_at: number;
-  updated_at: number;
-  ticket_request?: ITicketRequest;
+  ticket_order_id: number;
+  ticket_order: ITicketOrder;
   is_paid: boolean;
   is_reserve: boolean;
   refunded: boolean;
-  user_id: number;
-  user?: IUser;
-  transaction?: ITransaction;
   reserve_number?: number;
-  checked_in: boolean;
   qr_code: string;
-  purchasable_at?: Date | null;
-  deleted_at: number | null;
+  was_reserve: boolean;
+
+  checked_in: boolean;
+  checked_in_at: Date | null;
+
+  ticket_type: ITicketType;
+
+  user_ug_kth_id: string;
+  user: IUser;
+  status: string;
+
+  purchasable_at: ISQLNullTime;
+
   ticket_add_ons?: ITicketAddon[];
-  payment_deadline?: Date;
+  ticket_type_id: number;
+  payment_deadline: ISQLNullTime;
+  event_form_responses?: IEventFormFieldResponse[];
+
+  created_at: Date;
+  updated_at: Date | null;
+  deleted_at: Date | null;
+  deleted_reason?: string;
+
+  order_id: number;
+  order: IOrder;
 }
 export interface TicketRequestPostReq {
   ticket_type_id: number;
@@ -425,8 +753,8 @@ export interface IEventSiteVisit {
   unique_visitors: number;
   unique_visitors_last_week: number;
   last_week_date: Date;
-  num_ticket_requests: number;
-  num_ticket_requests_last_week: number;
+  num_ticket_orders: number;
+  num_ticket_orders_last_week: number;
   total_income: number;
   total_income_last_week: number;
 }
@@ -444,16 +772,72 @@ export interface IUserFoodPreference {
   additional: string;
 }
 
-export interface ITransaction {
-  id: number;
-  ticket_id: number;
-  amount: number;
+// export interface ITransaction {
+//   id: number;
+//   ticket_id: number;
+//   amount: number;
+//   currency: string;
+//   payed_at: number;
+//   refunded: boolean;
+//   refunded_at: number | null;
+//   payment_method?: string;
+//   transaction_type: string;
+// }
+
+enum OrderStatusType {
+  Pending = "pending",
+  Initiated = "payment_initiated",
+  Processed = "payment_processed",
+  PaymentCompleted = "payment_completed",
+  PaymentCancelled = "payment_cancelled",
+  PartialPaymentCompleted = "partial_payment_completed",
+}
+
+export interface IOrder {
+  id: number; // Automatically managed by GORM
+  order_id: string;
+  merchant_id: string;
+  event_id: number;
+  user_ug_kth_id: string;
+  payment_page_link: string;
+
+  status: OrderStatusType;
+  details: IOrderDetails;
+  tickets: ITicket[];
+
+  created_at: Date;
+  updated_at?: Date | null;
+  deleted_at?: Date | null;
+}
+
+export interface IOrderDetails {
+  id: number; // Automatically managed by GORM
+  order_id: string;
+
+  payment_id: string;
+  transaction_id: string;
+  payment_method: string;
+  payment_status: string;
+  truncated_pan: string;
+  card_label: string;
+  pos_entry_mode: string;
+  issuer_application: string;
+  terminal_verification_result: string;
+  aid: string;
+  customer_response_code: string;
+  cvm_method: string;
+  auth_mode: string;
+
+  total: number;
   currency: string;
-  payed_at: number;
+
   refunded: boolean;
-  refunded_at: number | null;
-  payment_method?: string;
-  transaction_type: string;
+  refunded_at: Date | null;
+  payed_at: string | null;
+
+  created_at: Date;
+  updated_at?: Date | null;
+  deleted_at?: Date | null;
 }
 
 export interface IBankingDetails {
@@ -547,7 +931,7 @@ export interface IFormFieldInput {
 
 export interface IEventFormFieldResponse {
   id: number;
-  ticket_request_id: number;
+  ticket_order_id: number;
   event_form_field_id: number;
   event_form_field?: IEventFormField;
   value: string | number | boolean | null;
@@ -577,7 +961,6 @@ export interface ITicketAddon {
   id: any;
   add_on_id: number;
   add_on?: IAddon;
-  ticket_request_id?: number;
   ticket_id?: number;
   quantity: number;
 }
@@ -587,7 +970,102 @@ export interface ISelectedAddon {
   quantity: number;
 }
 
-export enum OrganizationUserRole {
+export interface IEventLandingPage {
+  id?: number;
+  event_id: number;
+  html: string;
+  css: string;
+  js: string;
+  enabled: boolean;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export enum SurfApplicationStatus {
+  ApplicationNotStarted = "application_not_started",
+  ApplicationInitiated = "application_initiated",
+  ApplicationSubmitted = "application_submitted",
+  ApplicationPendingInformation = "application_pending_information",
+  ApplicationSigned = "application_signed",
+  ApplicationRejected = "application_rejected",
+  ApplicationCompleted = "application_completed",
+  ApplicationExpired = "application_expired",
+  MerchantCreated = "merchant_created",
+}
+
+export const ApplicationStatusColors = {
+  application_not_started: grey[500],
+  application_initiated: green[200],
+  application_submitted: green[400],
+  application_pending_information: orange[500],
+  application_signed: blue[500],
+  application_rejected: red[500],
+  application_completed: green[500],
+  application_expired: red[500],
+  merchant_created: green[500],
+};
+
+export interface INetworkMerchant {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  networkId: number;
+  applicationId: string;
+  merchantId: string;
+  applicationStatus: SurfApplicationStatus;
+  webKybUrl: string;
+  storeId: string;
+}
+
+export interface INetworkDetails {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+  network_id: number;
+  corporate_id: string; // Corporate ID of the network
+  legal_name: string; // Legal name of the network
+  description: string; // Description of the network
+  care_of: string; // Care of (c/o) of the network
+  address_line1: string; // Address line 1 of the network
+  address_line2: string; // Address line 2 of the network
+  language: string;
+  city: string;
+  postal_code: string;
+  country: string;
+  phone_code: string;
+  phone_number: string;
+  country_code: string; // Two-letter ISO country code, in uppercase. i.e 'SE' | 'DK' | 'FI'.
+  email: string; // main email for the network
+}
+
+export type Country = {
+  name: string;
+  code: string;
+  phone: number;
+};
+
+export const AvaialableCountries: Country[] = [
+  {
+    name: "Sweden",
+    code: "SE",
+    phone: 46,
+  },
+];
+
+export interface BusinessDetailsFormValues {
+  country_code: string;
+  legal_name: string;
+  corporate_id: string;
+  address_line1: string;
+  address_line2: string;
+  city: string;
+  postal_code: string;
+  phone_number: string;
+  business_email: string;
+  store_name: string;
+}
+
+export enum OrganizationUserRoleType {
   OWNER = "owner",
   MEMBER = "member",
 }

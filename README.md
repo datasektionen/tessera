@@ -1,6 +1,6 @@
 # Tessera
 
-Tessera is a comprehensive event management platform designed to streamline the process of creating, managing, and attending events. It provides functionalities for creating and managing organizations, events, and ticket types. Users can request tickets for events, view details about events and organizations, and manage their own events. The platform is built with a focus on user experience, ensuring that all features are easy to use and accessible. Whether you're an event organizer or an attendee, Tessera makes the process of managing and attending events seamless and enjoyable.
+Tessera is a comprehensive event management platform designed to streamline the process of creating, managing, and attending events. It provides functionalities for creating and managing organizations, events, and ticket types. Users can request tickets for events, view details about events and organizations, and manage their own events. The platform is built with a focus on user experience, ensuring that all features are easy to use and accessible. Whether you're an event manager or an attendee, Tessera makes the process of managing and attending events seamless and enjoyable.
 
 ## Requirements
 

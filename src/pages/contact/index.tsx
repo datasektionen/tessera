@@ -23,7 +23,7 @@ import { StyledErrorMessage } from "../../components/forms/messages";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import ContactFormSchema from "../../validation/contact_form";
+import ContactFormSchema from "../../validation/user/contact_form";
 import StyledText from "../../components/text/styled_text";
 import PALLETTE from "../../theme/pallette";
 import StyledButton from "../../components/buttons/styled_button";
@@ -78,7 +78,7 @@ const ContactPage: React.FC = () => {
   }
 
   return (
-    <TesseraWrapper>
+    <TesseraWrapper defaultColors>
       <Box
         sx={{
           width: "100%",

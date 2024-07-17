@@ -1,5 +1,9 @@
 import axios from "axios";
-import { IEventFormField, IEventFormFieldInput } from "../../../types";
+import {
+  IEventFormField,
+  IEventFormFieldInput,
+  IGuestCustomer,
+} from "../../../types";
 import { toast } from "react-toastify";
 
 interface ReturnValue {
@@ -31,16 +35,24 @@ export const handleEventFormFieldsSubmit = async (
 export const handleEventFormFieldResponseSubmit = async (
   formFieldValues: { event_form_field_id: number; value: string }[],
   event_id: number,
-  ticketRequestId: number
+  ticketId: number,
+  isGuestCustomer?: boolean,
+  guestCustomer?: IGuestCustomer
 ) => {
   try {
-    const response = await axios.put(
-      `${process.env.REACT_APP_BACKEND_URL}/events/${event_id}/ticket-requests/${ticketRequestId}/form-fields`,
-      formFieldValues,
-      {
-        withCredentials: true,
-      }
-    );
+    // if guest: /guest-customer/:ugkthid/events/:eventID/ticket-requests/:ticketRequestID/form-fields
+    // else: /events/${event_id}/ticket-requests/${ticketRequestId}/form-fields
+
+    let url = `${process.env.REACT_APP_BACKEND_URL}`;
+    url += isGuestCustomer
+      ? `/guest-customer/${
+          guestCustomer?.user_id
+        }/events/${event_id}/tickets/${ticketId}/form-fields?request_token=${guestCustomer?.request_token!}`
+      : `/events/${event_id}/tickets/${ticketId}/form-fields`;
+
+    const response = await axios.put(url, formFieldValues, {
+      withCredentials: !isGuestCustomer,
+    });
 
     if (response.status === 200) {
       return { success: true } as ReturnValue;

@@ -28,21 +28,20 @@ const TicketActions: React.FC<TicketActionsProps> = ({ ticket }) => {
         >
           {t("manage_event.tickets.ticket_actions.title")}
         </StyledText>
-        {!ticket.ticket_request?.is_handled &&
-          !ticket.ticket_request?.deleted_at && (
-            <StyledButton
-              onClick={() => {
-                allocateSelectedTicket(
-                  ticket.ticket_request?.ticket_release?.eventId!,
-                  ticket.ticket_request?.id!
-                );
-              }}
-              bgColor={PALLETTE.green}
-              size="sm"
-            >
-              {t("manage_event.tickets.ticket_actions.allocate")}
-            </StyledButton>
-          )}
+        {!ticket.ticket_order?.is_handled && !ticket?.deleted_at && (
+          <StyledButton
+            onClick={() => {
+              allocateSelectedTicket(
+                ticket.ticket_order?.ticket_release?.event_id!,
+                ticket?.id!
+              );
+            }}
+            bgColor={PALLETTE.green}
+            size="sm"
+          >
+            {t("manage_event.tickets.ticket_actions.allocate")}
+          </StyledButton>
+        )}
       </Box>
     </TicketDetailWrapper>
   );

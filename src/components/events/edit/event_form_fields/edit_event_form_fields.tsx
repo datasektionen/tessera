@@ -30,7 +30,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { InputLabel } from "@mui/material";
 import { mt } from "date-fns/locale";
-import { formFieldSchema } from "../../../../validation/event_form_fields";
+import { formFieldSchema } from "../../../../validation/event/event_form_fields";
 import { handleEventFormFieldsSubmit } from "../../../../redux/sagas/axios_calls/event_form_fields";
 import { toast } from "react-toastify";
 import {
@@ -56,15 +56,15 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
   const initialValues: IEventFormFieldInput =
     event.form_fields !== undefined
       ? {
-          form_field_description: event.form_field_description || "",
-          form_fields: event.form_fields,
-        }
+        form_field_description: event.form_field_description || "",
+        form_fields: event.form_fields,
+      }
       : {
-          form_field_description: "",
-          form_fields: [
-            { name: "", type: "", description: "", is_required: false },
-          ],
-        };
+        form_field_description: "",
+        form_fields: [
+          { name: "", type: "", description: "", is_required: false },
+        ],
+      };
 
   const { t } = useTranslation();
 
@@ -108,7 +108,7 @@ const EditEventFormFields: React.FC<EventFormFieldsProps> = ({
               placeholder="Form Field Description"
               required={false}
               overrideStyle={{
-                width: "80%",
+                width: "95%",
               }}
             />
             <StyledErrorMessage name="form_field_description" />

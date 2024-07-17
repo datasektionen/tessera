@@ -23,8 +23,9 @@ import { utcToZonedTime } from "date-fns-tz";
 import { Trans, useTranslation } from "react-i18next";
 import { cancelMyTicketStart } from "../../redux/features/myTicketsSlice";
 import { canPayForTicket, mustPayBefore } from "../../utils/user_payment";
-import { useCosts } from "../events/payments/use_cost";
+import { useTicketCost } from "../events/payments/use_cost";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import TicketQRCode from "../events/tickets/qr_code";
 
 function convertPayWithinToString(
   payWithin: number,
@@ -38,7 +39,7 @@ function convertPayWithinToString(
 }
 
 interface ViewTicketProps {
-  ticket: ITicket;
+  ticket: ITicket | null;
 }
 
 const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
@@ -49,18 +50,16 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const ticketRequest = ticket.ticket_request!;
+  const ticketOrder = ticket?.ticket_order!;
 
-  const { totalTicketCost, totalAddonsCost, totalCost } = useCosts(
-    ticket.ticket_request!
+  const { totalTicketCost, totalAddonsCost, totalCost } = useTicketCost(
+    ticket!
   );
 
-  const { addons: allAddons } = ticket.ticket_request?.ticket_release!;
-
   useEffect(() => {
-    if (ticket.payment_deadline) {
+    if (ticket?.payment_deadline.Valid) {
       setPayBefore(
-        format(ticket.payment_deadline, "yyyy-MM-dd HH:mm:ss") +
+        format(new Date(ticket.payment_deadline.Time), "yyyy-MM-dd HH:mm:ss") +
           " CET (or CEST in summer)"
       );
     } else {
@@ -84,25 +83,34 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
   }, []);
 
   const handleCancelTicket = () => {
-    dispatch(cancelMyTicketStart(ticket));
+    if (!ticket) {
+      return;
+    }
+    dispatch(
+      cancelMyTicketStart({
+        ticket,
+      })
+    );
   };
 
   const { t } = useTranslation();
 
   const canPayForTicket = (ticket: ITicket) => {
-    if (!ticket.payment_deadline) {
+    if (!ticket.payment_deadline.Valid) {
       return isBefore(
         new Date(),
-        new Date(ticket.ticket_request?.ticket_release?.event?.date!)
+        new Date(ticketOrder?.ticket_release?.event?.date!)
       );
     } else {
-      return isBefore(new Date(), ticket.payment_deadline);
+      return isBefore(new Date(), new Date(ticket.payment_deadline.Time));
     }
   };
 
   if (!ticket) {
-    return <></>;
+    return null;
   }
+
+  const { addons: allAddons } = ticketOrder?.ticket_release!;
 
   return (
     <BorderBox
@@ -112,10 +120,9 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         position: "relative",
       }}
     >
-      <Title fontSize={32}>{ticketRequest.ticket_type?.name}</Title>
+      <Title fontSize={32}>{ticket.ticket_type?.name}</Title>
       <StyledText level="body-sm" fontSize={18} color={PALLETTE.charcoal}>
-        {t("common.made_at")}{" "}
-        {new Date(ticketRequest.created_at).toLocaleString()}
+        {t("common.made_at")} {new Date(ticket.created_at).toLocaleString()}
       </StyledText>
       <Box>
         <StyledText
@@ -165,66 +172,7 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
         )}
       </Box>
 
-      {ticket.is_paid && (
-        <Box>
-          <Box
-            sx={{
-              backgroundColor: PALLETTE.cerise,
-              padding: "16px",
-              borderRadius: "8px",
-              width: "fit-content",
-              margin: "16px auto",
-            }}
-          >
-            {ticket.checked_in && (
-              <StyledText
-                level="body-sm"
-                fontSize={24}
-                color={PALLETTE.green}
-                fontWeight={700}
-                style={{
-                  position: "absolute",
-                  zIndex: 100,
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  textAlign: "center",
-                  width: "200px",
-                  textShadow: "0 0 8px black",
-                }}
-              >
-                {t("tickets.qr_code.already_checked_in")}
-              </StyledText>
-            )}
-
-            <QRCode
-              value={ticket.qr_code}
-              size={256}
-              style={{
-                filter: ticket.checked_in ? "blur(8px)" : "none",
-              }}
-            />
-          </Box>
-          <StyledText
-            level="body-sm"
-            fontSize={16}
-            color={PALLETTE.charcoal_see_through}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            ID: {ticket.id}
-          </StyledText>
-          <StyledText
-            level="body-sm"
-            fontSize={18}
-            color={PALLETTE.charcoal}
-            style={{ marginTop: "8px" }}
-          >
-            {t("tickets.qr_code.description")}
-          </StyledText>
-        </Box>
-      )}
+      <TicketQRCode ticket={ticket} />
 
       <Box mt={2}>
         <StyledText level="body-sm" fontSize={22} color={PALLETTE.charcoal}>
@@ -247,19 +195,15 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
                   marginLeft: "8px",
                 }}
               >
-                {ticketRequest.ticket_amount} x{" "}
-                {ticketRequest.ticket_type?.name}
+                {ticket.ticket_type?.name}
               </StyledText>
             </Grid>
             <StyledText level="body-sm" color={PALLETTE.charcoal} fontSize={18}>
-              SEK{" "}
-              {(
-                ticketRequest.ticket_type?.price! * ticketRequest.ticket_amount
-              ).toFixed(2)}
+              SEK {ticket.ticket_type?.price!.toFixed(2)}
             </StyledText>
           </Grid>
           <Divider />
-          {ticketRequest.ticket_add_ons?.map((addon: ITicketAddon) => {
+          {ticket.ticket_add_ons?.map((addon: ITicketAddon) => {
             const a: IAddon | undefined = allAddons?.find(
               (a) => a.id === addon.add_on_id
             );
@@ -391,26 +335,26 @@ const ViewTicket: React.FC<ViewTicketProps> = ({ ticket }) => {
           </StyledText>
         </ConfirmModal>
 
-        <StyledButton
-          bgColor={PALLETTE.red}
-          color={PALLETTE.charcoal}
-          size="md"
-          onClick={() => {
-            if (canPayForTicket(ticket)) {
-              setConfirmCancelOpen(true);
-            }
-          }}
-          style={{
-            width: "250px",
-            marginTop: "16px",
-          }}
-        >
-          {ticket.is_reserve
-            ? t("tickets.leave_reserve_list_text")
-            : canPayForTicket(ticket)
-            ? t("tickets.cancel_ticket_button")
-            : "Nothing to see here!"}
-        </StyledButton>
+        {ticket.is_reserve || canPayForTicket(ticket) ? (
+          <StyledButton
+            bgColor={PALLETTE.red}
+            color={PALLETTE.charcoal}
+            size="md"
+            onClick={() => {
+              if (canPayForTicket(ticket)) {
+                setConfirmCancelOpen(true);
+              }
+            }}
+            style={{
+              width: "250px",
+              marginTop: "16px",
+            }}
+          >
+            {ticket.is_reserve
+              ? t("tickets.leave_reserve_list_text")
+              : t("tickets.cancel_ticket_button")}
+          </StyledButton>
+        ) : null}
       </Box>
     </BorderBox>
   );

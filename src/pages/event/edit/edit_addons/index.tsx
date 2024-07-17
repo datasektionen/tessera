@@ -17,7 +17,7 @@ import StatusIcon, {
 import { AppDispatch, RootState } from "../../../../store";
 // Assume these actions exist and are properly defined for managing addons
 
-import AddonFormSchema from "../../../../validation/edit_addons_form";
+import AddonFormSchema from "../../../../validation/event/edit_addons_form";
 import CreateAddonForm from "../../../../components/events/addons/create_addon_form";
 import {
   addAddon,
@@ -35,11 +35,12 @@ import { updateAddons } from "../../../../redux/sagas/axios_calls/addons";
 import { getAddonsRequest } from "../../../../redux/features/addonSlice";
 import LoadingOverlay from "../../../../components/Loading";
 import MUITesseraWrapper from "../../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const EditTicketReleaseAddonsPage: React.FC = () => {
   const { eventID, ticketReleaseID } = useParams();
@@ -55,7 +56,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
     eventDetail: { event },
   } = useEventDetails(parseInt(eventID!));
 
-  const ticketRelease = event?.ticketReleases?.find(
+  const ticketRelease = event?.ticket_releases?.find(
     (release) => release.id === parseInt(ticketReleaseID!)
   );
 
@@ -93,6 +94,11 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
   };
 
   const handleRemoveAddon = (index: number) => {
+    if (addons[index].id === 0) {
+      dispatch(removeAddon(index));
+      return;
+    }
+
     dispatch(
       deleteAddonRequest({
         eventID: parseInt(eventID!),
@@ -142,13 +148,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
         <Title fontSize={36}> {t("manage_event.edit.addons.title")}</Title>
 
         <Breadcrumbs sx={{ p: 0 }}>
@@ -243,29 +243,29 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                     >
                       {addon.name}
                     </StyledText>
-                    {addon.id !== 0 && (
-                      <Box
-                        style={{
-                          position: "absolute",
-                          left: "-40px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                        }}
-                      >
-                        <RemoveListFormButton
-                          index={index}
-                          text={t("form.button_delete")}
-                          color={PALLETTE.red}
-                          action={handleRemoveAddon}
-                          confirmTitle={t(
-                            "manage_event.edit.addons.confirm_delete_title"
-                          )}
-                          confirmText={t(
-                            "manage_event.edit.addons.confirm_delete_text"
-                          )}
-                        />
-                      </Box>
-                    )}
+
+                    <Box
+                      style={{
+                        position: "absolute",
+                        left: "-40px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                      }}
+                    >
+                      <RemoveListFormButton
+                        index={index}
+                        text={t("form.button_delete")}
+                        color={PALLETTE.red}
+                        action={handleRemoveAddon}
+                        shouldWarn={addon.id !== 0}
+                        confirmTitle={t(
+                          "manage_event.edit.addons.confirm_delete_title"
+                        )}
+                        confirmText={t(
+                          "manage_event.edit.addons.confirm_delete_text"
+                        )}
+                      />
+                    </Box>
                   </StyledBorderBox>
                 );
               })}
@@ -289,30 +289,25 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
                 />
               </Tooltip>
             </Box>
-            <Stack spacing={2} direction={"row"} mt={2}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <StyledButton
                 size="lg"
                 onClick={handleSubmit}
                 color={PALLETTE.charcoal}
                 bgColor={PALLETTE.green}
                 style={{
-                  width: "100px",
+                  width: "200px",
                   marginTop: "64px",
                 }}
               >
                 {t("form.button_save")}
               </StyledButton>
-              <StyledButton
-                size="lg"
-                onClick={() => window.history.back()}
-                style={{
-                  width: "100px",
-                  marginTop: "64px",
-                }}
-              >
-                {t("form.button_back")}
-              </StyledButton>
-            </Stack>
+            </Box>
           </Grid>
           <Grid xs={8}>
             <BorderBox>
@@ -335,7 +330,7 @@ const EditTicketReleaseAddonsPage: React.FC = () => {
             </BorderBox>
           </Grid>
         </StandardGrid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

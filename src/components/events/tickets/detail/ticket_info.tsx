@@ -45,10 +45,10 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
   const theme = useTheme();
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const ticket_type = ticket.ticket_request?.ticket_type;
-  const ticket_request = ticket.ticket_request;
-  const ticket_release = ticket_request?.ticket_release;
-  const ticket_add_ons = ticket_request?.ticket_add_ons || [];
+  const ticket_type = ticket?.ticket_type;
+  const ticket_order = ticket.ticket_order;
+  const ticket_release = ticket_order?.ticket_release;
+  const ticket_add_ons = ticket?.ticket_add_ons || [];
 
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
 
@@ -57,20 +57,20 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
     ticketTypes,
     loading: ticketBatchLoading,
   } = useChangeTicketBatch(
-    ticket_release?.eventId!,
+    ticket_release?.event_id!,
     ticket_release?.id!,
     ticket.id
   );
 
   const onSave = (values: any) => {
     setOpenEditModal(false);
-    sendTicketUpdateRequest(ticket_release?.eventId!, ticket.id, {
+    sendTicketUpdateRequest(ticket_release?.event_id!, ticket.id, {
       payment_deadline: values.payment_deadline?.toISOString(),
       checked_in: values.checked_in,
     });
   };
 
-  const isDeleted = ticket_request?.deleted_at || ticket.deleted_at;
+  const isDeleted = ticket_order?.deleted_at || ticket.deleted_at;
 
   return (
     <Box
@@ -126,11 +126,11 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
           >
             {t("manage_event.tickets.ticket_info.title")}
           </StyledText>
-          {ticket_request?.deleted_at ? (
+          {ticket_order?.deleted_at ? (
             <LabelValue
               label={t("manage_event.tickets.ticket_info.deleted_at")}
               value={format(
-                new Date(ticket_request?.deleted_at!),
+                new Date(ticket_order?.deleted_at!),
                 "dd MMMM, yyyy, HH:mm"
               )}
             />
@@ -147,14 +147,14 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
           <LabelValue
             label={t("manage_event.tickets.ticket_info.ticket_type")}
             value={
-              ticket.ticket_request?.is_handled
+              ticket.ticket_order?.is_handled
                 ? t("manage_event.tickets.ticket_info.ticket_types.ticket")
                 : t(
                     "manage_event.tickets.ticket_info.ticket_types.ticket_request"
                   )
             }
           />
-          {ticket_request?.is_handled ? (
+          {ticket_order?.is_handled ? (
             <LabelValue
               label={t("manage_event.tickets.ticket_info.id")}
               value={ticket_type?.id}
@@ -164,7 +164,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
               label={
                 t("manage_event.tickets.ticket_info.id") + " (Ticket request)"
               }
-              value={ticket.ticket_request!.id}
+              value={ticket!.id}
             />
           )}
 
@@ -179,7 +179,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
                 label={t("manage_event.tickets.ticket_info.ticket_batch")}
                 value={ticketTypes.find(
                   (ticketType: ITicketType) =>
-                    ticketType.id === ticket.ticket_request?.ticket_type_id!
+                    ticketType.id === ticket?.ticket_type_id!
                 )}
                 options={ticketTypes}
                 onSave={onTicketChangeSave}
@@ -190,7 +190,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
             label={t("manage_event.tickets.ticket_info.ticket_release")}
             value={
               <Link
-                href={`/events/${ticket_release?.eventId}/manage/ticket-releases?ticket_release_id=${ticket_release?.id}`}
+                href={`/events/${ticket_release?.event_id}/manage/ticket-releases?ticket_release_id=${ticket_release?.id}`}
               >
                 {ticket_release?.name}
               </Link>
@@ -200,13 +200,13 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
           <LabelValue
             label={t("manage_event.tickets.ticket_info.requested_at")}
             value={format(
-              new Date(ticket_request?.created_at!),
+              new Date(ticket_order?.created_at!),
               "dd MMMM, yyyy, HH:mm"
             )}
           />
 
           {hasLottery(
-            ticket_release?.ticketReleaseMethodDetail.ticketReleaseMethod!
+            ticket_release?.ticket_release_method_detail.ticket_release_method!
           ) && (
             <LabelValue
               label={t("manage_event.tickets.ticket_info.entered_into_lottery")}
@@ -223,7 +223,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
           <LabelValue
             label={t("manage_event.tickets.ticket_info.allocated")}
             value={
-              ticket_request?.is_handled ? (
+              ticket_order?.is_handled ? (
                 <CheckIcon color="success" />
               ) : (
                 <CloseIcon color="error" />
@@ -231,7 +231,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
             }
           />
 
-          {ticket_request?.is_handled && [
+          {ticket_order?.is_handled && [
             <LabelValue
               key="is_reserve"
               label={t("manage_event.tickets.ticket_info.is_reserve")}
@@ -244,13 +244,13 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
               }
             />,
           ]}
-          {ticket_request?.is_handled &&
+          {ticket_order?.is_handled &&
             !ticket.is_reserve && [
               <LabelValue
                 key="allocated_at"
                 label={t("manage_event.tickets.ticket_info.purchasable_at")}
                 value={format(
-                  new Date(ticket.purchasable_at!),
+                  new Date(ticket.purchasable_at.Time),
                   "dd MMMM, yyyy, HH:mm"
                 )}
               />,
@@ -258,7 +258,7 @@ const TicketInfo: React.FC<TicketInfoProps> = ({ ticket }) => {
                 key="payment_deadline"
                 label={t("manage_event.tickets.ticket_info.payment_deadline")}
                 value={format(
-                  new Date(ticket.payment_deadline!),
+                  new Date(ticket.payment_deadline.Time),
                   "dd MMMM, yyyy, HH:mm"
                 )}
                 editButton={

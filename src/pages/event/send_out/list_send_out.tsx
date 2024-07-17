@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import MUITesseraWrapper from "../../../components/wrappers/page_wrapper_mui";
-import DrawerComponent from "../../../components/navigation/manage_drawer";
+import DrawerComponent from "../../../components/navigation/manage_drawer/event_detail";
 import { Box, Breadcrumbs, Grid, IconButton, Stack } from "@mui/joy";
 import { ISendOut } from "../../../types";
 import Title from "../../../components/text/title";
@@ -16,6 +16,8 @@ import DetailSendOut from "../../../components/events/send_out/detail";
 import { ROUTES, generateRoute } from "../../../routes/def";
 import { AddCircleOutline } from "@mui/icons-material";
 import PALLETTE from "../../../theme/pallette";
+import DrawerBoxWrapper from "../../../components/wrappers/manager_wrapper";
+import { useRequiredFeatureAccess } from "../../../hooks/manager/required_feature_access_hook";
 
 const drawerWidth = 200;
 
@@ -23,6 +25,8 @@ const ListSendOutsPage: React.FC = () => {
   const { eventID } = useParams();
   const [selectedSendOut, setSelectedSendOut] = useState<ISendOut | null>(null);
   const navigate = useNavigate();
+
+  const { hasFeatAccess } = useRequiredFeatureAccess("send_outs", true);
 
   const { t } = useTranslation();
 
@@ -50,14 +54,8 @@ const ListSendOutsPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-          width: `calc(100% - ${drawerWidth}px)`,
-        }}
-      >
+      <DrawerBoxWrapper eventID={eventID!}>
+        {!hasFeatAccess && <LoadingOverlay />}
         <Stack direction="row" spacing={2}>
           <Title fontSize={36}>{t("manage_event.send_out.title")}</Title>
 
@@ -110,7 +108,7 @@ const ListSendOutsPage: React.FC = () => {
             {selectedSendOut && <DetailSendOut sendOut={selectedSendOut} />}
           </Grid>
         </Grid>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

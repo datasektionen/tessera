@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom";
 
 import { Box, Breadcrumbs } from "@mui/joy";
 
-import DrawerComponent from "../../../../components/navigation/manage_drawer";
-import { useEventDetails } from "../../../../hooks/use_event_details_hook";
+import DrawerComponent from "../../../../components/navigation/manage_drawer/event_detail";
+import { useEventDetails } from "../../../../hooks/event/use_event_details_hook";
 import StyledText from "../../../../components/text/styled_text";
 import PALLETTE from "../../../../theme/pallette";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import EditEventForm from "../../../../components/events/edit/edit_event_form";
 import Title from "../../../../components/text/title";
 import BreadCrumbLink from "../../../../components/navigation/breadcrumbs/link";
 import { generateRoute, ROUTES } from "../../../../routes/def";
+import DrawerBoxWrapper from "../../../../components/wrappers/manager_wrapper";
 
 const EditEventPage: React.FC = () => {
   const { eventID } = useParams();
@@ -24,14 +25,8 @@ const EditEventPage: React.FC = () => {
 
   return (
     <MUITesseraWrapper>
-      <DrawerComponent eventID={eventID!} />
-
-      <Box
-        sx={{
-          marginLeft: `70px`,
-        }}
-      >
-        <Title fontSize={36}>{t("form.event_fields.title")}</Title>
+      <DrawerBoxWrapper eventID={eventID!}>
+        <Title fontSize={36}>{t("manage_event.edit.title")}</Title>
         <Breadcrumbs sx={{ p: 0 }}>
           <BreadCrumbLink
             to={`/events/${eventID}/manage`}
@@ -49,12 +44,9 @@ const EditEventPage: React.FC = () => {
           />
         </Breadcrumbs>
         <Box sx={{ padding: "16px 32px" }}>
-          <StyledText color={PALLETTE.charcoal} level="body-lg" fontSize={32}>
-            {t("manage_event.edit.event_details.title")}
-          </StyledText>
           <EditEventForm event={event!} />
         </Box>
-      </Box>
+      </DrawerBoxWrapper>
     </MUITesseraWrapper>
   );
 };

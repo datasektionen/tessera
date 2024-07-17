@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEventDetails } from "./use_event_details_hook";
+import { useEventDetails } from "./event/use_event_details_hook";
 import { getBankingDetailsRequest } from "../redux/features/bankingDetailsSlice";
 import { RootState } from "../store";
 
@@ -12,7 +12,7 @@ export const useBankingDetails = (eventID: number) => {
   } = useEventDetails(eventID);
 
   useEffect(() => {
-    const organizationID = event?.organizationId!;
+    const organizationID = event?.organization_id!;
     if (organizationID) {
       dispatch(
         getBankingDetailsRequest({

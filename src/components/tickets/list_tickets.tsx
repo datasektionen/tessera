@@ -39,7 +39,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
   }
 
   const groupedTickets = tickets.reduce((groups, ticket) => {
-    const key = ticket.ticket_request?.ticket_release?.eventId!;
+    const key = ticket.ticket_order?.ticket_release?.event_id!;
     if (!groups[key]) {
       groups[key] = [];
     }
@@ -49,14 +49,24 @@ const TicketsList: React.FC<TicketsListProps> = ({
 
   const upcomingEvents = Object.keys(groupedTickets).filter((eventId) => {
     const event =
-      groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
+      groupedTickets[eventId][0].ticket_order?.ticket_release?.event;
     return new Date(event!.date) > new Date();
   });
 
+  /**
+   * Get all past events
+   * An event is considered past if the current date is 2 days after the event date
+   */
   const pastEvents = Object.keys(groupedTickets).filter((eventId) => {
     const event =
-      groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
-    return new Date(event!.date) < new Date();
+      groupedTickets[eventId][0].ticket_order?.ticket_release?.event;
+    const eventEndDate = event?.end_date
+      ? new Date(event.end_date)
+      : new Date(event!.date);
+    const twoDaysAfterEvent = new Date(
+      eventEndDate.setDate(eventEndDate.getDate() + 2)
+    );
+    return new Date() > twoDaysAfterEvent;
   });
 
   return (
@@ -78,7 +88,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
       ) : (
         upcomingEvents.map((eventId) => {
           const event =
-            groupedTickets[eventId][0].ticket_request!.ticket_release!.event;
+            groupedTickets[eventId][0].ticket_order!.ticket_release!.event;
           return (
             <BorderBox
               key={`${eventId}-border-box`}
@@ -150,7 +160,7 @@ const TicketsList: React.FC<TicketsListProps> = ({
       ) : (
         pastEvents.map((eventId) => {
           const event =
-            groupedTickets[eventId][0].ticket_request?.ticket_release?.event;
+            groupedTickets[eventId][0].ticket_order?.ticket_release?.event;
 
           return (
             <BorderBox>

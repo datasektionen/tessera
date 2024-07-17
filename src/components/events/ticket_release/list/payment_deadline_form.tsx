@@ -7,7 +7,7 @@ import {
 import { FormInput } from "../../../forms/input_types";
 import { StyledErrorMessage } from "../../../forms/messages";
 import { getDurationUnits } from "../../../../utils/date_conversions";
-import PaymentDeadlineFormValidation from "../../../../validation/payment_deadline_form_validation";
+import PaymentDeadlineFormValidation from "../../../../validation/event/payment_deadline_form_validation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import StyledText from "../../../text/styled_text";
@@ -25,28 +25,20 @@ import {
 } from "../../../../utils/event_open_close";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import { format } from "date-fns";
 
 interface PaymentDeadlineFormProps {
   onSubmit: (values: any) => void;
   reservePaymentDuration: IDeadlineUnits;
   setReservePaymentDuration: (values: any) => void;
-  initialValues?: ITicketReleasePaymentDeadlineForm;
-  ticketRelease?: ITicketRelease;
-  allocation?: boolean;
-  enableReinitialize?: boolean;
+  initialValues: ITicketReleasePaymentDeadlineForm;
 }
 
 const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
   onSubmit,
   reservePaymentDuration,
   setReservePaymentDuration,
-  initialValues = {
-    payment_deadline: new Date(),
-    reserve_payment_duration: "",
-  },
-  ticketRelease,
-  enableReinitialize = false,
-  allocation = false,
+  initialValues,
 }) => {
   const { t } = useTranslation();
 
@@ -58,24 +50,6 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
     );
   }, [initialValues.reserve_payment_duration, setReservePaymentDuration]);
 
-  if (
-    ((ticketRelease &&
-      (ticketReleaseHasNotOpened(ticketRelease, timestamp) ||
-        ticketReleaseHasOpened(ticketRelease, timestamp))) ||
-      !ticketRelease?.has_allocated_tickets) &&
-    !allocation
-  ) {
-    return (
-      <StyledText
-        level="body-md"
-        fontWeight={600}
-        color={PALLETTE.dark_red}
-        fontSize={18}
-      >
-        {t("manage_event.payment_deadline_not_editable")}
-      </StyledText>
-    );
-  }
   return (
     <Formik
       initialValues={initialValues}
@@ -83,7 +57,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
       onSubmit={async (values) => {}}
       validateOnBlur={true}
       validateOnChange={true}
-      enableReinitialize={enableReinitialize}
+      enableReinitialize={true}
     >
       {({ values, isValid, errors }) => {
         return (
@@ -99,7 +73,7 @@ const PaymentDeadlineForm: React.FC<PaymentDeadlineFormProps> = ({
                 {t("manage_event.payment_deadline")}
               </StyledFormLabel>
               <FormInput
-                type="datetime-local"
+                type="datetime"
                 name="payment_deadline"
                 label="Payment Deadline"
                 placeholder=""

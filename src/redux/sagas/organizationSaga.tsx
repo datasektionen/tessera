@@ -24,6 +24,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { IEvent, IOrganization, IOrganizationUser } from "../../types";
 import ReloadToastContent from "../../components/toasts/ReloadToast";
+import ApiRoutes from "../../routes/backend_routes";
 
 function* createOrganizationSaga(
   action: PayloadAction<{ name: string; email: string }>
@@ -31,7 +32,7 @@ function* createOrganizationSaga(
   try {
     const response = yield call(
       axios.post,
-      `${process.env.REACT_APP_BACKEND_URL}/organizations`,
+      ApiRoutes.generateRoute(ApiRoutes.MANAGER_ORGANIZATIONS, {}),
       action.payload,
       {
         withCredentials: true,
@@ -67,12 +68,13 @@ function* getMyOrganizationsSaga(): Generator<any, void, any> {
           id: organization.ID!,
           name: organization.name!,
           email: organization.email!,
+          common_event_locations: organization.common_event_locations!,
           created_at: new Date(organization.CreatedAt!).getTime(),
-        };
+        } as IOrganization;
       }
     );
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       yield put(getMyOrganizationsSuccess(organizations));
     } else {
       toast.error("Something went wrong!");
@@ -110,7 +112,7 @@ function* getOrganizationUsersSaga(
       };
     });
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       yield put(getOrganizationUsersSuccess(users));
     } else {
       toast.error("Something went wrong!");
@@ -249,6 +251,7 @@ function* updateOrganizationSaga(
       id: response.data.organization.ID!,
       name: response.data.organization.name!,
       email: response.data.organization.email!,
+      common_event_locations: response.data.organization.common_event_locations!,
       created_at: new Date(response.data.organization.CreatedAt!).getTime(),
     };
 
