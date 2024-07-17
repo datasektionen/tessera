@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - SECRET=$(aws secretsmanager get-secret-value --secret-id tessera-staging/react-app-secrets --region eu-north-1 --query SecretString --output text)
+      - echo "$SECRET" | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > .env
+
+  build:
+    commands:
+      - npm install
+      - npm run build
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'build'
