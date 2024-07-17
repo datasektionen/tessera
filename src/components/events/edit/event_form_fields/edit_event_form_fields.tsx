@@ -5,7 +5,6 @@ import {
   IEventFormField,
   IEventFormFieldInput,
 } from "../../../../types";
-import axios from "axios";
 import * as Yup from "yup";
 import { Field, FieldArray, Form, Formik, useFormikContext } from "formik";
 import StyledText from "../../../text/styled_text";
